@@ -30,14 +30,23 @@ export async function SignInWithEmail({
     const firestoreDocument = await getDoc(userDocRef);
 
     const user = firestoreDocument.data();
-
-    return { message: "LOGIN_SUCCESSFUL", responseCode: 200, success: true };
+    return { message: "LOGIN_SUCCESSFUL", success: true };
   } catch (error: any) {
-    alert(error)
-    if (error.code === 400) {
-      return { message: "INVALID_LOGIN_CREDENTIALS1", responseCode: 400, success: false };
+    console.log(error);
+
+    if (error.code === "auth/invalid-email") {
+      return { message: "INVALID_EMAIL", success: false };
     }
-    return { message: "INTERNAL_SERVER_ERROR", responseCode: error.code, success: false };
+    if (error.code === "auth/invalid-credential") {
+      return { message: "INVALID_CREDENTIAL", success: false };
+    }
+    if (error.code === "auth/too-many-requests") {
+      return { message: "TOO_MANY_REQUESTS", success: false };
+    }
+    return {
+      message: "INTERNAL_SERVER_ERROR",
+      success: false,
+    };
   }
 }
 

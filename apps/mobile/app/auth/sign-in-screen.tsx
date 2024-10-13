@@ -2,7 +2,7 @@ import * as React from "react";
 import { View } from "react-native";
 import { Text } from "~/components/ui/text";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { KeyRound } from "lucide-react-native";
+import { ArrowRightCircleIcon, KeyRound } from "lucide-react-native";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
@@ -21,15 +21,15 @@ export default function Screen() {
   const [errorMessage, setErrorMessage] = React.useState("");
   const navigation = useNavigation<NavigationProps>();
 
-  const { mutate: onLoginPress, isPending: isLoginPending } = useMutation({
+  const { mutate: SignInMutator, isPending: isLoginPending } = useMutation({
     mutationFn: async () =>
       SignInWithEmail({
         email: authManager.email,
         password: authManager.password,
       }),
     onSuccess: (data: Result) => {
-      setIsAuthenticated(true);
       if (data.success) {
+        setIsAuthenticated(true);
         navigation.navigate("success");
         setErrorMessage("");
       } else {
@@ -38,13 +38,17 @@ export default function Screen() {
     },
   });
 
+  const onLoginPress = () => {
+    SignInMutator();
+  };
+
   return (
     <View className="flex-1 justify-center items-center gap-5 p-6 bg-secondary/30">
       <KeyboardAwareScrollView className="w-full">
-        <Avatar alt="Reborn" className="self-center w-24 h-24">
+        <Avatar alt="Reborn" className="self-center w-36 h-36">
           <AvatarImage source={{ uri: "../assets/images/adaptive-icon" }} />
           <AvatarFallback>
-            <Text>RE</Text>
+            <Text>RX</Text>
           </AvatarFallback>
         </Avatar>
         {errorMessage && (
@@ -52,8 +56,14 @@ export default function Screen() {
             Error Message : {errorMessage}
           </Label>
         )}
-        <View className="flex flex-col gap-5 px-2 mt-5">
+        {isLoginPending && (
+          <Text className="text-lg font-normal mx-1 text-gray-400">
+            Loading...
+          </Text>
+        )}
+        <View className="flex flex-col gap-5 px-2 my-5">
           <Input
+            editable={!isLoginPending}
             placeholder="E-mail..."
             value={authManager.email}
             onChangeText={(text) => authManager.set("email", text)}
@@ -61,6 +71,7 @@ export default function Screen() {
             aria-errormessage="inputError"
           />
           <Input
+            editable={!isLoginPending}
             secureTextEntry={true}
             placeholder="Password..."
             value={authManager.password}
@@ -68,30 +79,39 @@ export default function Screen() {
             aria-labelledby="inputLabel"
             aria-errormessage="inputError"
           />
+          {/* Email Button */}
           <Button
-            className="flex flex-row"
+            disabled={isLoginPending}
+            className="flex flex-row justify-center items-center gap-2"
             onPress={() => {
               setErrorMessage("");
               onLoginPress();
             }}
           >
-            <IconWithTheme icon={KeyRound} size={18} />
-            <Text className="text-lg font-normal mx-1">Access Account</Text>
+            <IconWithTheme icon={ArrowRightCircleIcon} size={24} />
           </Button>
+          <Text className="text-lg font-bold text-center underline">OR</Text>
+          {/* SAO */}
+          <View className="flex flex-row justify-center gap-10">
+            {/* Google */}
+            <Button className="w-fit">
+              <Text className="text-lg font-normal">Google</Text>
+            </Button>
+            {/* Facebook */}
+            <Button className="w-fit">
+              <Text className="text-lg font-normal">Facebook</Text>
+            </Button>
+          </View>
         </View>
-        <View className="flex items-center mt-20">
+
+        <View className="flex flex-row gap-1 items-center justify-center my-10">
           <Label className="text-lg">Don't have an account?</Label>
           <Label
-            className="font-bold"
+            className="font-bold underline"
             onPress={() => navigation.navigate("auth/sign-up-screen")}
           >
             Sign up
           </Label>
-          {isLoginPending && (
-            <Text className="text-lg font-normal mx-1 text-gray-400">
-              Loading...
-            </Text>
-          )}
         </View>
       </KeyboardAwareScrollView>
     </View>
