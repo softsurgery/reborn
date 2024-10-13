@@ -35,13 +35,13 @@ export async function SignInWithEmail({
     console.log(error);
 
     if (error.code === "auth/invalid-email") {
-      return { message: "INVALID_EMAIL", success: false };
+      return { message: "Invalid E-mail", success: false };
     }
     if (error.code === "auth/invalid-credential") {
-      return { message: "INVALID_CREDENTIAL", success: false };
+      return { message: "Invalid Credential", success: false };
     }
     if (error.code === "auth/too-many-requests") {
-      return { message: "TOO_MANY_REQUESTS", success: false };
+      return { message: "Too Many Requests", success: false };
     }
     return {
       message: "INTERNAL_SERVER_ERROR",

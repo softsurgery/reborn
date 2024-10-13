@@ -12,7 +12,7 @@ export default function Screen() {
   return (
     <View className="flex justify-center items-center gap-3 p-6 px-12 bg-secondary/30">
        <Avatar alt="Reborn" className="self-center w-36 h-36">
-          <AvatarImage source={{ uri: "../assets/images/adaptive-icon" }} />
+          <AvatarImage />
           <AvatarFallback>
             <Text>RX</Text>
           </AvatarFallback>

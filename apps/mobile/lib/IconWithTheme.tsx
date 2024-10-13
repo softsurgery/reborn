@@ -1,11 +1,22 @@
 import { useColorScheme } from "./useColorScheme";
 
 interface IconWithThemeProps {
+  className?: string;
   icon: React.ElementType;
   size: number;
 }
 
-export const IconWithTheme = ({ icon: Icon,size }: IconWithThemeProps) => {
+export const IconWithTheme = ({
+  className,
+  icon: Icon,
+  size,
+}: IconWithThemeProps) => {
   const { isDarkColorScheme } = useColorScheme();
-  return <Icon size={size} color={isDarkColorScheme ? "#000000" : "#ffffff"}  />;
+  return (
+    <Icon
+      className={className}
+      size={size}
+      color={isDarkColorScheme ? "#000000" : "#ffffff"}
+    />
+  );
 };

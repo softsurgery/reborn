@@ -1,8 +1,8 @@
 import "~/global.css";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Theme, ThemeProvider } from "@react-navigation/native";
-import { SplashScreen, Stack } from "expo-router";
+import { Theme, ThemeProvider, useRoute } from "@react-navigation/native";
+import { SplashScreen, Stack, useNavigation } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import * as React from "react";
 import { Platform } from "react-native";
@@ -11,13 +11,7 @@ import { useColorScheme } from "~/lib/useColorScheme";
 import { PortalHost } from "@rn-primitives/portal";
 import { ThemeToggle } from "~/components/ThemeToggle";
 import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-  QueryClient,
-  QueryClientProvider,
-} from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const LIGHT_THEME: Theme = {
   dark: false,
@@ -37,6 +31,9 @@ const queryClient = new QueryClient();
 export default function RootLayout() {
   const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme();
   const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
+
+  const navigate = useNavigation();
+  console.log(navigate);
 
   React.useEffect(() => {
     (async () => {
@@ -72,17 +69,17 @@ export default function RootLayout() {
       <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
         <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
         <Stack>
-        <Stack.Screen
+          <Stack.Screen
             name="on-boarding"
             options={{
-              title: "Reborn",
-              headerRight: () => <ThemeToggle />,
+              title: "On Boarding",
+              headerShown:false
             }}
           />
           <Stack.Screen
             name="auth/sign-in-screen"
             options={{
-              title: "sign-In",
+              title: "Sign-In",
               headerRight: () => <ThemeToggle />,
             }}
           />
