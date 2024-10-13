@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View } from "react-native";
+import { Image, View } from "react-native";
 import { Text } from "~/components/ui/text";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { ArrowRightCircleIcon, KeyRound } from "lucide-react-native";
@@ -14,6 +14,7 @@ import { NavigationProps } from "~/types/app.routes";
 import { Credentials, Result } from "~/types";
 import { SignInWithEmail } from "~/firebase/authentification";
 import { useMutation } from "@tanstack/react-query";
+import DividerWithText from "~/components/ui/divider-with-text";
 
 export default function Screen() {
   const authManager = useAuthManager();
@@ -45,12 +46,14 @@ export default function Screen() {
   return (
     <View className="flex-1 justify-center items-center gap-5 p-6 bg-secondary/30">
       <KeyboardAwareScrollView className="w-full">
-        <Avatar alt="Reborn" className="self-center w-36 h-36">
-          <AvatarImage source={{ uri: "../assets/images/adaptive-icon" }} />
-          <AvatarFallback>
-            <Text>RX</Text>
-          </AvatarFallback>
-        </Avatar>
+        {/* Greetings */}
+        <View className="my-5">
+          <Text className="text-2xl font-normal mx-auto ">Welecome Back</Text>
+          <Text className="text-2xl font-thin mx-auto ">
+            Glad to see you again
+          </Text>
+        </View>
+
         {errorMessage && (
           <Label className="text-lg font-normal mx-1 text-red-600">
             Error Message : {errorMessage}
@@ -61,7 +64,8 @@ export default function Screen() {
             Loading...
           </Text>
         )}
-        <View className="flex flex-col gap-5 px-2 my-5">
+        {/* Form */}
+        <View className="flex flex-col gap-2 px-2 my-5">
           <Input
             editable={!isLoginPending}
             placeholder="E-mail..."
@@ -79,31 +83,47 @@ export default function Screen() {
             aria-labelledby="inputLabel"
             aria-errormessage="inputError"
           />
+          <Text className="text-lg font-normal ml-auto my-1">
+            Forget Password ?
+          </Text>
+
           {/* Email Button */}
           <Button
             disabled={isLoginPending}
-            className="flex flex-row justify-center items-center gap-2"
+            className="flex flex-row justify-center items-center gap-2 my-1"
             onPress={() => {
               setErrorMessage("");
               onLoginPress();
             }}
           >
-            <IconWithTheme icon={ArrowRightCircleIcon} size={24} />
+            <Text className="font-normal">Continue</Text>
+            <IconWithTheme icon={ArrowRightCircleIcon} size={18} />
           </Button>
-          <Text className="text-lg font-bold text-center underline">OR</Text>
+          {/* Divider */}
+          <DividerWithText text="OR" />
           {/* SAO */}
-          <View className="flex flex-row justify-center gap-10">
+          <View className="flex flex-col justify-center gap-2 my-1">
             {/* Google */}
-            <Button className="w-fit">
-              <Text className="text-lg font-normal">Google</Text>
+            <Button className="flex flex-row w-fit gap-2 bg-red-600">
+              <Image
+                className="w-5 h-5 shadow-md"
+                source={require("~/assets/images/google.png")}
+              />
+              <Text className="text-lg font-normal">Continue with Google</Text>
             </Button>
             {/* Facebook */}
-            <Button className="w-fit">
-              <Text className="text-lg font-normal">Facebook</Text>
+            <Button className="flex flex-row w-fit gap-2 bg-blue-600">
+            <Image
+                className="w-5 h-5 shadow-md"
+                source={require("~/assets/images/facebook.png")}
+              />
+              <Text className="text-lg font-normal">
+                Continue with Facebook
+              </Text>
             </Button>
           </View>
         </View>
-
+        {/* Navigate to sign up */}
         <View className="flex flex-row gap-1 items-center justify-center my-10">
           <Label className="text-lg">Don't have an account?</Label>
           <Label

@@ -9,17 +9,8 @@ import { Input } from "~/components/ui/input";
 import { useAuthManager } from "~/lib/stores/use-auth-form";
 import { Label } from "~/components/ui/label";
 import { IconWithTheme } from "~/lib/IconWithTheme";
-import {
-  createUserWithEmailAndPassword,
-  getAuth,
-} from "firebase/auth";
-import { getFirestore, doc, setDoc } from "firebase/firestore";
-import { firebaseApp } from "~/firebase/config";
 import { useNavigation } from "expo-router";
 import { NavigationProps } from "~/types/app.routes";
-
-const GITHUB_AVATAR_URI =
-  "https://i.pinimg.com/originals/ef/a2/8d/efa28d18a04e7fa40ed49eeb0ab660db.jpg";
 
 export default function Screen() {
   const authManager = useAuthManager();
