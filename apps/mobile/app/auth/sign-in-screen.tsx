@@ -14,13 +14,15 @@ import { Result } from "~/types";
 import { SignInWithEmail } from "~/firebase/authentification";
 import { useMutation } from "@tanstack/react-query";
 import DividerWithText from "~/components/ui/divider-with-text";
+import { useToast } from "react-native-toast-notifications";
+import { isEmail } from "~/lib/validators/isEmail";
 
 const description = "Please check your credentials and try again";
 
 export default function Screen() {
   const authManager = useAuthManager();
-  const [errorMessage, setErrorMessage] = React.useState("");
   const navigation = useNavigation<NavigationProps>();
+  const toast = useToast();
 
   const { mutate: SignInMutator, isPending: isLoginPending } = useMutation({
     mutationFn: async () =>
@@ -32,14 +34,24 @@ export default function Screen() {
       if (data.success) {
         navigation.navigate("success");
       } else {
-        setErrorMessage("oops! " + data.message);
+        toast.show("oops! " + data.message, {
+          style: { backgroundColor: "red" },
+        });
       }
     },
   });
 
+  React.useEffect(() => {
+    authManager.reset();
+  }, []);
+
   const onLoginPress = () => {
-    setErrorMessage("");
-    SignInMutator();
+    authManager.resetErrors();
+    if (!isEmail(authManager.email))
+      authManager.set("emailError", "Please enter a valid email");
+    if (authManager.password.length < 6)
+      authManager.set("passwordError", "Please enter a valid password");
+    else SignInMutator();
   };
 
   return (
@@ -57,24 +69,39 @@ export default function Screen() {
 
         {/* Form */}
         <View className="flex flex-col gap-2 px-2 my-5">
-          <Input
-            editable={!isLoginPending}
-            placeholder="E-mail..."
-            value={authManager.email}
-            onChangeText={(text) => authManager.set("email", text)}
-            aria-labelledby="inputLabel"
-            aria-errormessage="inputError"
-          />
-          <Input
-            editable={!isLoginPending}
-            secureTextEntry={true}
-            placeholder="Password..."
-            value={authManager.password}
-            onChangeText={(text) => authManager.set("password", text)}
-            aria-labelledby="inputLabel"
-            aria-errormessage="inputError"
-          />
-          <Text className="text-md font-normal ml-auto my-1">
+          <View>
+            <Input
+              editable={!isLoginPending}
+              placeholder="E-mail"
+              value={authManager.email}
+              onChangeText={(text) => authManager.set("email", text)}
+              aria-labelledby="inputLabel"
+              aria-errormessage="inputError"
+            />
+            {authManager.emailError && (
+              <Text className="font-bold my-1.5 color-red-600">
+                {authManager.emailError}
+              </Text>
+            )}
+          </View>
+          <View>
+            <Input
+              editable={!isLoginPending}
+              secureTextEntry={true}
+              placeholder="Password"
+              value={authManager.password}
+              onChangeText={(text) => authManager.set("password", text)}
+              aria-labelledby="inputLabel"
+              aria-errormessage="inputError"
+            />
+            {authManager.passwordError && (
+              <Text className="font-bold my-1.5 color-red-600">
+                {authManager.passwordError}
+              </Text>
+            )}
+          </View>
+
+          <Text className="text-md font-bold ml-auto my-1">
             Forget Password ?
           </Text>
 
@@ -83,7 +110,6 @@ export default function Screen() {
             disabled={isLoginPending}
             className="flex flex-row justify-center gap-2 my-1"
             onPress={() => {
-              setErrorMessage("");
               onLoginPress();
             }}
           >

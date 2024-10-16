@@ -17,6 +17,7 @@ export async function SignInWithEmail({
   email,
   password,
 }: Credentials): Promise<Result> {
+ 
   const auth = getAuth(firebaseApp);
   const firestore = getFirestore(firebaseApp);
 

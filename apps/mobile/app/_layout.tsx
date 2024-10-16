@@ -12,6 +12,7 @@ import { PortalHost } from "@rn-primitives/portal";
 import { ThemeToggle } from "~/components/ThemeToggle";
 import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ToastProvider } from "react-native-toast-notifications";
 
 const LIGHT_THEME: Theme = {
   dark: false,
@@ -67,38 +68,40 @@ export default function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-        <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
-        <Stack>
+        <ToastProvider>
+          <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
+          <Stack>
           <Stack.Screen
-            name="on-boarding"
-            options={{
-              title: "On Boarding",
-              headerShown:false
-            }}
-          />
-          <Stack.Screen
-            name="auth/sign-in-screen"
-            options={{
-              title: "Sign-In",
-              headerRight: () => <ThemeToggle />,
-            }}
-          />
-          <Stack.Screen
-            name="auth/sign-up-screen"
-            options={{
-              title: "Sign-Up",
-              headerRight: () => <ThemeToggle />,
-            }}
-          />
-          <Stack.Screen
-            name="success"
-            options={{
-              title: "you're in",
-              headerRight: () => <ThemeToggle />,
-            }}
-          />
-        </Stack>
-        <PortalHost />
+              name="on-boarding"
+              options={{
+                title: "On Boarding",
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="auth/sign-in-screen"
+              options={{
+                title: "Sign-In",
+                headerRight: () => <ThemeToggle />,
+              }}
+            />
+            <Stack.Screen
+              name="auth/sign-up-screen"
+              options={{
+                title: "Sign-Up",
+                headerRight: () => <ThemeToggle />,
+              }}
+            />
+            <Stack.Screen
+              name="success"
+              options={{
+                title: "you're in",
+                headerRight: () => <ThemeToggle />,
+              }}
+            />
+          </Stack>
+          <PortalHost />
+        </ToastProvider>
       </ThemeProvider>
     </QueryClientProvider>
   );
