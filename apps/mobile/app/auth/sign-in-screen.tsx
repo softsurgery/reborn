@@ -11,13 +11,14 @@ import { IconWithTheme } from "~/lib/IconWithTheme";
 import { useNavigation } from "expo-router";
 import { NavigationProps } from "~/types/app.routes";
 import { Result } from "~/types";
-import { SignInWithEmail } from "~/firebase/authentification";
+import {
+  SignInWithEmail,
+  VerifyEmailAndPassword,
+} from "~/firebase/authentification";
 import { useMutation } from "@tanstack/react-query";
 import DividerWithText from "~/components/ui/divider-with-text";
 import { useToast } from "react-native-toast-notifications";
 import { isEmail } from "~/lib/validators/isEmail";
-
-const description = "Please check your credentials and try again";
 
 export default function Screen() {
   const authManager = useAuthManager();
@@ -47,15 +48,19 @@ export default function Screen() {
 
   const onLoginPress = () => {
     authManager.resetErrors();
-    if (!isEmail(authManager.email))
-      authManager.set("emailError", "Please enter a valid email");
-    if (authManager.password.length < 6)
-      authManager.set("passwordError", "Please enter a valid password");
-    else SignInMutator();
+    const errors = VerifyEmailAndPassword(
+      authManager.email,
+      authManager.password
+    );
+    if (errors.length > 0) {
+      //@ts-ignore
+      errors.forEach((error) => authManager.set(error.field, error.message));
+      return;
+    } else SignInMutator();
   };
 
   return (
-    <KeyboardAwareScrollView className="">
+    <KeyboardAwareScrollView>
       <View className="flex flex-col justify-center gap-5 p-4">
         {/* Greetings */}
         <View className="my-5">
@@ -71,6 +76,7 @@ export default function Screen() {
         <View className="flex flex-col gap-2 px-2 my-5">
           <View>
             <Input
+              keyboardType="email-address"
               editable={!isLoginPending}
               placeholder="E-mail"
               value={authManager.email}
@@ -79,7 +85,7 @@ export default function Screen() {
               aria-errormessage="inputError"
             />
             {authManager.emailError && (
-              <Text className="font-bold my-1.5 color-red-600">
+              <Text className="font-bold color-red-600 text-sm">
                 {authManager.emailError}
               </Text>
             )}
@@ -95,7 +101,7 @@ export default function Screen() {
               aria-errormessage="inputError"
             />
             {authManager.passwordError && (
-              <Text className="font-bold my-1.5 color-red-600">
+              <Text className="font-bold color-red-600 text-sm">
                 {authManager.passwordError}
               </Text>
             )}
@@ -113,7 +119,7 @@ export default function Screen() {
               onLoginPress();
             }}
           >
-            <IconWithTheme icon={Mail} size={18} className="mt-1" />
+            <IconWithTheme icon={Mail} size={24} className="mt-1" />
             <Text className="font-bold">Continue with E-mail</Text>
           </Button>
           {/* Divider */}
@@ -126,7 +132,7 @@ export default function Screen() {
               className="flex flex-row w-fit gap-2 bg-red-600"
             >
               <Image
-                className="w-5 h-5 shadow-md"
+                className="w-6 h-6 shadow-md"
                 source={require("~/assets/images/google.png")}
               />
               <Text className="text-lg font-bold text-white">
@@ -139,7 +145,7 @@ export default function Screen() {
               className="flex flex-row w-fit gap-2 bg-blue-600"
             >
               <Image
-                className="w-5 h-5 shadow-md"
+                className="w-6 h-6 shadow-md"
                 source={require("~/assets/images/facebook.png")}
               />
               <Text className="text-lg font-bold text-white">

@@ -1,12 +1,16 @@
 import { create } from "zustand";
 
 interface AuthManager {
-  username: string;
+  name: string;
+  nameError: string;
+  surname: string;
+  surnameError: string;
   email: string;
   emailError: string;
   password: string;
   passwordError: string;
   confirmPassword: string;
+  confirmPasswordError: string;
   set: (
     attribute: keyof Omit<AuthManager, "set" | "isAuthenticated" | "reset">,
     value: string
@@ -20,12 +24,16 @@ const AuthManagerDefaults: Omit<
   AuthManager,
   "set" | "isAuthenticated" | "reset" | "resetErrors"
 > = {
-  username: "",
+  name: "",
+  nameError: "",
+  surname: "",
+  surnameError: "",
   email: "",
   emailError: "",
   passwordError: "",
   password: "",
   confirmPassword: "",
+  confirmPasswordError: "",
 };
 
 export const useAuthManager = create<AuthManager>((set) => ({
@@ -46,8 +54,11 @@ export const useAuthManager = create<AuthManager>((set) => ({
   resetErrors: () => {
     set((state) => ({
       ...state,
+      nameError: "",
+      surnameError: "",
       emailError: "",
       passwordError: "",
+      confirmPasswordError: "",
     }));
   },
 }));
