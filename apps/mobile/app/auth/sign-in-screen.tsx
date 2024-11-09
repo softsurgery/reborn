@@ -32,9 +32,11 @@ export default function Screen() {
         password: authManager.password,
       }),
     onSuccess: (data: Result) => {
+      console.log(data.message);
       if (data.success) {
         navigation.navigate("success");
       } else {
+        console.log(data.message);
         toast.show("oops! " + data.message, {
           style: { backgroundColor: "red" },
         });

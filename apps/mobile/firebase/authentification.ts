@@ -35,7 +35,6 @@ export function VerifySignUpWithEmailAndPassword(
   confirmPassword: string
 ) {
   const errors = VerifyEmailAndPassword(email, password);
-  console.log(name, " x ", surname);
 
   if (name.length < 3)
     errors.push({

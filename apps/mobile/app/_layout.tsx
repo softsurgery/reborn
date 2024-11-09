@@ -13,6 +13,10 @@ import { ThemeToggle } from "~/components/ThemeToggle";
 import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ToastProvider } from "react-native-toast-notifications";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "~/firebase/config";
+import { Text, View } from "lucide-react-native";
+import { useAuthFunctions } from "~/hooks/useAuthFunctions";
 
 const LIGHT_THEME: Theme = {
   dark: false,
@@ -34,7 +38,8 @@ export default function RootLayout() {
   const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
 
   const navigate = useNavigation();
-  console.log(navigate);
+
+  const { isAuthenticated } = useAuthFunctions();
 
   React.useEffect(() => {
     (async () => {
@@ -71,6 +76,19 @@ export default function RootLayout() {
         <ToastProvider>
           <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
           <Stack>
+          <Stack.Screen
+              name="index"
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="success"
+              options={{
+                headerShown: false,
+              }}
+            />
+            {/* //Auth */}
             <Stack.Screen
               name="on-boarding"
               options={{
@@ -81,21 +99,14 @@ export default function RootLayout() {
             <Stack.Screen
               name="auth/sign-in-screen"
               options={{
-                title: "Sign-In",
+                title: "",
                 headerRight: () => <ThemeToggle />,
               }}
             />
             <Stack.Screen
               name="auth/sign-up-screen"
               options={{
-                title: "Sign-Up",
-                headerRight: () => <ThemeToggle />,
-              }}
-            />
-            <Stack.Screen
-              name="success"
-              options={{
-                title: "you're in",
+                title: "",
                 headerRight: () => <ThemeToggle />,
               }}
             />
