@@ -15,7 +15,15 @@ import {
 } from "~/components/ui/card";
 import { Label } from "~/components/ui/label";
 import { Input } from "~/components/ui/input";
-import { Home, MessageCircleHeart, User, Wallet } from "lucide-react-native";
+import {
+  Home,
+  MessageCircleHeart,
+  Plus,
+  PlusCircle,
+  ReceiptPoundSterling,
+  User,
+  Wallet,
+} from "lucide-react-native";
 import { IconWithTheme } from "~/lib/IconWithTheme";
 
 export default function Screen() {
@@ -70,14 +78,18 @@ export default function Screen() {
           <TabsTrigger value="b" className="w-1/5">
             <IconWithTheme icon={MessageCircleHeart} size={32} />
           </TabsTrigger>
-          <TabsTrigger value="home" className="w-1/5">
-            <IconWithTheme icon={Home} size={32} />
-          </TabsTrigger>
+          <Button
+            variant="outline"
+            className="w-20 h-20 -top-4 rounded-full aspect-square flex items-center justify-center border-4 mx-2"
+          >
+            <IconWithTheme icon={Plus} size={44} />
+          </Button>
+
           <TabsTrigger value="d" className="w-1/5">
             <IconWithTheme icon={Wallet} size={32} />
           </TabsTrigger>
-          <TabsTrigger value="e" className="w-1/5">
-            <Text>E</Text>
+          <TabsTrigger value="home" className="w-1/5">
+            <IconWithTheme icon={Home} size={32} />
           </TabsTrigger>
         </TabsList>
       </Tabs>
