@@ -18,7 +18,6 @@ import {
 import { useMutation } from "@tanstack/react-query";
 import DividerWithText from "~/components/ui/divider-with-text";
 import { useToast } from "react-native-toast-notifications";
-import { isEmail } from "~/lib/validators/isEmail";
 
 export default function Screen() {
   const authManager = useAuthManager();
@@ -32,11 +31,9 @@ export default function Screen() {
         password: authManager.password,
       }),
     onSuccess: (data: Result) => {
-      console.log(data.message);
       if (data.success) {
         navigation.navigate("success");
       } else {
-        console.log(data.message);
         toast.show("oops! " + data.message, {
           style: { backgroundColor: "red" },
         });
@@ -121,7 +118,12 @@ export default function Screen() {
               onLoginPress();
             }}
           >
-            <IconWithTheme icon={Mail} size={24} className="mt-1" />
+            <IconWithTheme
+              icon={Mail}
+              size={24}
+              className="mt-1"
+              color="white"
+            />
             <Text className="font-bold">Continue with E-mail</Text>
           </Button>
           {/* Divider */}

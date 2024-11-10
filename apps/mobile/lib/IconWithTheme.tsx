@@ -5,20 +5,27 @@ interface IconWithThemeProps {
   icon: React.ElementType;
   size: number;
   color?: string;
+  reverse?: boolean;
 }
 
 export const IconWithTheme = ({
   className,
   icon: Icon,
   size,
-  color
+  color,
+  reverse = false,
 }: IconWithThemeProps) => {
   const { isDarkColorScheme } = useColorScheme();
-  return (
-    <Icon
-      className={className}
-      size={size}
-      color={color || isDarkColorScheme ? "#ffffff" : "#000000"}
-    />
-  );
+
+  const themeColor =
+    color ||
+    (reverse
+      ? isDarkColorScheme
+        ? "#000000"
+        : "#ffffff"
+      : isDarkColorScheme
+      ? "#ffffff"
+      : "#000000");
+
+  return <Icon className={className} size={size} color={themeColor} />;
 };

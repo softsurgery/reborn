@@ -48,7 +48,7 @@ export default function Screen() {
 
   const onSignUpPress = () => {
     authManager.resetErrors();
-    console.log(authManager)
+    console.log(authManager);
     const errors = VerifySignUpWithEmailAndPassword(
       authManager.name,
       authManager.surname,
@@ -169,7 +169,12 @@ export default function Screen() {
               onSignUpPress();
             }}
           >
-            <IconWithTheme icon={MailPlus} size={24} className="mt-1" />
+            <IconWithTheme
+              icon={MailPlus}
+              size={24}
+              className="mt-1"
+              color="white"
+            />
             <Text className="font-bold">Create Account</Text>
           </Button>
           {/* Divider */}
