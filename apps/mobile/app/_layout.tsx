@@ -76,7 +76,7 @@ export default function RootLayout() {
         <ToastProvider>
           <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
           <Stack>
-          <Stack.Screen
+            <Stack.Screen
               name="index"
               options={{
                 headerShown: false,

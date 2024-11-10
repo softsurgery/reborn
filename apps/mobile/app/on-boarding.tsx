@@ -27,6 +27,7 @@ export default function Screen() {
 
       <Button
         className="w-full mb-6"
+        variant={'outline'}
         onPress={() => navigation.navigate("auth/sign-in-screen")}
       >
         <Text className="text-3xl tracking-wider font-bold">GET STARTED</Text>

@@ -6,11 +6,7 @@ import { NavigationProps } from "~/types/app.routes";
 export default function Screen() {
   const navigation = useNavigation<NavigationProps>();
   const { isAuthenticated } = useAuthFunctions();
-  React.useEffect(() => {
-    if (isAuthenticated) {
-      navigation.navigate("success");
-    } else navigation.navigate("on-boarding");
-  }, [isAuthenticated]);
-
-  return null;
+  if (isAuthenticated) {
+    navigation.navigate("success");
+  } else navigation.navigate("on-boarding");
 }
