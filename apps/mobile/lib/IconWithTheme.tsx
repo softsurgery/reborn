@@ -16,7 +16,7 @@ export const IconWithTheme = ({
     <Icon
       className={className}
       size={size}
-      color={isDarkColorScheme ? "#000000" : "#ffffff"}
+      color={isDarkColorScheme ? "#ffffff" : "#000000"}
     />
   );
 };

@@ -92,7 +92,6 @@ export default function RootLayout() {
             <Stack.Screen
               name="on-boarding"
               options={{
-                title: "On Boarding",
                 headerShown: false,
               }}
             />

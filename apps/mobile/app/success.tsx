@@ -15,6 +15,8 @@ import {
 } from "~/components/ui/card";
 import { Label } from "~/components/ui/label";
 import { Input } from "~/components/ui/input";
+import { Home, MessageCircleHeart, User, Wallet } from "lucide-react-native";
+import { IconWithTheme } from "~/lib/IconWithTheme";
 
 export default function Screen() {
   const navigation = useNavigation();
@@ -41,8 +43,8 @@ export default function Screen() {
               <Text>Exit</Text>
             </Button>
           </TabsContent>
-          <TabsContent value="c">
-            <Text className="p-10">C</Text>
+          <TabsContent value="home">
+            <Text className="p-10">Home</Text>
             <Button onPress={handleSignOut} className="mx-10">
               <Text>Exit</Text>
             </Button>
@@ -63,16 +65,16 @@ export default function Screen() {
 
         <TabsList className="flex-row w-full">
           <TabsTrigger value="a" className="w-1/5">
-            <Text>A</Text>
+            <IconWithTheme icon={User} size={32} />
           </TabsTrigger>
           <TabsTrigger value="b" className="w-1/5">
-            <Text>B</Text>
+            <IconWithTheme icon={MessageCircleHeart} size={32} />
           </TabsTrigger>
-          <TabsTrigger value="c" className="w-1/5">
-            <Text>C</Text>
+          <TabsTrigger value="home" className="w-1/5">
+            <IconWithTheme icon={Home} size={32} />
           </TabsTrigger>
           <TabsTrigger value="d" className="w-1/5">
-            <Text>D</Text>
+            <IconWithTheme icon={Wallet} size={32} />
           </TabsTrigger>
           <TabsTrigger value="e" className="w-1/5">
             <Text>E</Text>
