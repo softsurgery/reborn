@@ -173,7 +173,7 @@ export default function Screen() {
               icon={MailPlus}
               size={24}
               className="mt-1"
-              color="white"
+              reverse
             />
             <Text className="font-bold">Create Account</Text>
           </Button>

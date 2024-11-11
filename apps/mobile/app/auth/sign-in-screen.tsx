@@ -122,7 +122,7 @@ export default function Screen() {
               icon={Mail}
               size={24}
               className="mt-1"
-              color="white"
+              reverse
             />
             <Text className="font-bold">Continue with E-mail</Text>
           </Button>

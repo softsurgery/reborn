@@ -1,35 +1,38 @@
 import * as React from "react";
 import { View } from "react-native";
 import { Text } from "~/components/ui/text";
-import { useNavigation } from "expo-router";
 import { useAuthFunctions } from "~/hooks/useAuthFunctions";
 import { Button } from "~/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "~/components/ui/card";
-import { Label } from "~/components/ui/label";
-import { Input } from "~/components/ui/input";
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTriggerWithIcon,
+} from "~/components/ui/tabs";
 import {
   Home,
+  LogOut,
   MessageCircleHeart,
   Plus,
-  PlusCircle,
-  ReceiptPoundSterling,
   User,
   Wallet,
 } from "lucide-react-native";
 import { IconWithTheme } from "~/lib/IconWithTheme";
+import { MenuItem } from "~/components/menu/MenuItem";
 
 export default function Screen() {
-  const navigation = useNavigation();
   const { handleSignOut } = useAuthFunctions();
-  const [value, setValue] = React.useState("a");
+  const [value, setValue] = React.useState("home");
+
+  const tabs = [
+    { value: "home", icon: Home, title: "Home" },
+    { value: "chat", icon: MessageCircleHeart, title: "Chat" },
+    { value: "balance", icon: Wallet, title: "Balance" },
+    { value: "profile", icon: User, title: "Profile" },
+  ];
+
+  const leftTabs = tabs.slice(0, 2);
+  const rightTabs = tabs.slice(2);
 
   return (
     <View className="flex-1 w-full py-5">
@@ -39,58 +42,63 @@ export default function Screen() {
         className="flex-1 w-full flex-col justify-between gap-1.5"
       >
         <View className="flex-grow">
-          <TabsContent value="a">
-            <Text className="p-10">A</Text>
-            <Button onPress={handleSignOut} className="mx-10">
-              <Text>Exit</Text>
-            </Button>
-          </TabsContent>
-          <TabsContent value="b">
-            <Text className="p-10">B</Text>
-            <Button onPress={handleSignOut} className="mx-10">
-              <Text>Exit</Text>
-            </Button>
-          </TabsContent>
-          <TabsContent value="home">
-            <Text className="p-10">Home</Text>
-            <Button onPress={handleSignOut} className="mx-10">
-              <Text>Exit</Text>
-            </Button>
-          </TabsContent>
-          <TabsContent value="d">
-            <Text className="p-10">D</Text>
-            <Button onPress={handleSignOut} className="mx-10">
-              <Text>Exit</Text>
-            </Button>
-          </TabsContent>
-          <TabsContent value="e">
-            <Text className="p-10">E</Text>
-            <Button onPress={handleSignOut} className="mx-10">
-              <Text>Exit</Text>
-            </Button>
-          </TabsContent>
+          {tabs.map((tab) => (
+            <TabsContent key={tab.value} value={tab.value}>
+              <Text className="p-10">{tab.title}</Text>
+              {tab.value === "profile" && (
+                <Button
+                  variant="outline"
+                  onPress={handleSignOut}
+                  className="flex flex-row gap-2 mx-10"
+                >
+                  <IconWithTheme icon={LogOut} size={20} />
+                  <Text>Disconnect</Text>
+                </Button>
+              )}
+            </TabsContent>
+          ))}
         </View>
 
-        <TabsList className="flex-row w-full">
-          <TabsTrigger value="a" className="w-1/5">
-            <IconWithTheme icon={User} size={32} />
-          </TabsTrigger>
-          <TabsTrigger value="b" className="w-1/5">
-            <IconWithTheme icon={MessageCircleHeart} size={32} />
-          </TabsTrigger>
+        <TabsList className="flex-row w-full items-center justify-between">
+          {/* Left side tabs */}
+          {leftTabs.map((tab) => (
+            <TabsTriggerWithIcon
+              key={tab.value}
+              value={tab.value}
+              className="w-1/5"
+            >
+              <MenuItem
+                icon={tab.icon}
+                title={tab.title}
+                active={value === tab.value}
+                color="#0066b2"
+              />
+            </TabsTriggerWithIcon>
+          ))}
+
+          {/* Plus Button in the middle */}
           <Button
             variant="outline"
-            className="w-20 h-20 -top-4 rounded-full aspect-square flex items-center justify-center border-4 mx-2"
+            className="w-20 h-20 -top-4 rounded-full aspect-square flex items-center justify-center border-4"
           >
-            <IconWithTheme icon={Plus} size={44} />
+            <IconWithTheme icon={Plus} size={32} />
           </Button>
 
-          <TabsTrigger value="d" className="w-1/5">
-            <IconWithTheme icon={Wallet} size={32} />
-          </TabsTrigger>
-          <TabsTrigger value="home" className="w-1/5">
-            <IconWithTheme icon={Home} size={32} />
-          </TabsTrigger>
+          {/* Right side tabs */}
+          {rightTabs.map((tab) => (
+            <TabsTriggerWithIcon
+              key={tab.value}
+              value={tab.value}
+              className="w-1/5"
+            >
+              <MenuItem
+                icon={tab.icon}
+                title={tab.title}
+                active={value === tab.value}
+                color="#0066b2"
+              />
+            </TabsTriggerWithIcon>
+          ))}
         </TabsList>
       </Tabs>
     </View>

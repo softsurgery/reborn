@@ -8,14 +8,10 @@ import { NavigationProps } from "~/types/app.routes";
 export const useAuthFunctions = () => {
   const navigation = useNavigation<NavigationProps>();
   const [isAuthenticated, setIsAuthenticated] = React.useState(false);
-  
+
   React.useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setIsAuthenticated(true);
-      } else {
-        setIsAuthenticated(false);
-      }
+      setIsAuthenticated(!!user);
     });
 
     return () => unsubscribe();
@@ -25,7 +21,7 @@ export const useAuthFunctions = () => {
     try {
       await auth.signOut();
       await AsyncStorage.clear();
-      navigation.replace("on-boarding");
+      navigation.replace("index");
     } catch (error) {
       console.error("Sign-out error:", error);
       alert("Error signing out. Please try again.");

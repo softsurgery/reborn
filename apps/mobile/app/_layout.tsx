@@ -88,13 +88,6 @@ export default function RootLayout() {
                 headerShown: false,
               }}
             />
-            {/* //Auth */}
-            <Stack.Screen
-              name="on-boarding"
-              options={{
-                headerShown: false,
-              }}
-            />
             <Stack.Screen
               name="auth/sign-in-screen"
               options={{
