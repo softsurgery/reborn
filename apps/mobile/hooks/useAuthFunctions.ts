@@ -6,7 +6,6 @@ import { auth } from "~/firebase/config";
 import { NavigationProps } from "~/types/app.routes";
 
 export const useAuthFunctions = () => {
-  const navigation = useNavigation<NavigationProps>();
   const [isAuthenticated, setIsAuthenticated] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
 
@@ -23,7 +22,6 @@ export const useAuthFunctions = () => {
     try {
       await auth.signOut();
       await AsyncStorage.clear();
-      navigation.replace("index");
     } catch (error) {
       console.error("Sign-out error:", error);
       alert("Error signing out. Please try again.");

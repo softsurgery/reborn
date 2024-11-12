@@ -118,12 +118,7 @@ export default function Screen() {
               onLoginPress();
             }}
           >
-            <IconWithTheme
-              icon={Mail}
-              size={24}
-              className="mt-1"
-              reverse
-            />
+            <IconWithTheme icon={Mail} size={24} className="mt-1" reverse />
             <Text className="font-bold">Continue with E-mail</Text>
           </Button>
           {/* Divider */}

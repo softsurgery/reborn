@@ -10,6 +10,8 @@ import {
 import {
   Home,
   MessageCircleHeart,
+  MessageCircleIcon,
+  MessageSquareText,
   Plus,
   User,
   Wallet,
@@ -24,7 +26,7 @@ export default function Application() {
   
     const tabs = [
       { value: "home", icon: Home, title: "Home", component: <></> },
-      { value: "chat", icon: MessageCircleHeart, title: "Chat",component: <></> },
+      { value: "chat", icon: MessageSquareText, title: "Chat",component: <></> },
       { value: "balance", icon: Wallet, title: "Balance",component: <></> },
       { value: "profile", icon: User, title: "Profile",component: <Profile/> },
     ];
@@ -33,7 +35,7 @@ export default function Application() {
     const rightTabs = tabs.slice(2);
   
     return (
-      <View className="flex-1 w-full pt-5">
+      <View className="flex-1 w-full py-5">
         <Tabs
           value={value}
           onValueChange={setValue}
