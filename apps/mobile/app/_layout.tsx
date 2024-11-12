@@ -37,10 +37,6 @@ export default function RootLayout() {
   const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme();
   const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
 
-  const navigate = useNavigation();
-
-  const { isAuthenticated } = useAuthFunctions();
-
   React.useEffect(() => {
     (async () => {
       const theme = await AsyncStorage.getItem("theme");
@@ -78,12 +74,6 @@ export default function RootLayout() {
           <Stack>
             <Stack.Screen
               name="index"
-              options={{
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen
-              name="success"
               options={{
                 headerShown: false,
               }}

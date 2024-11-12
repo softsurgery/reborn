@@ -8,10 +8,12 @@ import { NavigationProps } from "~/types/app.routes";
 export const useAuthFunctions = () => {
   const navigation = useNavigation<NavigationProps>();
   const [isAuthenticated, setIsAuthenticated] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setIsAuthenticated(!!user);
+      setIsLoading(false);
     });
 
     return () => unsubscribe();
@@ -30,6 +32,7 @@ export const useAuthFunctions = () => {
 
   return {
     isAuthenticated,
+    isLoading,
     handleSignOut,
   };
 };

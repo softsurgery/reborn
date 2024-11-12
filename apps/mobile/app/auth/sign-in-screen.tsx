@@ -32,7 +32,7 @@ export default function Screen() {
       }),
     onSuccess: (data: Result) => {
       if (data.success) {
-        navigation.navigate("success");
+        navigation.navigate("index");
       } else {
         toast.show("oops! " + data.message, {
           style: { backgroundColor: "red" },

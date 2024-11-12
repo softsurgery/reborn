@@ -5,7 +5,7 @@ type StackParamList = {
   "on-boarding": undefined;
   "auth/sign-in-screen": undefined;
   "auth/sign-up-screen": undefined;
-  success: undefined;
+  application: undefined;
 };
 
 export type NavigationProps = NativeStackNavigationProp<StackParamList>
