@@ -35,7 +35,7 @@ export default function Application() {
   const rightTabs = tabs.slice(2);
 
   return (
-    <View className={cn("flex-1 w-full", Platform.OS === "ios" ? "py-4" : "")}>
+    <View className="flex-1 w-full">
       <Tabs
         value={value}
         onValueChange={setValue}
@@ -49,19 +49,25 @@ export default function Application() {
           ))}
         </View>
 
-        <TabsList className="flex-row w-full items-center justify-between">
+        <TabsList
+          className="flex flex-row justify-center"
+          style={{
+            height: Platform.OS == "ios" ? 80 : 70,
+            paddingBottom: Platform.OS == "ios" ? 15 : 0,
+          }}
+        >
           {/* Left side tabs */}
           {leftTabs.map((tab) => (
             <TabsTriggerWithIcon
               key={tab.value}
               value={tab.value}
-              className="w-1/5"
+              className="w-auto mx-auto"
             >
               <MenuItem
                 icon={tab.icon}
                 title={tab.title}
                 active={value === tab.value}
-                color="#0066b2"
+                color="#0066b5"
               />
             </TabsTriggerWithIcon>
           ))}
