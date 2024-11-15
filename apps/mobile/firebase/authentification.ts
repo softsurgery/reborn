@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { firebaseApp } from "./config";
 import {
   createUserWithEmailAndPassword,
@@ -64,6 +65,7 @@ export async function SignInWithEmail({
   try {
     const response = await signInWithEmailAndPassword(auth, email, password);
     const uid = response.user.uid;
+    await AsyncStorage.setItem("uid", uid);
 
     const usersRef = collection(firestore, "users");
     const userDocRef = doc(usersRef, uid);

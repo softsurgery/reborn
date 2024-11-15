@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Platform, View } from "react-native";
+import { Platform, ScrollView, View } from "react-native";
 import { Button } from "~/components/ui/button";
 import {
   Tabs,
@@ -9,8 +9,6 @@ import {
 } from "~/components/ui/tabs";
 import {
   Home,
-  MessageCircleHeart,
-  MessageCircleIcon,
   MessageSquareText,
   Plus,
   User,
@@ -19,7 +17,6 @@ import {
 import { IconWithTheme } from "~/lib/IconWithTheme";
 import { MenuItem } from "~/components/menu/MenuItem";
 import { Profile } from "~/components/profile/Profile";
-import { cn } from "~/lib/utils";
 
 export default function Application() {
   const [value, setValue] = React.useState("home");
@@ -44,13 +41,13 @@ export default function Application() {
         <View className="flex-grow">
           {tabs.map((tab) => (
             <TabsContent key={tab.value} value={tab.value}>
-              {tab.component}
+              <ScrollView>{tab.component}</ScrollView>
             </TabsContent>
           ))}
         </View>
 
         <TabsList
-          className="flex flex-row justify-center"
+          className="flex flex-row justify-center absolute bottom-0 w-full"
           style={{
             height: Platform.OS == "ios" ? 80 : 70,
             paddingBottom: Platform.OS == "ios" ? 15 : 0,
