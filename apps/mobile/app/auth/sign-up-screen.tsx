@@ -175,7 +175,7 @@ export default function Screen() {
               className="mt-1"
               reverse
             />
-            <Text className="font-bold">Create Account</Text>
+            <Text reversed className="font-bold">Create Account</Text>
           </Button>
           {/* Divider */}
           <DividerWithText text="OR" />

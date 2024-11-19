@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Image, View } from "react-native";
-import { Text } from "~/components/ui/text";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Mail } from "lucide-react-native";
 import { Button } from "~/components/ui/button";
@@ -18,6 +17,7 @@ import {
 import { useMutation } from "@tanstack/react-query";
 import DividerWithText from "~/components/ui/divider-with-text";
 import { useToast } from "react-native-toast-notifications";
+import { Text } from "~/components/ui/text";
 
 export default function Screen() {
   const authManager = useAuthManager();
@@ -119,7 +119,7 @@ export default function Screen() {
             }}
           >
             <IconWithTheme icon={Mail} size={24} className="mt-1" reverse />
-            <Text className="font-bold">Continue with E-mail</Text>
+            <Text reversed className="font-bold">Continue with E-mail</Text>
           </Button>
           {/* Divider */}
           <DividerWithText text="OR" />
