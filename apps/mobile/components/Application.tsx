@@ -19,13 +19,13 @@ import { MenuItem } from "~/components/menu/MenuItem";
 import { Profile } from "~/components/profile/Profile";
 
 export default function Application() {
-  const [value, setValue] = React.useState("home");
+  const [value, setValue] = React.useState("account");
 
   const tabs = [
     { value: "home", icon: Home, title: "Home", component: <></> },
     { value: "chat", icon: MessageSquareText, title: "Chat", component: <></> },
     { value: "balance", icon: Wallet, title: "Balance", component: <></> },
-    { value: "profile", icon: User, title: "Profile", component: <Profile /> },
+    { value: "account", icon: User, title: "Account", component: <Profile /> },
   ];
 
   const leftTabs = tabs.slice(0, 2);
@@ -41,7 +41,7 @@ export default function Application() {
         <View className="flex-grow">
           {tabs.map((tab) => (
             <TabsContent key={tab.value} value={tab.value}>
-              <ScrollView>{tab.component}</ScrollView>
+              <ScrollView className="pt-5">{tab.component}</ScrollView>
             </TabsContent>
           ))}
         </View>

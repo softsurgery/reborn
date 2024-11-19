@@ -5,15 +5,12 @@ async function fetch(uid: string){
 
     try {
       const userDocRef = doc(firestore, "users", uid);
-  
       const userDocument = await getDoc(userDocRef);
-  
       if (!userDocument.exists()) {
         return { message: "User not found", success: false };
       }
-  
       const userData = userDocument.data();
-  
+      console.log("User data:", userData);
       return { message: "User fetched successfully", success: true, data: userData };
     } catch (error: any) {
       console.error("Error fetching user:", error);
