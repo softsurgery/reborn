@@ -11,9 +11,9 @@ interface PlanInfoProps {
 export const PlanInfo = ({ className, plan }: PlanInfoProps) => {
   return (
     <View>
-      <View className={cn("flex flex-row justify-between", className)}>
+      <View className={cn("flex flex-row justify-between items-center", className)}>
         <Text className="text-xl font-semibold">Your Plan</Text>
-        <Badge className="flex justify-center bg-green-500">
+        <Badge className="flex justify-center bg-green-600 py-1 px-5">
           <Text className="text-base p-0.5 text-white font-bold">Free</Text>
         </Badge>
       </View>
