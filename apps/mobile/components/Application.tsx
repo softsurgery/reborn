@@ -38,10 +38,20 @@ export default function Application() {
         onValueChange={setValue}
         className="flex-1 w-full flex-col justify-between gap-1.5"
       >
-        <View className="flex-grow">
+        <View className="flex-grow pt-14">
           {tabs.map((tab) => (
             <TabsContent key={tab.value} value={tab.value}>
-              <ScrollView className="pt-5">{tab.component}</ScrollView>
+              <ScrollView
+                bounces={false}
+                alwaysBounceHorizontal={false}
+                alwaysBounceVertical={false}
+                showsVerticalScrollIndicator={false}
+                showsHorizontalScrollIndicator={false}
+                overScrollMode="never"
+                className="pt-5 h-screen"
+              >
+                {tab.component}
+              </ScrollView>
             </TabsContent>
           ))}
         </View>
