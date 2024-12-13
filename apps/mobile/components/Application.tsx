@@ -16,7 +16,7 @@ import {
 } from "lucide-react-native";
 import { IconWithTheme } from "~/lib/IconWithTheme";
 import { MenuItem } from "~/components/menu/MenuItem";
-import { Profile } from "~/components/profile/Profile";
+import { Account } from "./account/Account";
 
 export default function Application() {
   const [value, setValue] = React.useState("account");
@@ -25,7 +25,7 @@ export default function Application() {
     { value: "home", icon: Home, title: "Home", component: <></> },
     { value: "chat", icon: MessageSquareText, title: "Chat", component: <></> },
     { value: "balance", icon: Wallet, title: "Balance", component: <></> },
-    { value: "account", icon: User, title: "Account", component: <Profile /> },
+    { value: "account", icon: User, title: "Account", component: <Account /> },
   ];
 
   const leftTabs = tabs.slice(0, 2);
@@ -38,7 +38,7 @@ export default function Application() {
         onValueChange={setValue}
         className="flex-1 w-full flex-col justify-between gap-1.5"
       >
-        <View className="flex-grow pt-14">
+        <View className="flex-grow pt-10">
           {tabs.map((tab) => (
             <TabsContent key={tab.value} value={tab.value}>
               <ScrollView
@@ -48,7 +48,7 @@ export default function Application() {
                 showsVerticalScrollIndicator={false}
                 showsHorizontalScrollIndicator={false}
                 overScrollMode="never"
-                className="pt-5 h-screen"
+                className="mt-5 mb-24"
               >
                 {tab.component}
               </ScrollView>

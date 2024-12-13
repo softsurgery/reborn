@@ -89,6 +89,27 @@ export default function RootLayout() {
                 headerRight: () => <ThemeToggle />,
               }}
             />
+            <Stack.Screen
+              name="settings/app-settings/user-preferences"
+              options={{
+                title: "User Preferences",
+                animation: "slide_from_right",
+              }}
+            />
+            <Stack.Screen
+              name="settings/support/report-bug"
+              options={{
+                title: "Report a Bug",
+                animation: "slide_from_right",
+              }}
+            />
+             <Stack.Screen
+              name="settings/support/send-feedback"
+              options={{
+                title: "Send us feedback",
+                animation: "slide_from_right",
+              }}
+            />
           </Stack>
           <PortalHost />
         </ToastProvider>
