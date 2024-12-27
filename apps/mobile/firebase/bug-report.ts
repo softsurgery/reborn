@@ -12,11 +12,11 @@ async function postBug(bug: Bug): Promise<Result> {
         ...bug,
         createdAt: new Date().toISOString(),
         device: {
-            id: await DeviceInfo.getUniqueId(),
-            platform: await DeviceInfo.getBaseOs(),
-            model: DeviceInfo.getModel(),
-            version: DeviceInfo.getSystemVersion(),
-            manufacturer: await DeviceInfo.getManufacturer()
+            // id: await DeviceInfo.getUniqueId(),
+            // platform: await DeviceInfo.getBaseOs(),
+            // model: DeviceInfo.getModel(),
+            // version: DeviceInfo.getSystemVersion(),
+            // manufacturer: await DeviceInfo.getManufacturer()
         }
     }
     await addDoc(bugReportRef, bug);
