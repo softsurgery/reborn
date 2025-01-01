@@ -1,18 +1,15 @@
 import * as React from "react";
 import { ScrollView, View } from "react-native";
 import { Text } from "~/components/ui/text";
-import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
-import { RadioGroup, RadioGroupItem } from "~/components/ui/radio-group";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Textarea } from "~/components/ui/textarea";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useFeedbackManager } from "./hooks/useFeedbackManager";
-import { FEEDBACK_CATEGORIES } from "~/constants/feedback-categories";
 import { useMutation } from "@tanstack/react-query";
 import { firebaseFns } from "~/firebase";
 import { Toast } from "react-native-toast-notifications";
 import FeedbackCategorySelector from "~/components/categorieRadioGroup";
+import StarRating from "react-native-star-rating-widget";
 
 export default function FeedbackScreen() {
   const feedbackManager = useFeedbackManager();
@@ -38,13 +35,7 @@ export default function FeedbackScreen() {
     submitFeedback();
   };
 
-  const insets = useSafeAreaInsets();
-  const contentInsets = {
-    top: insets.top,
-    bottom: insets.bottom,
-    left: 12,
-    right: 12,
-  };
+  const [rating, setRating] = React.useState(0);
 
   return (
     <KeyboardAwareScrollView bounces={false}>
@@ -86,17 +77,15 @@ export default function FeedbackScreen() {
           {/* Rating Field */}
           <View>
             <Text className="font-semibold mb-2">Rating (*)</Text>
-            <Input
-              editable={!isFeedbackSubmitting}
-              value={feedbackManager.rating?.toString() || ""}
-              onChangeText={(value: string) =>
-                feedbackManager.set("rating", value)
-              }
-              maxLength={1}
-              placeholder="Rate us from 1 to 5"
-              keyboardType="numeric"
-              className="p-3 rounded-md"
-            />
+            <View className="mx-auto">
+              <StarRating
+                rating={feedbackManager.rating || 0}
+                onChange={(value) => {
+                  feedbackManager.set("rating", value);
+                }}
+                maxStars={5}
+              />
+            </View>
           </View>
 
           {/* Submit Button */}

@@ -3,7 +3,7 @@ import { Feedback } from "~/types/Feedback";
 import { FEEDBACK_CATEGORIES } from "~/constants/feedback-categories";
 
 interface FeedbackManager {
-  rating?: string;
+  rating?: number;
   category?: string;
   message?: string;
   set: (attribute: keyof Omit<FeedbackManager, "set">, value: any) => void;
@@ -15,7 +15,7 @@ const FeedbackManagerDefaults: Omit<
 FeedbackManager, 
 "set" | "getFeedback" | "reset"
 > = {
-  rating: '',
+  rating: 0,
   category: FEEDBACK_CATEGORIES[0],
   message: "",
 };

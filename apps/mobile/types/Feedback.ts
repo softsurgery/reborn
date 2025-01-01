@@ -7,7 +7,7 @@ export interface DeviceInfo {
   }
   
   export interface Feedback{
-    rating?: string; 
+    rating?: number; 
     category?: string; 
     message?: string; 
     device?: DeviceInfo;
