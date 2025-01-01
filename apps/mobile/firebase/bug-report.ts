@@ -1,7 +1,7 @@
 import { addDoc, collection, getFirestore } from "firebase/firestore";
-import DeviceInfo from "react-native-device-info";
 import { Result } from "~/types";
 import { Bug } from "~/types/Bug";
+import * as Device from "expo-device";
 
 async function postBug(bug: Bug): Promise<Result> {
   const firestore = getFirestore();
