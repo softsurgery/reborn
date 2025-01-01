@@ -1,7 +1,7 @@
 import { addDoc, collection, getFirestore } from "firebase/firestore";
-import DeviceInfo from "react-native-device-info";
 import { Result } from "~/types";
 import { Bug } from "~/types/Bug";
+import * as Device from "expo-device";
 
 async function postBug(bug: Bug): Promise<Result> {
   const firestore = getFirestore();
@@ -9,16 +9,16 @@ async function postBug(bug: Bug): Promise<Result> {
   try {
     const bugReportRef = collection(firestore, "bugs");
     bug = {
-        ...bug,
-        createdAt: new Date().toISOString(),
-        device: {
-            id: await DeviceInfo.getUniqueId(),
-            platform: await DeviceInfo.getBaseOs(),
-            model: DeviceInfo.getModel(),
-            version: DeviceInfo.getSystemVersion(),
-            manufacturer: await DeviceInfo.getManufacturer()
-        }
-    }
+      ...bug,
+      createdAt: new Date().toISOString(),
+      device: {
+        platform: Device.osName || undefined,
+        model: Device.modelName || undefined,
+        version: Device.osVersion  || undefined,
+        manufacturer: Device.manufacturer || undefined,
+        type: Device.deviceType?.toString() || undefined,
+      },
+    };
     await addDoc(bugReportRef, bug);
     return {
       message: "Bug submitted successfully",
