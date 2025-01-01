@@ -2,6 +2,7 @@ import { addDoc, collection, getFirestore } from "firebase/firestore";
 import { Result } from "~/types";
 import { Bug } from "~/types/Bug";
 import * as Device from "expo-device";
+import { generateDeviceInfo } from "~/lib/device-info";
 
 async function postBug(bug: Bug): Promise<Result> {
   const firestore = getFirestore();
@@ -9,16 +10,10 @@ async function postBug(bug: Bug): Promise<Result> {
   try {
     const bugReportRef = collection(firestore, "bugs");
     bug = {
-        ...bug,
-        createdAt: new Date().toISOString(),
-        device: {
-            // id: await DeviceInfo.getUniqueId(),
-            // platform: await DeviceInfo.getBaseOs(),
-            // model: DeviceInfo.getModel(),
-            // version: DeviceInfo.getSystemVersion(),
-            // manufacturer: await DeviceInfo.getManufacturer()
-        }
-    }
+      ...bug,
+      createdAt: new Date().toISOString(),
+      device: generateDeviceInfo(),
+    };
     await addDoc(bugReportRef, bug);
     return {
       message: "Bug submitted successfully",
