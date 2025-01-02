@@ -1,81 +1,43 @@
 import * as React from "react";
+import { Image, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { ProfileManagmentCard } from "~/components/profile/ProfileManagementCard";
 import { Text } from "~/components/ui/text";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "~/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
-import { Button } from "~/components/ui/button";
-import { useRouter } from "expo-router";
-import { View } from "react-native";
-const GITHUB_AVATAR_URI = "https://github.com/mrzachnugent.png";
 
 export default function ProfileManagment() {
-  const router = useRouter();
   return (
     <KeyboardAwareScrollView className="flex flex-col gap-5 my-5 px-4">
-      <Card className="w-full items-center justify-center">
-        <CardHeader>
-          <Avatar
-            className="items-center justify-center"
-            alt="Zach Nugent's Avatar"
-          >
-            <AvatarImage source={{ uri: GITHUB_AVATAR_URI }} />
-            <AvatarFallback>
-              <Text>ZN</Text>
-            </AvatarFallback>
-          </Avatar>
-        </CardHeader>
-        <CardContent>
-            <View
-            style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-            }} >
-          <View
-            style={{
-              borderRightWidth: 1,
-              borderRightColor: "white",
-            }}
-          >
-            <Text>Card Content</Text>
+      <View className="flex flex-col gap-5">
+        <ProfileManagmentCard />
+        <View className="flex flex-col gap-4 px-5">
+          <View>
+            <Text className="font-bold">About Me</Text>
+            <Text className="border border-white/25 my-2">
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Modi
+              voluptatibus velit eveniet, praesentium mollitia, aliquid amet
+              atque quo culpa veritatis adipisci facere porro quisquam
+              voluptatum aut harum molestias iste expedita!
+            </Text>
           </View>
-          <View
-            style={{
-              borderRightWidth: 1,
-              borderRightColor: "white",
-            }}
-          >
-            <Text>Card Content</Text>
+          <View>
+            <Text className="font-bold">Your Images</Text>
+            <View className="flex flex-row gap-4 my-2">
+              <Image
+                className="w-24 h-24 shadow-md"
+                source={require("~/assets/images/adaptive-icon.png")}
+              />
+               <Image
+                className="w-24 h-24 shadow-md"
+                source={require("~/assets/images/adaptive-icon.png")}
+              />
+               <Image
+                className="w-24 h-24 shadow-md"
+                source={require("~/assets/images/adaptive-icon.png")}
+              />
+            </View>
           </View>
-          <View
-            style={{
-              borderRightWidth: 1,
-              borderRightColor: "white",
-            }}
-          >
-            <Text>Card Content</Text>
-          </View>
-          </View>
-        </CardContent>
-        <CardFooter>
-          <Button
-            onPress={() =>
-              router.push("/settings/app-settings/profile/update-profile")
-            }
-            variant="ghost"
-            className="w-full pr-1 pl-1"
-          >
-            <Text>Update Your Profile</Text>
-          </Button>
-        </CardFooter>
-      </Card>
+        </View>
+      </View>
     </KeyboardAwareScrollView>
   );
 }

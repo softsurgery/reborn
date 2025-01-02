@@ -42,18 +42,6 @@ export const Account = () => {
       <View className="border-t border-gray-100 dark:border-gray-900 mx-1">
         <PlanInfo className="my-2" />
         <GoPremium className="my-3" />
-
-        {/* <Avatar
-          alt="Zach Nugent's Avatar"
-          className="w-52 h-52 mx-auto border-2"
-        >
-           <AvatarImage source={require("~/assets/images/adaptive-icon.png")} />
-          <AvatarFallback>
-            <Text>ZN</Text>
-          </AvatarFallback>
-        </Avatar>
-
-        <Text className="mx-auto my-5 text-xl">Nayssem's Profile</Text> */}
         <View className="flex flex-col gap-4 mt-5">
           {/* App Settings */}
           <View>
