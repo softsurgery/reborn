@@ -59,7 +59,7 @@ export const Account = () => {
           <View>
             <Text className="text-2xl font-bold mb-2">App Settings</Text>
             <View className="flex flex-col">
-              <Item title="Profile Management" icon={User2} />
+              <Item title="Profile Management" icon={User2} link={"settings/app-settings/profile-managment"} />
               <Separator />
               <Item title="User Preferences" icon={Settings} link={"settings/app-settings/user-preferences"} />
               <Separator />

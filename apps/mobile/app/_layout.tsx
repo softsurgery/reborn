@@ -89,6 +89,13 @@ export default function RootLayout() {
                 headerRight: () => <ThemeToggle />,
               }}
             />
+             <Stack.Screen
+              name="settings/app-settings/profile-managment"
+              options={{
+                title: "Profile Management",
+                animation: "slide_from_right",
+              }}
+            />
             <Stack.Screen
               name="settings/app-settings/user-preferences"
               options={{
