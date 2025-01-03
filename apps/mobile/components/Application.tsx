@@ -17,6 +17,7 @@ import {
 import { IconWithTheme } from "~/lib/IconWithTheme";
 import { MenuItem } from "~/components/menu/MenuItem";
 import { Account } from "./account/Account";
+import { StableScrollView } from "./common/StableScrollView";
 
 export default function Application() {
   const [value, setValue] = React.useState("account");
@@ -41,17 +42,11 @@ export default function Application() {
         <View className="flex-grow pt-10">
           {tabs.map((tab) => (
             <TabsContent key={tab.value} value={tab.value}>
-              <ScrollView
-                bounces={false}
-                alwaysBounceHorizontal={false}
-                alwaysBounceVertical={false}
-                showsVerticalScrollIndicator={false}
-                showsHorizontalScrollIndicator={false}
-                overScrollMode="never"
+              <StableScrollView
                 className="mt-5 mb-24"
               >
                 {tab.component}
-              </ScrollView>
+              </StableScrollView>
             </TabsContent>
           ))}
         </View>
