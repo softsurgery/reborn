@@ -1,49 +1,53 @@
-import * as React from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import * as React from "react";
+import { View } from "react-native";
+import { Button } from "~/components/ui/button";
+import { Input } from "~/components/ui/input";
+import { Text } from "~/components/ui/text";
+import { Stack } from "expo-router";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
+import * as ImagePicker from 'expo-image-picker';
+import { useState } from 'react';
 
-const UpdateProfile = () => {
-   
+export default function UpdateProfile() {
+    const [image, setImage] = useState<string | null>(null);
 
-    return (
-        <View style={styles.container}>
-            <Text style={styles.title}>Update Profile</Text>
-            <TextInput
-                style={styles.input}
-                placeholder="Name"
-            />
-            <TextInput
-                style={styles.input}
-                placeholder="Email"
-                keyboardType="email-address"
-            />
-            <TextInput
-                style={styles.input}
-                placeholder="Phone"
-                keyboardType="phone-pad"
-            />
-            <Button title="Update"  />
-        </View>
-    );
-};
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 16,
-        backgroundColor: '#fff',
-    },
-    title: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 16,
-    },
-    input: {
-        height: 40,
-        borderColor: '#ccc',
-        borderWidth: 1,
-        marginBottom: 12,
-        paddingHorizontal: 8,
-    },
-});
-
-export default UpdateProfile;
+    const pickImage = async () => {
+      // No permissions request is necessary for launching the image library
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+  
+      console.log(result);
+  
+      if (!result.canceled) {
+        setImage(result.assets[0].uri);
+      }
+    };
+  return (
+    <KeyboardAwareScrollView>
+      <Stack.Screen options={{ title: "Update Profile" }} />
+      <View className="flex flex-col gap-5 px-5">
+        <Avatar
+          alt="Zach Nugent's Avatar"
+          className="w-40 h-40 mx-auto border-2"
+        >
+          <AvatarImage source={require("~/assets/images/adaptive-icon.png")} />
+          <AvatarFallback>
+            <Text>ZN</Text>
+          </AvatarFallback>
+        </Avatar>
+        <Text onPress={pickImage} className="items-center justify-center text-xl">Update Your Profile Picture</Text>
+        <Input placeholder="Name" />
+        <Input placeholder="Email" keyboardType="email-address" />
+        <Input placeholder="Phone" keyboardType="phone-pad" />
+        <Button>
+          <Text className="dark:text-black text-white">Update</Text>
+        </Button>
+      </View>
+    </KeyboardAwareScrollView>
+  );
+}
