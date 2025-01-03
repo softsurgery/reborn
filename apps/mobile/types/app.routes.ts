@@ -9,6 +9,7 @@ export type StackParamList = {
   "settings/support/report-bug": undefined;
   "settings/support/send-feedback": undefined;
   "settings/app-settings/profile-managment": undefined;
+  "settings/app-settings/update-profile": undefined;
   application: undefined;
 };
 

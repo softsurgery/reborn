@@ -89,11 +89,19 @@ export default function RootLayout() {
                 headerRight: () => <ThemeToggle />,
               }}
             />
-             <Stack.Screen
+            <Stack.Screen
               name="settings/app-settings/profile-managment"
               options={{
                 title: "Profile Management",
                 animation: "slide_from_right",
+              }}
+            />
+            <Stack.Screen
+              name="settings/app-settings/profile/update-profile"
+              options={{
+                title: "Update Profile",
+                animation: "slide_from_right",
+                headerBackTitleVisible: false
               }}
             />
             <Stack.Screen
@@ -110,7 +118,7 @@ export default function RootLayout() {
                 animation: "slide_from_right",
               }}
             />
-             <Stack.Screen
+            <Stack.Screen
               name="settings/support/send-feedback"
               options={{
                 title: "Send us feedback",
