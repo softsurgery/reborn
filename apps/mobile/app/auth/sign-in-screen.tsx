@@ -18,8 +18,10 @@ import { useMutation } from "@tanstack/react-query";
 import DividerWithText from "~/components/ui/divider-with-text";
 import { useToast } from "react-native-toast-notifications";
 import { Text } from "~/components/ui/text";
+import { useAuth } from "~/context/AuthContext";
 
 export default function Screen() {
+  const { setUser } = useAuth();
   const authManager = useAuthManager();
   const navigation = useNavigation<NavigationProps>();
   const toast = useToast();
@@ -30,11 +32,13 @@ export default function Screen() {
         email: authManager.email,
         password: authManager.password,
       }),
-    onSuccess: (data: Result) => {
-      if (data.success) {
+    onSuccess: (result: Result) => {
+      if (result.success) {
+        console.log("Success" , result);
+        setUser(result.data);
         navigation.navigate("index");
       } else {
-        toast.show("oops! " + data.message, {
+        toast.show("oops! " + result.message, {
           style: { backgroundColor: "red" },
         });
       }
@@ -119,7 +123,9 @@ export default function Screen() {
             }}
           >
             <IconWithTheme icon={Mail} size={24} className="mt-1" reverse />
-            <Text reversed className="font-bold">Continue with E-mail</Text>
+            <Text reversed className="font-bold">
+              Continue with E-mail
+            </Text>
           </Button>
           {/* Divider */}
           <DividerWithText text="OR" />

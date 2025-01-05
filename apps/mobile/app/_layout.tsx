@@ -13,6 +13,7 @@ import { ThemeToggle } from "~/components/ThemeToggle";
 import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ToastProvider } from "react-native-toast-notifications";
+import { AuthProvider } from "~/context/AuthContext";
 
 const LIGHT_THEME: Theme = {
   dark: false,
@@ -64,71 +65,73 @@ export default function RootLayout() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-        <ToastProvider>
-          <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
-          <Stack>
-            <Stack.Screen
-              name="index"
-              options={{
-                title: "",
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen
-              name="auth/sign-in-screen"
-              options={{
-                title: "",
-                headerRight: () => <ThemeToggle />,
-              }}
-            />
-            <Stack.Screen
-              name="auth/sign-up-screen"
-              options={{
-                title: "",
-                headerRight: () => <ThemeToggle />,
-              }}
-            />
-            <Stack.Screen
-              name="settings/app-settings/profile-managment"
-              options={{
-                title: "Profile Management",
-                animation: "slide_from_right",
-              }}
-            />
-            <Stack.Screen
-              name="settings/app-settings/profile/update-profile"
-              options={{
-                title: "Update Profile",
-                animation: "slide_from_right",
-                headerBackTitleVisible: false
-              }}
-            />
-            <Stack.Screen
-              name="settings/app-settings/user-preferences"
-              options={{
-                title: "User Preferences",
-                animation: "slide_from_right",
-              }}
-            />
-            <Stack.Screen
-              name="settings/support/report-bug"
-              options={{
-                title: "Report a Bug",
-                animation: "slide_from_right",
-              }}
-            />
-            <Stack.Screen
-              name="settings/support/send-feedback"
-              options={{
-                title: "Send us feedback",
-                animation: "slide_from_right",
-              }}
-            />
-          </Stack>
-          <PortalHost />
-        </ToastProvider>
-      </ThemeProvider>
+      <AuthProvider>
+        <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
+          <ToastProvider>
+            <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
+            <Stack>
+              <Stack.Screen
+                name="index"
+                options={{
+                  title: "",
+                  headerShown: false,
+                }}
+              />
+              <Stack.Screen
+                name="auth/sign-in-screen"
+                options={{
+                  title: "",
+                  headerRight: () => <ThemeToggle />,
+                }}
+              />
+              <Stack.Screen
+                name="auth/sign-up-screen"
+                options={{
+                  title: "",
+                  headerRight: () => <ThemeToggle />,
+                }}
+              />
+              <Stack.Screen
+                name="settings/app-settings/profile-managment"
+                options={{
+                  title: "Profile Management",
+                  animation: "slide_from_right",
+                }}
+              />
+              <Stack.Screen
+                name="settings/app-settings/profile/update-profile"
+                options={{
+                  title: "Update Profile",
+                  animation: "slide_from_right",
+                  headerBackTitleVisible: false,
+                }}
+              />
+              <Stack.Screen
+                name="settings/app-settings/user-preferences"
+                options={{
+                  title: "User Preferences",
+                  animation: "slide_from_right",
+                }}
+              />
+              <Stack.Screen
+                name="settings/support/report-bug"
+                options={{
+                  title: "Report a Bug",
+                  animation: "slide_from_right",
+                }}
+              />
+              <Stack.Screen
+                name="settings/support/send-feedback"
+                options={{
+                  title: "Send us feedback",
+                  animation: "slide_from_right",
+                }}
+              />
+            </Stack>
+            <PortalHost />
+          </ToastProvider>
+        </ThemeProvider>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }
