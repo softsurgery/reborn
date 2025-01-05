@@ -34,8 +34,10 @@ export default function Screen() {
       }),
     onSuccess: (result: Result) => {
       if (result.success) {
-        console.log("Success" , result);
         setUser(result.data);
+        navigation.reset({
+          routes: [{ name: "index" }],
+        });
         navigation.navigate("index");
       } else {
         toast.show("oops! " + result.message, {
