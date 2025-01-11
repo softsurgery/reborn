@@ -1,5 +1,4 @@
 import React from "react";
-import { useAuthFunctions } from "~/hooks/useAuthFunctions";
 import { Text } from "../ui/text";
 import { IconWithTheme } from "~/lib/IconWithTheme";
 import {
@@ -11,21 +10,20 @@ import {
   Settings,
   User2,
 } from "lucide-react-native";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useNavigation } from "expo-router";
 import { NavigationProps, StackParamList } from "~/types/app.routes";
 import { Pressable, View } from "react-native";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { firebaseFns } from "~/firebase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { PlanInfo } from "./Plan";
 import { GoPremium } from "./GoPremium";
 import { cn } from "~/lib/utils";
-import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
+import { useAuth } from "~/context/AuthContext";
 
 export const Account = () => {
-  const { handleSignOut } = useAuthFunctions();
+  const { disconnect } = useAuth();
   const navigation = useNavigation<NavigationProps>();
 
   const { data: userData, isPending: isUserDataPending } = useQuery({
@@ -67,7 +65,7 @@ export const Account = () => {
           <View>
             <Text className="text-2xl font-bold mb-2">Account Actions</Text>
             <View className="flex flex-col">
-              <Item title="Switch Account" icon={LogOut} onPress={handleSignOut} />
+              <Item title="Switch Account" icon={LogOut} onPress={disconnect} />
             </View>
           </View>
         </View>
