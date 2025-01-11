@@ -1,18 +1,24 @@
-import * as React from "react";
+import React from "react";
 import { Image, View } from "react-native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { StableScrollView } from "~/components/common/StableScrollView";
 import { ProfileManagmentCard } from "~/components/profile/ProfileManagementCard";
 import { Text } from "~/components/ui/text";
 
-export default function ProfileManagment() {
+interface ProfileManagmentCardProps {
+  className?: string;
+}
+
+export default function ProfileManagment({
+  className,
+}: ProfileManagmentCardProps) {
   return (
-    <KeyboardAwareScrollView className="flex flex-col gap-5 my-5 px-4">
-      <View className="flex flex-col gap-5">
-        <ProfileManagmentCard />
+    <StableScrollView className={className}>
+      <View className="flex flex-col gap-2 px-5 mb-7">
+        <ProfileManagmentCard className="mt-5"/>
         <View className="flex flex-col gap-4 px-5">
           <View>
-            <Text className="font-bold">About Me</Text>
-            <Text className="border border-white/25 my-2">
+            <Text className="font-bold">Bio</Text>
+            <Text className="border border-white/25 rounded-lg my-2 p-4">
               Lorem ipsum dolor, sit amet consectetur adipisicing elit. Modi
               voluptatibus velit eveniet, praesentium mollitia, aliquid amet
               atque quo culpa veritatis adipisci facere porro quisquam
@@ -26,11 +32,11 @@ export default function ProfileManagment() {
                 className="w-24 h-24 shadow-md"
                 source={require("~/assets/images/adaptive-icon.png")}
               />
-               <Image
+              <Image
                 className="w-24 h-24 shadow-md"
                 source={require("~/assets/images/adaptive-icon.png")}
               />
-               <Image
+              <Image
                 className="w-24 h-24 shadow-md"
                 source={require("~/assets/images/adaptive-icon.png")}
               />
@@ -38,6 +44,6 @@ export default function ProfileManagment() {
           </View>
         </View>
       </View>
-    </KeyboardAwareScrollView>
+    </StableScrollView>
   );
 }

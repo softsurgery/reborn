@@ -10,12 +10,19 @@ import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Button } from "~/components/ui/button";
 import { useRouter } from "expo-router";
 import { View } from "react-native";
+import { cn } from "~/lib/utils";
 
-export const ProfileManagmentCard = () => {
+interface ProfileManagmentCardProps {
+  className?: string;
+}
+
+export const ProfileManagmentCard = ({
+  className,
+}: ProfileManagmentCardProps) => {
   const router = useRouter();
 
   return (
-    <Card className="w-full items-center justify-center">
+    <Card className={cn("w-full items-center justify-center", className)}>
       <CardHeader>
         <Avatar
           alt="Zach Nugent's Avatar"
@@ -52,7 +59,9 @@ export const ProfileManagmentCard = () => {
           }
           className="w-full"
         >
-          <Text className='bold dark:text-black text-white'>Update Your Profile</Text>
+          <Text className="bold dark:text-black text-white">
+            Update Your Profile
+          </Text>
         </Button>
       </CardFooter>
     </Card>
