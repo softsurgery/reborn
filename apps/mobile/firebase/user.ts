@@ -1,6 +1,6 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { doc, getDoc, getFirestore, updateDoc } from "firebase/firestore";
-import { Result } from "~/types";
-import { User } from "~/types/User";
+import { Result, User } from "~/types";
 
 async function fetch(uid: string): Promise<Result<User | null>> {
   const firestore = getFirestore();
@@ -25,7 +25,15 @@ async function fetch(uid: string): Promise<Result<User | null>> {
   }
 }
 
-async function update(uid: string, updatedData: Partial<User>) {
+async function fetchCurrent(): Promise<Result<User | null>> {
+  const uid = await AsyncStorage.getItem("uid");
+  return uid ? fetch(uid) : { message: "UID is undefined", success: false };
+}
+
+async function update(
+  uid: string,
+  updatedData: Partial<User>
+): Promise<Result> {
   const firestore = getFirestore();
 
   try {
@@ -47,7 +55,15 @@ async function update(uid: string, updatedData: Partial<User>) {
   }
 }
 
+async function updateCurrent(updatedData: Partial<User>): Promise<Result> {
+  const uid = await AsyncStorage.getItem("uid");
+  return uid
+    ? update(uid, updatedData)
+    : { message: "UID is undefined", success: false };
+}
+
 export const user = {
   fetch,
+  fetchCurrent,
   update,
 };
