@@ -3,10 +3,10 @@ import { Button } from "./button";
 import { Text } from "./text";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { toLongDateString } from "~/lib/dates.utils";
-import { Platform, Pressable, View } from "react-native";
+import { Platform, View } from "react-native";
+import { cn } from "~/lib/utils";
 import { Popover, PopoverContent, PopoverTrigger } from "./popover";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { cn } from "~/lib/utils";
 
 interface DatePickerProps {
   className?: string;
@@ -15,6 +15,14 @@ interface DatePickerProps {
 }
 
 export const DatePicker = ({ className, date, onChange }: DatePickerProps) => {
+  const [pickerVisible, setPickerVisible] = React.useState(
+    Platform.OS === "ios"
+  );
+
+  const handleDateChange = (date?: Date) => {
+    if (date) onChange(date);
+    setPickerVisible(Platform.OS === "ios");
+  };
 
   const insets = useSafeAreaInsets();
   const contentInsets = {
@@ -23,8 +31,36 @@ export const DatePicker = ({ className, date, onChange }: DatePickerProps) => {
     left: 12,
     right: 12,
   };
-  return (
+
+ if (Platform.OS == "android") return (
     <View className={cn("flex-1 justify-center items-center", className)}>
+      <Button
+        variant={"outline"}
+        className="w-full"
+        onPress={() => setPickerVisible(true)}
+      >
+        <Text>{toLongDateString(date)}</Text>
+      </Button>
+
+      {React.useMemo(() => {
+        return (
+          pickerVisible && (
+            <DateTimePicker
+              display="default"
+              value={date}
+              onChange={(e, date) => {
+                handleDateChange(date);
+              }}
+            />
+          )
+        );
+      }, [pickerVisible])}
+    </View>
+  );
+
+  else {
+    return (
+      <View className={cn("flex-1 justify-center items-center", className)}>
       <Popover className="w-full">
         <PopoverTrigger asChild>
           <Button variant={"outline"} className="w-full">
@@ -46,5 +82,6 @@ export const DatePicker = ({ className, date, onChange }: DatePickerProps) => {
         </PopoverContent>
       </Popover>
     </View>
-  );
+    )
+  }
 };
