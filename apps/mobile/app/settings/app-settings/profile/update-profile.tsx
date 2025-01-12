@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { View, Alert } from "react-native";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
@@ -12,13 +12,15 @@ import { useUpdateProfileManager } from "./hooks/useUpdateProfileManager";
 import { firebaseFns } from "~/firebase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useCurrentUser } from "~/hooks/useCurrentUser";
+import { Loader } from "~/components/Loader";
 
 export default function UpdateProfile() {
-  const [image, setImage] = useState<string | null>(null);
-  const updateProfileManager = useUpdateProfileManager();
+  const [image, setImage] = React.useState<string | null>(null);
   const { currentUser, isFetchingCurrentUser } = useCurrentUser();
 
-  useEffect(() => {
+  const updateProfileManager = useUpdateProfileManager();
+
+  React.useEffect(() => {
     if (currentUser) {
       updateProfileManager.setUpdateProfile({
         ...currentUser,
@@ -43,7 +45,7 @@ export default function UpdateProfile() {
         email: updateProfileManager.email,
         phone: updateProfileManager.phone,
         bio: updateProfileManager.bio,
-        dateOfBirth: updateProfileManager.dateOfBirth?.toISOString(), // Ensure dateOfBirth is valid
+        dateOfBirth: updateProfileManager.dateOfBirth?.toISOString(),
       };
 
       const response = await firebaseFns.user.update(uid, updatedData);
@@ -56,8 +58,9 @@ export default function UpdateProfile() {
       console.error("Update failed:", error);
       Alert.alert("Error", "An unexpected error occurred.");
     }
-  };
+  };  
 
+  if (isFetchingCurrentUser) return <Loader />;
   return (
     <KeyboardAwareScrollView bounces={false}>
       <View className="flex flex-col gap-4 px-5">
