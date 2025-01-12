@@ -1,6 +1,6 @@
-export interface Result {
+export interface Result<T> {
   message: string;
   responseCode?: number;
   success?: boolean;
-  data?: any;
+  data?: T;
 }

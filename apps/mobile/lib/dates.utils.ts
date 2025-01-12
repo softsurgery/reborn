@@ -8,8 +8,5 @@ export function toDateOnly(date: Date) {
 }
 
 export function toLongDateString(date: Date): string {
-    if (isNaN(date.getTime())) {
-      throw new Error("Invalid date object");
-    }
     return format(date, "d MMMM yyyy");
   }
