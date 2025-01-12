@@ -13,6 +13,8 @@ import { firebaseFns } from "~/firebase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useCurrentUser } from "~/hooks/useCurrentUser";
 import { Loader } from "~/components/Loader";
+import { Select } from "~/components/common/Select";
+import { tunisianGovernorates } from "~/constants/cities";
 
 export default function UpdateProfile() {
   const [image, setImage] = React.useState<string | null>(null);
@@ -58,7 +60,7 @@ export default function UpdateProfile() {
       console.error("Update failed:", error);
       Alert.alert("Error", "An unexpected error occurred.");
     }
-  };  
+  };
 
   if (isFetchingCurrentUser) return <Loader />;
   return (
@@ -120,6 +122,20 @@ export default function UpdateProfile() {
             onChange={(date) => updateProfileManager.set("dateOfBirth", date)}
           />
         </View>
+
+        <View className="flex flex-col gap-2 w-full">
+          <Label>Region</Label>
+          <Select
+            title="Select Region"
+            description="Select the Region You're Located In"
+            value={updateProfileManager.region}
+            onSelect={(value) => updateProfileManager.set("region", value)}
+            options={tunisianGovernorates.map((region) => {
+              return { label: region, value: region };
+            })}
+          />
+        </View>
+
         <Button onPress={handleUpdate}>
           <Text className="dark:text-black text-white">Update</Text>
         </Button>

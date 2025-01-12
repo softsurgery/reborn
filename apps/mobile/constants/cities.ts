@@ -1,0 +1,26 @@
+export const tunisianGovernorates = [
+    "Tunis",
+    "Ariana",
+    "Ben Arous",
+    "Manouba",
+    "Nabeul",
+    "Zaghouan",
+    "Bizerte",
+    "Beja",
+    "Jendouba",
+    "Kef",
+    "Siliana",
+    "Sidi Bouzid",
+    "Kasserine",
+    "Gabes",
+    "Mednine",
+    "Tozeur",
+    "Gafsa",
+    "Medenine",
+    "Sfax",
+    "Mahdia",
+    "Monastir",
+    "Sousse",
+    "Kairouan"
+  ];
+  
