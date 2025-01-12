@@ -1,4 +1,4 @@
-export interface Result<T> {
+export interface Result<T = undefined> {
   message: string;
   responseCode?: number;
   success?: boolean;
