@@ -17,6 +17,7 @@
     "@react-navigation/native": "^6.0.2",
     "@rn-primitives/alert-dialog": "^1.0.5",
     "@rn-primitives/avatar": "^1.1.0",
+    "@rn-primitives/dialog": "^1.1.0",
     "@rn-primitives/label": "^1.0.5",
     "@rn-primitives/navigation-menu": "^1.1.0",
     "@rn-primitives/popover": "^1.1.0",
@@ -59,7 +60,8 @@
     "tailwind-merge": "^2.2.1",
     "tailwindcss": "3.3.5",
     "tailwindcss-animate": "^1.0.7",
-    "zustand": "^4.4.7"
+    "zustand": "^4.4.7",
+    "expo-haptics": "~13.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
