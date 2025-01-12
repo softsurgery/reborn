@@ -15,7 +15,9 @@ import { Label } from "../ui/label";
 import { cn } from "~/lib/utils";
 import { ScrollView, View } from "react-native";
 import { RadioGroupItemWithLabel } from "./RadioGroupItemWithLabel";
-import * as Haptics from 'expo-haptics';
+import * as Haptics from "expo-haptics";
+import { IconWithTheme } from "~/lib/IconWithTheme";
+import { ChevronDown } from "lucide-react-native";
 
 interface SelectProps {
   className?: string;
@@ -35,10 +37,14 @@ export const Select = ({
   options = [],
 }: SelectProps) => {
   return (
-    <Dialog className={cn(className, "")}>
+    <Dialog className={cn(className)}>
       <DialogTrigger asChild>
-        <Button variant="secondary">
+        <Button
+          variant="outline"
+          className="flex flex-row justify-between items-start"
+        >
           <Label>{value || title}</Label>
+          <IconWithTheme size={24} icon={ChevronDown} />
         </Button>
       </DialogTrigger>
       <DialogContent className="w-[80vw] max-h-[50vh]">
@@ -63,7 +69,7 @@ export const Select = ({
                 onSelect={() => {
                   Haptics.notificationAsync(
                     Haptics.NotificationFeedbackType.Success
-                  )
+                  );
                   onSelect?.(option.value);
                 }}
               />
