@@ -9,9 +9,9 @@ import { useMutation } from "@tanstack/react-query";
 import { firebaseFns } from "~/firebase";
 import { Toast } from "react-native-toast-notifications";
 import StarRating from "react-native-star-rating-widget";
-import { RadioGroup } from "~/components/ui/radio-group";
 import { FEEDBACK_CATEGORIES } from "~/constants/feedback-categories";
-import { RadioGroupItemWithLabel } from "~/components/common/RadioGroupItemWithLabel";
+import { Label } from "~/components/ui/label";
+import { Select } from "~/components/common/Select";
 
 export default function FeedbackScreen() {
   const feedbackManager = useFeedbackManager();
@@ -75,21 +75,18 @@ export default function FeedbackScreen() {
             />
           </View>
           {/* Category Radio Group */}
-          <View className="flex flex-col justify-center p-6">
-            <RadioGroup
+
+          <View className="flex flex-col gap-2 w-full">
+            <Label>Region</Label>
+            <Select
+              title="Select Feedback Category"
+              description="Select Your Feedback Category"
               value={feedbackManager.category}
-              onValueChange={(value: string) => {
-                feedbackManager.set("category", value);
-              }}
-              className="gap-3"
-            >
-              {FEEDBACK_CATEGORIES.map((category) => (
-                <RadioGroupItemWithLabel
-                  key={category}
-                  value={category}
-                />
-              ))}
-            </RadioGroup>
+              onSelect={(value) => feedbackManager.set("category", value)}
+              options={FEEDBACK_CATEGORIES.map((category) => {
+                return { label: category, value: category };
+              })}
+            />
           </View>
           {/* Rating Field */}
           <View>

@@ -62,7 +62,7 @@ export const Select = ({
           <View>
             {options.map((option) => (
               <RadioGroupItemWithLabel
-                className="pe-4 py-2 border-b border-gray-700 w-full"
+                className="pe-4 py-2 border-b border-gray-200 dark:border-gray-700 w-full"
                 key={option.label}
                 label={option.label}
                 selected={option.value == value}
