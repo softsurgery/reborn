@@ -1,10 +1,9 @@
 import "~/global.css";
-
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Theme, ThemeProvider } from "@react-navigation/native";
 import { SplashScreen, Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import * as React from "react";
+import React from "react";
 import { Platform } from "react-native";
 import { NAV_THEME } from "~/lib/constants";
 import { useColorScheme } from "~/lib/useColorScheme";
@@ -18,10 +17,46 @@ import { AuthProvider } from "~/context/AuthContext";
 const LIGHT_THEME: Theme = {
   dark: false,
   colors: NAV_THEME.light,
+  fonts: {
+    regular: {
+      fontFamily: 'System',
+      fontWeight: '400',
+    },
+    medium: {
+      fontFamily: 'System',
+      fontWeight: '500',
+    },
+    bold: {
+      fontFamily: 'System',
+      fontWeight: '600',
+    },
+    heavy: {
+      fontFamily: 'System',
+      fontWeight: '700',
+    },
+  },
 };
 const DARK_THEME: Theme = {
   dark: true,
   colors: NAV_THEME.dark,
+  fonts: {
+    regular: {
+      fontFamily: 'System',
+      fontWeight: '400',
+    },
+    medium: {
+      fontFamily: 'System',
+      fontWeight: '500',
+    },
+    bold: {
+      fontFamily: 'System',
+      fontWeight: '600',
+    },
+    heavy: {
+      fontFamily: 'System',
+      fontWeight: '700',
+    },
+  },
 };
 
 export { ErrorBoundary } from "expo-router";
@@ -36,28 +71,28 @@ export default function RootLayout() {
 
   React.useEffect(() => {
     (async () => {
-      const theme = await AsyncStorage.getItem("theme");
-      if (Platform.OS === "web") {
-        document.documentElement.classList.add("bg-background");
-      }
-      if (!theme) {
-        AsyncStorage.setItem("theme", colorScheme);
-        setIsColorSchemeLoaded(true);
-        return;
-      }
-      const colorTheme = theme === "dark" ? "dark" : "light";
-      if (colorTheme !== colorScheme) {
-        setColorScheme(colorTheme);
+        const theme = await AsyncStorage.getItem("theme");
+        if (Platform.OS === "web") {
+          document.documentElement.classList.add("bg-background");
+        }
+        if (!theme) {
+         AsyncStorage.setItem("theme", colorScheme);
+          setIsColorSchemeLoaded(true);
+          return;
+        }
+        const colorTheme = theme === "dark" ? "dark" : "light";
+        if (colorTheme !== colorScheme) {
+          setColorScheme(colorTheme);
+          setAndroidNavigationBar(colorTheme);
+          setIsColorSchemeLoaded(true);
+          return;
+        }
         setAndroidNavigationBar(colorTheme);
         setIsColorSchemeLoaded(true);
-        return;
-      }
-      setAndroidNavigationBar(colorTheme);
-      setIsColorSchemeLoaded(true);
-    })().finally(() => {
-      SplashScreen.hideAsync();
-    });
-  }, []);
+      })().finally(() => {
+        SplashScreen.hideAsync();
+      });
+    }, []);
 
   if (!isColorSchemeLoaded) {
     return null;
@@ -103,7 +138,6 @@ export default function RootLayout() {
                 options={{
                   title: "Update Profile",
                   animation: "slide_from_right",
-                  headerBackTitleVisible: false,
                 }}
               />
               <Stack.Screen
