@@ -35,7 +35,7 @@ export const Account = () => {
   });
 
   return (
-    <View className="flex flex-col px-4">
+    <View className="flex flex-col px-4 pb-2"> 
       <Text className="text-4xl font-bold pb-1">Account</Text>
       <View className="border-t border-gray-100 dark:border-gray-900 mx-1">
         <PlanInfo className="my-2" />
