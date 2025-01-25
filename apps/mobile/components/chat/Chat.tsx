@@ -14,12 +14,12 @@ export const Chat = () => {
       <View className="border-t border-gray-100 dark:border-gray-900 mx-1 gap-2" />
       {/* Search Input */}
       <View className="flex flex-row justify-between items-center w-full pt-2">
-        <View className="flex flex-row items-center w-full border rounded py-1">
+        <View className="flex flex-row items-center w-full border-hidden rounded py-1">
           <IconWithTheme icon={Search} size={24} />
           <Input
             placeholder="Search message..."
             placeholderTextColor="#9ca3af"
-            className="flex-1 text-gray-800 dark:text-gray-200"
+            className="flex-1 "
           />
         </View>
       </View>
@@ -74,7 +74,7 @@ export const Chat = () => {
       <View className="border-t border-gray-100 dark:border-gray-900 mx-1 gap-2" />
       {/* User Cards */}
       <View className="flex flex-col px-4">
-        <ScrollView className="flex flex-col">
+        <ScrollView className="flex flex-col ">
           <UserCard surname="John Doe" message="Hey, how are you?" />
           <UserCard surname="Jane Smith" message="See you tomorrow!" />
           <UserCard surname="Alice Johnson" message="Let's catch up soon." />
