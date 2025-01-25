@@ -18,15 +18,40 @@ import { IconWithTheme } from "~/lib/IconWithTheme";
 import { MenuItem } from "~/components/menu/MenuItem";
 import { Account } from "./account/Account";
 import { StableScrollView } from "./common/StableScrollView";
+import { Chat } from "./chat/Chat";
 
 export default function Application() {
   const [value, setValue] = React.useState("account");
 
   const tabs = [
-    { value: "home", icon: Home, title: "Home", component: <></> },
-    { value: "chat", icon: MessageSquareText, title: "Chat", component: <></> },
-    { value: "balance", icon: Wallet, title: "Balance", component: <></> },
-    { value: "account", icon: User, title: "Account", component: <Account /> },
+    {
+      value: "home",
+      icon: Home,
+      title: "Home",
+      component: <></>,
+      screenShouldScroll: true,
+    },
+    {
+      value: "chat",
+      icon: MessageSquareText,
+      title: "Chat",
+      component: <Chat />,
+      screenShouldScroll: false,
+    },
+    {
+      value: "balance",
+      icon: Wallet,
+      title: "Balance",
+      component: <></>,
+      screenShouldScroll: true,
+    },
+    {
+      value: "account",
+      icon: User,
+      title: "Account",
+      component: <Account />,
+      screenShouldScroll: true,
+    },
   ];
 
   const leftTabs = tabs.slice(0, 2);
@@ -39,14 +64,16 @@ export default function Application() {
         onValueChange={setValue}
         className="flex-1 w-full flex-col justify-between gap-1.5"
       >
-        <View className="flex-grow pt-10">
+        <View className="pt-10">
           {tabs.map((tab) => (
             <TabsContent key={tab.value} value={tab.value}>
-              <StableScrollView
-                className="mt-5 mb-24"
-              >
-                {tab.component}
-              </StableScrollView>
+              {tab.screenShouldScroll ? (
+                <StableScrollView className="mt-5 mb-24">
+                  {tab.component}
+                </StableScrollView>
+              ) : (
+                <View className="mt-5 -mb-24">{tab.component}</View>
+              )}
             </TabsContent>
           ))}
         </View>
