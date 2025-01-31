@@ -1,6 +1,7 @@
 import { create } from "zustand";
 
 interface UpdateProfileData {
+  uid?: string;
   name?: string;
   surname?: string;
   email?: string;
@@ -20,6 +21,7 @@ interface UpdateProfileManager extends UpdateProfileData {
 }
 
 const updateProfileDataInitials: UpdateProfileData = {
+  uid: "",
   name: "",
   surname: "",
   email: "",
@@ -43,6 +45,7 @@ export const useUpdateProfileManager = create<UpdateProfileManager>(
     getUpdateProfile: (): UpdateProfileData => {
       const data = get();
       return {
+        uid: data.uid,
         name: data.name,
         surname: data.surname,
         email: data.email,

@@ -10,18 +10,23 @@ import { Textarea } from "~/components/ui/textarea";
 import { DatePicker } from "~/components/ui/date-picker";
 import { useUpdateProfileManager } from "./hooks/useUpdateProfileManager";
 import { firebaseFns } from "~/firebase";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useCurrentUser } from "~/hooks/useCurrentUser";
 import { Loader } from "~/components/Loader";
 import Select from "~/components/common/Select";
 import { tunisianGovernorates } from "~/constants/cities";
 import { DoubleChoice } from "~/components/common/DoubleChoice";
+import { IconWithTheme } from "~/lib/IconWithTheme";
+import { Save } from "lucide-react-native";
+import { useMutation } from "@tanstack/react-query";
+import { Result, User } from "~/types";
+import { Toast } from "react-native-toast-notifications";
 
 export default function UpdateProfile() {
   const [image, setImage] = React.useState<string | null>(null);
   const { currentUser, isFetchingCurrentUser } = useCurrentUser();
   const updateProfileManager = useUpdateProfileManager();
 
+  //initialize the profile data with the current user data
   React.useEffect(() => {
     if (currentUser) {
       updateProfileManager.setUpdateProfile({
@@ -34,38 +39,33 @@ export default function UpdateProfile() {
   }, [currentUser]);
 
   const handleUpdate = async () => {
-    try {
-      const uid = await AsyncStorage.getItem("uid");
-      if (!uid) {
-        Alert.alert("Error", "User ID is missing.");
-        return;
-      }
-
-      const updatedData = {
-        name: updateProfileManager.name,
-        surname: updateProfileManager.surname,
-        email: updateProfileManager.email,
-        phone: updateProfileManager.phone,
-        bio: updateProfileManager.bio,
-        dateOfBirth: updateProfileManager.dateOfBirth?.toISOString(),
-        nationalId: updateProfileManager.nationalId,
-        isPublic: updateProfileManager.isPublic,
-      };
-
-      const response = await firebaseFns.user.update(uid, updatedData);
-      if (response.success) {
-        Alert.alert("Success", "Profile updated successfully.");
-      } else {
-        Alert.alert("Error", response.message || "Failed to update profile.");
-      }
-    } catch (error) {
-      console.error("Update failed:", error);
-      Alert.alert("Error", "An unexpected error occurred.");
-    }
+    // try {
+    const updatedData: Partial<User> = {
+      name: updateProfileManager.name,
+      surname: updateProfileManager.surname,
+      email: updateProfileManager.email,
+      phone: updateProfileManager.phone,
+      bio: updateProfileManager.bio,
+      dateOfBirth: updateProfileManager.dateOfBirth?.toISOString(),
+      nationalId: updateProfileManager.nationalId,
+      isPublic: updateProfileManager.isPublic,
+    };
+    updateProfile(updatedData);
   };
 
-  if (isFetchingCurrentUser) return <Loader />;
+  const { mutate: updateProfile, isPending: isUpdateProfilePending } =
+    useMutation({
+      mutationFn: (data: Partial<User>) => firebaseFns.user.updateCurrent(data),
+      onSuccess: (result: Result) => {
+        if (result.success) {
+          Toast.show(JSON.stringify(result));
+        } else {
+          Toast.show(JSON.stringify(result));
+        }
+      },
+    });
 
+  if (isFetchingCurrentUser) return <Loader />;
   return (
     <KeyboardAwareScrollView bounces={false}>
       <View className="flex flex-col gap-6 px-5 mb-7">
@@ -75,6 +75,7 @@ export default function UpdateProfile() {
           <View className="flex flex-col gap-2 w-1/2">
             <Label className="text-base font-bold">Name</Label>
             <Input
+              editable={!isUpdateProfilePending}
               placeholder="Name"
               value={updateProfileManager.name}
               onChangeText={(value) => updateProfileManager.set("name", value)}
@@ -86,6 +87,7 @@ export default function UpdateProfile() {
           <View className="flex flex-col gap-2 w-1/2">
             <Label className="text-base font-bold">Surname</Label>
             <Input
+              editable={!isUpdateProfilePending}
               placeholder="Surname"
               value={updateProfileManager.surname}
               onChangeText={(value) =>
@@ -101,6 +103,7 @@ export default function UpdateProfile() {
         <View className="flex flex-col gap-2">
           <Label className="text-base font-bold">E-mail</Label>
           <Input
+            editable={!isUpdateProfilePending}
             placeholder="Email"
             keyboardType="email-address"
             value={updateProfileManager.email}
@@ -114,6 +117,7 @@ export default function UpdateProfile() {
         <View className="flex flex-col gap-2">
           <Label className="text-base font-bold">Phone</Label>
           <Input
+            editable={!isUpdateProfilePending}
             placeholder="Phone"
             keyboardType="phone-pad"
             value={updateProfileManager.phone}
@@ -127,6 +131,7 @@ export default function UpdateProfile() {
         <View className="flex flex-col gap-2">
           <Label className="text-base font-bold">Bio</Label>
           <Textarea
+            editable={!isUpdateProfilePending}
             value={updateProfileManager.bio}
             onChangeText={(value) => updateProfileManager.set("bio", value)}
           />
@@ -176,8 +181,13 @@ export default function UpdateProfile() {
           </Text>
         </View>
 
-        <Button onPress={handleUpdate}>
-          <Text className="dark:text-black text-white">Update</Text>
+        <Button
+          onPress={handleUpdate}
+          className="flex flex-row gap-2 w-full"
+          disabled={isUpdateProfilePending}
+        >
+          <IconWithTheme icon={Save} size={24} className="mt-1" reverse />
+          <Text className="dark:text-black text-white">UPDATE</Text>
         </Button>
       </View>
     </KeyboardAwareScrollView>
