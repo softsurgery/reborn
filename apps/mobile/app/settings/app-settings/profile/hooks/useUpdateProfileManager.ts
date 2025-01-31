@@ -9,6 +9,7 @@ interface UpdateProfileData {
   dateOfBirth?: Date;
   region?: string;
   nationalId?: string;
+  isPublic?: boolean;
 }
 
 interface UpdateProfileManager extends UpdateProfileData {
@@ -27,6 +28,7 @@ const updateProfileDataInitials: UpdateProfileData = {
   dateOfBirth: new Date(),
   region: "",
   nationalId: "",
+  isPublic: true,
 };
 
 export const useUpdateProfileManager = create<UpdateProfileManager>(
@@ -49,6 +51,7 @@ export const useUpdateProfileManager = create<UpdateProfileManager>(
         dateOfBirth: data.dateOfBirth,
         region: data.region,
         nationalId: data.nationalId,
+        isPublic: data.isPublic,
       };
     },
     setUpdateProfile: (data: UpdateProfileData) => {

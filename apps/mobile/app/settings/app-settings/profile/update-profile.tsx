@@ -15,6 +15,7 @@ import { useCurrentUser } from "~/hooks/useCurrentUser";
 import { Loader } from "~/components/Loader";
 import { Select } from "~/components/common/Select";
 import { tunisianGovernorates } from "~/constants/cities";
+import { DoubleChoice } from "~/components/common/DoubleChoice";
 
 export default function UpdateProfile() {
   const [image, setImage] = React.useState<string | null>(null);
@@ -48,6 +49,8 @@ export default function UpdateProfile() {
         phone: updateProfileManager.phone,
         bio: updateProfileManager.bio,
         dateOfBirth: updateProfileManager.dateOfBirth?.toISOString(),
+        nationalId: updateProfileManager.nationalId,
+        isPublic: updateProfileManager.isPublic,
       };
 
       const response = await firebaseFns.user.update(uid, updatedData);
@@ -65,7 +68,7 @@ export default function UpdateProfile() {
   if (isFetchingCurrentUser) return <Loader />;
   return (
     <KeyboardAwareScrollView bounces={false}>
-      <View className="flex flex-col gap-4 px-5">
+      <View className="flex flex-col gap-4 px-5 mb-7">
         <PictureUploader image={image} onChange={setImage} />
         <View className="flex flex-row gap-2 px-1 justify-center mt-5">
           <View className="flex flex-col gap-2 w-1/2">
@@ -135,7 +138,15 @@ export default function UpdateProfile() {
             })}
           />
         </View>
-
+        <View className="flex flex-col gap-2 w-full">
+          <Label>Select profile type</Label>
+          <DoubleChoice
+            positiveChoice={{ label: "Public Profile", value: true }}
+            negativeChoice={{ label: "Private Profile", value: false }}
+            value={updateProfileManager.isPublic}
+            onChange={(value) => updateProfileManager.set("isPublic", value)}
+          />
+        </View>
         <Button onPress={handleUpdate}>
           <Text className="dark:text-black text-white">Update</Text>
         </Button>

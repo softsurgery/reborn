@@ -1,7 +1,7 @@
 import { Pressable, View } from "react-native";
 import { Label } from "../ui/label";
 import { cn } from "~/lib/utils";
-import { RadioButton } from "./Radio";
+import { RadioButton } from "./RadioButton";
 
 interface RadioGroupItemWithLabelProps {
   className?: string;
