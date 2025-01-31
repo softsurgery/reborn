@@ -11,7 +11,7 @@ import { Toast } from "react-native-toast-notifications";
 import StarRating from "react-native-star-rating-widget";
 import { FEEDBACK_CATEGORIES } from "~/constants/feedback-categories";
 import { Label } from "~/components/ui/label";
-import { Select } from "~/components/common/Select";
+import Select from "~/components/common/Select";
 import { IconWithTheme } from "~/lib/IconWithTheme";
 import { MailCheck } from "lucide-react-native";
 
