@@ -73,7 +73,11 @@ async function fetchAll(): Promise<Result<User[] | null>> {
       return { message: "No users found", success: false, data: null };
     }
 
-    const users: User[] = usersSnapshot.docs.map((doc) => doc.data() as User);
+    const users: User[] = usersSnapshot.docs.map((doc) => ({
+      uid: doc.id,
+      ...(doc.data())
+    })) as User[];
+
     console.log("Users data:", users);
 
     return {
@@ -87,6 +91,7 @@ async function fetchAll(): Promise<Result<User[] | null>> {
     return { message: "Failed to fetch users", success: false, data: null };
   }
 }
+
 
 export const user = {
   fetch,

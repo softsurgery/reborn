@@ -1,16 +1,17 @@
 import React from "react";
-import { Image, ScrollView, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { Text } from "../ui/text";
 import { Input } from "../ui/input";
 import { IconWithTheme } from "~/lib/IconWithTheme";
 import { Search } from "lucide-react-native";
-import { UserCard } from "./UserCard";
+import { MessageCard } from "./MessageCard";
 import { StableScrollView } from "../common/StableScrollView";
 import { Separator } from "../ui/separator";
 import { useContextUsers } from "~/hooks/useUsers";
 import { UserBubble } from "./UserBubble";
 import { Button } from "../ui/button";
 
+const getRandomBoolean = () => Math.ceil(Math.random() * 3) === 1;
 export const Chat = () => {
   const { users, isFetchingUsers, refetchUsers } = useContextUsers("messages");
 
@@ -49,8 +50,10 @@ export const Chat = () => {
             {/* Static Users */}
             {users.map((user) => (
               <UserBubble
+                key={user.uid}
+                className="mx-1.5"
                 label={user.surname}
-                uid={user.surname}
+                uid={user.uid}
                 gender={user.isMale}
               />
             ))}
@@ -67,15 +70,21 @@ export const Chat = () => {
         {/* Static Users */}
         <View className="flex flex-col gap-2 py-2">
           {users.map((user) => (
-            <UserCard
+            <MessageCard
               key={user.uid}
-              surname={`${user.name} ${user.surname}`}
-              message="Hey, how are you?"
+              user={user}
+              latestMessage={"Latest Message"}
+              sentAt={"12:55"}
+              isSeen={getRandomBoolean()}
             />
           ))}
         </View>
       </StableScrollView>
-      <Button  onPress={() => refetchUsers()}><Text className="dark:text-black text-white">refetchUsers {isFetchingUsers ? "Yes" : "No"}</Text></Button>
+      {/* <Button onPress={() => refetchUsers()}>
+        <Text className="dark:text-black text-white">
+          refetchUsers {isFetchingUsers ? "Yes" : "No"}
+        </Text>
+      </Button> */}
     </View>
   );
 };

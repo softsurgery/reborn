@@ -1,9 +1,10 @@
 import { Image, Pressable } from "react-native";
 import { Text } from "../ui/text";
+import { cn } from "~/lib/utils";
 
 interface UserBubbleProps {
+  className?: string;
   uid?: string;
-  style?: Record<string, string>;
   label?: string;
   pictureUrl?: string;
   gender?: boolean;
@@ -14,13 +15,12 @@ const getChecksum = (uid?: string) => {
 };
 
 export const UserBubble = ({
-  style,
+  className,
   label,
   uid,
   pictureUrl,
   gender,
 }: UserBubbleProps) => {
-  console.log(uid);
   const checksum = getChecksum(uid);
   const imageIndex = (checksum || 0) % 2 === 0 ? 2 : 1;
 
@@ -42,11 +42,10 @@ export const UserBubble = ({
   return (
     <Pressable className="flex flex-col items-center gap-1">
       <Image
-        style={{ ...style }}
-        className="w-16 h-16 shadow-md rounded-full mx-1.5"
+        className={cn("w-16 h-16 shadow-md rounded-full", className)}
         source={pictureUrl || imageSrc}
       />
-      <Text className="text-xs">{label}</Text>
+      {label && <Text className="text-xs">{label}</Text>}
     </Pressable>
   );
 };
