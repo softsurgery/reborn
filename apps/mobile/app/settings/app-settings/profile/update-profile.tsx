@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Alert } from "react-native";
+import { View } from "react-native";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Text } from "~/components/ui/text";
@@ -20,11 +20,14 @@ import { Save } from "lucide-react-native";
 import { useMutation } from "@tanstack/react-query";
 import { Result, User } from "~/types";
 import { Toast } from "react-native-toast-notifications";
+import { NavigationProps } from "~/types/app.routes";
+import { useNavigation } from "expo-router";
 
 export default function UpdateProfile() {
   const [image, setImage] = React.useState<string | null>(null);
   const { currentUser, isFetchingCurrentUser } = useCurrentUser();
   const updateProfileManager = useUpdateProfileManager();
+  const navigation = useNavigation<NavigationProps>();
 
   //initialize the profile data with the current user data
   React.useEffect(() => {
@@ -58,7 +61,10 @@ export default function UpdateProfile() {
       mutationFn: (data: Partial<User>) => firebaseFns.user.updateCurrent(data),
       onSuccess: (result: Result) => {
         if (result.success) {
-          Toast.show(JSON.stringify(result));
+          Toast.show("Profile Updated Successfully", {
+            successColor: "#00FF00",
+          });
+          navigation.goBack();
         } else {
           Toast.show(JSON.stringify(result));
         }
@@ -68,10 +74,10 @@ export default function UpdateProfile() {
   if (isFetchingCurrentUser) return <Loader />;
   return (
     <KeyboardAwareScrollView bounces={false}>
-      <View className="flex flex-col gap-6 px-5 mb-16">
+      <View className="flex flex-col gap-6 px-10 mb-16">
         <PictureUploader image={image} onChange={setImage} />
 
-        <View className="flex flex-row gap-2 px-1 justify-center mt-5 mx-2">
+        <View className="flex flex-row gap-4 justify-center mt-5 mx-2">
           <View className="flex flex-col gap-2 w-1/2">
             <Label className="text-base font-bold">Name</Label>
             <Input
@@ -131,6 +137,7 @@ export default function UpdateProfile() {
         <View className="flex flex-col gap-2">
           <Label className="text-base font-bold">Bio</Label>
           <Textarea
+            className="h-52"
             editable={!isUpdateProfilePending}
             value={updateProfileManager.bio}
             onChangeText={(value) => updateProfileManager.set("bio", value)}
@@ -171,7 +178,7 @@ export default function UpdateProfile() {
         </View>
 
         <View className="flex flex-col gap-2 w-full">
-          <Label className="text-base font-bold">Select profile type</Label>
+          <Label className="text-base font-bold">Profile Visibility</Label>
           <DoubleChoice
             disabled={isUpdateProfilePending}
             positiveChoice={{ label: "Public Profile", value: true }}
