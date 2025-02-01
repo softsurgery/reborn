@@ -1,10 +1,4 @@
-export interface DeviceInfo{
-    platform?: string;
-    model?: string;
-    version?: string;
-    manufacturer?: string;
-    type?: string;
-}
+import { DeviceInfo } from "./DeviceInfo";
 
 export interface Bug{
     title?: string;

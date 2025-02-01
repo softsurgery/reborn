@@ -5,13 +5,6 @@ import { ScrollView, View } from "react-native";
 import { Text } from "~/components/ui/text";
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "~/components/ui/select";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Textarea } from "~/components/ui/textarea";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -20,6 +13,7 @@ import { BUG_CATEGORIES } from "~/constants/bug-categories";
 import { useMutation } from "@tanstack/react-query";
 import { firebaseFns } from "~/firebase";
 import { Toast } from "react-native-toast-notifications";
+import { Select } from "~/components/common/Select";
 
 export default function Screen() {
   const reportbugManager = useReportBugManger();
@@ -34,10 +28,9 @@ export default function Screen() {
       //   reportbugManager.reset();
     },
     onError: (error) => {
-        Toast.show("oops! Failed to submit bug report", {
-          style: { backgroundColor: "red" },
-        });
-  
+      Toast.show("oops! Failed to submit bug report", {
+        style: { backgroundColor: "red" },
+      });
     },
   });
 
@@ -108,35 +101,14 @@ export default function Screen() {
           <View>
             <Text className="font-semibold mb-2">Category (*)</Text>
             <Select
-              disabled={isBugCreationPending}
-              defaultValue={{
-                value: reportbugManager.category || BUG_CATEGORIES[0],
-                label: reportbugManager.category || BUG_CATEGORIES[0],
-              }}
-              onValueChange={(option) =>
-                reportbugManager.set("category", option?.value)
-              }
-            >
-              <SelectTrigger>
-                <SelectValue
-                  className="text-foreground text-sm native:text-lg opacity-70"
-                  placeholder="Please select a category"
-                />
-              </SelectTrigger>
-              <SelectContent insets={contentInsets} className="w-full">
-                {BUG_CATEGORIES.map((category) => {
-                  return (
-                    <SelectItem
-                      label={category}
-                      value={category}
-                      key={category}
-                    >
-                      {category}
-                    </SelectItem>
-                  );
-                })}
-              </SelectContent>
-            </Select>
+              title="Select Bug Category"
+              description="Select The Bug Category you think you're looking for"
+              value={reportbugManager.category}
+              onSelect={(value) => reportbugManager.set("category", value)}
+              options={BUG_CATEGORIES.map((bug) => {
+                return { label: bug, value: bug };
+              })}
+            />
           </View>
           {/* Submit Button */}
           <Button

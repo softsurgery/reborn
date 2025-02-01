@@ -1,5 +1,4 @@
 import React from "react";
-import { useAuthFunctions } from "~/hooks/useAuthFunctions";
 import { Text } from "../ui/text";
 import { IconWithTheme } from "~/lib/IconWithTheme";
 import {
@@ -11,21 +10,20 @@ import {
   Settings,
   User2,
 } from "lucide-react-native";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useNavigation } from "expo-router";
 import { NavigationProps, StackParamList } from "~/types/app.routes";
 import { Pressable, View } from "react-native";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { firebaseFns } from "~/firebase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { PlanInfo } from "./Plan";
 import { GoPremium } from "./GoPremium";
 import { cn } from "~/lib/utils";
-import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
+import { useAuth } from "~/context/AuthContext";
 
 export const Account = () => {
-  const { handleSignOut } = useAuthFunctions();
+  const { disconnect } = useAuth();
   const navigation = useNavigation<NavigationProps>();
 
   const { data: userData, isPending: isUserDataPending } = useQuery({
@@ -42,24 +40,12 @@ export const Account = () => {
       <View className="border-t border-gray-100 dark:border-gray-900 mx-1">
         <PlanInfo className="my-2" />
         <GoPremium className="my-3" />
-
-        {/* <Avatar
-          alt="Zach Nugent's Avatar"
-          className="w-52 h-52 mx-auto border-2"
-        >
-           <AvatarImage source={require("~/assets/images/adaptive-icon.png")} />
-          <AvatarFallback>
-            <Text>ZN</Text>
-          </AvatarFallback>
-        </Avatar>
-
-        <Text className="mx-auto my-5 text-xl">Nayssem's Profile</Text> */}
         <View className="flex flex-col gap-4 mt-5">
           {/* App Settings */}
           <View>
             <Text className="text-2xl font-bold mb-2">App Settings</Text>
             <View className="flex flex-col">
-              <Item title="Profile Management" icon={User2} />
+              <Item title="Profile Management" icon={User2} link={"settings/app-settings/profile-managment"} />
               <Separator />
               <Item title="User Preferences" icon={Settings} link={"settings/app-settings/user-preferences"} />
               <Separator />
@@ -79,7 +65,7 @@ export const Account = () => {
           <View>
             <Text className="text-2xl font-bold mb-2">Account Actions</Text>
             <View className="flex flex-col">
-              <Item title="Switch Account" icon={LogOut} onPress={handleSignOut} />
+              <Item title="Switch Account" icon={LogOut} onPress={disconnect} />
             </View>
           </View>
         </View>

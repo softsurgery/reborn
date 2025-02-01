@@ -1,6 +1,6 @@
-export interface Result {
+export interface Result<T = undefined> {
   message: string;
   responseCode?: number;
   success?: boolean;
-  data?: any;
+  data?: T;
 }

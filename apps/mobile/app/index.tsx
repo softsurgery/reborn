@@ -1,15 +1,18 @@
-import * as React from "react";
-import { useAuthFunctions } from "~/hooks/useAuthFunctions";
+import React from "react";
 import OnBoarding from "~/components/OnBoarding";
 import Application from "~/components/Application";
+import { useAuth } from "~/context/AuthContext";
 import { Loader } from "~/components/Loader";
+import { useDebounce } from "~/hooks/useDebounce";
 
 export default function Screen() {
-  const { isAuthenticated, isLoading } = useAuthFunctions();
+  const { isAuthenticated, loading } = useAuth();
+  const { loading: debouncedLoading } = useDebounce(loading, 200);
 
-  if (isLoading && !isAuthenticated) {
+  if (debouncedLoading) {
     return <Loader />;
-  } else if (!isAuthenticated) return <OnBoarding />;
-  else if (isAuthenticated) return <Application />;
-  else return null;
+  }
+
+  // Render based on authentication state
+  return isAuthenticated ? <Application /> : <OnBoarding />;
 }

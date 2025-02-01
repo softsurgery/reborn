@@ -73,7 +73,7 @@ export async function SignInWithEmail({
     const firestoreDocument = await getDoc(userDocRef);
 
     const user = firestoreDocument.data();
-    return { message: "LOGIN_SUCCESSFUL", success: true };
+    return { message: "LOGIN_SUCCESSFUL", success: true, data: user };
   } catch (error: any) {
     console.log(error);
 
