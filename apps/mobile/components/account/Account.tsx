@@ -21,6 +21,7 @@ import { GoPremium } from "./GoPremium";
 import { cn } from "~/lib/utils";
 import { Separator } from "../ui/separator";
 import { useAuth } from "~/context/AuthContext";
+import { StableScrollView } from "../common/StableScrollView";
 
 export const Account = () => {
   const { disconnect } = useAuth();
@@ -35,30 +36,46 @@ export const Account = () => {
   });
 
   return (
-    <View className="flex flex-col px-4 pb-2"> 
+    <View className="flex-1 px-5 mb-2">
       <Text className="text-4xl font-bold pb-1">Account</Text>
-      <View className="border-t border-gray-100 dark:border-gray-900 mx-1">
+      <Separator className="rounded-full"/>
+      <StableScrollView>
         <PlanInfo className="my-2" />
         <GoPremium className="my-3" />
+
         <View className="flex flex-col gap-4 mt-5">
           {/* App Settings */}
-          <View>
-            <Text className="text-2xl font-bold mb-2">App Settings</Text>
-            <View className="flex flex-col">
-              <Item title="Profile Management" icon={User2} link={"settings/app-settings/profile-managment"} />
-              <Separator />
-              <Item title="User Preferences" icon={Settings} link={"settings/app-settings/user-preferences"} />
-              <Separator />
-              <Item title="Notifications" icon={Bell} />
-            </View>
+          <Text className="text-2xl font-bold mb-2">App Settings</Text>
+          <View className="flex flex-col">
+            <Item
+              title="Profile Management"
+              icon={User2}
+              link={"settings/app-settings/profile-managment"}
+            />
+            <Separator />
+            <Item
+              title="User Preferences"
+              icon={Settings}
+              link={"settings/app-settings/user-preferences"}
+            />
+            <Separator />
+            <Item title="Notifications" icon={Bell} />
           </View>
           {/* Support */}
           <View>
             <Text className="text-2xl font-bold mb-2">Support</Text>
             <View className="flex flex-col">
-              <Item title="Report a Bug" icon={Bug} link={"settings/support/report-bug"} />
+              <Item
+                title="Report a Bug"
+                icon={Bug}
+                link={"settings/support/report-bug"}
+              />
               <Separator />
-              <Item title="Send us Feedback" icon={MailCheck} link={"settings/support/send-feedback"} />
+              <Item
+                title="Send us Feedback"
+                icon={MailCheck}
+                link={"settings/support/send-feedback"}
+              />
             </View>
           </View>
 
@@ -69,7 +86,7 @@ export const Account = () => {
             </View>
           </View>
         </View>
-      </View>
+      </StableScrollView>
     </View>
   );
 };
@@ -95,7 +112,13 @@ const Item = ({ className, title, icon, link, onPress }: ItemProps) => {
         pressed && "bg-slate-100 dark:bg-gray-900",
         className
       )}
-      onPress={link ? () => { navigation.push(link) } : onPress}
+      onPress={
+        link
+          ? () => {
+              navigation.push(link);
+            }
+          : onPress
+      }
     >
       <View className="flex flex-row justify-between py-4 border-gray-100 dark:border-gray-900 px-2">
         <View className="flex flex-row items-center gap-4">
