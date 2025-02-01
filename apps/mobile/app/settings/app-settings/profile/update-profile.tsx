@@ -68,7 +68,7 @@ export default function UpdateProfile() {
   if (isFetchingCurrentUser) return <Loader />;
   return (
     <KeyboardAwareScrollView bounces={false}>
-      <View className="flex flex-col gap-6 px-5 mb-7">
+      <View className="flex flex-col gap-6 px-5 mb-16">
         <PictureUploader image={image} onChange={setImage} />
 
         <View className="flex flex-row gap-2 px-1 justify-center mt-5 mx-2">
@@ -144,6 +144,7 @@ export default function UpdateProfile() {
           <Label className="text-base font-bold">Date of Birth</Label>
           <DatePicker
             date={updateProfileManager.dateOfBirth || new Date()}
+            disabled={isUpdateProfilePending}
             onChange={(date) => updateProfileManager.set("dateOfBirth", date)}
           />
           <Text className="text-sm text-gray-500 font-thin">
@@ -154,6 +155,7 @@ export default function UpdateProfile() {
         <View className="flex flex-col gap-2 w-full">
           <Label className="text-base font-bold">Region</Label>
           <Select
+            disabled={isUpdateProfilePending}
             title="Select Region"
             description="Select the Region You're Located In"
             value={updateProfileManager.region}
@@ -171,6 +173,7 @@ export default function UpdateProfile() {
         <View className="flex flex-col gap-2 w-full">
           <Label className="text-base font-bold">Select profile type</Label>
           <DoubleChoice
+            disabled={isUpdateProfilePending}
             positiveChoice={{ label: "Public Profile", value: true }}
             negativeChoice={{ label: "Private Profile", value: false }}
             value={updateProfileManager.isPublic}

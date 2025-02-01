@@ -9,6 +9,7 @@ type Choice = { label: string; value: any };
 
 interface DoubleChoiceProps {
   className?: string;
+  disabled?: boolean;
   positiveChoice: Choice;
   negativeChoice: Choice;
   value?: any;
@@ -17,13 +18,23 @@ interface DoubleChoiceProps {
 
 export const DoubleChoice = ({
   className,
+  disabled,
   positiveChoice,
   negativeChoice,
   value,
   onChange,
 }: DoubleChoiceProps) => {
-  const pressableClassName =
+  const pressableBaseClassName =
     "flex flex-row gap-4 justify-center items-center h-16 w-1/2 border border-gray-300 dark:border-gray-400 rounded-lg";
+
+  const getPressableExtendedClassName = (cValue : boolean) => {
+    return disabled
+      ? "bg-gray-50 dark:bg-zinc-700"
+      : cValue === value
+      ? "bg-gray-200 dark:bg-zinc-800"
+      : "";
+  };
+
   return (
     <View
       className={cn(
@@ -33,20 +44,20 @@ export const DoubleChoice = ({
     >
       <Pressable
         className={cn(
-          pressableClassName,
-          value === positiveChoice.value ? "bg-gray-200 dark:bg-zinc-800" : ""
+          pressableBaseClassName,
+          getPressableExtendedClassName(positiveChoice.value)
         )}
-        onPress={() => onChange?.(positiveChoice.value)}
+        onPress={() => !disabled && onChange?.(positiveChoice.value)}
       >
         <RadioButton selected={value === positiveChoice.value} />
         <Label className="text-sm">{positiveChoice.label}</Label>
       </Pressable>
       <Pressable
         className={cn(
-          pressableClassName,
-          value === negativeChoice.value ? "bg-gray-200 dark:bg-zinc-800" : ""
+          pressableBaseClassName,
+          getPressableExtendedClassName(negativeChoice.value)
         )}
-        onPress={() => onChange?.(negativeChoice.value)}
+        onPress={() => !disabled && onChange?.(negativeChoice.value)}
       >
         <RadioButton selected={value === negativeChoice.value} />
         <Label>{negativeChoice.label}</Label>

@@ -21,6 +21,7 @@ import { ChevronDown } from "lucide-react-native";
 
 interface SelectProps {
   className?: string;
+  disabled?: boolean;
   title?: string;
   value?: string;
   onSelect?: (value: string) => void;
@@ -31,6 +32,7 @@ interface SelectProps {
 const Select = React.memo(
   ({
     className,
+    disabled,
     title,
     value,
     onSelect,
@@ -41,6 +43,7 @@ const Select = React.memo(
       <Dialog className={cn(className)}>
         <DialogTrigger asChild>
           <Button
+            disabled={disabled}
             variant="outline"
             className="flex flex-row justify-between items-start"
           >

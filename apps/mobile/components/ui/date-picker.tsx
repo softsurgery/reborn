@@ -10,11 +10,17 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface DatePickerProps {
   className?: string;
+  disabled?: boolean;
   date: Date;
   onChange: (date: Date) => void;
 }
 
-export const DatePicker = ({ className, date, onChange }: DatePickerProps) => {
+export const DatePicker = ({
+  className,
+  disabled,
+  date,
+  onChange,
+}: DatePickerProps) => {
   const [pickerVisible, setPickerVisible] = React.useState(
     Platform.OS === "ios"
   );
@@ -32,56 +38,57 @@ export const DatePicker = ({ className, date, onChange }: DatePickerProps) => {
     right: 12,
   };
 
- if (Platform.OS == "android") return (
-    <View className={cn("flex-1 justify-center items-center", className)}>
-      <Button
-        variant={"outline"}
-        className="w-full"
-        onPress={() => setPickerVisible(true)}
-      >
-        <Text>{toLongDateString(date)}</Text>
-      </Button>
+  if (Platform.OS == "android")
+    return (
+      <View className={cn("flex-1 justify-center items-center", className)}>
+        <Button
+          disabled={disabled}
+          variant={"outline"}
+          className="w-full"
+          onPress={() => setPickerVisible(true)}
+        >
+          <Text>{toLongDateString(date)}</Text>
+        </Button>
 
-      {React.useMemo(() => {
-        return (
-          pickerVisible && (
-            <DateTimePicker
-              display="default"
-              value={date}
-              onChange={(e, date) => {
-                handleDateChange(date);
-              }}
-            />
-          )
-        );
-      }, [pickerVisible])}
-    </View>
-  );
-
+        {React.useMemo(() => {
+          return (
+            pickerVisible && (
+              <DateTimePicker
+                display="default"
+                value={date}
+                onChange={(e, date) => {
+                  handleDateChange(date);
+                }}
+              />
+            )
+          );
+        }, [pickerVisible])}
+      </View>
+    );
   else {
     return (
       <View className={cn("flex-1 justify-center items-center", className)}>
-      <Popover className="w-full">
-        <PopoverTrigger asChild>
-          <Button variant={"outline"} className="w-full">
-            <Text>{toLongDateString(date)}</Text>
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent
-          side={Platform.OS === "web" ? "bottom" : "top"}
-          insets={contentInsets}
-          className="w-fit"
-        >
-          <DateTimePicker
-            display="inline"
-            value={date}
-            onChange={(e, date) => {
-              onChange(date || new Date());
-            }}
-          />
-        </PopoverContent>
-      </Popover>
-    </View>
-    )
+        <Popover className="w-full">
+          <PopoverTrigger asChild>
+            <Button disabled={disabled} variant={"outline"} className="w-full">
+              <Text>{toLongDateString(date)}</Text>
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent
+            side={Platform.OS === "web" ? "bottom" : "top"}
+            insets={contentInsets}
+            className="w-fit"
+          >
+            <DateTimePicker
+              display="inline"
+              value={date}
+              onChange={(e, date) => {
+                onChange(date || new Date());
+              }}
+            />
+          </PopoverContent>
+        </Popover>
+      </View>
+    );
   }
 };
