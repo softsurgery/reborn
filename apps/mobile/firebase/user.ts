@@ -66,4 +66,5 @@ export const user = {
   fetch,
   fetchCurrent,
   update,
+  updateCurrent,
 };

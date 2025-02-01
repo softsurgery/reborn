@@ -1,6 +1,7 @@
 import { create } from "zustand";
 
 interface UpdateProfileData {
+  uid?: string;
   name?: string;
   surname?: string;
   email?: string;
@@ -9,6 +10,7 @@ interface UpdateProfileData {
   dateOfBirth?: Date;
   region?: string;
   nationalId?: string;
+  isPublic?: boolean;
 }
 
 interface UpdateProfileManager extends UpdateProfileData {
@@ -19,6 +21,7 @@ interface UpdateProfileManager extends UpdateProfileData {
 }
 
 const updateProfileDataInitials: UpdateProfileData = {
+  uid: "",
   name: "",
   surname: "",
   email: "",
@@ -27,6 +30,7 @@ const updateProfileDataInitials: UpdateProfileData = {
   dateOfBirth: new Date(),
   region: "",
   nationalId: "",
+  isPublic: true,
 };
 
 export const useUpdateProfileManager = create<UpdateProfileManager>(
@@ -41,6 +45,7 @@ export const useUpdateProfileManager = create<UpdateProfileManager>(
     getUpdateProfile: (): UpdateProfileData => {
       const data = get();
       return {
+        uid: data.uid,
         name: data.name,
         surname: data.surname,
         email: data.email,
@@ -49,6 +54,7 @@ export const useUpdateProfileManager = create<UpdateProfileManager>(
         dateOfBirth: data.dateOfBirth,
         region: data.region,
         nationalId: data.nationalId,
+        isPublic: data.isPublic,
       };
     },
     setUpdateProfile: (data: UpdateProfileData) => {
