@@ -7,6 +7,7 @@ interface UpdateProfileData {
   email?: string;
   phone?: string;
   bio?: string;
+  isMale?: boolean;
   dateOfBirth?: Date;
   region?: string;
   nationalId?: string;
@@ -27,6 +28,7 @@ const updateProfileDataInitials: UpdateProfileData = {
   email: "",
   phone: "",
   bio: "",
+  isMale: true,
   dateOfBirth: new Date(),
   region: "",
   nationalId: "",
@@ -51,6 +53,7 @@ export const useUpdateProfileManager = create<UpdateProfileManager>(
         email: data.email,
         phone: data.phone,
         bio: data.bio,
+        isMale: data.isMale,
         dateOfBirth: data.dateOfBirth,
         region: data.region,
         nationalId: data.nationalId,

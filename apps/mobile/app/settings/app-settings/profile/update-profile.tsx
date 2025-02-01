@@ -49,6 +49,8 @@ export default function UpdateProfile() {
       email: updateProfileManager.email,
       phone: updateProfileManager.phone,
       bio: updateProfileManager.bio,
+      isMale: updateProfileManager.isMale,
+      region: updateProfileManager.region,
       dateOfBirth: updateProfileManager.dateOfBirth?.toISOString(),
       nationalId: updateProfileManager.nationalId,
       isPublic: updateProfileManager.isPublic,
@@ -74,7 +76,7 @@ export default function UpdateProfile() {
   if (isFetchingCurrentUser) return <Loader />;
   return (
     <KeyboardAwareScrollView bounces={false}>
-      <View className="flex flex-col gap-6 px-10 mb-16">
+      <View className="flex flex-col gap-6 px-5 mb-16">
         <PictureUploader image={image} onChange={setImage} />
 
         <View className="flex flex-row gap-4 justify-center mt-5 mx-2">
@@ -144,6 +146,20 @@ export default function UpdateProfile() {
           />
           <Text className="text-sm text-gray-500 font-thin">
             Write a short description about yourself.
+          </Text>
+        </View>
+
+        <View className="flex flex-col gap-2 w-full">
+          <Label className="text-base font-bold">Gender</Label>
+          <DoubleChoice
+            disabled={isUpdateProfilePending}
+            positiveChoice={{ label: "Male", value: true }}
+            negativeChoice={{ label: "Female", value: false }}
+            value={updateProfileManager.isMale}
+            onChange={(value) => updateProfileManager.set("isMale", value)}
+          />
+          <Text className="text-sm text-gray-500 font-thin">
+            Choose your gender to personalize your experience.
           </Text>
         </View>
 

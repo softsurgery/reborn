@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { doc, getDoc, getFirestore, updateDoc } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, getFirestore, updateDoc } from "firebase/firestore";
 import { Result, User } from "~/types";
 
 async function fetch(uid: string): Promise<Result<User | null>> {
@@ -62,9 +62,36 @@ async function updateCurrent(updatedData: Partial<User>): Promise<Result> {
     : { message: "UID is undefined", success: false };
 }
 
+async function fetchAll(): Promise<Result<User[] | null>> {
+  const firestore = getFirestore();
+
+  try {
+    const usersCollectionRef = collection(firestore, "users");
+    const usersSnapshot = await getDocs(usersCollectionRef);
+
+    if (usersSnapshot.empty) {
+      return { message: "No users found", success: false, data: null };
+    }
+
+    const users: User[] = usersSnapshot.docs.map((doc) => doc.data() as User);
+    console.log("Users data:", users);
+
+    return {
+      message: "Users fetched successfully",
+      success: true,
+      data: users,
+    };
+  } catch (error: any) {
+    console.error("Error fetching users:", error);
+
+    return { message: "Failed to fetch users", success: false, data: null };
+  }
+}
+
 export const user = {
   fetch,
   fetchCurrent,
+  fetchAll,
   update,
   updateCurrent,
 };

@@ -1,5 +1,5 @@
 import React from "react";
-import { FlatList, Image, ScrollView, View } from "react-native";
+import { Image, ScrollView, View } from "react-native";
 import { Text } from "../ui/text";
 import { Input } from "../ui/input";
 import { IconWithTheme } from "~/lib/IconWithTheme";
@@ -7,9 +7,17 @@ import { Search } from "lucide-react-native";
 import { UserCard } from "./UserCard";
 import { StableScrollView } from "../common/StableScrollView";
 import { Separator } from "../ui/separator";
+import { useContextUsers } from "~/hooks/useUsers";
+import { UserBubble } from "./UserBubble";
+import { Button } from "../ui/button";
 
 export const Chat = () => {
-  const users = Array.from({ length: 50 }, (_, i) => i);
+  const { users, isFetchingUsers, refetchUsers } = useContextUsers("messages");
+
+  React.useEffect(() => {
+    refetchUsers();
+  }, []);
+
   return (
     <View className="flex-1 px-5 mb-2">
       <Text className="text-4xl font-bold pb-1">Chat</Text>
@@ -36,14 +44,14 @@ export const Chat = () => {
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
-            className="my-5"
+            className="my-5 px-4"
           >
             {/* Static Users */}
             {users.map((user) => (
-              <Image
-                key={user}
-                className="w-16 h-16 shadow-md rounded-full mx-1.5"
-                source={require("~/assets/images/adaptive-icon.png")}
+              <UserBubble
+                label={user.surname}
+                uid={user.surname}
+                gender={user.isMale}
               />
             ))}
           </ScrollView>
@@ -60,13 +68,14 @@ export const Chat = () => {
         <View className="flex flex-col gap-2 py-2">
           {users.map((user) => (
             <UserCard
-              key={user}
-              surname="John Doe"
+              key={user.uid}
+              surname={`${user.name} ${user.surname}`}
               message="Hey, how are you?"
             />
           ))}
         </View>
       </StableScrollView>
+      <Button  onPress={() => refetchUsers()}><Text className="dark:text-black text-white">refetchUsers {isFetchingUsers ? "Yes" : "No"}</Text></Button>
     </View>
   );
 };
