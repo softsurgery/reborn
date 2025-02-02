@@ -106,6 +106,7 @@ export default function RootLayout() {
             <ToastProvider>
               <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
               <Stack>
+                {/* Auth */}
                 <Stack.Screen
                   name="index"
                   options={{
@@ -127,6 +128,7 @@ export default function RootLayout() {
                     headerRight: () => <ThemeToggle />,
                   }}
                 />
+                {/* Account */}
                 <Stack.Screen
                   name="settings/app-settings/profile-managment"
                   options={{
@@ -160,6 +162,15 @@ export default function RootLayout() {
                   options={{
                     title: "Send us feedback",
                     animation: "slide_from_right",
+                  }}
+                />
+                {/* Chat */}
+                <Stack.Screen
+                  name="chat/conversation"
+                  options={{
+                    title: "Chat",
+                    animation: "slide_from_bottom",
+                    headerBackTitle:"Chat"
                   }}
                 />
               </Stack>
