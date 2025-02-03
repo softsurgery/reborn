@@ -164,7 +164,7 @@ export default function ChatScreen1() {
 
   const [inputMessage, setInputMessage] = useState("");
 
-  function getTime(date) {
+  function getTime(date: any) {
     var hours = date.getHours();
     var minutes = date.getMinutes();
     var ampm = hours >= 12 ? "PM" : "AM";
@@ -246,6 +246,7 @@ export default function ChatScreen1() {
         <View style={{ paddingVertical: 10 }}>
           <View style={styles.messageInputView}>
             <TextInput
+              className="flex-1 h-10 px-2 text-black dark:text-white"
               defaultValue={inputMessage}
               style={styles.messageInput}
               placeholder="Message"
@@ -274,8 +275,10 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     marginHorizontal: 14,
-    backgroundColor: "#fff",
-    borderRadius: 4,
+    borderRadius: 10,
+    borderColor: "#776464",
+    borderWidth: 1,
+    paddingLeft: 10,
   },
   messageInput: {
     height: 40,

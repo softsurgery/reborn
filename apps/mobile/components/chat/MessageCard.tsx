@@ -6,6 +6,7 @@ import { UserBubble } from "./UserBubble";
 import { cn } from "~/lib/utils";
 import { IconWithTheme } from "~/lib/IconWithTheme";
 import { MessageCircleMoreIcon } from "lucide-react-native";
+import { useColorScheme } from "~/lib/useColorScheme";
 
 interface MessageCardProps {
   className?: string;
@@ -22,6 +23,7 @@ export const MessageCard = ({
   sentAt,
   isSeen,
 }: MessageCardProps) => {
+  const { isDarkColorScheme } = useColorScheme();
   return (
     <View
       className={cn(
@@ -47,7 +49,11 @@ export const MessageCard = ({
       {/* Message Row */}
       {isSeen && (
         <Text className="text-sm text-gray-600 dark:text-gray-400">
-          <IconWithTheme icon={MessageCircleMoreIcon} size={24} color="white" />
+          <IconWithTheme
+            icon={MessageCircleMoreIcon}
+            size={24}
+            color={isDarkColorScheme ? "white" : "black"}
+          />
         </Text>
       )}
     </View>
