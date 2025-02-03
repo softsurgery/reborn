@@ -1,11 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   ScrollView,
   View,
-  ActivityIndicator,
   RefreshControl,
-  NativeSyntheticEvent,
-  NativeScrollEvent,
   Pressable,
 } from "react-native";
 import { Text } from "../ui/text";
@@ -25,7 +22,7 @@ export const Chat = () => {
   const { users, isFetchingUsers, refetchUsers } = useContextUsers("messages");
   const navigation = useNavigation<NavigationProps>();
 
-  useEffect(() => {
+  React.useEffect(() => {
     refetchUsers();
   }, []);
 
