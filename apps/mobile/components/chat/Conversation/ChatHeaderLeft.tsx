@@ -2,8 +2,8 @@ import { ChevronLeft } from "lucide-react-native";
 import { TouchableOpacity, View } from "react-native";
 import { IconWithTheme } from "~/lib/IconWithTheme";
 import { cn } from "~/lib/utils";
-import { Text } from "../ui/text";
-import { UserBubble } from "./UserBubble";
+import { Text } from "../../ui/text";
+import { UserBubble } from "../UserBubble";
 import { User } from "~/types";
 
 interface ChatHeaderLeftProps {

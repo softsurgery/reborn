@@ -169,8 +169,7 @@ export default function RootLayout() {
                   name="chat/conversation"
                   options={{
                     title: "Chat",
-                    animation: "slide_from_bottom",
-                    headerBackTitle:"Chat"
+                    headerBackTitle: "Chat",
                   }}
                 />
               </Stack>
