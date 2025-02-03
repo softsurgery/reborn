@@ -1,5 +1,4 @@
 import { View } from "react-native";
-
 import { Text } from "~/components/ui/text";
 import { User } from "~/types";
 import { UserBubble } from "./UserBubble";
@@ -47,7 +46,10 @@ export const MessageCard = ({
       {/* Message Row */}
       {isSeen && (
         <Text className="text-sm text-gray-600 dark:text-gray-400">
-          <IconWithTheme icon={MessageCircleMoreIcon} size={24} color="white" />
+          <IconWithTheme
+            icon={MessageCircleMoreIcon}
+            size={24}
+          />
         </Text>
       )}
     </View>

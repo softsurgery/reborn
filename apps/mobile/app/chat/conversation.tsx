@@ -3,8 +3,6 @@ import { useNavigation } from "expo-router";
 import { ImagePlus, Send } from "lucide-react-native";
 import React, { useState, useEffect } from "react";
 import {
-  StyleSheet,
-  Text,
   View,
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -16,7 +14,6 @@ import { ChatHeaderLeft } from "~/components/chat/Conversation/ChatHeaderLeft";
 import { ChatHeaderRight } from "~/components/chat/Conversation/ChatHeaderRight";
 import { Textarea } from "~/components/ui/textarea";
 import { IconWithTheme } from "~/lib/IconWithTheme";
-import { cn } from "~/lib/utils";
 import { User } from "~/types";
 
 export default function ChatScreen1() {
