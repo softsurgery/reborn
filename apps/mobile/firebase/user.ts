@@ -12,7 +12,6 @@ async function fetch(uid: string): Promise<Result<User | null>> {
       return { message: "User not found", success: false };
     }
     const user = userDocument.data();
-    console.log("User data:", user);
     return {
       message: "User fetched successfully",
       success: true,
@@ -77,8 +76,6 @@ async function fetchAll(): Promise<Result<User[] | null>> {
       uid: doc.id,
       ...(doc.data())
     })) as User[];
-
-    console.log("Users data:", users);
 
     return {
       message: "Users fetched successfully",

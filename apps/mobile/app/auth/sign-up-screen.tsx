@@ -48,7 +48,6 @@ export default function Screen() {
 
   const onSignUpPress = () => {
     authManager.resetErrors();
-    console.log(authManager);
     const errors = VerifySignUpWithEmailAndPassword(
       authManager.name,
       authManager.surname,
