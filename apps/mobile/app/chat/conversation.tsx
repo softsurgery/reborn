@@ -9,17 +9,21 @@ import {
   Keyboard,
   FlatList,
 } from "react-native";
-import ChatBubble from "~/components/chat/Conversation/ChatBubble";
+import { ChatBubble } from "~/components/chat/Conversation/ChatBubble";
 import { ChatHeaderLeft } from "~/components/chat/Conversation/ChatHeaderLeft";
 import { ChatHeaderRight } from "~/components/chat/Conversation/ChatHeaderRight";
 import { Textarea } from "~/components/ui/textarea";
+import { chat } from "~/firebase/chat";
+import { useUserUid } from "~/hooks/content/useUid";
+import { useWholeConvo } from "~/hooks/content/useWholeConvo";
 import { IconWithTheme } from "~/lib/IconWithTheme";
 import { User } from "~/types";
+import { ChatMessage } from "~/types/Chat";
 
 export default function ChatScreen1() {
   const route = useRoute();
   const navigation = useNavigation();
-
+  const { uid, isUidPending } = useUserUid();
   const { user } = route.params as { user: User };
 
   const [chatUser] = useState({
@@ -32,84 +36,16 @@ export default function ChatScreen1() {
     name: "John Doe",
   });
 
-  const [messages, setMessages] = useState([
-    { sender: "John Doe", message: "Hey there!", time: "6:01 PM" },
-    {
-      sender: "Robert Henry",
-      message: "Hello, how are you doing?",
-      time: "6:02 PM",
-    },
-    {
-      sender: "John Doe",
-      message: "I am good, how about you?",
-      time: "6:02 PM",
-    },
-    {
-      sender: "John Doe",
-      message: `😊😇`,
-      time: "6:02 PM",
-    },
-    {
-      sender: "Robert Henry",
-      message: `Can't wait to meet you.`,
-      time: "6:03 PM",
-    },
-    {
-      sender: "John Doe",
-      message: `That's great, when are you coming?`,
-      time: "6:03 PM",
-    },
-    {
-      sender: "Robert Henry",
-      message: `This weekend.`,
-      time: "6:03 PM",
-    },
-    {
-      sender: "Robert Henry",
-      message: `Around 4 to 6 PM.`,
-      time: "6:04 PM",
-    },
-    {
-      sender: "John Doe",
-      message: `Great, don't forgeaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaat to bring me some mangoes.`,
-      time: "6:05 PM",
-    },
-    {
-      sender: "Robert Henry",
-      message: `Sure!`,
-      time: "6:05 PM",
-    },
-    {
-      sender: "John Doe",
-      message: `Great, don't forgeaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaat to bring me some mangoes.`,
-      time: "6:05 PM",
-    },
-    {
-      sender: "Robert Henry",
-      message: `Sure!`,
-      time: "6:05 PM",
-    },
-    {
-      sender: "John Doe",
-      message: `Great, don't forgeaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaat to bring me some mangoes.`,
-      time: "6:05 PM",
-    },
-    {
-      sender: "Robert Henry",
-      message: `Sure!`,
-      time: "6:05 PM",
-    },
-    {
-      sender: "John Doe",
-      message: `Great, don't forgeaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaat to bring me some mangoes.`,
-      time: "6:05 PM",
-    },
-    {
-      sender: "Robert Henry",
-      message: `Sure!`,
-      time: "6:05 PM",
-    },
-  ]);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const { wholeConversation, isWholeConversationPending } = useWholeConvo(
+    uid,
+    user.uid
+  );
+
+  React.useEffect(() => {
+    console.log(wholeConversation);
+    setMessages(wholeConversation);
+  }, [wholeConversation]);
 
   const [inputMessage, setInputMessage] = useState("");
 
@@ -124,20 +60,23 @@ export default function ChatScreen1() {
     return strTime;
   }
 
-  function sendMessage() {
-    if (inputMessage === "") {
-      return setInputMessage("");
-    }
+  async function sendMessage() {
+    if (inputMessage.trim() === "") return;
     let t = getTime(new Date());
-    setMessages([
-      ...messages,
-      {
-        sender: currentUser.name,
-        message: inputMessage,
-        time: t,
-      },
-    ]);
-    setInputMessage("");
+    const response = await chat.sendMessage(inputMessage, user.uid);
+    if (response.success) {
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        {
+          sender: currentUser.name,
+          message: inputMessage,
+          time: t,
+        },
+      ]);
+      setInputMessage("");
+    } else {
+      console.error(response.message);
+    }
   }
 
   useEffect(() => {
@@ -173,7 +112,6 @@ export default function ChatScreen1() {
             </View>
           )}
         />
-
         <View>
           <View className="flex flex-row justify-between items-center gap-4 pb-10 pt-2 px-2">
             <TouchableOpacity

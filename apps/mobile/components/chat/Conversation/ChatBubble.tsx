@@ -10,13 +10,13 @@ interface ChatBubbleProps {
   isOutgoing?: boolean;
 }
 
-export default function ChatBubble({
+export const ChatBubble = ({
   message,
   currentUserUid,
   senderUid,
   timestamp,
   isOutgoing,
-}: ChatBubbleProps) {
+}: ChatBubbleProps) => {
   return (
     <TouchableWithoutFeedback>
       <View className="mt-2 ">
@@ -28,12 +28,10 @@ export default function ChatBubble({
               : "self-start rounded-br-xl rounded-bl-none"
           )}
         >
-          <Text className="text-white font-semibold pb-0.5">
-            {message}
-          </Text>
+          <Text className="text-white font-semibold pb-0.5">{message}</Text>
           <Text className="text-xs text-white text-right">{timestamp}</Text>
         </View>
       </View>
     </TouchableWithoutFeedback>
   );
-}
+};
