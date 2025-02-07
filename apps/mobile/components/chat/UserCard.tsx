@@ -6,21 +6,23 @@ import { cn } from "~/lib/utils";
 import { IconWithTheme } from "~/lib/IconWithTheme";
 import { MessageCircleMoreIcon } from "lucide-react-native";
 
-interface MessageCardProps {
+interface UserCardProps {
   className?: string;
   user?: User;
   latestMessage?: string;
   sentAt?: string;
   isSeen?: boolean;
+  isPending?: boolean;
 }
 
-export const MessageCard = ({
+export const UserCard = ({
   className,
   user,
   latestMessage,
   sentAt,
   isSeen,
-}: MessageCardProps) => {
+  isPending
+}: UserCardProps) => {
   return (
     <View
       className={cn(
@@ -33,6 +35,7 @@ export const MessageCard = ({
           className="w-20 h-20"
           gender={user?.isMale}
           uid={user?.uid}
+          isPending={isPending}
         />
         <View className="flex flex-col justify-between items-start">
           <Text className="text-lg font-semibold">{`${user?.surname} ${user?.name}`}</Text>
