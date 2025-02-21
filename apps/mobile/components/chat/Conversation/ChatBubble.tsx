@@ -17,6 +17,7 @@ export const ChatBubble = ({
   timestamp,
   isOutgoing,
 }: ChatBubbleProps) => {
+  console.log(message, " ", timestamp);
   return (
     <TouchableWithoutFeedback>
       <View className="mt-2 ">

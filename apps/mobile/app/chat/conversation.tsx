@@ -28,8 +28,8 @@ export default function ChatScreen1() {
 
   const [chatUser] = useState({
     name: `${user.surname} ${user.name}`,
-    profile_image: "https://randomuser.me/api/portraits/men/0.jpg",
-    last_seen: "Online",
+    profileImage: "https://randomuser.me/api/portraits/men/0.jpg",
+    lastSeen: "Online",
   });
 
   const [currentUser] = useState({
@@ -55,15 +55,15 @@ export default function ChatScreen1() {
     var ampm = hours >= 12 ? "PM" : "AM";
     hours = hours % 12;
     hours = hours ? hours : 12;
-    minutes = minutes < 10 ? "0" + minutes : minutes;
-    var strTime = hours + ":" + minutes + " " + ampm;
+    var strMinutes = minutes < 10 ? "0" + minutes : minutes.toString();
+    var strTime = hours + ":" + strMinutes + " " + ampm;
     return strTime;
   }
 
   async function sendMessage() {
     if (inputMessage.trim() === "") return;
     let t = getTime(new Date());
-    const response = await chat.sendMessage(inputMessage, user.uid);
+    const response = await chat.sendMessage(inputMessage, user.uid!);
     if (response.success) {
       setMessages((prevMessages) => [
         ...prevMessages,
@@ -86,7 +86,7 @@ export default function ChatScreen1() {
         <ChatHeaderLeft
           goBack={navigation.goBack}
           user={user}
-          lastSeen={chatUser.last_seen}
+          lastSeen={chatUser.lastSeen}
         />
       ),
       headerRight: () => <ChatHeaderRight />,
@@ -105,9 +105,9 @@ export default function ChatScreen1() {
             <View>
               <ChatBubble
                 message={item.message}
-                currentUserUid={user.uid}
-                senderUid={item.sender}
-                timestamp={item.time}
+                currentUserUid={uid}
+                senderUid={item.userUid}
+                timestamp={item.timestamp}
               />
             </View>
           )}

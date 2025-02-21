@@ -7,6 +7,7 @@ export function useWholeConvo(uid1: string, uid2: string, enabled?: boolean) {
     useQuery({
       queryKey: ["conversation", uid1, uid2],
       queryFn: () => firebaseFns.chat.fetchConversation(uid1, uid2),
+      refetchInterval: 100,
       enabled,
     });
 
