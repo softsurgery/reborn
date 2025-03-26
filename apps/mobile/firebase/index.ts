@@ -5,4 +5,7 @@ export * from "./bug-report";
 import { user } from "./user";
 export * from "./user";
 
-export const firebaseFns = { user, bugService, feedbackService };
+import { chat } from "./chat";
+export * from "./chat";
+
+export const firebaseFns = { user, bugService, feedbackService, chat };

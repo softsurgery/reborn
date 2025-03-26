@@ -1,6 +1,5 @@
 import * as React from "react";
-import { Platform, ScrollView, View } from "react-native";
-import { Button } from "~/components/ui/button";
+import { Platform, View, SafeAreaView } from "react-native";
 import {
   Tabs,
   TabsContent,
@@ -14,17 +13,24 @@ import {
   User,
   Wallet,
 } from "lucide-react-native";
-import { IconWithTheme } from "~/lib/IconWithTheme";
 import { MenuItem } from "~/components/menu/MenuItem";
 import { Account } from "./account/Account";
-import { StableScrollView } from "./common/StableScrollView";
+import { Chat } from "./chat/Chat";
+import { cn } from "~/lib/utils";
+import { Button } from "./ui/button";
+import { IconWithTheme } from "~/lib/IconWithTheme";
 
 export default function Application() {
   const [value, setValue] = React.useState("account");
 
   const tabs = [
     { value: "home", icon: Home, title: "Home", component: <></> },
-    { value: "chat", icon: MessageSquareText, title: "Chat", component: <></> },
+    {
+      value: "chat",
+      icon: MessageSquareText,
+      title: "Chat",
+      component: <Chat />,
+    },
     { value: "balance", icon: Wallet, title: "Balance", component: <></> },
     { value: "account", icon: User, title: "Account", component: <Account /> },
   ];
@@ -33,37 +39,40 @@ export default function Application() {
   const rightTabs = tabs.slice(2);
 
   return (
-    <View className="flex-1 w-full">
-      <Tabs
-        value={value}
-        onValueChange={setValue}
-        className="flex-1 w-full flex-col justify-between gap-1.5"
-      >
-        <View className="flex-grow pt-10">
-          {tabs.map((tab) => (
-            <TabsContent key={tab.value} value={tab.value}>
-              <StableScrollView
-                className="mt-5 mb-24"
+    <View className="flex-1">
+      <Tabs value={value} onValueChange={setValue} className="w-full flex-1">
+        {/* Main Content - Only Show Active Tab */}
+        {tabs.map(
+          (tab) =>
+            value === tab.value && (
+              <TabsContent
+                key={tab.value}
+                value={tab.value}
+                className={cn(
+                  "flex-1",
+                  Platform.OS === "ios" ? "pt-20" : "pt-10"
+                )}
               >
                 {tab.component}
-              </StableScrollView>
-            </TabsContent>
-          ))}
-        </View>
+              </TabsContent>
+            )
+        )}
 
+        {/* Bottom Navigation */}
         <TabsList
-          className="flex flex-row justify-center absolute bottom-0 w-full"
+          className="flex flex-row items-center justify-between w-full"
           style={{
-            height: Platform.OS == "ios" ? 80 : 70,
-            paddingBottom: Platform.OS == "ios" ? 15 : 0,
+            height: Platform.OS === "ios" ? 80 : 70,
+            paddingBlock: Platform.OS === "ios" ? 10 : 0,
           }}
         >
-          {/* Left side tabs */}
+          {/* Left Side Tabs */}
           {leftTabs.map((tab) => (
             <TabsTriggerWithIcon
               key={tab.value}
               value={tab.value}
-              className="w-auto mx-auto"
+              className="flex-1 items-center"
+              onPress={() => setValue(tab.value)}
             >
               <MenuItem
                 icon={tab.icon}
@@ -73,7 +82,6 @@ export default function Application() {
               />
             </TabsTriggerWithIcon>
           ))}
-
           {/* Plus Button in the middle */}
           <Button
             variant="outline"
@@ -82,12 +90,13 @@ export default function Application() {
             <IconWithTheme icon={Plus} size={32} />
           </Button>
 
-          {/* Right side tabs */}
+          {/* Right Side Tabs */}
           {rightTabs.map((tab) => (
             <TabsTriggerWithIcon
               key={tab.value}
               value={tab.value}
-              className="w-1/5"
+              className="flex-1 items-center"
+              onPress={() => setValue(tab.value)}
             >
               <MenuItem
                 icon={tab.icon}

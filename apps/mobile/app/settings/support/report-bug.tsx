@@ -13,7 +13,7 @@ import { BUG_CATEGORIES } from "~/constants/bug-categories";
 import { useMutation } from "@tanstack/react-query";
 import { firebaseFns } from "~/firebase";
 import { Toast } from "react-native-toast-notifications";
-import { Select } from "~/components/common/Select";
+import Select  from "~/components/common/Select";
 
 export default function Screen() {
   const reportbugManager = useReportBugManger();

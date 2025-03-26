@@ -11,7 +11,9 @@ import { Toast } from "react-native-toast-notifications";
 import StarRating from "react-native-star-rating-widget";
 import { FEEDBACK_CATEGORIES } from "~/constants/feedback-categories";
 import { Label } from "~/components/ui/label";
-import { Select } from "~/components/common/Select";
+import Select from "~/components/common/Select";
+import { IconWithTheme } from "~/lib/IconWithTheme";
+import { MailCheck } from "lucide-react-native";
 
 export default function FeedbackScreen() {
   const feedbackManager = useFeedbackManager();
@@ -52,10 +54,13 @@ export default function FeedbackScreen() {
         <View className="flex flex-col gap-5 my-5 px-4">
           {/* Header Section */}
           <View className="mx-auto">
+            <IconWithTheme icon={MailCheck} size={52} className="mx-auto" />
+          </View>
+          <View >
             <Text className="font-extrabold text-lg">
               We'd love your feedback!
             </Text>
-            <Text className="font-thin mt-2 text-sm">
+            <Text className="font-thin mt-1 text-sm">
               Please share your thoughts and help us improve.
             </Text>
           </View>
@@ -70,7 +75,6 @@ export default function FeedbackScreen() {
                 feedbackManager.set("message", value)
               }
               placeholder="Share your feedback here..."
-              numberOfLines={5}
               multiline
             />
           </View>
