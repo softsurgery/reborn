@@ -3,17 +3,15 @@ import { IconWithTheme } from "~/lib/IconWithTheme";
 import { Bug } from "lucide-react-native";
 import { ScrollView, View } from "react-native";
 import { Text } from "~/components/ui/text";
-import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Textarea } from "~/components/ui/textarea";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useReportBugManger } from "./hooks/useReportBugManager";
 import { BUG_CATEGORIES } from "~/constants/bug-categories";
 import { useMutation } from "@tanstack/react-query";
 import { firebaseFns } from "~/firebase";
 import { Toast } from "react-native-toast-notifications";
-import Select  from "~/components/common/Select";
+import { DynamicForm } from "~/types/utils/form-builder";
+import { FormBuilder } from "~/components/common/form-builder/FormBuilder";
 
 export default function Screen() {
   const reportbugManager = useReportBugManger();
@@ -25,7 +23,7 @@ export default function Screen() {
       Toast.show(data.message, {
         style: { backgroundColor: "green" },
       });
-      //   reportbugManager.reset();
+      reportbugManager.reset();
     },
     onError: (error) => {
       Toast.show("oops! Failed to submit bug report", {
@@ -38,89 +36,103 @@ export default function Screen() {
     createBug();
   };
 
-  const insets = useSafeAreaInsets();
-  const contentInsets = {
-    top: insets.top,
-    bottom: insets.bottom,
-    left: 12,
-    right: 12,
-  };
-
+  const form = React.useMemo(
+    (): DynamicForm => ({
+      name: "Help us improve by reporting any issues you encounter.",
+      description: "Please provide as much detail as possible.",
+      grids: [
+        {
+          name: "Bug Report Form",
+          gridItems: [
+            {
+              id: 1,
+              fields: [
+                {
+                  label: "Bug Title(*)",
+                  variant: "text",
+                  required: true,
+                  placeholder: "Brief summary of the issue",
+                  description: "Please provide a brief summary of the issue",
+                  props: {
+                    value: reportbugManager.title,
+                    onChangeText: (value: string) =>
+                      reportbugManager.set("title", value),
+                  },
+                },
+              ],
+            },
+            {
+              id: 2,
+              fields: [
+                {
+                  label: "Description(*)",
+                  variant: "textarea",
+                  required: true,
+                  placeholder: "Detailed description of the bug",
+                  description:
+                    "Please provide a detailed description of the bug",
+                  props: {
+                    value: reportbugManager.description,
+                    onChangeText: (value: string) =>
+                      reportbugManager.set("description", value),
+                  },
+                },
+              ],
+            },
+            {
+              id: 3,
+              fields: [
+                {
+                  label: "Category(*)",
+                  variant: "select",
+                  required: true,
+                  placeholder: "Select Bug Category",
+                  description:
+                    "Select the Bug Category you think you're looking for",
+                  props: {
+                    selectOptions: BUG_CATEGORIES.map((bug) => ({
+                      label: bug,
+                      value: bug,
+                    })),
+                    value: reportbugManager.category,
+                    onValueChange: (value: string | number | boolean) =>
+                      reportbugManager.set("category", value as string),
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    }),
+    [reportbugManager]
+  );
   return (
     <KeyboardAwareScrollView bounces={false}>
-      <ScrollView
-        bounces={false}
-        alwaysBounceHorizontal={false}
-        alwaysBounceVertical={false}
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-        overScrollMode="never"
-      >
-        <View className="flex flex-col gap-5 my-5 px-4">
-          {/* Header Section */}
-          <View className="mx-auto">
-            <IconWithTheme icon={Bug} size={52} className="mx-auto" />
-          </View>
-          <View>
-            <Text className="font-extrabold">
-              Help us improve by reporting any issues you encounter.
-            </Text>
-            <Text className="font-thin mt-2">
-              Please provide as much detail as possible
-            </Text>
-          </View>
-
-          {/* Bug Title Field */}
-          <View>
-            <Text className="font-semibold mb-2">Bug Title (*)</Text>
-            <Input
-              editable={!isBugCreationPending}
-              value={reportbugManager.title}
-              onChangeText={(value: string) =>
-                reportbugManager.set("title", value)
-              }
-              placeholder="Brief summary of the issue"
-              className="p-3 rounded-md"
-            />
-          </View>
-          {/* Bug Description Field */}
-          <View>
-            <Text className="font-semibold mb-2">Description (*)</Text>
-            <Textarea
-              editable={!isBugCreationPending}
-              placeholder="Detailed description of the bug"
-              value={reportbugManager.description}
-              onChangeText={(value: string) =>
-                reportbugManager.set("description", value)
-              }
-              numberOfLines={5}
-              multiline
-            />
-          </View>
-          {/* Category Dropdown */}
-          <View>
-            <Text className="font-semibold mb-2">Category (*)</Text>
-            <Select
-              title="Select Bug Category"
-              description="Select The Bug Category you think you're looking for"
-              value={reportbugManager.category}
-              onSelect={(value) => reportbugManager.set("category", value)}
-              options={BUG_CATEGORIES.map((bug) => {
-                return { label: bug, value: bug };
-              })}
-            />
-          </View>
-          {/* Submit Button */}
-          <Button
-            disabled={isBugCreationPending}
-            className="w-full"
-            variant={"outline"}
-            onPress={handleSubmit}
-          >
-            <Text>{isBugCreationPending ? "Submitting..." : "Submit Bug"}</Text>
-          </Button>
+      <View className="flex flex-col mx-4 my-4 gap-2">
+        {/* Header Section */}
+        <View className="mx-auto">
+          <IconWithTheme icon={Bug} size={52} />
         </View>
-      </ScrollView>
+        <View>
+          <Text className="font-extrabold">
+            Help us improve by reporting any issues you encounter.
+          </Text>
+          <Text className="font-thin mt-2">
+            Please provide as much detail as possible
+          </Text>
+        </View>
+        <FormBuilder form={form} />
+
+        <Button
+          disabled={isBugCreationPending}
+          className="w-full"
+          variant={"outline"}
+          onPress={handleSubmit}
+        >
+          <Text>{isBugCreationPending ? "Submitting..." : "Submit Bug"}</Text>
+        </Button>
+      </View>
     </KeyboardAwareScrollView>
   );
 }

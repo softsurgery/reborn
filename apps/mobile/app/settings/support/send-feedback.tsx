@@ -1,19 +1,17 @@
 import * as React from "react";
-import { ScrollView, View } from "react-native";
 import { Text } from "~/components/ui/text";
 import { Button } from "~/components/ui/button";
-import { Textarea } from "~/components/ui/textarea";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useFeedbackManager } from "./hooks/useFeedbackManager";
 import { useMutation } from "@tanstack/react-query";
 import { firebaseFns } from "~/firebase";
 import { Toast } from "react-native-toast-notifications";
-import StarRating from "react-native-star-rating-widget";
 import { FEEDBACK_CATEGORIES } from "~/constants/feedback-categories";
-import { Label } from "~/components/ui/label";
-import Select from "~/components/common/Select";
 import { IconWithTheme } from "~/lib/IconWithTheme";
 import { MailCheck } from "lucide-react-native";
+import { FormBuilder } from "~/components/common/form-builder/FormBuilder";
+import { DynamicForm } from "~/types/utils/form-builder";
+import { View } from "react-native";
 
 export default function FeedbackScreen() {
   const feedbackManager = useFeedbackManager();
@@ -39,86 +37,106 @@ export default function FeedbackScreen() {
     submitFeedback();
   };
 
-  const [rating, setRating] = React.useState(0);
+  const form = React.useMemo(
+    (): DynamicForm => ({
+      name: "We'd love your feedback!",
+      description: "Please share your thoughts and help us improve.",
+      grids: [
+        {
+          name: "",
+          gridItems: [
+            {
+              id: 1,
+              fields: [
+                {
+                  label: "Feedback Message(*)",
+                  variant: "text",
+                  description: "Share your feedback here",
+                  required: true,
+                  placeholder: "Share your feedback here...",
+                  props: {
+                    value: feedbackManager.message,
+                    onChangeText: (value) =>
+                      feedbackManager.set("message", value),
+                  },
+                },
+              ],
+            },
+            {
+              id: 2,
+              fields: [
+                {
+                  label: "Feedback Category(*)",
+                  variant: "select",
+                  description: "Select Your Feedback Category",
+                  required: true,
+                  placeholder: "Select Feedback Category",
+                  props: {
+                    selectOptions: FEEDBACK_CATEGORIES.map((category) => ({
+                      label: category,
+                      value: category,
+                    })),
+                    value: feedbackManager.category,
+                    onChangeText: (value) =>
+                      feedbackManager.set("category", value),
+                  },
+                },
+              ],
+            },
+            {
+              id: 3,
+              fields: [
+                {
+                  label: "Rating(*)",
+                  variant: "rating",
+                  description: "Rate your experience",
+                  required: true,
+                  props: {
+                    rating: feedbackManager.rating || 0,
+                    onValueChange: (value) => {
+                      feedbackManager.set("rating", value);
+                    },
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    }),
+    [feedbackManager]
+  );
 
   return (
     <KeyboardAwareScrollView bounces={false}>
-      <ScrollView
-        bounces={false}
-        alwaysBounceHorizontal={false}
-        alwaysBounceVertical={false}
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-        overScrollMode="never"
-      >
-        <View className="flex flex-col gap-5 my-5 px-4">
-          {/* Header Section */}
-          <View className="mx-auto">
-            <IconWithTheme icon={MailCheck} size={52} className="mx-auto" />
-          </View>
-          <View >
-            <Text className="font-extrabold text-lg">
-              We'd love your feedback!
-            </Text>
-            <Text className="font-thin mt-1 text-sm">
-              Please share your thoughts and help us improve.
-            </Text>
-          </View>
-
-          {/* Feedback Message Field */}
-          <View>
-            <Text className="font-semibold mb-2">Feedback Message (*)</Text>
-            <Textarea
-              editable={!isFeedbackSubmitting}
-              value={feedbackManager.message}
-              onChangeText={(value: string) =>
-                feedbackManager.set("message", value)
-              }
-              placeholder="Share your feedback here..."
-              multiline
-            />
-          </View>
-          {/* Category Radio Group */}
-
-          <View className="flex flex-col gap-2 w-full">
-            <Label>Region</Label>
-            <Select
-              title="Select Feedback Category"
-              description="Select Your Feedback Category"
-              value={feedbackManager.category}
-              onSelect={(value) => feedbackManager.set("category", value)}
-              options={FEEDBACK_CATEGORIES.map((category) => {
-                return { label: category, value: category };
-              })}
-            />
-          </View>
-          {/* Rating Field */}
-          <View>
-            <Text className="font-semibold mb-2">Rating (*)</Text>
-            <View className="mx-auto">
-              <StarRating
-                rating={feedbackManager.rating || 0}
-                onChange={(value) => {
-                  feedbackManager.set("rating", value);
-                }}
-                maxStars={5}
-              />
-            </View>
-          </View>
-
-          {/* Submit Button */}
-          <Button
-            disabled={isFeedbackSubmitting}
-            className="w-full"
-            variant={"outline"}
-            onPress={handleSubmit}
-          >
-            <Text>
-              {isFeedbackSubmitting ? "Submitting..." : "Submit Feedback"}
-            </Text>
-          </Button>
+      <View className="flex flex-col my-4 gap-2 mx-4">
+        {/* Header Section */}
+        <View className="mx-auto ">
+          <IconWithTheme icon={MailCheck} size={52} className="mx-auto" />
         </View>
-      </ScrollView>
+        <View>
+          <Text className="font-extrabold text-lg">
+            We'd love your feedback!
+          </Text>
+          <Text className="font-thin mt-1 text-sm">
+            Please share your thoughts and help us improve.
+          </Text>
+        </View>
+
+        <FormBuilder form={form} />
+
+        {/* Submit Button */}
+        <Button
+          disabled={isFeedbackSubmitting}
+          className="w-full"
+          variant={"outline"}
+          onPress={handleSubmit}
+        >
+          <Text>
+            {isFeedbackSubmitting ? "Submitting..." : "Submit Feedback"}
+          </Text>
+        </Button>
+      </View>
     </KeyboardAwareScrollView>
   );
 }
