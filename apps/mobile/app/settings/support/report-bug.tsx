@@ -12,6 +12,8 @@ import { firebaseFns } from "~/firebase";
 import { Toast } from "react-native-toast-notifications";
 import { DynamicForm } from "~/types/utils/form-builder";
 import { FormBuilder } from "~/components/common/form-builder/FormBuilder";
+import { DynamicForm } from "~/types/utils/form-builder";
+import { FormBuilder } from "~/components/common/form-builder/FormBuilder";
 
 export default function Screen() {
   const reportbugManager = useReportBugManger();

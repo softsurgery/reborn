@@ -125,7 +125,6 @@ export default function FeedbackScreen() {
 
         <FormBuilder form={form} />
 
-        {/* Submit Button */}
         <Button
           disabled={isFeedbackSubmitting}
           className="w-full"
