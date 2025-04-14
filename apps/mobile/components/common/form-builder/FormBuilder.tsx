@@ -34,7 +34,7 @@ export const FormBuilder = ({
                     return (
                       <View key={fieldIndex}>
                         {field.variant !== "checkbox" && (
-                          <Label htmlFor={field.label}>{field.label}</Label>
+                          <Label className="mb-2" htmlFor={field.label}>{field.label}</Label>
                         )}
                         <RenderInputField field={field} />
                         {field.error && (

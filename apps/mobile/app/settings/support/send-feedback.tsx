@@ -128,7 +128,6 @@ export default function FeedbackScreen() {
         <Button
           disabled={isFeedbackSubmitting}
           className="w-full"
-          variant={"outline"}
           onPress={handleSubmit}
         >
           <Text>

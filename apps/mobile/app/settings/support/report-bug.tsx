@@ -1,7 +1,7 @@
 import * as React from "react";
 import { IconWithTheme } from "~/lib/IconWithTheme";
 import { Bug } from "lucide-react-native";
-import { ScrollView, View } from "react-native";
+import { View } from "react-native";
 import { Text } from "~/components/ui/text";
 import { Button } from "~/components/ui/button";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -10,8 +10,6 @@ import { BUG_CATEGORIES } from "~/constants/bug-categories";
 import { useMutation } from "@tanstack/react-query";
 import { firebaseFns } from "~/firebase";
 import { Toast } from "react-native-toast-notifications";
-import { DynamicForm } from "~/types/utils/form-builder";
-import { FormBuilder } from "~/components/common/form-builder/FormBuilder";
 import { DynamicForm } from "~/types/utils/form-builder";
 import { FormBuilder } from "~/components/common/form-builder/FormBuilder";
 
@@ -124,12 +122,13 @@ export default function Screen() {
             Please provide as much detail as possible
           </Text>
         </View>
+
         <FormBuilder form={form} />
 
         <Button
           disabled={isBugCreationPending}
           className="w-full"
-          variant={"outline"}
+          
           onPress={handleSubmit}
         >
           <Text>{isBugCreationPending ? "Submitting..." : "Submit Bug"}</Text>
