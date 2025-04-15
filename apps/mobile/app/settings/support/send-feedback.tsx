@@ -4,7 +4,6 @@ import { Button } from "~/components/ui/button";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useFeedbackManager } from "./hooks/useFeedbackManager";
 import { useMutation } from "@tanstack/react-query";
-import { firebaseFns } from "~/firebase";
 import { Toast } from "react-native-toast-notifications";
 import { FEEDBACK_CATEGORIES } from "~/constants/feedback-categories";
 import { IconWithTheme } from "~/lib/IconWithTheme";
@@ -12,6 +11,8 @@ import { MailCheck } from "lucide-react-native";
 import { FormBuilder } from "~/components/common/form-builder/FormBuilder";
 import { DynamicForm } from "~/types/utils/form-builder";
 import { View } from "react-native";
+import { api } from "~/api";
+import { Feedback } from "~/types";
 
 export default function FeedbackScreen() {
   const feedbackManager = useFeedbackManager();
@@ -19,7 +20,7 @@ export default function FeedbackScreen() {
   const { mutate: submitFeedback, isPending: isFeedbackSubmitting } =
     useMutation({
       mutationFn: async () =>
-        firebaseFns.feedbackService.postFeedback(feedbackManager.getFeedback()),
+        api.feedback.postFeedback(feedbackManager.getFeedback() as Feedback),
       onSuccess: (data) => {
         Toast.show(data.message, {
           style: { backgroundColor: "green" },
