@@ -1,8 +1,11 @@
-export interface DeviceInfo {
-    id?: string;
-    platform?: string;
-    model?: string;
-    version?: string;
-    manufacturer?: string;
-  }
-  
+import { Feedback } from "./Feedback";
+import { DatabaseEntity } from "./utils/database-entity";
+
+export interface DeviceInfo extends DatabaseEntity{
+  id: number;
+  platform: string | null;
+  model: string;
+  version: string | null;
+  manufacturer: string | null;
+  feedbacks?: Feedback[];
+}

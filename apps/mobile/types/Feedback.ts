@@ -1,9 +1,13 @@
 import { DeviceInfo } from "./DeviceInfo";
+import { DatabaseEntity } from "./utils/database-entity";
 
-export interface Feedback {
-  rating?: number;
-  category?: string;
-  message?: string;
-  device?: DeviceInfo;
-  createdAt?: string;
+export type FeedbackCategory = "FeatureRequest" | "GeneralFeedback" | "Other";
+
+export interface Feedback extends DatabaseEntity {
+  id: number;
+  message: string;
+  rating: number;
+  category: FeedbackCategory;
+  deviceId: number | null;
+  device?: DeviceInfo | null;
 }

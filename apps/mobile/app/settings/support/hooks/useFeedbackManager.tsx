@@ -1,39 +1,37 @@
 import { create } from "zustand";
-import { Feedback } from "~/types/Feedback";
-import { FEEDBACK_CATEGORIES } from "~/constants/feedback-categories";
+import { generateDeviceInfo } from "~/lib/device-info";
+import { DeviceInfo, Feedback } from "~/types";
 
-interface FeedbackManager {
-  rating?: number;
-  category?: string;
-  message?: string;
+interface FeedbackManager extends Partial<Feedback> {
   set: (attribute: keyof Omit<FeedbackManager, "set">, value: any) => void;
-  getFeedback: () => Feedback;
+  getFeedback: () => Partial<Feedback>;
   reset: () => void;
 }
 
 const FeedbackManagerDefaults: Omit<
-FeedbackManager, 
-"set" | "getFeedback" | "reset"
+  FeedbackManager,
+  "set" | "getFeedback" | "reset"
 > = {
   rating: 0,
-  category: FEEDBACK_CATEGORIES[0],
+  category: "FeatureRequest",
   message: "",
 };
 
 export const useFeedbackManager = create<FeedbackManager>((set, get) => ({
   ...FeedbackManagerDefaults,
-  set: (attribute: keyof Omit<FeedbackManager,"set">, value: string) => {
-    set((state) => ({ 
-        ...state, 
-        [attribute]: value 
+  set: (attribute: keyof Omit<FeedbackManager, "set">, value: string) => {
+    set((state) => ({
+      ...state,
+      [attribute]: value,
     }));
   },
-  getFeedback: (): Feedback=> {
+  getFeedback: (): Partial<Feedback> => {
     const data = get();
-    return { 
-        rating: data.rating ,
-        category: data.category, 
-        message: data.message, 
+    return {
+      rating: data.rating,
+      category: data.category,
+      message: data.message,
+      device: generateDeviceInfo() as DeviceInfo,
     };
   },
   reset: () => {
