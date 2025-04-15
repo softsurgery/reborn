@@ -13,6 +13,7 @@ import { DynamicForm } from "~/types/utils/form-builder";
 import { View } from "react-native";
 import { api } from "~/api";
 import { Feedback } from "~/types";
+import { splitCamelOrPascal } from "~/lib/string.lib";
 
 export default function FeedbackScreen() {
   const feedbackManager = useFeedbackManager();
@@ -37,6 +38,8 @@ export default function FeedbackScreen() {
   const handleSubmit = () => {
     submitFeedback();
   };
+
+  const [rating, setRating] = React.useState(0);
 
   const form = React.useMemo(
     (): DynamicForm => ({
@@ -67,18 +70,19 @@ export default function FeedbackScreen() {
               id: 2,
               fields: [
                 {
-                  label: "Feedback Category(*)",
+                  label: "Feedback Category",
                   variant: "select",
                   description: "Select Your Feedback Category",
                   required: true,
                   placeholder: "Select Feedback Category",
                   props: {
                     selectOptions: FEEDBACK_CATEGORIES.map((category) => ({
-                      label: category,
+                      label: splitCamelOrPascal(category),
                       value: category,
                     })),
+
                     value: feedbackManager.category,
-                    onChangeText: (value) =>
+                    onValueChange: (value) =>
                       feedbackManager.set("category", value),
                   },
                 },
@@ -88,7 +92,7 @@ export default function FeedbackScreen() {
               id: 3,
               fields: [
                 {
-                  label: "Rating(*)",
+                  label: "Rating",
                   variant: "rating",
                   description: "Rate your experience",
                   required: true,

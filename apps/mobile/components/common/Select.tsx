@@ -47,7 +47,7 @@ const Select = React.memo(
             variant="outline"
             className="flex flex-row justify-between items-start"
           >
-            <Label>{value || title}</Label>
+            <Label>{value ? options.find((option) => option.value === value)?.label : "Select an option"}</Label>
             <IconWithTheme size={24} icon={ChevronDown} />
           </Button>
         </DialogTrigger>
