@@ -1,9 +1,18 @@
 import { DeviceInfo } from "./DeviceInfo";
+import { DatabaseEntity } from "./utils/database-entity";
 
-export interface Bug{
-    title?: string;
-    description?: string;
-    category?: string;
-    device?: DeviceInfo;
-    createdAt?: string;
+export type BugCategory =
+  | "Crash"
+  | "UiIssue"
+  | "Performance"
+  | "FeatureNotWorking"
+  | "Other";
+
+export interface Bug extends DatabaseEntity {
+  id: number;
+  title: string;
+  description?: string;
+  category?: BugCategory;
+  deviceId: number | null;
+  device: DeviceInfo | null;
 }

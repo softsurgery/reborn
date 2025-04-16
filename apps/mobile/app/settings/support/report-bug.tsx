@@ -1,6 +1,6 @@
 import * as React from "react";
 import { IconWithTheme } from "~/lib/IconWithTheme";
-import { Bug } from "lucide-react-native";
+import { Bug as bugIcon }  from "lucide-react-native";
 import { View } from "react-native";
 import { Text } from "~/components/ui/text";
 import { Button } from "~/components/ui/button";
@@ -8,22 +8,25 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { useReportBugManger } from "./hooks/useReportBugManager";
 import { BUG_CATEGORIES } from "~/constants/bug-categories";
 import { useMutation } from "@tanstack/react-query";
-import { firebaseFns } from "~/firebase";
 import { Toast } from "react-native-toast-notifications";
 import { DynamicForm } from "~/types/utils/form-builder";
 import { FormBuilder } from "~/components/common/form-builder/FormBuilder";
+import { api } from "~/api";
+import { Bug } from "~/types";
+import { splitCamelOrPascal } from "~/lib/string.lib";
 
 export default function Screen() {
-  const reportbugManager = useReportBugManger();
+  const bugManager = useReportBugManger();
 
-  const { mutate: createBug, isPending: isBugCreationPending } = useMutation({
-    mutationFn: async () =>
-      firebaseFns.bugService.postBug(reportbugManager.getBug()),
+  const { mutate: submitBug, isPending: isBugCreationPending } = 
+  useMutation({
+    mutationFn: async () => 
+      api.bug.postBug(bugManager.getBug() as Bug),
     onSuccess: (data) => {
-      Toast.show(data.message, {
+      Toast.show(data.title, {
         style: { backgroundColor: "green" },
       });
-      reportbugManager.reset();
+      bugManager.reset();
     },
     onError: (error) => {
       Toast.show("oops! Failed to submit bug report", {
@@ -33,7 +36,7 @@ export default function Screen() {
   });
 
   const handleSubmit = () => {
-    createBug();
+    submitBug();
   };
 
   const form = React.useMemo(
@@ -48,15 +51,15 @@ export default function Screen() {
               id: 1,
               fields: [
                 {
-                  label: "Bug Title(*)",
+                  label: "Bug Title",
                   variant: "text",
                   required: true,
                   placeholder: "Brief summary of the issue",
                   description: "Please provide a brief summary of the issue",
                   props: {
-                    value: reportbugManager.title,
+                    value: bugManager.title,
                     onChangeText: (value: string) =>
-                      reportbugManager.set("title", value),
+                      bugManager.set("title", value),
                   },
                 },
               ],
@@ -65,16 +68,16 @@ export default function Screen() {
               id: 2,
               fields: [
                 {
-                  label: "Description(*)",
+                  label: "Description",
                   variant: "textarea",
                   required: true,
                   placeholder: "Detailed description of the bug",
                   description:
                     "Please provide a detailed description of the bug",
                   props: {
-                    value: reportbugManager.description,
+                    value: bugManager.description,
                     onChangeText: (value: string) =>
-                      reportbugManager.set("description", value),
+                      bugManager.set("description", value),
                   },
                 },
               ],
@@ -83,7 +86,7 @@ export default function Screen() {
               id: 3,
               fields: [
                 {
-                  label: "Category(*)",
+                  label: "Category",
                   variant: "select",
                   required: true,
                   placeholder: "Select Bug Category",
@@ -91,12 +94,12 @@ export default function Screen() {
                     "Select the Bug Category you think you're looking for",
                   props: {
                     selectOptions: BUG_CATEGORIES.map((bug) => ({
-                      label: bug,
+                      label: splitCamelOrPascal(bug),
                       value: bug,
                     })),
-                    value: reportbugManager.category,
+                    value: bugManager.category,
                     onValueChange: (value: string | number | boolean) =>
-                      reportbugManager.set("category", value as string),
+                      bugManager.set("category", value as string),
                   },
                 },
               ],
@@ -105,14 +108,14 @@ export default function Screen() {
         },
       ],
     }),
-    [reportbugManager]
+    [bugManager]
   );
   return (
     <KeyboardAwareScrollView bounces={false}>
       <View className="flex flex-col mx-4 my-4 gap-2">
         {/* Header Section */}
         <View className="mx-auto">
-          <IconWithTheme icon={Bug} size={52} />
+          <IconWithTheme icon={bugIcon} size={52} />
         </View>
         <View>
           <Text className="font-extrabold">
@@ -128,10 +131,9 @@ export default function Screen() {
         <Button
           disabled={isBugCreationPending}
           className="w-full"
-          
           onPress={handleSubmit}
         >
-          <Text>{isBugCreationPending ? "Submitting..." : "Submit Bug"}</Text>
+          <Text className="text-white dark:text-black">{isBugCreationPending ? "Submitting..." : "Submit Bug"}</Text>
         </Button>
       </View>
     </KeyboardAwareScrollView>
