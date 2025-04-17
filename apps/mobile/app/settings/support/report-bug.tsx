@@ -1,6 +1,6 @@
 import * as React from "react";
 import { IconWithTheme } from "~/lib/IconWithTheme";
-import { Bug as bugIcon }  from "lucide-react-native";
+import { Bug as bugIcon } from "lucide-react-native";
 import { View } from "react-native";
 import { Text } from "~/components/ui/text";
 import { Button } from "~/components/ui/button";
@@ -18,12 +18,10 @@ import { splitCamelOrPascal } from "~/lib/string.lib";
 export default function Screen() {
   const bugManager = useReportBugManger();
 
-  const { mutate: submitBug, isPending: isBugCreationPending } = 
-  useMutation({
-    mutationFn: async () => 
-      api.bug.postBug(bugManager.getBug() as Bug),
+  const { mutate: submitBug, isPending: isBugCreationPending } = useMutation({
+    mutationFn: async () => api.bug.postBug(bugManager.getBug() as Bug),
     onSuccess: (data) => {
-      Toast.show(data.title, {
+      Toast.show("Bug reported successfully", {
         style: { backgroundColor: "green" },
       });
       bugManager.reset();
@@ -133,7 +131,9 @@ export default function Screen() {
           className="w-full"
           onPress={handleSubmit}
         >
-          <Text className="text-white dark:text-black">{isBugCreationPending ? "Submitting..." : "Submit Bug"}</Text>
+          <Text className="text-white dark:text-black">
+            {isBugCreationPending ? "Submitting..." : "Submit Bug"}
+          </Text>
         </Button>
       </View>
     </KeyboardAwareScrollView>

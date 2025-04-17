@@ -23,7 +23,7 @@ export default function FeedbackScreen() {
       mutationFn: async () =>
         api.feedback.postFeedback(feedbackManager.getFeedback() as Feedback),
       onSuccess: (data) => {
-        Toast.show(data.message, {
+        Toast.show("Feedback submitted successfully", {
           style: { backgroundColor: "green" },
         });
         feedbackManager.reset();
@@ -135,7 +135,7 @@ export default function FeedbackScreen() {
           className="w-full"
           onPress={handleSubmit}
         >
-          <Text>
+          <Text className="text-white dark:text-black">
             {isFeedbackSubmitting ? "Submitting..." : "Submit Feedback"}
           </Text>
         </Button>
