@@ -1,10 +1,11 @@
 import React from "react";
-import { View, StyleSheet, useWindowDimensions } from "react-native";
-import { DynamicForm } from "~/types/utils/form-builder.types";
-import { Label } from "~/components/ui/label";
+import { View } from "react-native";
 import { Text } from "~/components/ui/text";
-import { RenderInputField } from "./RenderFields";
 import { cn } from "~/lib/utils";
+import { DynamicForm } from "~/types/utils/form-builder.types";
+import { getItemWidth } from "../../../lib/getItemWidth.util";
+import { RenderInputField } from "./RenderFields";
+import { Separator } from "~/components/ui/separator";
 
 interface FormBuilderProps {
   className?: string;
@@ -13,89 +14,86 @@ interface FormBuilderProps {
 }
 
 export const FormBuilder = ({
-  form,
-  includeHeader = true,
   className,
+  form,
+  includeHeader = false,
 }: FormBuilderProps) => {
-  const { width: screenWidth } = useWindowDimensions();
-
-  // Define breakpoint (e.g. tablets or wide screens)
-  const isWideScreen = screenWidth >= 600;
-
   return (
     <View className={cn("flex flex-col w-full", className)}>
       {includeHeader && (
-        <View className="space-y-1 py-5">
-          <Text className="text-xl font-bold tracking-tight">
-            {form.name}
-          </Text>
-          <Text className="font-thin mt-2">{form.description}</Text>
+        <View className="py-5 space-y-1">
+          <Text className="text-2xl font-bold">{form.name}</Text>
+          <Text className="text-muted-foreground">{form.description}</Text>
+          <Separator className="my-2" />
         </View>
       )}
 
-      {form?.grids?.map((grid, gridIndex) => (
-        <View key={gridIndex} className="mb-6">
-          {grid.includeHeader && (
-            <View className="mb-4">
-              <Text className="text-lg font-semibold">{grid.name}</Text>
-              <View className="h-[1px] bg-gray-300 my-2" />
-            </View>
-          )}
+      <View
+        className={cn(
+          "flex gap-4",
+          form.orientation === "vertical" ? "flex-col" : "flex-col"
+        )}
+      >
+        {form?.grids?.map((grid, index) => (
+          <View
+            key={index}
+            className={cn(
+              "flex w-full border border-border rounded-lg bg-muted/30 p-4",
+              form.orientation === "vertical"
+                ? "flex-col gap-10"
+                : "flex-col gap-12"
+            )}
+          >
+            {grid.includeHeader && (
+              <View className="flex flex-col gap-2 mb-2">
+                <Text className="text-xl font-semibold">{grid.name}</Text>
+                <Separator className="my-1" />
+              </View>
+            )}
 
-          {grid?.gridItems?.map((gridItem) => {
-            const isVertical = form.orientation === "vertical";
-            const fieldCount = gridItem.fields.length;
-
-            return (
-              <View key={gridItem.id} className="mb-6">
+            {grid?.gridItems?.map((gridItem) => {
+              const fieldCount = gridItem.fields.length;
+              return (
                 <View
-                  className={cn(
-                    "flex flex-wrap justify-between w-full gap-4",
-                    isVertical ? "flex-col" : "flex-row"
-                  )}
+                  key={gridItem.id}
+                  className="flex flex-row flex-wrap gap-4 w-full"
                 >
-                  {gridItem.fields.map((field, fieldIndex) => {
+                  {gridItem.fields.map((field, idx) => {
                     if (field.hidden) return null;
 
-                    // Dynamic width based on screen size and field count
-                    const dynamicStyle =
-                      !isVertical && fieldCount > 1
-                        ? isWideScreen
-                          ? styles.halfWidthField
-                          : styles.fullWidthField
-                        : styles.fullWidthField;
-
                     return (
-                      <View key={fieldIndex} style={dynamicStyle}>
-                        {field.variant !== "checkbox" && (
-                          <Label className="mb-1" htmlFor={field.label}>
-                            {field.label}
-                            {field.required && (
-                              <Text className="text-red-500 font-semibold">
-                                {" "}
-                                *
-                              </Text>
-                            )}
-                          </Label>
+                      <View
+                        key={`${idx}-${field.error}`}
+                        className={cn(
+                          "flex flex-col gap-2",
+                          form.orientation === "vertical"
+                            ? "w-full"
+                            : getItemWidth(fieldCount),
+                          field.containerClassName
                         )}
+                      >
+                        <View className="flex flex-row justify-between items-center">
+                          {field.variant !== "check" && (
+                            <Text className="text-md font-semibold">
+                              {field.label}
+                              {field.required && (
+                                <Text className="text-red-500 dark:text-red-500 ">
+                                  *
+                                </Text>
+                              )}
+                            </Text>
+                          )}
+                          {!!field?.error && (
+                            <Text className="text-xs text-red-500 dark:text-red-500 font-medium">
+                              {field?.error}
+                            </Text>
+                          )}
+                        </View>
 
                         <RenderInputField field={field} />
 
-                        {field.error && (
-                          <Text className="text-red-500 text-xs mt-1">
-                            {field.error}
-                          </Text>
-                        )}
-
-                        {field.description && (
-                          <Text
-                            className={cn(
-                              "text-sm text-gray-500 font-thin mt-1",
-                              field.variant === "picture"
-                                ? "text-center"
-                                : "text-left"
-                            )}
-                          >
+                        {!!field.description && (
+                          <Text className={cn("text-xs text-muted-foreground",field.variant === "picture" ? "text-center" : "")}>
                             {field.description}
                           </Text>
                         )}
@@ -103,21 +101,11 @@ export const FormBuilder = ({
                     );
                   })}
                 </View>
-              </View>
-            );
-          })}
-        </View>
-      ))}
+              );
+            })}
+          </View>
+        ))}
+      </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  halfWidthField: {
-    flexBasis: "48%",
-    flexGrow: 1,
-  },
-  fullWidthField: {
-    width: "100%",
-  },
-});

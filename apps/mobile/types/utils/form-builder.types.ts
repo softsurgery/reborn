@@ -32,6 +32,7 @@ export interface Field {
     | "date"
     | "select"
     | "checkbox"
+    | "check"
     | "radio"
     | "textarea"
     | "switch"
