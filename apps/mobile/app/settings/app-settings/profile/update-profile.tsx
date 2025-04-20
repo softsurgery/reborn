@@ -54,6 +54,7 @@ export default function UpdateProfile() {
     (): DynamicForm => ({
       name: "Update Your Profile",
       description: "Make changes to your profile information below",
+      orientation: "horizontal",
       grids: [
         {
           name: "General Information",
@@ -122,11 +123,6 @@ export default function UpdateProfile() {
                       updateProfileManager.set("email", value),
                   },
                 },
-              ],
-            },
-            {
-              id: 4,
-              fields: [
                 {
                   label: "Phone",
                   variant: "tel",
@@ -144,18 +140,17 @@ export default function UpdateProfile() {
               ],
             },
             {
-              id: 5,
+              id: 7,
               fields: [
                 {
-                  label: "Bio",
-                  variant: "textarea",
-                  placeholder: "Write a short bio...",
+                  label: "Date of Birth",
+                  variant: "date",
                   disabled: isUpdateProfilePending,
-                  description: "Tell us a little bit about yourself.",
+                  description: "Let us know when you celebrate!",
                   props: {
-                    value: updateProfileManager.bio,
-                    onChangeText: (value: string) =>
-                      updateProfileManager.set("bio", value),
+                    value: updateProfileManager.dateOfBirth,
+                    onDateChange: (date: Date | null) =>
+                      updateProfileManager.set("dateOfBirth", date),
                   },
                 },
               ],
@@ -181,18 +176,25 @@ export default function UpdateProfile() {
                 },
               ],
             },
-            {
-              id: 7,
+           
+          ],
+        },
+        {
+          name: "Additional Information",
+          gridItems: [
+             {
+              id: 5,
               fields: [
                 {
-                  label: "Date of Birth",
-                  variant: "date",
+                  label: "Bio",
+                  variant: "textarea",
+                  placeholder: "Write a short bio...",
                   disabled: isUpdateProfilePending,
-                  description: "Let us know when you celebrate!",
+                  description: "Tell us a little bit about yourself.",
                   props: {
-                    value: updateProfileManager.dateOfBirth,
-                    onDateChange: (date: Date | null) =>
-                      updateProfileManager.set("dateOfBirth", date),
+                    value: updateProfileManager.bio,
+                    onChangeText: (value: string) =>
+                      updateProfileManager.set("bio", value),
                   },
                 },
               ],
@@ -237,8 +239,8 @@ export default function UpdateProfile() {
                 },
               ],
             },
-          ],
-        },
+          ]
+        }
       ],
     }),
     [updateProfileManager, isUpdateProfilePending, image]
@@ -265,7 +267,7 @@ export default function UpdateProfile() {
   return (
     <KeyboardAwareScrollView bounces={false}>
       <View className="flex flex-col gap-6 mx-4 mb-16">
-        <FormBuilder form={form} />
+        <FormBuilder form={form} className="my-4" />
 
         <Button
           onPress={handleUpdate}
