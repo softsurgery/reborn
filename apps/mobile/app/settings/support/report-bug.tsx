@@ -9,7 +9,7 @@ import { useReportBugManger } from "./hooks/useReportBugManager";
 import { BUG_CATEGORIES } from "~/constants/bug-categories";
 import { useMutation } from "@tanstack/react-query";
 import { Toast } from "react-native-toast-notifications";
-import { DynamicForm } from "~/types/utils/form-builder";
+import { DynamicForm } from "~/types/utils/form-builder.types";
 import { FormBuilder } from "~/components/common/form-builder/FormBuilder";
 import { api } from "~/api";
 import { Bug } from "~/types";
@@ -115,14 +115,14 @@ export default function Screen() {
         <View className="mx-auto">
           <IconWithTheme icon={bugIcon} size={52} />
         </View>
-        <View>
+        {/* <View>
           <Text className="font-extrabold">
             Help us improve by reporting any issues you encounter.
           </Text>
           <Text className="font-thin mt-2">
             Please provide as much detail as possible
           </Text>
-        </View>
+        </View> */}
 
         <FormBuilder form={form} />
 

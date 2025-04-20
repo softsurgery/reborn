@@ -9,7 +9,7 @@ import { FEEDBACK_CATEGORIES } from "~/constants/feedback-categories";
 import { IconWithTheme } from "~/lib/IconWithTheme";
 import { MailCheck } from "lucide-react-native";
 import { FormBuilder } from "~/components/common/form-builder/FormBuilder";
-import { DynamicForm } from "~/types/utils/form-builder";
+import { DynamicForm } from "~/types/utils/form-builder.types";
 import { View } from "react-native";
 import { api } from "~/api";
 import { Feedback } from "~/types";
@@ -53,7 +53,7 @@ export default function FeedbackScreen() {
               id: 1,
               fields: [
                 {
-                  label: "Feedback Message(*)",
+                  label: "Feedback Message",
                   variant: "text",
                   description: "Share your feedback here",
                   required: true,
@@ -119,14 +119,14 @@ export default function FeedbackScreen() {
         <View className="mx-auto ">
           <IconWithTheme icon={MailCheck} size={52} className="mx-auto" />
         </View>
-        <View>
+        {/* <View>
           <Text className="font-extrabold text-lg">
             We'd love your feedback!
           </Text>
           <Text className="font-thin mt-1 text-sm">
             Please share your thoughts and help us improve.
           </Text>
-        </View>
+        </View> */}
 
         <FormBuilder form={form} />
 

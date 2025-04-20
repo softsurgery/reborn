@@ -4,11 +4,13 @@ import { TextInputProps } from "react-native";
 export interface DynamicForm {
   name: string;
   description?: string;
+  orientation?: "vertical" | "horizontal";  
   grids: DynamicFormGrid[];
 }
 
 export interface DynamicFormGrid {
   name?: string;
+  includeHeader?: boolean;
   gridItems: DynamicFormGridItems[];
 }
 
@@ -19,6 +21,8 @@ export interface DynamicFormGridItems {
 
 export interface Field {
   label: string;
+  className?: string;
+  containerClassName?: string;
   variant:
     | "text"
     | "email"
@@ -32,7 +36,7 @@ export interface Field {
     | "textarea"
     | "switch"
     | "rating"
-    | "file"
+    | "picture"
     | "double-choice"
     | "custom";
   required?: boolean;
