@@ -1,6 +1,6 @@
 import React from "react";
 import { LucideIcon } from "lucide-react-native";
-import { IconWithTheme } from "~/lib/IconWithTheme";
+import Icon from "~/lib/Icon";
 import { Text } from "~/components/ui/text";
 import { cn } from "~/lib/utils";
 
@@ -20,9 +20,8 @@ export const MenuItem = ({
 }: MenuItemProps) => {
   return (
     <>
-      <IconWithTheme
-        icon={icon}
-        size={size}
+      <Icon
+        name={icon as LucideIcon}
         className={cn(active && "text-primary")}
       />
       <Text className={cn("text-xs", active && "text-primary")}>{title}</Text>

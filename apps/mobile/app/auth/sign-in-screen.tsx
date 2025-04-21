@@ -1,12 +1,10 @@
 import * as React from "react";
 import { Image, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { Mail } from "lucide-react-native";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { useAuthManager } from "~/lib/stores/use-auth-form";
 import { Label } from "~/components/ui/label";
-import { IconWithTheme } from "~/lib/IconWithTheme";
 import { useNavigation } from "expo-router";
 import { NavigationProps } from "~/types/app.routes";
 import { Result } from "~/types";
@@ -19,6 +17,8 @@ import DividerWithText from "~/components/ui/divider-with-text";
 import { useToast } from "react-native-toast-notifications";
 import { Text } from "~/components/ui/text";
 import { useAuth } from "~/context/AuthContext";
+import Icon from "~/lib/Icon";
+import { Mail } from "lucide-react-native";
 
 export default function Screen() {
   const { setUser } = useAuth();
@@ -124,7 +124,7 @@ export default function Screen() {
               onLoginPress();
             }}
           >
-            <IconWithTheme icon={Mail} size={24} className="mt-1" reverse />
+            <Icon name={Mail} />
             <Text reversed className="font-bold">
               Continue with E-mail
             </Text>

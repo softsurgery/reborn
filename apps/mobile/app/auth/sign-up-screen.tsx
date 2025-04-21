@@ -7,7 +7,7 @@ import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { useAuthManager } from "~/lib/stores/use-auth-form";
 import { Label } from "~/components/ui/label";
-import { IconWithTheme } from "~/lib/IconWithTheme";
+import Icon from "~/lib/Icon";
 import { useNavigation } from "expo-router";
 import { NavigationProps } from "~/types/app.routes";
 import { Result } from "~/types";
@@ -168,13 +168,10 @@ export default function Screen() {
               onSignUpPress();
             }}
           >
-            <IconWithTheme
-              icon={MailPlus}
-              size={24}
-              className="mt-1"
-              reverse
-            />
-            <Text reversed className="font-bold">Create Account</Text>
+            <Icon name={MailPlus} />
+            <Text reversed className="font-bold">
+              Create Account
+            </Text>
           </Button>
           {/* Divider */}
           <DividerWithText text="OR" />

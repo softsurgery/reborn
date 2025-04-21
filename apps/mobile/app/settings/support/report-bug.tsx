@@ -1,6 +1,5 @@
 import * as React from "react";
-import { IconWithTheme } from "~/lib/IconWithTheme";
-import { Bug as bugIcon } from "lucide-react-native";
+import Icon  from "~/lib/Icon";
 import { View } from "react-native";
 import { Text } from "~/components/ui/text";
 import { Button } from "~/components/ui/button";
@@ -12,8 +11,9 @@ import { Toast } from "react-native-toast-notifications";
 import { DynamicForm } from "~/types/utils/form-builder.types";
 import { FormBuilder } from "~/components/common/form-builder/FormBuilder";
 import { api } from "~/api";
-import { Bug } from "~/types";
 import { splitCamelOrPascal } from "~/lib/string.lib";
+import { BugIcon } from "lucide-react-native";
+import { Bug } from "~/types";
 
 export default function Screen() {
   const bugManager = useReportBugManger();
@@ -113,7 +113,7 @@ export default function Screen() {
       <View className="flex flex-col mx-4 my-4 gap-2">
         {/* Header Section */}
         <View className="mx-auto">
-          <IconWithTheme icon={bugIcon} size={52} />
+          <Icon name={BugIcon} />
         </View>
         {/* <View>
           <Text className="font-extrabold">

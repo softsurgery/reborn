@@ -1,11 +1,12 @@
 import React from "react";
 import { Text } from "../ui/text";
-import { IconWithTheme } from "~/lib/IconWithTheme";
+import Icon from "~/lib/Icon";
 import {
   Bell,
   Bug,
   ChevronRight,
   LogOut,
+  LucideIcon,
   MailCheck,
   Settings,
   User2,
@@ -22,6 +23,9 @@ import { cn } from "~/lib/utils";
 import { Separator } from "../ui/separator";
 import { useAuth } from "~/context/AuthContext";
 import { StableScrollView } from "../common/StableScrollView";
+import { IconName } from "~/types/utils/IconName";
+
+
 
 export const Account = () => {
   const { disconnect } = useAuth();
@@ -119,10 +123,10 @@ const Item = ({ className, title, icon, link, onPress }: ItemProps) => {
     >
       <View className="flex flex-row justify-between py-4 border-gray-100 dark:border-gray-900 px-2">
         <View className="flex flex-row items-center gap-4">
-          <IconWithTheme icon={icon as React.ElementType} size={28} />
+          <Icon name={icon as LucideIcon} />
           <Text className="text-xl">{title}</Text>
         </View>
-        <IconWithTheme icon={ChevronRight} size={24} />
+        <Icon name={ChevronRight} />
       </View>
     </Pressable>
   );

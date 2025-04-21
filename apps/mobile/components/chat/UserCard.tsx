@@ -3,7 +3,7 @@ import { Text } from "~/components/ui/text";
 import { User } from "~/types";
 import { UserBubble } from "./UserBubble";
 import { cn } from "~/lib/utils";
-import { IconWithTheme } from "~/lib/IconWithTheme";
+import Icon from "~/lib/Icon";
 import { MessageCircleMoreIcon } from "lucide-react-native";
 
 interface UserCardProps {
@@ -21,7 +21,7 @@ export const UserCard = ({
   latestMessage,
   sentAt,
   isSeen,
-  isPending
+  isPending,
 }: UserCardProps) => {
   return (
     <View
@@ -49,10 +49,7 @@ export const UserCard = ({
       {/* Message Row */}
       {isSeen && (
         <Text className="text-sm text-gray-600 dark:text-gray-400">
-          <IconWithTheme
-            icon={MessageCircleMoreIcon}
-            size={24}
-          />
+          <Icon name={MessageCircleMoreIcon} />
         </Text>
       )}
     </View>

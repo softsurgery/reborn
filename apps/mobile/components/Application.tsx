@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Platform, View, SafeAreaView } from "react-native";
+import { Platform, View } from "react-native";
 import {
   Tabs,
   TabsContent,
@@ -18,7 +18,7 @@ import { Account } from "./account/Account";
 import { Chat } from "./chat/Chat";
 import { cn } from "~/lib/utils";
 import { Button } from "./ui/button";
-import { IconWithTheme } from "~/lib/IconWithTheme";
+import Icon from "~/lib/Icon";
 
 export default function Application() {
   const [value, setValue] = React.useState("account");
@@ -84,9 +84,9 @@ export default function Application() {
           {/* Plus Button in the middle */}
           <Button
             variant="default"
-            className="w-20 h-20 -top-4 rounded-full aspect-square flex items-center justify-center border-4 border-foreground"
+            className="w-20 h-20 -top-4 rounded-full aspect-square flex items-center justify-center border border-border"
           >
-            <IconWithTheme icon={Plus} size={32} />
+            <Icon name={Plus} />
           </Button>
 
           {/* Right Side Tabs */}

@@ -6,14 +6,14 @@ import { useFeedbackManager } from "./hooks/useFeedbackManager";
 import { useMutation } from "@tanstack/react-query";
 import { Toast } from "react-native-toast-notifications";
 import { FEEDBACK_CATEGORIES } from "~/constants/feedback-categories";
-import { IconWithTheme } from "~/lib/IconWithTheme";
-import { MailCheck } from "lucide-react-native";
+import Icon from "~/lib/Icon";
 import { FormBuilder } from "~/components/common/form-builder/FormBuilder";
 import { DynamicForm } from "~/types/utils/form-builder.types";
 import { View } from "react-native";
 import { api } from "~/api";
 import { Feedback } from "~/types";
 import { splitCamelOrPascal } from "~/lib/string.lib";
+import { MailCheck } from "lucide-react-native";
 
 export default function FeedbackScreen() {
   const feedbackManager = useFeedbackManager();
@@ -117,7 +117,7 @@ export default function FeedbackScreen() {
       <View className="flex flex-col my-4 gap-2 mx-4">
         {/* Header Section */}
         <View className="mx-auto ">
-          <IconWithTheme icon={MailCheck} size={52} className="mx-auto" />
+          <Icon name={MailCheck} />
         </View>
         {/* <View>
           <Text className="font-extrabold text-lg">

@@ -16,7 +16,7 @@ import { Textarea } from "~/components/ui/textarea";
 import { chat } from "~/firebase/chat";
 import { useUserUid } from "~/hooks/content/useUid";
 import { useWholeConvo } from "~/hooks/content/useWholeConvo";
-import { IconWithTheme } from "~/lib/IconWithTheme";
+import Icon from "~/lib/Icon";
 import { User } from "~/types";
 import { ChatMessage } from "~/types/Chat";
 
@@ -119,7 +119,7 @@ export default function ChatScreen1() {
                 sendMessage();
               }}
             >
-              <IconWithTheme icon={ImagePlus} size={30} />
+              <Icon name={ImagePlus} />
             </TouchableOpacity>
             <Textarea
               defaultValue={inputMessage}
@@ -135,7 +135,7 @@ export default function ChatScreen1() {
                 sendMessage();
               }}
             >
-              <IconWithTheme icon={Send} size={24} />
+              <Icon name={Send} />
             </TouchableOpacity>
           </View>
         </View>

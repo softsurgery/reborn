@@ -3,7 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Theme, ThemeProvider } from "@react-navigation/native";
 import { SplashScreen, Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { Platform } from "react-native";
+import { Platform, View } from "react-native";
 import { NAV_THEME } from "~/lib/constants";
 import { useColorScheme } from "~/lib/useColorScheme";
 import { PortalHost } from "@rn-primitives/portal";
@@ -99,13 +99,19 @@ export default function RootLayout() {
   }
 
   return (
-    <React.Fragment>
+    <View className={isDarkColorScheme ? "dark flex-1" : "flex-1"}>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
             <ToastProvider>
               <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
-              <Stack>
+              <Stack
+                screenOptions={{
+                  contentStyle: {
+                    flex: 1,
+                  },
+                }}
+              >
                 {/* Auth */}
                 <Stack.Screen
                   name="index"
@@ -178,6 +184,6 @@ export default function RootLayout() {
         </AuthProvider>
       </QueryClientProvider>
       <PortalHost />
-    </React.Fragment>
+    </View>
   );
 }

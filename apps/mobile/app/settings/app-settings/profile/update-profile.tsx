@@ -8,8 +8,7 @@ import { firebaseFns } from "~/firebase";
 import { useCurrentUser } from "~/hooks/useCurrentUser";
 import { Loader } from "~/components/Loader";
 import { tunisianGovernorates } from "~/constants/cities";
-import { IconWithTheme } from "~/lib/IconWithTheme";
-import { Save } from "lucide-react-native";
+import Icon from "~/lib/Icon";
 import { useMutation } from "@tanstack/react-query";
 import { Result, User } from "~/types";
 import { Toast } from "react-native-toast-notifications";
@@ -17,6 +16,7 @@ import { NavigationProps } from "~/types/app.routes";
 import { useNavigation } from "expo-router";
 import { DynamicForm } from "~/types/utils/form-builder.types";
 import { FormBuilder } from "~/components/common/form-builder/FormBuilder";
+import { Save } from "lucide-react-native";
 
 export default function UpdateProfile() {
   const { currentUser, isFetchingCurrentUser } = useCurrentUser();
@@ -176,13 +176,12 @@ export default function UpdateProfile() {
                 },
               ],
             },
-           
           ],
         },
         {
           name: "Additional Information",
           gridItems: [
-             {
+            {
               id: 5,
               fields: [
                 {
@@ -239,8 +238,8 @@ export default function UpdateProfile() {
                 },
               ],
             },
-          ]
-        }
+          ],
+        },
       ],
     }),
     [updateProfileManager, isUpdateProfilePending, image]
@@ -274,7 +273,7 @@ export default function UpdateProfile() {
           className="flex flex-row gap-2 w-full"
           disabled={isUpdateProfilePending}
         >
-          <IconWithTheme icon={Save} size={24} className="mt-1" />
+          <Icon name={Save} size={24} className="mt-1" />
           <Text className="dark:text-black text-white">UPDATE</Text>
         </Button>
       </View>
