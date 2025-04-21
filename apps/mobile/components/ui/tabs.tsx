@@ -11,7 +11,7 @@ const TabsList = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <TabsPrimitive.List
     ref={ref}
-    className={cn("h-20 rounded-md bg-muted", className)}
+    className={cn("h-20 rounded-md bg-background dark:bg-foreground", className)}
     {...props}
   />
 ));
@@ -25,16 +25,16 @@ const TabsTrigger = React.forwardRef<
   return (
     <TextClassContext.Provider
       value={cn(
-        "text-sm native:text-base font-medium text-muted-foreground web:transition-all",
+        "text-sm native:text-base font-medium text-muted-foreground",
         value === props.value && "text-foreground"
       )}
     >
       <TabsPrimitive.Trigger
         ref={ref}
         className={cn(
-          "inline-flex h-full items-center justify-center shadow-none web:whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium web:ring-offset-background web:transition-all web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2",
-          props.disabled && "web:pointer-events-none opacity-50",
-          props.value === value && "bg-gray-200 dark:bg-black ",
+          "inline-flex h-full items-center justify-center shadow-none rounded-sm px-3 py-1.5 text-sm font-medium",
+          props.disabled && " opacity-50",
+          props.value === value && "bg-primary text-foreground",
           className
         )}
         {...props}
@@ -52,15 +52,15 @@ const TabsTriggerWithIcon = React.forwardRef<
   return (
     <TextClassContext.Provider
       value={cn(
-        "text-sm native:text-base font-medium text-muted-foreground web:transition-all",
+        "text-sm native:text-base font-medium text-muted-foreground",
         value === props.value && "text-foreground"
       )}
     >
       <TabsPrimitive.Trigger
         ref={ref}
         className={cn(
-          "inline-flex items-center justify-center shadow-none web:whitespace-nowrap rounded-sm px-3 py-5 text-sm font-medium web:ring-offset-background web:transition-all web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2",
-          props.disabled && "web:pointer-events-none opacity-50",
+          "inline-flex items-center justify-center shadow-none rounded-sm px-3 py-5 text-sm font-medium",
+          props.disabled && "opacity-50",
           className
         )}
         {...props}
@@ -77,7 +77,6 @@ const TabsContent = React.forwardRef<
   <TabsPrimitive.Content
     ref={ref}
     className={cn(
-      "web:ring-offset-background web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2",
       className
     )}
     {...props}

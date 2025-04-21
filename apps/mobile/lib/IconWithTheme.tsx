@@ -1,31 +1,26 @@
-import { useColorScheme } from "./useColorScheme";
+import React from "react";
+import { View, useColorScheme } from "react-native";
+import { cn } from "~/lib/utils";
 
 interface IconWithThemeProps {
   className?: string;
   icon: React.ElementType;
   size: number;
-  color?: string;
-  reverse?: boolean;
 }
 
 export const IconWithTheme = ({
   className,
   icon: Icon,
   size,
-  color,
-  reverse = false,
 }: IconWithThemeProps) => {
-  const { isDarkColorScheme } = useColorScheme();
-
-  const themeColor =
-    color ||
-    (reverse
-      ? isDarkColorScheme
-        ? "#000000"
-        : "#ffffff"
-      : isDarkColorScheme
-      ? "#ffffff"
-      : "#000000");
-
-  return <Icon className={className} size={size} color={themeColor} />;
+  const colorScheme = useColorScheme();
+  
+  const iconColorClass = colorScheme === 'dark' ? 'text-red-500' : 'text-foreground';
+  
+  console.log("colorScheme", colorScheme);
+  return (
+    <View className={cn("items-center justify-center", className)}>
+      <Icon size={size} className={cn(iconColorClass)} />
+    </View>
+  );
 };

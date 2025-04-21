@@ -1,5 +1,4 @@
 import React from "react";
-import "~/global.css";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Theme, ThemeProvider } from "@react-navigation/native";
 import { SplashScreen, Stack } from "expo-router";
@@ -13,6 +12,7 @@ import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ToastProvider } from "react-native-toast-notifications";
 import { AuthProvider } from "~/context/AuthContext";
+import "~/global.css";
 
 const LIGHT_THEME: Theme = {
   dark: false,

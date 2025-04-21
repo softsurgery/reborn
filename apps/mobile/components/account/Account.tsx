@@ -38,7 +38,7 @@ export const Account = () => {
   return (
     <View className="flex-1 px-5 mb-2">
       <Text className="text-4xl font-bold pb-1">Account</Text>
-      <Separator className="rounded-full"/>
+      <Separator className="rounded-full" />
       <StableScrollView>
         <PlanInfo className="my-2" />
         <GoPremium className="my-3" />
@@ -107,14 +107,11 @@ const Item = ({ className, title, icon, link, onPress }: ItemProps) => {
     <Pressable
       onPressIn={() => setPressed(true)}
       onPressOut={() => setPressed(false)}
-      className={cn(
-        "rounded-lg",
-        pressed && "bg-slate-100 dark:bg-gray-900",
-        className
-      )}
+      className={cn("rounded-lg", pressed && "bg-background", className)}
       onPress={
         link
           ? () => {
+              //@ts-ignore
               navigation.push(link);
             }
           : onPress

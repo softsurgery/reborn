@@ -274,7 +274,7 @@ export default function UpdateProfile() {
           className="flex flex-row gap-2 w-full"
           disabled={isUpdateProfilePending}
         >
-          <IconWithTheme icon={Save} size={24} className="mt-1" reverse />
+          <IconWithTheme icon={Save} size={24} className="mt-1" />
           <Text className="dark:text-black text-white">UPDATE</Text>
         </Button>
       </View>

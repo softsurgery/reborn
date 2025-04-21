@@ -38,11 +38,11 @@ export const ProfileManagmentCard = ({
       </CardHeader>
       <CardContent>
         <View className="flex flex-row w-full">
-          <View className="flex items-center w-1/3 border-r-2 border-black dark:border-white">
+          <View className="flex items-center w-1/3 border-r-2">
             <Text className="text-2xl">50</Text>
             <Text className="font-light">Services</Text>
           </View>
-          <View className="flex items-center w-1/3 border-r-2 border-black dark:border-white">
+          <View className="flex items-center w-1/3 border-r-2">
             <Text className="text-2xl">120</Text>
             <Text className="font-light">Following</Text>
           </View>
@@ -59,7 +59,7 @@ export const ProfileManagmentCard = ({
           }
           className="w-full"
         >
-          <Text className="bold dark:text-black text-white">
+          <Text className="bold">
             Update Your Profile
           </Text>
         </Button>
