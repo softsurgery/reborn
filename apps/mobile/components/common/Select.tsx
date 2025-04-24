@@ -52,7 +52,8 @@ const Select = React.memo(
                 ? options.find((option) => option.value === value)?.label
                 : "Select an option"}
             </Label>
-            <Icon name={ChevronDown} />
+            {/* <Icon name={ChevronDown} /> */}
+            <ChevronDown />
           </Button>
         </DialogTrigger>
         <DialogContent className="w-[80vw] max-h-[50vh]">
@@ -88,7 +89,7 @@ const Select = React.memo(
           <DialogFooter>
             <DialogClose asChild>
               <Button>
-                <Text className="text-white dark:text-black">Save</Text>
+                <Text className="text-white">Save</Text>
               </Button>
             </DialogClose>
           </DialogFooter>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, TextInput, View, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { Field } from "~/types/utils/form-builder.types";
 import Select from "../Select";
@@ -10,6 +10,7 @@ import { Input } from "~/components/ui/input";
 import StarRating from "react-native-star-rating-widget";
 import { PictureUploader } from "../PictureUploader";
 import { DoubleChoice } from "../DoubleChoice";
+import { Text } from "~/components/ui/text";
 
 interface RenderInputFieldProps {
   field?: Field;
@@ -57,6 +58,7 @@ export const RenderInputField = ({ field }: RenderInputFieldProps) => {
           onSelect={(value) => field?.props?.onValueChange?.(value)}
           options={field?.props?.selectOptions}
           description={field.description}
+          disabled={field?.props?.other}
         />
       );
     case "date":
