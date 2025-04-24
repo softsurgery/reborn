@@ -135,7 +135,7 @@ export default function FeedbackScreen() {
           className="w-full"
           onPress={handleSubmit}
         >
-          <Text className="text-white dark:text-black">
+          <Text>
             {isFeedbackSubmitting ? "Submitting..." : "Submit Feedback"}
           </Text>
         </Button>

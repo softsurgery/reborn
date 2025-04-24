@@ -131,7 +131,7 @@ export default function Screen() {
           className="w-full"
           onPress={handleSubmit}
         >
-          <Text className="text-white dark:text-black">
+          <Text>
             {isBugCreationPending ? "Submitting..." : "Submit Bug"}
           </Text>
         </Button>

@@ -9,7 +9,7 @@ export default function OnBoarding() {
   const navigation = useNavigation<NavigationProps>();
 
     return (
-      <View className="flex-1 justify-between items-center p-6 bg-secondary/30">
+      <View className="flex-1 justify-between items-center p-6 bg-background">
         <View className="flex-1 justify-center items-center">
           <Image
             className="h-80 w-80"

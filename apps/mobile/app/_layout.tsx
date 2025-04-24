@@ -13,6 +13,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ToastProvider } from "react-native-toast-notifications";
 import { AuthProvider } from "~/context/AuthContext";
 import "~/global.css";
+import { cn } from "~/lib/utils";
 
 const LIGHT_THEME: Theme = {
   dark: false,
@@ -99,7 +100,7 @@ export default function RootLayout() {
   }
 
   return (
-    <View className={isDarkColorScheme ? "dark flex-1" : "flex-1"}>
+    <View className={cn(isDarkColorScheme ? "dark flex-1" : "flex-1")}>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
@@ -125,6 +126,9 @@ export default function RootLayout() {
                   options={{
                     title: "",
                     headerRight: () => <ThemeToggle />,
+                    headerStyle: {
+                      backgroundColor: "black",
+                    },
                   }}
                 />
                 <Stack.Screen

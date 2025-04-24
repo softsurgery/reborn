@@ -86,7 +86,7 @@ export default function Application() {
             variant="default"
             className="w-20 h-20 -top-4 rounded-full aspect-square flex items-center justify-center border border-border"
           >
-            <Icon name={Plus} />
+            <Icon name={Plus} size={32} className="text-white" />
           </Button>
 
           {/* Right Side Tabs */}

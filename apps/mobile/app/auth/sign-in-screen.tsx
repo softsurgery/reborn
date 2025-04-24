@@ -65,8 +65,8 @@ export default function Screen() {
   };
 
   return (
-    <KeyboardAwareScrollView>
-      <View className="flex flex-col justify-center gap-5 p-4">
+    <KeyboardAwareScrollView className="bg-background">
+      <View className="flex flex-col justify-center gap-5 p-4 ">
         {/* Greetings */}
         <View className="my-5">
           <Text className="text-2xl font-extrabold mx-auto ">
@@ -124,8 +124,8 @@ export default function Screen() {
               onLoginPress();
             }}
           >
-            <Icon name={Mail} />
-            <Text reversed className="font-bold">
+            <Icon name={Mail} size={24} className="text-white" />
+            <Text className="font-bold text-white">
               Continue with E-mail
             </Text>
           </Button>

@@ -123,7 +123,7 @@ const Item = ({ className, title, icon, link, onPress }: ItemProps) => {
     >
       <View className="flex flex-row justify-between py-4 border-gray-100 dark:border-gray-900 px-2">
         <View className="flex flex-row items-center gap-4">
-          <Icon name={icon as LucideIcon} />
+          <Icon name={icon as LucideIcon} size={28} />
           <Text className="text-xl">{title}</Text>
         </View>
         <Icon name={ChevronRight} />

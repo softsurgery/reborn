@@ -273,8 +273,8 @@ export default function UpdateProfile() {
           className="flex flex-row gap-2 w-full"
           disabled={isUpdateProfilePending}
         >
-          <Icon name={Save} size={24} className="mt-1" />
-          <Text className="dark:text-black text-white">UPDATE</Text>
+          <Icon name={Save} size={24} />
+          <Text>Update Profile</Text>
         </Button>
       </View>
     </KeyboardAwareScrollView>
