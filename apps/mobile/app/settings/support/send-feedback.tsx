@@ -128,7 +128,7 @@ export default function FeedbackScreen() {
           </Text>
         </View> */}
 
-        <FormBuilder form={form} />
+        <FormBuilder form={form} includeHeader={true} />
 
         <Button
           disabled={isFeedbackSubmitting}

@@ -124,7 +124,7 @@ export default function Screen() {
           </Text>
         </View> */}
 
-        <FormBuilder form={form} />
+        <FormBuilder form={form} includeHeader={true} />
 
         <Button
           disabled={isBugCreationPending}
