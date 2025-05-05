@@ -100,7 +100,7 @@ export default function RootLayout() {
   }
 
   return (
-    <View className={cn(isDarkColorScheme ? "dark flex-1" : "flex-1")}>
+    <View className={cn("flex-1 bg-background" , isDarkColorScheme && "dark")}>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
