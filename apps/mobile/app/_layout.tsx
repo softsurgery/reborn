@@ -67,32 +67,34 @@ SplashScreen.preventAutoHideAsync();
 const queryClient = new QueryClient();
 
 export default function RootLayout() {
-  const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme();
+  const [colorScheme, setColorScheme] = React.useState<"light" | "dark">(
+    "light"
+  );
+  const [isDarkColorScheme, setIsDarkColorScheme] = React.useState(false);
   const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
 
   React.useEffect(() => {
-    (async () => {
-      const theme = await AsyncStorage.getItem("theme");
-      if (Platform.OS === "web") {
-        document.documentElement.classList.add("bg-background");
-      }
-      if (!theme) {
-        AsyncStorage.setItem("theme", colorScheme);
+    const loadTheme = async () => {
+      try {
+        const storedTheme = await AsyncStorage.getItem("theme");
+        const resolvedTheme = storedTheme === "dark" ? "dark" : "light";
+
+        setColorScheme(resolvedTheme);
+        setIsDarkColorScheme(resolvedTheme === "dark");
+
+        await AsyncStorage.setItem("theme", resolvedTheme);
+        setAndroidNavigationBar(resolvedTheme);
+
+        if (Platform.OS === "web") {
+          document.documentElement.classList.add("bg-background");
+        }
+      } finally {
         setIsColorSchemeLoaded(true);
-        return;
+        SplashScreen.hideAsync();
       }
-      const colorTheme = theme === "dark" ? "dark" : "light";
-      if (colorTheme !== colorScheme) {
-        setColorScheme(colorTheme);
-        setAndroidNavigationBar(colorTheme);
-        setIsColorSchemeLoaded(true);
-        return;
-      }
-      setAndroidNavigationBar(colorTheme);
-      setIsColorSchemeLoaded(true);
-    })().finally(() => {
-      SplashScreen.hideAsync();
-    });
+    };
+
+    loadTheme();
   }, []);
 
   if (!isColorSchemeLoaded) {
