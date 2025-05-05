@@ -19,8 +19,11 @@ import { Chat } from "./chat/Chat";
 import { cn } from "~/lib/utils";
 import { Button } from "./ui/button";
 import Icon from "~/lib/Icon";
+import { set } from "date-fns";
+import { useNavigation } from "expo-router";
 
 export default function Application() {
+  const navigation = useNavigation();
   const [value, setValue] = React.useState("account");
 
   const tabs = [
@@ -38,9 +41,16 @@ export default function Application() {
   const leftTabs = tabs.slice(0, 2);
   const rightTabs = tabs.slice(2);
 
+  const onValueChange = (value: string) => {
+    setValue(value);
+    navigation.setOptions({
+      title: tabs.filter((tab) => tab.value === value)[0].title,
+    });
+  };
+
   return (
     <View className="flex-1">
-      <Tabs value={value} onValueChange={setValue} className="w-full flex-1">
+      <Tabs value={value} onValueChange={onValueChange} className="w-full flex-1">
         {/* Main Content - Only Show Active Tab */}
         {tabs.map(
           (tab) =>
@@ -48,10 +58,7 @@ export default function Application() {
               <TabsContent
                 key={tab.value}
                 value={tab.value}
-                className={cn(
-                  "flex-1",
-                  Platform.OS === "ios" ? "pt-20" : "pt-10"
-                )}
+                className={cn("flex-1")}
               >
                 {tab.component}
               </TabsContent>

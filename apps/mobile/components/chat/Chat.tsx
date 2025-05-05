@@ -24,9 +24,6 @@ export const Chat = () => {
 
   return (
     <View className="flex-1 px-5">
-      <Text className="text-4xl font-bold pb-1">Chat</Text>
-      <View className="border-t border-gray-100 dark:border-gray-900 mx-1 gap-2" />
-
       {/* Search Input */}
       <View className="flex flex-row justify-between items-center w-full pt-2">
         <View className="flex flex-row items-center w-full border-hidden rounded py-1">

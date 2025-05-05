@@ -37,58 +37,54 @@ export const Account = () => {
   });
 
   return (
-    <View className="flex-1 px-5 mb-2">
-      <Text className="text-4xl font-bold pb-1">Account</Text>
-      <Separator className="rounded-full" />
-      <StableScrollView>
-        <PlanInfo className="my-2" />
-        <GoPremium className="my-3" />
+    <StableScrollView className="flex-1 px-5">
+      <PlanInfo className="my-2" />
+      <GoPremium className="my-3" />
 
-        <View className="flex flex-col gap-4 mt-5">
-          {/* App Settings */}
-          <Text className="text-2xl font-bold mb-2">App Settings</Text>
+      <View className="flex flex-col gap-4 mt-5">
+        {/* App Settings */}
+        <Text className="text-2xl font-bold mb-2">App Settings</Text>
+        <View className="flex flex-col">
+          <Item
+            title="Profile Management"
+            icon={User2}
+            link={"settings/app-settings/profile-managment"}
+          />
+          <Separator />
+          <Item
+            title="User Preferences"
+            icon={Settings}
+            link={"settings/app-settings/user-preferences"}
+          />
+          <Separator />
+          <Item title="Notifications" icon={Bell} />
+        </View>
+        {/* Support */}
+        <View>
+          <Text className="text-2xl font-bold mb-2">Support</Text>
           <View className="flex flex-col">
             <Item
-              title="Profile Management"
-              icon={User2}
-              link={"settings/app-settings/profile-managment"}
+              title="Report a Bug"
+              icon={Bug}
+              link={"settings/support/report-bug"}
             />
             <Separator />
             <Item
-              title="User Preferences"
-              icon={Settings}
-              link={"settings/app-settings/user-preferences"}
+              title="Send us Feedback"
+              icon={MailCheck}
+              link={"settings/support/send-feedback"}
             />
-            <Separator />
-            <Item title="Notifications" icon={Bell} />
-          </View>
-          {/* Support */}
-          <View>
-            <Text className="text-2xl font-bold mb-2">Support</Text>
-            <View className="flex flex-col">
-              <Item
-                title="Report a Bug"
-                icon={Bug}
-                link={"settings/support/report-bug"}
-              />
-              <Separator />
-              <Item
-                title="Send us Feedback"
-                icon={MailCheck}
-                link={"settings/support/send-feedback"}
-              />
-            </View>
-          </View>
-
-          <View>
-            <Text className="text-2xl font-bold mb-2">Account Actions</Text>
-            <View className="flex flex-col">
-              <Item title="Switch Account" icon={LogOut} onPress={disconnect} />
-            </View>
           </View>
         </View>
-      </StableScrollView>
-    </View>
+
+        <View>
+          <Text className="text-2xl font-bold mb-2">Account Actions</Text>
+          <View className="flex flex-col">
+            <Item title="Switch Account" icon={LogOut} onPress={disconnect} />
+          </View>
+        </View>
+      </View>
+    </StableScrollView>
   );
 };
 
