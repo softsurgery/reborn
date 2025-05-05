@@ -23,9 +23,6 @@ import { cn } from "~/lib/utils";
 import { Separator } from "../ui/separator";
 import { useAuth } from "~/context/AuthContext";
 import { StableScrollView } from "../common/StableScrollView";
-import { IconName } from "~/types/utils/IconName";
-
-
 
 export const Account = () => {
   const { disconnect } = useAuth();

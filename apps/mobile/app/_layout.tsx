@@ -100,7 +100,7 @@ export default function RootLayout() {
   }
 
   return (
-    <View className={cn("flex-1 bg-background" , isDarkColorScheme && "dark")}>
+    <View className={cn("flex-1", isDarkColorScheme && "dark")}>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
@@ -110,7 +110,18 @@ export default function RootLayout() {
                 screenOptions={{
                   contentStyle: {
                     flex: 1,
+                    backgroundColor: isDarkColorScheme
+                      ? NAV_THEME.dark.background
+                      : NAV_THEME.light.background,
                   },
+                  headerStyle: {
+                    backgroundColor: isDarkColorScheme
+                      ? NAV_THEME.dark.background
+                      : NAV_THEME.light.background,
+                  },
+                  headerTintColor: isDarkColorScheme
+                    ? NAV_THEME.dark.text
+                    : NAV_THEME.light.text,
                 }}
               >
                 {/* Auth */}
@@ -183,11 +194,11 @@ export default function RootLayout() {
                   }}
                 />
               </Stack>
+              <PortalHost />
             </ToastProvider>
           </ThemeProvider>
         </AuthProvider>
       </QueryClientProvider>
-      <PortalHost />
     </View>
   );
 }
