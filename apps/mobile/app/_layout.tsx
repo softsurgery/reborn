@@ -67,22 +67,20 @@ SplashScreen.preventAutoHideAsync();
 const queryClient = new QueryClient();
 
 export default function RootLayout() {
-  const [colorScheme, setColorScheme] = React.useState<"light" | "dark">(
-    "light"
-  );
-  const [isDarkColorScheme, setIsDarkColorScheme] = React.useState(false);
+  const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme(); 
   const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
 
   React.useEffect(() => {
     const loadTheme = async () => {
       try {
         const storedTheme = await AsyncStorage.getItem("theme");
-        const resolvedTheme = storedTheme === "dark" ? "dark" : "light";
+
+        const resolvedTheme =
+          storedTheme === "dark" || storedTheme === "light"
+            ? storedTheme
+            : colorScheme;
 
         setColorScheme(resolvedTheme);
-        setIsDarkColorScheme(resolvedTheme === "dark");
-
-        await AsyncStorage.setItem("theme", resolvedTheme);
         setAndroidNavigationBar(resolvedTheme);
 
         if (Platform.OS === "web") {
@@ -100,7 +98,6 @@ export default function RootLayout() {
   if (!isColorSchemeLoaded) {
     return null;
   }
-
   return (
     <View className={cn("flex-1", isDarkColorScheme && "dark")}>
       <QueryClientProvider client={queryClient}>
