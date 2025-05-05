@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Platform, View, SafeAreaView } from "react-native";
+import { Platform, View } from "react-native";
 import {
   Tabs,
   TabsContent,
@@ -18,7 +18,7 @@ import { Account } from "./account/Account";
 import { Chat } from "./chat/Chat";
 import { cn } from "~/lib/utils";
 import { Button } from "./ui/button";
-import { IconWithTheme } from "~/lib/IconWithTheme";
+import Icon from "~/lib/Icon";
 
 export default function Application() {
   const [value, setValue] = React.useState("account");
@@ -78,16 +78,15 @@ export default function Application() {
                 icon={tab.icon}
                 title={tab.title}
                 active={value === tab.value}
-                color="#0066b5"
               />
             </TabsTriggerWithIcon>
           ))}
           {/* Plus Button in the middle */}
           <Button
-            variant="outline"
-            className="w-20 h-20 -top-4 rounded-full aspect-square flex items-center justify-center border-4"
+            variant="default"
+            className="w-20 h-20 -top-4 rounded-full aspect-square flex items-center justify-center border border-border"
           >
-            <IconWithTheme icon={Plus} size={32} />
+            <Icon name={Plus} size={32} className="text-white" />
           </Button>
 
           {/* Right Side Tabs */}
@@ -102,7 +101,6 @@ export default function Application() {
                 icon={tab.icon}
                 title={tab.title}
                 active={value === tab.value}
-                color="#0066b2"
               />
             </TabsTriggerWithIcon>
           ))}

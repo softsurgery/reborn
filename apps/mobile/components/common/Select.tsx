@@ -16,7 +16,7 @@ import { cn } from "~/lib/utils";
 import { ScrollView, View } from "react-native";
 import { RadioGroupItemWithLabel } from "./RadioGroupItemWithLabel";
 import * as Haptics from "expo-haptics";
-import { IconWithTheme } from "~/lib/IconWithTheme";
+import Icon from "~/lib/Icon";
 import { ChevronDown } from "lucide-react-native";
 
 interface SelectProps {
@@ -47,8 +47,13 @@ const Select = React.memo(
             variant="outline"
             className="flex flex-row justify-between items-start"
           >
-            <Label>{value ? options.find((option) => option.value === value)?.label : "Select an option"}</Label>
-            <IconWithTheme size={24} icon={ChevronDown} />
+            <Label>
+              {value
+                ? options.find((option) => option.value === value)?.label
+                : "Select an option"}
+            </Label>
+            {/* <Icon name={ChevronDown} /> */}
+            <ChevronDown />
           </Button>
         </DialogTrigger>
         <DialogContent className="w-[80vw] max-h-[50vh]">
@@ -84,7 +89,7 @@ const Select = React.memo(
           <DialogFooter>
             <DialogClose asChild>
               <Button>
-                <Text className="text-white dark:text-black">Save</Text>
+                <Text className="text-white">Save</Text>
               </Button>
             </DialogClose>
           </DialogFooter>

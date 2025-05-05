@@ -1,11 +1,12 @@
 import React from "react";
 import { Text } from "../ui/text";
-import { IconWithTheme } from "~/lib/IconWithTheme";
+import Icon from "~/lib/Icon";
 import {
   Bell,
   Bug,
   ChevronRight,
   LogOut,
+  LucideIcon,
   MailCheck,
   Settings,
   User2,
@@ -38,7 +39,7 @@ export const Account = () => {
   return (
     <View className="flex-1 px-5 mb-2">
       <Text className="text-4xl font-bold pb-1">Account</Text>
-      <Separator className="rounded-full"/>
+      <Separator className="rounded-full" />
       <StableScrollView>
         <PlanInfo className="my-2" />
         <GoPremium className="my-3" />
@@ -107,14 +108,11 @@ const Item = ({ className, title, icon, link, onPress }: ItemProps) => {
     <Pressable
       onPressIn={() => setPressed(true)}
       onPressOut={() => setPressed(false)}
-      className={cn(
-        "rounded-lg",
-        pressed && "bg-slate-100 dark:bg-gray-900",
-        className
-      )}
+      className={cn("rounded-lg", pressed && "bg-background", className)}
       onPress={
         link
           ? () => {
+              //@ts-ignore
               navigation.push(link);
             }
           : onPress
@@ -122,10 +120,10 @@ const Item = ({ className, title, icon, link, onPress }: ItemProps) => {
     >
       <View className="flex flex-row justify-between py-4 border-gray-100 dark:border-gray-900 px-2">
         <View className="flex flex-row items-center gap-4">
-          <IconWithTheme icon={icon as React.ElementType} size={28} />
+          <Icon name={icon as LucideIcon} size={28} />
           <Text className="text-xl">{title}</Text>
         </View>
-        <IconWithTheme icon={ChevronRight} size={24} />
+        <Icon name={ChevronRight} />
       </View>
     </Pressable>
   );

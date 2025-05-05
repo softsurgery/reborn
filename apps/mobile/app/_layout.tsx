@@ -1,10 +1,9 @@
 import React from "react";
-import "~/global.css";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Theme, ThemeProvider } from "@react-navigation/native";
 import { SplashScreen, Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { Platform } from "react-native";
+import { Platform, View } from "react-native";
 import { NAV_THEME } from "~/lib/constants";
 import { useColorScheme } from "~/lib/useColorScheme";
 import { PortalHost } from "@rn-primitives/portal";
@@ -13,6 +12,8 @@ import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ToastProvider } from "react-native-toast-notifications";
 import { AuthProvider } from "~/context/AuthContext";
+import "~/global.css";
+import { cn } from "~/lib/utils";
 
 const LIGHT_THEME: Theme = {
   dark: false,
@@ -99,13 +100,30 @@ export default function RootLayout() {
   }
 
   return (
-    <React.Fragment>
+    <View className={cn("flex-1", isDarkColorScheme && "dark")}>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
             <ToastProvider>
               <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
-              <Stack>
+              <Stack
+                screenOptions={{
+                  contentStyle: {
+                    flex: 1,
+                    backgroundColor: isDarkColorScheme
+                      ? NAV_THEME.dark.background
+                      : NAV_THEME.light.background,
+                  },
+                  headerStyle: {
+                    backgroundColor: isDarkColorScheme
+                      ? NAV_THEME.dark.background
+                      : NAV_THEME.light.background,
+                  },
+                  headerTintColor: isDarkColorScheme
+                    ? NAV_THEME.dark.text
+                    : NAV_THEME.light.text,
+                }}
+              >
                 {/* Auth */}
                 <Stack.Screen
                   name="index"
@@ -119,6 +137,9 @@ export default function RootLayout() {
                   options={{
                     title: "",
                     headerRight: () => <ThemeToggle />,
+                    headerStyle: {
+                      backgroundColor: "black",
+                    },
                   }}
                 />
                 <Stack.Screen
@@ -173,11 +194,11 @@ export default function RootLayout() {
                   }}
                 />
               </Stack>
+              <PortalHost />
             </ToastProvider>
           </ThemeProvider>
         </AuthProvider>
       </QueryClientProvider>
-      <PortalHost />
-    </React.Fragment>
+    </View>
   );
 }

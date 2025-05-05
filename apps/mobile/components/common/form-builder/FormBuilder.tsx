@@ -1,10 +1,11 @@
 import React from "react";
-import { Text, View } from "react-native";
-import { DynamicForm } from "~/types/utils/form-builder";
-import { Label } from "~/components/ui/label";
-import { RenderInputField } from "./RenderFields";
-import { StableScrollView } from "../StableScrollView";
+import { View } from "react-native";
+import { Text } from "~/components/ui/text";
 import { cn } from "~/lib/utils";
+import { DynamicForm } from "~/types/utils/form-builder.types";
+import { getItemWidth } from "../../../lib/getItemWidth.util";
+import { RenderInputField } from "./RenderFields";
+import { Separator } from "~/components/ui/separator";
 
 interface FormBuilderProps {
   className?: string;
@@ -13,48 +14,98 @@ interface FormBuilderProps {
 }
 
 export const FormBuilder = ({
+  className,
   form,
   includeHeader = false,
-  className,
 }: FormBuilderProps) => {
   return (
-    <View className={cn("flex flex-col", className)}>
-        {includeHeader && (
-          <View>
-            <Text className="font-extrabold">{form.name}</Text>
-            <Text className="font-thin mt-2">{form.description}</Text>
-          </View>
+    <View className={cn("flex flex-col w-full", className)}>
+      {includeHeader && (
+        <View className="py-5 space-y-1">
+          <Text className="text-2xl font-bold">{form.name}</Text>
+          <Text className="text-muted-foreground">{form.description}</Text>
+          <Separator className="my-2" />
+        </View>
+      )}
+
+      <View
+        className={cn(
+          "flex gap-4",
+          form.orientation === "vertical" ? "flex-col" : "flex-col"
         )}
-        {form?.grids?.map((grid, gridIndex) => (
-          <View key={gridIndex}>
-            {grid?.gridItems?.map((gridItem, gridItemIndex) => (
-              <View key={gridItemIndex}>
-                {gridItem.fields.map((field, fieldIndex) => {
-                  if (!field.hidden) {
+      >
+        {form?.grids?.map((grid, index) => (
+          <View
+            key={index}
+            className={cn(
+              "flex w-full border border-border rounded-lg bg-muted/30 p-4",
+              form.orientation === "vertical"
+                ? "flex-col gap-10"
+                : "flex-col gap-12"
+            )}
+          >
+            {grid.includeHeader && (
+              <View className="flex flex-col gap-2 mb-2">
+                <Text className="text-xl font-semibold">{grid.name}</Text>
+                <Separator className="my-1" />
+              </View>
+            )}
+
+            {grid?.gridItems?.map((gridItem) => {
+              const fieldCount = gridItem.fields.length;
+              return (
+                <View
+                  key={gridItem.id}
+                  className="flex flex-row flex-wrap gap-4 w-full"
+                >
+                  {gridItem.fields.map((field, idx) => {
+                    if (field.hidden) return null;
+
                     return (
-                      <View key={fieldIndex}>
-                        {field.variant !== "checkbox" && (
-                          <Label className="mb-2" htmlFor={field.label}>{field.label}</Label>
+                      <View
+                        key={`${idx}-${field.error}`}
+                        className={cn(
+                          "flex flex-col gap-2",
+                          form.orientation === "vertical"
+                            ? "w-full"
+                            : getItemWidth(fieldCount),
+                          field.containerClassName
                         )}
+                      >
+                        <View className="flex flex-row justify-between items-center">
+                          {field.variant !== "check" && (
+                            <Text className="text-md font-semibold">
+                              {field.label}
+                              {field.required && (
+                                <Text className="text-red-500 dark:text-red-500 ">
+                                  *
+                                </Text>
+                              )}
+                            </Text>
+                          )}
+                          {!!field?.error && (
+                            <Text className="text-xs text-red-500 dark:text-red-500 font-medium">
+                              {field?.error}
+                            </Text>
+                          )}
+                        </View>
+
                         <RenderInputField field={field} />
-                        {field.error && (
-                          <Text className="text-red-500 text-xs">
-                            {field.error}
+
+                        {!!field.description && (
+                          <Text className={cn("text-xs text-muted-foreground",field.variant === "picture" ? "text-center" : "")}>
+                            {field.description}
                           </Text>
                         )}
-                        <Text className="text-sm text-gray-500 font-thin mb-3 mt-1">
-                          {field.description}
-                        </Text>
                       </View>
                     );
-                  } else {
-                    return null;
-                  }
-                })}
-              </View>
-            ))}
+                  })}
+                </View>
+              );
+            })}
           </View>
         ))}
+      </View>
     </View>
   );
 };

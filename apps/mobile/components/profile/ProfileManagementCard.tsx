@@ -22,7 +22,9 @@ export const ProfileManagmentCard = ({
   const router = useRouter();
 
   return (
-    <Card className={cn("w-full items-center justify-center", className)}>
+    <Card
+      className={cn("w-full items-center justify-center", className)}
+    >
       <CardHeader>
         <Avatar
           alt="Zach Nugent's Avatar"
@@ -38,11 +40,11 @@ export const ProfileManagmentCard = ({
       </CardHeader>
       <CardContent>
         <View className="flex flex-row w-full">
-          <View className="flex items-center w-1/3 border-r-2 border-black dark:border-white">
+          <View className="flex items-center w-1/3 border-r-2">
             <Text className="text-2xl">50</Text>
             <Text className="font-light">Services</Text>
           </View>
-          <View className="flex items-center w-1/3 border-r-2 border-black dark:border-white">
+          <View className="flex items-center w-1/3 border-r-2">
             <Text className="text-2xl">120</Text>
             <Text className="font-light">Following</Text>
           </View>
@@ -59,9 +61,7 @@ export const ProfileManagmentCard = ({
           }
           className="w-full"
         >
-          <Text className="bold dark:text-black text-white">
-            Update Your Profile
-          </Text>
+          <Text className="bold">Update Your Profile</Text>
         </Button>
       </CardFooter>
     </Card>

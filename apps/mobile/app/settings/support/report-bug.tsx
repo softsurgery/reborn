@@ -1,6 +1,5 @@
 import * as React from "react";
-import { IconWithTheme } from "~/lib/IconWithTheme";
-import { Bug as bugIcon }  from "lucide-react-native";
+import Icon  from "~/lib/Icon";
 import { View } from "react-native";
 import { Text } from "~/components/ui/text";
 import { Button } from "~/components/ui/button";
@@ -9,21 +8,20 @@ import { useReportBugManger } from "./hooks/useReportBugManager";
 import { BUG_CATEGORIES } from "~/constants/bug-categories";
 import { useMutation } from "@tanstack/react-query";
 import { Toast } from "react-native-toast-notifications";
-import { DynamicForm } from "~/types/utils/form-builder";
+import { DynamicForm } from "~/types/utils/form-builder.types";
 import { FormBuilder } from "~/components/common/form-builder/FormBuilder";
 import { api } from "~/api";
-import { Bug } from "~/types";
 import { splitCamelOrPascal } from "~/lib/string.lib";
+import { BugIcon } from "lucide-react-native";
+import { Bug } from "~/types";
 
 export default function Screen() {
   const bugManager = useReportBugManger();
 
-  const { mutate: submitBug, isPending: isBugCreationPending } = 
-  useMutation({
-    mutationFn: async () => 
-      api.bug.postBug(bugManager.getBug() as Bug),
+  const { mutate: submitBug, isPending: isBugCreationPending } = useMutation({
+    mutationFn: async () => api.bug.postBug(bugManager.getBug() as Bug),
     onSuccess: (data) => {
-      Toast.show(data.title, {
+      Toast.show("Bug reported successfully", {
         style: { backgroundColor: "green" },
       });
       bugManager.reset();
@@ -115,25 +113,27 @@ export default function Screen() {
       <View className="flex flex-col mx-4 my-4 gap-2">
         {/* Header Section */}
         <View className="mx-auto">
-          <IconWithTheme icon={bugIcon} size={52} />
+          <Icon name={BugIcon} />
         </View>
-        <View>
+        {/* <View>
           <Text className="font-extrabold">
             Help us improve by reporting any issues you encounter.
           </Text>
           <Text className="font-thin mt-2">
             Please provide as much detail as possible
           </Text>
-        </View>
+        </View> */}
 
-        <FormBuilder form={form} />
+        <FormBuilder form={form} includeHeader={true} />
 
         <Button
           disabled={isBugCreationPending}
           className="w-full"
           onPress={handleSubmit}
         >
-          <Text className="text-white dark:text-black">{isBugCreationPending ? "Submitting..." : "Submit Bug"}</Text>
+          <Text>
+            {isBugCreationPending ? "Submitting..." : "Submit Bug"}
+          </Text>
         </Button>
       </View>
     </KeyboardAwareScrollView>

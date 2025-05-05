@@ -18,7 +18,7 @@ export default function ProfileManagment({
         <View className="flex flex-col gap-4 px-5">
           <View>
             <Text className="font-bold">Bio</Text>
-            <Text className="border border-white/25 rounded-lg my-2 p-4">
+            <Text className="border border-border rounded-lg my-2 p-4">
               Lorem ipsum dolor, sit amet consectetur adipisicing elit. Modi
               voluptatibus velit eveniet, praesentium mollitia, aliquid amet
               atque quo culpa veritatis adipisci facere porro quisquam
