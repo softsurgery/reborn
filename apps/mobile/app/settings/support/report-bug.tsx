@@ -4,7 +4,7 @@ import { View } from "react-native";
 import { Text } from "~/components/ui/text";
 import { Button } from "~/components/ui/button";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { useReportBugManger } from "./hooks/useReportBugManager";
+import { useReportBugManger } from "../../../hooks/stores/useReportBugManager";
 import { BUG_CATEGORIES } from "~/constants/bug-categories";
 import { useMutation } from "@tanstack/react-query";
 import { Toast } from "react-native-toast-notifications";

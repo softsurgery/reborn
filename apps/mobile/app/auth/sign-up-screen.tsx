@@ -5,7 +5,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { MailPlus } from "lucide-react-native";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
-import { useAuthManager } from "~/lib/stores/use-auth-form";
+import { useAuthManager } from "~/hooks/stores/use-auth-form";
 import { Label } from "~/components/ui/label";
 import Icon from "~/lib/Icon";
 import { useNavigation } from "expo-router";

@@ -2,7 +2,7 @@ import * as React from "react";
 import { Text } from "~/components/ui/text";
 import { Button } from "~/components/ui/button";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { useFeedbackManager } from "./hooks/useFeedbackManager";
+import { useFeedbackManager } from "../../../hooks/stores/useFeedbackManager";
 import { useMutation } from "@tanstack/react-query";
 import { Toast } from "react-native-toast-notifications";
 import { FEEDBACK_CATEGORIES } from "~/constants/feedback-categories";

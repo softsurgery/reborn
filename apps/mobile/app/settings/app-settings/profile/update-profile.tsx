@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { Button } from "~/components/ui/button";
 import { Text } from "~/components/ui/text";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { useUpdateProfileManager } from "./hooks/useUpdateProfileManager";
+import { useUpdateProfileManager } from "../../../../hooks/stores/useUpdateProfileManager";
 import { firebaseFns } from "~/firebase";
 import { useCurrentUser } from "~/hooks/useCurrentUser";
 import { Loader } from "~/components/Loader";
