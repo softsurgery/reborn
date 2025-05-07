@@ -5,6 +5,7 @@ import {
   Bell,
   Bug,
   ChevronRight,
+  HelpCircle,
   LogOut,
   LucideIcon,
   MailCheck,
@@ -73,6 +74,12 @@ export const Account = () => {
               title="Send us Feedback"
               icon={MailCheck}
               link={"settings/support/send-feedback"}
+            />
+            <Separator />
+            <Item
+              title="FAQs"
+              icon={HelpCircle}
+              link={"settings/support/Faqs"}
             />
           </View>
         </View>

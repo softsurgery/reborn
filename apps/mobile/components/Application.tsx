@@ -21,13 +21,14 @@ import { Button } from "./ui/button";
 import Icon from "~/lib/Icon";
 import { set } from "date-fns";
 import { useNavigation } from "expo-router";
+import { HomePage } from "./Home/HomePage";
 
 export default function Application() {
   const navigation = useNavigation();
   const [value, setValue] = React.useState("account");
 
   const tabs = [
-    { value: "home", icon: Home, title: "Home", component: <></> },
+    { value: "home", icon: Home, title: "Home", component: <HomePage />},
     {
       value: "chat",
       icon: MessageSquareText,

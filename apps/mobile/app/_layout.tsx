@@ -183,6 +183,13 @@ export default function RootLayout() {
                     animation: "slide_from_right",
                   }}
                 />
+                 <Stack.Screen
+                  name="settings/support/Faqs"
+                  options={{
+                    title: "FAQs",
+                    animation: "slide_from_right",
+                  }}
+                />
                 {/* Chat */}
                 <Stack.Screen
                   name="chat/conversation"

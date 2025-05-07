@@ -14,6 +14,7 @@ export type StackParamList = {
   "settings/support/send-feedback": undefined;
   "settings/app-settings/profile-managment": undefined;
   "settings/app-settings/update-profile": undefined;
+  "settings/support/Faqs": undefined;
   // Chat
   "chat/conversation": { user?: User };
 };
