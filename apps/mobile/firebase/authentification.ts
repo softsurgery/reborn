@@ -20,11 +20,6 @@ export function VerifyEmailAndPassword(email: string, password: string) {
   const errors = [];
   if (!isEmail(email))
     errors.push({ field: "emailError", message: "Please enter a valid email" });
-  if (password.length < 6)
-    errors.push({
-      field: "passwordError",
-      message: "Please enter a valid password",
-    });
   return errors;
 }
 

@@ -7,11 +7,7 @@ import { useAuthManager } from "~/hooks/stores/use-auth-form";
 import { Label } from "~/components/ui/label";
 import { useNavigation } from "expo-router";
 import { NavigationProps } from "~/types/app.routes";
-import { Result } from "~/types";
-import {
-  SignInWithEmail,
-  VerifyEmailAndPassword,
-} from "~/firebase/authentification";
+import { VerifyEmailAndPassword } from "~/firebase/authentification";
 import { useMutation } from "@tanstack/react-query";
 import DividerWithText from "~/components/ui/divider-with-text";
 import { useToast } from "react-native-toast-notifications";
@@ -19,36 +15,40 @@ import { Text } from "~/components/ui/text";
 import { useAuth } from "~/context/AuthContext";
 import Icon from "~/lib/Icon";
 import { Mail } from "lucide-react-native";
+import { api } from "~/api";
+import { ServerErrorResponse, ServerResponse } from "~/types/server.response";
+import { SignInPayload } from "~/types/auth.types";
 
 export default function Screen() {
-  const { setUser } = useAuth();
+  const { setPayload } = useAuth();
   const authManager = useAuthManager();
-  const navigation = useNavigation<NavigationProps>();
+  const navigation = useNavigation<any>();
   const toast = useToast();
 
-  const { mutate: SignInMutator, isPending: isLoginPending } = useMutation({
+  const {
+    mutate: SignInMutator,
+    isPending: isLoginPending,
+    reset: resetLoginMutation,
+  } = useMutation({
     mutationFn: async () =>
-      SignInWithEmail({
-        email: authManager.email,
+      api.auth.signInWithEmailAndPassword({
+        usernameOrEmail: authManager.email,
         password: authManager.password,
       }),
-    onSuccess: (result: Result) => {
-      if (result.success) {
-        setUser(result.data);
-        navigation.reset({
-          routes: [{ name: "index" }],
-        });
-        navigation.navigate("index");
-      } else {
-        toast.show("oops! " + result.message, {
-          style: { backgroundColor: "red" },
-        });
-      }
+    onSuccess: (result: ServerResponse<SignInPayload>) => {
+      setPayload(result.data);
+      navigation.reset({
+        routes: [{ name: "index" }],
+      });
+    },
+    onError: (error: ServerErrorResponse) => {
+      toast.show(error.response?.data.error);
     },
   });
 
   React.useEffect(() => {
     authManager.reset();
+    resetLoginMutation();
   }, []);
 
   const onLoginPress = () => {
@@ -125,9 +125,7 @@ export default function Screen() {
             }}
           >
             <Icon name={Mail} size={24} className="text-white" />
-            <Text className="font-bold text-white">
-              Continue with E-mail
-            </Text>
+            <Text className="font-bold text-white">Continue with E-mail</Text>
           </Button>
           {/* Divider */}
           <DividerWithText text="OR" />

@@ -14,6 +14,7 @@ import { ToastProvider } from "react-native-toast-notifications";
 import { AuthProvider } from "~/context/AuthContext";
 import "~/global.css";
 import { cn } from "~/lib/utils";
+import { DefaultToast } from "~/components/DefaultToast";
 
 const LIGHT_THEME: Theme = {
   dark: false,
@@ -67,7 +68,7 @@ SplashScreen.preventAutoHideAsync();
 const queryClient = new QueryClient();
 
 export default function RootLayout() {
-  const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme(); 
+  const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme();
   const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
 
   React.useEffect(() => {
@@ -95,15 +96,18 @@ export default function RootLayout() {
     loadTheme();
   }, []);
 
-  if (!isColorSchemeLoaded) {
-    return null;
-  }
   return (
     <View className={cn("flex-1", isDarkColorScheme && "dark")}>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-            <ToastProvider>
+            <ToastProvider
+              renderToast={(toastOptions) => (
+                <View pointerEvents="none">
+                  <DefaultToast {...toastOptions} />
+                </View>
+              )}
+            >
               <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
               <Stack
                 screenOptions={{
@@ -135,9 +139,6 @@ export default function RootLayout() {
                   options={{
                     title: "",
                     headerRight: () => <ThemeToggle />,
-                    headerStyle: {
-                      backgroundColor: "black",
-                    },
                   }}
                 />
                 <Stack.Screen

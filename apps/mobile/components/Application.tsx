@@ -19,12 +19,25 @@ import { Chat } from "./chat/Chat";
 import { cn } from "~/lib/utils";
 import { Button } from "./ui/button";
 import Icon from "~/lib/Icon";
-import { set } from "date-fns";
 import { useNavigation } from "expo-router";
 
 export default function Application() {
-  const navigation = useNavigation();
-  const [value, setValue] = React.useState("account");
+  const navigation = useNavigation<any>();
+  const [title, setTitle] = React.useState("account");
+
+  React.useEffect(() => {
+    navigation.setOptions({
+      title: tabs.filter((tab) => tab.value === title)[0].title,
+    });
+    return () => {
+      navigation.setOptions({
+        headerShown: false,
+      });
+       navigation.reset({
+        routes: [{ name: "index" }],
+      });
+    };
+  }, []);
 
   const tabs = [
     { value: "home", icon: Home, title: "Home", component: <></> },
@@ -42,7 +55,7 @@ export default function Application() {
   const rightTabs = tabs.slice(2);
 
   const onValueChange = (value: string) => {
-    setValue(value);
+    setTitle(value);
     navigation.setOptions({
       title: tabs.filter((tab) => tab.value === value)[0].title,
     });
@@ -50,11 +63,15 @@ export default function Application() {
 
   return (
     <View className="flex-1">
-      <Tabs value={value} onValueChange={onValueChange} className="w-full flex-1">
+      <Tabs
+        value={title}
+        onValueChange={onValueChange}
+        className="w-full flex-1"
+      >
         {/* Main Content - Only Show Active Tab */}
         {tabs.map(
           (tab) =>
-            value === tab.value && (
+            title === tab.value && (
               <TabsContent
                 key={tab.value}
                 value={tab.value}
@@ -79,12 +96,12 @@ export default function Application() {
               key={tab.value}
               value={tab.value}
               className="flex-1 items-center"
-              onPress={() => setValue(tab.value)}
+              onPress={() => setTitle(tab.value)}
             >
               <MenuItem
                 icon={tab.icon}
                 title={tab.title}
-                active={value === tab.value}
+                active={title === tab.value}
               />
             </TabsTriggerWithIcon>
           ))}
@@ -102,12 +119,12 @@ export default function Application() {
               key={tab.value}
               value={tab.value}
               className="flex-1 items-center"
-              onPress={() => setValue(tab.value)}
+              onPress={() => setTitle(tab.value)}
             >
               <MenuItem
                 icon={tab.icon}
                 title={tab.title}
-                active={value === tab.value}
+                active={title === tab.value}
               />
             </TabsTriggerWithIcon>
           ))}

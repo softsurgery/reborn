@@ -4,6 +4,7 @@ import Application from "~/components/Application";
 import { useAuth } from "~/context/AuthContext";
 import { Loader } from "~/components/Loader";
 import { useDebounce } from "~/hooks/useDebounce";
+import { useNavigation } from "expo-router";
 
 export default function Screen() {
   const { isAuthenticated, loading } = useAuth();
@@ -13,6 +14,5 @@ export default function Screen() {
     return <Loader />;
   }
 
-  // Render based on authentication state
   return isAuthenticated ? <Application /> : <OnBoarding />;
 }
