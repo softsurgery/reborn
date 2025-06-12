@@ -2,11 +2,9 @@ import * as React from "react";
 import { Image, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Button } from "~/components/ui/button";
-import { Input } from "~/components/ui/input";
 import { useAuthManager } from "~/hooks/stores/use-auth-form";
 import { Label } from "~/components/ui/label";
 import { useNavigation } from "expo-router";
-import { NavigationProps } from "~/types/app.routes";
 import { VerifyEmailAndPassword } from "~/firebase/authentification";
 import { useMutation } from "@tanstack/react-query";
 import DividerWithText from "~/components/ui/divider-with-text";
@@ -18,6 +16,7 @@ import { Mail } from "lucide-react-native";
 import { api } from "~/api";
 import { ServerErrorResponse, ServerResponse } from "~/types/server.response";
 import { SignInPayload } from "~/types/auth.types";
+import { SignInForm } from "~/components/auth/SigninForm";
 
 export default function Screen() {
   const { setPayload } = useAuth();
@@ -79,7 +78,8 @@ export default function Screen() {
 
         {/* Form */}
         <View className="flex flex-col gap-2 px-2 my-5">
-          <View>
+          <SignInForm isPending={isLoginPending} />
+          {/* <View>
             <Input
               keyboardType="email-address"
               editable={!isLoginPending}
@@ -110,7 +110,7 @@ export default function Screen() {
                 {authManager.passwordError}
               </Text>
             )}
-          </View>
+          </View> */}
 
           <Text className="text-md font-bold ml-auto my-1">
             Forget Password ?
