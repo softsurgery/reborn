@@ -1,8 +1,9 @@
 import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
 import { User } from "./User";
+import { Job } from "./Job";
 
 export type StackParamList = {
-  "index": undefined;
+  index: undefined;
   application: undefined;
   // Auth
   "on-boarding": undefined;
@@ -17,6 +18,8 @@ export type StackParamList = {
   "settings/support/Faqs": undefined;
   // Chat
   "chat/conversation": { user?: User };
+  // Jobs
+  "job-details": { job: string };
 };
 
-export type NavigationProps = NativeStackNavigationProp<StackParamList>
+export type NavigationProps = NativeStackNavigationProp<StackParamList>;

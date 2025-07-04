@@ -198,6 +198,14 @@ export default function RootLayout() {
                     headerBackTitle: "Chat",
                   }}
                 />
+                {/* Jobs */}
+                <Stack.Screen
+                  name="job-details"
+                  options={{
+                    title: "Job Details",
+                    animation: "slide_from_right",
+                  }}
+                />
               </Stack>
               <PortalHost />
             </ToastProvider>
