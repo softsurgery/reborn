@@ -20,8 +20,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const [payload, setPayloadState] = React.useState<SignInPayload | null>(null);
   const [loading, setLoading] = React.useState<boolean>(true);
 
-  const navigation = useNavigation();
-
   React.useEffect(() => {
     const loadPayload = async () => {
       try {

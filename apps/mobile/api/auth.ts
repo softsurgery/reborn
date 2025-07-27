@@ -4,7 +4,7 @@ const signInWithEmailAndPassword = async (credential: {
   usernameOrEmail: string;
   password: string;
 }) => {
-  const response = await axios.post("/api/auth/mobile-signin", credential);
+  const response = await axios.post("/api/auth/sign-in", credential);
   return response.data;
 };
 
