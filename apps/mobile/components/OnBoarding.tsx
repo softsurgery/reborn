@@ -3,10 +3,11 @@ import { Image, View } from "react-native";
 import { Text } from "~/components/ui/text";
 import { Button } from "~/components/ui/button";
 import { useNavigation } from "expo-router";
-import { NavigationProps } from "~/types/app.routes";
 
 export default function OnBoarding() {
-  const navigation = useNavigation<NavigationProps>();
+  const navigation = useNavigation<any>();
+
+  
 
     return (
       <View className="flex-1 justify-between items-center p-6 bg-background">

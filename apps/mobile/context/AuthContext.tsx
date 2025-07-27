@@ -1,13 +1,14 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { onAuthStateChanged, User } from "firebase/auth";
 import React from "react";
-import { auth } from "~/firebase/config";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { SignInPayload } from "~/types/auth.types";
+import { useNavigation } from "expo-router";
+import { CommonActions } from "@react-navigation/native";
 
 type AuthContextType = {
-  user: User | null;
+  payload: SignInPayload | null;
   isAuthenticated: boolean;
-  setUser: (user: User | null) => void;
-  disconnect: () => void; // Added Disconnect type
+  setPayload: (payload: SignInPayload | null) => void;
+  disconnect: () => void;
   loading: boolean;
 };
 
@@ -16,62 +17,57 @@ const AuthContext = React.createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [user, setUserState] = React.useState<User | null>(null);
+  const [payload, setPayloadState] = React.useState<SignInPayload | null>(null);
   const [loading, setLoading] = React.useState<boolean>(true);
 
   React.useEffect(() => {
-    const loadUser = async () => {
+    const loadPayload = async () => {
       try {
-        const storedUser = await AsyncStorage.getItem("user");
-        if (storedUser) {
-          setUserState(JSON.parse(storedUser));
+        const storedPayload = await AsyncStorage.getItem("authPayload");
+        if (storedPayload) {
+          setPayloadState(JSON.parse(storedPayload));
         }
       } catch (error) {
-        console.error("Failed to load user from AsyncStorage:", error);
+        console.error("Failed to load auth payload from AsyncStorage:", error);
       } finally {
         setLoading(false);
       }
     };
 
-    loadUser();
+    loadPayload();
   }, []);
 
-  React.useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
-      setLoading(false);
-    });
-
-    return () => unsubscribe();
-  }, []);
-
-  // Save user to AsyncStorage and update state
-  const setUser = async (newUser: User | null) => {
+  const setPayload = async (payload: SignInPayload | null) => {
     try {
-      if (newUser) {
-        await AsyncStorage.setItem("user", JSON.stringify(newUser));
+      if (payload) {
+        await AsyncStorage.setItem("authPayload", JSON.stringify(payload));
       } else {
-        await AsyncStorage.removeItem("user");
+        await AsyncStorage.removeItem("authPayload");
       }
-      setUserState(newUser);
+      setPayloadState(payload);
     } catch (error) {
-      console.error("Failed to update user in AsyncStorage:", error);
+      console.error("Failed to update auth payload in AsyncStorage:", error);
     }
   };
 
-  // Disconnect function to log the user out
   const disconnect = async () => {
     try {
-      await AsyncStorage.removeItem("user");
-      setUserState(null);
+      AsyncStorage.removeItem("authPayload");
+      setPayloadState(null);
     } catch (error) {
-      console.error("Failed to remove user during disconnect:", error);
+      console.error("Failed to clear auth payload during disconnect:", error);
     }
   };
 
   return (
     <AuthContext.Provider
-      value={{ user, isAuthenticated: !!user, setUser, disconnect, loading }}
+      value={{
+        payload,
+        isAuthenticated: !!payload,
+        setPayload,
+        disconnect,
+        loading,
+      }}
     >
       {children}
     </AuthContext.Provider>

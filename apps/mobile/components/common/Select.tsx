@@ -18,6 +18,7 @@ import { RadioGroupItemWithLabel } from "./RadioGroupItemWithLabel";
 import * as Haptics from "expo-haptics";
 import Icon from "~/lib/Icon";
 import { ChevronDown } from "lucide-react-native";
+import { SelectOption } from "~/types/utils/form-builder.types";
 
 interface SelectProps {
   className?: string;
@@ -26,7 +27,7 @@ interface SelectProps {
   value?: string;
   onSelect?: (value: string) => void;
   description?: string;
-  options?: { label: string; value: string }[];
+  options?: SelectOption[];
 }
 
 const Select = React.memo(

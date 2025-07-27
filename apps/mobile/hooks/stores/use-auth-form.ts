@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-interface AuthManager {
+export interface AuthManager {
   name: string;
   nameError: string;
   surname: string;

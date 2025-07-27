@@ -1,64 +1,104 @@
 // import { CheckedState } from "@radix-ui/react-checkbox";
 import { TextInputProps } from "react-native";
 
-export interface DynamicForm {
-  name: string;
+export interface Form {
+  title: string;
   description?: string;
-  orientation?: "vertical" | "horizontal";  
-  grids: DynamicFormGrid[];
+  orientation?: "vertical" | "horizontal";
+  isHeaderVisible?: boolean;
+  fieldsets: Fieldset[];
 }
 
-export interface DynamicFormGrid {
-  name?: string;
-  includeHeader?: boolean;
-  gridItems: DynamicFormGridItems[];
+export interface Fieldset {
+  title?: string;
+  description?: string;
+  isHeaderVisible?: boolean;
+  rows: Row[];
 }
 
-export interface DynamicFormGridItems {
+export interface Row {
   id: number;
   fields: Field[];
 }
 
-export interface Field {
+export interface Field<T = TextFieldProps> {
   label: string;
   className?: string;
   containerClassName?: string;
-  variant:
-    | "text"
-    | "email"
-    | "tel"
-    | "number"
-    | "password"
-    | "date"
-    | "select"
-    | "checkbox"
-    | "check"
-    | "radio"
-    | "textarea"
-    | "switch"
-    | "rating"
-    | "picture"
-    | "double-choice"
-    | "custom";
+  variant: FieldVariant;
   required?: boolean;
   description?: string;
   placeholder?: string;
   hidden?: boolean;
   error?: string;
   disabled?: boolean;
-  props?: {
-    // Common value handling for different inputs
-    value?: string | number | Date | boolean;
-    onChangeText?: (text: string) => void; // For text-based inputs
-    onValueChange?: (value: string | number | boolean) => void; // For select, radio, switch, checkbox
-    onDateChange?: (date: Date | null) => void; // For date pickers
-    selectOptions?: { label: string; value: string }[]; // For select & radio
-    other?: any; // Custom properties for special inputs
-    inputProps?: TextInputProps; // Additional props for TextInput
-    rating? : number; // For rating
-    positiveChoice?: boolean; // For double-choice
-    negativeChoice?: boolean; 
-    pChoice?: string;
-    nChoice?: string;
-  };
+  props?: T;
+}
+
+export enum FieldVariant {
+  TEXT = "text",
+  EMAIL = "email",
+  TEL = "tel",
+  NUMBER = "number",
+  PASSWORD = "password",
+  DATE = "date",
+  SELECT = "select",
+  CHECKBOX = "checkbox",
+  CHECK = "check",
+  RADIO = "radio",
+  TEXTAREA = "textarea",
+  SWITCH = "switch",
+  RATING = "rating",
+  PICTURE = "picture",
+  DOUBLE_CHOICE = "double-choice",
+  CUSTOM = "custom",
+}
+
+
+export interface TextFieldProps {
+  value?: string;
+  onChangeText?: (text: string) => void;
+  editable?: boolean;
+}
+
+export interface EmailFieldProps {
+  value?: string;
+  onChangeText?: (text: string) => void;
+  editable?: boolean;
+}
+
+export interface TelFieldProps {
+  value?: string;
+  onChangeText?: (text: string) => void;
+  editable?: boolean;
+}
+
+export interface NumberFieldProps {
+  value?: number;
+  onChangeText?: (text: number) => void;
+  editable?: boolean;
+}
+
+export interface PasswordFieldProps {
+  value?: string;
+  onChangeText?: (text: string) => void;
+  editable?: boolean;
+}
+
+export interface DateFieldProps {
+  value?: Date;
+  onChangeText?: (text: Date) => void;
+  editable?: boolean;
+}
+
+export interface SelectOption {
+  label: string;
+  value: string;
+}
+
+export interface SelectFieldProps {
+  value?: string;
+  onSelect?: (value: string) => void;
+  options?: SelectOption[];
+  editable?: boolean;
 }

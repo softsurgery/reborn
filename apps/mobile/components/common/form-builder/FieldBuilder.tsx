@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, TouchableOpacity } from "react-native";
 import { Feather } from "@expo/vector-icons";
-import { Field } from "~/types/utils/form-builder.types";
+import { Field, FieldVariant } from "~/types/utils/form-builder.types";
 import Select from "../Select";
 import { Checkbox } from "~/components/ui/checkbox";
 import { DatePicker } from "~/components/ui/date-picker";
@@ -11,12 +11,13 @@ import StarRating from "react-native-star-rating-widget";
 import { PictureUploader } from "../PictureUploader";
 import { DoubleChoice } from "../DoubleChoice";
 import { Text } from "~/components/ui/text";
+import { cn } from "~/lib/utils";
 
-interface RenderInputFieldProps {
-  field?: Field;
+interface FieldBuilderProps {
+  field?: Field<any>;
 }
 
-export const RenderInputField = ({ field }: RenderInputFieldProps) => {
+export const FieldBuilder = ({ field }: FieldBuilderProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showDatePicker, setShowDatePicker] = useState(false);
   //   const [date, setDate] = useState(
@@ -33,22 +34,36 @@ export const RenderInputField = ({ field }: RenderInputFieldProps) => {
 
   switch (field?.variant) {
     case "text":
-    case "email":
     case "tel":
     case "number":
       return (
         <View className="flex flex-col w-full">
           <Input
-            editable={field?.props?.other}
+            editable={field?.props?.editable}
             id={field.label}
-            keyboardType={field.variant === "number" ? "numeric" : undefined}
+            keyboardType={
+              field.variant === FieldVariant.NUMBER ? "numeric" : undefined
+            }
             placeholder={field.placeholder}
             value={field?.props?.value?.toString() || ""}
             onChangeText={(text) => field?.props?.onChangeText?.(text)}
             {...field.props?.other}
-            className="p-3 rounded-md"
+            className={cn("p-3 rounded-md")}
           />
         </View>
+      );
+    case "email":
+      return (
+        <Input
+          editable={field?.props?.editable}
+          keyboardType="email-address"
+          placeholder={field.placeholder}
+          value={field?.props?.value?.toString() || ""}
+          onChangeText={(text) => field?.props?.onChangeText?.(text)}
+          className={cn("p-3 rounded-md")}
+          style={field?.error ? { borderColor: "red" } : {}}
+          {...field.props?.other}
+        />
       );
     case "select":
       return (
@@ -95,20 +110,36 @@ export const RenderInputField = ({ field }: RenderInputFieldProps) => {
       );
     case "password":
       return (
-        <View className="flex flex-col gap-2 w-full">
+        <View className="w-full" style={{ position: "relative" }}>
           <Input
-            style={{ flex: 1, padding: 10 }}
+            style={{
+              flex: 1,
+              padding: 10,
+              paddingRight: 40,
+            }}
             secureTextEntry={!showPassword}
             value={field?.props?.value?.toString() || ""}
             onChangeText={(text) => field?.props?.onChangeText?.(text)}
-            autoComplete="new-password"
+            editable={field?.props?.editable}
+            autoComplete="off"
+            autoCorrect={false}
+            spellCheck={false}
+            textContentType="none"
           />
-          <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+
+          <TouchableOpacity
+            onPress={() => setShowPassword(!showPassword)}
+            style={{
+              position: "absolute",
+              right: 10,
+              top: 7,
+              padding: 4,
+            }}
+          >
             <Feather
               name={showPassword ? "eye-off" : "eye"}
               size={20}
               color="gray"
-              style={{ marginRight: 10 }}
             />
           </TouchableOpacity>
         </View>
@@ -151,12 +182,12 @@ export const RenderInputField = ({ field }: RenderInputFieldProps) => {
         <DoubleChoice
           disabled={field?.props?.other}
           positiveChoice={{
-        label: field?.props?.pChoice as string,
-        value: field?.props?.positiveChoice,
+            label: field?.props?.pChoice as string,
+            value: field?.props?.positiveChoice,
           }}
           negativeChoice={{
-        label: field?.props?.nChoice as string, 
-        value: field?.props?.negativeChoice,
+            label: field?.props?.nChoice as string,
+            value: field?.props?.negativeChoice,
           }}
           value={field?.props?.value}
           onChange={field?.props?.onValueChange as any as (value: any) => void}
