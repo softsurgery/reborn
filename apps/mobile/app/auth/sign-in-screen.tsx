@@ -1,12 +1,10 @@
-import * as React from "react";
+import React from "react";
 import { Image, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Button } from "~/components/ui/button";
-import { Input } from "~/components/ui/input";
 import { useAuthManager } from "~/hooks/stores/use-auth-form";
 import { Label } from "~/components/ui/label";
 import { useNavigation } from "expo-router";
-import { NavigationProps } from "~/types/app.routes";
 import { VerifyEmailAndPassword } from "~/firebase/authentification";
 import { useMutation } from "@tanstack/react-query";
 import DividerWithText from "~/components/ui/divider-with-text";
@@ -16,8 +14,9 @@ import { useAuth } from "~/context/AuthContext";
 import Icon from "~/lib/Icon";
 import { Mail } from "lucide-react-native";
 import { api } from "~/api";
-import { ServerErrorResponse, ServerResponse } from "~/types/server.response";
+import { ServerErrorResponse } from "~/types/server.response";
 import { SignInPayload } from "~/types/auth.types";
+import { SignInForm } from "~/components/auth/SigninForm";
 
 export default function Screen() {
   const { setPayload } = useAuth();
@@ -35,8 +34,8 @@ export default function Screen() {
         usernameOrEmail: authManager.email,
         password: authManager.password,
       }),
-    onSuccess: (result: ServerResponse<SignInPayload>) => {
-      setPayload(result.data);
+    onSuccess: (result: SignInPayload) => {
+      setPayload(result);
       navigation.reset({
         routes: [{ name: "index" }],
       });
@@ -79,38 +78,7 @@ export default function Screen() {
 
         {/* Form */}
         <View className="flex flex-col gap-2 px-2 my-5">
-          <View>
-            <Input
-              keyboardType="email-address"
-              editable={!isLoginPending}
-              placeholder="E-mail"
-              value={authManager.email}
-              onChangeText={(text) => authManager.set("email", text)}
-              aria-labelledby="inputLabel"
-              aria-errormessage="inputError"
-            />
-            {authManager.emailError && (
-              <Text className="font-bold color-red-600 text-sm">
-                {authManager.emailError}
-              </Text>
-            )}
-          </View>
-          <View>
-            <Input
-              editable={!isLoginPending}
-              secureTextEntry={true}
-              placeholder="Password"
-              value={authManager.password}
-              onChangeText={(text) => authManager.set("password", text)}
-              aria-labelledby="inputLabel"
-              aria-errormessage="inputError"
-            />
-            {authManager.passwordError && (
-              <Text className="font-bold color-red-600 text-sm">
-                {authManager.passwordError}
-              </Text>
-            )}
-          </View>
+          <SignInForm isPending={isLoginPending} />
 
           <Text className="text-md font-bold ml-auto my-1">
             Forget Password ?

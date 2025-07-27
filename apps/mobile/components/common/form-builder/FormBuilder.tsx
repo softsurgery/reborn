@@ -2,27 +2,22 @@ import React from "react";
 import { View } from "react-native";
 import { Text } from "~/components/ui/text";
 import { cn } from "~/lib/utils";
-import { DynamicForm } from "~/types/utils/form-builder.types";
+import { Form } from "~/types/utils/form-builder.types";
 import { getItemWidth } from "../../../lib/getItemWidth.util";
-import { RenderInputField } from "./RenderFields";
+import { FieldBuilder } from "./FieldBuilder";
 import { Separator } from "~/components/ui/separator";
 
 interface FormBuilderProps {
   className?: string;
-  form: DynamicForm;
-  includeHeader?: boolean;
+  form: Form;
 }
 
-export const FormBuilder = ({
-  className,
-  form,
-  includeHeader = false,
-}: FormBuilderProps) => {
+export const FormBuilder = ({ className, form }: FormBuilderProps) => {
   return (
     <View className={cn("flex flex-col w-full", className)}>
-      {includeHeader && (
+      {form.isHeaderVisible && (
         <View className="py-5 space-y-1">
-          <Text className="text-2xl font-bold">{form.name}</Text>
+          <Text className="text-2xl font-bold">{form.title}</Text>
           <Text className="text-muted-foreground">{form.description}</Text>
           <Separator className="my-2" />
         </View>
@@ -34,36 +29,36 @@ export const FormBuilder = ({
           form.orientation === "vertical" ? "flex-col" : "flex-col"
         )}
       >
-        {form?.grids?.map((grid, index) => (
+        {form?.fieldsets?.map((fieldset, fieldsetIndex) => (
           <View
-            key={index}
+            key={fieldsetIndex}
             className={cn(
-              "flex w-full border border-border rounded-lg bg-muted/30 p-4",
+              "flex w-full border-border rounded-lg bg-muted/30 ",
               form.orientation === "vertical"
                 ? "flex-col gap-10"
                 : "flex-col gap-12"
             )}
           >
-            {grid.includeHeader && (
+            {fieldset.isHeaderVisible && (
               <View className="flex flex-col gap-2 mb-2">
-                <Text className="text-xl font-semibold">{grid.name}</Text>
+                <Text className="text-xl font-semibold">{fieldset.title}</Text>
                 <Separator className="my-1" />
               </View>
             )}
 
-            {grid?.gridItems?.map((gridItem) => {
-              const fieldCount = gridItem.fields.length;
+            {fieldset?.rows?.map((row) => {
+              const fieldCount = row.fields.length;
               return (
                 <View
-                  key={gridItem.id}
+                  key={row.id}
                   className="flex flex-row flex-wrap gap-4 w-full"
                 >
-                  {gridItem.fields.map((field, idx) => {
+                  {row.fields.map((field, fieldIndex) => {
                     if (field.hidden) return null;
 
                     return (
                       <View
-                        key={`${idx}-${field.error}`}
+                        key={fieldIndex}
                         className={cn(
                           "flex flex-col gap-2",
                           form.orientation === "vertical"
@@ -75,27 +70,37 @@ export const FormBuilder = ({
                         <View className="flex flex-row justify-between items-center">
                           {field.variant !== "check" && (
                             <Text className="text-md font-semibold">
-                              {field.label}
+                              {field.label}{" "}
                               {field.required && (
-                                <Text className="text-red-500 dark:text-red-500 ">
+                                <Text className="text-red-500 dark:text-red-500">
                                   *
                                 </Text>
                               )}
                             </Text>
                           )}
-                          {!!field?.error && (
-                            <Text className="text-xs text-red-500 dark:text-red-500 font-medium">
-                              {field?.error}
-                            </Text>
-                          )}
                         </View>
 
-                        <RenderInputField field={field} />
+                        <FieldBuilder field={field} />
 
-                        {!!field.description && (
-                          <Text className={cn("text-xs text-muted-foreground",field.variant === "picture" ? "text-center" : "")}>
-                            {field.description}
-                          </Text>
+                        {field.description && (
+                          <View className="flex flex-row justify-between items-center">
+                            <Text
+                              className={cn(
+                                "text-xs text-muted-foreground",
+                                field.variant === "picture" ? "text-center" : ""
+                              )}
+                            >
+                              {field.description}
+                            </Text>
+                            {field?.error && (
+                              <Text
+                                className="text-xs font-medium"
+                                style={{ color: "red" }}
+                              >
+                                {field?.error}
+                              </Text>
+                            )}
+                          </View>
                         )}
                       </View>
                     );
