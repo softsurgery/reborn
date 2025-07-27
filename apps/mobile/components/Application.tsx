@@ -20,6 +20,7 @@ import { cn } from "~/lib/utils";
 import { Button } from "./ui/button";
 import Icon from "~/lib/Icon";
 import { useNavigation } from "expo-router";
+import { HomePage } from "./Home/HomePage";
 
 export default function Application() {
   const navigation = useNavigation<any>();
@@ -40,7 +41,7 @@ export default function Application() {
   }, []);
 
   const tabs = [
-    { value: "home", icon: Home, title: "Home", component: <></> },
+    { value: "home", icon: Home, title: "Home", component: <HomePage />},
     {
       value: "chat",
       icon: MessageSquareText,
