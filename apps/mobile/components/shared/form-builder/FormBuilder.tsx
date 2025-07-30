@@ -2,23 +2,23 @@ import React from "react";
 import { View } from "react-native";
 import { Text } from "~/components/ui/text";
 import { cn } from "~/lib/utils";
-import { Form } from "~/types/utils/form-builder.types";
+import { FormStructure } from "~/components/shared/form-builder/types";
 import { getItemWidth } from "../../../lib/getItemWidth.util";
 import { FieldBuilder } from "./FieldBuilder";
 import { Separator } from "~/components/ui/separator";
 
 interface FormBuilderProps {
   className?: string;
-  form: Form;
+  structure: FormStructure;
 }
 
-export const FormBuilder = ({ className, form }: FormBuilderProps) => {
+export const FormBuilder = ({ className, structure }: FormBuilderProps) => {
   return (
     <View className={cn("flex flex-col w-full", className)}>
-      {form.isHeaderVisible && (
+      {structure.isHeaderVisible && (
         <View className="py-5 space-y-1">
-          <Text className="text-2xl font-bold">{form.title}</Text>
-          <Text className="text-muted-foreground">{form.description}</Text>
+          <Text className="text-2xl font-bold">{structure.title}</Text>
+          <Text className="text-muted-foreground">{structure.description}</Text>
           <Separator className="my-2" />
         </View>
       )}
@@ -26,15 +26,15 @@ export const FormBuilder = ({ className, form }: FormBuilderProps) => {
       <View
         className={cn(
           "flex gap-4",
-          form.orientation === "vertical" ? "flex-col" : "flex-col"
+          structure.orientation === "vertical" ? "flex-col" : "flex-col"
         )}
       >
-        {form?.fieldsets?.map((fieldset, fieldsetIndex) => (
+        {structure?.fieldsets?.map((fieldset, fieldsetIndex) => (
           <View
             key={fieldsetIndex}
             className={cn(
               "flex w-full border-border rounded-lg bg-muted/30 ",
-              form.orientation === "vertical"
+              structure.orientation === "vertical"
                 ? "flex-col gap-10"
                 : "flex-col gap-12"
             )}
@@ -61,7 +61,7 @@ export const FormBuilder = ({ className, form }: FormBuilderProps) => {
                         key={fieldIndex}
                         className={cn(
                           "flex flex-col gap-2",
-                          form.orientation === "vertical"
+                          structure.orientation === "vertical"
                             ? "w-full"
                             : getItemWidth(fieldCount),
                           field.containerClassName
@@ -83,15 +83,19 @@ export const FormBuilder = ({ className, form }: FormBuilderProps) => {
                         <FieldBuilder field={field} />
 
                         {field.description && (
-                          <View className="flex flex-row justify-between items-center">
-                            <Text
-                              className={cn(
-                                "text-xs text-muted-foreground",
-                                field.variant === "picture" ? "text-center" : ""
-                              )}
-                            >
-                              {field.description}
-                            </Text>
+                          <View className="flex flex-col justify-between">
+                            {!field?.error && (
+                              <Text
+                                className={cn(
+                                  "text-xs text-muted-foreground",
+                                  field.variant === "picture"
+                                    ? "text-center"
+                                    : ""
+                                )}
+                              >
+                                {field.description}
+                              </Text>
+                            )}
                             {field?.error && (
                               <Text
                                 className="text-xs font-medium"

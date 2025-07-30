@@ -23,7 +23,7 @@ import { GoPremium } from "./GoPremium";
 import { cn } from "~/lib/utils";
 import { Separator } from "../ui/separator";
 import { useAuth } from "~/context/AuthContext";
-import { StableScrollView } from "../common/StableScrollView";
+import { StableScrollView } from "../shared/StableScrollView";
 
 export const Account = () => {
   const { disconnect } = useAuth();

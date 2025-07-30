@@ -1,5 +1,5 @@
 import { View } from "react-native";
-import { FormBuilder } from "../common/form-builder/FormBuilder";
+import { FormBuilder } from "../shared/form-builder/FormBuilder";
 import { getSigninFormObject } from "./getSigninFormObject";
 import { useAuthManager } from "~/hooks/stores/use-auth-form";
 
@@ -12,7 +12,7 @@ export const SignInForm = ({ isPending }: SignInFormProps) => {
   return (
     <View>
       <FormBuilder
-        form={getSigninFormObject({ store: authManager, isPending })}
+        structure={getSigninFormObject({ store: authManager, isPending })}
       />
     </View>
   );

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, TouchableOpacity, useColorScheme } from "react-native";
 import { ChevronDown, ChevronUp, HelpCircle } from "lucide-react-native";
 import { Separator } from "~/components/ui/separator";
-import { StableScrollView } from "~/components/common/StableScrollView";
+import { StableScrollView } from "~/components/shared/StableScrollView";
 
 interface FaqItem {
   question: string;
@@ -45,7 +45,9 @@ export default function Faqs() {
         <HelpCircle size={32} color={iconColor} />
       </View>
       <View className="py-5 space-y-1">
-        <Text className="text-2xl font-bold text-black dark:text-white">Frequently Asked Questions</Text>
+        <Text className="text-2xl font-bold text-black dark:text-white">
+          Frequently Asked Questions
+        </Text>
         <Text className="text-muted-foreground">
           Find quick answers to common questions and get the support you need.
         </Text>

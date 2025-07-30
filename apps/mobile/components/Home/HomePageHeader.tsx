@@ -1,6 +1,6 @@
-import { SearchInput } from "../common/SearchInput";
+import { SearchInput } from "../shared/SearchInput";
 import { Text } from "../ui/text";
-import { FilterChoices } from "../common/FilterChoices";
+import { FilterChoices } from "../shared/FilterChoices";
 import { Separator } from "../ui/separator";
 import { View } from "react-native";
 

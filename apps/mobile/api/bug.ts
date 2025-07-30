@@ -1,11 +1,11 @@
 import axios from "./axios";
-import { Bug } from "~/types";
+import { CreateBugDto } from "~/types";
 
-async function postBug(bug: Bug): Promise<Bug> {
-  const response = await axios.post("api/client/bug", bug);
+async function create(bug: CreateBugDto) {
+  const response = await axios.post("bug", bug);
   return response.data;
 }
 
 export const bug = {
-  postBug,
+  create,
 };

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, TouchableOpacity } from "react-native";
 import { Feather } from "@expo/vector-icons";
-import { Field, FieldVariant } from "~/types/utils/form-builder.types";
+import { Field, FieldVariant } from "~/components/shared/form-builder/types";
 import Select from "../Select";
 import { Checkbox } from "~/components/ui/checkbox";
 import { DatePicker } from "~/components/ui/date-picker";
@@ -48,7 +48,7 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
             value={field?.props?.value?.toString() || ""}
             onChangeText={(text) => field?.props?.onChangeText?.(text)}
             {...field.props?.other}
-            className={cn("p-3 rounded-md")}
+            className={cn("p-3 rounded-md", field?.error && "border-red-500")}
           />
         </View>
       );
@@ -60,7 +60,7 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
           placeholder={field.placeholder}
           value={field?.props?.value?.toString() || ""}
           onChangeText={(text) => field?.props?.onChangeText?.(text)}
-          className={cn("p-3 rounded-md")}
+          className={cn("p-3 rounded-md", field?.error && "border-red-500")}
           style={field?.error ? { borderColor: "red" } : {}}
           {...field.props?.other}
         />
@@ -70,10 +70,11 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
         <Select
           title={field.label}
           value={field?.props?.value?.toString()}
-          onSelect={(value) => field?.props?.onValueChange?.(value)}
-          options={field?.props?.selectOptions}
+          onSelect={(value) => field?.props?.onSelect?.(value)}
+          options={field?.props?.options}
           description={field.description}
           disabled={field?.props?.other}
+          className={cn(field?.error && "border-red-500")}
         />
       );
     case "date":
@@ -93,6 +94,7 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
             onChange={(onDateChange) =>
               field?.props?.onDateChange?.(onDateChange)
             }
+            className={cn(field?.error && "border-red-500")}
           />
         </View>
       );
@@ -125,6 +127,7 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
             autoCorrect={false}
             spellCheck={false}
             textContentType="none"
+            className={cn(field?.error && "border-red-500")}
           />
 
           <TouchableOpacity
@@ -148,7 +151,7 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
       return (
         <View className="flex flex-col gap-2 w-full">
           <Textarea
-            className="h-52"
+            className={cn("h-52", field?.error && "border-red-500")}
             editable={field?.props?.other}
             placeholder={field.placeholder}
             value={field?.props?.value?.toString() || ""}

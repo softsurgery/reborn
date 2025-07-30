@@ -1,7 +1,7 @@
 // import { CheckedState } from "@radix-ui/react-checkbox";
 import { TextInputProps } from "react-native";
 
-export interface Form {
+export interface FormStructure {
   title: string;
   description?: string;
   orientation?: "vertical" | "horizontal";
@@ -13,15 +13,16 @@ export interface Fieldset {
   title?: string;
   description?: string;
   isHeaderVisible?: boolean;
-  rows: Row[];
+  rows: FieldsetRow[];
 }
 
-export interface Row {
+export interface FieldsetRow {
   id: number;
   fields: Field[];
 }
 
 export interface Field<T = TextFieldProps> {
+  id: string;
   label: string;
   className?: string;
   containerClassName?: string;
@@ -54,11 +55,18 @@ export enum FieldVariant {
   CUSTOM = "custom",
 }
 
-
 export interface TextFieldProps {
   value?: string;
   onChangeText?: (text: string) => void;
   editable?: boolean;
+}
+
+export interface TextareaFieldProps {
+  value?: string;
+  onChangeText?: (text: string) => void;
+  editable?: boolean;
+  cols?: number;
+  rows?: number;
 }
 
 export interface EmailFieldProps {

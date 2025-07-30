@@ -7,110 +7,108 @@ import { useMutation } from "@tanstack/react-query";
 import { Toast } from "react-native-toast-notifications";
 import { FEEDBACK_CATEGORIES } from "~/constants/feedback-categories";
 import Icon from "~/lib/Icon";
-import { FormBuilder } from "~/components/common/form-builder/FormBuilder";
-import { DynamicForm } from "~/types/utils/form-builder.types";
+import { FormBuilder } from "~/components/shared/form-builder/FormBuilder";
 import { View } from "react-native";
 import { api } from "~/api";
-import { Feedback } from "~/types";
 import { splitCamelOrPascal } from "~/lib/string.lib";
 import { MailCheck } from "lucide-react-native";
 
 export default function FeedbackScreen() {
   const feedbackManager = useFeedbackManager();
 
-  const { mutate: submitFeedback, isPending: isFeedbackSubmitting } =
-    useMutation({
-      mutationFn: async () =>
-        api.feedback.postFeedback(feedbackManager.getFeedback() as Feedback),
-      onSuccess: (data) => {
-        Toast.show("Feedback submitted successfully", {
-          style: { backgroundColor: "green" },
-        });
-        feedbackManager.reset();
-      },
-      onError: () => {
-        Toast.show("Oops! Failed to submit feedback", {
-          style: { backgroundColor: "red" },
-        });
-      },
-    });
+  // const { mutate: submitFeedback, isPending: isFeedbackSubmitting } =
+  //   useMutation({
+  //     mutationFn: async () =>
+  //       api.feedback.postFeedback(feedbackManager.getFeedback() as Feedback),
+  //     onSuccess: (data) => {
+  //       Toast.show("Feedback submitted successfully", {
+  //         style: { backgroundColor: "green" },
+  //       });
+  //       feedbackManager.reset();
+  //     },
+  //     onError: () => {
+  //       Toast.show("Oops! Failed to submit feedback", {
+  //         style: { backgroundColor: "red" },
+  //       });
+  //     },
+  //   });
 
-  const handleSubmit = () => {
-    submitFeedback();
-  };
+  // const handleSubmit = () => {
+  //   submitFeedback();
+  // };
 
   const [rating, setRating] = React.useState(0);
 
-  const form = React.useMemo(
-    (): DynamicForm => ({
-      name: "We'd love your feedback!",
-      description: "Please share your thoughts and help us improve.",
-      grids: [
-        {
-          name: "",
-          gridItems: [
-            {
-              id: 1,
-              fields: [
-                {
-                  label: "Feedback Message",
-                  variant: "text",
-                  description: "Share your feedback here",
-                  required: true,
-                  placeholder: "Share your feedback here...",
-                  props: {
-                    value: feedbackManager.message,
-                    onChangeText: (value) =>
-                      feedbackManager.set("message", value),
-                  },
-                },
-              ],
-            },
-            {
-              id: 2,
-              fields: [
-                {
-                  label: "Feedback Category",
-                  variant: "select",
-                  description: "Select Your Feedback Category",
-                  required: true,
-                  placeholder: "Select Feedback Category",
-                  props: {
-                    selectOptions: FEEDBACK_CATEGORIES.map((category) => ({
-                      label: splitCamelOrPascal(category),
-                      value: category,
-                    })),
+  // const form = React.useMemo(
+  //   (): DynamicForm => ({
+  //     name: "We'd love your feedback!",
+  //     description: "Please share your thoughts and help us improve.",
+  //     grids: [
+  //       {
+  //         name: "",
+  //         gridItems: [
+  //           {
+  //             id: 1,
+  //             fields: [
+  //               {
+  //                 label: "Feedback Message",
+  //                 variant: "text",
+  //                 description: "Share your feedback here",
+  //                 required: true,
+  //                 placeholder: "Share your feedback here...",
+  //                 props: {
+  //                   value: feedbackManager.message,
+  //                   onChangeText: (value) =>
+  //                     feedbackManager.set("message", value),
+  //                 },
+  //               },
+  //             ],
+  //           },
+  //           {
+  //             id: 2,
+  //             fields: [
+  //               {
+  //                 label: "Feedback Category",
+  //                 variant: "select",
+  //                 description: "Select Your Feedback Category",
+  //                 required: true,
+  //                 placeholder: "Select Feedback Category",
+  //                 props: {
+  //                   selectOptions: FEEDBACK_CATEGORIES.map((category) => ({
+  //                     label: splitCamelOrPascal(category),
+  //                     value: category,
+  //                   })),
 
-                    value: feedbackManager.category,
-                    onValueChange: (value) =>
-                      feedbackManager.set("category", value),
-                  },
-                },
-              ],
-            },
-            {
-              id: 3,
-              fields: [
-                {
-                  label: "Rating",
-                  variant: "rating",
-                  description: "Rate your experience",
-                  required: true,
-                  props: {
-                    rating: feedbackManager.rating || 0,
-                    onValueChange: (value) => {
-                      feedbackManager.set("rating", value);
-                    },
-                  },
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    }),
-    [feedbackManager]
-  );
+  //                   value: feedbackManager.category,
+  //                   onValueChange: (value) =>
+  //                     feedbackManager.set("category", value),
+  //                 },
+  //               },
+  //             ],
+  //           },
+  //           {
+  //             id: 3,
+  //             fields: [
+  //               {
+  //                 label: "Rating",
+  //                 variant: "rating",
+  //                 description: "Rate your experience",
+  //                 required: true,
+  //                 props: {
+  //                   rating: feedbackManager.rating || 0,
+  //                   onValueChange: (value) => {
+  //                     feedbackManager.set("rating", value);
+  //                   },
+  //                 },
+  //               },
+  //             ],
+  //           },
+  //         ],
+  //       },
+  //     ],
+  //   }),
+  //   [feedbackManager]
+  // );
 
   return (
     <KeyboardAwareScrollView bounces={false}>
@@ -128,7 +126,7 @@ export default function FeedbackScreen() {
           </Text>
         </View> */}
 
-        <FormBuilder form={form} includeHeader={true} />
+        {/* <FormBuilder form={form} includeHeader={true} />
 
         <Button
           disabled={isFeedbackSubmitting}
@@ -138,7 +136,7 @@ export default function FeedbackScreen() {
           <Text>
             {isFeedbackSubmitting ? "Submitting..." : "Submit Feedback"}
           </Text>
-        </Button>
+        </Button> */}
       </View>
     </KeyboardAwareScrollView>
   );

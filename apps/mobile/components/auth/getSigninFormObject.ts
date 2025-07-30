@@ -1,5 +1,9 @@
 import { AuthManager } from "~/hooks/stores/use-auth-form";
-import { Field, FieldVariant, Form } from "~/types/utils/form-builder.types";
+import {
+  Field,
+  FieldVariant,
+  FormStructure,
+} from "~/components/shared/form-builder/types";
 
 interface SigninFormObjectProps {
   store: AuthManager;
@@ -9,8 +13,9 @@ interface SigninFormObjectProps {
 export const getSigninFormObject = ({
   store,
   isPending,
-}: SigninFormObjectProps): Form => {
+}: SigninFormObjectProps): FormStructure => {
   const emailField: Field = {
+    id: "email",
     label: "E-mail",
     description: "Please enter your e-mail",
     variant: FieldVariant.EMAIL,
@@ -27,6 +32,7 @@ export const getSigninFormObject = ({
     },
   };
   const passwordField: Field = {
+    id: "password",
     label: "Password",
     description: "Please enter your password",
     variant: FieldVariant.PASSWORD,

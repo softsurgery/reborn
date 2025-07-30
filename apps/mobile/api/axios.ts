@@ -1,4 +1,5 @@
 import _axios from "axios";
+import { useAuthPersistStore } from "~/hooks/stores/useAuthPersistStore";
 
 const BASE_URL = process.env.EXPO_PUBLIC_API_BASE_URL;
 
@@ -10,20 +11,55 @@ const axios = _axios.create({
   },
 });
 
+// Request interceptor
 axios.interceptors.request.use(
   function (config) {
+    const authStore = useAuthPersistStore.getState();
+
+    if (authStore.accessToken) {
+      config.headers["Authorization"] = `Bearer ${authStore.accessToken}`;
+    }
+
     return config;
   },
-  function (error) {
-    return Promise.reject(error);
+  function (err) {
+    return Promise.reject(err);
   }
 );
 
 axios.interceptors.response.use(
-  function (response) {
-    return response;
-  },
-  function (error) {
+  (res) => res,
+  async (error) => {
+    const originalRequest = error.config;
+    const authStore = useAuthPersistStore.getState();
+
+    if (
+      error.response &&
+      error.response.status === 401 &&
+      !originalRequest._retry
+    ) {
+      originalRequest._retry = true;
+
+      if (authStore.refreshToken) {
+        try {
+          const response = await _axios.post(`${BASE_URL}/auth/refresh-token`, {
+            refresh_token: authStore.refreshToken,
+          });
+
+          const newAccessToken = response.data.access_token;
+          useAuthPersistStore.getState().setAccessToken(newAccessToken);
+          originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
+
+          return axios(originalRequest);
+        } catch (err) {
+          authStore.logout?.();
+          return Promise.reject(err);
+        }
+      } else {
+        authStore.logout?.();
+      }
+    }
+
     return Promise.reject(error);
   }
 );

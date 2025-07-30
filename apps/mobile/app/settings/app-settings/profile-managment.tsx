@@ -1,6 +1,6 @@
 import React from "react";
 import { Image, View } from "react-native";
-import { StableScrollView } from "~/components/common/StableScrollView";
+import { StableScrollView } from "~/components/shared/StableScrollView";
 import { ProfileManagmentCard } from "~/components/profile/ProfileManagementCard";
 import { Text } from "~/components/ui/text";
 
@@ -14,7 +14,7 @@ export default function ProfileManagment({
   return (
     <StableScrollView className={className}>
       <View className="flex flex-col gap-2 px-5 mb-7">
-        <ProfileManagmentCard className="mt-5"/>
+        <ProfileManagmentCard className="mt-5" />
         <View className="flex flex-col gap-4 px-5">
           <View>
             <Text className="font-bold">Bio</Text>

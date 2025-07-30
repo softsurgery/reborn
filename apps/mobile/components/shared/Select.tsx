@@ -18,7 +18,7 @@ import { RadioGroupItemWithLabel } from "./RadioGroupItemWithLabel";
 import * as Haptics from "expo-haptics";
 import Icon from "~/lib/Icon";
 import { ChevronDown } from "lucide-react-native";
-import { SelectOption } from "~/types/utils/form-builder.types";
+import { SelectOption } from "~/components/shared/form-builder/types";
 
 interface SelectProps {
   className?: string;
@@ -41,12 +41,15 @@ const Select = React.memo(
     options = [],
   }: SelectProps) => {
     return (
-      <Dialog className={cn(className)}>
+      <Dialog>
         <DialogTrigger asChild>
           <Button
             disabled={disabled}
             variant="outline"
-            className="flex flex-row justify-between items-start"
+            className={cn(
+              "flex flex-row justify-between items-start",
+              className
+            )}
           >
             <Label>
               {value

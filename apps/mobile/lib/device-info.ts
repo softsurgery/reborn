@@ -2,9 +2,9 @@ import * as Device from "expo-device";
 
 export const generateDeviceInfo = () => {
   return {
-    platform: Device.osName || undefined,
-    version: Device.osVersion || undefined,
-    model: Device.modelName || undefined,
-    manufacturer: Device.manufacturer || undefined,
+    model: Device.modelName || "Unknown",
+    platform: Device.osName || "Unknown",
+    version: Device.osVersion || "Unknown",
+    manufacturer: Device.manufacturer || "Unknown",
   };
 };
