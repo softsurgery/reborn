@@ -1,8 +1,8 @@
-import { CreateFeedbackDto, Feedback } from "~/types";
 import axios from "./axios";
+import { CreateFeedbackDto } from "~/types";
 
 async function create(feedback: CreateFeedbackDto) {
-  const response = await axios.post("/feedback", feedback);
+  const response = await axios.post("feedback", feedback);
   return response.data;
 }
 

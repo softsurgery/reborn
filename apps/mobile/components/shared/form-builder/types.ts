@@ -21,7 +21,7 @@ export interface FieldsetRow {
   fields: Field[];
 }
 
-export interface Field<T = TextFieldProps> {
+export interface Field<T = any> {
   id: string;
   label: string;
   className?: string;
@@ -109,4 +109,11 @@ export interface SelectFieldProps {
   onSelect?: (value: string) => void;
   options?: SelectOption[];
   editable?: boolean;
+}
+
+export interface RatingFieldProps {
+  value: number;
+  onValueChange?: (value: number) => void;
+  editable?: boolean;
+  color?: boolean;
 }

@@ -27,7 +27,7 @@ export enum FeedbackCategory {
 }
 
 export interface CreateFeedbackDto {
-  category: FeedbackCategory;
+  category?: FeedbackCategory;
   message: string;
   rating: number;
   device: CreateDeviceDto;

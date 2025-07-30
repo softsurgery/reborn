@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { BugVariant } from "../system-reports";
+import { BugVariant, FeedbackCategory } from "../system-reports";
 
 export const BugVariantEnum = z.enum(
   Object.values(BugVariant) as [string, ...string[]],
@@ -20,4 +20,22 @@ export const createBugSchema = z.object({
     .max(1024, {
       message: "Description must be at most 1024 characters long.",
     }),
+});
+
+export const FeedbackCategoryEnum = z.enum(
+  Object.values(FeedbackCategory) as [string, ...string[]],
+  {
+    error: () => ({ message: "You must select a Feedback Category." }),
+  }
+);
+
+export const createFeedbackSchema = z.object({
+  category: FeedbackCategoryEnum,
+  message: z
+    .string({ error: "Message is required." })
+    .min(10, { message: "Message must be at least 10 characters long." })
+    .max(1024, {
+      message: "Message must be at most 1024 characters long.",
+    }),
+  rating: z.number().min(1, { message: "Rating must be at least 1." }),
 });

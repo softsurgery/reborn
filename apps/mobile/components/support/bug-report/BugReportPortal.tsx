@@ -12,8 +12,13 @@ import { View } from "react-native";
 import { useBugReportFormStructure } from "./useBugReportFormStructure";
 import { FormBuilder } from "~/components/shared/form-builder/FormBuilder";
 import { createBugSchema } from "~/types/validations/system-reports";
+import { cn } from "~/lib/utils";
 
-export const BugReportPortal = () => {
+interface BugReportPortalProps {
+  className?: string;
+}
+
+export const BugReportPortal = ({ className }: BugReportPortalProps) => {
   React.useEffect(() => {
     return () => {
       bugStore.reset();
@@ -25,14 +30,12 @@ export const BugReportPortal = () => {
 
   const { mutate: reportBug, isPending: isReportBugPending } = useMutation({
     mutationFn: async () => api.bug.create(bugStore.createDto),
-    onSuccess: (data) => {
+    onSuccess: () => {
       Toast.show("Bug reported successfully");
       bugStore.reset();
     },
     onError: (error) => {
-      Toast.show("oops! Failed to submit bug report", {
-        style: { backgroundColor: "red" },
-      });
+      Toast.show("oops! Failed to submit bug report");
     },
   });
 
@@ -47,7 +50,7 @@ export const BugReportPortal = () => {
 
   return (
     <KeyboardAwareScrollView bounces={false}>
-      <View className="flex flex-col mx-4 my-4 gap-2">
+      <View className={cn("flex flex-col mx-4 my-4 gap-2", className)}>
         {/* Header Section */}
         <View className="mx-auto">
           <Icon name={BugIcon} />

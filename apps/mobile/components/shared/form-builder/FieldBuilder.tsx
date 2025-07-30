@@ -165,10 +165,10 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
         <View className="flex flex-col w-full">
           <View className="mx-auto">
             <StarRating
-              rating={field?.props?.rating || 0}
+              rating={field?.props?.value || 0}
               onChange={(rating) => field.props?.onValueChange?.(rating)}
               maxStars={5}
-              color="gray"
+              color={field?.props?.color ? "#00FF00" : "yellow"}
             />
           </View>
         </View>
