@@ -10,15 +10,14 @@ import {
   DialogTrigger,
 } from "~/components/ui/dialog";
 import { Button } from "../ui/button";
-import { Text } from "@rn-primitives/label";
 import { Label } from "../ui/label";
 import { cn } from "~/lib/utils";
 import { ScrollView, View } from "react-native";
 import { RadioGroupItemWithLabel } from "./RadioGroupItemWithLabel";
 import * as Haptics from "expo-haptics";
-import Icon from "~/lib/Icon";
 import { ChevronDown } from "lucide-react-native";
 import { SelectOption } from "~/components/shared/form-builder/types";
+import { Text } from "../ui/text";
 
 interface SelectProps {
   className?: string;
@@ -51,12 +50,11 @@ const Select = React.memo(
               className
             )}
           >
-            <Label>
+            <Text className={cn("text-lg", !value ? "opacity-30" : "")}>
               {value
                 ? options.find((option) => option.value === value)?.label
                 : "Select an option"}
-            </Label>
-            {/* <Icon name={ChevronDown} /> */}
+            </Text>
             <ChevronDown />
           </Button>
         </DialogTrigger>
