@@ -29,6 +29,7 @@ export const useBugReportFormStructure = ({
       value: store.createDto.title,
       onChangeText: (value: string) => {
         store.setNested("createDto.title", value);
+        store.setNested("errors.title",[]);
       },
     },
   };
@@ -46,6 +47,7 @@ export const useBugReportFormStructure = ({
       value: store.createDto.description,
       onChangeText: (value: string) => {
         store.setNested("createDto.description", value);
+        store.setNested("errors.description", [])
       },
     },
   };
@@ -63,6 +65,7 @@ export const useBugReportFormStructure = ({
       value: store.createDto.variant,
       onSelect: (value: string) => {
         store.setNested("createDto.variant", value as BugVariant);
+        store.setNested("errors.variant", []);
       },
       options: Object.values(BugVariant).map((bug) => ({
         label: bug,
