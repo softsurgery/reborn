@@ -185,7 +185,7 @@ export default function RootLayout() {
                   }}
                 />
                  <Stack.Screen
-                  name="settings/support/Faqs"
+                  name="settings/support/faqs"
                   options={{
                     title: "FAQs",
                     animation: "slide_from_right",

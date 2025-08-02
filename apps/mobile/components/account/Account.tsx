@@ -76,7 +76,7 @@ export const Account = () => {
             <MenuItem
               title="FAQs"
               icon={HelpCircle}
-              link={"settings/support/Faqs"}
+              link={"settings/support/faqs"}
             />
           </View>
         </View>
