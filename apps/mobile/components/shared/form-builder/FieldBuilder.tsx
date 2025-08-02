@@ -168,7 +168,7 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
               rating={field?.props?.value || 0}
               onChange={(rating) => field.props?.onValueChange?.(rating)}
               maxStars={5}
-              color={field?.props?.color ? "#00FF00" : "yellow"}
+              color={field?.props?.color || "yellow"}
             />
           </View>
         </View>

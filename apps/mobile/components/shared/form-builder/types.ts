@@ -115,5 +115,5 @@ export interface RatingFieldProps {
   value: number;
   onValueChange?: (value: number) => void;
   editable?: boolean;
-  color?: boolean;
+  color?: string;
 }
