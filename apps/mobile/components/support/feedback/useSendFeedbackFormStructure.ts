@@ -29,6 +29,7 @@ export const useSendFeedbackFormStructure = ({
       value: store.createDto.message,
       onChangeText: (value: string) => {
         store.setNested("createDto.message", value);
+        store.setNested("errors.message", []);
       },
     },
   };
@@ -46,6 +47,7 @@ export const useSendFeedbackFormStructure = ({
       value: store.createDto.category,
       onSelect: (value: string) => {
         store.setNested("createDto.category", value as FeedbackCategory);
+        store.setNested("errors.category", []);
       },
       options: Object.values(FeedbackCategory).map((feedback) => ({
         label: feedback,
@@ -64,9 +66,11 @@ export const useSendFeedbackFormStructure = ({
     description: "Rate your experience",
     error: store.errors.rating?.[0],
     props: {
+      color: "#b91c1c",
       value: store.createDto.rating,
       onValueChange: (value: number) => {
         store.setNested("createDto.rating", value);
+        store.setNested("errors.rating", []);
       },
     },
   };
