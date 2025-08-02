@@ -22,9 +22,7 @@ export const ProfileManagmentCard = ({
   const router = useRouter();
 
   return (
-    <Card
-      className={cn("w-full items-center justify-center", className)}
-    >
+    <Card className={cn("w-full items-center justify-center", className)}>
       <CardHeader>
         <Avatar
           alt="Zach Nugent's Avatar"

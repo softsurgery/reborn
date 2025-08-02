@@ -1,7 +1,7 @@
 import React from "react";
 import { Image, View } from "react-native";
 import { StableScrollView } from "~/components/shared/StableScrollView";
-import { ProfileManagmentCard } from "~/components/profile/ProfileManagementCard";
+import { ProfileManagmentCard } from "~/components/account/profile/ProfileManagementCard";
 import { Text } from "~/components/ui/text";
 
 interface ProfileManagmentCardProps {
