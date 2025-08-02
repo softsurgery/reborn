@@ -1,29 +1,26 @@
 import React from "react";
 import { Text } from "../ui/text";
-import Icon from "~/lib/Icon";
 import {
   Bell,
   Bug,
-  ChevronRight,
   HelpCircle,
   LogOut,
-  LucideIcon,
   MailCheck,
   Settings,
   User2,
 } from "lucide-react-native";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigation } from "expo-router";
-import { NavigationProps, StackParamList } from "~/types/app.routes";
-import { Pressable, View } from "react-native";
+import { NavigationProps } from "~/types/app.routes";
+import { View } from "react-native";
 import { firebaseFns } from "~/firebase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { PlanInfo } from "./Plan";
 import { GoPremium } from "./GoPremium";
-import { cn } from "~/lib/utils";
 import { Separator } from "../ui/separator";
 import { useAuth } from "~/context/AuthContext";
 import { StableScrollView } from "../shared/StableScrollView";
+import { MenuItem } from "./MenuItem";
 
 export const Account = () => {
   const { disconnect } = useAuth();
@@ -46,37 +43,37 @@ export const Account = () => {
         {/* App Settings */}
         <Text className="text-2xl font-bold mb-2">App Settings</Text>
         <View className="flex flex-col">
-          <Item
+          <MenuItem
             title="Profile Management"
             icon={User2}
             link={"settings/app-settings/profile-managment"}
           />
           <Separator />
-          <Item
+          <MenuItem
             title="User Preferences"
             icon={Settings}
             link={"settings/app-settings/user-preferences"}
           />
           <Separator />
-          <Item title="Notifications" icon={Bell} />
+          <MenuItem title="Notifications" icon={Bell} />
         </View>
         {/* Support */}
         <View>
           <Text className="text-2xl font-bold mb-2">Support</Text>
           <View className="flex flex-col">
-            <Item
+            <MenuItem
               title="Report a Bug"
               icon={Bug}
               link={"settings/support/report-bug"}
             />
             <Separator />
-            <Item
+            <MenuItem
               title="Send us Feedback"
               icon={MailCheck}
               link={"settings/support/send-feedback"}
             />
             <Separator />
-            <Item
+            <MenuItem
               title="FAQs"
               icon={HelpCircle}
               link={"settings/support/Faqs"}
@@ -87,47 +84,14 @@ export const Account = () => {
         <View>
           <Text className="text-2xl font-bold mb-2">Account Actions</Text>
           <View className="flex flex-col">
-            <Item title="Switch Account" icon={LogOut} onPress={disconnect} />
+            <MenuItem
+              title="Switch Account"
+              icon={LogOut}
+              onPress={disconnect}
+            />
           </View>
         </View>
       </View>
     </StableScrollView>
-  );
-};
-
-interface ItemProps {
-  className?: string;
-  title?: string;
-  icon?: React.ElementType;
-  link?: keyof StackParamList;
-  onPress?: () => void;
-}
-
-const Item = ({ className, title, icon, link, onPress }: ItemProps) => {
-  const [pressed, setPressed] = React.useState(false);
-  const navigation = useNavigation<NavigationProps>();
-
-  return (
-    <Pressable
-      onPressIn={() => setPressed(true)}
-      onPressOut={() => setPressed(false)}
-      className={cn("rounded-lg", pressed && "bg-background", className)}
-      onPress={
-        link
-          ? () => {
-              //@ts-ignore
-              navigation.push(link);
-            }
-          : onPress
-      }
-    >
-      <View className="flex flex-row justify-between py-4 border-gray-100 dark:border-gray-900 px-2">
-        <View className="flex flex-row items-center gap-4">
-          <Icon name={icon as LucideIcon} size={28} />
-          <Text className="text-xl">{title}</Text>
-        </View>
-        <Icon name={ChevronRight} />
-      </View>
-    </Pressable>
   );
 };
