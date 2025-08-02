@@ -150,42 +150,42 @@ export default function RootLayout() {
                 />
                 {/* Account */}
                 <Stack.Screen
-                  name="settings/app-settings/profile-managment"
+                  name="account/managment"
                   options={{
                     title: "Profile Management",
                     animation: "slide_from_right",
                   }}
                 />
                 <Stack.Screen
-                  name="settings/app-settings/profile/update-profile"
+                  name="account/update-profile"
                   options={{
                     title: "Update Profile",
                     animation: "slide_from_right",
                   }}
                 />
-                <Stack.Screen
+                {/* <Stack.Screen
                   name="settings/app-settings/user-preferences"
                   options={{
                     title: "User Preferences",
                     animation: "slide_from_right",
                   }}
-                />
+                /> */}
                 <Stack.Screen
-                  name="settings/support/report-bug"
+                  name="account/support/report-bug"
                   options={{
                     title: "Report a Bug",
                     animation: "slide_from_right",
                   }}
                 />
                 <Stack.Screen
-                  name="settings/support/send-feedback"
+                  name="account/support/send-feedback"
                   options={{
                     title: "Send us feedback",
                     animation: "slide_from_right",
                   }}
                 />
-                 <Stack.Screen
-                  name="settings/support/faqs"
+                <Stack.Screen
+                  name="account/support/faqs"
                   options={{
                     title: "FAQs",
                     animation: "slide_from_right",

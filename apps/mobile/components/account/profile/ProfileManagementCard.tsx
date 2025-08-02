@@ -54,9 +54,7 @@ export const ProfileManagmentCard = ({
       </CardContent>
       <CardFooter>
         <Button
-          onPress={() =>
-            router.push("/settings/app-settings/profile/update-profile")
-          }
+          onPress={() => router.push("/account/update-profile")}
           className="w-full"
         >
           <Text className="bold">Update Your Profile</Text>

@@ -117,3 +117,19 @@ export interface RatingFieldProps {
   editable?: boolean;
   color?: string;
 }
+
+export interface PictureFieldProps {
+  value?: string;
+  onValueChange?: (value: string) => void;
+  editable?: boolean;
+}
+
+export interface DoubleChoiceFieldProps {
+  pChoice: string;
+  positiveChoice: boolean;
+  nChoice: string;
+  negativeChoice: boolean;
+  value: string;
+  onValueChange?: (value: string) => void;
+  editable?: boolean;
+}

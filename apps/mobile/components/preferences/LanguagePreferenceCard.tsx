@@ -3,7 +3,7 @@ import { Text } from "~/components/ui/text";
 import { View } from "react-native";
 import { Label } from "~/components/ui/label";
 import { cn } from "~/lib/utils";
-import Select from "../shared/Select";
+import Select from "~/components/shared/Select";
 
 interface LanguagePreferenceCardProps {
   className?: string;

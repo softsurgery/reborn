@@ -46,13 +46,13 @@ export const Account = () => {
           <MenuItem
             title="Profile Management"
             icon={User2}
-            link={"settings/app-settings/profile-managment"}
+            link={"account/managment"}
           />
           <Separator />
           <MenuItem
             title="User Preferences"
             icon={Settings}
-            link={"settings/app-settings/user-preferences"}
+            link={"account/preferences"}
           />
           <Separator />
           <MenuItem title="Notifications" icon={Bell} />
@@ -64,19 +64,19 @@ export const Account = () => {
             <MenuItem
               title="Report a Bug"
               icon={Bug}
-              link={"settings/support/report-bug"}
+              link={"account/support/report-bug"}
             />
             <Separator />
             <MenuItem
               title="Send us Feedback"
               icon={MailCheck}
-              link={"settings/support/send-feedback"}
+              link={"account/support/send-feedback"}
             />
             <Separator />
             <MenuItem
               title="FAQs"
               icon={HelpCircle}
-              link={"settings/support/faqs"}
+              link={"account/support/faqs"}
             />
           </View>
         </View>

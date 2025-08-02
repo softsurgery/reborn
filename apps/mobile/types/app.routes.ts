@@ -10,12 +10,13 @@ export type StackParamList = {
   "auth/sign-in-screen": undefined;
   "auth/sign-up-screen": undefined;
   // Account
-  "settings/app-settings/user-preferences": undefined;
-  "settings/support/report-bug": undefined;
-  "settings/support/send-feedback": undefined;
-  "settings/app-settings/profile-managment": undefined;
-  "settings/app-settings/update-profile": undefined;
-  "settings/support/faqs": undefined;
+  "account/managment": undefined;
+  "account/preferences": undefined;
+  "account/update-profile": undefined;
+
+  "account/support/report-bug": undefined;
+  "account/support/send-feedback": undefined;
+  "account/support/faqs": undefined;
   // Chat
   "chat/conversation": { user?: User };
   // Jobs
