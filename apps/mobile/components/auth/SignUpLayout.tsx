@@ -29,7 +29,7 @@ export const SignUpLayout = ({ className }: SignUpLayoutProps) => {
   });
 
   return (
-    <KeyboardAwareScrollView className={className}>
+    <KeyboardAwareScrollView className={className} bounces={false}>
       <View className="flex flex-col justify-center gap-5 p-4">
         {/* Greetings */}
         <View className="my-5">
@@ -53,8 +53,8 @@ export const SignUpLayout = ({ className }: SignUpLayoutProps) => {
             }}
             disabled={!isEmail(authStore.signUpRequest.email)}
           >
-            <Icon name={ArrowRight} size={24} className="text-white" />
             <Text className="font-bold text-white">Continue with E-mail</Text>
+            <Icon name={ArrowRight} size={24} className="text-white" />
           </Button>
 
           {/* Divider */}
@@ -88,13 +88,13 @@ export const SignUpLayout = ({ className }: SignUpLayoutProps) => {
 
         {/* Navigate to sign-in */}
         <View className="flex flex-row gap-1 items-center justify-center my-auto">
-          <Label className="text-lg">Already have an account?</Label>
-          <Label
-            className="font-bold underline"
+          <Text className="text-xl">Already have an account?</Text>
+          <Text
+            className="font-bold text-xl"
             onPress={() => navigation.navigate("auth/sign-in", { reset: true })}
           >
-            Sign in
-          </Label>
+            Sign-in
+          </Text>
         </View>
       </View>
     </KeyboardAwareScrollView>

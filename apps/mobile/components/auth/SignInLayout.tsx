@@ -58,7 +58,7 @@ export const SignInLayout = ({ className }: SignInLayoutProps) => {
   };
 
   return (
-    <KeyboardAwareScrollView className="bg-background">
+    <KeyboardAwareScrollView className="bg-background" bounces={false}>
       <View className={cn("flex flex-col justify-center gap-5 p-4", className)}>
         <View className="my-5">
           <Text className="text-2xl font-extrabold mx-auto">Welecome Back</Text>
@@ -79,8 +79,8 @@ export const SignInLayout = ({ className }: SignInLayoutProps) => {
             className="flex flex-row justify-center gap-2 my-1"
             onPress={onLoginPress}
           >
-            <Icon name={ArrowRight} size={24} className="text-white" />
             <Text className="font-bold">Continue with E-mail</Text>
+            <Icon name={ArrowRight} size={24} className="text-white" />
           </Button>
 
           <DividerWithText text="OR" />
@@ -115,13 +115,13 @@ export const SignInLayout = ({ className }: SignInLayoutProps) => {
         </View>
 
         <View className="flex flex-row gap-1 items-center justify-center my-auto">
-          <Label className="text-lg">Don't have an account?</Label>
-          <Label
-            className="font-bold"
+          <Text className="text-xl">Don't have an account?</Text>
+          <Text
+            className="font-bold text-xl"
             onPress={() => navigation.navigate("auth/sign-up", { reset: true })}
           >
             Create an account
-          </Label>
+          </Text>
         </View>
       </View>
     </KeyboardAwareScrollView>
