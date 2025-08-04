@@ -1,5 +1,6 @@
 import { useAuthPersistStore } from "~/hooks/stores/useAuthPersistStore";
 import axios from "./axios";
+import { RequestSignInDto } from "~/types/auth.types";
 
 const saveToken = (access_token: string, refresh_token: string) => {
   const authPersistStore = useAuthPersistStore.getState();
@@ -9,10 +10,7 @@ const saveToken = (access_token: string, refresh_token: string) => {
   console.log(authPersistStore);
 };
 
-const signInWithEmailAndPassword = async (credential: {
-  usernameOrEmail: string;
-  password: string;
-}) => {
+const signInWithEmailAndPassword = async (credential: RequestSignInDto) => {
   const response = await axios.post("/auth/sign-in", credential);
   saveToken(response.data.access_token, response.data.refresh_token);
   return response.data;
