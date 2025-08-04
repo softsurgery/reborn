@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { Text } from "~/components/ui/text";
 import { cn } from "~/lib/utils";
 import { FormStructure } from "~/components/shared/form-builder/types";
-import { getItemWidth } from "../../../lib/getItemWidth.util";
+import { getItemWidth } from "./item-width";
 import { FieldBuilder } from "./FieldBuilder";
 import { Separator } from "~/components/ui/separator";
 
@@ -33,7 +33,7 @@ export const FormBuilder = ({ className, structure }: FormBuilderProps) => {
           <View
             key={fieldsetIndex}
             className={cn(
-              "flex w-full border-border rounded-lg bg-muted/30 ",
+              "flex w-full border-border rounded-lg",
               structure.orientation === "vertical"
                 ? "flex-col gap-10"
                 : "flex-col gap-12"

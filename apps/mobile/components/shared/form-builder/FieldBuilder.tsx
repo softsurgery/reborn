@@ -39,6 +39,7 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
       return (
         <View className="flex flex-col w-full">
           <Input
+            {...field?.props}
             editable={field?.props?.editable}
             id={field.label}
             keyboardType={
@@ -47,7 +48,6 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
             placeholder={field.placeholder}
             value={field?.props?.value?.toString() || ""}
             onChangeText={(text) => field?.props?.onChangeText?.(text)}
-            {...field.props?.other}
             className={cn("p-3 rounded-md", field?.error && "border-red-500")}
           />
         </View>
@@ -55,6 +55,7 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
     case "email":
       return (
         <Input
+          {...field?.props}
           editable={field?.props?.editable}
           keyboardType="email-address"
           placeholder={field.placeholder}
@@ -68,6 +69,7 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
     case "select":
       return (
         <Select
+          {...field?.props}
           title={field.label}
           value={field?.props?.value?.toString()}
           onSelect={(value) => field?.props?.onSelect?.(value)}
@@ -81,6 +83,7 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
       return (
         <View className="flex flex-col gap-2 w-full">
           <DatePicker
+            {...field?.props}
             date={
               field?.props?.value instanceof Date
                 ? field.props.value
@@ -102,6 +105,7 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
       return (
         <View className="flex-row items-center gap-2">
           <Checkbox
+            {...field?.props}
             checked={!!field?.props?.value}
             onCheckedChange={(checked) =>
               field?.props?.onValueChange?.(checked)
@@ -114,11 +118,14 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
       return (
         <View className="w-full" style={{ position: "relative" }}>
           <Input
+            {...field?.props}
+            className={cn(field?.error && "border-red-500")}
             style={{
               flex: 1,
               padding: 10,
               paddingRight: 40,
             }}
+            placeholder={field?.props?.placeholder || "••••••••"}
             secureTextEntry={!showPassword}
             value={field?.props?.value?.toString() || ""}
             onChangeText={(text) => field?.props?.onChangeText?.(text)}
@@ -127,7 +134,6 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
             autoCorrect={false}
             spellCheck={false}
             textContentType="none"
-            className={cn(field?.error && "border-red-500")}
           />
 
           <TouchableOpacity
@@ -151,6 +157,7 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
       return (
         <View className="flex flex-col gap-2 w-full">
           <Textarea
+            {...field?.props}
             className={cn("h-52", field?.error && "border-red-500")}
             editable={field?.props?.other}
             placeholder={field.placeholder}
@@ -165,6 +172,7 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
         <View className="flex flex-col w-full">
           <View className="mx-auto">
             <StarRating
+              {...field?.props}
               rating={field?.props?.value || 0}
               onChange={(rating) => field.props?.onValueChange?.(rating)}
               maxStars={5}
@@ -176,6 +184,7 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
     case "picture":
       return (
         <PictureUploader
+          {...field?.props}
           image={field?.props?.value}
           onChange={field?.props?.onValueChange}
         />
@@ -183,6 +192,7 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
     case "double-choice":
       return (
         <DoubleChoice
+          {...field?.props}
           disabled={field?.props?.other}
           positiveChoice={{
             label: field?.props?.pChoice as string,
