@@ -87,7 +87,7 @@ export const FormBuilder = ({ className, structure }: FormBuilderProps) => {
                             {!field?.error && (
                               <Text
                                 className={cn(
-                                  "text-xs text-muted-foreground",
+                                  "text-md text-gray-500 dark:text-gray-400",
                                   field.variant === "picture"
                                     ? "text-center"
                                     : ""
@@ -98,7 +98,7 @@ export const FormBuilder = ({ className, structure }: FormBuilderProps) => {
                             )}
                             {field?.error && (
                               <Text
-                                className="text-xs font-medium"
+                                className="text-md font-medium"
                                 style={{ color: "red" }}
                               >
                                 {field?.error}
