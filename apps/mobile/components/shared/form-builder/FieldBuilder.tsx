@@ -144,6 +144,7 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
               top: 7,
               padding: 4,
             }}
+            disabled={!field?.props?.editable}
           >
             <Feather
               name={showPassword ? "eye-off" : "eye"}

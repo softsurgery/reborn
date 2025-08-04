@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useNavigation } from "expo-router";
 import { Save } from "lucide-react-native";
 import React from "react";
@@ -11,11 +11,12 @@ import { firebaseFns } from "~/firebase";
 import { useUpdateProfileManager } from "~/hooks/stores/useUpdateProfileManager";
 import { useCurrentUser } from "~/hooks/useCurrentUser";
 import Icon from "~/lib/Icon";
-import { Result, User } from "~/types";
+import { Result, ResponseUserDto } from "~/types";
 import { NavigationProps } from "~/types/app.routes";
 import { Text } from "~/components/ui/text";
 import { FormBuilder } from "~/components/shared/form-builder/FormBuilder";
 import { useUpdateProfileFormStructure } from "./useUpdateProfileFormStructure";
+import { api } from "~/api";
 
 export const UpdateProfile = () => {
   const { currentUser, isFetchingCurrentUser } = useCurrentUser();
@@ -36,9 +37,17 @@ export const UpdateProfile = () => {
     }
   }, [currentUser]);
 
+  const { data: userData, isPending: isUserDataPending } = useQuery({
+    queryKey: ["profile"],
+    queryFn: async () => {},
+  });
+
+  console.log(userData);
+
   const { mutate: updateProfile, isPending: isUpdateProfilePending } =
     useMutation({
-      mutationFn: (data: Partial<User>) => firebaseFns.user.updateCurrent(data),
+      mutationFn: (data: Partial<ResponseUserDto>) =>
+        firebaseFns.user.updateCurrent(data),
       onSuccess: (result: Result) => {
         if (result.success) {
           Toast.show("Profile Updated Successfully", {
@@ -51,21 +60,7 @@ export const UpdateProfile = () => {
       },
     });
 
-  const handleUpdate = async () => {
-    const updatedData: Partial<User> = {
-      name: updateProfileManager.name,
-      surname: updateProfileManager.surname,
-      email: updateProfileManager.email,
-      phone: updateProfileManager.phone,
-      bio: updateProfileManager.bio,
-      isMale: updateProfileManager.isMale,
-      region: updateProfileManager.region,
-      dateOfBirth: updateProfileManager.dateOfBirth?.toISOString(),
-      nationalId: updateProfileManager.nationalId,
-      isPublic: updateProfileManager.isPublic,
-    };
-    updateProfile(updatedData);
-  };
+  const handleUpdate = async () => {};
 
   if (isFetchingCurrentUser) return <Loader />;
 

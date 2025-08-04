@@ -3,8 +3,9 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { Heart, Briefcase, FileText, CheckCircle } from "lucide-react-native";
 import { cn } from "~/lib/utils";
 import { Toast } from "react-native-toast-notifications";
-import { useRouter } from "expo-router";
+import { useNavigation } from "expo-router";
 import { Job } from "~/types/Job";
+import { NavigationProps } from "~/types/app.routes";
 
 interface JobCardProps {
   job: Job;
@@ -13,7 +14,7 @@ interface JobCardProps {
 export const JobCard = ({ job }: JobCardProps) => {
   const [saved, setSaved] = useState(false);
   const [showFullDesc, setShowFullDesc] = useState(false);
-  const router = useRouter();
+  const navigation = useNavigation<NavigationProps>();
 
   const handleSave = (e: any) => {
     e.stopPropagation(); // Prevent navigation when saving
@@ -26,9 +27,8 @@ export const JobCard = ({ job }: JobCardProps) => {
   };
 
   const handleCardPress = () => {
-    router.push({
-      pathname: "/job-details",
-      params: { job: JSON.stringify(job) },
+    navigation.navigate("job-details", {
+      job: JSON.stringify(job),
     });
   };
 

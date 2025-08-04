@@ -2,5 +2,5 @@ export * from "./DeviceInfo";
 export * from "./FirebaseUtils";
 export * from "./Job";
 export * from "./Result";
-export * from "./User";
+export * from "./user-management";
 export * from "./system-reports";

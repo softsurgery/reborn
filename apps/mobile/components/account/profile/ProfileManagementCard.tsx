@@ -8,9 +8,10 @@ import {
 } from "~/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Button } from "~/components/ui/button";
-import { useRouter } from "expo-router";
 import { View } from "react-native";
 import { cn } from "~/lib/utils";
+import { useNavigation } from "expo-router";
+import { NavigationProps } from "~/types/app.routes";
 
 interface ProfileManagmentCardProps {
   className?: string;
@@ -19,7 +20,7 @@ interface ProfileManagmentCardProps {
 export const ProfileManagmentCard = ({
   className,
 }: ProfileManagmentCardProps) => {
-  const router = useRouter();
+  const navigation = useNavigation<NavigationProps>();
 
   return (
     <Card className={cn("w-full items-center justify-center", className)}>
@@ -54,7 +55,7 @@ export const ProfileManagmentCard = ({
       </CardContent>
       <CardFooter>
         <Button
-          onPress={() => router.push("/account/update-profile")}
+          onPress={() => navigation.navigate("account/update-profile")}
           className="w-full"
         >
           <Text className="bold">Update Your Profile</Text>

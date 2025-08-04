@@ -1,21 +1,21 @@
 import { ResponseUserDto } from "./user-management";
 
-export interface ResponseSigninDto {
+export interface ResponseClientSigninDto {
   access_token: string;
   refresh_token: string;
 }
 
-export interface RequestSignInDto {
-  usernameOrEmail: string;
+export interface RequestClientSignInDto {
+  email: string;
   password: string;
 }
 
-export interface RequestSignUpDto {
+export interface RequestClientSignUpDto {
   email: string;
   username: string;
   password: string;
 }
 
-export interface ResponseSignupDto {
+export interface ResponseClientSignupDto {
   user: ResponseUserDto;
 }

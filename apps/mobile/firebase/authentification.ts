@@ -14,7 +14,7 @@ import {
 } from "firebase/firestore";
 import { isEmail } from "~/lib/validators/isEmail";
 import { Credentials, Result } from "~/types";
-import { User } from "~/types/User";
+import { ResponseUserDto } from "~/types/user-management";
 
 export function VerifyEmailAndPassword(email: string, password: string) {
   const errors = [];
@@ -89,7 +89,7 @@ export async function SignInWithEmail({
 }
 
 export async function SignUpWithEmail(
-  { name, surname }: User,
+  { firstName, lastName }: ResponseUserDto,
   { email, password }: Credentials
 ): Promise<Result> {
   const auth = getAuth(firebaseApp);
@@ -102,8 +102,8 @@ export async function SignUpWithEmail(
       const userDocRef = doc(firestore, "users", uid);
 
       await setDoc(userDocRef, {
-        name,
-        surname,
+        firstName,
+        lastName,
         email: email,
         createdAt: new Date(),
       });

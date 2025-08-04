@@ -1,6 +1,6 @@
 import React from "react";
 import { View, ScrollView, TouchableOpacity } from "react-native";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useLocalSearchParams, useNavigation } from "expo-router";
 import { Text } from "~/components/ui/text";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardHeader } from "~/components/ui/card";
@@ -21,7 +21,7 @@ import { Job } from "~/types/Job";
 import { Toast } from "react-native-toast-notifications";
 
 export default function JobDetailsScreen() {
-  const router = useRouter();
+  const navigation = useNavigation();
   const params = useLocalSearchParams();
 
   // Parse the job data from params
@@ -32,7 +32,7 @@ export default function JobDetailsScreen() {
     return (
       <View className="flex-1 justify-center items-center bg-background">
         <Text className="text-xl text-foreground">Job not found</Text>
-        <Button onPress={() => router.back()} className="mt-4">
+        <Button onPress={() => navigation.goBack()} className="mt-4">
           Go Back
         </Button>
       </View>
@@ -136,7 +136,7 @@ export default function JobDetailsScreen() {
               <View className="flex-row flex-wrap gap-2">
                 {job.skillsRequired.map((skill, index) => (
                   <Badge key={index} variant="secondary">
-                   <Text>{skill}</Text> 
+                    <Text>{skill}</Text>
                   </Badge>
                 ))}
               </View>
@@ -253,7 +253,7 @@ export default function JobDetailsScreen() {
               className="w-full bg-primary text-primary-foreground"
               size="lg"
             >
-                <Text>Apply Now</Text>
+              <Text>Apply Now</Text>
             </Button>
           </CardContent>
         </Card>

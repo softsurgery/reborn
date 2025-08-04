@@ -10,7 +10,6 @@ import {
   User2,
 } from "lucide-react-native";
 import { useQuery } from "@tanstack/react-query";
-import { useNavigation } from "expo-router";
 import { NavigationProps } from "~/types/app.routes";
 import { View } from "react-native";
 import { firebaseFns } from "~/firebase";
@@ -18,13 +17,14 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { PlanInfo } from "./Plan";
 import { GoPremium } from "./GoPremium";
 import { Separator } from "../ui/separator";
-import { useAuth } from "~/context/AuthContext";
 import { StableScrollView } from "../shared/StableScrollView";
 import { MenuItem } from "./MenuItem";
+import { useAuthPersistStore } from "~/hooks/stores/useAuthPersistStore";
+import { useNavigation } from "~/hooks/useNavigation";
 
 export const Account = () => {
-  const { disconnect } = useAuth();
-  const navigation = useNavigation<NavigationProps>();
+  const navigation = useNavigation();
+  const authPersistStore = useAuthPersistStore();
 
   const { data: userData, isPending: isUserDataPending } = useQuery({
     queryKey: ["user"],
@@ -33,6 +33,11 @@ export const Account = () => {
       return uid && firebaseFns.user.fetch(uid);
     },
   });
+
+  const signout = async () => {
+    authPersistStore.logout();
+    navigation.navigate("index", { reset: true });
+  };
 
   return (
     <StableScrollView className="flex-1 px-5">
@@ -84,11 +89,7 @@ export const Account = () => {
         <View>
           <Text className="text-2xl font-bold mb-2">Account Actions</Text>
           <View className="flex flex-col">
-            <MenuItem
-              title="Switch Account"
-              icon={LogOut}
-              onPress={disconnect}
-            />
+            <MenuItem title="Switch Account" icon={LogOut} onPress={signout} />
           </View>
         </View>
       </View>

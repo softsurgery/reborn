@@ -1,15 +1,15 @@
 import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
-import { User } from "./User";
-import { Job } from "./Job";
+import { ResponseUserDto } from "./user-management";
 
 export type StackParamList = {
   index: undefined;
-  application: undefined;
   // Auth
   "on-boarding": undefined;
-  "auth/sign-in-screen": undefined;
-  "auth/sign-up-screen": undefined;
+  "auth/sign-in": undefined;
+  "auth/sign-up": undefined;
+  "auth/sign-up-carry-on": undefined;
   // Account
+  application: undefined;
   "account/managment": undefined;
   "account/preferences": undefined;
   "account/update-profile": undefined;
@@ -18,7 +18,7 @@ export type StackParamList = {
   "account/support/send-feedback": undefined;
   "account/support/faqs": undefined;
   // Chat
-  "chat/conversation": { user?: User };
+  "chat/conversation": { user?: ResponseUserDto };
   // Jobs
   "job-details": { job: string };
 };

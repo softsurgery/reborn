@@ -7,9 +7,8 @@ export interface ServerResponse<T = undefined> {
 }
 
 interface ServerError {
-  error: string;
+  message: string;
   code: number;
-  details: any;
 }
 
 export interface ServerErrorResponse extends AxiosError<ServerError> {}
