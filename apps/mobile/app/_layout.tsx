@@ -14,7 +14,7 @@ import { ToastProvider } from "react-native-toast-notifications";
 import "~/global.css";
 import { cn } from "~/lib/utils";
 import { DefaultToast } from "~/components/DefaultToast";
-import { useAuthPersistStore } from "~/hooks/stores/useAuthPersistStore";
+import { BackButton } from "~/components/BackButton";
 
 const LIGHT_THEME: Theme = {
   dark: false,
@@ -69,7 +69,6 @@ const queryClient = new QueryClient();
 
 export default function RootLayout() {
   const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
-  const authPersistStore = useAuthPersistStore();
   const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme();
 
   React.useEffect(() => {
@@ -132,6 +131,9 @@ export default function RootLayout() {
                 name="index"
                 options={{
                   title: "",
+                  headerShown: false,
+                  animation: "fade",
+                  animationDuration: 200,
                 }}
               />
               <Stack.Screen
@@ -139,6 +141,7 @@ export default function RootLayout() {
                 options={{
                   title: "",
                   headerRight: () => <ThemeToggle />,
+                  headerLeft: () => <BackButton route="index" />,
                   animation: "fade",
                   animationDuration: 200,
                 }}
@@ -148,6 +151,7 @@ export default function RootLayout() {
                 options={{
                   title: "",
                   headerRight: () => <ThemeToggle />,
+                  headerLeft: () => <BackButton route="index" />,
                   animation: "fade",
                   animationDuration: 200,
                 }}
