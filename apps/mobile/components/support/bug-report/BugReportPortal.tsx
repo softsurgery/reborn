@@ -11,7 +11,7 @@ import Icon from "~/lib/Icon";
 import { View } from "react-native";
 import { useBugReportFormStructure } from "./useBugReportFormStructure";
 import { FormBuilder } from "~/components/shared/form-builder/FormBuilder";
-import { createBugSchema } from "~/types/validations/system-reports";
+import { createBugSchema } from "~/types/validations/system-reports.validation";
 import { cn } from "~/lib/utils";
 
 interface BugReportPortalProps {

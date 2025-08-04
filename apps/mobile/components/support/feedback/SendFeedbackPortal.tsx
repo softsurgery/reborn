@@ -8,7 +8,7 @@ import { View } from "react-native";
 import { MailCheck } from "lucide-react-native";
 import Icon from "~/lib/Icon";
 import { Text } from "~/components/ui/text";
-import { createFeedbackSchema } from "~/types/validations/system-reports";
+import { createFeedbackSchema } from "~/types/validations/system-reports.validation";
 import { Button } from "~/components/ui/button";
 import { FormBuilder } from "~/components/shared/form-builder/FormBuilder";
 import { useSendFeedbackFormStructure } from "./useSendFeedbackFormStructure";
