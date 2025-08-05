@@ -21,7 +21,6 @@ export const UpdateProfile = () => {
   const { currentUser, isCurrentUserPending } = useCurrentUser();
   const updatClientStore = useUpdateClientStore();
   const navigation = useNavigation();
-  const [image, setImage] = React.useState<string | null>(null);
   const { regions, isFetchRegionsPending } = useRegions();
 
   const { updateProfileStructure } = useUpdateProfileFormStructure({
@@ -53,21 +52,21 @@ export const UpdateProfile = () => {
     }
   }, [currentUser]);
 
-  const { mutate: updateProfile, isPending: isUpdateProfilePending } =
-    useMutation({
-      mutationFn: async (data: Partial<ResponseClientDto>) => {},
-      onSuccess: (result: Result) => {
-        if (result.success) {
-          showToastable({
-            message: "Profile Updated Successfully",
-            status: "success",
-          });
-          navigation.goBack();
-        } else {
-          showToastable({ message: JSON.stringify(result), status: "danger" });
-        }
-      },
-    });
+  // const { mutate: updateProfile, isPending: isUpdateProfilePending } =
+  //   useMutation({
+  //     mutationFn: async (data: Partial<ResponseClientDto>) => {},
+  //     onSuccess: (result: Result) => {
+  //       if (result.success) {
+  //         showToastable({
+  //           message: "Profile Updated Successfully",
+  //           status: "success",
+  //         });
+  //         navigation.goBack();
+  //       } else {
+  //         showToastable({ message: JSON.stringify(result), status: "danger" });
+  //       }
+  //     },
+  //   });
 
   const handleUpdate = async () => {};
   if (isCurrentUserPending) return <Loader />;
@@ -80,7 +79,7 @@ export const UpdateProfile = () => {
         <Button
           onPress={handleUpdate}
           className="flex flex-row gap-2 w-full"
-          disabled={isUpdateProfilePending}
+          // disabled={isUpdateProfilePending}
         >
           <Icon name={Save} size={24} />
           <Text>Update Profile</Text>

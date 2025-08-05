@@ -28,7 +28,13 @@ export const useUpdateProfileFormStructure = ({
     label: "Profile Picture",
     variant: FieldVariant.PICTURE,
     description: "Upload a profile picture to personalize your account.",
-    props: {},
+    props: {
+      value: store.utilities?.image,
+      onValueChange: (value: string) => {
+        store.setNested("utilities.image", value);
+        store.setNested("errors.picture", []);
+      },
+    },
   };
 
   //name

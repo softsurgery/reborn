@@ -1,5 +1,5 @@
 import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
-import { ResponseUserDto } from "./user-management";
+import { ResponseClientDto } from "./user-management";
 
 export type StackParamList = {
   index: undefined;
@@ -9,7 +9,6 @@ export type StackParamList = {
   "auth/sign-up": undefined;
   "auth/sign-up-carry-on": undefined;
   // Account
-  application: undefined;
   "account/managment": undefined;
   "account/preferences": undefined;
   "account/update-profile": undefined;
@@ -18,7 +17,7 @@ export type StackParamList = {
   "account/support/send-feedback": undefined;
   "account/support/faqs": undefined;
   // Chat
-  "chat/conversation": { user?: ResponseUserDto };
+  "chat/conversation": { user?: ResponseClientDto };
   // Jobs
   "job-details": { job: string };
 };

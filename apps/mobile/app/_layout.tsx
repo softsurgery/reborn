@@ -14,6 +14,7 @@ import "~/global.css";
 import { cn } from "~/lib/utils";
 import Toastable from "react-native-toastable";
 import { BackButton } from "~/components/BackButton";
+import { useAuthPersistStore } from "~/hooks/stores/useAuthPersistStore";
 
 const LIGHT_THEME: Theme = {
   dark: false,
@@ -69,6 +70,7 @@ const queryClient = new QueryClient();
 export default function RootLayout() {
   const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
   const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme();
+  const authPersistStore = useAuthPersistStore();
 
   React.useEffect(() => {
     const loadTheme = async () => {
@@ -138,7 +140,8 @@ export default function RootLayout() {
               name="index"
               options={{
                 title: "",
-                headerShown: false,
+                headerShown:
+                  authPersistStore.isReady && authPersistStore.isAuthenticated,
                 animation: "fade",
                 animationDuration: 200,
               }}
@@ -168,12 +171,6 @@ export default function RootLayout() {
               options={{
                 title: "",
                 headerRight: () => <ThemeToggle />,
-              }}
-            />
-            <Stack.Screen
-              name="application"
-              options={{
-                title: "",
               }}
             />
             {/* Account */}

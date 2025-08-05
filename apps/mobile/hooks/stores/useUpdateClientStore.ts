@@ -4,6 +4,9 @@ import { UpdateClientDto } from "~/types";
 
 interface UpdateClientData {
   updateDto: UpdateClientDto;
+  utilities: {
+    image: string;
+  };
   errors: Record<string, string[]>;
 }
 
@@ -32,6 +35,9 @@ const initialState: UpdateClientData = {
       isPrivate: true,
       regionId: 0,
     },
+  },
+  utilities: {
+    image: "",
   },
   errors: {},
 };
