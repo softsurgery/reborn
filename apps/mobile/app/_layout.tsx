@@ -177,7 +177,7 @@ export default function RootLayout() {
             <Stack.Screen
               name="account/managment"
               options={{
-                title: "Profile Management",
+                title: "My Profile",
                 animation: "slide_from_right",
               }}
             />
