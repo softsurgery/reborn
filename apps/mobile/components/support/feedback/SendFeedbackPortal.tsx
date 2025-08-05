@@ -13,12 +13,14 @@ import { FormBuilder } from "~/components/shared/form-builder/FormBuilder";
 import { useSendFeedbackFormStructure } from "./useSendFeedbackFormStructure";
 import { cn } from "~/lib/utils";
 import { showToastable } from "react-native-toastable";
+import { useNavigation } from "~/hooks/useNavigation";
 
 interface SendFeedbackPortalProps {
   className?: string;
 }
 
 export const SendFeedbackPortal = ({ className }: SendFeedbackPortalProps) => {
+  const navigation = useNavigation();
   React.useEffect(() => {
     return () => {
       sendFeedbackStore.reset();
@@ -38,6 +40,7 @@ export const SendFeedbackPortal = ({ className }: SendFeedbackPortalProps) => {
           message: "Feedback submitted successfully",
           status: "success",
         });
+        navigation.goBack();
         sendFeedbackStore.reset();
       },
       onError: (error) => {
@@ -75,7 +78,7 @@ export const SendFeedbackPortal = ({ className }: SendFeedbackPortalProps) => {
           </Text>
         </View>
 
-        <FormBuilder structure={feedbackFormStructure} className="p-2 my-5" />
+        <FormBuilder structure={feedbackFormStructure} />
 
         <Button
           disabled={isSendFeedbackPending}

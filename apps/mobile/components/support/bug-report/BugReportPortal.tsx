@@ -13,12 +13,14 @@ import { FormBuilder } from "~/components/shared/form-builder/FormBuilder";
 import { createBugSchema } from "~/types/validations/system-reports.validation";
 import { cn } from "~/lib/utils";
 import { showToastable } from "react-native-toastable";
+import { useNavigation } from "~/hooks/useNavigation";
 
 interface BugReportPortalProps {
   className?: string;
 }
 
 export const BugReportPortal = ({ className }: BugReportPortalProps) => {
+  const navigation = useNavigation();
   React.useEffect(() => {
     return () => {
       bugStore.reset();
@@ -35,6 +37,7 @@ export const BugReportPortal = ({ className }: BugReportPortalProps) => {
         message: "Bug reported successfully",
         status: "success",
       });
+      navigation.goBack();
       bugStore.reset();
     },
     onError: (error) => {
@@ -69,7 +72,7 @@ export const BugReportPortal = ({ className }: BugReportPortalProps) => {
             Please provide as much detail as possible
           </Text>
         </View>
-        <FormBuilder structure={bugFormStructure} className="p-2 my-5" />
+        <FormBuilder structure={bugFormStructure}  />
         <Button
           disabled={isReportBugPending}
           className="w-full"
