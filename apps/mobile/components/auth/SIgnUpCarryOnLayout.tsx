@@ -12,7 +12,7 @@ import { useMutation } from "@tanstack/react-query";
 import { api } from "~/api";
 import { showToastable } from "react-native-toastable";
 import { ServerErrorResponse } from "~/types/server.response";
-import { is } from "zod/v4/locales";
+import { requestSignUpDtoSchema } from "~/types/validations/auth.validation";
 
 interface SignUpCarryOnLayoutProps {
   className?: string;
@@ -54,7 +54,13 @@ export const SignUpCarryOnLayout = ({
 
   const onSignUpPress = () => {
     authStore.resetErrors();
-    SignUp();
+    const result = requestSignUpDtoSchema.safeParse({
+      ...authStore.signUpRequest,
+      confirmPassword: authStore.utilities.confirmPassword,
+    });
+    if (!result.success) {
+      authStore.set("signUpRequestErrors", result.error.flatten().fieldErrors);
+    } else SignUp();
   };
 
   return (
@@ -71,7 +77,7 @@ export const SignUpCarryOnLayout = ({
         </View>
 
         {/* Form */}
-        <View className="flex flex-col gap-2 px-2 my-5 w-fit">
+        <View className="flex flex-col gap-2 px-2 w-fit">
           <FormBuilder structure={signUpCarryOnFormStructure} />
 
           {/* Email Button */}

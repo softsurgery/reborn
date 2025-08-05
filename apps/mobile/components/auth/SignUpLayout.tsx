@@ -39,7 +39,7 @@ export const SignUpLayout = ({ className }: SignUpLayoutProps) => {
         </View>
 
         {/* Form */}
-        <View className="flex flex-col gap-2 px-2 my-5 w-fit">
+        <View className="flex flex-col gap-2 px-2 w-fit">
           <FormBuilder structure={signUpFormStructure} />
 
           {/* Email Button */}
@@ -85,9 +85,9 @@ export const SignUpLayout = ({ className }: SignUpLayoutProps) => {
 
         {/* Navigate to sign-in */}
         <View className="flex flex-row gap-1 items-center justify-center my-auto">
-          <Text className="text-xl">Already have an account?</Text>
+          <Text className="text-lg">Already have an account?</Text>
           <Text
-            className="font-bold text-xl"
+            className="font-bold text-lg"
             onPress={() => navigation.navigate("auth/sign-in", { reset: true })}
           >
             Sign-in

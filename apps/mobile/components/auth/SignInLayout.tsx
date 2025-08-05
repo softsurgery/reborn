@@ -67,7 +67,7 @@ export const SignInLayout = ({ className }: SignInLayoutProps) => {
           </Text>
         </View>
 
-        <View className="flex flex-col gap-2 px-2 my-5">
+        <View className="flex flex-col gap-2 px-2 w-fit">
           <FormBuilder structure={signInFormStructure} />
 
           <Text className="text-md font-bold ml-auto my-1">
@@ -115,9 +115,9 @@ export const SignInLayout = ({ className }: SignInLayoutProps) => {
         </View>
 
         <View className="flex flex-row gap-1 items-center justify-center my-auto">
-          <Text className="text-xl">Don't have an account?</Text>
+          <Text className="text-lg">Don't have an account?</Text>
           <Text
-            className="font-bold text-xl"
+            className="font-bold text-lg"
             onPress={() => navigation.navigate("auth/sign-up", { reset: true })}
           >
             Create an account

@@ -25,7 +25,7 @@ export const useSignUpFormStructure = ({
     variant: FieldVariant.EMAIL,
     required: false,
     className: "w-full",
-    error: store.signUpRequestErrors.email?.[0],
+    error: store.signUpRequestErrors?.email?.[0],
     props: {
       value: store.signUpRequest.email,
       onChangeText: (value: string) => {
@@ -36,15 +36,16 @@ export const useSignUpFormStructure = ({
     },
   };
 
-  //name
-  const nameField: Field<TextFieldProps> = {
-    id: "name",
-    label: "Name",
+  //firstname
+  const firstnameField: Field<TextFieldProps> = {
+    id: "firstname",
+    label: "First Name",
     variant: FieldVariant.TEXT,
     required: true,
-    placeholder: "Enter your name",
+    placeholder: "Enter your first name",
     disabled: false,
     description: "Your first name (e.g., John).",
+    error: store.signUpRequestErrors?.firstName?.[0],
     props: {
       value: store.signUpRequest.firstName,
       onChangeText: (value: string) => {
@@ -55,8 +56,8 @@ export const useSignUpFormStructure = ({
     },
   };
 
-  //surname
-  const surnameField: Field<TextFieldProps> = {
+  //lastname
+  const lastnameField: Field<TextFieldProps> = {
     id: "surname",
     label: "Surname",
     variant: FieldVariant.TEXT,
@@ -64,6 +65,7 @@ export const useSignUpFormStructure = ({
     placeholder: "Enter your surname",
     disabled: false,
     description: "Your last name (e.g., Doe).",
+    error: store.signUpRequestErrors?.lastName?.[0],
     props: {
       value: store.signUpRequest.lastName,
       onChangeText: (value: string) => {
@@ -83,7 +85,7 @@ export const useSignUpFormStructure = ({
     variant: FieldVariant.EMAIL,
     required: true,
     className: "w-full",
-    error: store.signUpRequestErrors.email?.[0],
+    error: store.signUpRequestErrors?.email?.[0],
     props: {
       value: store.signUpRequest.email,
       onChangeText: (value: string) => {
@@ -102,6 +104,7 @@ export const useSignUpFormStructure = ({
     placeholder: "Enter your username",
     disabled: false,
     description: "Your username (e.g., johndoe)",
+    error: store.signUpRequestErrors?.username?.[0],
     props: {
       value: store.signUpRequest.username,
       onChangeText: (value: string) => {
@@ -120,7 +123,7 @@ export const useSignUpFormStructure = ({
     variant: FieldVariant.PASSWORD,
     required: true,
     placeholder: "••••••••",
-    error: store.signUpRequestErrors.password?.[0],
+    error: store.signUpRequestErrors?.password?.[0],
     props: {
       value: store.signUpRequest.password,
       onChangeText: (value: string) => {
@@ -138,10 +141,12 @@ export const useSignUpFormStructure = ({
     variant: FieldVariant.PASSWORD,
     required: true,
     placeholder: "••••••••",
+    error: store.signUpRequestErrors?.confirmPassword?.[0],
     props: {
       value: store.utilities.confirmPassword,
       onChangeText: (text: string) => {
         store.setNested("utilities.confirmPassword", text);
+        store.setNested("signUpRequestErrors.confirmPassword", []);
       },
       editable: !isPending,
     },
@@ -174,14 +179,18 @@ export const useSignUpFormStructure = ({
         rows: [
           {
             id: 1,
-            fields: [nameField, surnameField],
+            fields: [firstnameField, lastnameField],
           },
           {
             id: 2,
-            fields: [usernameField, emailField],
+            fields: [emailField],
           },
           {
             id: 3,
+            fields: [usernameField],
+          },
+          {
+            id: 4,
             fields: [passwordField, confirmPasswordField],
           },
         ],
