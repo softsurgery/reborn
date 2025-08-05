@@ -37,6 +37,7 @@ export const SignInLayout = ({ className }: SignInLayoutProps) => {
       });
     },
   });
+
   const { signInFormStructure } = useSignInFormStructure({
     store: authStore,
     isPending: isSignInPending,
@@ -48,7 +49,7 @@ export const SignInLayout = ({ className }: SignInLayoutProps) => {
     };
   }, []);
 
-  const onLoginPress = () => {
+  const onSignInPress = () => {
     authStore.resetErrors();
     const result = requestSignInDtoSchema.safeParse(authStore.signInRequest);
     if (!result.success) {
@@ -76,7 +77,7 @@ export const SignInLayout = ({ className }: SignInLayoutProps) => {
           <Button
             disabled={isSignInPending}
             className="flex flex-row justify-center gap-2 my-1"
-            onPress={onLoginPress}
+            onPress={onSignInPress}
           >
             <Text className="font-bold">Continue with E-mail</Text>
             <Icon name={ArrowRight} size={24} className="text-white" />

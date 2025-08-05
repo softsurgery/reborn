@@ -45,7 +45,14 @@ export const useSignUpFormStructure = ({
     placeholder: "Enter your name",
     disabled: false,
     description: "Your first name (e.g., John).",
-    props: {},
+    props: {
+      value: store.signUpRequest.firstName,
+      onChangeText: (value: string) => {
+        store.setNested("signUpRequest.firstName", value);
+        store.setNested("signUpRequestErrors.firstName", []);
+      },
+      editable: !isPending,
+    },
   };
 
   //surname
@@ -57,7 +64,14 @@ export const useSignUpFormStructure = ({
     placeholder: "Enter your surname",
     disabled: false,
     description: "Your last name (e.g., Doe).",
-    props: {},
+    props: {
+      value: store.signUpRequest.lastName,
+      onChangeText: (value: string) => {
+        store.setNested("signUpRequest.lastName", value);
+        store.setNested("signUpRequestErrors.lastName", []);
+      },
+      editable: !isPending,
+    },
   };
 
   //pre-email
@@ -80,6 +94,24 @@ export const useSignUpFormStructure = ({
     },
   };
 
+  const usernameField: Field<TextFieldProps> = {
+    id: "username",
+    label: "Username",
+    variant: FieldVariant.TEXT,
+    required: true,
+    placeholder: "Enter your username",
+    disabled: false,
+    description: "Your username (e.g., johndoe)",
+    props: {
+      value: store.signUpRequest.username,
+      onChangeText: (value: string) => {
+        store.setNested("signUpRequest.username", value);
+        store.setNested("signUpRequestErrors.username", []);
+      },
+      editable: !isPending,
+    },
+  };
+
   //password
   const passwordField: Field<PasswordFieldProps> = {
     id: "password",
@@ -91,7 +123,10 @@ export const useSignUpFormStructure = ({
     error: store.signUpRequestErrors.password?.[0],
     props: {
       value: store.signUpRequest.password,
-      onChangeText: (value: string) => {},
+      onChangeText: (value: string) => {
+        store.setNested("signUpRequest.password", value);
+        store.setNested("signUpRequestErrors.password", []);
+      },
       editable: !isPending,
     },
   };
@@ -143,7 +178,11 @@ export const useSignUpFormStructure = ({
           },
           {
             id: 2,
-            fields: [emailField, passwordField, confirmPasswordField],
+            fields: [usernameField, emailField],
+          },
+          {
+            id: 3,
+            fields: [passwordField, confirmPasswordField],
           },
         ],
       },

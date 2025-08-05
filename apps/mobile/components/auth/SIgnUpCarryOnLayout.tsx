@@ -5,36 +5,46 @@ import { FormBuilder } from "../shared/form-builder/FormBuilder";
 import { useSignUpFormStructure } from "./useSignUpFormStructure";
 import { useAuthStore } from "~/hooks/stores/useAuthStore";
 import { Button } from "../ui/button";
-import { useMutation } from "@tanstack/react-query";
-import {
-  SignUpWithEmail,
-  VerifySignUpWithEmailAndPassword,
-} from "~/firebase/authentification";
-import { useNavigation } from "expo-router";
-import { NavigationProps } from "~/types/app.routes";
-import Icon from "~/lib/Icon";
-import { Mail } from "lucide-react-native";
 import React from "react";
+import { cn } from "~/lib/utils";
+import { useNavigation } from "~/hooks/useNavigation";
+import { useMutation } from "@tanstack/react-query";
+import { api } from "~/api";
+import { showToastable } from "react-native-toastable";
+import { ServerErrorResponse } from "~/types/server.response";
+import { is } from "zod/v4/locales";
 
-export const SignUpCarryOnLayout = () => {
+interface SignUpCarryOnLayoutProps {
+  className?: string;
+}
+
+export const SignUpCarryOnLayout = ({
+  className,
+}: SignUpCarryOnLayoutProps) => {
   const authStore = useAuthStore();
-  const navigation = useNavigation<NavigationProps>();
-  const { signUpCarryOnFormStructure } = useSignUpFormStructure({
-    store: authStore,
+  const navigation = useNavigation();
+
+  const { mutate: SignUp, isPending: isSignUpPending } = useMutation({
+    mutationFn: async () => api.auth.signUp(authStore.signUpRequest),
+    onSuccess: () => {
+      navigation.navigate("auth/sign-in", { reset: true });
+      showToastable({
+        message: "Now you can sign in with your new account",
+        status: "success",
+      });
+    },
+    onError: (error: ServerErrorResponse) => {
+      showToastable({
+        message: error.response?.data.message,
+        status: "danger",
+      });
+    },
   });
 
-  // const { mutate: SignUpMutator, isPending: isSignUpPending } = useMutation({
-  //   mutationFn: async () => SignUpWithEmail(),
-  //   onSuccess: (data: Result) => {
-  //     if (data.success) {
-  //       navigation.navigate("auth/sign-in");
-  //     } else {
-  //       Toast.show("oops! " + data.message, {
-  //         style: { backgroundColor: "red" },
-  //       });
-  //     }
-  //   },
-  // });
+  const { signUpCarryOnFormStructure } = useSignUpFormStructure({
+    store: authStore,
+    isPending: isSignUpPending,
+  });
 
   React.useEffect(() => {
     return () => {
@@ -43,24 +53,12 @@ export const SignUpCarryOnLayout = () => {
   }, []);
 
   const onSignUpPress = () => {
-    // authManager.resetErrors();
-    // const errors = VerifySignUpWithEmailAndPassword(
-    //   authManager.name,
-    //   authManager.surname,
-    //   authManager.email,
-    //   authManager.password,
-    //   authManager.confirmPassword
-    // );
-    // if (errors.length > 0) {
-    //   //@ts-ignore
-    //   errors.forEach((error) => authManager.set(error.field, error.message));
-    // } else {
-    //   SignUpMutator();
-    // }
+    authStore.resetErrors();
+    SignUp();
   };
 
   return (
-    <KeyboardAwareScrollView className="">
+    <KeyboardAwareScrollView className={cn(className)} bounces={false}>
       <View className="flex flex-col justify-center gap-5 p-4">
         {/* Greetings */}
         <View className="my-5">
@@ -82,6 +80,7 @@ export const SignUpCarryOnLayout = () => {
             onPress={() => {
               onSignUpPress();
             }}
+            disabled={isSignUpPending}
           >
             <Text className="font-bold">Create Account</Text>
           </Button>

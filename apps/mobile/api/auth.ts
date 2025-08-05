@@ -1,6 +1,10 @@
 import { useAuthPersistStore } from "~/hooks/stores/useAuthPersistStore";
 import axios from "./axios";
-import { RequestClientSignInDto, ResponseClientSigninDto } from "~/types/auth";
+import {
+  RequestClientSignInDto,
+  RequestClientSignUpDto,
+  ResponseClientSigninDto,
+} from "~/types/auth";
 
 const saveToken = (access_token: string, refresh_token: string) => {
   const authPersistStore = useAuthPersistStore.getState();
@@ -20,6 +24,15 @@ const signIn = async (
   return response.data;
 };
 
+const signUp = async (requestClientSignUpDto: RequestClientSignUpDto) => {
+  const response = await axios.post(
+    "/client-auth/sign-up",
+    requestClientSignUpDto
+  );
+  return response.data;
+};
+
 export const auth = {
   signIn,
+  signUp,
 };

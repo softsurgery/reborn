@@ -25,6 +25,8 @@ const initialState: AuthData = {
     password: "",
   },
   signUpRequest: {
+    firstName: "",
+    lastName: "",
     email: "",
     username: "",
     password: "",

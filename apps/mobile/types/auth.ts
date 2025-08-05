@@ -11,6 +11,8 @@ export interface RequestClientSignInDto {
 }
 
 export interface RequestClientSignUpDto {
+  firstName: string;
+  lastName: string;
   email: string;
   username: string;
   password: string;
