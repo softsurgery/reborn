@@ -12,13 +12,16 @@ import { View } from "react-native";
 import { cn } from "~/lib/utils";
 import { useNavigation } from "expo-router";
 import { NavigationProps } from "~/types/app.routes";
+import { ResponseClientDto } from "~/types";
 
 interface ProfileManagmentCardProps {
   className?: string;
+  currentUser: ResponseClientDto | null;
 }
 
 export const ProfileManagmentCard = ({
   className,
+  currentUser,
 }: ProfileManagmentCardProps) => {
   const navigation = useNavigation<NavigationProps>();
 
@@ -35,7 +38,7 @@ export const ProfileManagmentCard = ({
           </AvatarFallback>
         </Avatar>
 
-        <Text className="mx-auto mt-5 text-xl">@Nayssem</Text>
+        <Text className="mx-auto mt-5 text-xl">@{currentUser?.username}</Text>
       </CardHeader>
       <CardContent>
         <View className="flex flex-row w-full">

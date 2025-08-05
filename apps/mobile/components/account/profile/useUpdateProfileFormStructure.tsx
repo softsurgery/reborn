@@ -1,21 +1,26 @@
 import {
   DateFieldProps,
-  DoubleChoiceFieldProps,
   Field,
   FieldVariant,
   FormStructure,
   PictureFieldProps,
+  RadioFieldProps,
   SelectFieldProps,
+  SelectOption,
   TextareaFieldProps,
   TextFieldProps,
 } from "~/components/shared/form-builder/types";
+import { UpdateClientStore } from "~/hooks/stores/useUpdateClientStore";
+import { Gender } from "~/types";
 
 interface useUpdateProfileFormStructureProps {
-  store?: any;
+  store: UpdateClientStore;
+  regions: SelectOption[];
 }
 
 export const useUpdateProfileFormStructure = ({
   store,
+  regions,
 }: useUpdateProfileFormStructureProps) => {
   // picture
   const pictureField: Field<PictureFieldProps> = {
@@ -35,7 +40,14 @@ export const useUpdateProfileFormStructure = ({
     placeholder: "Enter your name",
     disabled: false,
     description: "Your first name (e.g., John).",
-    props: {},
+    error: store.errors?.firstName?.[0],
+    props: {
+      value: store.updateDto.firstName,
+      onChangeText: (value: string) => {
+        store.setNested("updateDto.firstName", value);
+        store.setNested("errors.firstName", []);
+      },
+    },
   };
 
   //surname
@@ -47,7 +59,14 @@ export const useUpdateProfileFormStructure = ({
     placeholder: "Enter your surname",
     disabled: false,
     description: "Your last name (e.g., Doe).",
-    props: {},
+    error: store.errors?.lastName?.[0],
+    props: {
+      value: store.updateDto.lastName,
+      onChangeText: (value: string) => {
+        store.setNested("updateDto.lastName", value);
+        store.setNested("errors.lastName", []);
+      },
+    },
   };
 
   // email
@@ -59,7 +78,14 @@ export const useUpdateProfileFormStructure = ({
     placeholder: "your.email@example.com",
     disabled: false,
     description: "We'll use this email for important communication.",
-    props: {},
+    error: store.errors?.email?.[0],
+    props: {
+      value: store.updateDto.email,
+      onChangeText: (value: string) => {
+        store.setNested("updateDto.email", value);
+        store.setNested("errors.email", []);
+      },
+    },
   };
 
   // phone
@@ -71,7 +97,14 @@ export const useUpdateProfileFormStructure = ({
     placeholder: "Enter your phone number",
     disabled: false,
     description: "Enter a phone number so we can reach you if needed.",
-    props: {},
+    error: store.errors?.phone?.[0],
+    props: {
+      value: store.updateDto?.profile?.phone,
+      onChangeText: (value: string) => {
+        store.setNested("updateDto.phone", value);
+        store.setNested("errors.phone", []);
+      },
+    },
   };
 
   // date of birth
@@ -81,16 +114,36 @@ export const useUpdateProfileFormStructure = ({
     variant: FieldVariant.DATE,
     disabled: false,
     description: "Let us know when you celebrate!",
-    props: {},
+    error: store.errors?.dateOfBirth?.[0],
+    props: {
+      value: store.updateDto.dateOfBirth,
+      onChangeText: (value: Date) => {
+        store.setNested("updateDto.dateOfBirth", value);
+        store.setNested("errors.dateOfBirth", []);
+      },
+    },
   };
 
   //gender
-  const genderField: Field<DoubleChoiceFieldProps> = {
+  const genderField: Field<RadioFieldProps> = {
     id: "gender",
     label: "Gender",
-    variant: FieldVariant.DOUBLE_CHOICE,
+    variant: FieldVariant.RADIO,
     disabled: false,
     description: "Specifying your gender helps us personalize your experience.",
+    error: store.errors?.gender?.[0],
+    props: {
+      checked: store.updateDto.profile?.gender?.toString(),
+      onCheckedChange: (value: string) => {
+        store.setNested("updateDto.profile.gender", value);
+        store.setNested("errors.gender", []);
+      },
+      options: Object.entries(Gender).map(([value, label]) => ({
+        label: label as string,
+        value,
+      })),
+      itemWidthClass: "w-[48%] mx-1",
+    },
   };
 
   //bio
@@ -101,7 +154,13 @@ export const useUpdateProfileFormStructure = ({
     placeholder: "Write a short bio...",
     disabled: false,
     description: "Tell us a little bit about yourself.",
-    props: {},
+    props: {
+      value: store.updateDto.profile?.bio,
+      onChangeText: (value: string) => {
+        store.setNested("updateDto.profile.bio", value);
+        store.setNested("errors.bio", []);
+      },
+    },
   };
 
   //region
@@ -111,16 +170,35 @@ export const useUpdateProfileFormStructure = ({
     variant: FieldVariant.SELECT,
     disabled: false,
     description: "Select the region where you are located.",
-    props: {},
+    props: {
+      options: regions,
+      value: store.updateDto.profile?.regionId?.toString(),
+      onSelect: (value: string) => {
+        store.setNested("updateDto.profile.regionId", value);
+        store.setNested("errors.region", []);
+      },
+    },
   };
 
   //visibility
-  const isPublicField: Field<DoubleChoiceFieldProps> = {
+  const isPublicField: Field<RadioFieldProps> = {
     id: "is-public",
     label: "Profile Visibility",
-    variant: FieldVariant.DOUBLE_CHOICE,
+    variant: FieldVariant.RADIO,
     disabled: false,
     description: "Control who can see your profile information.",
+    props: {
+      checked: store.updateDto.profile?.isPrivate?.toString(),
+      onCheckedChange: (value: string) => {
+        store.setNested("updateDto.profile.isPrivate", value === "true");
+        store.setNested("errors.isPublic", []);
+      },
+      options: [
+        { label: "Public", value: "true" },
+        { label: "Private", value: "false" },
+      ],
+      itemWidthClass: "w-[48%] mx-1",
+    },
   };
 
   const updateProfileStructure: FormStructure = {

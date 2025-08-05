@@ -9,6 +9,7 @@ interface AuthPersistData {
 }
 
 interface AuthPersistStore extends AuthPersistData {
+  isReady: boolean;
   setAccessToken: (token: string) => void;
   setRefreshToken: (token: string) => void;
   setAuthenticated: (isAuth: boolean) => void;
@@ -21,18 +22,36 @@ const authPersistStore: AuthPersistData = {
   isAuthenticated: false,
 };
 
+let _set: (fn: Partial<AuthPersistStore>) => void;
+
 export const useAuthPersistStore = create<AuthPersistStore>()(
   persist(
-    (set) => ({
-      ...authPersistStore,
-      setAccessToken: (token) => set({ accessToken: token }),
-      setRefreshToken: (token) => set({ refreshToken: token }),
-      setAuthenticated: (isAuth) => set({ isAuthenticated: isAuth }),
-      logout: () => set(authPersistStore),
-    }),
+    (set, get) => {
+      _set = set;
+
+      return {
+        ...authPersistStore,
+        isReady: false,
+
+        setAccessToken: (token) => set({ accessToken: token }),
+        setRefreshToken: (token) => set({ refreshToken: token }),
+        setAuthenticated: (isAuth) => set({ isAuthenticated: isAuth }),
+        logout: () =>
+          set({
+            ...authPersistStore,
+            isReady: true,
+          }),
+      };
+    },
     {
       name: "auth-storage",
       storage: createJSONStorage(() => AsyncStorage),
+
+      onRehydrateStorage: () => {
+        return () => {
+          _set({ isReady: true });
+        };
+      },
     }
   )
 );

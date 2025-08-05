@@ -9,11 +9,7 @@ import {
   Settings,
   User2,
 } from "lucide-react-native";
-import { useQuery } from "@tanstack/react-query";
-import { NavigationProps } from "~/types/app.routes";
 import { View } from "react-native";
-import { firebaseFns } from "~/firebase";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { PlanInfo } from "./Plan";
 import { GoPremium } from "./GoPremium";
 import { Separator } from "../ui/separator";
@@ -25,14 +21,6 @@ import { useNavigation } from "~/hooks/useNavigation";
 export const Account = () => {
   const navigation = useNavigation();
   const authPersistStore = useAuthPersistStore();
-
-  const { data: userData, isPending: isUserDataPending } = useQuery({
-    queryKey: ["user"],
-    queryFn: async () => {
-      const uid = await AsyncStorage.getItem("uid");
-      return uid && firebaseFns.user.fetch(uid);
-    },
-  });
 
   const signout = async () => {
     authPersistStore.logout();

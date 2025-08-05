@@ -1,52 +1,61 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { useNavigation } from "expo-router";
-import { Save } from "lucide-react-native";
 import React from "react";
+import { useMutation } from "@tanstack/react-query";
+import { Save } from "lucide-react-native";
 import { View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Loader } from "~/components/Loader";
 import { Button } from "~/components/ui/button";
-import { firebaseFns } from "~/firebase";
-import { useUpdateProfileManager } from "~/hooks/stores/useUpdateProfileManager";
+import { useUpdateClientStore } from "~/hooks/stores/useUpdateClientStore";
 import { useCurrentUser } from "~/hooks/useCurrentUser";
 import Icon from "~/lib/Icon";
-import { Result, ResponseUserDto } from "~/types";
-import { NavigationProps } from "~/types/app.routes";
+import { Result, ResponseClientDto } from "~/types";
 import { Text } from "~/components/ui/text";
 import { FormBuilder } from "~/components/shared/form-builder/FormBuilder";
 import { useUpdateProfileFormStructure } from "./useUpdateProfileFormStructure";
 import { showToastable } from "react-native-toastable";
+import { useNavigation } from "~/hooks/useNavigation";
+import { useRegions } from "~/hooks/content/useRegions";
+import { mapToSelectOptions } from "~/components/shared/form-builder/utils/mapToSelectOptions";
 
 export const UpdateProfile = () => {
-  const { currentUser, isFetchingCurrentUser } = useCurrentUser();
-  const updateProfileManager = useUpdateProfileManager();
-  const navigation = useNavigation<NavigationProps>();
+  const { currentUser, isCurrentUserPending } = useCurrentUser();
+  const updatClientStore = useUpdateClientStore();
+  const navigation = useNavigation();
   const [image, setImage] = React.useState<string | null>(null);
+  const { regions, isFetchRegionsPending } = useRegions();
 
-  const { updateProfileStructure } = useUpdateProfileFormStructure({});
+  const { updateProfileStructure } = useUpdateProfileFormStructure({
+    store: updatClientStore,
+    regions: mapToSelectOptions({
+      data: isFetchRegionsPending ? [] : regions,
+      labelKey: "label",
+      valueKey: "id",
+    }),
+  });
 
   React.useEffect(() => {
     if (currentUser) {
-      updateProfileManager.setUpdateProfile({
-        ...currentUser,
-        dateOfBirth: currentUser.dateOfBirth
-          ? new Date(currentUser.dateOfBirth)
-          : new Date(),
+      updatClientStore.set("updateDto", {
+        email: currentUser.email,
+        firstName: currentUser.firstName,
+        lastName: currentUser.lastName,
+        dateOfBirth: currentUser.dateOfBirth,
+        isActive: currentUser.isActive,
+        profile: {
+          phone: currentUser.profile.phone,
+          cin: currentUser.profile.cin,
+          bio: currentUser.profile.bio,
+          gender: currentUser.profile.gender,
+          isPrivate: currentUser.profile.isPrivate,
+          regionId: currentUser.profile.regionId,
+        },
       });
     }
   }, [currentUser]);
 
-  const { data: userData, isPending: isUserDataPending } = useQuery({
-    queryKey: ["profile"],
-    queryFn: async () => {},
-  });
-
-  console.log(userData);
-
   const { mutate: updateProfile, isPending: isUpdateProfilePending } =
     useMutation({
-      mutationFn: (data: Partial<ResponseUserDto>) =>
-        firebaseFns.user.updateCurrent(data),
+      mutationFn: async (data: Partial<ResponseClientDto>) => {},
       onSuccess: (result: Result) => {
         if (result.success) {
           showToastable({
@@ -61,7 +70,7 @@ export const UpdateProfile = () => {
     });
 
   const handleUpdate = async () => {};
-  if (isFetchingCurrentUser) return <Loader />;
+  if (isCurrentUserPending) return <Loader />;
 
   return (
     <KeyboardAwareScrollView bounces={false}>

@@ -1,24 +1,20 @@
+import React from "react";
 import { useQuery } from "@tanstack/react-query";
-import { firebaseFns } from "~/firebase";
+import { api } from "~/api";
 
 export const useCurrentUser = () => {
-  const fetchCurrentUser = async () => {
-    const response = await firebaseFns.user.fetchCurrent();
-    if (!response.success) {
-      throw new Error(response.message || "Failed to fetch user data.");
-    }
-
-    return response.data;
-  };
-
   const {
-    isFetching: isFetchingCurrentUser,
+    data: currentUserResp,
+    isPending: isCurrentUserPending,
     refetch: refetchCurrentUser,
-    data: currentUser,
   } = useQuery({
     queryKey: ["current-user"],
-    queryFn: () => fetchCurrentUser(),
+    queryFn: () => api.client.findCurrent(),
   });
 
-  return { currentUser, refetchCurrentUser, isFetchingCurrentUser };
+  const currentUser = React.useMemo(() => {
+    return currentUserResp || null;
+  }, [currentUserResp]);
+
+  return { currentUser, refetchCurrentUser, isCurrentUserPending };
 };
