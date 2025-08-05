@@ -1,5 +1,4 @@
 // import { CheckedState } from "@radix-ui/react-checkbox";
-import { TextInputProps } from "react-native";
 
 export interface FormStructure {
   title: string;

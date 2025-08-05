@@ -6,6 +6,7 @@ import { FormStructure } from "~/components/shared/form-builder/types";
 import { getItemWidth } from "./item-width";
 import { FieldBuilder } from "./FieldBuilder";
 import { Separator } from "~/components/ui/separator";
+import { Label } from "~/components/ui/label";
 
 interface FormBuilderProps {
   className?: string;
@@ -36,7 +37,7 @@ export const FormBuilder = ({ className, structure }: FormBuilderProps) => {
               "flex w-full border-border rounded-lg",
               structure.orientation === "vertical"
                 ? "flex-col gap-10"
-                : "flex-col gap-12"
+                : "flex-col"
             )}
           >
             {fieldset.isHeaderVisible && (
@@ -49,10 +50,7 @@ export const FormBuilder = ({ className, structure }: FormBuilderProps) => {
             {fieldset?.rows?.map((row) => {
               const fieldCount = row.fields.length;
               return (
-                <View
-                  key={row.id}
-                  className="flex flex-row flex-wrap gap-4 w-full"
-                >
+                <View key={row.id} className="flex flex-row flex-wrap w-full">
                   {row.fields.map((field, fieldIndex) => {
                     if (field.hidden) return null;
 
@@ -60,52 +58,53 @@ export const FormBuilder = ({ className, structure }: FormBuilderProps) => {
                       <View
                         key={fieldIndex}
                         className={cn(
-                          "flex flex-col gap-2",
+                          "flex flex-col p-2",
                           structure.orientation === "vertical"
                             ? "w-full"
                             : getItemWidth(fieldCount),
                           field.containerClassName
                         )}
                       >
-                        <View className="flex flex-row justify-between items-center">
-                          {field.variant !== "check" && (
-                            <Text className="text-md font-semibold">
-                              {field.label}{" "}
-                              {field.required && (
-                                <Text className="text-red-500 dark:text-red-500">
-                                  *
+                        {/* label */}
+                        {field.variant !== "check" && (
+                          <Label className="text-md font-semibold mb-2">
+                            {field.label}{" "}
+                            {field.required && (
+                              <Text className="text-red-500 dark:text-red-500">
+                                *
+                              </Text>
+                            )}
+                          </Label>
+                        )}
+                        {/* field */}
+                        <FieldBuilder field={field} />
+                        {/* Description & Error */}
+                        <View className="pt-2">
+                          {field.description && (
+                            <View className="flex flex-col justify-between">
+                              {!field?.error && (
+                                <Text
+                                  className={cn(
+                                    "text-md text-gray-500 dark:text-gray-400",
+                                    field.variant === "picture"
+                                      ? "text-center"
+                                      : ""
+                                  )}
+                                >
+                                  {field.description}
                                 </Text>
                               )}
-                            </Text>
+                              {field?.error && (
+                                <Text
+                                  className="text-md font-medium"
+                                  style={{ color: "red" }}
+                                >
+                                  {field?.error}
+                                </Text>
+                              )}
+                            </View>
                           )}
                         </View>
-
-                        <FieldBuilder field={field} />
-
-                        {field.description && (
-                          <View className="flex flex-col justify-between">
-                            {!field?.error && (
-                              <Text
-                                className={cn(
-                                  "text-md text-gray-500 dark:text-gray-400",
-                                  field.variant === "picture"
-                                    ? "text-center"
-                                    : ""
-                                )}
-                              >
-                                {field.description}
-                              </Text>
-                            )}
-                            {field?.error && (
-                              <Text
-                                className="text-md font-medium"
-                                style={{ color: "red" }}
-                              >
-                                {field?.error}
-                              </Text>
-                            )}
-                          </View>
-                        )}
                       </View>
                     );
                   })}
