@@ -50,7 +50,6 @@ export enum FieldVariant {
   SWITCH = "switch",
   RATING = "rating",
   PICTURE = "picture",
-  DOUBLE_CHOICE = "double-choice",
   CUSTOM = "custom",
 }
 
@@ -123,12 +122,10 @@ export interface PictureFieldProps {
   editable?: boolean;
 }
 
-export interface DoubleChoiceFieldProps {
-  pChoice: string;
-  positiveChoice: boolean;
-  nChoice: string;
-  negativeChoice: boolean;
-  value: string;
-  onValueChange?: (value: string) => void;
+export interface RadioFieldProps {
+  checked?: string;
+  onCheckedChange?: (checked: string) => void;
   editable?: boolean;
+  options: SelectOption[];
+  itemWidthClass?: string;
 }

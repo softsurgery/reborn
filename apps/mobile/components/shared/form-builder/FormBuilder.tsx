@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { Text } from "~/components/ui/text";
 import { cn } from "~/lib/utils";
 import { FormStructure } from "~/components/shared/form-builder/types";
-import { getItemWidth } from "./item-width";
+import { getItemWidth } from "./utils/item-width";
 import { FieldBuilder } from "./FieldBuilder";
 import { Separator } from "~/components/ui/separator";
 import { Label } from "~/components/ui/label";

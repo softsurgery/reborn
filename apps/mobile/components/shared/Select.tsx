@@ -18,6 +18,7 @@ import * as Haptics from "expo-haptics";
 import { ChevronDown } from "lucide-react-native";
 import { SelectOption } from "~/components/shared/form-builder/types";
 import { Text } from "../ui/text";
+import Icon from "~/lib/Icon";
 
 interface SelectProps {
   className?: string;
@@ -55,7 +56,7 @@ const Select = React.memo(
                 ? options.find((option) => option.value === value)?.label
                 : "Select an option"}
             </Text>
-            <ChevronDown />
+            <Icon name={ChevronDown} size={24} />
           </Button>
         </DialogTrigger>
         <DialogContent className="w-[80vw] max-h-[50vh]">

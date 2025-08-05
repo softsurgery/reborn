@@ -9,7 +9,7 @@ import { Textarea } from "~/components/ui/textarea";
 import { Input } from "~/components/ui/input";
 import StarRating from "react-native-star-rating-widget";
 import { PictureUploader } from "../PictureUploader";
-import { DoubleChoice } from "../DoubleChoice";
+import { RadioField } from "../RadioField";
 import { Text } from "~/components/ui/text";
 import { cn } from "~/lib/utils";
 
@@ -190,21 +190,16 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
           onChange={field?.props?.onValueChange}
         />
       );
-    case "double-choice":
+    case "radio":
       return (
-        <DoubleChoice
+        <RadioField
           {...field?.props}
-          disabled={field?.props?.other}
-          positiveChoice={{
-            label: field?.props?.pChoice as string,
-            value: field?.props?.positiveChoice,
-          }}
-          negativeChoice={{
-            label: field?.props?.nChoice as string,
-            value: field?.props?.negativeChoice,
-          }}
-          value={field?.props?.value}
-          onChange={field?.props?.onValueChange as any as (value: any) => void}
+          className={field?.className}
+          itemWidthClass={field?.props?.itemWidthClass}
+          options={field?.props?.options || []}
+          checked={field?.props?.checked}
+          onCheckedChange={field?.props?.onCheckedChange}
+          disabled={field?.props?.disabled}
         />
       );
     default:
