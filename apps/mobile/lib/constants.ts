@@ -5,6 +5,8 @@ export const NAV_THEME = {
     card: "hsl(24 33.33% 97.06%)",
     notification: "hsl(0 70% 35.29%)",
     primary: "hsl(0 55.78% 39.02%)",
+    destructive: "hsl(0 70% 35.29%)",
+    secondary: "hsl(43.08 90.7% 91.57%)",
     text: "hsl(0 0% 10.20%)",
   },
   dark: {
@@ -13,6 +15,8 @@ export const NAV_THEME = {
     card: "hsl(12.00 6.49% 15.10%)",
     notification: "hsl(0 84.24% 60.20%)",
     primary: "hsl(0 73.71% 41.76%)",
+    destructive: "hsl(0 84.24% 60.2%)",
+    secondary: "hsl(22.73 82.5% 31.37%)",
     text: "hsl(60 4.76% 95.88%)",
   },
 };

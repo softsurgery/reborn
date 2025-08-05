@@ -10,10 +10,9 @@ import { PortalHost } from "@rn-primitives/portal";
 import { ThemeToggle } from "~/components/ThemeToggle";
 import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ToastProvider } from "react-native-toast-notifications";
 import "~/global.css";
 import { cn } from "~/lib/utils";
-import { DefaultToast } from "~/components/DefaultToast";
+import Toastable from "react-native-toastable";
 import { BackButton } from "~/components/BackButton";
 
 const LIGHT_THEME: Theme = {
@@ -100,137 +99,144 @@ export default function RootLayout() {
     <View className={cn("flex-1", isDarkColorScheme && "dark")}>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-          <ToastProvider
-            renderToast={(toastOptions) => (
-              <View pointerEvents="none">
-                <DefaultToast {...toastOptions} />
-              </View>
-            )}
+          <Toastable
+            statusMap={{
+              success: isDarkColorScheme
+                ? NAV_THEME.dark.primary
+                : NAV_THEME.light.primary,
+              danger: isDarkColorScheme
+                ? NAV_THEME.dark.destructive
+                : NAV_THEME.light.destructive,
+              warning: "green",
+              info: isDarkColorScheme
+                ? NAV_THEME.dark.notification
+                : NAV_THEME.light.notification,
+            }}
+            position="top"
+          />
+          <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
+          <Stack
+            screenOptions={{
+              contentStyle: {
+                flex: 1,
+                backgroundColor: isDarkColorScheme
+                  ? NAV_THEME.dark.background
+                  : NAV_THEME.light.background,
+              },
+              headerStyle: {
+                backgroundColor: isDarkColorScheme
+                  ? NAV_THEME.dark.background
+                  : NAV_THEME.light.background,
+              },
+              headerTintColor: isDarkColorScheme
+                ? NAV_THEME.dark.text
+                : NAV_THEME.light.text,
+            }}
           >
-            <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
-            <Stack
-              screenOptions={{
-                contentStyle: {
-                  flex: 1,
-                  backgroundColor: isDarkColorScheme
-                    ? NAV_THEME.dark.background
-                    : NAV_THEME.light.background,
-                },
-                headerStyle: {
-                  backgroundColor: isDarkColorScheme
-                    ? NAV_THEME.dark.background
-                    : NAV_THEME.light.background,
-                },
-                headerTintColor: isDarkColorScheme
-                  ? NAV_THEME.dark.text
-                  : NAV_THEME.light.text,
+            {/* Auth */}
+            <Stack.Screen
+              name="index"
+              options={{
+                title: "",
+                headerShown: false,
+                animation: "fade",
+                animationDuration: 200,
               }}
-            >
-              {/* Auth */}
-              <Stack.Screen
-                name="index"
-                options={{
-                  title: "",
-                  headerShown: false,
-                  animation: "fade",
-                  animationDuration: 200,
-                }}
-              />
-              <Stack.Screen
-                name="auth/sign-in"
-                options={{
-                  title: "",
-                  headerRight: () => <ThemeToggle />,
-                  headerLeft: () => <BackButton route="index" />,
-                  animation: "fade",
-                  animationDuration: 200,
-                }}
-              />
-              <Stack.Screen
-                name="auth/sign-up"
-                options={{
-                  title: "",
-                  headerRight: () => <ThemeToggle />,
-                  headerLeft: () => <BackButton route="index" />,
-                  animation: "fade",
-                  animationDuration: 200,
-                }}
-              />
-              <Stack.Screen
-                name="auth/sign-up-carry-on"
-                options={{
-                  title: "",
-                  headerRight: () => <ThemeToggle />,
-                }}
-              />
-              <Stack.Screen
-                name="application"
-                options={{
-                  title: "",
-                }}
-              />
-              {/* Account */}
-              <Stack.Screen
-                name="account/managment"
-                options={{
-                  title: "Profile Management",
-                  animation: "slide_from_right",
-                }}
-              />
-              <Stack.Screen
-                name="account/update-profile"
-                options={{
-                  title: "Update Profile",
-                  animation: "slide_from_right",
-                }}
-              />
-              <Stack.Screen
-                name="account/preferences"
-                options={{
-                  title: "User Preferences",
-                  animation: "slide_from_right",
-                }}
-              />
-              <Stack.Screen
-                name="account/support/report-bug"
-                options={{
-                  title: "Report a Bug",
-                  animation: "slide_from_right",
-                }}
-              />
-              <Stack.Screen
-                name="account/support/send-feedback"
-                options={{
-                  title: "Send us feedback",
-                  animation: "slide_from_right",
-                }}
-              />
-              <Stack.Screen
-                name="account/support/faqs"
-                options={{
-                  title: "FAQs",
-                  animation: "slide_from_right",
-                }}
-              />
-              {/* Chat */}
-              <Stack.Screen
-                name="chat/conversation"
-                options={{
-                  title: "Chat",
-                  headerBackTitle: "Chat",
-                }}
-              />
-              {/* Jobs */}
-              <Stack.Screen
-                name="job-details"
-                options={{
-                  title: "Job Details",
-                  animation: "slide_from_right",
-                }}
-              />
-            </Stack>
-            <PortalHost />
-          </ToastProvider>
+            />
+            <Stack.Screen
+              name="auth/sign-in"
+              options={{
+                title: "",
+                headerRight: () => <ThemeToggle />,
+                headerLeft: () => <BackButton route="index" />,
+                animation: "fade",
+                animationDuration: 200,
+              }}
+            />
+            <Stack.Screen
+              name="auth/sign-up"
+              options={{
+                title: "",
+                headerRight: () => <ThemeToggle />,
+                headerLeft: () => <BackButton route="index" />,
+                animation: "fade",
+                animationDuration: 200,
+              }}
+            />
+            <Stack.Screen
+              name="auth/sign-up-carry-on"
+              options={{
+                title: "",
+                headerRight: () => <ThemeToggle />,
+              }}
+            />
+            <Stack.Screen
+              name="application"
+              options={{
+                title: "",
+              }}
+            />
+            {/* Account */}
+            <Stack.Screen
+              name="account/managment"
+              options={{
+                title: "Profile Management",
+                animation: "slide_from_right",
+              }}
+            />
+            <Stack.Screen
+              name="account/update-profile"
+              options={{
+                title: "Update Profile",
+                animation: "slide_from_right",
+              }}
+            />
+            <Stack.Screen
+              name="account/preferences"
+              options={{
+                title: "User Preferences",
+                animation: "slide_from_right",
+              }}
+            />
+            <Stack.Screen
+              name="account/support/report-bug"
+              options={{
+                title: "Report a Bug",
+                animation: "slide_from_right",
+              }}
+            />
+            <Stack.Screen
+              name="account/support/send-feedback"
+              options={{
+                title: "Send us feedback",
+                animation: "slide_from_right",
+              }}
+            />
+            <Stack.Screen
+              name="account/support/faqs"
+              options={{
+                title: "FAQs",
+                animation: "slide_from_right",
+              }}
+            />
+            {/* Chat */}
+            <Stack.Screen
+              name="chat/conversation"
+              options={{
+                title: "Chat",
+                headerBackTitle: "Chat",
+              }}
+            />
+            {/* Jobs */}
+            <Stack.Screen
+              name="job-details"
+              options={{
+                title: "Job Details",
+                animation: "slide_from_right",
+              }}
+            />
+          </Stack>
+          <PortalHost />
         </ThemeProvider>
       </QueryClientProvider>
     </View>

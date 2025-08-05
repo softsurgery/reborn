@@ -29,7 +29,9 @@ export default function OnBoarding() {
         variant="outline"
         onPress={() => navigation.navigate("auth/sign-in", { reset: true })}
       >
-        <Text className="text-3xl tracking-wider font-bold">GET STARTED</Text>
+        <Text className="text-3xl tracking-wider font-bold">
+          {"Get Started".toUpperCase()}
+        </Text>
       </Button>
     </View>
   );

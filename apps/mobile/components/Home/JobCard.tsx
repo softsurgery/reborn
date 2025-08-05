@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { Heart, Briefcase, FileText, CheckCircle } from "lucide-react-native";
 import { cn } from "~/lib/utils";
-import { Toast } from "react-native-toast-notifications";
 import { useNavigation } from "expo-router";
 import { Job } from "~/types/Job";
 import { NavigationProps } from "~/types/app.routes";
+import { showToastable } from "react-native-toastable";
 
 interface JobCardProps {
   job: Job;
@@ -20,9 +20,7 @@ export const JobCard = ({ job }: JobCardProps) => {
     e.stopPropagation(); // Prevent navigation when saving
     setSaved(!saved);
     if (!saved) {
-      Toast.show("Job has been saved", {
-        style: { backgroundColor: "green" },
-      });
+      showToastable({ message: "Job has been saved", status: "success" });
     }
   };
 

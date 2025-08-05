@@ -1,11 +1,10 @@
 import React from "react";
+import { cn } from "~/lib/utils";
 import { useMutation } from "@tanstack/react-query";
 import { Image, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { useToast } from "react-native-toast-notifications";
 import { api } from "~/api";
 import { useAuthStore } from "~/hooks/stores/useAuthStore";
-import { ResponseClientSigninDto } from "~/types/auth";
 import { ServerErrorResponse } from "~/types/server.response";
 import { Text } from "../ui/text";
 import { FormBuilder } from "../shared/form-builder/FormBuilder";
@@ -14,10 +13,9 @@ import { Button } from "../ui/button";
 import Icon from "~/lib/Icon";
 import { ArrowRight } from "lucide-react-native";
 import DividerWithText from "../ui/divider-with-text";
-import { Label } from "../ui/label";
-import { cn } from "~/lib/utils";
 import { requestSignInDtoSchema } from "~/types/validations/auth.validation";
 import { useNavigation } from "~/hooks/useNavigation";
+import { showToastable } from "react-native-toastable";
 
 interface SignInLayoutProps {
   className?: string;
@@ -27,15 +25,16 @@ export const SignInLayout = ({ className }: SignInLayoutProps) => {
   const authStore = useAuthStore();
   const navigation = useNavigation();
 
-  const toast = useToast();
-
   const { mutate: SignIn, isPending: isSignInPending } = useMutation({
     mutationFn: async () => api.auth.signIn(authStore.signInRequest),
     onSuccess: () => {
       navigation.navigate("application", { reset: true });
     },
     onError: (error: ServerErrorResponse) => {
-      toast.show(error.response?.data.message);
+      showToastable({
+        message: error.response?.data.message,
+        status: "danger",
+      });
     },
   });
   const { signInFormStructure } = useSignInFormStructure({

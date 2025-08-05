@@ -2,7 +2,6 @@ import React from "react";
 import { useMutation } from "@tanstack/react-query";
 import { BugIcon } from "lucide-react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { Toast } from "react-native-toast-notifications";
 import { api } from "~/api";
 import { Button } from "~/components/ui/button";
 import { Text } from "~/components/ui/text";
@@ -13,6 +12,7 @@ import { useBugReportFormStructure } from "./useBugReportFormStructure";
 import { FormBuilder } from "~/components/shared/form-builder/FormBuilder";
 import { createBugSchema } from "~/types/validations/system-reports.validation";
 import { cn } from "~/lib/utils";
+import { showToastable } from "react-native-toastable";
 
 interface BugReportPortalProps {
   className?: string;
@@ -31,11 +31,17 @@ export const BugReportPortal = ({ className }: BugReportPortalProps) => {
   const { mutate: reportBug, isPending: isReportBugPending } = useMutation({
     mutationFn: async () => api.bug.create(bugStore.createDto),
     onSuccess: () => {
-      Toast.show("Bug reported successfully");
+      showToastable({
+        message: "Bug reported successfully",
+        status: "success",
+      });
       bugStore.reset();
     },
     onError: (error) => {
-      Toast.show("oops! Failed to submit bug report");
+      showToastable({
+        message: "oops! Failed to submit bug report",
+        status: "danger",
+      });
     },
   });
 

@@ -4,7 +4,6 @@ import { Save } from "lucide-react-native";
 import React from "react";
 import { View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { Toast } from "react-native-toast-notifications";
 import { Loader } from "~/components/Loader";
 import { Button } from "~/components/ui/button";
 import { firebaseFns } from "~/firebase";
@@ -16,7 +15,7 @@ import { NavigationProps } from "~/types/app.routes";
 import { Text } from "~/components/ui/text";
 import { FormBuilder } from "~/components/shared/form-builder/FormBuilder";
 import { useUpdateProfileFormStructure } from "./useUpdateProfileFormStructure";
-import { api } from "~/api";
+import { showToastable } from "react-native-toastable";
 
 export const UpdateProfile = () => {
   const { currentUser, isFetchingCurrentUser } = useCurrentUser();
@@ -50,18 +49,18 @@ export const UpdateProfile = () => {
         firebaseFns.user.updateCurrent(data),
       onSuccess: (result: Result) => {
         if (result.success) {
-          Toast.show("Profile Updated Successfully", {
-            successColor: "#00FF00",
+          showToastable({
+            message: "Profile Updated Successfully",
+            status: "success",
           });
           navigation.goBack();
         } else {
-          Toast.show(JSON.stringify(result));
+          showToastable({ message: JSON.stringify(result), status: "danger" });
         }
       },
     });
 
   const handleUpdate = async () => {};
-
   if (isFetchingCurrentUser) return <Loader />;
 
   return (

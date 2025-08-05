@@ -5,14 +5,13 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { ArrowRight } from "lucide-react-native";
 import { Button } from "~/components/ui/button";
 import { useAuthStore } from "~/hooks/stores/useAuthStore";
-import { Label } from "~/components/ui/label";
 import Icon from "~/lib/Icon";
 import DividerWithText from "~/components/ui/divider-with-text";
-import { useToast } from "react-native-toast-notifications";
 import { useSignUpFormStructure } from "./useSignUpFormStructure";
 import { FormBuilder } from "../shared/form-builder/FormBuilder";
 import { isEmail } from "~/lib/validators/isEmail";
 import { useNavigation } from "~/hooks/useNavigation";
+import { showToastable } from "react-native-toastable";
 
 interface SignUpLayoutProps {
   className?: string;
@@ -21,8 +20,6 @@ interface SignUpLayoutProps {
 export const SignUpLayout = ({ className }: SignUpLayoutProps) => {
   const authStore = useAuthStore();
   const navigation = useNavigation();
-
-  const toast = useToast();
 
   const { signUpFormStructure } = useSignUpFormStructure({
     store: authStore,

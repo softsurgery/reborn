@@ -18,7 +18,7 @@ import {
   Calendar,
 } from "lucide-react-native";
 import { Job } from "~/types/Job";
-import { Toast } from "react-native-toast-notifications";
+import { showToastable } from "react-native-toastable";
 
 export default function JobDetailsScreen() {
   const navigation = useNavigation();
@@ -50,8 +50,9 @@ export default function JobDetailsScreen() {
     e.stopPropagation();
     setSaved(!saved);
     if (!saved) {
-      Toast.show("Job has been saved", {
-        style: { backgroundColor: "green" },
+      showToastable({
+        message: "Saved to favorites",
+        status: "success",
       });
     }
   };

@@ -1,6 +1,5 @@
 import React from "react";
 import { useMutation } from "@tanstack/react-query";
-import { Toast } from "react-native-toast-notifications";
 import { api } from "~/api";
 import { useSendFeedbackStore } from "~/hooks/stores/useFeedbackManager";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -13,6 +12,7 @@ import { Button } from "~/components/ui/button";
 import { FormBuilder } from "~/components/shared/form-builder/FormBuilder";
 import { useSendFeedbackFormStructure } from "./useSendFeedbackFormStructure";
 import { cn } from "~/lib/utils";
+import { showToastable } from "react-native-toastable";
 
 interface SendFeedbackPortalProps {
   className?: string;
@@ -34,11 +34,17 @@ export const SendFeedbackPortal = ({ className }: SendFeedbackPortalProps) => {
     useMutation({
       mutationFn: async () => api.feedback.create(sendFeedbackStore.createDto),
       onSuccess: () => {
-        Toast.show("Feedback submitted successfully");
+        showToastable({
+          message: "Feedback submitted successfully",
+          status: "success",
+        });
         sendFeedbackStore.reset();
       },
       onError: (error) => {
-        Toast.show("Oops! Failed to submit feedback");
+        showToastable({
+          message: "Oops! Failed to submit feedback",
+          status: "danger",
+        });
       },
     });
 

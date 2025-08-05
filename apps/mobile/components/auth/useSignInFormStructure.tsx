@@ -22,7 +22,6 @@ export const useSignInFormStructure = ({
     description: "Please enter your e-mail",
     placeholder: "john@doe.com",
     variant: FieldVariant.EMAIL,
-    required: true,
     className: "w-full",
     error: store.signInRequestErrors.email?.[0],
     props: {
@@ -41,7 +40,6 @@ export const useSignInFormStructure = ({
     label: "Password",
     description: "Please enter your password",
     variant: FieldVariant.PASSWORD,
-    required: true,
     error: store.signInRequestErrors.password?.[0],
     props: {
       value: store.signInRequest.password,
