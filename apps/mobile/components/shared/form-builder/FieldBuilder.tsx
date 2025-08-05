@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, TouchableOpacity } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { Field, FieldVariant } from "~/components/shared/form-builder/types";
@@ -18,19 +18,7 @@ interface FieldBuilderProps {
 }
 
 export const FieldBuilder = ({ field }: FieldBuilderProps) => {
-  const [showPassword, setShowPassword] = useState(false);
-  const [showDatePicker, setShowDatePicker] = useState(false);
-  //   const [date, setDate] = useState(
-  //     field?.props?.value ? new Date(field?.props?.value) : new Date()
-  //   );
-  //   const onChangeDate = (event: any, selectedDate?: Date | undefined) => {
-  //     const currentDate = selectedDate || date;
-  //     setShowDatePicker(Platform.OS === "ios" ? true : false);
-  //     setDate(currentDate);
-  //     if (field?.props?.onDateChange) {
-  //       field?.props?.onDateChange(currentDate);
-  //     }
-  //   };
+  const [showPassword, setShowPassword] = React.useState(false);
 
   switch (field?.variant) {
     case "text":
@@ -43,7 +31,11 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
             editable={field?.props?.editable}
             id={field.label}
             keyboardType={
-              field.variant === FieldVariant.NUMBER ? "numeric" : undefined
+              field.variant === FieldVariant.TEL
+                ? "phone-pad"
+                : field.variant === FieldVariant.NUMBER
+                ? "numeric"
+                : "default"
             }
             placeholder={field.placeholder}
             value={field?.props?.value?.toString() || ""}
@@ -81,25 +73,13 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
       );
     case "date":
       return (
-        <View className="flex flex-col gap-2 w-full">
-          <DatePicker
-            {...field?.props}
-            date={
-              field?.props?.value instanceof Date
-                ? field.props.value
-                : new Date(
-                    typeof field?.props?.value === "string" ||
-                    typeof field?.props?.value === "number"
-                      ? field.props.value
-                      : Date.now()
-                  )
-            }
-            onChange={(onDateChange) =>
-              field?.props?.onDateChange?.(onDateChange)
-            }
-            className={cn(field?.error && "border-red-500")}
-          />
-        </View>
+        <DatePicker
+          {...field?.props}
+          className={cn(field?.error && "border border-red-500 rounded-md")}
+          date={field?.props?.value}
+          onChange={(date) => field?.props?.onDateChange?.(date)}
+          disabled={field?.props?.editable}
+        />
       );
     case "checkbox":
       return (

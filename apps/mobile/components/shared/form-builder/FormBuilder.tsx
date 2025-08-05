@@ -96,6 +96,7 @@ export const FormBuilder = ({ className, structure }: FormBuilderProps) => {
                               )}
                               {field?.error && (
                                 <Text
+                                  id={`error-${field.id}`}
                                   className="text-md font-medium"
                                   style={{ color: "red" }}
                                 >

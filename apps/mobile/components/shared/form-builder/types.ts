@@ -93,7 +93,7 @@ export interface PasswordFieldProps {
 
 export interface DateFieldProps {
   value?: Date;
-  onChangeText?: (text: Date) => void;
+  onDateChange?: (date: Date) => void;
   editable?: boolean;
 }
 
