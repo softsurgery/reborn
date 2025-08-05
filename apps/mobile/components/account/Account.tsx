@@ -37,7 +37,7 @@ export const Account = () => {
         <Text className="text-2xl font-bold mb-2">App Settings</Text>
         <View className="flex flex-col">
           <MenuItem
-            title="Profile Management"
+            title="My Profile"
             icon={User2}
             link={"account/managment"}
           />
