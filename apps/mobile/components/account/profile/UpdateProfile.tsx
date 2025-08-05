@@ -8,7 +8,7 @@ import { Button } from "~/components/ui/button";
 import { useUpdateClientStore } from "~/hooks/stores/useUpdateClientStore";
 import { useCurrentUser } from "~/hooks/useCurrentUser";
 import Icon from "~/lib/Icon";
-import { Result, ResponseClientDto } from "~/types";
+import { Result, ResponseClientDto, ServerErrorResponse } from "~/types";
 import { Text } from "~/components/ui/text";
 import { FormBuilder } from "~/components/shared/form-builder/FormBuilder";
 import { useUpdateProfileFormStructure } from "./useUpdateProfileFormStructure";
@@ -16,6 +16,11 @@ import { showToastable } from "react-native-toastable";
 import { useNavigation } from "~/hooks/useNavigation";
 import { useRegions } from "~/hooks/content/useRegions";
 import { mapToSelectOptions } from "~/components/shared/form-builder/utils/mapToSelectOptions";
+import {
+  updateClientSchema,
+  updateProfileSchema,
+} from "~/types/validations/client.validation";
+import { api } from "~/api";
 
 export const UpdateProfile = () => {
   const { currentUser, isCurrentUserPending } = useCurrentUser();
@@ -38,7 +43,7 @@ export const UpdateProfile = () => {
         email: currentUser.email,
         firstName: currentUser.firstName,
         lastName: currentUser.lastName,
-        dateOfBirth: currentUser.dateOfBirth,
+        dateOfBirth: currentUser.dateOfBirth ? new Date(currentUser.dateOfBirth) : undefined,
         isActive: currentUser.isActive,
         profile: {
           phone: currentUser.profile.phone,
@@ -50,29 +55,51 @@ export const UpdateProfile = () => {
         },
       });
     }
+    return () => {
+      updatClientStore.reset();
+    };
   }, [currentUser]);
 
-  // const { mutate: updateProfile, isPending: isUpdateProfilePending } =
-  //   useMutation({
-  //     mutationFn: async (data: Partial<ResponseClientDto>) => {},
-  //     onSuccess: (result: Result) => {
-  //       if (result.success) {
-  //         showToastable({
-  //           message: "Profile Updated Successfully",
-  //           status: "success",
-  //         });
-  //         navigation.goBack();
-  //       } else {
-  //         showToastable({ message: JSON.stringify(result), status: "danger" });
-  //       }
-  //     },
-  //   });
+  const { mutate: updateProfile, isPending: isUpdateProfilePending } =
+    useMutation({
+      mutationFn: () => api.client.updateCurrent(updatClientStore.updateDto),
+      onSuccess: () => {
+        showToastable({
+          message: "Profile Updated Successfully",
+          status: "success",
+        });
+        navigation.goBack();
+      },
+      onError: (error: ServerErrorResponse) => {
+        showToastable({
+          message: error.response?.data?.message,
+          status: "danger",
+        });
+      },
+    });
 
-  const handleUpdate = async () => {};
+  const handleUpdate = async () => {
+    const resultUser = updateClientSchema.safeParse(updatClientStore.updateDto);
+    const resultProfile = updateProfileSchema.safeParse(
+      updatClientStore.updateDto.profile
+    );
+    if (!resultUser.success) {
+      updatClientStore.set("errors", resultUser.error.flatten().fieldErrors);
+      if (!resultProfile.success) {
+        updatClientStore.set("errors", {
+          ...updatClientStore.errors,
+          ...resultProfile.error.flatten().fieldErrors,
+        });
+      }
+    } else updateProfile();
+  };
   if (isCurrentUserPending) return <Loader />;
 
   return (
-    <KeyboardAwareScrollView bounces={false}>
+    <KeyboardAwareScrollView
+      bounces={false}
+      showsVerticalScrollIndicator={false}
+    >
       <View className="flex flex-col gap-6 mx-4 mb-16">
         <FormBuilder structure={updateProfileStructure} className="my-4" />
 

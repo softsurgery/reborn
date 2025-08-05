@@ -38,12 +38,12 @@ export const useUpdateProfileFormStructure = ({
   };
 
   //name
-  const nameField: Field<TextFieldProps> = {
-    id: "name",
-    label: "Name",
+  const firstNameField: Field<TextFieldProps> = {
+    id: "first-name",
+    label: "First Name",
     variant: FieldVariant.TEXT,
     required: true,
-    placeholder: "Enter your name",
+    placeholder: "Enter your first name",
     disabled: false,
     description: "Your first name (e.g., John).",
     error: store.errors?.firstName?.[0],
@@ -57,12 +57,12 @@ export const useUpdateProfileFormStructure = ({
   };
 
   //surname
-  const surnameField: Field<TextFieldProps> = {
-    id: "surname",
-    label: "Surname",
+  const lastNameField: Field<TextFieldProps> = {
+    id: "last-name",
+    label: "Last Name",
     variant: FieldVariant.TEXT,
     required: true,
-    placeholder: "Enter your surname",
+    placeholder: "Enter your last name",
     disabled: false,
     description: "Your last name (e.g., Doe).",
     error: store.errors?.lastName?.[0],
@@ -107,7 +107,7 @@ export const useUpdateProfileFormStructure = ({
     props: {
       value: store.updateDto?.profile?.phone,
       onChangeText: (value: string) => {
-        store.setNested("updateDto.phone", value);
+        store.setNested("updateDto.profile.phone", value);
         store.setNested("errors.phone", []);
       },
     },
@@ -122,8 +122,8 @@ export const useUpdateProfileFormStructure = ({
     description: "Let us know when you celebrate!",
     error: store.errors?.dateOfBirth?.[0],
     props: {
-      value: store.updateDto.dateOfBirth,
-      onChangeText: (value: Date) => {
+      value: store.updateDto.dateOfBirth || undefined,
+      onDateChange: (value: Date) => {
         store.setNested("updateDto.dateOfBirth", value);
         store.setNested("errors.dateOfBirth", []);
       },
@@ -148,7 +148,7 @@ export const useUpdateProfileFormStructure = ({
         label: label as string,
         value,
       })),
-      itemWidthClass: "w-[48%] mx-1",
+      itemWidthClass: "w-[47%] sm:w-[48%] mx-1",
     },
   };
 
@@ -160,6 +160,7 @@ export const useUpdateProfileFormStructure = ({
     placeholder: "Write a short bio...",
     disabled: false,
     description: "Tell us a little bit about yourself.",
+    error: store.errors?.bio?.[0],
     props: {
       value: store.updateDto.profile?.bio,
       onChangeText: (value: string) => {
@@ -176,34 +177,36 @@ export const useUpdateProfileFormStructure = ({
     variant: FieldVariant.SELECT,
     disabled: false,
     description: "Select the region where you are located.",
+    error: store.errors?.regionId?.[0],
     props: {
       options: regions,
       value: store.updateDto.profile?.regionId?.toString(),
       onSelect: (value: string) => {
-        store.setNested("updateDto.profile.regionId", value);
-        store.setNested("errors.region", []);
+        store.setNested("updateDto.profile.regionId", Number(value));
+        store.setNested("errors.regionId", []);
       },
     },
   };
 
   //visibility
-  const isPublicField: Field<RadioFieldProps> = {
+  const isPrivateField: Field<RadioFieldProps> = {
     id: "is-public",
     label: "Profile Visibility",
     variant: FieldVariant.RADIO,
     disabled: false,
     description: "Control who can see your profile information.",
+    error: store.errors?.isPrivate?.[0],
     props: {
       checked: store.updateDto.profile?.isPrivate?.toString(),
       onCheckedChange: (value: string) => {
         store.setNested("updateDto.profile.isPrivate", value === "true");
-        store.setNested("errors.isPublic", []);
+        store.setNested("errors.isPrivate", []);
       },
       options: [
         { label: "Public", value: "true" },
         { label: "Private", value: "false" },
       ],
-      itemWidthClass: "w-[48%] mx-1",
+      itemWidthClass: "w-[47%] sm:w-[48%] mx-1",
     },
   };
 
@@ -221,7 +224,7 @@ export const useUpdateProfileFormStructure = ({
           },
           {
             id: 2,
-            fields: [nameField, surnameField],
+            fields: [firstNameField, lastNameField],
           },
           {
             id: 3,
@@ -242,7 +245,7 @@ export const useUpdateProfileFormStructure = ({
           },
           {
             id: 6,
-            fields: [isPublicField],
+            fields: [isPrivateField],
           },
         ],
       },
