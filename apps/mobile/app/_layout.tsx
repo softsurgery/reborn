@@ -10,11 +10,12 @@ import { PortalHost } from "@rn-primitives/portal";
 import { ThemeToggle } from "~/components/ThemeToggle";
 import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import "~/global.css";
 import { cn } from "~/lib/utils";
 import Toastable from "react-native-toastable";
-import { BackButton } from "~/components/BackButton";
 import { useAuthPersistStore } from "~/hooks/stores/useAuthPersistStore";
+import { Loader } from "~/components/Loader";
+
+import "~/global.css";
 
 const LIGHT_THEME: Theme = {
   dark: false,
@@ -97,6 +98,7 @@ export default function RootLayout() {
     loadTheme();
   }, []);
 
+  if (!isColorSchemeLoaded) return <Loader />;
   return (
     <View className={cn("flex-1", isDarkColorScheme && "dark")}>
       <QueryClientProvider client={queryClient}>
@@ -116,7 +118,7 @@ export default function RootLayout() {
             }}
             position="top"
           />
-          <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
+          <StatusBar style={isDarkColorScheme ? "light" : "dark"} translucent />
           <Stack
             screenOptions={{
               contentStyle: {
@@ -151,7 +153,6 @@ export default function RootLayout() {
               options={{
                 title: "",
                 headerRight: () => <ThemeToggle />,
-                headerLeft: () => <BackButton route="index" />,
                 animation: "fade",
                 animationDuration: 200,
               }}
@@ -161,7 +162,6 @@ export default function RootLayout() {
               options={{
                 title: "",
                 headerRight: () => <ThemeToggle />,
-                headerLeft: () => <BackButton route="index" />,
                 animation: "fade",
                 animationDuration: 200,
               }}

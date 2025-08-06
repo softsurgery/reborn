@@ -12,6 +12,9 @@ interface BackButtonProps {
 
 export const BackButton = ({ className, route }: BackButtonProps) => {
   const navigation = useNavigation();
+  if (!navigation) {
+    return null;
+  }
   return (
     <Pressable
       className={cn("flex flex-row items-center gap-2", className)}
