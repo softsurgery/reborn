@@ -43,7 +43,9 @@ export const UpdateProfile = () => {
         email: currentUser.email,
         firstName: currentUser.firstName,
         lastName: currentUser.lastName,
-        dateOfBirth: currentUser.dateOfBirth ? new Date(currentUser.dateOfBirth) : undefined,
+        dateOfBirth: currentUser.dateOfBirth
+          ? new Date(currentUser.dateOfBirth)
+          : undefined,
         isActive: currentUser.isActive,
         profile: {
           phone: currentUser.profile.phone,
@@ -83,16 +85,27 @@ export const UpdateProfile = () => {
     const resultProfile = updateProfileSchema.safeParse(
       updatClientStore.updateDto.profile
     );
-    if (!resultUser.success) {
-      updatClientStore.set("errors", resultUser.error.flatten().fieldErrors);
-      if (!resultProfile.success) {
-        updatClientStore.set("errors", {
-          ...updatClientStore.errors,
-          ...resultProfile.error.flatten().fieldErrors,
-        });
-      }
-    } else updateProfile();
+
+    if (!resultUser.success || !resultProfile.success) {
+      const userErrors = resultUser.success
+        ? {}
+        : resultUser.error.flatten().fieldErrors;
+
+      const profileErrors = resultProfile.success
+        ? {}
+        : resultProfile.error.flatten().fieldErrors;
+
+      updatClientStore.set("errors", {
+        ...userErrors,
+        ...profileErrors,
+      });
+
+      return;
+    }
+
+    updateProfile();
   };
+
   if (isCurrentUserPending) return <Loader />;
 
   return (
