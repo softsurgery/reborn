@@ -232,7 +232,7 @@ export const useUpdateProfileFormStructure = ({
           },
           {
             id: 4,
-            fields: [dateOfBirthField, genderField],
+            fields: [dateOfBirthField, regionField],
           },
         ],
       },
@@ -241,11 +241,11 @@ export const useUpdateProfileFormStructure = ({
         rows: [
           {
             id: 5,
-            fields: [bioField, regionField],
+            fields: [bioField],
           },
           {
             id: 6,
-            fields: [isPrivateField],
+            fields: [isPrivateField, genderField],
           },
         ],
       },

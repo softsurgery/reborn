@@ -1,8 +1,6 @@
 import React from "react";
 import { ScrollView, View, RefreshControl, Pressable } from "react-native";
 import { Text } from "../ui/text";
-import { Input } from "../ui/input";
-import Icon from "~/lib/Icon";
 import { UserCard } from "./UserCard";
 import { Separator } from "../ui/separator";
 import { useContextUsers } from "~/hooks/useUsers";
@@ -10,7 +8,7 @@ import { UserBubble } from "./UserBubble";
 import { useNavigation } from "expo-router";
 import { NavigationProps } from "~/types/app.routes";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { Search } from "lucide-react-native";
+import { SearchInput } from "../shared/SearchInput";
 
 const getRandomBoolean = () => Math.ceil(Math.random() * 3) === 1;
 
@@ -27,12 +25,10 @@ export const Chat = () => {
       {/* Search Input */}
       <View className="flex flex-row justify-between items-center w-full pt-2">
         <View className="flex flex-row items-center w-full border-hidden rounded py-1">
-          <Icon name={Search} />
-          <Input
-            placeholder="Search message..."
-            placeholderTextColor="#9ca3af"
-            className="flex-1"
-          />
+          <SearchInput
+                  className="my-5"
+                  placeholder="Search for messages..."
+                />
         </View>
       </View>
 

@@ -56,7 +56,7 @@ export const FaqsPortal = ({ className }: FaqsPortalProps) => {
       <Accordion
         type="multiple"
         collapsible
-        className="w-full max-w-sm native:max-w-md"
+        className="w-full"
       >
         {faqs.map((faq, index) => (
           <AccordionItem key={index} value={`faq-${index}`}>
