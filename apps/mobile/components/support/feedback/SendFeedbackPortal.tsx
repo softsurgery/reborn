@@ -2,7 +2,6 @@ import React from "react";
 import { useMutation } from "@tanstack/react-query";
 import { api } from "~/api";
 import { useSendFeedbackStore } from "~/hooks/stores/useFeedbackManager";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { View } from "react-native";
 import { MailCheck } from "lucide-react-native";
 import Icon from "~/lib/Icon";
@@ -14,6 +13,7 @@ import { useSendFeedbackFormStructure } from "./useSendFeedbackFormStructure";
 import { cn } from "~/lib/utils";
 import { showToastable } from "react-native-toastable";
 import { useNavigation } from "~/hooks/useNavigation";
+import { StableKeyboardAwareScrollView } from "~/components/shared/KeyboardAwareScrollView";
 
 interface SendFeedbackPortalProps {
   className?: string;
@@ -63,7 +63,7 @@ export const SendFeedbackPortal = ({ className }: SendFeedbackPortalProps) => {
   const [rating, setRating] = React.useState(0);
 
   return (
-    <KeyboardAwareScrollView bounces={false}>
+    <StableKeyboardAwareScrollView>
       <View className={cn("flex flex-col my-4 gap-2 mx-4", className)}>
         {/* Header Section */}
         <View className="mx-auto ">
@@ -88,6 +88,6 @@ export const SendFeedbackPortal = ({ className }: SendFeedbackPortalProps) => {
           <Text>{isSendFeedbackPending ? "Sending..." : "Send"}</Text>
         </Button>
       </View>
-    </KeyboardAwareScrollView>
+    </StableKeyboardAwareScrollView>
   );
 };

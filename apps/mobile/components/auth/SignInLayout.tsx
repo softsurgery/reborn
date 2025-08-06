@@ -61,8 +61,10 @@ export const SignInLayout = ({ className }: SignInLayoutProps) => {
     <KeyboardAwareScrollView className="bg-background" bounces={false}>
       <View className={cn("flex flex-col justify-center gap-5 p-4", className)}>
         <View className="my-5">
-          <Text className="text-2xl font-extrabold mx-auto">Welecome Back</Text>
-          <Text className="text-2xl font-thin mx-auto">
+          <Text className="text-2xl font-extrabold text-center">
+            Welecome Back
+          </Text>
+          <Text className="text-2xl font-thin text-center">
             Glad to see you again
           </Text>
         </View>

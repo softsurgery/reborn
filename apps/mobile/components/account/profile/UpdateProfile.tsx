@@ -21,6 +21,7 @@ import {
   updateProfileSchema,
 } from "~/types/validations/client.validation";
 import { api } from "~/api";
+import { StableKeyboardAwareScrollView } from "~/components/shared/KeyboardAwareScrollView";
 
 export const UpdateProfile = () => {
   const { currentUser, isCurrentUserPending } = useCurrentUser();
@@ -109,11 +110,8 @@ export const UpdateProfile = () => {
   if (isCurrentUserPending) return <Loader />;
 
   return (
-    <KeyboardAwareScrollView
-      bounces={false}
-      showsVerticalScrollIndicator={false}
-    >
-      <View className="flex flex-col gap-6 mx-4 mb-16">
+    <StableKeyboardAwareScrollView>
+      <View className="flex flex-col gap-6 mx-4 mb-6">
         <FormBuilder structure={updateProfileStructure} className="my-4" />
 
         <Button
@@ -125,6 +123,6 @@ export const UpdateProfile = () => {
           <Text>Update Profile</Text>
         </Button>
       </View>
-    </KeyboardAwareScrollView>
+    </StableKeyboardAwareScrollView>
   );
 };

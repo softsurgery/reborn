@@ -1,7 +1,6 @@
 import React from "react";
 import { useMutation } from "@tanstack/react-query";
 import { BugIcon } from "lucide-react-native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { api } from "~/api";
 import { Button } from "~/components/ui/button";
 import { Text } from "~/components/ui/text";
@@ -14,6 +13,7 @@ import { createBugSchema } from "~/types/validations/system-reports.validation";
 import { cn } from "~/lib/utils";
 import { showToastable } from "react-native-toastable";
 import { useNavigation } from "~/hooks/useNavigation";
+import { StableKeyboardAwareScrollView } from "~/components/shared/KeyboardAwareScrollView";
 
 interface BugReportPortalProps {
   className?: string;
@@ -58,7 +58,7 @@ export const BugReportPortal = ({ className }: BugReportPortalProps) => {
   };
 
   return (
-    <KeyboardAwareScrollView bounces={false}>
+    <StableKeyboardAwareScrollView>
       <View className={cn("flex flex-col mx-4 my-4 gap-2", className)}>
         {/* Header Section */}
         <View className="mx-auto">
@@ -72,7 +72,7 @@ export const BugReportPortal = ({ className }: BugReportPortalProps) => {
             Please provide as much detail as possible
           </Text>
         </View>
-        <FormBuilder structure={bugFormStructure}  />
+        <FormBuilder structure={bugFormStructure} />
         <Button
           disabled={isReportBugPending}
           className="w-full"
@@ -81,6 +81,6 @@ export const BugReportPortal = ({ className }: BugReportPortalProps) => {
           <Text>{isReportBugPending ? "Submitting..." : "Submit Bug"}</Text>
         </Button>
       </View>
-    </KeyboardAwareScrollView>
+    </StableKeyboardAwareScrollView>
   );
 };
