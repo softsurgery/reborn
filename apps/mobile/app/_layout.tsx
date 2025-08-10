@@ -98,7 +98,6 @@ export default function RootLayout() {
     loadTheme();
   }, []);
 
-  if (!isColorSchemeLoaded) return <Loader />;
   return (
     <View className={cn("flex-1", isDarkColorScheme && "dark")}>
       <QueryClientProvider client={queryClient}>
@@ -171,6 +170,8 @@ export default function RootLayout() {
               options={{
                 title: "",
                 headerRight: () => <ThemeToggle />,
+                animation: "fade",
+                animationDuration: 200,
               }}
             />
             {/* Account */}
