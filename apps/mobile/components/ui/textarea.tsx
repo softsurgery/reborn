@@ -2,9 +2,14 @@ import * as React from "react";
 import { TextInput, type TextInputProps } from "react-native";
 import { cn } from "~/lib/utils";
 
+interface TextareaProps extends TextInputProps {
+  placeholderClassName?: string;
+  placeholderTextColor?: string; 
+}
+
 const Textarea = React.forwardRef<
   React.ElementRef<typeof TextInput>,
-  TextInputProps
+  TextareaProps
 >(
   (
     {
@@ -12,6 +17,7 @@ const Textarea = React.forwardRef<
       multiline = true,
       numberOfLines = 4,
       placeholderClassName,
+      placeholderTextColor = "#9CA3AF",
       ...props
     },
     ref
@@ -25,6 +31,7 @@ const Textarea = React.forwardRef<
           className
         )}
         placeholderClassName={cn(placeholderClassName)}
+        placeholderTextColor={placeholderTextColor}
         multiline={multiline}
         numberOfLines={numberOfLines}
         textAlignVertical="top"
