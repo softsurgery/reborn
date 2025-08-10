@@ -51,12 +51,26 @@ const Select = React.memo(
               className
             )}
           >
-            <Text className={cn(value ? "text-lg text-black dark:text-white" : "text-gray-400 dark:text-gray-400")}>
+            <Text
+              className={cn(
+                value
+                  ? "text-lg text-black dark:text-white"
+                  : "text-gray-400 dark:text-gray-400"
+              )}
+            >
               {value
                 ? options.find((option) => option.value === value)?.label
                 : "Select an option"}
             </Text>
-            <Icon name={ChevronDown} size={24} color={"gray"} />
+            <Icon
+              name={ChevronDown}
+              size={20}
+              className={cn(
+                value
+                  ? "text-lg text-black dark:text-white"
+                  : "text-gray-400 dark:text-gray-400"
+              )}
+            />
           </Button>
         </DialogTrigger>
         <DialogContent className="w-[80vw] max-h-[50vh]">

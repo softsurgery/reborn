@@ -26,7 +26,7 @@ const Icon = ({
   return (
     <View className={viewClassName}>
       <LucideIcon
-        className={cn("text-foreground", iconClassName)}
+        className={cn(!props.color && "text-foreground", iconClassName)}
         size={size}
         {...props}
       />
