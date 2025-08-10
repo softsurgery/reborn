@@ -32,9 +32,9 @@ export const Account = () => {
       <PlanInfo className="my-2" />
       <GoPremium className="my-3" />
 
-      <View className="flex flex-col gap-4 mt-5">
+      <View className="flex flex-col gap-4 my-5">
         {/* App Settings */}
-        <Text className="text-2xl font-bold mb-2">App Settings</Text>
+        <Text className="text-2xl font-bold">App Settings</Text>
         <View className="flex flex-col">
           <MenuItem
             title="My Profile"
@@ -52,7 +52,7 @@ export const Account = () => {
         </View>
         {/* Support */}
         <View>
-          <Text className="text-2xl font-bold mb-2">Support</Text>
+          <Text className="text-2xl font-bold">Support</Text>
           <View className="flex flex-col">
             <MenuItem
               title="Report a Bug"
@@ -75,7 +75,7 @@ export const Account = () => {
         </View>
 
         <View>
-          <Text className="text-2xl font-bold mb-2">Account Actions</Text>
+          <Text className="text-2xl font-bold">Account Actions</Text>
           <View className="flex flex-col">
             <MenuItem title="Switch Account" icon={LogOut} onPress={signout} />
           </View>

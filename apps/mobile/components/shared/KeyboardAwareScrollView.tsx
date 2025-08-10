@@ -18,10 +18,10 @@ export const StableKeyboardAwareScrollView = ({
   return (
     <KeyboardAwareScrollView
       {...props}
+      className={className}
       bounces={false}
       enableOnAndroid={true}
       extraScrollHeight={Platform.OS === "android" ? 30 : 0}
-      className={className}
     >
       {children}
     </KeyboardAwareScrollView>
