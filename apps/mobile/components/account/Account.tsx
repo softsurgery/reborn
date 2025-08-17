@@ -45,7 +45,7 @@ export const Account = () => {
           <MenuItem
             title="User Preferences"
             icon={Settings}
-            link={"account/preferences"}
+            link={"account/user-preferences"}
           />
           <Separator />
           <MenuItem title="Notifications" icon={Bell} />

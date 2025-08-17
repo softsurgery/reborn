@@ -190,7 +190,7 @@ export default function RootLayout() {
               }}
             />
             <Stack.Screen
-              name="account/preferences"
+              name="account/user-preferences"
               options={{
                 title: "User Preferences",
                 animation: "slide_from_right",

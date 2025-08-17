@@ -10,7 +10,7 @@ export type StackParamList = {
   "auth/sign-up-carry-on": undefined;
   // Account
   "account/managment": undefined;
-  "account/preferences": undefined;
+  "account/user-preferences": undefined;
   "account/update-profile": undefined;
 
   "account/support/report-bug": undefined;
