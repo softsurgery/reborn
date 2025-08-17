@@ -17,11 +17,15 @@ import { ResponseClientDto } from "~/types";
 interface ProfileManagmentCardProps {
   className?: string;
   currentUser: ResponseClientDto | null;
+  uri?: string;
+  fallback?: string;
 }
 
 export const ProfileManagmentCard = ({
   className,
   currentUser,
+  uri,
+  fallback = "?",
 }: ProfileManagmentCardProps) => {
   const navigation = useNavigation<NavigationProps>();
 
@@ -29,12 +33,12 @@ export const ProfileManagmentCard = ({
     <Card className={cn("w-full items-center justify-center", className)}>
       <CardHeader>
         <Avatar
-          alt="Zach Nugent's Avatar"
+          alt={fallback}
           className="w-40 h-40 mx-auto border-2"
         >
-          <AvatarImage source={require("~/assets/images/adaptive-icon.png")} />
+          <AvatarImage source={{ uri }} />
           <AvatarFallback>
-            <Text>ZN</Text>
+            <Text>{fallback}</Text>
           </AvatarFallback>
         </Avatar>
 
@@ -43,15 +47,15 @@ export const ProfileManagmentCard = ({
       <CardContent>
         <View className="flex flex-row w-full">
           <View className="flex items-center w-1/3 border-r-2">
-            <Text className="text-2xl">50</Text>
+            <Text className="text-2xl"></Text>
             <Text className="font-light">Services</Text>
           </View>
           <View className="flex items-center w-1/3 border-r-2">
-            <Text className="text-2xl">120</Text>
+            <Text className="text-2xl"></Text>
             <Text className="font-light">Following</Text>
           </View>
           <View className="flex items-center w-1/3">
-            <Text className="text-2xl">400</Text>
+            <Text className="text-2xl"></Text>
             <Text className="font-light">Followers</Text>
           </View>
         </View>

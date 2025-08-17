@@ -1,12 +1,12 @@
 import { create } from "zustand";
 import { setDeepValue } from "~/lib/object.lib";
-import { UpdateClientDto } from "~/types";
+import { ResponseClientDto, UpdateClientDto } from "~/types";
 
 interface UpdateClientData {
+  response?: ResponseClientDto;
   updateDto: UpdateClientDto;
-  utilities: {
-    image: string;
-  };
+  picture?: string;
+  progress: number;
   errors: Record<string, string[]>;
 }
 
@@ -36,9 +36,8 @@ const initialState: UpdateClientData = {
       regionId: 0,
     },
   },
-  utilities: {
-    image: "",
-  },
+  picture: undefined,
+  progress: 0,
   errors: {},
 };
 
@@ -50,15 +49,32 @@ export const useUpdateClientStore = create<UpdateClientStore>((set, get) => ({
       [name]: value,
     }));
   },
-  setNested: (path, value) => {
+setNested: (path: string, value: unknown) => {
+    if (!path.includes(".")) {
+      // No nesting — set directly
+      set((state) => ({
+        ...state,
+        [path]: value,
+      }));
+      return;
+    }
+
+    // Nested path case
     const [rootKey, ...restPath] = path.split(".");
     const nestedPath = restPath.join(".");
+
     set((state) => {
+      const rootValue = state[rootKey as keyof UpdateClientData];
+      if (typeof rootValue !== "object" || rootValue === null) {
+        throw new Error(`Cannot set nested path on non-object: ${rootKey}`);
+      }
+
       const updatedRoot = setDeepValue(
-        { ...state[rootKey as keyof UpdateClientData] },
+        { ...(rootValue as object) },
         nestedPath,
         value
       );
+
       return {
         ...state,
         [rootKey]: updatedRoot,

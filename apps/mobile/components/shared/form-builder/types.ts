@@ -117,9 +117,12 @@ export interface RatingFieldProps {
 }
 
 export interface PictureFieldProps {
-  value?: string;
-  onValueChange?: (value: string) => void;
+  image?: string | null;
+  progress?: number;
+  alt?: string;
   editable?: boolean;
+  onFileChange?: (e: File) => void;
+  onUpload?: (file: File, onProgress: (percent: number) => void) => void;
 }
 
 export interface RadioFieldProps {

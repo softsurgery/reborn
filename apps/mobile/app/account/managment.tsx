@@ -1,4 +1,4 @@
-import { Management } from "~/components/account/Management";
+import { Management } from "~/components/account/profile/Management";
 
 export default function Screen() {
   return <Management />;

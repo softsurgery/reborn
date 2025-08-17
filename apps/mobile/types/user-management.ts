@@ -1,4 +1,5 @@
 import { ResponseRegionDto } from "./content";
+import { Upload } from "./upload";
 import { DatabaseEntity } from "./utils/database-entity";
 
 export interface ResponseClientDto extends DatabaseEntity {
@@ -39,6 +40,8 @@ export interface ResponseProfileDto extends DatabaseEntity {
   region?: ResponseRegionDto;
   regionId?: number;
   user: ResponseClientDto;
+  pictureId?: number;
+  picture?: Upload;
 }
 
 export class UpdateProfileDto {
@@ -48,4 +51,5 @@ export class UpdateProfileDto {
   gender?: Gender;
   isPrivate?: boolean;
   regionId?: number;
+  pictureId?: number;
 }

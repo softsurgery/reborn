@@ -11,16 +11,21 @@ import {
   TextFieldProps,
 } from "~/components/shared/form-builder/types";
 import { UpdateClientStore } from "~/hooks/stores/useUpdateClientStore";
+import { useUploadMutation } from "~/hooks/useUploadMutation";
 import { Gender } from "~/types";
 
 interface useUpdateProfileFormStructureProps {
   store: UpdateClientStore;
   regions: SelectOption[];
+  uploadPicture: ReturnType<typeof useUploadMutation>["uploadFiles"];
+  isUploadPending?: boolean;
 }
 
 export const useUpdateProfileFormStructure = ({
   store,
   regions,
+  uploadPicture,
+  isUploadPending,
 }: useUpdateProfileFormStructureProps) => {
   // picture
   const pictureField: Field<PictureFieldProps> = {
@@ -29,10 +34,21 @@ export const useUpdateProfileFormStructure = ({
     variant: FieldVariant.PICTURE,
     description: "Upload a profile picture to personalize your account.",
     props: {
-      value: store.utilities?.image,
-      onValueChange: (value: string) => {
-        store.setNested("utilities.image", value);
-        store.setNested("errors.picture", []);
+      image: store?.picture,
+      alt: "Profile Picture",
+      editable: !isUploadPending,
+      onFileChange: (value) => {
+        store.set("picture", value);
+      },
+      onUpload: (file, onProgress) => {
+        store.set("progress", 0);
+        uploadPicture({
+          files: [file],
+          onProgress: (progress: number) => {
+            store.set("progress", progress);
+            onProgress(progress);
+          },
+        });
       },
     },
   };

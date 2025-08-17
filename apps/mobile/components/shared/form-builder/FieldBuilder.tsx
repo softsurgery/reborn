@@ -166,8 +166,11 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
       return (
         <PictureUploader
           {...field?.props}
-          image={field?.props?.value}
-          onChange={field?.props?.onValueChange}
+          image={field?.props?.image}
+          onFileChange={field?.props?.onFileChange}
+          onUpload={field?.props?.onUpload}
+          className={field?.className}
+          editable={field?.props?.editable}
         />
       );
     case "radio":

@@ -1,5 +1,5 @@
 import React from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Save } from "lucide-react-native";
 import { View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -22,12 +22,33 @@ import {
 } from "~/types/validations/client.validation";
 import { api } from "~/api";
 import { StableKeyboardAwareScrollView } from "~/components/shared/KeyboardAwareScrollView";
+import { useUploadMutation } from "~/hooks/useUploadMutation";
+import { Upload } from "~/types/upload";
 
 export const UpdateProfile = () => {
+  const queryClient = useQueryClient();
   const { currentUser, isCurrentUserPending } = useCurrentUser();
+  const { data: profilePicture } = useQuery({
+    queryKey: ["profile-picture", currentUser?.profile?.pictureId],
+    queryFn: () => api.upload.getUploadById(currentUser?.profile?.pictureId!),
+    enabled: !!currentUser?.profile?.pictureId,
+    staleTime: Infinity,
+  });
   const updatClientStore = useUpdateClientStore();
   const navigation = useNavigation();
   const { regions, isFetchRegionsPending } = useRegions();
+
+  const { uploadFiles: uploadPicture, isUploadPending } = useUploadMutation({
+    onSuccess: (response: Upload[]) => {
+      updatClientStore.setNested(
+        "updateDto.profile.pictureId",
+        response?.[0]?.id
+      );
+    },
+    onError: (error: any) => {
+      updatClientStore.setNested("errors.pictureId", [error.message]);
+    },
+  });
 
   const { updateProfileStructure } = useUpdateProfileFormStructure({
     store: updatClientStore,
@@ -36,6 +57,8 @@ export const UpdateProfile = () => {
       labelKey: "label",
       valueKey: "id",
     }),
+    uploadPicture,
+    isUploadPending,
   });
 
   React.useEffect(() => {
@@ -57,6 +80,7 @@ export const UpdateProfile = () => {
           regionId: currentUser.profile.regionId,
         },
       });
+      updatClientStore.set("picture", profilePicture);
     }
     return () => {
       updatClientStore.reset();
@@ -67,6 +91,9 @@ export const UpdateProfile = () => {
     useMutation({
       mutationFn: () => api.client.updateCurrent(updatClientStore.updateDto),
       onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: ["current-user"],
+        });
         showToastable({
           message: "Profile Updated Successfully",
           status: "success",
@@ -117,7 +144,7 @@ export const UpdateProfile = () => {
         <Button
           onPress={handleUpdate}
           className="flex flex-row gap-2 w-full"
-          // disabled={isUpdateProfilePending}
+          disabled={isUpdateProfilePending || isUploadPending}
         >
           <Icon name={Save} size={24} />
           <Text>Update Profile</Text>

@@ -5,60 +5,73 @@ import { cn } from "~/lib/utils";
 import { Pressable } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 
-
 interface PictureUploaderProps {
   className?: string;
-  image?: any;
+  editable?: boolean;
+  image?: string | File;
   fallback?: string;
-  form?: "CERCULAR" | "CUBIC" | null;
-  onChange?: (image: any) => void;
+  onFileChange?: (
+    image: File | { uri: string; name: string; type: string }
+  ) => void;
+  onUpload?: (
+    file: File | { uri: string; name: string; type: string },
+    onProgress: (percent: number) => void
+  ) => void;
 }
 
 export const PictureUploader = ({
   className,
+  editable = true,
   image,
-  fallback = "Unknown",
-  form = "CERCULAR",
-  onChange,
+  fallback = "?",
+  onFileChange,
+  onUpload,
 }: PictureUploaderProps) => {
-
-  const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
+  const onPress = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      mediaTypes: ['images'],
       allowsEditing: true,
-      aspect: [4, 3],
+      aspect: [1, 1],
       quality: 1,
     });
 
     if (!result.canceled) {
-      onChange?.(result.assets[0].uri);
+      const asset = result.assets[0];
+
+      const fileLike = {
+        uri: asset.uri,
+        name: asset.uri.split('/').pop() || "photo.jpg",
+        type: asset.type || "image/jpeg",
+      };
+
+      onFileChange?.(fileLike);
+      if (onUpload) {
+        onUpload(fileLike, (percent) => {
+          console.log("Upload progress:", percent);
+        });
+      }
     }
   };
+
+  const imageUri = typeof image === "string" ? image : (image as any)?.uri;
+
   return (
-    <Pressable className={cn(className)}>
+    <Pressable
+      className={cn(className, !editable && "opacity-70")}
+      disabled={!editable}
+    >
       <Button
         variant="link"
-        className="h-fit w-fit p-0 mx-auto rounded-full"
-        onPress={pickImage}
+        className={"h-fit w-fit p-0 mx-auto rounded-full"}
+        onPress={onPress}
       >
-        <Avatar alt="Zach Nugent's Avatar" className="w-40 h-40">
-          {image ? (
-            <AvatarImage source={{ uri: image }} />
-          ) : (
-            <AvatarImage
-              source={require("~/assets/images/adaptive-icon.png")}
-            />
-          )}
+        <Avatar alt={fallback} className="h-40 w-40 rounded-full">
+          <AvatarImage source={{ uri: imageUri }} />
           <AvatarFallback>
-            <Text>{fallback}f</Text>
+            <Text>{fallback}</Text>
           </AvatarFallback>
         </Avatar>
       </Button>
-
-      <Text className="text-center text-sm italic font-light">
-        Click to Update Profile Picture
-      </Text>
     </Pressable>
   );
 };
