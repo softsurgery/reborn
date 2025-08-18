@@ -17,7 +17,7 @@ export const JobCard = ({ job }: JobCardProps) => {
   const navigation = useNavigation<NavigationProps>();
 
   const handleSave = (e: any) => {
-    e.stopPropagation(); // Prevent navigation when saving
+    e.stopPropagation(); 
     setSaved(!saved);
     if (!saved) {
       showToastable({ message: "Job has been saved", status: "success" });
