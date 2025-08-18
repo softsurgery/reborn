@@ -1,67 +1,19 @@
 import React from "react";
-import { NavigationContainer, Theme } from "@react-navigation/native";
+import { Theme } from "@react-navigation/native";
 import { SplashScreen, Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { Platform, View } from "react-native";
+import { View } from "react-native";
 import { NAV_THEME } from "~/lib/constants";
-import { useColorScheme } from "~/lib/useColorScheme";
 import { PortalHost } from "@rn-primitives/portal";
 import { ThemeToggle } from "~/components/ThemeToggle";
-import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { cn } from "~/lib/utils";
 import Toastable from "react-native-toastable";
 import { useAuthPersistStore } from "~/hooks/stores/useAuthPersistStore";
-
-import "~/global.css";
+export { ErrorBoundary } from "expo-router";
 import { usePreferencePersistStore } from "~/hooks/stores/usePreferencePersistStore";
 
-const LIGHT_THEME: Theme = {
-  dark: false,
-  colors: NAV_THEME.light,
-  fonts: {
-    regular: {
-      fontFamily: "System",
-      fontWeight: "400",
-    },
-    medium: {
-      fontFamily: "System",
-      fontWeight: "500",
-    },
-    bold: {
-      fontFamily: "System",
-      fontWeight: "600",
-    },
-    heavy: {
-      fontFamily: "System",
-      fontWeight: "700",
-    },
-  },
-};
-const DARK_THEME: Theme = {
-  dark: true,
-  colors: NAV_THEME.dark,
-  fonts: {
-    regular: {
-      fontFamily: "System",
-      fontWeight: "400",
-    },
-    medium: {
-      fontFamily: "System",
-      fontWeight: "500",
-    },
-    bold: {
-      fontFamily: "System",
-      fontWeight: "600",
-    },
-    heavy: {
-      fontFamily: "System",
-      fontWeight: "700",
-    },
-  },
-};
-
-export { ErrorBoundary } from "expo-router";
+import "~/global.css";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -74,18 +26,6 @@ export default function RootLayout() {
     () => preferencePersistStore.theme === "dark",
     [preferencePersistStore.theme]
   );
-
-  React.useEffect(() => {
-    try {
-      setAndroidNavigationBar(isDarkMode ? "dark" : "light");
-
-      if (Platform.OS === "web") {
-        document.documentElement.classList.add("bg-background");
-      }
-    } finally {
-      SplashScreen.hideAsync();
-    }
-  }, [isDarkMode]);
 
   return (
     <View className={cn("flex-1", isDarkMode ? "dark" : "light")}>

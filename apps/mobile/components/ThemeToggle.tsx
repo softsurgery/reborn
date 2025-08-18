@@ -13,16 +13,16 @@ interface ThemeToggleProps {
 }
 
 export function ThemeToggle({ className }: ThemeToggleProps) {
-  const { toggleColorScheme } = useColorScheme();
-  const preferencePersistStore = usePreferencePersistStore();
-  const isDarkMode = React.useMemo(
-    () => preferencePersistStore.theme === "dark",
-    [preferencePersistStore.theme]
-  );
+  const { setColorScheme, toggleColorScheme } = useColorScheme();
+  const { theme, toggleTheme } = usePreferencePersistStore();
+  const isDarkMode = React.useMemo(() => theme === "dark", [theme]);
+
   return (
     <Pressable
       onPress={() => {
-        preferencePersistStore.toggleTheme();
+        toggleTheme();
+        setColorScheme(theme);
+        setAndroidNavigationBar(theme);
         toggleColorScheme();
       }}
     >

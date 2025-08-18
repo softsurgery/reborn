@@ -3,7 +3,7 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
 interface PreferencePersistData {
-  theme: string;
+  theme: "dark" | "light";
 }
 
 interface PreferencePersistStore extends PreferencePersistData {
