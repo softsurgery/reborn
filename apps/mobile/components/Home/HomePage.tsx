@@ -1,21 +1,22 @@
+import React from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { View } from "react-native";
+import { View, RefreshControl } from "react-native";
 import { HomePageHeader } from "./HomePageHeader";
 import { JobCard } from "./JobCard";
-import { useState, useMemo } from "react";
 import { Text } from "../ui/text";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "~/api";
 
 export const HomePage = () => {
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = React.useState("");
+  const [refreshing, setRefreshing] = React.useState(false);
 
   const allJobs = useQuery({
     queryKey: ["jobs"],
     queryFn: () => api.job.findAll(),
   });
 
-  const filteredJobs = useMemo(() => {
+  const filteredJobs = React.useMemo(() => {
     if (!searchQuery.trim()) {
       return allJobs.data || [];
     }
@@ -31,8 +32,21 @@ export const HomePage = () => {
   const isLoading = allJobs.isLoading;
   const hasJobs = (allJobs.data || []).length > 0;
 
+  const onRefresh = React.useCallback(async () => {
+    setRefreshing(true);
+    try {
+      await allJobs.refetch();
+    } finally {
+      setRefreshing(false);
+    }
+  }, [allJobs]);
+
   return (
-    <KeyboardAwareScrollView>
+    <KeyboardAwareScrollView
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    >
       <HomePageHeader
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
