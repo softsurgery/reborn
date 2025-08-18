@@ -4,6 +4,7 @@ import { bug } from "./bug";
 import { client } from "./client";
 import { upload } from "./upload";
 import { _public } from "./public";
+import { job } from "./job";
 
 export const api = {
   auth,
@@ -11,5 +12,6 @@ export const api = {
   feedback,
   bug,
   client,
-  upload
+  upload,
+  job
 };

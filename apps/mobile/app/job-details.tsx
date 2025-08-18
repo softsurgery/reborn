@@ -17,7 +17,7 @@ import {
   User,
   Calendar,
 } from "lucide-react-native";
-import { Job } from "~/types/Job";
+import { ResponseJobDto } from "~/types";
 import { showToastable } from "react-native-toastable";
 
 export default function JobDetailsScreen() {
@@ -25,9 +25,8 @@ export default function JobDetailsScreen() {
   const params = useLocalSearchParams();
 
   // Parse the job data from params
-  const job: Job = JSON.parse(params.job as string);
+  const job: ResponseJobDto = JSON.parse(params.job as string);
 
-  // If job not found, show error
   if (!job) {
     return (
       <View className="flex-1 justify-center items-center bg-background">
@@ -81,33 +80,27 @@ export default function JobDetailsScreen() {
               <View className="flex-row items-center gap-2">
                 <Briefcase size={16} color="#6b7280" />
                 <Text className="text-lg font-semibold text-foreground">
-                  {job.price}
+                  TND {job.price}
                 </Text>
               </View>
 
               <View className="flex-row items-center gap-2">
                 <FileText size={16} color="#6b7280" />
                 <Text className="text-foreground">
-                  Proposals: {job.proposals}
+                  Proposals: Not specified
                 </Text>
               </View>
 
               <View className="flex-row items-center gap-2">
-                <CheckCircle
-                  size={16}
-                  color={job.paymentVerified ? "#3b82f6" : "#9ca3af"}
-                />
+                <CheckCircle size={16} color="#3b82f6" />
                 <Text className="text-foreground">
-                  {job.paymentVerified
-                    ? "Payment verified"
-                    : "Payment not verified"}{" "}
-                  · {job.spent}
+                  Payment verification pending
                 </Text>
               </View>
 
               <View className="flex-row items-center gap-2">
                 <Clock size={16} color="#6b7280" />
-                <Text className="text-muted-foreground">{job.postedAgo}</Text>
+                <Text className="text-muted-foreground">Recently posted</Text>
               </View>
             </View>
           </CardContent>
@@ -126,24 +119,18 @@ export default function JobDetailsScreen() {
         </Card>
 
         {/* Skills Required */}
-        {job.skillsRequired && (
-          <Card>
-            <CardHeader>
-              <Text className="text-xl font-semibold text-foreground">
-                Skills Required
-              </Text>
-            </CardHeader>
-            <CardContent>
-              <View className="flex-row flex-wrap gap-2">
-                {job.skillsRequired.map((skill, index) => (
-                  <Badge key={index} variant="secondary">
-                    <Text>{skill}</Text>
-                  </Badge>
-                ))}
-              </View>
-            </CardContent>
-          </Card>
-        )}
+        <Card>
+          <CardHeader>
+            <Text className="text-xl font-semibold text-foreground">
+              Skills Required
+            </Text>
+          </CardHeader>
+          <CardContent>
+            <View className="flex-row flex-wrap gap-2">
+              <Text>No skills specified</Text>
+            </View>
+          </CardContent>
+        </Card>
 
         {/* Job Tags */}
         <Card>
@@ -152,11 +139,12 @@ export default function JobDetailsScreen() {
           </CardHeader>
           <CardContent>
             <View className="flex-row flex-wrap gap-2">
-              {job.tags.map((tag, index) => (
+              {/* {job.tags.map((tag, index) => (
                 <Badge key={index} variant="outline">
                   <Text>{tag}</Text>
                 </Badge>
-              ))}
+              ))} */}
+              <Text>No tags specified</Text>
             </View>
           </CardContent>
         </Card>
@@ -170,81 +158,66 @@ export default function JobDetailsScreen() {
           </CardHeader>
           <CardContent>
             <View className="space-y-3">
-              {job.projectType && (
-                <View className="flex-row items-center gap-2">
-                  <Text className="font-medium text-foreground">
-                    Project Type:
-                  </Text>
-                  <Text className="text-foreground">{job.projectType}</Text>
-                </View>
-              )}
-              {job.duration && (
-                <View className="flex-row items-center gap-2">
-                  <Calendar size={16} color="#6b7280" />
-                  <Text className="font-medium text-foreground">Duration:</Text>
-                  <Text className="text-foreground">{job.duration}</Text>
-                </View>
-              )}
-              {job.experienceLevel && (
-                <View className="flex-row items-center gap-2">
-                  <Text className="font-medium text-foreground">
-                    Experience Level:
-                  </Text>
-                  <Text className="text-foreground">{job.experienceLevel}</Text>
-                </View>
-              )}
+              <View className="flex-row items-center gap-2">
+                <Text className="font-medium text-foreground">
+                  Project Type:
+                </Text>
+                <Text className="text-foreground">Not specified</Text>
+              </View>
+              <View className="flex-row items-center gap-2">
+                <Calendar size={16} color="#6b7280" />
+                <Text className="font-medium text-foreground">Duration:</Text>
+                <Text className="text-foreground">To be determined</Text>
+              </View>
+              <View className="flex-row items-center gap-2">
+                <Text className="font-medium text-foreground">
+                  Experience Level:
+                </Text>
+                <Text className="text-foreground">Not specified</Text>
+              </View>
             </View>
           </CardContent>
         </Card>
 
         {/* Client Information */}
-        {job.clientName && (
-          <Card>
-            <CardHeader>
-              <Text className="text-xl font-semibold text-foreground">
-                About the Client
-              </Text>
-            </CardHeader>
-            <CardContent>
-              <View className="space-y-3">
+        <Card>
+          <CardHeader>
+            <Text className="text-xl font-semibold text-foreground">
+              About the Client
+            </Text>
+          </CardHeader>
+          <CardContent>
+            <View className="space-y-3">
+              <View className="flex-row items-center gap-2">
+                <User size={16} color="#6b7280" />
+                <Text className="text-foreground font-medium">
+                  {job.postedBy.firstName && job.postedBy.lastName
+                    ? `${job.postedBy.firstName} ${job.postedBy.lastName}`
+                    : job.postedBy.username}
+                </Text>
+              </View>
+
+              <View className="flex-row items-center gap-2">
+                <Star size={16} color="#fbbf24" fill="#fbbf24" />
+                <Text className="text-foreground">Rating not available</Text>
+              </View>
+
+              {job.postedBy.profile?.region && (
                 <View className="flex-row items-center gap-2">
-                  <User size={16} color="#6b7280" />
-                  <Text className="text-foreground font-medium">
-                    {job.clientName}
+                  <MapPin size={16} color="#6b7280" />
+                  <Text className="text-foreground">
+                    {job.postedBy.profile.region.label}
                   </Text>
                 </View>
+              )}
 
-                {job.clientRating && (
-                  <View className="flex-row items-center gap-2">
-                    <Star size={16} color="#fbbf24" fill="#fbbf24" />
-                    <Text className="text-foreground">
-                      {job.clientRating.toFixed(1)} ({job.clientJobsPosted} jobs
-                      posted)
-                    </Text>
-                  </View>
-                )}
-
-                {job.clientLocation && (
-                  <View className="flex-row items-center gap-2">
-                    <MapPin size={16} color="#6b7280" />
-                    <Text className="text-foreground">
-                      {job.clientLocation}
-                    </Text>
-                  </View>
-                )}
-
-                {job.clientHireRate && (
-                  <View className="flex-row items-center gap-2">
-                    <CheckCircle size={16} color="#22c55e" />
-                    <Text className="text-foreground">
-                      {job.clientHireRate}% hire rate
-                    </Text>
-                  </View>
-                )}
+              <View className="flex-row items-center gap-2">
+                <CheckCircle size={16} color="#22c55e" />
+                <Text className="text-foreground">Hire rate not available</Text>
               </View>
-            </CardContent>
-          </Card>
-        )}
+            </View>
+          </CardContent>
+        </Card>
 
         {/* Apply Button */}
         <Card>

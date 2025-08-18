@@ -1,14 +1,14 @@
 import React, { useState } from "react";
+import { cn } from "~/lib/utils";
 import { View, Text, TouchableOpacity } from "react-native";
 import { Heart, Briefcase, FileText, CheckCircle } from "lucide-react-native";
-import { cn } from "~/lib/utils";
 import { useNavigation } from "expo-router";
-import { Job } from "~/types/Job";
 import { NavigationProps } from "~/types/app.routes";
 import { showToastable } from "react-native-toastable";
+import { ResponseJobDto } from "~/types";
 
 interface JobCardProps {
-  job: Job;
+  job: ResponseJobDto;
 }
 
 export const JobCard = ({ job }: JobCardProps) => {
@@ -52,25 +52,23 @@ export const JobCard = ({ job }: JobCardProps) => {
       <View className="flex-row items-center gap-1 space-x-2">
         <Briefcase size={16} color="#6b7280" />
         <Text className="text-gray-600 dark:text-gray-400 text-m">
-          {job.price}
+          TND {job.price}
         </Text>
       </View>
 
       <View className="flex-row items-center gap-1 space-x-2">
         <FileText size={16} color="#6b7280" />
         <Text className="text-gray-600 dark:text-gray-400 text-m">
-          Proposals: {job.proposals}
+          Proposals: 0
         </Text>
       </View>
 
       <View className="flex-row items-center gap-1 space-x-2">
-        <CheckCircle
-          size={16}
-          color={job.paymentVerified ? "#3b82f6" : "#9ca3af"}
-        />
+        <CheckCircle color={"#3b82f6"} size={16} />
         <Text className="text-gray-600 dark:text-gray-400 text-m">
-          {job.paymentVerified ? "Payment verified" : "Payment not verified"} ·{" "}
-          {job.spent}
+          {/* {job.paymentVerified ? "Payment verified" : "Payment not verified"} ·{" "} */}
+          {/* {job.spent}  */}
+          To be determined
         </Text>
       </View>
 
@@ -90,7 +88,7 @@ export const JobCard = ({ job }: JobCardProps) => {
       </TouchableOpacity>
 
       <View className="flex-row flex-wrap gap-2 mt-1">
-        {job.tags.map((tag: string, index: number) => (
+        {/* {job.tags.map((tag: string, index: number) => (
           <View
             key={index}
             className="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-full"
@@ -99,10 +97,16 @@ export const JobCard = ({ job }: JobCardProps) => {
               {tag}
             </Text>
           </View>
-        ))}
+        ))} */}
+        <Text className="text-sm text-gray-700 dark:text-gray-300">
+          No tags specified
+        </Text>
       </View>
 
-      <Text className="text-gray-500 text-sm mt-1">{job.postedAgo}</Text>
+      <Text className="text-gray-500 text-sm mt-1">
+        {/* {job.postedAgo} */}
+        Not specified
+      </Text>
     </TouchableOpacity>
   );
 };
