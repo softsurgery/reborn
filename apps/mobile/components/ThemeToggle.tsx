@@ -1,5 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import React from "react";
 import { Pressable, View } from "react-native";
+import { usePreferencePersistStore } from "~/hooks/stores/usePreferencePersistStore";
 import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
 import { MoonStar } from "~/lib/icons/MoonStar";
 import { Sun } from "~/lib/icons/Sun";
@@ -11,14 +13,17 @@ interface ThemeToggleProps {
 }
 
 export function ThemeToggle({ className }: ThemeToggleProps) {
-  const { isDarkColorScheme, setColorScheme } = useColorScheme();
+  const { toggleColorScheme } = useColorScheme();
+  const preferencePersistStore = usePreferencePersistStore();
+  const isDarkMode = React.useMemo(
+    () => preferencePersistStore.theme === "dark",
+    [preferencePersistStore.theme]
+  );
   return (
     <Pressable
       onPress={() => {
-        const newTheme = isDarkColorScheme ? "light" : "dark";
-        setColorScheme(newTheme);
-        setAndroidNavigationBar(newTheme);
-        AsyncStorage.setItem("theme", newTheme);
+        preferencePersistStore.toggleTheme();
+        toggleColorScheme();
       }}
     >
       {({ pressed }) => (
@@ -29,7 +34,7 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
             className
           )}
         >
-          {isDarkColorScheme ? (
+          {isDarkMode ? (
             <MoonStar
               className="text-foreground"
               size={23}
