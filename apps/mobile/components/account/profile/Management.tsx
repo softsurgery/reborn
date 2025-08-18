@@ -19,7 +19,7 @@ export const Management = ({ className }: ManagementProps) => {
     () => identifyUser(currentUser),
     [currentUser]
   );
-  const avatarIdentity = React.useMemo(
+  const fallback = React.useMemo(
     () => identifyUserAvatar(currentUser),
     [currentUser]
   );
@@ -34,7 +34,12 @@ export const Management = ({ className }: ManagementProps) => {
   return (
     <StableScrollView className={className}>
       <View className="flex flex-col gap-2 px-5 mb-7">
-        <ProfileManagmentCard className="mt-5" currentUser={currentUser} uri={profilePicture} fallback={avatarIdentity} />Ò
+        <ProfileManagmentCard
+          className="mt-5"
+          uri={profilePicture}
+          identity={identity}
+          fallback={fallback}
+        />
         <View className="flex flex-col gap-4 px-5">
           <View>
             <Text className="font-bold">Bio</Text>
