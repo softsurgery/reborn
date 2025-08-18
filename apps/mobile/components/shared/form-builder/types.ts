@@ -121,7 +121,7 @@ export interface PictureFieldProps {
   progress?: number;
   alt?: string;
   editable?: boolean;
-  onFileChange?: (e: File) => void;
+  onFileChange?: (e: string) => void;
   onUpload?: (file: File, onProgress: (percent: number) => void) => void;
 }
 
