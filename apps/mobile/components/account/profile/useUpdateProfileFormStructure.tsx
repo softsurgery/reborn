@@ -55,7 +55,7 @@ export const useUpdateProfileFormStructure = ({
 
   //name
   const firstNameField: Field<TextFieldProps> = {
-    id: "first-name",
+    id: "firstName",
     label: "First Name",
     variant: FieldVariant.TEXT,
     required: true,
@@ -74,7 +74,7 @@ export const useUpdateProfileFormStructure = ({
 
   //surname
   const lastNameField: Field<TextFieldProps> = {
-    id: "last-name",
+    id: "lastName",
     label: "Last Name",
     variant: FieldVariant.TEXT,
     required: true,
@@ -131,7 +131,7 @@ export const useUpdateProfileFormStructure = ({
 
   // date of birth
   const dateOfBirthField: Field<DateFieldProps> = {
-    id: "date-of-birth",
+    id: "dateOfBirth",
     label: "Date of Birth",
     variant: FieldVariant.DATE,
     disabled: false,

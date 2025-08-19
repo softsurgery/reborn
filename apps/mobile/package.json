@@ -62,6 +62,7 @@
     "react-native-reanimated": "~3.17.4",
     "react-native-safe-area-context": "5.4.0",
     "react-native-screens": "~4.11.1",
+    "react-native-scroll-into-view": "^2.0.2",
     "react-native-star-rating-widget": "^1.9.2",
     "react-native-svg": "15.11.2",
     "react-native-toastable": "^0.5.0",

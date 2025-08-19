@@ -2,13 +2,12 @@ import React from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Save } from "lucide-react-native";
 import { View } from "react-native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Loader } from "~/components/Loader";
 import { Button } from "~/components/ui/button";
 import { useUpdateClientStore } from "~/hooks/stores/useUpdateClientStore";
 import { useCurrentUser } from "~/hooks/useCurrentUser";
 import Icon from "~/lib/Icon";
-import { Result, ResponseClientDto, ServerErrorResponse } from "~/types";
+import { ServerErrorResponse } from "~/types";
 import { Text } from "~/components/ui/text";
 import { FormBuilder } from "~/components/shared/form-builder/FormBuilder";
 import { useUpdateProfileFormStructure } from "./useUpdateProfileFormStructure";
@@ -21,9 +20,9 @@ import {
   updateProfileSchema,
 } from "~/types/validations/client.validation";
 import { api } from "~/api";
-import { StableKeyboardAwareScrollView } from "~/components/shared/KeyboardAwareScrollView";
 import { useUploadMutation } from "~/hooks/useUploadMutation";
 import { Upload } from "~/types/upload";
+import { StableKeyboardAwareScrollView } from "~/components/shared/KeyboardAwareScrollView";
 
 export const UpdateProfile = () => {
   const queryClient = useQueryClient();
@@ -108,6 +107,8 @@ export const UpdateProfile = () => {
       },
     });
 
+  const formRef = React.useRef<{ scrollToError: (id: string) => void }>(null);
+
   const handleUpdate = async () => {
     const resultUser = updateClientSchema.safeParse(updatClientStore.updateDto);
     const resultProfile = updateProfileSchema.safeParse(
@@ -123,11 +124,13 @@ export const UpdateProfile = () => {
         ? {}
         : resultProfile.error.flatten().fieldErrors;
 
-      updatClientStore.set("errors", {
-        ...userErrors,
-        ...profileErrors,
-      });
+      const errors = { ...userErrors, ...profileErrors };
+      updatClientStore.set("errors", errors);
 
+      const firstErrorKey = Object.keys(errors)[0];
+      if (firstErrorKey) {
+        formRef.current?.scrollToError(firstErrorKey);
+      }
       return;
     }
 
@@ -139,7 +142,11 @@ export const UpdateProfile = () => {
   return (
     <StableKeyboardAwareScrollView>
       <View className="flex flex-col gap-6 mx-4 mb-6">
-        <FormBuilder structure={updateProfileStructure} className="my-4" />
+        <FormBuilder
+          ref={formRef}
+          structure={updateProfileStructure}
+          className="my-4"
+        />
 
         <Button
           onPress={handleUpdate}
