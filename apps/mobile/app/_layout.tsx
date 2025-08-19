@@ -1,5 +1,4 @@
 import React from "react";
-import { Theme } from "@react-navigation/native";
 import { SplashScreen, Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { View } from "react-native";

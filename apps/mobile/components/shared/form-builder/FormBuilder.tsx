@@ -7,7 +7,7 @@ import { FieldBuilder } from "./FieldBuilder";
 import { Separator } from "~/components/ui/separator";
 import { Label } from "~/components/ui/label";
 import { Text } from "~/components/ui/text";
-import { useScrollIntoView } from "react-native-scroll-into-view";
+import { useStableScrollIntoView } from "~/hooks/useStableScrollIntoView";
 
 interface FormBuilderProps {
   className?: string;
@@ -16,7 +16,7 @@ interface FormBuilderProps {
 
 export const FormBuilder = React.forwardRef(
   ({ className, structure }: FormBuilderProps, ref) => {
-    const scrollIntoView = useScrollIntoView();
+    const scrollIntoView = useStableScrollIntoView();
     const fieldRefs = React.useRef<Record<string, View | null>>({});
 
     React.useImperativeHandle(ref, () => ({
@@ -24,7 +24,7 @@ export const FormBuilder = React.forwardRef(
         const target = fieldRefs.current[id];
         if (target) {
           requestAnimationFrame(() => {
-            scrollIntoView(target, { align: "top", animated: true });
+            scrollIntoView?.(target, { align: "top", animated: true });
           });
         }
       },
