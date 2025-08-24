@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Platform, View } from "react-native";
+import { Platform, View, Text } from "react-native";
 import {
   Tabs,
   TabsContent,
@@ -21,10 +21,12 @@ import { Button } from "./ui/button";
 import Icon from "~/lib/Icon";
 import { useNavigation } from "expo-router";
 import { HomePage } from "./Home/HomePage";
+import Modal from "react-native-modal";
 
 export default function Application() {
   const navigation = useNavigation<any>();
   const [title, setTitle] = React.useState("account");
+  const [isDrawerVisible, setIsDrawerVisible] = React.useState(false);
 
   React.useEffect(() => {
     navigation.setOptions({
@@ -34,14 +36,14 @@ export default function Application() {
       navigation.setOptions({
         headerShown: false,
       });
-       navigation.reset({
+      navigation.reset({
         routes: [{ name: "index" }],
       });
     };
   }, []);
 
   const tabs = [
-    { value: "home", icon: Home, title: "Home", component: <HomePage />},
+    { value: "home", icon: Home, title: "Home", component: <HomePage /> },
     {
       value: "chat",
       icon: MessageSquareText,
@@ -91,7 +93,7 @@ export default function Application() {
             paddingBlock: Platform.OS === "ios" ? 10 : 0,
           }}
         >
-          {/* Left Side Tabs */}
+          {/* Left Tabs */}
           {leftTabs.map((tab) => (
             <TabsTriggerWithIcon
               key={tab.value}
@@ -106,15 +108,17 @@ export default function Application() {
               />
             </TabsTriggerWithIcon>
           ))}
+
           {/* Plus Button in the middle */}
           <Button
             variant="default"
-            className="w-20 h-20 -top-4 rounded-full aspect-square flex items-center justify-center border border-border"
+            className="w-20 h-20 -top-4 rounded-full aspect-square flex items-center justify-center border border-border shadow-lg"
+            onPress={() => setIsDrawerVisible(true)}
           >
             <Icon name={Plus} size={32} className="text-white" />
           </Button>
 
-          {/* Right Side Tabs */}
+          {/* Right Tabs */}
           {rightTabs.map((tab) => (
             <TabsTriggerWithIcon
               key={tab.value}
@@ -131,6 +135,23 @@ export default function Application() {
           ))}
         </TabsList>
       </Tabs>
+
+      <Modal
+        isVisible={isDrawerVisible}
+        onBackdropPress={() => setIsDrawerVisible(false)}
+        style={{ justifyContent: "flex-end", margin: 0 }}
+        swipeDirection="down"
+        onSwipeComplete={() => setIsDrawerVisible(false)}
+      >
+        <View className="bg-background p-6 rounded-t-2xl border border-border shadow-xl h-5/6">
+          <Text className="text-lg font-bold mb-4 text-foreground">
+            Bottom Drawer (5/6 Screen)
+          </Text>
+          <Button onPress={() => setIsDrawerVisible(false)}>
+            <Text className="text-white">Close</Text>
+          </Button>
+        </View>
+      </Modal>
     </View>
   );
 }
