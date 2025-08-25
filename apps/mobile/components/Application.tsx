@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Platform, View, Text } from "react-native";
+import { Platform, View } from "react-native";
 import {
   Tabs,
   TabsContent,
@@ -21,12 +21,21 @@ import { Button } from "./ui/button";
 import Icon from "~/lib/Icon";
 import { useNavigation } from "expo-router";
 import { HomePage } from "./Home/HomePage";
-import Modal from "react-native-modal";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/dialog";
+import { Text } from "./ui/text";
 
 export default function Application() {
   const navigation = useNavigation<any>();
   const [title, setTitle] = React.useState("account");
-  const [isDrawerVisible, setIsDrawerVisible] = React.useState(false);
 
   React.useEffect(() => {
     navigation.setOptions({
@@ -110,13 +119,35 @@ export default function Application() {
           ))}
 
           {/* Plus Button in the middle */}
-          <Button
-            variant="default"
-            className="w-20 h-20 -top-4 rounded-full aspect-square flex items-center justify-center border border-border shadow-lg"
-            onPress={() => setIsDrawerVisible(true)}
-          >
-            <Icon name={Plus} size={32} className="text-white" />
-          </Button>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button
+                variant="default"
+                className="w-20 h-20 -top-4 rounded-full aspect-square flex items-center justify-center border border-border shadow-lg"
+              >
+                <Icon name={Plus} size={32} className="text-white" />
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="h-[85vh] w-[95vw] rounded-lg">
+              <DialogHeader>
+                <DialogTitle>New Job</DialogTitle>
+                <DialogDescription>
+                  <Text>Add a new job</Text>
+                </DialogDescription>
+              </DialogHeader>
+              <View className="grid gap-4"></View>
+              <DialogFooter>
+                <DialogClose asChild>
+                  <Button variant="outline">
+                    <Text>Cancel</Text>
+                  </Button>
+                </DialogClose>
+                <Button>
+                  <Text>Save changes</Text>
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
 
           {/* Right Tabs */}
           {rightTabs.map((tab) => (
@@ -136,12 +167,14 @@ export default function Application() {
         </TabsList>
       </Tabs>
 
-      <Modal
+      {/* <Modal
         isVisible={isDrawerVisible}
         onBackdropPress={() => setIsDrawerVisible(false)}
         style={{ justifyContent: "flex-end", margin: 0 }}
         swipeDirection="down"
         onSwipeComplete={() => setIsDrawerVisible(false)}
+        useNativeDriverForBackdrop
+        useNativeDriver
       >
         <View className="bg-background p-6 rounded-t-2xl border border-border shadow-xl h-5/6">
           <Text className="text-lg font-bold mb-4 text-foreground">
@@ -151,7 +184,7 @@ export default function Application() {
             <Text className="text-white">Close</Text>
           </Button>
         </View>
-      </Modal>
+      </Modal> */}
     </View>
   );
 }
