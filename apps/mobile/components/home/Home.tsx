@@ -16,11 +16,12 @@ import { JobCardSkeleton } from "./JobCardSkeleton";
 import { Text } from "../ui/text";
 import Icon from "~/lib/Icon";
 import { PackageOpenIcon } from "lucide-react-native";
+import { ResponseJobDto } from "~/types";
 
-export const HomePage = () => {
-  const queryClient = useQueryClient();
+export const Home = () => {
   const [search, setSearch] = React.useState("");
-  const { value: debouncedSearchTerm } = useDebounce<string>(search, 500);
+  const { value: debouncedSearchTerm, loading: searching } =
+    useDebounce<string>(search, 1000);
 
   const {
     data,
@@ -36,7 +37,7 @@ export const HomePage = () => {
     queryFn: ({ pageParam = 1 }) =>
       api.job.findPaginated({
         page: String(pageParam),
-        limit: "10",
+        limit: "5",
         join: "uploads",
         filter: debouncedSearchTerm
           ? `title||$cont||${debouncedSearchTerm}`
@@ -47,18 +48,16 @@ export const HomePage = () => {
       lastPage.meta.hasNextPage ? lastPage.meta.page + 1 : undefined,
   });
 
-  const allJobs = useMemo(
+  const jobs = useMemo(
     () => data?.pages.flatMap((page) => page.data) || [],
     [data]
   );
 
-  React.useEffect(() => {
-    return () => {
-      queryClient.invalidateQueries({
-        queryKey: ["jobs", debouncedSearchTerm],
-      });
-    };
-  }, [debouncedSearchTerm]);
+  const ListItem = React.memo(({ item }: { item: ResponseJobDto }) => {
+    return <JobCard job={item} className="my-2" />;
+  });
+
+  const isPending = isJobsPending || isFetchingNextPage || searching;
 
   return (
     <View className="flex-1">
@@ -67,7 +66,7 @@ export const HomePage = () => {
       </View>
       <Separator />
       <SafeAreaView style={{ flex: 1 }}>
-        {isJobsPending ? (
+        {isPending ? (
           <FlatList
             className="px-2"
             data={Array.from({ length: 5 })}
@@ -76,10 +75,10 @@ export const HomePage = () => {
         ) : (
           <FlatList
             className="px-2"
-            data={allJobs}
-            keyExtractor={(item) => `job-${item.id}`}
+            data={jobs}
+            keyExtractor={(item) => item.id.toString()}
             showsVerticalScrollIndicator={false}
-            renderItem={({ item }) => <JobCard job={item} className="my-2" />}
+            renderItem={({ item }) => <ListItem item={item} />}
             refreshControl={
               <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
             }
@@ -111,7 +110,7 @@ export const HomePage = () => {
             ListFooterComponent={
               isFetchingNextPage ? (
                 <JobCardSkeleton />
-              ) : !hasNextPage ? (
+              ) : jobs.length != 0 && !hasNextPage ? (
                 <View className="px-4 pt-6 pb-10 flex flex-row  items-center justify-center gap-4">
                   <Text className="text-lg opacity-70">
                     No more jobs available

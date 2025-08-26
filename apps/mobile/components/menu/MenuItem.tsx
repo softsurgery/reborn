@@ -6,6 +6,7 @@ import { cn } from "~/lib/utils";
 import { View } from "react-native";
 
 interface MenuItemProps {
+  className?: string;
   title: string;
   icon: LucideIcon;
   active?: boolean;
@@ -14,19 +15,22 @@ interface MenuItemProps {
 }
 
 export const MenuItem = ({
+  className,
   title,
   icon,
   active = false,
   size = 32,
 }: MenuItemProps) => {
   return (
-    <View className="flex-col items-center justify-between">
+    <View className={cn("flex-col items-center justify-between", className)}>
       <Icon
         name={icon as LucideIcon}
         className={cn(active ? "text-primary" : "text-foreground")}
-        size={32}
+        size={size}
       />
-      <Text className={cn("text-xs", active ? "text-primary" : "text-foreground")}>{title}</Text>
+      <Text className={cn(active ? "text-primary" : "text-foreground")}>
+        {title}
+      </Text>
     </View>
   );
 };
