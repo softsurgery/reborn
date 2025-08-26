@@ -3,9 +3,9 @@ import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import {
   View,
   RefreshControl,
-  KeyboardAvoidingView,
   FlatList,
   ActivityIndicator,
+  SafeAreaView,
 } from "react-native";
 import { JobCard } from "./JobCard";
 import { api } from "~/api";
@@ -14,6 +14,8 @@ import { useDebounce } from "~/hooks/useDebounce";
 import { Separator } from "../ui/separator";
 import { JobCardSkeleton } from "./JobCardSkeleton";
 import { Text } from "../ui/text";
+import Icon from "~/lib/Icon";
+import { PackageOpenIcon } from "lucide-react-native";
 
 export const HomePage = () => {
   const queryClient = useQueryClient();
@@ -64,7 +66,7 @@ export const HomePage = () => {
         <HomePageHeader search={search} setSearch={setSearch} />
       </View>
       <Separator />
-      <KeyboardAvoidingView style={{ flex: 1 }}>
+      <SafeAreaView style={{ flex: 1 }}>
         {isJobsPending ? (
           <FlatList
             className="px-2"
@@ -106,9 +108,21 @@ export const HomePage = () => {
               </View>
             }
             onEndReachedThreshold={0.2}
+            ListFooterComponent={
+              isFetchingNextPage ? (
+                <JobCardSkeleton />
+              ) : !hasNextPage ? (
+                <View className="px-4 pt-6 pb-10 flex flex-row  items-center justify-center gap-4">
+                  <Text className="text-lg opacity-70">
+                    No more jobs available
+                  </Text>
+                  <Icon name={PackageOpenIcon} />
+                </View>
+              ) : null
+            }
           />
         )}
-      </KeyboardAvoidingView>
+      </SafeAreaView>
     </View>
   );
 };
