@@ -3,25 +3,25 @@ import { Text } from "../ui/text";
 import { FilterChoices } from "../shared/FilterChoices";
 import { Separator } from "../ui/separator";
 import { View } from "react-native";
+import { cn } from "~/lib/utils";
 
 interface HomePageHeaderProps {
-  searchQuery: string;
-  onSearchChange: (query: string) => void;
-  resultsCount?: number;
+  className?: string;
+  search: string;
+  setSearch: (search: string) => void;
 }
 
 export const HomePageHeader = ({
-  searchQuery,
-  onSearchChange,
-  resultsCount,
+  className,
+  search,
+  setSearch,
 }: HomePageHeaderProps) => {
   return (
-    <View className="flex-1 px-5">
+    <View className={cn(className)}>
       <SearchInput
-        className="my-5"
         placeholder="Search for jobs..."
-        value={searchQuery}
-        onChangeText={onSearchChange}
+        value={search}
+        onChangeText={(search) => setSearch(search)}
       />
 
       <View className="flex flex-col gap-2">
@@ -31,14 +31,6 @@ export const HomePageHeader = ({
         <Separator />
       </View>
       <FilterChoices />
-      <View className="flex flex-col gap-2">
-        <Text className="text-gray-800 dark:text-gray-200 text-sm">
-          {searchQuery.trim()
-            ? `List Of Jobs (${resultsCount} found)`
-            : "List Of Jobs"}
-        </Text>
-        <Separator />
-      </View>
     </View>
   );
 };

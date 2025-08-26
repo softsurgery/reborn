@@ -160,6 +160,13 @@ export default function RootLayout() {
               animation: "slide_from_right",
             }}
           />
+          <Stack.Screen
+            name="test"
+            options={{
+              title: "TEST",
+              animation: "slide_from_right",
+            }}
+          />
         </Stack>
         <PortalHost />
       </QueryClientProvider>

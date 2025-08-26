@@ -1,23 +1,26 @@
 import React, { useState } from "react";
-import { cn } from "~/lib/utils";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, Image } from "react-native";
 import { Heart, Briefcase, FileText, CheckCircle } from "lucide-react-native";
 import { useNavigation } from "expo-router";
 import { NavigationProps } from "~/types/app.routes";
 import { showToastable } from "react-native-toastable";
 import { ResponseJobDto } from "~/types";
+import { useQuery } from "@tanstack/react-query";
+import { api } from "~/api";
+import { cn } from "~/lib/utils";
 
 interface JobCardProps {
+  className?: string;
   job: ResponseJobDto;
 }
 
-export const JobCard = ({ job }: JobCardProps) => {
+export const JobCard = ({ className, job }: JobCardProps) => {
   const [saved, setSaved] = useState(false);
   const [showFullDesc, setShowFullDesc] = useState(false);
   const navigation = useNavigation<NavigationProps>();
 
   const handleSave = (e: any) => {
-    e.stopPropagation(); 
+    e.stopPropagation();
     setSaved(!saved);
     if (!saved) {
       showToastable({ message: "Job has been saved", status: "success" });
@@ -33,9 +36,17 @@ export const JobCard = ({ job }: JobCardProps) => {
   return (
     <TouchableOpacity
       onPress={handleCardPress}
-      className="px-4 w-full py-4 gap-2"
+      className={cn(
+        "px-4 w-full py-4 gap-2 border-2 border-border rounded-lg",
+        className
+      )}
       activeOpacity={0.7}
     >
+      <Image
+        source={require("~/assets/images/icon.png")}
+        className="w-full h-48 rounded-lg mb-3"
+        resizeMode="cover"
+      />
       <View className="flex-row justify-between items-start">
         <Text className="font-semibold text-xl text-black dark:text-white flex-1 pr-2">
           {job.title}
