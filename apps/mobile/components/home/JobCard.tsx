@@ -1,13 +1,14 @@
-import React, { useState } from "react";
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import React from "react";
+import { cn } from "~/lib/utils";
+import { View, Text, TouchableOpacity } from "react-native";
 import { Heart, Briefcase, FileText, CheckCircle } from "lucide-react-native";
 import { useNavigation } from "expo-router";
 import { NavigationProps } from "~/types/app.routes";
 import { showToastable } from "react-native-toastable";
 import { ResponseJobDto } from "~/types";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { api } from "~/api";
-import { cn } from "~/lib/utils";
+import { Image } from "expo-image";
 
 interface JobCardProps {
   className?: string;
@@ -15,8 +16,33 @@ interface JobCardProps {
 }
 
 export const JobCard = ({ className, job }: JobCardProps) => {
-  const [saved, setSaved] = useState(false);
-  const [showFullDesc, setShowFullDesc] = useState(false);
+  const orderedUploads = React.useMemo(
+    () => job.uploads?.sort((a, b) => a.order - b.order),
+    [job.uploads]
+  );
+
+  const queryClient = useQueryClient();
+  const { data: thumbnail, isPending: isThumbnailPending } = useQuery({
+    queryKey: ["job-thumbnail", orderedUploads?.[0]?.uploadId],
+    queryFn: () => api.upload.getUploadById(orderedUploads?.[0]?.uploadId),
+    enabled: !!orderedUploads?.[0]?.uploadId,
+  });
+
+  const imageSource =
+    thumbnail && !isThumbnailPending
+      ? { uri: thumbnail }
+      : require("~/assets/images/icon.png");
+
+  React.useEffect(() => {
+    return () => {
+      queryClient.invalidateQueries({
+        queryKey: ["job-thumbnail", job.id],
+      });
+    };
+  }, []);
+
+  const [saved, setSaved] = React.useState(false);
+  const [showFullDesc, setShowFullDesc] = React.useState(false);
   const navigation = useNavigation<NavigationProps>();
 
   const handleSave = (e: any) => {
@@ -43,9 +69,14 @@ export const JobCard = ({ className, job }: JobCardProps) => {
       activeOpacity={0.7}
     >
       <Image
-        source={require("~/assets/images/icon.png")}
-        className="w-full h-48 rounded-lg mb-3"
-        resizeMode="cover"
+        source={imageSource}
+        style={{
+          width: "100%",
+          height: 200,
+          marginVertical: 2,
+          borderRadius: 8,
+        }}
+        cachePolicy="memory-disk"
       />
       <View className="flex-row justify-between items-start">
         <Text className="font-semibold text-xl text-black dark:text-white flex-1 pr-2">

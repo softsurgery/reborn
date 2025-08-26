@@ -1,8 +1,5 @@
-import { SearchInput } from "../shared/SearchInput";
-import { Text } from "../ui/text";
-import { FilterChoices } from "../shared/FilterChoices";
-import { Separator } from "../ui/separator";
 import { View } from "react-native";
+import { SearchInput } from "../shared/SearchInput";
 import { cn } from "~/lib/utils";
 import { JobFilters } from "./JobFilters";
 
@@ -23,7 +20,7 @@ export const HomePageHeader = ({
         placeholder="Search for jobs..."
         value={search}
         onChangeText={(search) => setSearch(search)}
-        className="w-4/5"
+        className="w-[80%]"
       />
       <JobFilters />
     </View>

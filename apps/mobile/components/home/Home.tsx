@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import {
   View,
   RefreshControl,
@@ -14,8 +14,10 @@ import { api } from "~/api";
 import { HomePageHeader } from "./HomeHeader";
 import { useDebounce } from "~/hooks/useDebounce";
 import { Separator } from "../ui/separator";
+import { JobCardSkeleton } from "./JobCardSkeleton";
 
 export const HomePage = () => {
+  const queryClient = useQueryClient();
   const [search, setSearch] = React.useState("");
   const { value: debouncedSearchTerm } = useDebounce<string>(search, 500);
 
@@ -38,6 +40,7 @@ export const HomePage = () => {
         filter: debouncedSearchTerm
           ? `title||$cont||${debouncedSearchTerm}`
           : undefined,
+        sort: "createdAt,desc",
       }),
     getNextPageParam: (lastPage) =>
       lastPage.meta.hasNextPage ? lastPage.meta.page + 1 : undefined,
@@ -47,6 +50,14 @@ export const HomePage = () => {
     () => data?.pages.flatMap((page) => page.data) || [],
     [data]
   );
+
+  React.useEffect(() => {
+    return () => {
+      queryClient.invalidateQueries({
+        queryKey: ["jobs", debouncedSearchTerm],
+      });
+    };
+  }, [debouncedSearchTerm]);
 
   return (
     <View className="flex-1">
@@ -60,15 +71,23 @@ export const HomePage = () => {
       >
         <FlashList
           data={allJobs}
-          keyExtractor={(item) => String(item.id)}
+          keyExtractor={(item) => `job-${item.id}`}
+          getItemType={() => "job"}
           estimatedItemSize={200}
           contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 40 }}
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
+          maintainVisibleContentPosition={{ minIndexForVisible: 0 }}
           refreshControl={
             <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
           }
-          renderItem={({ item }) => <JobCard job={item} className="my-2" />}
+          renderItem={({ item }) =>
+            !item?.id ? (
+              <JobCardSkeleton />
+            ) : (
+              <JobCard job={item} className="my-2" />
+            )
+          }
           ListEmptyComponent={
             <View className="px-4 py-12 items-center justify-center">
               {isJobsPending ? (
@@ -94,15 +113,7 @@ export const HomePage = () => {
           onEndReached={() =>
             hasNextPage && !isFetchingNextPage && fetchNextPage()
           }
-          ListFooterComponent={
-            isFetchingNextPage ? (
-              <ActivityIndicator
-                color="blue"
-                size="small"
-                style={{ marginVertical: 10 }}
-              />
-            ) : null
-          }
+          ListFooterComponent={isFetchingNextPage ? <JobCardSkeleton /> : null}
         />
       </KeyboardAvoidingView>
     </View>

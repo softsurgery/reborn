@@ -8,7 +8,8 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import { Button } from "../ui/button";
-import { Text } from "../ui/text";
+import { Sliders } from "lucide-react-native";
+import Icon from "~/lib/Icon";
 
 interface JobFiltersProps {
   className?: string;
@@ -18,8 +19,8 @@ export const JobFilters = ({ className }: JobFiltersProps) => {
   return (
     <Dialog>
       <DialogTrigger className={className} asChild>
-        <Button>
-          <Text>Filters</Text>
+        <Button variant={"link"} className="w-fit">
+          <Icon name={Sliders} size={24} />
         </Button>
       </DialogTrigger>
       <DialogContent>
