@@ -1,5 +1,4 @@
 import { View } from "react-native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Text } from "../ui/text";
 import { FormBuilder } from "../shared/form-builder/FormBuilder";
 import { useSignUpFormStructure } from "./useSignUpFormStructure";
@@ -11,8 +10,9 @@ import { useNavigation } from "~/hooks/useNavigation";
 import { useMutation } from "@tanstack/react-query";
 import { api } from "~/api";
 import { showToastable } from "react-native-toastable";
-import { ServerErrorResponse } from "~/types/server.response";
 import { requestSignUpDtoSchema } from "~/types/validations/auth.validation";
+import { StableKeyboardAwareScrollView } from "../shared/KeyboardAwareScrollView";
+import { ServerErrorResponse } from "~/types";
 
 interface SignUpCarryOnLayoutProps {
   className?: string;
@@ -64,8 +64,8 @@ export const SignUpCarryOnLayout = ({
   };
 
   return (
-    <KeyboardAwareScrollView className={cn(className)} bounces={false}>
-      <View className="flex flex-col justify-center gap-5 p-4">
+    <StableKeyboardAwareScrollView>
+      <View className={cn("flex flex-col justify-center gap-5 p-4", className)}>
         {/* Greetings */}
         <View className="my-5">
           <Text className="text-2xl font-extrabold text-center">
@@ -92,6 +92,6 @@ export const SignUpCarryOnLayout = ({
           </Button>
         </View>
       </View>
-    </KeyboardAwareScrollView>
+    </StableKeyboardAwareScrollView>
   );
 };

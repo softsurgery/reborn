@@ -2,10 +2,8 @@ import React from "react";
 import { cn } from "~/lib/utils";
 import { useMutation } from "@tanstack/react-query";
 import { Image, View } from "react-native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { api } from "~/api";
 import { useAuthStore } from "~/hooks/stores/useAuthStore";
-import { ServerErrorResponse } from "~/types/server.response";
 import { Text } from "../ui/text";
 import { FormBuilder } from "../shared/form-builder/FormBuilder";
 import { useSignInFormStructure } from "./useSignInFormStructure";
@@ -16,6 +14,8 @@ import DividerWithText from "../ui/divider-with-text";
 import { requestSignInDtoSchema } from "~/types/validations/auth.validation";
 import { useNavigation } from "~/hooks/useNavigation";
 import { showToastable } from "react-native-toastable";
+import { ServerErrorResponse } from "~/types";
+import { StableKeyboardAwareScrollView } from "../shared/KeyboardAwareScrollView";
 
 interface SignInLayoutProps {
   className?: string;
@@ -58,7 +58,7 @@ export const SignInLayout = ({ className }: SignInLayoutProps) => {
   };
 
   return (
-    <KeyboardAwareScrollView className="bg-background" bounces={false}>
+    <StableKeyboardAwareScrollView>
       <View className={cn("flex flex-col justify-center gap-5 p-4", className)}>
         <View className="my-5">
           <Text className="text-2xl font-extrabold text-center">
@@ -126,6 +126,6 @@ export const SignInLayout = ({ className }: SignInLayoutProps) => {
           </Text>
         </View>
       </View>
-    </KeyboardAwareScrollView>
+    </StableKeyboardAwareScrollView>
   );
 };

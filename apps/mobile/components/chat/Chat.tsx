@@ -7,7 +7,6 @@ import { useContextUsers } from "~/hooks/useUsers";
 import { UserBubble } from "./UserBubble";
 import { useNavigation } from "expo-router";
 import { NavigationProps } from "~/types/app.routes";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { SearchInput } from "../shared/SearchInput";
 
 const getRandomBoolean = () => Math.ceil(Math.random() * 3) === 1;
@@ -25,10 +24,7 @@ export const Chat = () => {
       {/* Search Input */}
       <View className="flex flex-row justify-between items-center w-full pt-2">
         <View className="flex flex-row items-center w-full border-hidden rounded py-1">
-          <SearchInput
-                  className="my-5"
-                  placeholder="Search for messages..."
-                />
+          <SearchInput className="my-5" placeholder="Search for messages..." />
         </View>
       </View>
 
@@ -67,41 +63,28 @@ export const Chat = () => {
 
       <View className="flex-1 pb-2">
         {/* Messages List */}
-        <KeyboardAwareScrollView
-          contentContainerClassName="flex-grow"
-          showsVerticalScrollIndicator={false}
-          keyboardShouldPersistTaps="handled"
-          refreshControl={
-            <RefreshControl
-              refreshing={isFetchingUsers}
-              onRefresh={() => {
-                refetchUsers();
-              }}
-            />
-          }
-        >
-          <View className="flex-1 justify-between">
-            {users.map((user) => (
-              <Pressable
-                key={user.uid}
-                className="flex flex-col gap-2 py-2"
-                onPress={() =>
-                  navigation.navigate("chat/conversation", {
-                    user,
-                  })
-                }
-              >
-                <UserCard
-                  user={user}
-                  latestMessage="Latest Message"
-                  sentAt="12:55"
-                  isSeen={getRandomBoolean()}
-                  isPending={isFetchingUsers}
-                />
-              </Pressable>
-            ))}
-          </View>
-        </KeyboardAwareScrollView>
+
+        <View className="flex-1 justify-between">
+          {users.map((user) => (
+            <Pressable
+              key={user.uid}
+              className="flex flex-col gap-2 py-2"
+              onPress={() =>
+                navigation.navigate("chat/conversation", {
+                  user,
+                })
+              }
+            >
+              <UserCard
+                user={user}
+                latestMessage="Latest Message"
+                sentAt="12:55"
+                isSeen={getRandomBoolean()}
+                isPending={isFetchingUsers}
+              />
+            </Pressable>
+          ))}
+        </View>
       </View>
     </View>
   );

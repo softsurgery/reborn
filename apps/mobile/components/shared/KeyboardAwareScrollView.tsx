@@ -1,36 +1,67 @@
 import React from "react";
-import { Platform, ScrollView } from "react-native";
 import {
-  KeyboardAwareScrollView,
-  KeyboardAwareScrollViewProps,
-} from "react-native-keyboard-aware-scroll-view";
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleProp,
+  ViewStyle,
+  LayoutAnimation,
+} from "react-native";
 import { wrapScrollView } from "react-native-scroll-into-view";
 
-interface StableKeyboardAwareScrollViewProps
-  extends KeyboardAwareScrollViewProps {
-  className?: string;
+interface StableKeyboardAwareScrollViewProps {
+  style?: StyleProp<ViewStyle>;
   children?: React.ReactNode;
 }
 
 const ScrollIntoView = wrapScrollView(ScrollView);
 
 export const StableKeyboardAwareScrollView = React.forwardRef<
-  KeyboardAwareScrollView,
+  ScrollView,
   StableKeyboardAwareScrollViewProps
->(({ className, children, ...props }, ref) => {
+>(({ style, children, ...props }, ref) => {
+  const [keyboardHeight, setKeyboardHeight] = React.useState(0);
+
+  React.useEffect(() => {
+    const showSub = Keyboard.addListener("keyboardDidShow", (e) => {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+      setKeyboardHeight(e.endCoordinates.height);
+    });
+
+    const hideSub = Keyboard.addListener("keyboardDidHide", () => {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+      setKeyboardHeight(0);
+    });
+
+    return () => {
+      showSub.remove();
+      hideSub.remove();
+    };
+  }, []);
+
   return (
-    <ScrollIntoView>
-      <KeyboardAwareScrollView
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0}
+    >
+      <ScrollIntoView
+        innerRef={ref}
+        contentContainerStyle={[
+          {
+            flexGrow: 1,
+            paddingBottom: Platform.OS === "ios" ? 20 : keyboardHeight + 20,
+          },
+          style,
+        ]}
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
         {...props}
-        ref={ref}
-        className={className}
-        bounces={false}
-        enableOnAndroid={true}
-        extraScrollHeight={Platform.OS === "android" ? 30 : 0}
       >
         {children}
-      </KeyboardAwareScrollView>
-    </ScrollIntoView>
+      </ScrollIntoView>
+    </KeyboardAvoidingView>
   );
 });
 

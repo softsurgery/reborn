@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Image, View } from "react-native";
 import { Text } from "~/components/ui/text";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { ArrowRight } from "lucide-react-native";
 import { Button } from "~/components/ui/button";
 import { useAuthStore } from "~/hooks/stores/useAuthStore";
@@ -11,7 +10,8 @@ import { useSignUpFormStructure } from "./useSignUpFormStructure";
 import { FormBuilder } from "../shared/form-builder/FormBuilder";
 import { isEmail } from "~/lib/validators/isEmail";
 import { useNavigation } from "~/hooks/useNavigation";
-import { showToastable } from "react-native-toastable";
+import { StableKeyboardAwareScrollView } from "../shared/KeyboardAwareScrollView";
+import { cn } from "~/lib/utils";
 
 interface SignUpLayoutProps {
   className?: string;
@@ -26,8 +26,8 @@ export const SignUpLayout = ({ className }: SignUpLayoutProps) => {
   });
 
   return (
-    <KeyboardAwareScrollView className={className} bounces={false}>
-      <View className="flex flex-col justify-center gap-5 p-4">
+    <StableKeyboardAwareScrollView>
+      <View className={cn("flex flex-col justify-center gap-5 p-4", className)}>
         {/* Greetings */}
         <View className="my-5">
           <Text className="text-2xl font-extrabold text-center">
@@ -94,6 +94,6 @@ export const SignUpLayout = ({ className }: SignUpLayoutProps) => {
           </Text>
         </View>
       </View>
-    </KeyboardAwareScrollView>
+    </StableKeyboardAwareScrollView>
   );
 };
