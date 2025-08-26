@@ -4,6 +4,7 @@ import { FilterChoices } from "../shared/FilterChoices";
 import { Separator } from "../ui/separator";
 import { View } from "react-native";
 import { cn } from "~/lib/utils";
+import { JobFilters } from "./JobFilters";
 
 interface HomePageHeaderProps {
   className?: string;
@@ -17,20 +18,14 @@ export const HomePageHeader = ({
   setSearch,
 }: HomePageHeaderProps) => {
   return (
-    <View className={cn(className)}>
+    <View className={cn("flex flex-row items-center gap-4", className)}>
       <SearchInput
         placeholder="Search for jobs..."
         value={search}
         onChangeText={(search) => setSearch(search)}
+        className="w-4/5"
       />
-
-      <View className="flex flex-col gap-2">
-        <Text className="text-gray-800 dark:text-gray-200 text-sm">
-          Filter Jobs
-        </Text>
-        <Separator />
-      </View>
-      <FilterChoices />
+      <JobFilters />
     </View>
   );
 };

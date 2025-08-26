@@ -11,8 +11,9 @@ import { FlashList } from "@shopify/flash-list";
 import { Text } from "../ui/text";
 import { JobCard } from "./JobCard";
 import { api } from "~/api";
-import { HomePageHeader } from "./HomePageHeader";
+import { HomePageHeader } from "./HomeHeader";
 import { useDebounce } from "~/hooks/useDebounce";
+import { Separator } from "../ui/separator";
 
 export const HomePage = () => {
   const [search, setSearch] = React.useState("");
@@ -48,11 +49,11 @@ export const HomePage = () => {
   );
 
   return (
-    <View className="flex-1 bg-background">
+    <View className="flex-1">
       <View className="px-4">
         <HomePageHeader search={search} setSearch={setSearch} />
       </View>
-
+      <Separator />
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : undefined}
         style={{ flex: 1 }}
@@ -63,6 +64,7 @@ export const HomePage = () => {
           estimatedItemSize={200}
           contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 40 }}
           keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
           refreshControl={
             <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
           }
