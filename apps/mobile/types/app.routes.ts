@@ -20,6 +20,7 @@ export type StackParamList = {
   "chat/conversation": { user?: ResponseClientDto };
   // Jobs
   "job-details": { job: string };
+  test: undefined;
 };
 
 export type NavigationProps = NativeStackNavigationProp<StackParamList>;

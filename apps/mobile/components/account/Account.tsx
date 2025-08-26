@@ -3,6 +3,7 @@ import { Text } from "../ui/text";
 import {
   Bell,
   Bug,
+  FlaskConical,
   HelpCircle,
   LogOut,
   MailCheck,
@@ -78,6 +79,7 @@ export const Account = () => {
           <Text className="text-2xl font-bold">Account Actions</Text>
           <View className="flex flex-col">
             <MenuItem title="Switch Account" icon={LogOut} onPress={signout} />
+            <MenuItem title="Try Anything" icon={FlaskConical} link={"test"} />
           </View>
         </View>
       </View>

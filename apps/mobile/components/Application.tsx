@@ -20,7 +20,7 @@ import { cn } from "~/lib/utils";
 import { Button } from "./ui/button";
 import Icon from "~/lib/Icon";
 import { useNavigation } from "expo-router";
-import { HomePage } from "./Home/HomePage";
+import { HomePage } from "./home/Home";
 import {
   Dialog,
   DialogClose,
@@ -166,25 +166,6 @@ export default function Application() {
           ))}
         </TabsList>
       </Tabs>
-
-      {/* <Modal
-        isVisible={isDrawerVisible}
-        onBackdropPress={() => setIsDrawerVisible(false)}
-        style={{ justifyContent: "flex-end", margin: 0 }}
-        swipeDirection="down"
-        onSwipeComplete={() => setIsDrawerVisible(false)}
-        useNativeDriverForBackdrop
-        useNativeDriver
-      >
-        <View className="bg-background p-6 rounded-t-2xl border border-border shadow-xl h-5/6">
-          <Text className="text-lg font-bold mb-4 text-foreground">
-            Bottom Drawer (5/6 Screen)
-          </Text>
-          <Button onPress={() => setIsDrawerVisible(false)}>
-            <Text className="text-white">Close</Text>
-          </Button>
-        </View>
-      </Modal> */}
     </View>
   );
 }
