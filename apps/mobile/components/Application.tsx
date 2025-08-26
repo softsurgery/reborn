@@ -30,12 +30,7 @@ import { Text } from "./ui/text";
 export default function Application() {
   const navigation = useNavigation<any>();
   const [activeTab, setActiveTab] = React.useState("account");
-
-  React.useEffect(() => {
-    navigation.setOptions({
-      title: tabs.find((tab) => tab.value === activeTab)?.title,
-    });
-  }, [activeTab]);
+  const [tabKey, setTabKey] = React.useState(0);
 
   const tabs = React.useMemo(
     () => [
@@ -61,7 +56,12 @@ export default function Application() {
   const rightTabs = tabs.slice(2);
 
   const handleTabPress = (value: string) => {
-    setActiveTab(value);
+    if (activeTab === value) {
+      // Reload the tab by updating the key
+      setTabKey((prev) => prev + 1);
+    } else {
+      setActiveTab(value);
+    }
     navigation.setOptions({
       title: tabs.find((tab) => tab.value === value)?.title,
     });
@@ -73,7 +73,7 @@ export default function Application() {
       <View className="flex-1">
         {tabs.map((tab) => (
           <View
-            key={tab.value}
+            key={tab.value + (tab.value === activeTab ? `-${tabKey}` : "")}
             style={{
               display: activeTab === tab.value ? "flex" : "none",
               flex: 1,
