@@ -154,7 +154,7 @@ export default function RootLayout() {
           />
           {/* Jobs */}
           <Stack.Screen
-            name="job-details"
+            name="jobs/details"
             options={{
               title: "Job Details",
               animation: "slide_from_right",

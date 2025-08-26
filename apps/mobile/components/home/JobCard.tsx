@@ -16,6 +16,10 @@ interface JobCardProps {
 }
 
 export const JobCard = ({ className, job }: JobCardProps) => {
+  const [saved, setSaved] = React.useState(false);
+  const [showFullDesc, setShowFullDesc] = React.useState(false);
+  const navigation = useNavigation<NavigationProps>();
+
   const orderedUploads = React.useMemo(
     () => job.uploads?.sort((a, b) => a.order - b.order),
     [job.uploads]
@@ -41,10 +45,6 @@ export const JobCard = ({ className, job }: JobCardProps) => {
     };
   }, []);
 
-  const [saved, setSaved] = React.useState(false);
-  const [showFullDesc, setShowFullDesc] = React.useState(false);
-  const navigation = useNavigation<NavigationProps>();
-
   const handleSave = (e: any) => {
     e.stopPropagation();
     setSaved(!saved);
@@ -53,15 +53,13 @@ export const JobCard = ({ className, job }: JobCardProps) => {
     }
   };
 
-  const handleCardPress = () => {
-    navigation.navigate("job-details", {
-      job: JSON.stringify(job),
-    });
-  };
-
   return (
     <TouchableOpacity
-      onPress={handleCardPress}
+      onPress={() => {
+        navigation.navigate("jobs/details", {
+          id: job.id,
+        });
+      }}
       className={cn(
         "px-4 w-full py-4 gap-2 border-2 border-border rounded-lg",
         className

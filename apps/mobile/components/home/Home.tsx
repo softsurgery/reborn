@@ -69,7 +69,8 @@ export const Home = () => {
         {isPending ? (
           <FlatList
             className="px-2"
-            data={Array.from({ length: 5 })}
+            data={Array.from({ length: 2 })}
+            showsVerticalScrollIndicator={false}
             renderItem={() => <JobCardSkeleton />}
           />
         ) : (

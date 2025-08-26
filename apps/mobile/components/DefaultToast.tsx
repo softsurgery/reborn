@@ -8,7 +8,9 @@ export const DefaultToast = ({ message }: { message: string }) => {
   return (
     <View
       style={{
-        backgroundColor: isDarkColorScheme ? NAV_THEME.dark.card : NAV_THEME.light.card,
+        backgroundColor: isDarkColorScheme
+          ? NAV_THEME.dark.card
+          : NAV_THEME.light.card,
         borderRadius: 10,
         padding: 10,
         margin: 10,

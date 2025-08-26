@@ -22,9 +22,9 @@ import { ChatMessage } from "~/types/Chat";
 
 export default function ChatScreen1() {
   const route = useRoute();
+  const { user } = route.params as { user: User };
   const navigation = useNavigation();
   const { uid, isUidPending } = useUserUid();
-  const { user } = route.params as { user: User };
 
   const [chatUser] = useState({
     name: `${user.surname} ${user.name}`,
