@@ -1,6 +1,7 @@
 import { HelpCircle } from "lucide-react-native";
-import React from "react";
+import React, { use } from "react";
 import { useColorScheme, View } from "react-native";
+import { Loader } from "~/components/Loader";
 import {
   Accordion,
   AccordionContent,
@@ -8,38 +9,26 @@ import {
   AccordionTrigger,
 } from "~/components/ui/accordion";
 import { Text } from "~/components/ui/text";
+import { useDataStore } from "~/hooks/useDataStore";
 import Icon from "~/lib/Icon";
 import { cn } from "~/lib/utils";
-
-const faqs = [
-  {
-    question: "How do I apply for a job?",
-    answer:
-      "Just click on the job card and press the Apply button. You must be logged in to apply.",
-  },
-  {
-    question: "Is it free to create an account?",
-    answer: "Yes, creating an account and browsing jobs is completely free.",
-  },
-  {
-    question: "How do I get verified?",
-    answer:
-      "You can get verified by submitting your profile and linking a valid payment method.",
-  },
-  {
-    question: "Can I favorite jobs?",
-    answer: "Yes, tap the heart icon on any job to save it for later.",
-  },
-];
+import { StoreIDs } from "~/types";
 
 interface FaqsPortalProps {
   className?: string;
 }
 
 export const FaqsPortal = ({ className }: FaqsPortalProps) => {
-  const colorScheme = useColorScheme();
-  const iconColor = colorScheme === "dark" ? "white" : "black";
+  const { dataStore, isDataStorePending } = useDataStore<
+    {
+      question: string;
+      answer: string;
+    }[]
+  >({
+    id: StoreIDs.FAQS,
+  });
 
+  if (isDataStorePending) return <Loader />;
   return (
     <View className={cn("flex flex-col mx-4 my-4 gap-2", className)}>
       {/* Header Section */}
@@ -53,12 +42,8 @@ export const FaqsPortal = ({ className }: FaqsPortalProps) => {
         </Text>
       </View>
 
-      <Accordion
-        type="multiple"
-        collapsible
-        className="w-full"
-      >
-        {faqs.map((faq, index) => (
+      <Accordion type="multiple" collapsible className="w-full">
+        {dataStore?.map((faq, index) => (
           <AccordionItem key={index} value={`faq-${index}`}>
             <AccordionTrigger>
               <Text className="text-xl font-medium">{faq.question}</Text>
