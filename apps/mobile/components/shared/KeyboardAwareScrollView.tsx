@@ -11,6 +11,7 @@ import {
 import { wrapScrollView } from "react-native-scroll-into-view";
 
 interface StableKeyboardAwareScrollViewProps {
+  className?: string;
   style?: StyleProp<ViewStyle>;
   children?: React.ReactNode;
 }
@@ -20,7 +21,7 @@ const ScrollIntoView = wrapScrollView(ScrollView);
 export const StableKeyboardAwareScrollView = React.forwardRef<
   ScrollView,
   StableKeyboardAwareScrollViewProps
->(({ style, children, ...props }, ref) => {
+>(({ className, style, children, ...props }, ref) => {
   const [keyboardHeight, setKeyboardHeight] = React.useState(0);
 
   React.useEffect(() => {
@@ -45,6 +46,7 @@ export const StableKeyboardAwareScrollView = React.forwardRef<
       style={{ flex: 1 }}
       behavior={Platform.OS === "ios" ? "padding" : undefined}
       keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0}
+      className={className}
     >
       <ScrollIntoView
         innerRef={ref}

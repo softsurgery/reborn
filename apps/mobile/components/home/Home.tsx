@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import {
   View,
   RefreshControl,
@@ -66,62 +66,53 @@ export const Home = () => {
       </View>
       <Separator />
       <SafeAreaView style={{ flex: 1 }}>
-        {isPending ? (
-          <FlatList
-            className="px-2"
-            data={Array.from({ length: 2 })}
-            showsVerticalScrollIndicator={false}
-            renderItem={() => <JobCardSkeleton />}
-          />
-        ) : (
-          <FlatList
-            className="px-2"
-            data={jobs}
-            keyExtractor={(item) => item.id.toString()}
-            showsVerticalScrollIndicator={false}
-            renderItem={({ item }) => <ListItem item={item} />}
-            refreshControl={
-              <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
-            }
-            onEndReached={() =>
-              hasNextPage && !isFetchingNextPage && fetchNextPage()
-            }
-            ListEmptyComponent={
-              <View className="px-4 py-12 items-center justify-center">
-                {isJobsPending ? (
-                  <>
-                    <ActivityIndicator size="large" color="#3b82f6" />
-                    <Text className="opacity-70 text-center mt-3">
-                      Loading jobs...
-                    </Text>
-                  </>
-                ) : (
-                  <>
-                    <Text className="text-center opacity-70">
-                      No jobs available right now
-                    </Text>
-                    <Text className="opacity-70 text-sm text-center mt-2">
-                      Please check back later
-                    </Text>
-                  </>
-                )}
-              </View>
-            }
-            onEndReachedThreshold={0.2}
-            ListFooterComponent={
-              isFetchingNextPage ? (
-                <JobCardSkeleton />
-              ) : jobs.length != 0 && !hasNextPage ? (
-                <View className="px-4 pt-6 pb-10 flex flex-row  items-center justify-center gap-4">
-                  <Text className="text-lg opacity-70">
-                    No more jobs available
+        <FlatList
+          className="px-2"
+          data={jobs}
+          keyExtractor={(item) => item.id.toString()}
+          showsVerticalScrollIndicator={false}
+          renderItem={({ item }) => <ListItem item={item} />}
+          refreshControl={
+            <RefreshControl refreshing={isPending} onRefresh={refetch} />
+          }
+          onEndReached={() =>
+            hasNextPage && !isFetchingNextPage && fetchNextPage()
+          }
+          ListEmptyComponent={
+            <View className="px-4 py-12 items-center justify-center">
+              {isJobsPending ? (
+                <>
+                  <ActivityIndicator size="large" color="#3b82f6" />
+                  <Text className="opacity-70 text-center mt-3">
+                    Loading jobs...
                   </Text>
-                  <Icon name={PackageOpenIcon} />
-                </View>
-              ) : null
-            }
-          />
-        )}
+                </>
+              ) : (
+                <>
+                  <Text className="text-center opacity-70">
+                    No jobs available right now
+                  </Text>
+                  <Text className="opacity-70 text-sm text-center mt-2">
+                    Please check back later
+                  </Text>
+                </>
+              )}
+            </View>
+          }
+          onEndReachedThreshold={0.2}
+          ListFooterComponent={
+            isFetchingNextPage ? (
+              <JobCardSkeleton />
+            ) : jobs.length != 0 && !hasNextPage ? (
+              <View className="px-4 pt-6 pb-10 flex flex-row  items-center justify-center gap-4">
+                <Text className="text-lg opacity-70">
+                  No more jobs available
+                </Text>
+                <Icon name={PackageOpenIcon} />
+              </View>
+            ) : null
+          }
+        />
       </SafeAreaView>
     </View>
   );

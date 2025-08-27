@@ -19,10 +19,10 @@ export type StackParamList = {
   // Chat
   "chat/conversation": { user?: ResponseClientDto };
   // Jobs
-  "jobs/details": { id: string };
+  "jobs/details": { id: string; uploads: number[] };
   test: undefined;
   //balance
-  "balance": undefined;
+  balance: undefined;
 };
 
 export type NavigationProps = NativeStackNavigationProp<StackParamList>;

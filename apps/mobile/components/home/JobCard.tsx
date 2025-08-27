@@ -58,6 +58,7 @@ export const JobCard = ({ className, job }: JobCardProps) => {
       onPress={() => {
         navigation.navigate("jobs/details", {
           id: job.id,
+          uploads: job.uploads.map((u) => u.uploadId) || [],
         });
       }}
       className={cn(

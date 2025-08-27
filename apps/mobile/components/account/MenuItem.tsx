@@ -22,8 +22,8 @@ export const MenuItem = ({
   link,
   onPress,
 }: MenuItemProps) => {
-      const [pressed, setPressed] = React.useState(false);
-      const navigation = useNavigation<NavigationProps>();
+  const [pressed, setPressed] = React.useState(false);
+  const navigation = useNavigation<NavigationProps>();
   return (
     <Pressable
       onPressIn={() => setPressed(true)}
@@ -38,12 +38,12 @@ export const MenuItem = ({
           : onPress
       }
     >
-      <View className="flex flex-row justify-between py-4 border-gray-100 dark:border-gray-900 px-2">
-        <View className="flex flex-row items-center gap-4">
-          <Icon name={icon as LucideIcon} size={20} strokeWidth={2.5} />
-          <Text className="text-xl font-bold">{title}</Text>
+      <View className="flex flex-row justify-between py-2.5 border-gray-100 dark:border-gray-900 px-2">
+        <View className="flex flex-row items-center gap-2">
+          <Icon name={icon as LucideIcon} size={24} strokeWidth={2} />
+          <Text className="text-lg font-medium">{title}</Text>
         </View>
-        <Icon name={ChevronRight} size={20} strokeWidth={2.5} />
+        <Icon name={ChevronRight} size={20} strokeWidth={2} />
       </View>
     </Pressable>
   );

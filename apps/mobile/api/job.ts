@@ -1,10 +1,5 @@
 import axios from "./axios";
-import {
-  CreateJobDto,
-  Paginated,
-  QueryParams,
-  ResponseJobDto,
-} from "~/types";
+import { CreateJobDto, Paginated, QueryParams, ResponseJobDto } from "~/types";
 
 const findPaginated = async ({
   page = "1",

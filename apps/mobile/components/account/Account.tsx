@@ -33,10 +33,10 @@ export const Account = () => {
       <PlanInfo className="my-2" />
       <GoPremium className="my-3" />
 
-      <View className="flex flex-col gap-4 my-5">
+      <View className="flex flex-col gap-2 my-5">
         {/* App Settings */}
-        <Text className="text-2xl font-bold">App Settings</Text>
-        <View className="flex flex-col">
+        <Text className="text-xl font-semibold">App Settings</Text>
+        <View className="flex flex-col mt-2">
           <MenuItem
             title="My Profile"
             icon={User2}
@@ -53,8 +53,8 @@ export const Account = () => {
         </View>
         {/* Support */}
         <View>
-          <Text className="text-2xl font-bold">Support</Text>
-          <View className="flex flex-col">
+          <Text className="text-xl font-semibold">Support</Text>
+          <View className="flex flex-col mt-2">
             <MenuItem
               title="Report a Bug"
               icon={Bug}
@@ -76,8 +76,8 @@ export const Account = () => {
         </View>
 
         <View>
-          <Text className="text-2xl font-bold">Account Actions</Text>
-          <View className="flex flex-col">
+          <Text className="text-xl font-semibold">Account Actions</Text>
+          <View className="flex flex-col mt-2">
             <MenuItem title="Switch Account" icon={LogOut} onPress={signout} />
             <MenuItem title="Try Anything" icon={FlaskConical} link={"test"} />
           </View>
