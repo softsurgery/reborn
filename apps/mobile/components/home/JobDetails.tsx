@@ -1,11 +1,10 @@
 "use client";
 
 import React from "react";
-import { View, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity, ActivityIndicator } from "react-native";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { Text } from "~/components/ui/text";
 import { Button } from "~/components/ui/button";
-
 import {
   Heart,
   FileText,
@@ -13,33 +12,33 @@ import {
   MapPin,
   Clock,
   Star,
-  User,
   Calendar,
-  DollarSign,
+  Wallet,
 } from "lucide-react-native";
 import { showToastable } from "react-native-toastable";
 import type { NavigationProps } from "~/types/app.routes";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueries } from "@tanstack/react-query";
 import { api } from "~/api";
-import { StableKeyboardAwareScrollView } from "../shared/KeyboardAwareScrollView";
 import { identifyUser } from "~/lib/user.utils";
 import { format } from "date-fns";
 import { timeAgo } from "~/lib/dates.utils";
 import { Image } from "expo-image";
+import { StableKeyboardAwareScrollView } from "../shared/KeyboardAwareScrollView";
+import { Loader } from "../Loader";
+import { Separator } from "../ui/separator";
+import { Badge } from "../ui/badge";
 
 export const JobDetails = () => {
   const navigation = useNavigation<NavigationProps>();
-  const { id } = useLocalSearchParams();
+  const { id, uploads } = useLocalSearchParams();
   const [saved, setSaved] = React.useState(false);
 
-  const { data: jobResp, isPending } = useQuery({
+  const { data: jobResp, isPending: isJobPending } = useQuery({
     queryKey: ["job", id],
     queryFn: () => api.job.findById(id as string),
   });
 
-  const job = React.useMemo(() => {
-    return jobResp ? jobResp : null;
-  }, [jobResp]);
+  const job = React.useMemo(() => jobResp ?? null, [jobResp]);
 
   const { data: profilePicture } = useQuery({
     queryKey: ["profile-picture", jobResp?.postedBy?.profile?.pictureId],
@@ -49,18 +48,25 @@ export const JobDetails = () => {
     staleTime: Infinity,
   });
 
-  const handleApply = () => {
-    console.log("Apply to job:", id);
-  };
+  // Fetch each image individually
+  const imageQueries = useQueries({
+    queries: Array.isArray(uploads)
+      ? uploads.map((uploadId) => ({
+          queryKey: ["upload", uploadId],
+          queryFn: () => api.upload.getUploadById(Number(uploadId)),
+          enabled: !!uploadId,
+          staleTime: Infinity,
+        }))
+      : [],
+  });
+
+  const handleApply = () => console.log("Apply to job:", id);
 
   const handleSave = (e: any) => {
     e.stopPropagation();
     setSaved(!saved);
     if (!saved) {
-      showToastable({
-        message: "Saved to favorites",
-        status: "success",
-      });
+      showToastable({ message: "Saved to favorites", status: "success" });
     }
   };
 
@@ -75,25 +81,27 @@ export const JobDetails = () => {
     );
   }
 
+  if (isJobPending) return <Loader />;
   return (
     <View className="flex-1 pb-2">
+      {/* Header */}
       <View className="bg-card px-6 py-5 border-b border-border">
         <View className="flex-row items-start justify-between mb-3">
           <View className="flex-1 pr-4">
             <Text className="text-2xl font-bold text-foreground mb-1">
-              {job?.title || "Senior Full Stack Developer"}
+              {job?.title}
             </Text>
-            <View className="flex-row items-center gap-4 mb-2">
-              <View className="flex-row items-center gap-1">
-                <DollarSign size={16} color="#6366f1" />
-                <Text className="text-lg font-semibold text-accent">
-                  {job?.price} TND
-                </Text>
-              </View>
+            <View className="flex flex-row gap-2">
               <View className="flex-row items-center gap-1">
                 <Clock size={14} color="#9ca3af" />
                 <Text className="text-sm text-muted-foreground">
                   {timeAgo(job?.createdAt || new Date())}
+                </Text>
+              </View>
+              <View className="flex-row items-center gap-1">
+                <Wallet size={14} color="#9ca3af" />
+                <Text className="text-sm text-muted-foreground">
+                  {job?.price.toFixed(3)} TND
                 </Text>
               </View>
             </View>
@@ -107,7 +115,7 @@ export const JobDetails = () => {
           </TouchableOpacity>
         </View>
 
-        <View className="flex-row items-center gap-5">
+        <View className="flex-row items-center gap-3">
           <View className="flex-row items-center gap-1">
             <FileText size={14} color="#6366f1" />
             <Text className="text-sm text-card-foreground">3 proposals</Text>
@@ -127,7 +135,54 @@ export const JobDetails = () => {
         </View>
       </View>
 
-      <View className="flex flex-col flex-1 gap-4 px-6 py-5">
+      <StableKeyboardAwareScrollView className="flex-1 px-6 pb-5 mt-4">
+        {/* Images Grid */}
+        <Text className="text-lg font-semibold text-foreground mb-2">
+          Images
+        </Text>
+        <View className="flex flex-wrap flex-row justify-start items-center gap-x-[5%]">
+          {imageQueries.map((query, index) => {
+            const uploadId = uploads[index];
+
+            if (query.isLoading) {
+              return (
+                <View
+                  key={uploadId}
+                  style={{
+                    width: "30%",
+                    height: 300,
+                    aspectRatio: 1,
+                    borderRadius: 8,
+                    marginBottom: 8,
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Loader />
+                </View>
+              );
+            }
+
+            if (query.isError || !query.data) return null;
+
+            return (
+              <Image
+                key={uploadId}
+                source={query.data}
+                style={{
+                  width: "30%",
+                  height: 300,
+                  aspectRatio: 1,
+                  borderRadius: 8,
+                  marginBottom: 8,
+                }}
+                contentFit="cover"
+              />
+            );
+          })}
+        </View>
+
+        <Separator className="my-4" />
         {/* About Project */}
         <View>
           <Text className="text-lg font-semibold text-foreground mb-2">
@@ -135,30 +190,33 @@ export const JobDetails = () => {
           </Text>
           <Text className="text-card-foreground leading-6 text-sm">
             {job?.description ||
-              "We're looking for an experienced full-stack developer to build a modern web application using React and Node.js. The project involves creating a user-friendly interface, implementing secure authentication, and integrating with third-party APIs. You'll work closely with our design team to bring mockups to life and ensure optimal performance across all devices."}
+              "We're looking for an experienced full-stack developer to build a modern web application using React and Node.js."}
           </Text>
         </View>
 
-        {/* SKills  */}
-        <Text className="text-base font-medium text-foreground">
+        {/* Skills */}
+        <Text className="text-base font-medium text-foreground mt-4">
           Skills needed
         </Text>
-        <View className="flex-row flex-wrap gap-2">
-          <View className="bg-accent/10 px-2 py-1 rounded">
-            <Text className="text-xs text-accent font-medium">React</Text>
-          </View>
-          <View className="bg-accent/10 px-2 py-1 rounded">
-            <Text className="text-xs text-accent font-medium">Node.js</Text>
-          </View>
-          <View className="bg-accent/10 px-2 py-1 rounded">
-            <Text className="text-xs text-accent font-medium">TypeScript</Text>
-          </View>
-          <View className="bg-accent/10 px-2 py-1 rounded">
-            <Text className="text-xs text-accent font-medium">MongoDB</Text>
-          </View>
+        <View className="flex-row flex-wrap gap-1 mt-2">
+          <Badge variant={"secondary"}>
+            <Text className="text-xs font-medium">React</Text>
+          </Badge>
+          <Badge variant={"secondary"}>
+            <Text className="text-xs font-medium">Node.js</Text>
+          </Badge>
+          <Badge variant={"secondary"}>
+            <Text className="text-xs font-medium">TypeScript</Text>
+          </Badge>
+          <Badge variant={"secondary"}>
+            <Text className="text-xs font-medium">MongoDB</Text>
+          </Badge>
         </View>
 
-        <Text className="text-base font-medium text-foreground">
+        <Separator className="my-4" />
+
+        {/* Project Scope */}
+        <Text className="text-base font-medium text-foreground mt-4">
           Project scope
         </Text>
         <View className="space-y-1">
@@ -171,9 +229,9 @@ export const JobDetails = () => {
           </Text>
           <Text className="text-xs text-muted-foreground">Remote work</Text>
         </View>
-      </View>
+      </StableKeyboardAwareScrollView>
 
-      {/* Client Informations */}
+      {/* Client Info */}
       <View className="px-6 py-4">
         <Text className="text-lg font-semibold text-foreground mb-3">
           Client information
@@ -183,11 +241,7 @@ export const JobDetails = () => {
             <View className="w-10 h-10 bg-accent/20 rounded-full items-center justify-center">
               <Image
                 source={profilePicture}
-                style={{
-                  width: 40,
-                  height: 40,
-                  borderRadius: 20,
-                }}
+                style={{ width: 40, height: 40, borderRadius: 20 }}
                 cachePolicy="memory-disk"
               />
             </View>
@@ -227,17 +281,18 @@ export const JobDetails = () => {
         </View>
       </View>
 
+      {/* Apply Button */}
       <View className="px-6 py-5 bg-card border-t border-border">
         <Button
           onPress={handleApply}
-          className="w-full bg-accent text-accent-foreground py-3 rounded-lg"
+          className="w-full py-3 rounded-lg"
           size="lg"
         >
           <Text className="text-base font-semibold">Apply for this job</Text>
         </Button>
         <Text className="text-xs text-muted-foreground text-center mt-2">
-          You'll be able to chat with
-          <Text className="font-medium"> {identifyUser(job?.postedBy)} </Text>
+          You'll be able to chat with{" "}
+          <Text className="font-medium">{identifyUser(job?.postedBy)}</Text>{" "}
           before starting work
         </Text>
       </View>
