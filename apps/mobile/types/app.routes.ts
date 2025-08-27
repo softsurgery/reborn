@@ -21,6 +21,8 @@ export type StackParamList = {
   // Jobs
   "jobs/details": { id: string };
   test: undefined;
+  //balance
+  "balance": undefined;
 };
 
 export type NavigationProps = NativeStackNavigationProp<StackParamList>;

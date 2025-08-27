@@ -26,6 +26,7 @@ import {
   DialogTrigger,
 } from "./ui/dialog";
 import { Text } from "./ui/text";
+import { Balance } from "./balance/Balance";
 
 export default function Application() {
   const navigation = useNavigation<any>();
@@ -41,7 +42,12 @@ export default function Application() {
         title: "Chat",
         component: <Chat />,
       },
-      { value: "balance", icon: Wallet, title: "Balance", component: <></> },
+      {
+        value: "balance",
+        icon: Wallet,
+        title: "Balance",
+        component: <Balance />,
+      },
       {
         value: "account",
         icon: User,
