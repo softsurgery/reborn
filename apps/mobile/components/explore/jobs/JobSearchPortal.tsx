@@ -11,12 +11,12 @@ export const JobSearchPortal = ({ className }: JobSearchPortalProps) => {
   const [searchQuery, setSearchQuery] = React.useState("");
 
   return (
-    <View className={cn("flex-1 p-2", className)}>
-      {/* Search Input */}
+    <View className={cn("flex-1 px-4", className)}>
       <SearchInput
-        placeholder="Search for jobs, skills, or companies..."
+        placeholder="Search for jobs..."
         value={searchQuery}
         onChangeText={setSearchQuery}
+        autoFocus
       />
     </View>
   );

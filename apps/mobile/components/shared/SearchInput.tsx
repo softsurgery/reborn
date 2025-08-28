@@ -2,47 +2,42 @@ import { Search } from "lucide-react-native";
 import { View } from "react-native";
 import { Input } from "../ui/input";
 import { cn } from "~/lib/utils";
-import { Pressable } from "@rn-primitives/slot";
 
 interface SearchInputProps {
   placeholder?: string;
   value?: string;
   className?: string;
-  disabled?: boolean;
+  autoFocus?: boolean;
   onSubmitEditing?: () => void;
   onFocus?: () => void;
-  onClick?: () => void;
   onChangeText?: (text: string) => void;
 }
 
 export const SearchInput = ({
+  className,
   placeholder,
-  onChangeText,
   value,
+  autoFocus,
+  onChangeText,
   onSubmitEditing,
   onFocus,
-  onClick,
-  className,
-  disabled,
 }: SearchInputProps) => {
   return (
     <View className={cn("w-full py-3", className)}>
       <View className="relative w-full justify-center">
-        <View className="absolute left-3 z-10">
+        <View className="absolute left-5 z-10">
           <Search size={20} color="#9ca3af" />
         </View>
-        <Pressable onPress={onClick}>
-          <Input
-            pointerEvents={disabled ? "none" : "auto"}
-            placeholder={placeholder}
-            placeholderTextColor="#9ca3af"
-            className="pl-10 pr-4 py-2 rounded w-full"
-            onChangeText={onChangeText}
-            value={value}
-            onSubmitEditing={onSubmitEditing}
-            onFocus={onFocus}
+        <Input
+          placeholderTextColor="#9ca3af"
+          className="pl-12 pr-4 py-2 rounded w-full"
+          autoFocus={autoFocus}
+          placeholder={placeholder}
+          value={value}
+          onChangeText={onChangeText}
+          onSubmitEditing={onSubmitEditing}
+          onFocus={onFocus}
           />
-        </Pressable>
       </View>
     </View>
   );

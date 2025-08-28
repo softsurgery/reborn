@@ -79,6 +79,7 @@ export const Account = () => {
           <Text className="text-xl font-semibold">Account Actions</Text>
           <View className="flex flex-col mt-2">
             <MenuItem title="Switch Account" icon={LogOut} onPress={signout} />
+            <Separator />
             <MenuItem title="Try Anything" icon={FlaskConical} link={"test"} />
           </View>
         </View>
