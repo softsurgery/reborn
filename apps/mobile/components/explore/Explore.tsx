@@ -1,12 +1,12 @@
 import React from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { View, RefreshControl, SafeAreaView } from "react-native";
-import { JobCard } from "./JobCard";
+import { JobCard } from "./jobs/JobCard";
 import { api } from "~/api";
 import { ExploreHeader } from "./ExploreHeader";
 import { useDebounce } from "~/hooks/useDebounce";
 import { Separator } from "../ui/separator";
-import { JobCardSkeleton } from "./JobCardSkeleton";
+import { JobCardSkeleton } from "./jobs/JobCardSkeleton";
 import { Text } from "../ui/text";
 import { PackageOpenIcon } from "lucide-react-native";
 import { ResponseJobDto } from "~/types";

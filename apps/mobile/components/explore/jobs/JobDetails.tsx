@@ -23,10 +23,10 @@ import { identifyUser } from "~/lib/user.utils";
 import { format } from "date-fns";
 import { timeAgo } from "~/lib/dates.utils";
 import { Image } from "expo-image";
-import { StableKeyboardAwareScrollView } from "../shared/KeyboardAwareScrollView";
-import { Loader } from "../Loader";
-import { Separator } from "../ui/separator";
-import { Badge } from "../ui/badge";
+import { StableKeyboardAwareScrollView } from "../../shared/KeyboardAwareScrollView";
+import { Loader } from "../../Loader";
+import { Separator } from "../../ui/separator";
+import { Badge } from "../../ui/badge";
 
 export const JobDetails = () => {
   const navigation = useNavigation<NavigationProps>();

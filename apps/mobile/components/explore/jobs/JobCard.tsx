@@ -9,9 +9,9 @@ import { ResponseJobDto } from "~/types";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { api } from "~/api";
 import { Image } from "expo-image";
-import { Skeleton } from "../ui/skeleton";
+import { Skeleton } from "../../ui/skeleton";
 import { timeAgo } from "~/lib/dates.utils";
-import { Text } from "../ui/text";
+import { Text } from "../../ui/text";
 
 interface JobCardProps {
   className?: string;
@@ -59,7 +59,7 @@ export const JobCard = ({ className, job }: JobCardProps) => {
   return (
     <TouchableOpacity
       onPress={() => {
-        navigation.navigate("explore/details", {
+        navigation.navigate("explore/job-details", {
           id: job.id,
           uploads: job.uploads.map((u) => u.uploadId) || [],
         });

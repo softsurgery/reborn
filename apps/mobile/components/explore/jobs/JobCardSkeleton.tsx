@@ -1,6 +1,6 @@
 import React from "react";
 import { View } from "react-native";
-import { Skeleton } from "../ui/skeleton";
+import { Skeleton } from "../../ui/skeleton";
 
 export const JobCardSkeleton = () => {
   return (

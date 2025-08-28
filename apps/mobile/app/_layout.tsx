@@ -152,9 +152,9 @@ export default function RootLayout() {
               headerBackTitle: "Chat",
             }}
           />
-          {/* Jobs */}
+          {/* Explore */}
           <Stack.Screen
-            name="jobs/details"
+            name="explore/job-details"
             options={{
               title: "Job Details",
               animation: "slide_from_right",

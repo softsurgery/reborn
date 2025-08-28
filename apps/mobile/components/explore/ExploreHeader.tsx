@@ -1,7 +1,7 @@
 import { View } from "react-native";
 import { SearchInput } from "../shared/SearchInput";
 import { cn } from "~/lib/utils";
-import { JobFilters } from "./JobFilters";
+import { JobFilters } from "./jobs/JobFilters";
 
 interface ExploreHeaderProps {
   className?: string;
