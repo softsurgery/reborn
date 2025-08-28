@@ -3,17 +3,17 @@ import { SearchInput } from "../shared/SearchInput";
 import { cn } from "~/lib/utils";
 import { JobFilters } from "./JobFilters";
 
-interface HomePageHeaderProps {
+interface ExploreHeaderProps {
   className?: string;
   search: string;
   setSearch: (search: string) => void;
 }
 
-export const HomePageHeader = ({
+export const ExploreHeader = ({
   className,
   search,
   setSearch,
-}: HomePageHeaderProps) => {
+}: ExploreHeaderProps) => {
   return (
     <View className={cn("flex flex-row items-center gap-4", className)}>
       <SearchInput

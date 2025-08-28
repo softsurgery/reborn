@@ -4,13 +4,13 @@ import {
   Home as HomeIcon,
   MessageSquareText,
   Plus,
+  Telescope,
   User,
   Wallet,
 } from "lucide-react-native";
 import { MenuItem } from "~/components/menu/MenuItem";
 import { Account } from "./account/Account";
 import { Chat } from "./chat/Chat";
-import { Home } from "./home/Home";
 import { Button } from "./ui/button";
 import Icon from "~/lib/Icon";
 import { useNavigation } from "expo-router";
@@ -27,6 +27,7 @@ import {
 } from "./ui/dialog";
 import { Text } from "./ui/text";
 import { Balance } from "./balance/Balance";
+import { Explore } from "./explore/Explore";
 
 export default function Application() {
   const navigation = useNavigation<any>();
@@ -35,7 +36,12 @@ export default function Application() {
 
   const tabs = React.useMemo(
     () => [
-      { value: "home", icon: HomeIcon, title: "Home", component: <Home /> },
+      {
+        value: "explore",
+        icon: Telescope,
+        title: "Explore",
+        component: <Explore />,
+      },
       {
         value: "chat",
         icon: MessageSquareText,

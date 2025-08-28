@@ -3,20 +3,16 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { View, RefreshControl, SafeAreaView } from "react-native";
 import { JobCard } from "./JobCard";
 import { api } from "~/api";
-import { HomePageHeader } from "./HomeHeader";
+import { ExploreHeader } from "./ExploreHeader";
 import { useDebounce } from "~/hooks/useDebounce";
 import { Separator } from "../ui/separator";
 import { JobCardSkeleton } from "./JobCardSkeleton";
 import { Text } from "../ui/text";
 import { PackageOpenIcon } from "lucide-react-native";
 import { ResponseJobDto } from "~/types";
-import {
-  LegendList,
-  LegendListRef,
-  LegendListRenderItemProps,
-} from "@legendapp/list";
+import { LegendList, LegendListRef } from "@legendapp/list";
 
-export const Home = () => {
+export const Explore = () => {
   const [search, setSearch] = React.useState("");
   const { value: debouncedSearchTerm, loading: searching } =
     useDebounce<string>(search, 1000);
@@ -63,7 +59,7 @@ export const Home = () => {
   return (
     <View className="flex-1">
       <View className="px-4">
-        <HomePageHeader search={search} setSearch={setSearch} />
+        <ExploreHeader search={search} setSearch={setSearch} />
       </View>
       <Separator />
       <SafeAreaView className="flex-1 mx-2">
@@ -91,15 +87,15 @@ export const Home = () => {
             ) : null
           }
           ListFooterComponent={
-            <View className="p-6 items-center">
-              {isJobsPending ? (
+            <View className="items-center pb-5">
+              {isPending ? (
                 <JobCardSkeleton />
               ) : hasNextPage ? null : (
-                <View className="items-center">
-                  <PackageOpenIcon size={32} color="gray" />
-                  <Text className="text-muted-foreground mt-2">
+                <View className="flex flex-row items-center justify-center gap-2 p-6">
+                  <Text className="text-muted-foreground text-lg">
                     No more jobs
                   </Text>
+                  <PackageOpenIcon size={24} color="gray" />
                 </View>
               )}
             </View>
