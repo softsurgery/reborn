@@ -1,25 +1,32 @@
 import { create } from "zustand";
 import { setDeepValue } from "~/lib/object.lib";
-import { ResponseClientDto, UpdateClientDto } from "~/types";
+import {
+  ResponseClientDto,
+  ResponseFollowCountsDto,
+  UpdateClientDto,
+} from "~/types";
 
-interface UpdateClientData {
+interface ClientData {
   response?: ResponseClientDto;
+  responseFollowCountsDto: ResponseFollowCountsDto;
   updateDto: UpdateClientDto;
   picture?: string;
   progress: number;
   errors: Record<string, string[]>;
 }
 
-export interface UpdateClientStore extends UpdateClientData {
-  set: <K extends keyof UpdateClientData>(
-    name: K,
-    value: UpdateClientData[K]
-  ) => void;
+export interface ClientStore extends ClientData {
+  set: <K extends keyof ClientData>(name: K, value: ClientData[K]) => void;
   setNested: <T>(path: string, value: T) => void;
   reset: () => void;
 }
 
-const initialState: UpdateClientData = {
+const initialState: ClientData = {
+  response: undefined,
+  responseFollowCountsDto: {
+    followers: 0,
+    following: 0,
+  },
   updateDto: {
     firstName: "",
     lastName: "",
@@ -41,7 +48,7 @@ const initialState: UpdateClientData = {
   errors: {},
 };
 
-export const useUpdateClientStore = create<UpdateClientStore>((set, get) => ({
+export const useClientStore = create<ClientStore>((set, get) => ({
   ...initialState,
   set: (name, value) => {
     set((state) => ({
@@ -49,7 +56,7 @@ export const useUpdateClientStore = create<UpdateClientStore>((set, get) => ({
       [name]: value,
     }));
   },
-setNested: (path: string, value: unknown) => {
+  setNested: (path: string, value: unknown) => {
     if (!path.includes(".")) {
       // No nesting — set directly
       set((state) => ({
@@ -64,7 +71,7 @@ setNested: (path: string, value: unknown) => {
     const nestedPath = restPath.join(".");
 
     set((state) => {
-      const rootValue = state[rootKey as keyof UpdateClientData];
+      const rootValue = state[rootKey as keyof ClientData];
       if (typeof rootValue !== "object" || rootValue === null) {
         throw new Error(`Cannot set nested path on non-object: ${rootKey}`);
       }

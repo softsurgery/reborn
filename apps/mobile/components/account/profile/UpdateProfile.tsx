@@ -4,7 +4,7 @@ import { Save } from "lucide-react-native";
 import { View } from "react-native";
 import { Loader } from "~/components/Loader";
 import { Button } from "~/components/ui/button";
-import { useUpdateClientStore } from "~/hooks/stores/useUpdateClientStore";
+import { useClientStore } from "~/hooks/stores/useClientStore";
 import { useCurrentUser } from "~/hooks/useCurrentUser";
 import Icon from "~/lib/Icon";
 import { ServerErrorResponse } from "~/types";
@@ -33,24 +33,21 @@ export const UpdateProfile = () => {
     enabled: !!currentUser?.profile?.pictureId,
     staleTime: Infinity,
   });
-  const updatClientStore = useUpdateClientStore();
+  const clientStore = useClientStore();
   const navigation = useNavigation();
   const { regions, isFetchRegionsPending } = useRegions();
 
   const { uploadFiles: uploadPicture, isUploadPending } = useUploadMutation({
     onSuccess: (response: Upload[]) => {
-      updatClientStore.setNested(
-        "updateDto.profile.pictureId",
-        response?.[0]?.id
-      );
+      clientStore.setNested("updateDto.profile.pictureId", response?.[0]?.id);
     },
     onError: (error: any) => {
-      updatClientStore.setNested("errors.pictureId", [error.message]);
+      clientStore.setNested("errors.pictureId", [error.message]);
     },
   });
 
   const { updateProfileStructure } = useUpdateProfileFormStructure({
-    store: updatClientStore,
+    store: clientStore,
     regions: mapToSelectOptions({
       data: isFetchRegionsPending ? [] : regions,
       labelKey: "label",
@@ -62,7 +59,7 @@ export const UpdateProfile = () => {
 
   React.useEffect(() => {
     if (currentUser) {
-      updatClientStore.set("updateDto", {
+      clientStore.set("updateDto", {
         email: currentUser.email,
         firstName: currentUser.firstName,
         lastName: currentUser.lastName,
@@ -79,16 +76,16 @@ export const UpdateProfile = () => {
           regionId: currentUser.profile.regionId,
         },
       });
-      updatClientStore.set("picture", profilePicture);
+      clientStore.set("picture", profilePicture);
     }
     return () => {
-      updatClientStore.reset();
+      clientStore.reset();
     };
   }, [currentUser]);
 
   const { mutate: updateProfile, isPending: isUpdateProfilePending } =
     useMutation({
-      mutationFn: () => api.client.updateCurrent(updatClientStore.updateDto),
+      mutationFn: () => api.client.updateCurrent(clientStore.updateDto),
       onSuccess: () => {
         queryClient.invalidateQueries({
           queryKey: ["current-user"],
@@ -110,9 +107,9 @@ export const UpdateProfile = () => {
   const formRef = React.useRef<{ scrollToError: (id: string) => void }>(null);
 
   const handleUpdate = async () => {
-    const resultUser = updateClientSchema.safeParse(updatClientStore.updateDto);
+    const resultUser = updateClientSchema.safeParse(clientStore.updateDto);
     const resultProfile = updateProfileSchema.safeParse(
-      updatClientStore.updateDto.profile
+      clientStore.updateDto.profile
     );
 
     if (!resultUser.success || !resultProfile.success) {
@@ -125,7 +122,7 @@ export const UpdateProfile = () => {
         : resultProfile.error.flatten().fieldErrors;
 
       const errors = { ...userErrors, ...profileErrors };
-      updatClientStore.set("errors", errors);
+      clientStore.set("errors", errors);
 
       const firstErrorKey = Object.keys(errors)[0];
       if (firstErrorKey) {

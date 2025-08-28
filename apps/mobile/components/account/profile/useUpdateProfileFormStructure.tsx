@@ -10,12 +10,12 @@ import {
   TextareaFieldProps,
   TextFieldProps,
 } from "~/components/shared/form-builder/types";
-import { UpdateClientStore } from "~/hooks/stores/useUpdateClientStore";
+import { ClientStore } from "~/hooks/stores/useClientStore";
 import { useUploadMutation } from "~/hooks/useUploadMutation";
 import { Gender } from "~/types";
 
 interface useUpdateProfileFormStructureProps {
-  store: UpdateClientStore;
+  store: ClientStore;
   regions: SelectOption[];
   uploadPicture: ReturnType<typeof useUploadMutation>["uploadFiles"];
   isUploadPending?: boolean;

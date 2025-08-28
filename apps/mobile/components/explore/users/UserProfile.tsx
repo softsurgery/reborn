@@ -4,68 +4,76 @@ import { Image } from "expo-image";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { View } from "react-native";
 import { api } from "~/api";
-import { ProfileManagmentCard } from "~/components/account/profile/ProfileManagementCard";
+import { ProfileManagmentCard } from "~/components/explore/users/ProfileManagementCard";
 import { StableScrollView } from "~/components/shared/StableScrollView";
 import { Text } from "~/components/ui/text";
-import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
-import { NavigationProps } from "~/types/app.routes";
+import { useClientStore } from "~/hooks/stores/useClientStore";
 
 interface UserProfileProps {
   className?: string;
 }
 
 export const UserProfile = ({ className }: UserProfileProps) => {
-  const navigation = useNavigation<NavigationProps>();
   const { id } = useLocalSearchParams();
+  const clientStore = useClientStore();
 
   const { data: userResp, isPending: isUserPending } = useQuery({
     queryKey: ["user", id],
     queryFn: () => api.client.findById(id as string),
   });
 
-  const user = React.useMemo(() => userResp ?? null, [userResp]);
+  React.useEffect(() => {
+    if (userResp) clientStore.set("response", userResp);
+  }, [userResp]);
 
-  const { data: profilePicture } = useQuery({
-    queryKey: ["profile-picture", user?.profile?.pictureId],
-    queryFn: () => api.upload.getUploadById(user?.profile?.pictureId!),
-    enabled: !!user?.profile?.pictureId,
+  const { data: picture } = useQuery({
+    queryKey: ["picture", userResp?.profile?.pictureId],
+    queryFn: () => api.upload.getUploadById(userResp?.profile?.pictureId!),
+    enabled: !!userResp?.profile?.pictureId,
     staleTime: Infinity,
   });
 
-  const identity = React.useMemo(() => identifyUser(user) ?? null, [user]);
-  const fallback = React.useMemo(
-    () => identifyUserAvatar(user) ?? null,
-    [user]
-  );
+  React.useEffect(() => {
+    if (userResp) clientStore.set("picture", picture);
+  }, [picture]);
+
+  const { data: followDataCount, isPending: isFollowDataCountPending } =
+    useQuery({
+      queryKey: ["follow-data-count", userResp?.id],
+      queryFn: () => api.follow.findDataCount(userResp?.id!),
+      enabled: !!userResp?.id,
+    });
+
+  React.useEffect(() => {
+    if (followDataCount)
+      clientStore.set("responseFollowCountsDto", followDataCount);
+  }, [followDataCount]);
+
+  React.useEffect(() => {
+    return () => {
+      clientStore.reset();
+    };
+  }, []);
 
   return (
     <StableScrollView className={className}>
       <View className="flex flex-col gap-2 px-5 mb-7">
-        <ProfileManagmentCard
-          className="mt-5"
-          uri={profilePicture}
-          identity={identity}
-          fallback={fallback}
-        />
+        <ProfileManagmentCard className="mt-5" />
         <View className="flex flex-col gap-4 px-5">
-          <View>
-            <Text className="font-bold">Bio</Text>
-            <Text className="my-2 p-2">{user?.profile?.bio}</Text>
-          </View>
           <View>
             <Text className="font-bold">Your Images</Text>
             <View className="flex flex-row gap-4 my-2">
               <Image
                 style={{ width: 96, height: 96, borderRadius: 4 }}
-                source={profilePicture}
+                source={clientStore.picture}
               />
               <Image
                 style={{ width: 96, height: 96, borderRadius: 4 }}
-                source={profilePicture}
+                source={clientStore.picture}
               />
               <Image
                 style={{ width: 96, height: 96, borderRadius: 4 }}
-                source={profilePicture}
+                source={clientStore.picture}
               />
             </View>
           </View>

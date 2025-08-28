@@ -53,3 +53,22 @@ export class UpdateProfileDto {
   regionId?: number;
   pictureId?: number;
 }
+
+export interface ResponseFollowDto extends DatabaseEntity {
+  id: string;
+  follower: ResponseClientDto;
+  followerId: string;
+  following: ResponseClientDto;
+  followingId: string;
+}
+
+export interface ResponseFollowCountsDto {
+  followers: number;
+  following: number;
+}
+
+export interface ResponseIsFollowingDto {
+  userId?: string;
+  targetId?: string;
+  isFollowing?: boolean;
+}
