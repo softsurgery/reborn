@@ -1,12 +1,6 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import {
-  View,
-  RefreshControl,
-  FlatList,
-  ActivityIndicator,
-  SafeAreaView,
-} from "react-native";
+import { View, RefreshControl, SafeAreaView } from "react-native";
 import { JobCard } from "./JobCard";
 import { api } from "~/api";
 import { HomePageHeader } from "./HomeHeader";
@@ -14,9 +8,13 @@ import { useDebounce } from "~/hooks/useDebounce";
 import { Separator } from "../ui/separator";
 import { JobCardSkeleton } from "./JobCardSkeleton";
 import { Text } from "../ui/text";
-import Icon from "~/lib/Icon";
 import { PackageOpenIcon } from "lucide-react-native";
 import { ResponseJobDto } from "~/types";
+import {
+  LegendList,
+  LegendListRef,
+  LegendListRenderItemProps,
+} from "@legendapp/list";
 
 export const Home = () => {
   const [search, setSearch] = React.useState("");
@@ -48,14 +46,17 @@ export const Home = () => {
       lastPage.meta.hasNextPage ? lastPage.meta.page + 1 : undefined,
   });
 
-  const jobs = useMemo(
-    () => data?.pages.flatMap((page) => page.data) || [],
-    [data]
-  );
+  const listRef = React.useRef<LegendListRef | null>(null);
 
-  const ListItem = React.memo(({ item }: { item: ResponseJobDto }) => {
-    return <JobCard job={item} className="my-2" />;
-  });
+  const jobs = data?.pages.flatMap((page) => page.data) ?? [];
+
+  const ListItem = React.useCallback(({ item }: { item: ResponseJobDto }) => {
+    return (
+      <View className="">
+        <JobCard job={item} className="my-2" />
+      </View>
+    );
+  }, []);
 
   const isPending = isJobsPending || isFetchingNextPage || searching;
 
@@ -65,52 +66,43 @@ export const Home = () => {
         <HomePageHeader search={search} setSearch={setSearch} />
       </View>
       <Separator />
-      <SafeAreaView style={{ flex: 1 }}>
-        <FlatList
-          className="px-2"
+      <SafeAreaView className="flex-1 mx-2">
+        <LegendList
+          ref={listRef}
           data={jobs}
-          keyExtractor={(item) => item.id.toString()}
+          renderItem={ListItem}
+          keyExtractor={(item) => item.id}
           showsVerticalScrollIndicator={false}
-          renderItem={({ item }) => <ListItem item={item} />}
+          recycleItems={true}
+          maintainVisibleContentPosition
           refreshControl={
-            <RefreshControl refreshing={isPending} onRefresh={refetch} />
+            <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
           }
-          onEndReached={() =>
-            hasNextPage && !isFetchingNextPage && fetchNextPage()
-          }
+          onEndReached={() => {
+            if (hasNextPage && !isFetchingNextPage) {
+              fetchNextPage();
+            }
+          }}
           ListEmptyComponent={
-            <View className="px-4 py-12 items-center justify-center">
-              {isJobsPending ? (
-                <>
-                  <ActivityIndicator size="large" color="#3b82f6" />
-                  <Text className="opacity-70 text-center mt-3">
-                    Loading jobs...
-                  </Text>
-                </>
-              ) : (
-                <>
-                  <Text className="text-center opacity-70">
-                    No jobs available right now
-                  </Text>
-                  <Text className="opacity-70 text-sm text-center mt-2">
-                    Please check back later
-                  </Text>
-                </>
-              )}
-            </View>
-          }
-          onEndReachedThreshold={0.2}
-          ListFooterComponent={
-            isFetchingNextPage ? (
-              <JobCardSkeleton />
-            ) : jobs.length != 0 && !hasNextPage ? (
-              <View className="px-4 pt-6 pb-10 flex flex-row  items-center justify-center gap-4">
-                <Text className="text-lg opacity-70">
-                  No more jobs available
-                </Text>
-                <Icon name={PackageOpenIcon} />
+            !isPending ? (
+              <View className="p-8 items-center">
+                <Text className="text-muted-foreground">No jobs available</Text>
               </View>
             ) : null
+          }
+          ListFooterComponent={
+            <View className="p-6 items-center">
+              {isJobsPending ? (
+                <JobCardSkeleton />
+              ) : hasNextPage ? null : (
+                <View className="items-center">
+                  <PackageOpenIcon size={32} color="gray" />
+                  <Text className="text-muted-foreground mt-2">
+                    No more jobs
+                  </Text>
+                </View>
+              )}
+            </View>
           }
         />
       </SafeAreaView>

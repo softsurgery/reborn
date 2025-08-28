@@ -9,6 +9,7 @@ import { ResponseJobDto } from "~/types";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { api } from "~/api";
 import { Image } from "expo-image";
+import { Skeleton } from "../ui/skeleton";
 
 interface JobCardProps {
   className?: string;
@@ -67,16 +68,24 @@ export const JobCard = ({ className, job }: JobCardProps) => {
       )}
       activeOpacity={0.7}
     >
-      <Image
-        source={imageSource}
-        style={{
-          width: "100%",
-          height: 200,
-          marginVertical: 2,
-          borderRadius: 8,
-        }}
-        cachePolicy="memory-disk"
-      />
+      {!imageSource ? (
+        <Skeleton className="w-full h-[200px]" />
+      ) : (
+        <Image
+          recyclingKey={job.id.toString()}
+          source={imageSource}
+          style={{
+            width: "100%",
+            height: 200,
+            marginVertical: 2,
+            borderRadius: 8,
+          }}
+          placeholder={require("~/assets/images/icon.png")}
+          contentFit="cover"
+          transition={300}
+        />
+      )}
+
       <View className="flex-row justify-between items-start">
         <Text className="font-semibold text-xl text-black dark:text-white flex-1 pr-2">
           {job.title}
