@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { View, TouchableOpacity, ActivityIndicator } from "react-native";
+import { View, TouchableOpacity } from "react-native";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { Text } from "~/components/ui/text";
 import { Button } from "~/components/ui/button";
@@ -27,6 +27,7 @@ import { StableKeyboardAwareScrollView } from "../../shared/KeyboardAwareScrollV
 import { Loader } from "../../Loader";
 import { Separator } from "../../ui/separator";
 import { Badge } from "../../ui/badge";
+import { StablePressable } from "~/components/shared/StablePressable";
 
 export const JobDetails = () => {
   const navigation = useNavigation<NavigationProps>();
@@ -231,7 +232,13 @@ export const JobDetails = () => {
       </StableKeyboardAwareScrollView>
 
       {/* Client Info */}
-      <View className="px-6 py-4">
+      <StablePressable
+        className="px-6 py-4"
+        onPress={() =>
+          navigation.navigate("explore/user-profile", { id: job?.postedBy.id })
+        }
+        onPressClassname="bg-secondary/10"
+      >
         <Text className="text-lg font-semibold text-foreground mb-3">
           Client information
         </Text>
@@ -276,7 +283,7 @@ export const JobDetails = () => {
             <Text className="text-xs text-muted-foreground">89% hire rate</Text>
           </View>
         </View>
-      </View>
+      </StablePressable>
 
       {/* Apply Button */}
       <View className="px-6 py-5 bg-card border-t border-border">

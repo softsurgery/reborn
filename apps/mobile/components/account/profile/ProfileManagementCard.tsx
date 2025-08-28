@@ -6,13 +6,15 @@ import {
   CardFooter,
   CardHeader,
 } from "~/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
-import { Button } from "~/components/ui/button";
 import { View } from "react-native";
 import { cn } from "~/lib/utils";
 import { useNavigation } from "expo-router";
 import { NavigationProps } from "~/types/app.routes";
-import { ResponseClientDto } from "~/types";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "~/components/shared/StableAvatar";
 
 interface ProfileManagmentCardProps {
   className?: string;
@@ -28,11 +30,10 @@ export const ProfileManagmentCard = ({
   fallback = "?",
 }: ProfileManagmentCardProps) => {
   const navigation = useNavigation<NavigationProps>();
-
   return (
     <Card className={cn("w-full items-center justify-center", className)}>
       <CardHeader>
-        <Avatar alt={fallback} className="w-40 h-40 mx-auto">
+        <Avatar alt={fallback} className="w-40 h-40 mx-auto border">
           <AvatarImage source={{ uri }} />
           <AvatarFallback>
             <Text>{fallback}</Text>
@@ -56,14 +57,7 @@ export const ProfileManagmentCard = ({
           </View>
         </View>
       </CardContent>
-      <CardFooter>
-        <Button
-          onPress={() => navigation.navigate("account/update-profile")}
-          className="w-full"
-        >
-          <Text className="bold">Update Your Profile</Text>
-        </Button>
-      </CardFooter>
+      <CardFooter></CardFooter>
     </Card>
   );
 };

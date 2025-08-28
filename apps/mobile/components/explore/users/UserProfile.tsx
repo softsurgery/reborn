@@ -1,40 +1,42 @@
 import React from "react";
-import { View } from "react-native";
-import { StableScrollView } from "~/components/shared/StableScrollView";
-import { ProfileManagmentCard } from "~/components/account/profile/ProfileManagementCard";
-import { Text } from "~/components/ui/text";
-import { useCurrentUser } from "~/hooks/useCurrentUser";
-import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
 import { useQuery } from "@tanstack/react-query";
-import { api } from "~/api";
 import { Image } from "expo-image";
-import { Button } from "~/components/ui/button";
-import { useNavigation } from "expo-router";
+import { useLocalSearchParams, useNavigation } from "expo-router";
+import { View } from "react-native";
+import { api } from "~/api";
+import { ProfileManagmentCard } from "~/components/account/profile/ProfileManagementCard";
+import { StableScrollView } from "~/components/shared/StableScrollView";
+import { Text } from "~/components/ui/text";
+import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
 import { NavigationProps } from "~/types/app.routes";
 
-interface ManagementProps {
+interface UserProfileProps {
   className?: string;
 }
 
-export const Management = ({ className }: ManagementProps) => {
+export const UserProfile = ({ className }: UserProfileProps) => {
   const navigation = useNavigation<NavigationProps>();
-  const { currentUser, isCurrentUserPending } = useCurrentUser();
+  const { id } = useLocalSearchParams();
 
-  const identity = React.useMemo(
-    () => identifyUser(currentUser),
-    [currentUser]
-  );
-  const fallback = React.useMemo(
-    () => identifyUserAvatar(currentUser),
-    [currentUser]
-  );
+  const { data: userResp, isPending: isUserPending } = useQuery({
+    queryKey: ["user", id],
+    queryFn: () => api.client.findById(id as string),
+  });
+
+  const user = React.useMemo(() => userResp ?? null, [userResp]);
 
   const { data: profilePicture } = useQuery({
-    queryKey: ["profile-picture", currentUser?.profile?.pictureId],
-    queryFn: () => api.upload.getUploadById(currentUser?.profile?.pictureId!),
-    enabled: !!currentUser?.profile?.pictureId,
+    queryKey: ["profile-picture", user?.profile?.pictureId],
+    queryFn: () => api.upload.getUploadById(user?.profile?.pictureId!),
+    enabled: !!user?.profile?.pictureId,
     staleTime: Infinity,
   });
+
+  const identity = React.useMemo(() => identifyUser(user) ?? null, [user]);
+  const fallback = React.useMemo(
+    () => identifyUserAvatar(user) ?? null,
+    [user]
+  );
 
   return (
     <StableScrollView className={className}>
@@ -45,16 +47,10 @@ export const Management = ({ className }: ManagementProps) => {
           identity={identity}
           fallback={fallback}
         />
-        <Button
-          onPress={() => navigation.navigate("account/update-profile")}
-          className="w-full"
-        >
-          <Text className="bold">Update Your Profile</Text>
-        </Button>
         <View className="flex flex-col gap-4 px-5">
           <View>
             <Text className="font-bold">Bio</Text>
-            <Text className="my-2 p-2">{currentUser?.profile?.bio}</Text>
+            <Text className="my-2 p-2">{user?.profile?.bio}</Text>
           </View>
           <View>
             <Text className="font-bold">Your Images</Text>

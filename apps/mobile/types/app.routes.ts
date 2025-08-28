@@ -18,8 +18,9 @@ export type StackParamList = {
   "account/support/faqs": undefined;
   // Chat
   "chat/conversation": { user?: ResponseClientDto };
-  // Jobs
-  "explore/job-details": { id: string; uploads: number[] };
+  // Explore
+  "explore/job-details": { id?: string; uploads: number[] };
+  "explore/user-profile": { id?: string };
   test: undefined;
   //balance
   balance: undefined;

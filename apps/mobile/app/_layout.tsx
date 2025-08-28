@@ -156,7 +156,12 @@ export default function RootLayout() {
           <Stack.Screen
             name="explore/job-details"
             options={{
-              title: "Job Details",
+              animation: "slide_from_right",
+            }}
+          />
+          <Stack.Screen
+            name="explore/user-profile"
+            options={{
               animation: "slide_from_right",
             }}
           />

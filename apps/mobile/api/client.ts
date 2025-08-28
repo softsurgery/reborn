@@ -6,6 +6,11 @@ const findCurrent = async (): Promise<ResponseClientDto> => {
   return response.data;
 };
 
+const findById = async (id: string): Promise<ResponseClientDto> => {
+  const response = await axios.get<ResponseClientDto>(`/client/${id}`);
+  return response.data;
+};
+
 const updateCurrent = async (
   updateClientDto: UpdateClientDto
 ): Promise<ResponseClientDto> => {
@@ -15,5 +20,6 @@ const updateCurrent = async (
 
 export const client = {
   findCurrent,
+  findById,
   updateCurrent,
 };
