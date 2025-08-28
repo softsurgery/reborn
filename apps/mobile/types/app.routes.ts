@@ -20,6 +20,7 @@ export type StackParamList = {
   "chat/conversation": { user?: ResponseClientDto };
   // Explore
   "explore/job-details": { id?: string; uploads: number[] };
+  "explore/job-search": undefined;
   "explore/user-profile": { id?: string };
   test: undefined;
   //balance

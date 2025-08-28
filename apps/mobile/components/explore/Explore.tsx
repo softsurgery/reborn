@@ -59,7 +59,7 @@ export const Explore = () => {
   return (
     <View className="flex-1">
       <View className="px-4">
-        <ExploreHeader search={search} setSearch={setSearch} />
+        <ExploreHeader />
       </View>
       <Separator />
       <SafeAreaView className="flex-1 mx-2">

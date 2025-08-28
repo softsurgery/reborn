@@ -172,6 +172,13 @@ export default function RootLayout() {
               animation: "slide_from_right",
             }}
           />
+          <Stack.Screen
+            name="explore/job-search"
+            options={{
+              title: "Job Search",
+              animation: "slide_from_bottom",
+            }}
+          />
         </Stack>
         <PortalHost />
       </QueryClientProvider>
