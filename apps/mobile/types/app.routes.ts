@@ -19,7 +19,7 @@ export type StackParamList = {
   // Chat
   "chat/conversation": { user?: ResponseClientDto };
   // Jobs
-  "jobs/details": { id: string; uploads: number[] };
+  "explore/details": { id: string; uploads: number[] };
   test: undefined;
   //balance
   balance: undefined;

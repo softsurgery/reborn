@@ -189,8 +189,7 @@ export const JobDetails = () => {
             About this project
           </Text>
           <Text className="text-card-foreground leading-6 text-sm">
-            {job?.description ||
-              "We're looking for an experienced full-stack developer to build a modern web application using React and Node.js."}
+            {job?.description}
           </Text>
         </View>
 
@@ -247,9 +246,7 @@ export const JobDetails = () => {
             </View>
             <View>
               <Text className="text-base font-medium text-card-foreground">
-                {job?.postedBy.firstName && job.postedBy.lastName
-                  ? `${job.postedBy.firstName} ${job.postedBy.lastName}`
-                  : job?.postedBy.username || "Sarah Johnson"}
+                {identifyUser(job?.postedBy)}
               </Text>
               <View className="flex-row items-center gap-4 mt-1">
                 <View className="flex-row items-center gap-1">

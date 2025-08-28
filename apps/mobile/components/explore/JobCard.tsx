@@ -1,7 +1,7 @@
 import React from "react";
 import { cn } from "~/lib/utils";
-import { View, Text, TouchableOpacity } from "react-native";
-import { Heart, Briefcase, FileText, CheckCircle } from "lucide-react-native";
+import { View, TouchableOpacity } from "react-native";
+import { Heart, Clock, Wallet } from "lucide-react-native";
 import { useNavigation } from "expo-router";
 import { NavigationProps } from "~/types/app.routes";
 import { showToastable } from "react-native-toastable";
@@ -10,6 +10,8 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { api } from "~/api";
 import { Image } from "expo-image";
 import { Skeleton } from "../ui/skeleton";
+import { timeAgo } from "~/lib/dates.utils";
+import { Text } from "../ui/text";
 
 interface JobCardProps {
   className?: string;
@@ -57,7 +59,7 @@ export const JobCard = ({ className, job }: JobCardProps) => {
   return (
     <TouchableOpacity
       onPress={() => {
-        navigation.navigate("jobs/details", {
+        navigation.navigate("explore/details", {
           id: job.id,
           uploads: job.uploads.map((u) => u.uploadId) || [],
         });
@@ -86,10 +88,48 @@ export const JobCard = ({ className, job }: JobCardProps) => {
         />
       )}
 
-      <View className="flex-row justify-between items-start">
-        <Text className="font-semibold text-xl text-black dark:text-white flex-1 pr-2">
-          {job.title}
-        </Text>
+      <View className="flex-col justify-between items-start">
+        <View className="flex-row justify-between items-start">
+          <Text className="font-semibold text-xl flex-1">{job.title}</Text>
+        </View>
+
+        <View className="mt-1">
+          <Text className="text-sm">
+            {showFullDesc
+              ? job.description
+              : `${job.description.slice(0, 100)}... `}
+            {job.description.length > 100 && (
+              <Text
+                className="text-green-500 underline"
+                onPress={() => setShowFullDesc(!showFullDesc)}
+              >
+                {showFullDesc ? "Show less" : "Show more"}
+              </Text>
+            )}
+          </Text>
+        </View>
+      </View>
+
+      <View className="flex-row flex-wrap gap-2 mt-1">
+        <Text className="text-sm">No tags specified</Text>
+      </View>
+
+      <View className="flex flex-row justify-between">
+        <View className="flex flex-row gap-2">
+          <View className="flex-row items-center gap-1">
+            <Clock size={14} color="#9ca3af" />
+            <Text className="text-sm text-muted-foreground">
+              {timeAgo(job?.createdAt || new Date())}
+            </Text>
+          </View>
+          <View className="flex-row items-center gap-1">
+            <Wallet size={14} color="#9ca3af" />
+            <Text className="text-sm text-muted-foreground">
+              {job?.price.toFixed(3)} TND
+            </Text>
+          </View>
+        </View>
+
         <TouchableOpacity onPress={handleSave}>
           <Heart
             size={24}
@@ -98,65 +138,6 @@ export const JobCard = ({ className, job }: JobCardProps) => {
           />
         </TouchableOpacity>
       </View>
-
-      <View className="flex-row items-center gap-1 space-x-2">
-        <Briefcase size={16} color="#6b7280" />
-        <Text className="text-gray-600 dark:text-gray-400 text-m">
-          TND {job.price}
-        </Text>
-      </View>
-
-      <View className="flex-row items-center gap-1 space-x-2">
-        <FileText size={16} color="#6b7280" />
-        <Text className="text-gray-600 dark:text-gray-400 text-m">
-          Proposals: 0
-        </Text>
-      </View>
-
-      <View className="flex-row items-center gap-1 space-x-2">
-        <CheckCircle color={"#3b82f6"} size={16} />
-        <Text className="text-gray-600 dark:text-gray-400 text-m">
-          {/* {job.paymentVerified ? "Payment verified" : "Payment not verified"} ·{" "} */}
-          {/* {job.spent}  */}
-          To be determined
-        </Text>
-      </View>
-
-      <Text className="text-gray-700 dark:text-gray-300 text-m">
-        {showFullDesc ? job.description : `${job.description.slice(0, 100)}...`}
-      </Text>
-
-      <TouchableOpacity
-        onPress={(e) => {
-          e.stopPropagation(); // Prevent navigation when expanding description
-          setShowFullDesc(!showFullDesc);
-        }}
-      >
-        <Text className="text-green-600 dark:text-green-400 underline text-sm font-semibold">
-          {showFullDesc ? "View Less" : "View More"}
-        </Text>
-      </TouchableOpacity>
-
-      <View className="flex-row flex-wrap gap-2 mt-1">
-        {/* {job.tags.map((tag: string, index: number) => (
-          <View
-            key={index}
-            className="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-full"
-          >
-            <Text className="text-sm text-gray-700 dark:text-gray-300">
-              {tag}
-            </Text>
-          </View>
-        ))} */}
-        <Text className="text-sm text-gray-700 dark:text-gray-300">
-          No tags specified
-        </Text>
-      </View>
-
-      <Text className="text-gray-500 text-sm mt-1">
-        {/* {job.postedAgo} */}
-        Not specified
-      </Text>
     </TouchableOpacity>
   );
 };
