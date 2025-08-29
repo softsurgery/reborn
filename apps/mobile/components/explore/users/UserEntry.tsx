@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Image } from "expo-image";
 import { useNavigation } from "expo-router";
 import { MapPin, Star, UserPlus } from "lucide-react-native";
@@ -9,6 +9,7 @@ import { api } from "~/api";
 import { StablePressable } from "~/components/shared/StablePressable";
 import { Button } from "~/components/ui/button";
 import { Text } from "~/components/ui/text";
+import { useClientStore } from "~/hooks/stores/useClientStore";
 import { useCurrentUser } from "~/hooks/useCurrentUser";
 import { useFollowSystem } from "~/hooks/useFollowSystem";
 import Icon from "~/lib/Icon";
@@ -22,7 +23,9 @@ interface UserEntryProps {
 }
 
 export const UserEntry = ({ className, user }: UserEntryProps) => {
+  const clientStore = useClientStore();
   const { currentUser } = useCurrentUser();
+  const queryClient = useQueryClient();
   const {
     isFollowing,
     refetchIsFollowing,
@@ -35,6 +38,12 @@ export const UserEntry = ({ className, user }: UserEntryProps) => {
     follow: {
       onSuccess: () => {
         refetchIsFollowing();
+        queryClient.invalidateQueries({
+          queryKey: ["follow-data-count", clientStore.response?.id],
+        });
+        queryClient.invalidateQueries({
+          queryKey: ["followings", clientStore.response?.id],
+        });
       },
       onError: (err: ServerErrorResponse) => {
         showToastable({ message: err.response?.data.message });
@@ -43,6 +52,12 @@ export const UserEntry = ({ className, user }: UserEntryProps) => {
     unfollow: {
       onSuccess: () => {
         refetchIsFollowing();
+        queryClient.invalidateQueries({
+          queryKey: ["follow-data-count", clientStore.response?.id],
+        });
+        queryClient.invalidateQueries({
+          queryKey: ["followers", clientStore.response?.id],
+        });
       },
       onError: (err: ServerErrorResponse) => {
         showToastable({ message: err.response?.data.message });

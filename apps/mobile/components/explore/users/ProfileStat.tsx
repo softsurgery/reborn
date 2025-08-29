@@ -48,7 +48,7 @@ export const ProfileStat = ({ className }: ProfileStatProps) => {
 
       {/* Following */}
       <Dialog>
-        <DialogTrigger asChild>
+        <DialogTrigger asChild disabled={clientStore.following.length === 0}>
           <StablePressable
             className="flex flex-col items-center "
             onPressClassname="opacity-70"
@@ -72,7 +72,7 @@ export const ProfileStat = ({ className }: ProfileStatProps) => {
 
       {/* Followers */}
       <Dialog>
-        <DialogTrigger asChild>
+        <DialogTrigger asChild disabled={clientStore.followers.length === 0}>
           <StablePressable
             className="flex flex-col items-center"
             onPressClassname="opacity-70"
