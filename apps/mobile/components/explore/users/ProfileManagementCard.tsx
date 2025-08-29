@@ -36,11 +36,17 @@ export const ProfileManagmentCard = ({
   const queryClient = useQueryClient();
   const clientStore = useClientStore();
   const { currentUser } = useCurrentUser();
-  const { isFollowing, refetchIsFollowing, followers, following } =
-    useFollowSystem({
-      id: clientStore.response?.id!,
-      fetch: ["is-following", "followers", "following"],
-    });
+  const {
+    isFollowing,
+    refetchIsFollowing,
+    followers,
+    following,
+    refetchFollowers,
+    refetchFollowing,
+  } = useFollowSystem({
+    id: clientStore.response?.id!,
+    fetch: ["is-following", "followers", "followings"],
+  });
 
   React.useEffect(() => {
     clientStore.set("followers", followers);
@@ -57,6 +63,8 @@ export const ProfileManagmentCard = ({
       queryClient.invalidateQueries({
         queryKey: ["follow-data-count", clientStore.response?.id],
       });
+      refetchFollowers();
+      refetchFollowing();
       refetchIsFollowing();
     },
     onError: () => {
@@ -70,6 +78,8 @@ export const ProfileManagmentCard = ({
       queryClient.invalidateQueries({
         queryKey: ["follow-data-count", clientStore.response?.id],
       });
+      refetchFollowers();
+      refetchFollowing();
       refetchIsFollowing();
     },
     onError: (err: ServerErrorResponse) => {

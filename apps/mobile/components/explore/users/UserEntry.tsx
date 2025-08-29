@@ -1,13 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
-import { format } from "date-fns";
 import { Image } from "expo-image";
 import { useNavigation } from "expo-router";
-import { MapPin, Star } from "lucide-react-native";
+import { MapPin, Star, UserPlus } from "lucide-react-native";
 import { View } from "react-native";
 import { api } from "~/api";
 import { StablePressable } from "~/components/shared/StablePressable";
 import { Button } from "~/components/ui/button";
 import { Text } from "~/components/ui/text";
+import { useCurrentUser } from "~/hooks/useCurrentUser";
+import Icon from "~/lib/Icon";
 import { identifyUser } from "~/lib/user.utils";
 import { ResponseClientDto } from "~/types";
 import { NavigationProps } from "~/types/app.routes";
@@ -15,9 +16,11 @@ import { NavigationProps } from "~/types/app.routes";
 interface UserEntryProps {
   className?: string;
   user: ResponseClientDto;
+  isFollowing?: boolean;
 }
 
-export const UserEntry = ({ className, user }: UserEntryProps) => {
+export const UserEntry = ({ className, user, isFollowing }: UserEntryProps) => {
+  const { currentUser } = useCurrentUser();
   const navigation = useNavigation<NavigationProps>();
   const { data: profilePicture } = useQuery({
     queryKey: ["profile-picture", user?.profile?.pictureId],
@@ -64,9 +67,17 @@ export const UserEntry = ({ className, user }: UserEntryProps) => {
             </View>
           </View>
         </View>
-        <Button size={"sm"}>
-          <Text>Follow</Text>
-        </Button>
+        {currentUser?.id != user.id && (
+          <Button
+            size="sm"
+            // onPress={() => (isFollowing ? unfollowUser() : followUser())}
+            variant={isFollowing ? "outline" : "default"}
+            className="flex flex-row gap-2 w-1/2"
+          >
+            {!isFollowing && <Icon name={UserPlus} size={20} />}
+            <Text>{isFollowing ? "Following" : "Follow"}</Text>
+          </Button>
+        )}
       </View>
     </StablePressable>
   );

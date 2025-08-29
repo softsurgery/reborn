@@ -4,7 +4,7 @@ import { api } from "~/api";
 
 interface useFollowSystemProps {
   id: string;
-  fetch: ("is-following" | "followers" | "following")[];
+  fetch: ("is-following" | "followers" | "followings")[];
 }
 
 export function useFollowSystem({ id, fetch }: useFollowSystemProps) {
@@ -40,9 +40,9 @@ export function useFollowSystem({ id, fetch }: useFollowSystemProps) {
     isPending: isFollowingPending,
     refetch: refetchFollowing,
   } = useQuery({
-    queryKey: ["following", id],
+    queryKey: ["followings", id],
     queryFn: () => api.follow.findFollowing(id),
-    enabled: !!id && fetch.includes("following"),
+    enabled: !!id && fetch.includes("followings"),
   });
 
   const following = React.useMemo(() => followingResp || [], [followingResp]);

@@ -10,7 +10,7 @@ export const GoPremium = ({ className }: GoPremiumProps) => {
   return (
     <View className={cn("border-4 border-primary rounded-lg", className)}>
       <View>
-        <Text className="text-center bg-primary text-2xl py-2 font-bold text-background">
+        <Text className="text-center text-white bg-primary text-2xl py-2 font-bold">
           Go Premium
         </Text>
       </View>

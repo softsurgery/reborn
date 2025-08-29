@@ -60,6 +60,7 @@ export interface ResponseFollowDto extends DatabaseEntity {
   followerId: string;
   following: ResponseClientDto;
   followingId: string;
+  isFollowing: boolean;
 }
 
 export interface ResponseFollowCountsDto {
