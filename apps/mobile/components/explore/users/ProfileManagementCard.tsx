@@ -15,8 +15,7 @@ import {
 } from "~/components/shared/StableAvatar";
 import { useCurrentUser } from "~/hooks/useCurrentUser";
 import { Button } from "~/components/ui/button";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { api } from "~/api";
+import { useQueryClient } from "@tanstack/react-query";
 import { useClientStore } from "~/hooks/stores/useClientStore";
 import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
 import { showToastable } from "react-native-toastable";
@@ -43,9 +42,39 @@ export const ProfileManagmentCard = ({
     following,
     refetchFollowers,
     refetchFollowing,
+    followUser,
+    isFollowPending,
+    unfollowUser,
+    isUnfollowPending,
   } = useFollowSystem({
     id: clientStore.response?.id!,
-    fetch: ["is-following", "followers", "followings"],
+    use: ["is-following", "followers", "followings"],
+    follow: {
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: ["follow-data-count", clientStore.response?.id],
+        });
+        refetchFollowers();
+        refetchFollowing();
+        refetchIsFollowing();
+      },
+      onError: (err: ServerErrorResponse) => {
+        showToastable({ message: err.response?.data.message });
+      },
+    },
+    unfollow: {
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: ["follow-data-count", clientStore.response?.id],
+        });
+        refetchFollowers();
+        refetchFollowing();
+        refetchIsFollowing();
+      },
+      onError: (err: ServerErrorResponse) => {
+        showToastable({ message: err.response?.data.message });
+      },
+    },
   });
 
   React.useEffect(() => {
@@ -56,37 +85,6 @@ export const ProfileManagmentCard = ({
   const isCurrentUser = React.useMemo(() => {
     return clientStore.response?.id === currentUser?.id;
   }, [clientStore.response, currentUser]);
-
-  const { mutate: followUser } = useMutation({
-    mutationFn: () => api.follow.followUser(clientStore.response?.id!),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["follow-data-count", clientStore.response?.id],
-      });
-      refetchFollowers();
-      refetchFollowing();
-      refetchIsFollowing();
-    },
-    onError: () => {
-      showToastable({ message: "Failed to follow user" });
-    },
-  });
-
-  const { mutate: unfollowUser } = useMutation({
-    mutationFn: () => api.follow.unfollowUser(clientStore.response?.id!),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["follow-data-count", clientStore.response?.id],
-      });
-      refetchFollowers();
-      refetchFollowing();
-      refetchIsFollowing();
-    },
-    onError: (err: ServerErrorResponse) => {
-      console.log(err.response?.data.message);
-      showToastable({ message: "Failed to unfollow user" });
-    },
-  });
 
   const identity = React.useMemo(
     () => identifyUser(clientStore.response),
@@ -131,6 +129,7 @@ export const ProfileManagmentCard = ({
               onPress={() => (isFollowing ? unfollowUser() : followUser())}
               variant={isFollowing ? "outline" : "default"}
               className="flex flex-row gap-2 w-1/2"
+              disabled={isFollowPending || isUnfollowPending}
             >
               {!isFollowing && <Icon name={UserPlus} size={20} />}
               <Text>{isFollowing ? "Following" : "Follow"}</Text>

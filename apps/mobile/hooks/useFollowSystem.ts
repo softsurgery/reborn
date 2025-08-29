@@ -1,13 +1,26 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import React from "react";
 import { api } from "~/api";
 
 interface useFollowSystemProps {
   id: string;
-  fetch: ("is-following" | "followers" | "followings")[];
+  use?: ("is-following" | "followers" | "followings")[];
+  follow?: {
+    onSuccess?: (data?: any, variables?: void, context?: any) => void;
+    onError?: (error?: any, variables?: void, context?: any) => void;
+  };
+  unfollow?: {
+    onSuccess?: (data?: any, variables?: void, context?: any) => void;
+    onError?: (error?: any, variables?: void, context?: any) => void;
+  };
 }
 
-export function useFollowSystem({ id, fetch }: useFollowSystemProps) {
+export function useFollowSystem({
+  id,
+  use = [],
+  follow,
+  unfollow,
+}: useFollowSystemProps) {
   const {
     data: isFollowingResp,
     isPending: isIsFollowingPending,
@@ -15,7 +28,7 @@ export function useFollowSystem({ id, fetch }: useFollowSystemProps) {
   } = useQuery({
     queryKey: ["is-following", id],
     queryFn: () => api.follow.findIsFollowing(id),
-    enabled: !!id && fetch.includes("is-following"),
+    enabled: !!id && use.includes("is-following"),
   });
 
   const isFollowing = React.useMemo(
@@ -30,7 +43,7 @@ export function useFollowSystem({ id, fetch }: useFollowSystemProps) {
   } = useQuery({
     queryKey: ["followers", id],
     queryFn: () => api.follow.findFollowers(id),
-    enabled: !!id && fetch.includes("followers"),
+    enabled: !!id && use.includes("followers"),
   });
 
   const followers = React.useMemo(() => followersResp || [], [followersResp]);
@@ -42,10 +55,22 @@ export function useFollowSystem({ id, fetch }: useFollowSystemProps) {
   } = useQuery({
     queryKey: ["followings", id],
     queryFn: () => api.follow.findFollowing(id),
-    enabled: !!id && fetch.includes("followings"),
+    enabled: !!id && use.includes("followings"),
   });
 
   const following = React.useMemo(() => followingResp || [], [followingResp]);
+
+  const { mutate: followUser, isPending: isFollowPending } = useMutation({
+    mutationFn: () => api.follow.followUser(id),
+    onSuccess: follow?.onSuccess,
+    onError: follow?.onError,
+  });
+
+  const { mutate: unfollowUser, isPending: isUnfollowPending } = useMutation({
+    mutationFn: () => api.follow.unfollowUser(id!),
+    onSuccess: unfollow?.onSuccess,
+    onError: unfollow?.onError,
+  });
 
   return {
     //is-following
@@ -60,5 +85,10 @@ export function useFollowSystem({ id, fetch }: useFollowSystemProps) {
     following,
     isFollowingPending,
     refetchFollowing,
+    //mutations
+    followUser,
+    isFollowPending,
+    unfollowUser,
+    isUnfollowPending,
   };
 }

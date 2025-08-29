@@ -28,6 +28,7 @@ import { Loader } from "../../Loader";
 import { Separator } from "../../ui/separator";
 import { Badge } from "../../ui/badge";
 import { StablePressable } from "~/components/shared/StablePressable";
+import { cn } from "~/lib/utils";
 
 export const JobDetails = () => {
   const navigation = useNavigation<NavigationProps>();
@@ -138,52 +139,55 @@ export const JobDetails = () => {
 
       <StableKeyboardAwareScrollView className="flex-1 px-6 pb-5 mt-4">
         {/* Images Grid */}
-        <Text className="text-lg font-semibold text-foreground mb-2">
-          Images
-        </Text>
-        <View className="flex flex-wrap flex-row justify-start items-center gap-x-[5%]">
-          {imageQueries.map((query, index) => {
-            const uploadId = uploads[index];
 
-            if (query.isLoading) {
+        <View className={cn(uploads?.length > 0 ? "" : "hidden")}>
+          <Text className="text-lg font-semibold text-foreground mb-2">
+            Images
+          </Text>
+          <View className="flex flex-wrap flex-row justify-start items-center gap-x-[5%]">
+            {imageQueries.map((query, index) => {
+              const uploadId = uploads[index];
+
+              if (query.isLoading) {
+                return (
+                  <View
+                    key={uploadId}
+                    style={{
+                      width: "30%",
+                      height: 300,
+                      aspectRatio: 1,
+                      borderRadius: 8,
+                      marginBottom: 8,
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Loader />
+                  </View>
+                );
+              }
+
+              if (query.isError || !query.data) return null;
+
               return (
-                <View
+                <Image
                   key={uploadId}
+                  source={query.data}
                   style={{
                     width: "30%",
                     height: 300,
                     aspectRatio: 1,
                     borderRadius: 8,
                     marginBottom: 8,
-                    justifyContent: "center",
-                    alignItems: "center",
                   }}
-                >
-                  <Loader />
-                </View>
+                  contentFit="cover"
+                />
               );
-            }
-
-            if (query.isError || !query.data) return null;
-
-            return (
-              <Image
-                key={uploadId}
-                source={query.data}
-                style={{
-                  width: "30%",
-                  height: 300,
-                  aspectRatio: 1,
-                  borderRadius: 8,
-                  marginBottom: 8,
-                }}
-                contentFit="cover"
-              />
-            );
-          })}
+            })}
+          </View>
+          <Separator className="my-4" />
         </View>
 
-        <Separator className="my-4" />
         {/* About Project */}
         <View>
           <Text className="text-lg font-semibold text-foreground mb-2">
