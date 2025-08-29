@@ -3,12 +3,15 @@ import { setDeepValue } from "~/lib/object.lib";
 import {
   ResponseClientDto,
   ResponseFollowCountsDto,
+  ResponseFollowDto,
   UpdateClientDto,
 } from "~/types";
 
 interface ClientData {
   response?: ResponseClientDto;
   responseFollowCountsDto: ResponseFollowCountsDto;
+  followers: ResponseFollowDto[];
+  following: ResponseFollowDto[];
   updateDto: UpdateClientDto;
   picture?: string;
   progress: number;
@@ -27,6 +30,8 @@ const initialState: ClientData = {
     followers: 0,
     following: 0,
   },
+  followers: [],
+  following: [],
   updateDto: {
     firstName: "",
     lastName: "",

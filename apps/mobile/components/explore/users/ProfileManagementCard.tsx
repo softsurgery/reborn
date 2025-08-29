@@ -22,8 +22,9 @@ import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
 import { showToastable } from "react-native-toastable";
 import Icon from "~/lib/Icon";
 import { Mail, UserPlus } from "lucide-react-native";
-import { useIsFollowing } from "~/hooks/useIsFollowing";
 import { ServerErrorResponse } from "~/types";
+import { ProfileStat } from "./ProfileStat";
+import { useFollowSystem } from "~/hooks/useFollowSystem";
 
 interface ProfileManagmentCardProps {
   className?: string;
@@ -35,9 +36,16 @@ export const ProfileManagmentCard = ({
   const queryClient = useQueryClient();
   const clientStore = useClientStore();
   const { currentUser } = useCurrentUser();
-  const { isFollowing, refetchIsFollowing } = useIsFollowing({
-    id: clientStore.response?.id!,
-  });
+  const { isFollowing, refetchIsFollowing, followers, following } =
+    useFollowSystem({
+      id: clientStore.response?.id!,
+      fetch: ["is-following", "followers", "following"],
+    });
+
+  React.useEffect(() => {
+    clientStore.set("followers", followers);
+    clientStore.set("following", following);
+  }, [followers, following]);
 
   const isCurrentUser = React.useMemo(() => {
     return clientStore.response?.id === currentUser?.id;
@@ -50,7 +58,6 @@ export const ProfileManagmentCard = ({
         queryKey: ["follow-data-count", clientStore.response?.id],
       });
       refetchIsFollowing();
-      showToastable({ message: "Followed successfully" });
     },
     onError: () => {
       showToastable({ message: "Failed to follow user" });
@@ -64,7 +71,6 @@ export const ProfileManagmentCard = ({
         queryKey: ["follow-data-count", clientStore.response?.id],
       });
       refetchIsFollowing();
-      showToastable({ message: "Unfollowed successfully" });
     },
     onError: (err: ServerErrorResponse) => {
       console.log(err.response?.data.message);
@@ -87,8 +93,8 @@ export const ProfileManagmentCard = ({
       <CardHeader className="w-full">
         <View className="flex flex-row justify-between items-center">
           {/* avatar */}
-          <View className="w-[30%]">
-            <Avatar alt={fallback} className="mx-auto border border-border">
+          <View className="w-[30%] ">
+            <Avatar alt={fallback} className="border border-border">
               <AvatarImage source={{ uri: clientStore.picture }} />
               <AvatarFallback>
                 <Text>{fallback}</Text>
@@ -96,53 +102,40 @@ export const ProfileManagmentCard = ({
             </Avatar>
           </View>
           {/* info block */}
-          <View className="flex flex-col justify-between gap-6 w-[60%]">
+          <View className="flex flex-col justify-between gap-6 w-[60%] items-start">
             {/* identity */}
-            <Text className="text-xl">{identity}</Text>
-            <View className="flex flex-row w-full gap-2">
-              <View className="flex items-center w-1/3 border-r-2 border-border">
-                <Text className="text-xl">-</Text>
-                <Text className="font-light">Services</Text>
-              </View>
-              <View className="flex items-center w-1/3 border-r-2 border-border">
-                <Text className="text-xl">
-                  {clientStore.responseFollowCountsDto?.following}
-                </Text>
-                <Text className="font-light">Following</Text>
-              </View>
-              <View className="flex items-center w-1/3">
-                <Text className="text-xl">
-                  {clientStore.responseFollowCountsDto?.followers}
-                </Text>
-                <Text className="font-light">Followers</Text>
-              </View>
-            </View>
+            <Text variant={"h4"}>{identity}</Text>
+            {/* stats */}
+            <ProfileStat />
           </View>
         </View>
       </CardHeader>
-      <CardContent>
-        <View className="flex flex-col items-start">
-          <Text className="text-xs">{clientStore.response?.profile?.bio}</Text>
-        </View>
+      <CardContent className="w-full">
+        <Text variant={"small"}>{clientStore.response?.profile?.bio}</Text>
       </CardContent>
-      <CardFooter>
-        {!isCurrentUser && (
+      {!isCurrentUser && (
+        <CardFooter>
           <View className="flex flex-row w-full justify-between gap-2">
             <Button
               size="sm"
               onPress={() => (isFollowing ? unfollowUser() : followUser())}
+              variant={isFollowing ? "outline" : "default"}
               className="flex flex-row gap-2 w-1/2"
             >
-              <Icon name={UserPlus} size={20} />
-              <Text>{isFollowing ? "Unfollow" : "Follow"}</Text>
+              {!isFollowing && <Icon name={UserPlus} size={20} />}
+              <Text>{isFollowing ? "Following" : "Follow"}</Text>
             </Button>
-            <Button size="sm" className="flex flex-row gap-2 w-1/2">
+            <Button
+              size="sm"
+              className="flex flex-row gap-2 w-1/2"
+              variant="outline"
+            >
               <Icon name={Mail} size={20} />
               <Text>Send Message</Text>
             </Button>
           </View>
-        )}
-      </CardFooter>
+        </CardFooter>
+      )}
     </Card>
   );
 };

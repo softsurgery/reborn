@@ -2,6 +2,7 @@ import React from "react";
 import { ScrollView, Text, ScrollViewProps } from "react-native";
 
 interface StableScrollViewProps extends ScrollViewProps {
+  className?: string;
   children: React.ReactNode;
 }
 
@@ -37,6 +38,7 @@ const wrapChildren = (children: React.ReactNode): React.ReactNode => {
 };
 
 export const StableScrollView = ({
+  className,
   children,
   style,
   ...props
@@ -50,6 +52,7 @@ export const StableScrollView = ({
       showsHorizontalScrollIndicator={false}
       overScrollMode="never"
       style={style}
+      className={className}
       {...props}
     >
       {wrapChildren(children)}
