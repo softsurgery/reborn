@@ -19,7 +19,6 @@ SplashScreen.preventAutoHideAsync();
 const queryClient = new QueryClient();
 
 export default function RootLayout() {
-  const authPersistStore = useAuthPersistStore();
   const preferencePersistStore = usePreferencePersistStore();
   const isDarkMode = React.useMemo(
     () => preferencePersistStore.theme === "dark",
