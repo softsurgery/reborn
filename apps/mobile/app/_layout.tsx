@@ -68,8 +68,7 @@ export default function RootLayout() {
             name="index"
             options={{
               title: "",
-              headerShown:
-                authPersistStore.isReady && authPersistStore.isAuthenticated,
+              headerShown: false,
               animation: "fade",
               animationDuration: 200,
             }}
@@ -154,6 +153,14 @@ export default function RootLayout() {
           />
           {/* Explore */}
           <Stack.Screen
+            name="explore/job-search"
+            options={{
+              title: "Job Search",
+              headerShown: false,
+              animation: "slide_from_bottom",
+            }}
+          />
+          <Stack.Screen
             name="explore/job-details"
             options={{
               animation: "slide_from_right",
@@ -170,13 +177,6 @@ export default function RootLayout() {
             options={{
               title: "TEST",
               animation: "slide_from_right",
-            }}
-          />
-          <Stack.Screen
-            name="explore/job-search"
-            options={{
-              title: "Job Search",
-              animation: "slide_from_bottom",
             }}
           />
         </Stack>

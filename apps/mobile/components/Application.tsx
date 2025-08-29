@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Platform, View, Pressable } from "react-native";
+import { Platform, View, Pressable, SafeAreaView } from "react-native";
 import {
   Home as HomeIcon,
   MessageSquareText,
@@ -81,7 +81,7 @@ export default function Application() {
   };
 
   return (
-    <View className="flex-1">
+    <SafeAreaView className="flex-1">
       <View className="flex-1">
         {tabs.map((tab) => (
           <View
@@ -96,13 +96,7 @@ export default function Application() {
         ))}
       </View>
 
-      <View
-        className="flex flex-row items-center justify-between w-full"
-        style={{
-          height: Platform.OS === "ios" ? 80 : 70,
-          paddingBlock: Platform.OS === "ios" ? 10 : 0,
-        }}
-      >
+      <View className="flex flex-row items-center justify-between w-full">
         {leftTabs.map((tab) => (
           <Pressable
             key={tab.value}
@@ -161,6 +155,6 @@ export default function Application() {
           </Pressable>
         ))}
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
