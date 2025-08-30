@@ -16,7 +16,7 @@ import {
 import { useCurrentUser } from "~/hooks/useCurrentUser";
 import { Button } from "~/components/ui/button";
 import { useQueryClient } from "@tanstack/react-query";
-import { ClientStore, useClientStore } from "~/hooks/stores/useClientStore";
+import { ClientStore } from "~/hooks/stores/useClientStore";
 import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
 import { showToastable } from "react-native-toastable";
 import Icon from "~/lib/Icon";
