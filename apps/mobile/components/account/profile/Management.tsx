@@ -4,7 +4,6 @@ import { StableScrollView } from "~/components/shared/StableScrollView";
 import { ProfileManagmentCard } from "~/components/explore/users/ProfileManagementCard";
 import { Text } from "~/components/ui/text";
 import { useCurrentUser } from "~/hooks/useCurrentUser";
-import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "~/api";
 import { Image } from "expo-image";

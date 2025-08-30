@@ -71,6 +71,7 @@ export const UserEntry = ({
         showToastable({ message: err.response?.data.message });
       },
     },
+    use: ["is-following"],
   });
 
   const { data: profilePicture } = useQuery({
