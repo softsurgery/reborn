@@ -132,3 +132,15 @@ export interface RadioFieldProps {
   options: SelectOption[];
   itemWidthClass?: string;
 }
+export interface CheckboxFieldProps {
+  checked?: boolean;
+  onCheckedChange?: (checked: boolean) => void;
+  editable?: boolean;
+  options: SelectOption[];
+}
+
+export interface SwitchFieldProps {
+  checked?: boolean;
+  onCheckedChange?: (checked: boolean) => void;
+  editable?: boolean;
+}

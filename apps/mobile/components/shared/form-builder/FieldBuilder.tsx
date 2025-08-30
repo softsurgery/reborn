@@ -12,6 +12,7 @@ import { PictureUploader } from "../PictureUploader";
 import { RadioField } from "../RadioField";
 import { Text } from "~/components/ui/text";
 import { cn } from "~/lib/utils";
+import { Switch } from "~/components/ui/switch";
 
 interface FieldBuilderProps {
   field?: Field<any>;
@@ -180,6 +181,16 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
           className={field?.className}
           itemWidthClass={field?.props?.itemWidthClass}
           options={field?.props?.options || []}
+          checked={field?.props?.checked}
+          onCheckedChange={field?.props?.onCheckedChange}
+          disabled={field?.props?.disabled}
+        />
+      );
+    case "switch":
+      return (
+        <Switch
+          {...field?.props}
+          className={field?.className}
           checked={field?.props?.checked}
           onCheckedChange={field?.props?.onCheckedChange}
           disabled={field?.props?.disabled}
