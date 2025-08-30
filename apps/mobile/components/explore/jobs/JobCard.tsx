@@ -112,17 +112,13 @@ export const JobCard = ({ className, job }: JobCardProps) => {
       </View>
 
       <View className="flex-row flex-wrap gap-1 mt-2">
-        {job?.tags && job?.tags?.length > 0 ? (
-          job?.tags.map((tag) => (
-            <Badge variant={"secondary"} key={tag.id}>
-              <Text className="text-xs font-medium">{tag.label}</Text>
-            </Badge>
-          ))
-        ) : (
-          <Text className="text-lg font-medium mx-auto opacity-70">
-            No tags found
-          </Text>
-        )}
+        {job?.tags && job?.tags?.length > 0
+          ? job?.tags.map((tag) => (
+              <Badge variant={"secondary"} key={tag.id}>
+                <Text className="text-xs font-medium">{tag.label}</Text>
+              </Badge>
+            ))
+          : null}
       </View>
 
       <View className="flex flex-row justify-between">
