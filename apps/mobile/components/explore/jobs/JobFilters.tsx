@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -10,27 +9,151 @@ import {
 import { Button } from "../../ui/button";
 import { Sliders } from "lucide-react-native";
 import Icon from "~/lib/Icon";
+import { View } from "react-native";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import { Checkbox } from "~/components/ui/checkbox";
+import Select from "~/components/shared/Select";
+import { Text } from "~/components/ui/text";
+import {
+  Accordion,
+  AccordionItem,
+  AccordionContent,
+  AccordionTrigger,
+} from "~/components/ui/accordion";
 
 interface JobFiltersProps {
   className?: string;
 }
 
 export const JobFilters = ({ className }: JobFiltersProps) => {
+  // States
+  const [startDate, setStartDate] = useState<Date | undefined>(undefined);
+  const [endDate, setEndDate] = useState<Date | undefined>(undefined);
+  const [category, setCategory] = useState<string | undefined>(undefined);
+  const [tags, setTags] = useState<{ [key: string]: boolean }>({
+    Remote: false,
+    "Full-time": false,
+    "Part-time": false,
+    Internship: false,
+  });
+
   return (
     <Dialog>
       <DialogTrigger className={className} asChild>
-        <Button variant={"link"} className="w-fit">
+        <Button variant="link" className="w-fit">
           <Icon name={Sliders} size={24} />
         </Button>
       </DialogTrigger>
+
       <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Are you absolutely sure?</DialogTitle>
-          <DialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
-          </DialogDescription>
+        <DialogHeader className="px-4">
+          <DialogTitle>Filter Jobs</DialogTitle>
         </DialogHeader>
+
+        <Accordion type="single" collapsible>
+          {/* Date Range */}
+          <AccordionItem value="date">
+            <AccordionTrigger>
+              <Text className="font-semibold">Date Range</Text>
+            </AccordionTrigger>
+            <AccordionContent>
+              <View className="flex flex-row gap-2 items-center mt-2">
+                <DateTimePicker
+                  value={startDate || new Date()}
+                  mode="date"
+                  onChange={(e, date) => setStartDate(date)}
+                />
+                <Text className="text-center">to</Text>
+                <DateTimePicker
+                  value={endDate || new Date()}
+                  mode="date"
+                  onChange={(e, date) => setEndDate(date)}
+                />
+              </View>
+              <Text className="text-muted-foreground text-sm mt-2">
+                Choose a start and end date to filter job postings.
+              </Text>
+            </AccordionContent>
+          </AccordionItem>
+
+          {/* Category */}
+          <AccordionItem value="category">
+            <AccordionTrigger>
+              <Text className="font-semibold">Category</Text>
+            </AccordionTrigger>
+            <AccordionContent>
+              <Select
+                title="Select a category to filter with"
+                value={category}
+                onSelect={(itemValue) => setCategory(itemValue)}
+                options={[
+                  { label: "Design", value: "design" },
+                  { label: "Development", value: "development" },
+                  { label: "Marketing", value: "marketing" },
+                  { label: "Management", value: "management" },
+                ]}
+              />
+              <Text className="text-muted-foreground text-sm mt-2">
+                Narrow down jobs based on their main category.
+              </Text>
+            </AccordionContent>
+          </AccordionItem>
+
+          {/* Tags */}
+          <AccordionItem value="tags">
+            <AccordionTrigger>
+              <Text className="font-semibold">Tags</Text>
+            </AccordionTrigger>
+            <AccordionContent>
+              {Object.keys(tags).map((tag) => (
+                <View key={tag} className="flex-row items-center gap-2 mt-1">
+                  <Checkbox
+                    checked={tags[tag]}
+                    onCheckedChange={(newValue) =>
+                      setTags((prev) => ({ ...prev, [tag]: newValue }))
+                    }
+                  />
+                  <Text>{tag}</Text>
+                </View>
+              ))}
+              <Text className="text-muted-foreground text-sm mt-2">
+                Apply additional filters such as job type or work style.
+              </Text>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+
+        {/* Actions */}
+        <View className="flex-row justify-between gap-4 mt-4 px-4">
+          <Button
+            variant="outline"
+            onPress={() => {
+              setStartDate(undefined);
+              setEndDate(undefined);
+              setCategory(undefined);
+              setTags({
+                Remote: false,
+                "Full-time": false,
+                "Part-time": false,
+                Internship: false,
+              });
+            }}
+          >
+            <Text>Reset</Text>
+          </Button>
+          <Button
+            onPress={() => {
+              console.log({
+                startDate,
+                endDate,
+                category,
+                tags,
+              });
+            }}
+          >
+            <Text>Apply Filters</Text>
+          </Button>
+        </View>
       </DialogContent>
     </Dialog>
   );
