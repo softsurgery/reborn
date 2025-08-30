@@ -4,9 +4,9 @@ import { ExploreHeader } from "./ExploreHeader";
 import { useDebounce } from "~/hooks/useDebounce";
 import { ExploreCommon } from "./ExploreCommon";
 import { Text } from "../ui/text";
-import { Button } from "../ui/button";
 import { ExploreFollowing } from "./ExploreFollowing";
 import { cn } from "~/lib/utils";
+import { StablePressable } from "../shared/StablePressable";
 
 export const Explore = () => {
   const [tab, setTab] = React.useState<"recent" | "followings">("recent");
@@ -19,27 +19,25 @@ export const Explore = () => {
       <View className="px-4">
         <ExploreHeader />
       </View>
-      <View className="flex flex-row gap-4 pt-2">
-        <Button
+      <View className="flex flex-row gap-2 pt-2">
+        <StablePressable
           onPress={() => setTab("recent")}
-          variant={"ghost"}
           className={cn(
-            "w-1/2",
+            "h-12 w-1/2 flex items-center justify-center",
             tab === "recent" ? "border-b-2 border-b-primary" : ""
           )}
         >
           <Text>Recent</Text>
-        </Button>
-        <Button
+        </StablePressable>
+        <StablePressable
           onPress={() => setTab("followings")}
-          variant={"ghost"}
           className={cn(
-            "w-1/2",
+            "h-12 w-1/2 flex items-center justify-center",
             tab === "followings" ? "border-b-2 border-b-primary" : ""
           )}
         >
           <Text>Followings</Text>
-        </Button>
+        </StablePressable>
       </View>
       <View className="flex-1 mx-2">
         {/* Manual Tabs */}
