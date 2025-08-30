@@ -49,7 +49,7 @@ export function useFollowSystem({
   const followers = React.useMemo(() => followersResp || [], [followersResp]);
 
   const {
-    data: followingResp,
+    data: followingsResp,
     isPending: isFollowingPending,
     refetch: refetchFollowing,
   } = useQuery({
@@ -58,7 +58,10 @@ export function useFollowSystem({
     enabled: !!id && use.includes("followings"),
   });
 
-  const following = React.useMemo(() => followingResp || [], [followingResp]);
+  const followings = React.useMemo(
+    () => followingsResp || [],
+    [followingsResp]
+  );
 
   const { mutate: followUser, isPending: isFollowPending } = useMutation({
     mutationFn: () => api.follow.followUser(id),
@@ -82,7 +85,7 @@ export function useFollowSystem({
     isFollowersPending,
     refetchFollowers,
     //following
-    following,
+    followings,
     isFollowingPending,
     refetchFollowing,
     //mutations

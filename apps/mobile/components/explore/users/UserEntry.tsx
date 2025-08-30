@@ -14,9 +14,14 @@ import { ClientStore } from "~/hooks/stores/useClientStore";
 import { useCurrentUser } from "~/hooks/useCurrentUser";
 import { useFollowSystem } from "~/hooks/useFollowSystem";
 import Icon from "~/lib/Icon";
-import { identifyUser } from "~/lib/user.utils";
+import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
 import { cn } from "~/lib/utils";
 import { ResponseClientDto, ServerErrorResponse } from "~/types";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "~/components/shared/StableAvatar";
 
 interface UserEntryProps {
   className?: string;
@@ -81,6 +86,8 @@ export const UserEntry = ({
     staleTime: Infinity,
   });
 
+  const fallback = React.useMemo(() => identifyUserAvatar(user), [user]);
+
   return (
     <StablePressable
       className={cn("p-2", className)}
@@ -96,11 +103,16 @@ export const UserEntry = ({
       <View className="flex-row items-center justify-between">
         <View className="flex flex-row justify-between items-center gap-3">
           <View className="w-10 h-10 bg-accent/20 rounded-full items-center justify-center">
-            <Image
-              source={profilePicture}
+            <Avatar
+              alt={fallback}
               style={{ width: 40, height: 40, borderRadius: 20 }}
-              cachePolicy="memory-disk"
-            />
+              className="border border-border"
+            >
+              <AvatarImage source={{ uri: profilePicture }} />
+              <AvatarFallback>
+                <Text>{fallback}</Text>
+              </AvatarFallback>
+            </Avatar>
           </View>
           <View>
             <Text className="text-base font-medium text-card-foreground">

@@ -1,23 +1,22 @@
 import React from "react";
-import { ScrollView, View, RefreshControl, Pressable } from "react-native";
+import { ScrollView, View, Pressable } from "react-native";
 import { Text } from "../ui/text";
 import { UserCard } from "./UserCard";
 import { Separator } from "../ui/separator";
-import { useContextUsers } from "~/hooks/useUsers";
 import { UserBubble } from "./UserBubble";
 import { useNavigation } from "expo-router";
 import { NavigationProps } from "~/types/app.routes";
 import { SearchInput } from "../shared/SearchInput";
-
-const getRandomBoolean = () => Math.ceil(Math.random() * 3) === 1;
+import { useFollowSystem } from "~/hooks/useFollowSystem";
+import { useCurrentUser } from "~/hooks/useCurrentUser";
 
 export const Chat = () => {
-  const { users, isFetchingUsers, refetchUsers } = useContextUsers("messages");
+  const { currentUser } = useCurrentUser();
+  const { followers, followings, isFollowersPending } = useFollowSystem({
+    id: currentUser?.id!,
+    use: ["followers", "followings"],
+  });
   const navigation = useNavigation<NavigationProps>();
-
-  React.useEffect(() => {
-    refetchUsers();
-  }, []);
 
   return (
     <View className="flex-1 px-5">
@@ -42,14 +41,8 @@ export const Chat = () => {
           showsHorizontalScrollIndicator={false}
           className="my-4 px-4"
         >
-          {users.map((user) => (
-            <UserBubble
-              key={user.uid}
-              className="mx-1.5"
-              label={user.surname}
-              uid={user.uid}
-              gender={user.isMale}
-            />
+          {followers.map((user) => (
+            <UserBubble key={user.id} className="mx-1.5" user={user.follower} />
           ))}
         </ScrollView>
       </View>
@@ -65,22 +58,17 @@ export const Chat = () => {
         {/* Messages List */}
 
         <View className="flex-1 justify-between">
-          {users.map((user) => (
+          {followers.map((user) => (
             <Pressable
-              key={user.uid}
+              key={user.id}
               className="flex flex-col gap-2 py-2"
-              onPress={() =>
-                navigation.navigate("chat/conversation", {
-                  user,
-                })
-              }
+              onPress={() => navigation.navigate("chat/conversation", {})}
             >
               <UserCard
-                user={user}
+                user={user.follower}
                 latestMessage="Latest Message"
                 sentAt="12:55"
-                isSeen={getRandomBoolean()}
-                isPending={isFetchingUsers}
+                isPending={isFollowersPending}
               />
             </Pressable>
           ))}

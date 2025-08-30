@@ -1,60 +1,45 @@
-import { Image, Pressable } from "react-native";
+import { Pressable } from "react-native";
 import { Text } from "../ui/text";
+import { Avatar, AvatarFallback, AvatarImage } from "../shared/StableAvatar";
+import { useQuery } from "@tanstack/react-query";
+import { api } from "~/api";
+import { ResponseClientDto } from "~/types";
+import React from "react";
+import { identifyUserAvatar } from "~/lib/user.utils";
 import { cn } from "~/lib/utils";
-import { Skeleton } from "../ui/skeleton";
 
 interface UserBubbleProps {
   className?: string;
-  uid?: string;
-  label?: string;
-  pictureUrl?: string;
-  gender?: boolean;
-  isPending?: boolean;
+  user: ResponseClientDto;
 }
 
-const getChecksum = (uid?: string) => {
-  return uid?.split("").reduce((sum, char) => sum + char.charCodeAt(0), 0);
-};
+export const UserBubble = ({ className, user }: UserBubbleProps) => {
+  const { data: profilePicture } = useQuery({
+    queryKey: ["profile-picture", user?.profile?.pictureId],
+    queryFn: () => api.upload.getUploadById(user?.profile?.pictureId!),
+    enabled: !!user?.profile?.pictureId,
+    staleTime: Infinity,
+  });
 
-export const UserBubble = ({
-  className,
-  label,
-  uid,
-  pictureUrl,
-  gender,
-  isPending,
-}: UserBubbleProps) => {
-  const checksum = getChecksum(uid);
-  const imageIndex = (checksum || 0) % 2 === 0 ? 2 : 1;
-
-  let imageSrc;
-  if (gender) {
-    // Male
-    imageSrc =
-      imageIndex === 1
-        ? require("~/assets/images/male-user-1.png")
-        : require("~/assets/images/male-user-2.png");
-  } else {
-    // Female
-    imageSrc =
-      imageIndex === 1
-        ? require("~/assets/images/female-user-1.png")
-        : require("~/assets/images/female-user-2.png");
-  }
+  const fallback = React.useMemo(() => identifyUserAvatar(user), [user]);
 
   return (
-    <Pressable className="flex flex-col items-center gap-1">
-      {!isPending || imageSrc ? (
-        <Image
-          className={cn("w-16 h-16 shadow-md rounded-full", className)}
-          source={pictureUrl || imageSrc}
-        />
-      ) : (
-        <Skeleton
-          className={cn("w-16 h-16 shadow-md rounded-full", className)}
-        />
+    <Pressable
+      className={cn(
+        "flex flex-col items-center justify-center gap-1",
+        className
       )}
-      {label && <Text className="text-xs">{label}</Text>}
+    >
+      <Avatar
+        alt={fallback}
+        className="border border-border"
+        style={{ width: 50, height: 50, borderRadius: 25 }}
+      >
+        <AvatarImage source={profilePicture} />
+        <AvatarFallback>
+          <Text>{fallback}</Text>
+        </AvatarFallback>
+      </Avatar>
     </Pressable>
   );
 };

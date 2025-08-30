@@ -52,7 +52,7 @@ export const ProfileStat = ({ className, clientStore }: ProfileStatProps) => {
 
       {/* Following */}
       <Dialog open={openFollowing} onOpenChange={setOpenFollowing}>
-        <DialogTrigger asChild disabled={clientStore.following.length === 0}>
+        <DialogTrigger asChild disabled={clientStore.followings.length === 0}>
           <StablePressable
             className="flex flex-col items-center"
             onPressClassname="opacity-70"
@@ -65,7 +65,7 @@ export const ProfileStat = ({ className, clientStore }: ProfileStatProps) => {
         </DialogTrigger>
         <DialogContent className="w-[90vw] min-h-[50vh] py-0">
           <StableScrollView className="flex flex-col">
-            {clientStore.following.map((f) => (
+            {clientStore.followings.map((f) => (
               <UserEntry
                 key={f.id}
                 user={f.following}

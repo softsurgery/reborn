@@ -40,7 +40,7 @@ export const ProfileManagmentCard = ({
     isFollowing,
     refetchIsFollowing,
     followers,
-    following,
+    followings,
     refetchFollowers,
     refetchFollowing,
     followUser,
@@ -80,8 +80,8 @@ export const ProfileManagmentCard = ({
 
   React.useEffect(() => {
     clientStore.set("followers", followers);
-    clientStore.set("following", following);
-  }, [followers, following]);
+    clientStore.set("followings", followings);
+  }, [followers, followings]);
 
   const isCurrentUser = React.useMemo(() => {
     return clientStore?.response?.id === currentUser?.id;

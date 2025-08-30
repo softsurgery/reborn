@@ -11,7 +11,7 @@ interface ClientData {
   response?: ResponseClientDto;
   responseFollowCountsDto: ResponseFollowCountsDto;
   followers: ResponseFollowDto[];
-  following: ResponseFollowDto[];
+  followings: ResponseFollowDto[];
   updateDto: UpdateClientDto;
   picture?: string;
   progress: number;
@@ -31,7 +31,7 @@ const initialState: ClientData = {
     following: 0,
   },
   followers: [],
-  following: [],
+  followings: [],
   updateDto: {
     firstName: "",
     lastName: "",
