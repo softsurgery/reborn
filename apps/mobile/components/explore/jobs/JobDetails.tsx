@@ -199,36 +199,45 @@ export const JobDetails = () => {
 
         <Separator className="my-4" />
 
-        {/* Skills */}
-        <View>
-          <Text className="text-lg font-semibold text-foreground mb-2">
-            Skills needed
-          </Text>
-          <View className="flex-row flex-wrap gap-1 mt-2">
-            {job?.tags.map((tag) => (
-              <Badge variant={"secondary"} key={tag.id}>
-                <Text className="text-xs font-medium">{tag.label}</Text>
-              </Badge>
-            ))}
-          </View>
-        </View>
-
-        <Separator className="my-4" />
-
-        {/* Project Scope */}
-        <View>
-          <Text className="text-lg font-semibold text-foreground mb-2">
-            Project scope
-          </Text>
-          <View className="space-y-1">
-            <View className="flex-row items-center gap-2">
-              <Calendar size={12} color="#6366f1" />
-              <Text className="text-xs text-muted-foreground">3-6 months</Text>
-            </View>
-            <Text className="text-xs text-muted-foreground">
-              Intermediate level
+        {/* details */}
+        <View className="flex flex-row gap-4">
+          {/* Skills */}
+          <View className="w-1/2">
+            <Text className="text-lg font-semibold text-foreground mb-2">
+              Tags
             </Text>
-            <Text className="text-xs text-muted-foreground">Remote work</Text>
+            <View className="flex-row flex-wrap gap-1 mt-2">
+              {job?.tags && job?.tags?.length > 0 ? (
+                job?.tags.map((tag) => (
+                  <Badge variant={"secondary"} key={tag.id}>
+                    <Text className="text-xs font-medium">{tag.label}</Text>
+                  </Badge>
+                ))
+              ) : (
+                <Text className="text-lg font-medium mx-auto opacity-70">
+                  No tags found
+                </Text>
+              )}
+            </View>
+          </View>
+
+          {/* Project Scope */}
+          <View className="w-1/2">
+            <Text className="text-lg font-semibold text-foreground mb-2">
+              Project scope
+            </Text>
+            <View className="space-y-1">
+              <View className="flex-row items-center gap-2">
+                <Calendar size={12} color="#6366f1" />
+                <Text className="text-xs text-muted-foreground">
+                  3-6 months
+                </Text>
+              </View>
+              <Text className="text-xs text-muted-foreground">
+                Intermediate level
+              </Text>
+              <Text className="text-xs text-muted-foreground">Remote work</Text>
+            </View>
           </View>
         </View>
       </StableKeyboardAwareScrollView>

@@ -31,7 +31,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Application() {
   const navigation = useNavigation<any>();
-  const [activeTab, setActiveTab] = React.useState("account");
+  const [activeTab, setActiveTab] = React.useState("explore");
   const [tabKey, setTabKey] = React.useState(0);
 
   const tabs = React.useMemo(
@@ -96,7 +96,7 @@ export default function Application() {
         ))}
       </View>
 
-      <View className="flex flex-row items-center justify-between w-full">
+      <View className="flex flex-row items-center justify-between w-full bg-background">
         {leftTabs.map((tab) => (
           <Pressable
             key={tab.value}
