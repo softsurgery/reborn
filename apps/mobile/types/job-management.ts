@@ -8,14 +8,17 @@ export interface ResponseJobDto extends DatabaseEntity {
   description: string;
   price: number;
   postedBy: ResponseClientDto;
-  jobTags: ResponseJobTagDto[];
+  tags: ResponseJobTagDto[];
+  categoryId: number;
   uploads: ResponseJobUploadDto[];
 }
 export interface CreateJobDto {
   title: string;
   description: string;
   price: number;
-  jobTagIds: number[];
+  tagIds: number[];
+  categoryId: number;
+  category: ResponseJobCatgeoryDto;
   uploads?: { uploadId: number }[];
 }
 
@@ -29,6 +32,15 @@ export interface ResponseJobTagDto extends DatabaseEntity {
 }
 
 export interface CreateJobTagDto {
+  label: string;
+}
+
+export interface ResponseJobCatgeoryDto extends DatabaseEntity {
+  id: number;
+  label: string;
+}
+
+export interface CreateJobCategoryDto {
   label: string;
 }
 

@@ -21,12 +21,12 @@ export default function Screen() {
   React.useEffect(() => {
     try {
       if (isPreferencePersistStoreReady) {
-        setAndroidNavigationBar(isDarkMode ? "dark" : "light");
+        setAndroidNavigationBar(isDarkMode ? "light" : "dark");
 
         if (Platform.OS === "web") {
           document.documentElement.classList.add("bg-background");
         }
-        setColorScheme(theme);
+        setColorScheme(theme == "dark" ? "dark" : "light");
         setAndroidNavigationBar(theme);
       }
     } finally {

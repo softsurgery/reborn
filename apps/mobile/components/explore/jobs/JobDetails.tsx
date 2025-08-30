@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { View, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity, SafeAreaView } from "react-native";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { Text } from "~/components/ui/text";
 import { Button } from "~/components/ui/button";
@@ -85,7 +85,7 @@ export const JobDetails = () => {
 
   if (isJobPending) return <Loader />;
   return (
-    <View className="flex-1 pb-2">
+    <SafeAreaView className="flex-1 pb-2">
       {/* Header */}
       <View className="bg-card px-6 py-5 border-b border-border">
         <View className="flex-row items-start justify-between mb-3">
@@ -137,9 +137,8 @@ export const JobDetails = () => {
         </View>
       </View>
 
-      <StableKeyboardAwareScrollView className="flex-1 px-6 pb-5 mt-4">
+      <StableKeyboardAwareScrollView className={cn("flex-1 px-6 pb-5 mt-4")}>
         {/* Images Grid */}
-
         <View className={cn(uploads?.length > 0 ? "" : "hidden")}>
           <Text className="text-lg font-semibold text-foreground mb-2">
             Images
@@ -198,40 +197,48 @@ export const JobDetails = () => {
           </Text>
         </View>
 
-        {/* Skills */}
-        <Text className="text-base font-medium text-foreground mt-4">
-          Skills needed
-        </Text>
-        <View className="flex-row flex-wrap gap-1 mt-2">
-          <Badge variant={"secondary"}>
-            <Text className="text-xs font-medium">React</Text>
-          </Badge>
-          <Badge variant={"secondary"}>
-            <Text className="text-xs font-medium">Node.js</Text>
-          </Badge>
-          <Badge variant={"secondary"}>
-            <Text className="text-xs font-medium">TypeScript</Text>
-          </Badge>
-          <Badge variant={"secondary"}>
-            <Text className="text-xs font-medium">MongoDB</Text>
-          </Badge>
-        </View>
-
         <Separator className="my-4" />
 
-        {/* Project Scope */}
-        <Text className="text-base font-medium text-foreground mt-4">
-          Project scope
-        </Text>
-        <View className="space-y-1">
-          <View className="flex-row items-center gap-2">
-            <Calendar size={12} color="#6366f1" />
-            <Text className="text-xs text-muted-foreground">3-6 months</Text>
+        {/* details */}
+        <View className="flex flex-row gap-4">
+          {/* Skills */}
+          <View className="w-1/2">
+            <Text className="text-lg font-semibold text-foreground mb-2">
+              Tags
+            </Text>
+            <View className="flex-row flex-wrap gap-1 mt-2">
+              {job?.tags && job?.tags?.length > 0 ? (
+                job?.tags.map((tag) => (
+                  <Badge variant={"secondary"} key={tag.id}>
+                    <Text className="text-xs font-medium">{tag.label}</Text>
+                  </Badge>
+                ))
+              ) : (
+                <Text className="text-lg font-medium mx-auto opacity-70">
+                  No tags found
+                </Text>
+              )}
+            </View>
           </View>
-          <Text className="text-xs text-muted-foreground">
-            Intermediate level
-          </Text>
-          <Text className="text-xs text-muted-foreground">Remote work</Text>
+
+          {/* Project Scope */}
+          <View className="w-1/2">
+            <Text className="text-lg font-semibold text-foreground mb-2">
+              Project scope
+            </Text>
+            <View className="space-y-1">
+              <View className="flex-row items-center gap-2">
+                <Calendar size={12} color="#6366f1" />
+                <Text className="text-xs text-muted-foreground">
+                  3-6 months
+                </Text>
+              </View>
+              <Text className="text-xs text-muted-foreground">
+                Intermediate level
+              </Text>
+              <Text className="text-xs text-muted-foreground">Remote work</Text>
+            </View>
+          </View>
         </View>
       </StableKeyboardAwareScrollView>
 
@@ -299,11 +306,13 @@ export const JobDetails = () => {
           <Text className="text-base font-semibold">Apply for this job</Text>
         </Button>
         <Text className="text-xs text-muted-foreground text-center mt-2">
-          You'll be able to chat with{" "}
-          <Text className="font-medium">{identifyUser(job?.postedBy)}</Text>{" "}
+          You'll be able to chat with
+          <Text className="font-medium">
+            {identifyUser(job?.postedBy)}
+          </Text>{" "}
           before starting work
         </Text>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };

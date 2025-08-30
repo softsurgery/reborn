@@ -64,9 +64,6 @@ export const ProfileStat = ({ className, clientStore }: ProfileStatProps) => {
           </StablePressable>
         </DialogTrigger>
         <DialogContent className="w-[90vw] min-h-[50vh] py-0">
-          <DialogHeader>
-            <DialogTitle>Following</DialogTitle>
-          </DialogHeader>
           <StableScrollView className="flex flex-col">
             {clientStore.following.map((f) => (
               <UserEntry
@@ -95,9 +92,6 @@ export const ProfileStat = ({ className, clientStore }: ProfileStatProps) => {
           </StablePressable>
         </DialogTrigger>
         <DialogContent className="w-[90vw] min-h-[50vh] py-0">
-          <DialogHeader>
-            <DialogTitle>Followers</DialogTitle>
-          </DialogHeader>
           <StableScrollView className="flex flex-col">
             {clientStore.followers.map((f) => (
               <UserEntry

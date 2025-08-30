@@ -1,7 +1,6 @@
 import * as React from "react";
-import { Platform, View, Pressable, SafeAreaView } from "react-native";
+import { View, Pressable } from "react-native";
 import {
-  Home as HomeIcon,
   MessageSquareText,
   Plus,
   Telescope,
@@ -28,10 +27,11 @@ import {
 import { Text } from "./ui/text";
 import { Balance } from "./balance/Balance";
 import { Explore } from "./explore/Explore";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Application() {
   const navigation = useNavigation<any>();
-  const [activeTab, setActiveTab] = React.useState("account");
+  const [activeTab, setActiveTab] = React.useState("explore");
   const [tabKey, setTabKey] = React.useState(0);
 
   const tabs = React.useMemo(
@@ -96,7 +96,7 @@ export default function Application() {
         ))}
       </View>
 
-      <View className="flex flex-row items-center justify-between w-full">
+      <View className="flex flex-row items-center justify-between w-full bg-background">
         {leftTabs.map((tab) => (
           <Pressable
             key={tab.value}

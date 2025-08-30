@@ -162,6 +162,7 @@ export default function RootLayout() {
           <Stack.Screen
             name="explore/job-details"
             options={{
+              headerShown: false,
               animation: "slide_from_right",
             }}
           />
