@@ -1,13 +1,13 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Image } from "expo-image";
-import { useLocalSearchParams, useNavigation } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
 import { View } from "react-native";
 import { api } from "~/api";
 import { ProfileManagmentCard } from "~/components/explore/users/ProfileManagementCard";
 import { StableScrollView } from "~/components/shared/StableScrollView";
 import { Text } from "~/components/ui/text";
-import { useClientStore } from "~/hooks/stores/useClientStore";
+import { createClientStore } from "~/hooks/stores/useClientStore";
 
 interface UserProfileProps {
   className?: string;
@@ -15,7 +15,8 @@ interface UserProfileProps {
 
 export const UserProfile = ({ className }: UserProfileProps) => {
   const { id } = useLocalSearchParams();
-  const clientStore = useClientStore();
+  const storeRef = React.useRef(createClientStore());
+  const clientStore = storeRef.current();
 
   const { data: userResp, isPending: isUserPending } = useQuery({
     queryKey: ["user", id],
@@ -52,13 +53,14 @@ export const UserProfile = ({ className }: UserProfileProps) => {
   React.useEffect(() => {
     return () => {
       clientStore.reset();
+      storeRef.current = null as any;
     };
   }, []);
 
   return (
     <StableScrollView className={className}>
       <View className="flex flex-col gap-2 px-5 mb-7">
-        <ProfileManagmentCard className="mt-5" />
+        <ProfileManagmentCard className="mt-5" clientStore={clientStore} />
         <View className="flex flex-col gap-4 px-5">
           <View>
             <Text className="font-bold">Your Images</Text>
@@ -73,7 +75,7 @@ export const UserProfile = ({ className }: UserProfileProps) => {
               />
               <Image
                 style={{ width: 96, height: 96, borderRadius: 4 }}
-                source={clientStore.picture}
+                source={clientStore?.picture}
               />
             </View>
           </View>

@@ -1,3 +1,4 @@
+import React from "react";
 import { View } from "react-native";
 import { StablePressable } from "~/components/shared/StablePressable";
 import {
@@ -9,17 +10,20 @@ import {
   DialogTrigger,
 } from "~/components/ui/dialog";
 import { Text } from "~/components/ui/text";
-import { useClientStore } from "~/hooks/stores/useClientStore";
+import { ClientStore } from "~/hooks/stores/useClientStore";
 import { cn } from "~/lib/utils";
 import { UserEntry } from "./UserEntry";
 import { StableScrollView } from "~/components/shared/StableScrollView";
 
 interface ProfileStatProps {
   className?: string;
+  clientStore: ClientStore;
 }
 
-export const ProfileStat = ({ className }: ProfileStatProps) => {
-  const clientStore = useClientStore();
+export const ProfileStat = ({ className, clientStore }: ProfileStatProps) => {
+  const [openFollowing, setOpenFollowing] = React.useState(false);
+  const [openFollowers, setOpenFollowers] = React.useState(false);
+
   return (
     <View
       className={cn(
@@ -47,46 +51,62 @@ export const ProfileStat = ({ className }: ProfileStatProps) => {
       </Dialog>
 
       {/* Following */}
-      <Dialog>
+      <Dialog open={openFollowing} onOpenChange={setOpenFollowing}>
         <DialogTrigger asChild disabled={clientStore.following.length === 0}>
           <StablePressable
-            className="flex flex-col items-center "
+            className="flex flex-col items-center"
             onPressClassname="opacity-70"
           >
             <Text variant={"large"}>
-              {clientStore.responseFollowCountsDto?.following}
+              {clientStore?.responseFollowCountsDto?.following}
             </Text>
             <Text variant={"muted"}>Following</Text>
           </StablePressable>
         </DialogTrigger>
         <DialogContent className="w-[90vw] min-h-[50vh] py-0">
+          <DialogHeader>
+            <DialogTitle>Following</DialogTitle>
+          </DialogHeader>
           <StableScrollView className="flex flex-col">
-            {clientStore.following.map((f) => {
-              return (
-                <UserEntry key={f.id} user={f.following} className="mt-4" />
-              );
-            })}
+            {clientStore.following.map((f) => (
+              <UserEntry
+                key={f.id}
+                user={f.following}
+                clientStore={clientStore}
+                className="mt-4"
+                closeDialog={() => setOpenFollowing(false)}
+              />
+            ))}
           </StableScrollView>
         </DialogContent>
       </Dialog>
 
       {/* Followers */}
-      <Dialog>
+      <Dialog open={openFollowers} onOpenChange={setOpenFollowers}>
         <DialogTrigger asChild disabled={clientStore.followers.length === 0}>
           <StablePressable
             className="flex flex-col items-center"
             onPressClassname="opacity-70"
           >
             <Text variant={"large"}>
-              {clientStore.responseFollowCountsDto?.followers}
+              {clientStore?.responseFollowCountsDto?.followers}
             </Text>
             <Text variant={"muted"}>Followers</Text>
           </StablePressable>
         </DialogTrigger>
         <DialogContent className="w-[90vw] min-h-[50vh] py-0">
+          <DialogHeader>
+            <DialogTitle>Followers</DialogTitle>
+          </DialogHeader>
           <StableScrollView className="flex flex-col">
             {clientStore.followers.map((f) => (
-              <UserEntry key={f.id} user={f.follower} className="mt-4" />
+              <UserEntry
+                key={f.id}
+                user={f.follower}
+                clientStore={clientStore}
+                className="mt-4"
+                closeDialog={() => setOpenFollowers(false)}
+              />
             ))}
           </StableScrollView>
         </DialogContent>

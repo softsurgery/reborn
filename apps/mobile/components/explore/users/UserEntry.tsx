@@ -1,31 +1,39 @@
+import React from "react";
+import { View } from "react-native";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Image } from "expo-image";
-import { useNavigation } from "expo-router";
 import { MapPin, Star, UserPlus } from "lucide-react-native";
-import { use } from "react";
-import { View } from "react-native";
+import { router } from "expo-router";
 import { showToastable } from "react-native-toastable";
+
 import { api } from "~/api";
 import { StablePressable } from "~/components/shared/StablePressable";
 import { Button } from "~/components/ui/button";
 import { Text } from "~/components/ui/text";
-import { useClientStore } from "~/hooks/stores/useClientStore";
+import { ClientStore } from "~/hooks/stores/useClientStore";
 import { useCurrentUser } from "~/hooks/useCurrentUser";
 import { useFollowSystem } from "~/hooks/useFollowSystem";
 import Icon from "~/lib/Icon";
 import { identifyUser } from "~/lib/user.utils";
+import { cn } from "~/lib/utils";
 import { ResponseClientDto, ServerErrorResponse } from "~/types";
-import { NavigationProps } from "~/types/app.routes";
 
 interface UserEntryProps {
   className?: string;
   user: ResponseClientDto;
+  clientStore: ClientStore;
+  closeDialog?: () => void;
 }
 
-export const UserEntry = ({ className, user }: UserEntryProps) => {
-  const clientStore = useClientStore();
+export const UserEntry = ({
+  className,
+  user,
+  clientStore,
+  closeDialog,
+}: UserEntryProps) => {
   const { currentUser } = useCurrentUser();
   const queryClient = useQueryClient();
+
   const {
     isFollowing,
     refetchIsFollowing,
@@ -39,10 +47,10 @@ export const UserEntry = ({ className, user }: UserEntryProps) => {
       onSuccess: () => {
         refetchIsFollowing();
         queryClient.invalidateQueries({
-          queryKey: ["follow-data-count", clientStore.response?.id],
+          queryKey: ["follow-data-count", clientStore?.response?.id],
         });
         queryClient.invalidateQueries({
-          queryKey: ["followings", clientStore.response?.id],
+          queryKey: ["followings", clientStore?.response?.id],
         });
       },
       onError: (err: ServerErrorResponse) => {
@@ -53,10 +61,10 @@ export const UserEntry = ({ className, user }: UserEntryProps) => {
       onSuccess: () => {
         refetchIsFollowing();
         queryClient.invalidateQueries({
-          queryKey: ["follow-data-count", clientStore.response?.id],
+          queryKey: ["follow-data-count", clientStore?.response?.id],
         });
         queryClient.invalidateQueries({
-          queryKey: ["followers", clientStore.response?.id],
+          queryKey: ["followers", clientStore?.response?.id],
         });
       },
       onError: (err: ServerErrorResponse) => {
@@ -64,19 +72,24 @@ export const UserEntry = ({ className, user }: UserEntryProps) => {
       },
     },
   });
-  const navigation = useNavigation<NavigationProps>();
+
   const { data: profilePicture } = useQuery({
     queryKey: ["profile-picture", user?.profile?.pictureId],
     queryFn: () => api.upload.getUploadById(user?.profile?.pictureId!),
     enabled: !!user?.profile?.pictureId,
     staleTime: Infinity,
   });
+
   return (
     <StablePressable
-      className={className}
-      onPress={() =>
-        navigation.navigate("explore/user-profile", { id: user.id })
-      }
+      className={cn("p-2", className)}
+      onPress={() => {
+        router.push({
+          pathname: "/explore/user-profile",
+          params: { id: user.id },
+        });
+        closeDialog?.();
+      }}
       onPressClassname="bg-secondary/10"
     >
       <View className="flex-row items-center justify-between">
@@ -115,7 +128,7 @@ export const UserEntry = ({ className, user }: UserEntryProps) => {
             size="sm"
             onPress={() => (isFollowing ? unfollowUser() : followUser())}
             variant={isFollowing ? "outline" : "default"}
-            className="flex flex-row gap-2 w-1/2"
+            className="flex flex-row gap-2"
             disabled={isFollowPending || isUnfollowPending}
           >
             {!isFollowing && <Icon name={UserPlus} size={20} />}

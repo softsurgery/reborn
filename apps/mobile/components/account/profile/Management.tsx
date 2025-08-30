@@ -58,7 +58,7 @@ export const Management = ({ className }: ManagementProps) => {
   return (
     <StableScrollView className={className}>
       <View className="flex flex-col gap-2 px-5 mb-7">
-        <ProfileManagmentCard className="mt-5" />
+        <ProfileManagmentCard className="mt-5" clientStore={clientStore} />
         <Button
           onPress={() => navigation.navigate("account/update-profile")}
           className="w-full"

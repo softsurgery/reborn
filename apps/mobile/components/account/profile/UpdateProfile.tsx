@@ -78,9 +78,6 @@ export const UpdateProfile = () => {
       });
       clientStore.set("picture", profilePicture);
     }
-    return () => {
-      clientStore.reset();
-    };
   }, [currentUser]);
 
   const { mutate: updateProfile, isPending: isUpdateProfilePending } =

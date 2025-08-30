@@ -16,7 +16,7 @@ import {
 import { useCurrentUser } from "~/hooks/useCurrentUser";
 import { Button } from "~/components/ui/button";
 import { useQueryClient } from "@tanstack/react-query";
-import { useClientStore } from "~/hooks/stores/useClientStore";
+import { ClientStore, useClientStore } from "~/hooks/stores/useClientStore";
 import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
 import { showToastable } from "react-native-toastable";
 import Icon from "~/lib/Icon";
@@ -27,13 +27,14 @@ import { useFollowSystem } from "~/hooks/useFollowSystem";
 
 interface ProfileManagmentCardProps {
   className?: string;
+  clientStore: ClientStore;
 }
 
 export const ProfileManagmentCard = ({
   className,
+  clientStore,
 }: ProfileManagmentCardProps) => {
   const queryClient = useQueryClient();
-  const clientStore = useClientStore();
   const { currentUser } = useCurrentUser();
   const {
     isFollowing,
@@ -47,12 +48,12 @@ export const ProfileManagmentCard = ({
     unfollowUser,
     isUnfollowPending,
   } = useFollowSystem({
-    id: clientStore.response?.id!,
+    id: clientStore?.response?.id!,
     use: ["is-following", "followers", "followings"],
     follow: {
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: ["follow-data-count", clientStore.response?.id],
+          queryKey: ["follow-data-count", clientStore?.response?.id],
         });
         refetchFollowers();
         refetchFollowing();
@@ -65,7 +66,7 @@ export const ProfileManagmentCard = ({
     unfollow: {
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: ["follow-data-count", clientStore.response?.id],
+          queryKey: ["follow-data-count", clientStore?.response?.id],
         });
         refetchFollowers();
         refetchFollowing();
@@ -83,17 +84,17 @@ export const ProfileManagmentCard = ({
   }, [followers, following]);
 
   const isCurrentUser = React.useMemo(() => {
-    return clientStore.response?.id === currentUser?.id;
-  }, [clientStore.response, currentUser]);
+    return clientStore?.response?.id === currentUser?.id;
+  }, [clientStore?.response, currentUser]);
 
   const identity = React.useMemo(
-    () => identifyUser(clientStore.response),
-    [clientStore.response]
+    () => identifyUser(clientStore?.response),
+    [clientStore?.response]
   );
 
   const fallback = React.useMemo(
-    () => identifyUserAvatar(clientStore.response),
-    [clientStore.response]
+    () => identifyUserAvatar(clientStore?.response),
+    [clientStore?.response]
   );
 
   return (
@@ -114,12 +115,12 @@ export const ProfileManagmentCard = ({
             {/* identity */}
             <Text variant={"h4"}>{identity}</Text>
             {/* stats */}
-            <ProfileStat />
+            <ProfileStat clientStore={clientStore} />
           </View>
         </View>
       </CardHeader>
       <CardContent className="w-full">
-        <Text variant={"small"}>{clientStore.response?.profile?.bio}</Text>
+        <Text variant={"small"}>{clientStore?.response?.profile?.bio}</Text>
       </CardContent>
       {!isCurrentUser && (
         <CardFooter>

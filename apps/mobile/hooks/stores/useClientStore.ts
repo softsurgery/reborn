@@ -97,3 +97,46 @@ export const useClientStore = create<ClientStore>((set, get) => ({
     set({ ...initialState });
   },
 }));
+
+export const createClientStore = () =>
+  create<ClientStore>((set) => ({
+    ...initialState,
+    set: (name, value) =>
+      set((state) => ({
+        ...state,
+        [name]: value,
+      })),
+    setNested: (path: string, value: unknown) => {
+      if (!path.includes(".")) {
+        set((state) => ({
+          ...state,
+          [path]: value,
+        }));
+        return;
+      }
+
+      const [rootKey, ...restPath] = path.split(".");
+      const nestedPath = restPath.join(".");
+
+      set((state) => {
+        const rootValue = state[rootKey as keyof ClientData];
+        if (typeof rootValue !== "object" || rootValue === null) {
+          throw new Error(`Cannot set nested path on non-object: ${rootKey}`);
+        }
+
+        const updatedRoot = setDeepValue(
+          { ...(rootValue as object) },
+          nestedPath,
+          value
+        );
+
+        return {
+          ...state,
+          [rootKey]: updatedRoot,
+        };
+      });
+    },
+    reset: () => {
+      set({ ...initialState });
+    },
+  }));
