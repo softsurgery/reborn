@@ -1,6 +1,10 @@
 import React from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { View, RefreshControl, SafeAreaView } from "react-native";
+import {
+  View,
+  RefreshControl,
+  SafeAreaView as ReactNativeSafeAreaView,
+} from "react-native";
 import { JobCard } from "./jobs/JobCard";
 import { api } from "~/api";
 import { ExploreHeader } from "./ExploreHeader";
@@ -62,7 +66,7 @@ export const Explore = () => {
         <ExploreHeader />
       </View>
       <Separator />
-      <SafeAreaView className="flex-1 mx-2">
+      <ReactNativeSafeAreaView className="flex-1 mx-2">
         <LegendList
           ref={listRef}
           data={jobs}
@@ -101,7 +105,7 @@ export const Explore = () => {
             </View>
           }
         />
-      </SafeAreaView>
+      </ReactNativeSafeAreaView>
     </View>
   );
 };

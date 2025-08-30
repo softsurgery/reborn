@@ -1,7 +1,6 @@
 import * as React from "react";
-import { Platform, View, Pressable, SafeAreaView } from "react-native";
+import { View, Pressable } from "react-native";
 import {
-  Home as HomeIcon,
   MessageSquareText,
   Plus,
   Telescope,
@@ -28,6 +27,7 @@ import {
 import { Text } from "./ui/text";
 import { Balance } from "./balance/Balance";
 import { Explore } from "./explore/Explore";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Application() {
   const navigation = useNavigation<any>();
