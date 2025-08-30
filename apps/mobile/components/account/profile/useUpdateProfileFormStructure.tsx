@@ -7,6 +7,7 @@ import {
   RadioFieldProps,
   SelectFieldProps,
   SelectOption,
+  SwitchFieldProps,
   TextareaFieldProps,
   TextFieldProps,
 } from "~/components/shared/form-builder/types";
@@ -146,28 +147,6 @@ export const useUpdateProfileFormStructure = ({
     },
   };
 
-  //gender
-  const genderField: Field<RadioFieldProps> = {
-    id: "gender",
-    label: "Gender",
-    variant: FieldVariant.RADIO,
-    disabled: false,
-    description: "Specifying your gender helps us personalize your experience.",
-    error: store.errors?.gender?.[0],
-    props: {
-      checked: store.updateDto.profile?.gender?.toString(),
-      onCheckedChange: (value: string) => {
-        store.setNested("updateDto.profile.gender", value);
-        store.setNested("errors.gender", []);
-      },
-      options: Object.entries(Gender).map(([value, label]) => ({
-        label: label as string,
-        value,
-      })),
-      itemWidthClass: "w-[47%] sm:w-[48%] mx-1",
-    },
-  };
-
   //bio
   const bioField: Field<TextareaFieldProps> = {
     id: "bio",
@@ -205,24 +184,39 @@ export const useUpdateProfileFormStructure = ({
   };
 
   //visibility
-  const isPrivateField: Field<RadioFieldProps> = {
+  const isPrivateField: Field<SwitchFieldProps> = {
     id: "is-public",
     label: "Profile Visibility",
-    variant: FieldVariant.RADIO,
+    variant: FieldVariant.SWITCH,
     disabled: false,
-    description: "Control who can see your profile information.",
+    description: "Check to make your profile private",
     error: store.errors?.isPrivate?.[0],
     props: {
-      checked: store.updateDto.profile?.isPrivate?.toString(),
-      onCheckedChange: (value: string) => {
-        store.setNested("updateDto.profile.isPrivate", value === "true");
+      checked: store.updateDto.profile?.isPrivate,
+      onCheckedChange: (value) => {
+        store.setNested("updateDto.profile.isPrivate", value);
         store.setNested("errors.isPrivate", []);
       },
-      options: [
-        { label: "Public", value: "true" },
-        { label: "Private", value: "false" },
-      ],
-      itemWidthClass: "w-[47%] sm:w-[48%] mx-1",
+    },
+  };
+  //gender
+  const genderField: Field<SelectFieldProps> = {
+    id: "gender",
+    label: "Gender",
+    variant: FieldVariant.SELECT,
+    disabled: false,
+    description: "Specifying your gender helps us personalize your experience.",
+    error: store.errors?.gender?.[0],
+    props: {
+      value: store.updateDto.profile?.gender?.toString(),
+      onSelect: (value: string) => {
+        store.setNested("updateDto.profile.gender", value);
+        store.setNested("errors.gender", []);
+      },
+      options: Object.entries(Gender).map(([value, label]) => ({
+        label: label as string,
+        value,
+      })),
     },
   };
 
@@ -261,7 +255,7 @@ export const useUpdateProfileFormStructure = ({
           },
           {
             id: 6,
-            fields: [isPrivateField, genderField],
+            fields: [genderField, isPrivateField],
           },
         ],
       },
