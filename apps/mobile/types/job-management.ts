@@ -17,8 +17,8 @@ export interface CreateJobDto {
   description: string;
   price: number;
   tagIds: number[];
-  categoryId: number;
-  category: ResponseJobCatgeoryDto;
+  currencyId?: string;
+  categoryId?: number;
   uploads?: { uploadId: number }[];
 }
 

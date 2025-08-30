@@ -8,6 +8,7 @@ import { _public } from "./public";
 import { job } from "./job";
 import { store } from "./store";
 import { jobCategory } from "./job-category";
+import { jobTag } from "./job-tag";
 
 export const api = {
   auth,
@@ -19,5 +20,6 @@ export const api = {
   upload,
   job,
   jobCategory,
+  jobTag,
   store,
 };

@@ -28,6 +28,7 @@ import { Text } from "./ui/text";
 import { Balance } from "./balance/Balance";
 import { Explore } from "./explore/Explore";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { JobCreateForm } from "./explore/jobs/JobCreateForm";
 
 export default function Application() {
   const navigation = useNavigation<any>();
@@ -127,7 +128,7 @@ export default function Application() {
                 <Text>Add a new job</Text>
               </DialogDescription>
             </DialogHeader>
-            <View className="grid gap-4"></View>
+            <JobCreateForm />
             <DialogFooter>
               <DialogClose asChild>
                 <Button variant="outline">

@@ -4,7 +4,6 @@ import {
   FieldVariant,
   FormStructure,
   PictureFieldProps,
-  RadioFieldProps,
   SelectFieldProps,
   SelectOption,
   SwitchFieldProps,
