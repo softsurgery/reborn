@@ -247,7 +247,9 @@ export const JobDetails = () => {
               <Text className="text-xs text-muted-foreground">
                 Intermediate level
               </Text>
-              <Text className="text-xs text-muted-foreground">Remote work</Text>
+              <Text className="text-xs text-muted-foreground">
+                {job?.style}
+              </Text>
             </View>
           </View>
         </View>
