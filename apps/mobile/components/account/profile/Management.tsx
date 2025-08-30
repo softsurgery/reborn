@@ -23,6 +23,9 @@ export const Management = ({ className }: ManagementProps) => {
 
   React.useEffect(() => {
     if (currentUser) clientStore.set("response", currentUser);
+    navigation.setOptions({
+      title: currentUser?.username,
+    });
   }, [currentUser]);
 
   const { data: picture } = useQuery({

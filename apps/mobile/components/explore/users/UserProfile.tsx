@@ -1,7 +1,7 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Image } from "expo-image";
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useNavigation } from "expo-router";
 import { View } from "react-native";
 import { api } from "~/api";
 import { ProfileManagmentCard } from "~/components/explore/users/ProfileManagementCard";
@@ -14,6 +14,8 @@ interface UserProfileProps {
 }
 
 export const UserProfile = ({ className }: UserProfileProps) => {
+  const navigation = useNavigation();
+
   const { id } = useLocalSearchParams();
   const storeRef = React.useRef(createClientStore());
   const clientStore = storeRef.current();
@@ -25,6 +27,9 @@ export const UserProfile = ({ className }: UserProfileProps) => {
 
   React.useEffect(() => {
     if (userResp) clientStore.set("response", userResp);
+    navigation.setOptions({
+      title: userResp?.username,
+    });
   }, [userResp]);
 
   const { data: picture } = useQuery({

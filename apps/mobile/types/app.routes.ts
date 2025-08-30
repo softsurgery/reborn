@@ -1,4 +1,4 @@
-import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ResponseClientDto } from "./user-management";
 
 export type StackParamList = {
