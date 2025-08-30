@@ -19,7 +19,7 @@ import { showToastable } from "react-native-toastable";
 import type { NavigationProps } from "~/types/app.routes";
 import { useQuery, useQueries } from "@tanstack/react-query";
 import { api } from "~/api";
-import { identifyUser } from "~/lib/user.utils";
+import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
 import { format } from "date-fns";
 import { timeAgo } from "~/lib/dates.utils";
 import { Image } from "expo-image";
@@ -29,6 +29,12 @@ import { Separator } from "../../ui/separator";
 import { Badge } from "../../ui/badge";
 import { StablePressable } from "~/components/shared/StablePressable";
 import { cn } from "~/lib/utils";
+import { JobDetailsSkeleton } from "./JobDetailsSkeleton";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "~/components/shared/StableAvatar";
 
 export const JobDetails = () => {
   const navigation = useNavigation<NavigationProps>();
@@ -49,6 +55,11 @@ export const JobDetails = () => {
     enabled: !!jobResp?.postedBy?.profile?.pictureId,
     staleTime: Infinity,
   });
+
+  const fallback = React.useMemo(
+    () => identifyUserAvatar(job?.postedBy),
+    [job]
+  );
 
   // Fetch each image individually
   const imageQueries = useQueries({
@@ -83,7 +94,7 @@ export const JobDetails = () => {
     );
   }
 
-  if (isJobPending) return <Loader />;
+  if (isJobPending) return <JobDetailsSkeleton uploads={uploads as string[]} />;
   return (
     <SafeAreaView className="flex-1 pb-2">
       {/* Header */}
@@ -206,7 +217,7 @@ export const JobDetails = () => {
             <Text className="text-lg font-semibold text-foreground mb-2">
               Tags
             </Text>
-            <View className="flex-row flex-wrap gap-1 mt-2">
+            <View className="flex-row flex-wrap gap-1 mt-2 w-full">
               {job?.tags && job?.tags?.length > 0 ? (
                 job?.tags.map((tag) => (
                   <Badge variant={"secondary"} key={tag.id}>
@@ -214,7 +225,7 @@ export const JobDetails = () => {
                   </Badge>
                 ))
               ) : (
-                <Text className="text-lg font-medium mx-auto opacity-70">
+                <Text className="text-xs font-semibold mx-auto opacity-70">
                   No tags found
                 </Text>
               )}
@@ -255,13 +266,16 @@ export const JobDetails = () => {
         </Text>
         <View className="flex-row items-center justify-between">
           <View className="flex-row items-center gap-3">
-            <View className="w-10 h-10 bg-accent/20 rounded-full items-center justify-center">
-              <Image
-                source={profilePicture}
-                style={{ width: 40, height: 40, borderRadius: 20 }}
-                cachePolicy="memory-disk"
-              />
-            </View>
+            <Avatar
+              alt={fallback}
+              style={{ width: 40, height: 40, borderRadius: 20 }}
+              className="border border-border"
+            >
+              <AvatarImage source={{ uri: profilePicture }} />
+              <AvatarFallback>
+                <Text>{fallback}</Text>
+              </AvatarFallback>
+            </Avatar>
             <View>
               <Text className="text-base font-medium text-card-foreground">
                 {identifyUser(job?.postedBy)}
