@@ -42,3 +42,7 @@ export interface ResponseJobUploadDto extends DatabaseEntity {
   upload: Upload;
   order: number;
 }
+export interface ResponseJobCategoryDto extends DatabaseEntity {
+  id: number;
+  label: string;
+}

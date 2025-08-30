@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "../../ui/dialog";
+import { Dialog, DialogContent, DialogTrigger } from "../../ui/dialog";
 import { Button } from "../../ui/button";
 import { Sliders } from "lucide-react-native";
 import Icon from "~/lib/Icon";
@@ -20,6 +14,7 @@ import {
   AccordionContent,
   AccordionTrigger,
 } from "~/components/ui/accordion";
+import { useJobCategories } from "~/hooks/useJobCategories";
 
 interface JobFiltersProps {
   className?: string;
@@ -27,6 +22,7 @@ interface JobFiltersProps {
 
 export const JobFilters = ({ className }: JobFiltersProps) => {
   // States
+  const [open, setOpen] = useState(false);
   const [startDate, setStartDate] = useState<Date | undefined>(undefined);
   const [endDate, setEndDate] = useState<Date | undefined>(undefined);
   const [category, setCategory] = useState<string | undefined>(undefined);
@@ -37,72 +33,88 @@ export const JobFilters = ({ className }: JobFiltersProps) => {
     Internship: false,
   });
 
+  const { jobCategories } = useJobCategories();
+
+  const closeDialog = () => {
+    setOpen(false);
+  };
+
+  const accordionTriggerClassName = "flex flex-row items-center";
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className={className} asChild>
         <Button variant="link" className="w-fit">
           <Icon name={Sliders} size={24} />
         </Button>
       </DialogTrigger>
 
-      <DialogContent>
-        <DialogHeader className="px-4">
-          <DialogTitle>Filter Jobs</DialogTitle>
-        </DialogHeader>
-
+      <DialogContent className="w-[80vw]">
         <Accordion type="single" collapsible>
           {/* Date Range */}
           <AccordionItem value="date">
-            <AccordionTrigger>
-              <Text className="font-semibold">Date Range</Text>
+            <AccordionTrigger className={accordionTriggerClassName}>
+              <View className="w-[90%]">
+                <Text className="font-semibold">Date Range</Text>
+                <Text className="text-muted-foreground text-xs">
+                  Choose a start and end date to filter job postings.
+                </Text>
+              </View>
             </AccordionTrigger>
             <AccordionContent>
-              <View className="flex flex-row gap-2 items-center mt-2">
-                <DateTimePicker
-                  value={startDate || new Date()}
-                  mode="date"
-                  onChange={(e, date) => setStartDate(date)}
-                />
-                <Text className="text-center">to</Text>
-                <DateTimePicker
-                  value={endDate || new Date()}
-                  mode="date"
-                  onChange={(e, date) => setEndDate(date)}
-                />
+              <View className="flex flex-col gap-2 items-center">
+                <View className="flex flex-row items-center justify-between w-full">
+                  <Text className="font-medium">Start</Text>
+                  <DateTimePicker
+                    value={startDate || new Date()}
+                    mode="date"
+                    onChange={(e, date) => setStartDate(date)}
+                  />
+                </View>
+                <View className="flex flex-row items-center justify-between w-full">
+                  <Text className="font-medium">End</Text>
+                  <DateTimePicker
+                    value={endDate || new Date()}
+                    mode="date"
+                    onChange={(e, date) => setEndDate(date)}
+                  />
+                </View>
               </View>
-              <Text className="text-muted-foreground text-sm mt-2">
-                Choose a start and end date to filter job postings.
-              </Text>
             </AccordionContent>
           </AccordionItem>
 
           {/* Category */}
           <AccordionItem value="category">
-            <AccordionTrigger>
-              <Text className="font-semibold">Category</Text>
+            <AccordionTrigger className={accordionTriggerClassName}>
+              <View className="w-[90%]">
+                <Text className="font-semibold">Category</Text>
+                <Text className="text-muted-foreground text-xs">
+                  Narrow down jobs based on their main category.
+                </Text>
+              </View>
             </AccordionTrigger>
             <AccordionContent>
               <Select
                 title="Select a category to filter with"
                 value={category}
                 onSelect={(itemValue) => setCategory(itemValue)}
-                options={[
-                  { label: "Design", value: "design" },
-                  { label: "Development", value: "development" },
-                  { label: "Marketing", value: "marketing" },
-                  { label: "Management", value: "management" },
-                ]}
+                options={jobCategories.map((category) => ({
+                  label: category.label,
+                  value: category.id.toString(),
+                }))}
               />
-              <Text className="text-muted-foreground text-sm mt-2">
-                Narrow down jobs based on their main category.
-              </Text>
             </AccordionContent>
           </AccordionItem>
 
           {/* Tags */}
           <AccordionItem value="tags">
-            <AccordionTrigger>
-              <Text className="font-semibold">Tags</Text>
+            <AccordionTrigger className={accordionTriggerClassName}>
+              <View className="w-[90%]">
+                <Text className="font-semibold">Tags</Text>
+                <Text className="text-muted-foreground text-xs">
+                  Apply additional filters such as job type or work style.
+                </Text>
+              </View>
             </AccordionTrigger>
             <AccordionContent>
               {Object.keys(tags).map((tag) => (
@@ -116,16 +128,28 @@ export const JobFilters = ({ className }: JobFiltersProps) => {
                   <Text>{tag}</Text>
                 </View>
               ))}
-              <Text className="text-muted-foreground text-sm mt-2">
-                Apply additional filters such as job type or work style.
-              </Text>
             </AccordionContent>
           </AccordionItem>
         </Accordion>
 
         {/* Actions */}
-        <View className="flex-row justify-between gap-4 mt-4 px-4">
+        <View className="flex-row justify-between w-full gap-2 mt-4">
           <Button
+            className="w-[49%]"
+            onPress={() => {
+              console.log({
+                startDate,
+                endDate,
+                category,
+                tags,
+              });
+              closeDialog();
+            }}
+          >
+            <Text>Apply Filters</Text>
+          </Button>
+          <Button
+            className="w-[49%]"
             variant="outline"
             onPress={() => {
               setStartDate(undefined);
@@ -137,21 +161,10 @@ export const JobFilters = ({ className }: JobFiltersProps) => {
                 "Part-time": false,
                 Internship: false,
               });
+              closeDialog();
             }}
           >
             <Text>Reset</Text>
-          </Button>
-          <Button
-            onPress={() => {
-              console.log({
-                startDate,
-                endDate,
-                category,
-                tags,
-              });
-            }}
-          >
-            <Text>Apply Filters</Text>
           </Button>
         </View>
       </DialogContent>
