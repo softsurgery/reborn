@@ -11,6 +11,7 @@ import { Button } from "~/components/ui/button";
 import { useNavigation } from "expo-router";
 import { NavigationProps } from "~/types/app.routes";
 import { useClientStore } from "~/hooks/stores/useClientStore";
+import { ProfileManagmentCardSkeleton } from "~/components/explore/users/ProfileManagmentCardSkeleton";
 
 interface ManagementProps {
   className?: string;
@@ -60,7 +61,11 @@ export const Management = ({ className }: ManagementProps) => {
   return (
     <StableScrollView className={className}>
       <View className="flex flex-col gap-2 px-5 mb-7">
-        <ProfileManagmentCard className="mt-5" clientStore={clientStore} />
+        {isCurrentUserPending ? (
+          <ProfileManagmentCardSkeleton />
+        ) : (
+          <ProfileManagmentCard className="mt-5" clientStore={clientStore} />
+        )}
         <Button
           onPress={() => navigation.navigate("account/update-profile")}
           className="w-full"

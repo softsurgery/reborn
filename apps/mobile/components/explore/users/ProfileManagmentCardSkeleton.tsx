@@ -9,11 +9,6 @@ import {
 import { Skeleton } from "~/components/ui/skeleton";
 import { cn } from "~/lib/utils";
 
-// Skeleton block utility
-const SkeletonBlock = ({ className }: { className?: string }) => (
-  <View className={cn("bg-muted-foreground/20 rounded-md", className)} />
-);
-
 export const ProfileManagmentCardSkeleton = ({
   className,
 }: {
@@ -47,8 +42,7 @@ export const ProfileManagmentCardSkeleton = ({
       </CardContent>
 
       <CardFooter className="w-full">
-        <View className="flex flex-row w-full justify-between gap-2">
-        </View>
+        <View className="flex flex-row w-full justify-between gap-2"></View>
       </CardFooter>
     </Card>
   );
