@@ -8,7 +8,7 @@ import { ThemeToggle } from "~/components/ThemeToggle";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { cn } from "~/lib/utils";
 import Toastable from "react-native-toastable";
-import { useAuthPersistStore } from "~/hooks/stores/useAuthPersistStore";
+
 export { ErrorBoundary } from "expo-router";
 import { usePreferencePersistStore } from "~/hooks/stores/usePreferencePersistStore";
 
@@ -43,7 +43,7 @@ export default function RootLayout() {
           }}
           position="top"
         />
-        <StatusBar style={isDarkMode ? "dark" : "light"} translucent />
+        <StatusBar style={isDarkMode ? "light" : "dark"} translucent />
         <Stack
           screenOptions={{
             contentStyle: {
