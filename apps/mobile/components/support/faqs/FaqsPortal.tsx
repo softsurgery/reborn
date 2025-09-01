@@ -1,7 +1,7 @@
 import { HelpCircle } from "lucide-react-native";
 import React, { use } from "react";
 import { useColorScheme, View } from "react-native";
-import { Loader } from "~/components/Loader";
+import { Loader } from "~/components/shared/Loader";
 import {
   Accordion,
   AccordionContent,

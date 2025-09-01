@@ -49,7 +49,7 @@ export const JobFilters = ({ className }: JobFiltersProps) => {
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="w-[80vw]">
+      <DialogContent className="w-[80vw]" exit>
         <Accordion type="single" collapsible>
           {/* Date Range */}
           <AccordionItem value="date">

@@ -8,6 +8,7 @@ import { RefreshControl, View } from "react-native";
 import { Text } from "../ui/text";
 import { JobCardSkeleton } from "./jobs/JobCardSkeleton";
 import { PackageOpenIcon } from "lucide-react-native";
+import { Loader } from "../shared/Loader";
 
 interface ExploreCommonProps {
   search: string;
@@ -59,7 +60,12 @@ export const ExploreCommon = ({ search, searching }: ExploreCommonProps) => {
       recycleItems={true}
       maintainVisibleContentPosition
       refreshControl={
-        <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
+        <RefreshControl
+          refreshing={isRefetching}
+          onRefresh={refetch}
+          tintColor="transparent"
+          colors={["transparent"]}
+        />
       }
       onEndReached={() => {
         if (hasNextPage && !isFetchingNextPage) {
@@ -67,6 +73,13 @@ export const ExploreCommon = ({ search, searching }: ExploreCommonProps) => {
         }
       }}
       onEndReachedThreshold={0.5}
+      ListHeaderComponent={
+        <Loader
+          size="small"
+          isPending={isRefetching}
+          className="flex items-center"
+        />
+      }
       ListEmptyComponent={
         !isPending ? (
           <View className="p-8 items-center">

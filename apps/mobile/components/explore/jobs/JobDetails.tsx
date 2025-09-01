@@ -24,7 +24,7 @@ import { format } from "date-fns";
 import { timeAgo } from "~/lib/dates.utils";
 import { Image } from "expo-image";
 import { StableKeyboardAwareScrollView } from "../../shared/KeyboardAwareScrollView";
-import { Loader } from "../../Loader";
+import { Loader } from "../../shared/Loader";
 import { Separator } from "../../ui/separator";
 import { Badge } from "../../ui/badge";
 import { StablePressable } from "~/components/shared/StablePressable";

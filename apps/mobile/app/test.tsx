@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, Button, FlatList, StyleSheet } from "react-native";
 import io from "socket.io-client";
 import { StableKeyboardAwareScrollView } from "~/components/shared/KeyboardAwareScrollView";
+import { Loader } from "~/components/shared/Loader";
 import { Input } from "~/components/ui/input";
 import { Text } from "~/components/ui/text";
 import { useAuthPersistStore } from "~/hooks/stores/useAuthPersistStore";
@@ -66,7 +67,7 @@ export default function ChatPage() {
 
   return (
     <StableKeyboardAwareScrollView>
-      <View style={styles.container}>
+      {/* <View style={styles.container}>
         <FlatList
           data={messages}
           keyExtractor={(item) => item.id}
@@ -84,7 +85,8 @@ export default function ChatPage() {
           />
           <Button title="Send" onPress={sendMessage} />
         </View>
-      </View>
+      </View> */}
+      <Loader size="small" />
     </StableKeyboardAwareScrollView>
   );
 }

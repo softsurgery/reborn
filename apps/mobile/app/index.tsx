@@ -2,7 +2,7 @@ import React from "react";
 import { SplashScreen } from "expo-router";
 import { Platform } from "react-native";
 import Application from "~/components/Application";
-import { Loader } from "~/components/Loader";
+import { Loader } from "~/components/shared/Loader";
 import OnBoarding from "~/components/OnBoarding";
 import { useAuthPersistStore } from "~/hooks/stores/useAuthPersistStore";
 import { usePreferencePersistStore } from "~/hooks/stores/usePreferencePersistStore";

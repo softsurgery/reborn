@@ -2,7 +2,7 @@ import React from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Save } from "lucide-react-native";
 import { View } from "react-native";
-import { Loader } from "~/components/Loader";
+import { Loader } from "~/components/shared/Loader";
 import { Button } from "~/components/ui/button";
 import { useClientStore } from "~/hooks/stores/useClientStore";
 import { useCurrentUser } from "~/hooks/useCurrentUser";
