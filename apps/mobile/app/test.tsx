@@ -67,7 +67,7 @@ export default function ChatPage() {
 
   return (
     <StableKeyboardAwareScrollView>
-      {/* <View style={styles.container}>
+      <View style={styles.container}>
         <FlatList
           data={messages}
           keyExtractor={(item) => item.id}
@@ -85,7 +85,7 @@ export default function ChatPage() {
           />
           <Button title="Send" onPress={sendMessage} />
         </View>
-      </View> */}
+      </View>
       <Loader size="small" />
     </StableKeyboardAwareScrollView>
   );

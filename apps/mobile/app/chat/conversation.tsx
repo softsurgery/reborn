@@ -9,9 +9,9 @@ import {
   Keyboard,
   FlatList,
 } from "react-native";
-import { ChatBubble } from "~/components/chat/Conversation/ChatBubble";
-import { ChatHeaderLeft } from "~/components/chat/Conversation/ChatHeaderLeft";
-import { ChatHeaderRight } from "~/components/chat/Conversation/ChatHeaderRight";
+import { ChatBubble } from "~/components/connect/conversation/ChatBubble";
+import { ChatHeaderLeft } from "~/components/connect/conversation/ChatHeaderLeft";
+import { ChatHeaderRight } from "~/components/connect/conversation/ChatHeaderRight";
 import { Textarea } from "~/components/ui/textarea";
 import { chat } from "~/firebase/chat";
 import { useUserUid } from "~/hooks/content/useUid";

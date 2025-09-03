@@ -18,6 +18,7 @@ import { StableScrollView } from "../shared/StableScrollView";
 import { MenuItem } from "./MenuItem";
 import { useAuthPersistStore } from "~/hooks/stores/useAuthPersistStore";
 import { useNavigation } from "~/hooks/useNavigation";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export const Account = () => {
   const navigation = useNavigation();
@@ -29,7 +30,7 @@ export const Account = () => {
   };
 
   return (
-    <StableScrollView className="flex-1 px-5">
+    <SafeAreaView className="flex-1 px-5">
       <PlanInfo className="my-2" />
       <GoPremium className="my-3" />
 
@@ -84,6 +85,6 @@ export const Account = () => {
           </View>
         </View>
       </View>
-    </StableScrollView>
+    </SafeAreaView>
   );
 };

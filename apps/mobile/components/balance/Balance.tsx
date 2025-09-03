@@ -15,6 +15,7 @@ import { Badge } from "~/components/ui/badge";
 import { Separator } from "~/components/ui/separator";
 import { cn } from "~/lib/utils";
 import { Text } from "../ui/text";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 interface Transaction {
   id: string;
@@ -117,7 +118,9 @@ export const Balance = ({ className }: BalanceProps) => {
   };
 
   return (
-    <View className={cn("flex-1 px-4 py-6 space-y-6 bg-background", className)}>
+    <SafeAreaView
+      className={cn("flex-1 px-4 py-6 space-y-6 bg-background", className)}
+    >
       {/* Balance Overview */}
       <Card>
         <View className="p-4 gap-4">
@@ -247,6 +250,6 @@ export const Balance = ({ className }: BalanceProps) => {
           />
         </View>
       </Card>
-    </View>
+    </SafeAreaView>
   );
 };

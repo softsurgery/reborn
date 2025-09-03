@@ -1,15 +1,9 @@
 import * as React from "react";
 import { View, Pressable } from "react-native";
-import {
-  MessageSquareText,
-  Plus,
-  Telescope,
-  User,
-  Wallet,
-} from "lucide-react-native";
+import { Plus, Telescope, User, Users, Wallet } from "lucide-react-native";
 import { MenuItem } from "~/components/menu/MenuItem";
 import { Account } from "./account/Account";
-import { Chat } from "./chat/Chat";
+import { Connect } from "./connect/Connect";
 import { Button } from "./ui/button";
 import Icon from "~/lib/Icon";
 import { useNavigation } from "expo-router";
@@ -44,10 +38,10 @@ export default function Application() {
         component: <Explore />,
       },
       {
-        value: "chat",
-        icon: MessageSquareText,
-        title: "Chat",
-        component: <Chat />,
+        value: "inter",
+        icon: Users,
+        title: "Connect",
+        component: <Connect />,
       },
       {
         value: "balance",
@@ -82,8 +76,8 @@ export default function Application() {
   };
 
   return (
-    <SafeAreaView className="flex-1">
-      <View className="flex-1">
+    <View className="flex-1">
+      <View className="flex-1 pb-[8vh]">
         {tabs.map((tab) => (
           <View
             key={tab.value + (tab.value === activeTab ? `-${tabKey}` : "")}
@@ -97,7 +91,7 @@ export default function Application() {
         ))}
       </View>
 
-      <View className="flex flex-row items-center justify-between w-full bg-background">
+      <View className="flex flex-row items-center justify-between w-full pb-4">
         {leftTabs.map((tab) => (
           <Pressable
             key={tab.value}
@@ -156,6 +150,6 @@ export default function Application() {
           </Pressable>
         ))}
       </View>
-    </SafeAreaView>
+    </View>
   );
 }

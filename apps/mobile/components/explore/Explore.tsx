@@ -1,5 +1,5 @@
 import React from "react";
-import { View, SafeAreaView as ReactNativeSafeAreaView } from "react-native";
+import { View, SafeAreaView } from "react-native";
 import { ExploreHeader } from "./ExploreHeader";
 import { useDebounce } from "~/hooks/useDebounce";
 import { ExploreCommon } from "./ExploreCommon";
@@ -7,6 +7,7 @@ import { Text } from "../ui/text";
 import { ExploreFollowing } from "./ExploreFollowing";
 import { cn } from "~/lib/utils";
 import { StablePressable } from "../shared/StablePressable";
+import { Separator } from "../ui/separator";
 
 export const Explore = () => {
   const [tab, setTab] = React.useState<"recent" | "followings">("recent");
@@ -15,10 +16,7 @@ export const Explore = () => {
     useDebounce<string>(search, 1000);
 
   return (
-    <View className="flex-1 px-1">
-      <View className="px-4">
-        <ExploreHeader />
-      </View>
+    <SafeAreaView className="flex-1 px-1">
       <View className="flex flex-row gap-2 pt-2">
         <StablePressable
           onPress={() => setTab("recent")}
@@ -42,17 +40,23 @@ export const Explore = () => {
       <View className="flex-1 mx-2">
         {/* Manual Tabs */}
 
-        <ReactNativeSafeAreaView>
+        <ExploreHeader className="my-5 bg-transparent" />
+
+        <SafeAreaView className="">
           {tab === "recent" ? (
-            <ExploreCommon search={debouncedSearchTerm} searching={searching} />
+            <ExploreCommon
+              className="mx-2"
+              search={debouncedSearchTerm}
+              searching={searching}
+            />
           ) : (
             <ExploreFollowing
               search={debouncedSearchTerm}
               searching={searching}
             />
           )}
-        </ReactNativeSafeAreaView>
+        </SafeAreaView>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };

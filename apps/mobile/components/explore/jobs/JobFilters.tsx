@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Dialog, DialogContent, DialogTrigger } from "../../ui/dialog";
 import { Button } from "../../ui/button";
-import { Sliders } from "lucide-react-native";
+import { Sparkles } from "lucide-react-native";
 import Icon from "~/lib/Icon";
 import { View } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -15,6 +15,7 @@ import {
   AccordionTrigger,
 } from "~/components/ui/accordion";
 import { useJobCategories } from "~/hooks/useJobCategories";
+import { StablePressable } from "~/components/shared/StablePressable";
 
 interface JobFiltersProps {
   className?: string;
@@ -44,9 +45,9 @@ export const JobFilters = ({ className }: JobFiltersProps) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className={className} asChild>
-        <Button variant="link" className="w-fit">
-          <Icon name={Sliders} size={24} />
-        </Button>
+        <StablePressable className="w-fit mx-2 bg-primary p-2 flex items-center">
+          <Icon name={Sparkles} size={24} />
+        </StablePressable>
       </DialogTrigger>
 
       <DialogContent className="w-[80vw]" exit>

@@ -323,9 +323,9 @@ export const JobDetails = () => {
         </Button>
         <Text className="text-xs text-muted-foreground text-center mt-2">
           You'll be able to chat with
-          <Text className="font-medium">
+          <Text className="font-medium mx-1">
             {identifyUser(job?.postedBy)}
-          </Text>{" "}
+          </Text>
           before starting work
         </Text>
       </View>

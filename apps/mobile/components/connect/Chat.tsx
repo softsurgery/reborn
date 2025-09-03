@@ -1,25 +1,29 @@
-import React from "react";
-import { ScrollView, View, Pressable } from "react-native";
+import { Pressable, ScrollView, View } from "react-native";
+import { SearchInput } from "../shared/SearchInput";
 import { Text } from "../ui/text";
-import { UserCard } from "./UserCard";
 import { Separator } from "../ui/separator";
 import { UserBubble } from "./UserBubble";
+import { useCurrentUser } from "~/hooks/useCurrentUser";
+import { useFollowSystem } from "~/hooks/useFollowSystem";
 import { useNavigation } from "expo-router";
 import { NavigationProps } from "~/types/app.routes";
-import { SearchInput } from "../shared/SearchInput";
-import { useFollowSystem } from "~/hooks/useFollowSystem";
-import { useCurrentUser } from "~/hooks/useCurrentUser";
+import { UserCard } from "./UserCard";
+import { StableScrollView } from "../shared/StableScrollView";
+import { cn } from "~/lib/utils";
 
-export const Chat = () => {
+interface ChatProps {
+  className?: string;
+}
+
+export const Chat = ({ className }: ChatProps) => {
+  const navigation = useNavigation<NavigationProps>();
   const { currentUser } = useCurrentUser();
   const { followers, followings, isFollowersPending } = useFollowSystem({
     id: currentUser?.id!,
     use: ["followers", "followings"],
   });
-  const navigation = useNavigation<NavigationProps>();
-
   return (
-    <View className="flex-1 px-5">
+    <View className={cn("flex-1 px-5", className)}>
       {/* Search Input */}
       <View className="flex flex-row justify-between items-center w-full pt-2">
         <View className="flex flex-row items-center w-full border-hidden rounded py-1">
@@ -28,15 +32,13 @@ export const Chat = () => {
       </View>
 
       <View className="flex flex-col gap-2">
-        <Text className="text-gray-800 dark:text-gray-200 text-sm">
-          List of active people
-        </Text>
+        <Text className="text-sm">List of active people</Text>
         <Separator />
       </View>
 
       {/* List of active people */}
       <View className="-mx-5">
-        <ScrollView
+        <StableScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
           className="my-4 px-4"
@@ -44,7 +46,7 @@ export const Chat = () => {
           {followers.map((user) => (
             <UserBubble key={user.id} className="mx-1.5" user={user.follower} />
           ))}
-        </ScrollView>
+        </StableScrollView>
       </View>
 
       <View className="flex flex-col gap-2">

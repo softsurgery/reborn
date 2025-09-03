@@ -15,7 +15,7 @@ export const ExploreHeader = ({ className }: ExploreHeaderProps) => {
   return (
     <View
       className={cn(
-        "flex flex-row justify-between items-center gap-3 py-4",
+        "flex flex-row justify-between items-center gap-2",
         className
       )}
     >
