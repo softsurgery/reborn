@@ -45,8 +45,8 @@ export const JobFilters = ({ className }: JobFiltersProps) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className={className} asChild>
-        <StablePressable className="w-fit mx-2 bg-primary p-2 flex items-center">
-          <Icon name={Sparkles} size={24} />
+        <StablePressable className="p-2">
+          <Icon name={Sparkles} size={28} />
         </StablePressable>
       </DialogTrigger>
 

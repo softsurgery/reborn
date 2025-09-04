@@ -4,24 +4,29 @@ import React from "react";
 import { api } from "~/api";
 import { ResponseJobDto } from "~/types";
 import { JobCard } from "./jobs/JobCard";
-import { RefreshControl, View } from "react-native";
+import {
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  RefreshControl,
+  View,
+} from "react-native";
 import { Text } from "../ui/text";
 import { JobCardSkeleton } from "./jobs/JobCardSkeleton";
-import { PackageOpenIcon } from "lucide-react-native";
 import { Loader } from "../shared/Loader";
-import { ExploreHeader } from "./ExploreHeader";
 import { cn } from "~/lib/utils";
 
 interface ExploreCommonProps {
   className?: string;
   search: string;
   searching: boolean;
+  setShowHeader: (show: boolean) => void;
 }
 
 export const ExploreCommon = ({
   className,
   search,
   searching,
+  setShowHeader,
 }: ExploreCommonProps) => {
   const {
     data,
@@ -54,63 +59,80 @@ export const ExploreCommon = ({
 
   const renderItem = React.useCallback(
     ({ item }: { item: ResponseJobDto }) => (
-      <JobCard job={item} className="my-2" />
+      <JobCard job={item} className="mb-4" />
     ),
     []
   );
+
+  // Track scroll direction
+  const lastOffsetY = React.useRef(0);
+
+  const handleScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const currentOffsetY = e.nativeEvent.contentOffset.y;
+
+    const delta = currentOffsetY - lastOffsetY.current;
+    if (currentOffsetY <= 0) {
+      setShowHeader(true);
+    } else if (delta < -10) {
+      setShowHeader(true); // scrolling up
+    } else if (delta > 0) {
+      setShowHeader(false); // scrolling down
+    }
+
+    lastOffsetY.current = currentOffsetY;
+  };
+
   return (
-    <View>
-      <LegendList
-        className={cn("flex-1", className)}
-        data={jobs}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-        showsVerticalScrollIndicator={false}
-        recycleItems={true}
-        maintainVisibleContentPosition
-        refreshControl={
-          <RefreshControl
-            refreshing={isRefetching}
-            onRefresh={refetch}
-            tintColor="transparent"
-            colors={["transparent"]}
-          />
+    <LegendList
+      className={cn("flex-1", className)}
+      data={jobs}
+      renderItem={renderItem}
+      keyExtractor={(item) => item.id}
+      showsVerticalScrollIndicator={false}
+      recycleItems={true}
+      maintainVisibleContentPosition
+      onScroll={handleScroll}
+      refreshControl={
+        <RefreshControl
+          refreshing={isRefetching}
+          onRefresh={refetch}
+          tintColor="transparent"
+          colors={["transparent"]}
+        />
+      }
+      onEndReached={() => {
+        if (hasNextPage && !isFetchingNextPage) {
+          fetchNextPage();
         }
-        onEndReached={() => {
-          if (hasNextPage && !isFetchingNextPage) {
-            fetchNextPage();
-          }
-        }}
-        onEndReachedThreshold={0.5}
-        ListHeaderComponent={
-          <Loader
-            size="small"
-            isPending={isRefetching}
-            className="flex items-center"
-          />
-        }
-        ListEmptyComponent={
-          !isPending ? (
-            <View className="p-8 items-center">
-              <Text className="text-muted-foreground">No jobs available</Text>
-            </View>
-          ) : null
-        }
-        ListFooterComponent={
-          <View className="items-center pb-5">
-            {isPending ? (
-              <JobCardSkeleton />
-            ) : hasNextPage ? null : (
-              <View className="flex flex-row items-center justify-center gap-2 p-6">
-                <Text className="text-muted-foreground text-lg">
-                  No more jobs
-                </Text>
-                <PackageOpenIcon size={24} color="gray" />
-              </View>
-            )}
+      }}
+      onEndReachedThreshold={0.5}
+      ListHeaderComponent={
+        <Loader
+          size="small"
+          isPending={isRefetching}
+          className="flex items-center"
+        />
+      }
+      ListEmptyComponent={
+        !isPending ? (
+          <View className="p-6 items-center">
+            <Text className="text-muted-foreground">No jobs available</Text>
           </View>
-        }
-      />
-    </View>
+        ) : null
+      }
+      ListFooterComponent={
+        <View className="items-center">
+          {isPending ? (
+            <JobCardSkeleton />
+          ) : hasNextPage ? null : (
+            <View className="flex flex-row items-center justify-center gap-2 p-6">
+              <Text className="text-muted-foreground text-lg font-thin">
+                No more jobs
+              </Text>
+            </View>
+          )}
+        </View>
+      }
+    />
   );
 };

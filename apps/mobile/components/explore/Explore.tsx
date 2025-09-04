@@ -1,5 +1,10 @@
 import React from "react";
-import { View, SafeAreaView } from "react-native";
+import { SafeAreaView, View } from "react-native";
+import Animated, {
+  useAnimatedStyle,
+  withTiming,
+  useSharedValue,
+} from "react-native-reanimated";
 import { ExploreHeader } from "./ExploreHeader";
 import { useDebounce } from "~/hooks/useDebounce";
 import { ExploreCommon } from "./ExploreCommon";
@@ -7,56 +12,125 @@ import { Text } from "../ui/text";
 import { ExploreFollowing } from "./ExploreFollowing";
 import { cn } from "~/lib/utils";
 import { StablePressable } from "../shared/StablePressable";
-import { Separator } from "../ui/separator";
 
-export const Explore = () => {
-  const [tab, setTab] = React.useState<"recent" | "followings">("recent");
+type TabType = "recent" | "followings";
+
+interface ExploreProps {
+  initialTab?: TabType;
+  onTabChange?: (tab: TabType) => void;
+}
+
+export const Explore: React.FC<ExploreProps> = ({
+  initialTab = "recent",
+  onTabChange,
+}) => {
+  const [tab, setTab] = React.useState<TabType>(initialTab);
   const [search, setSearch] = React.useState("");
+
   const { value: debouncedSearchTerm, loading: searching } =
     useDebounce<string>(search, 1000);
 
+  // Use shared values for better performance
+  const showHeader = useSharedValue(true);
+
+  // Memoized tab change handler
+  const handleTabChange = React.useCallback(
+    (newTab: TabType) => {
+      setTab(newTab);
+      onTabChange?.(newTab);
+    },
+    [onTabChange]
+  );
+
+  // Memoized header visibility handler
+  const handleHeaderVisibility = React.useCallback(
+    (visible: boolean) => {
+      showHeader.value = visible;
+    },
+    [showHeader]
+  );
+
+  const animatedHeaderStyle = useAnimatedStyle(() => ({
+    transform: [
+      {
+        translateY: withTiming(showHeader.value ? 0 : -100, {
+          duration: 250,
+        }),
+      },
+    ],
+    opacity: withTiming(showHeader.value ? 1 : 0, { duration: 250 }),
+    height: withTiming(showHeader.value ? 100 : 0, {
+      duration: 250,
+    }),
+  }));
+
+  // Memoized tab button renderer
+  const renderTabButton = React.useCallback(
+    (tabKey: TabType, label: string) => (
+      <StablePressable
+        key={tabKey}
+        onPress={() => handleTabChange(tabKey)}
+        className={cn(
+          "h-12 flex-1 flex items-center justify-center",
+          tab === tabKey ? "border-b-2 border-b-primary" : ""
+        )}
+      >
+        <Text
+          className={cn(
+            "font-medium",
+            tab === tabKey ? "text-primary" : "text-muted-foreground"
+          )}
+        >
+          {label}
+        </Text>
+      </StablePressable>
+    ),
+    [tab, handleTabChange]
+  );
+
+  // Memoized content renderer
+  const renderContent = React.useMemo(() => {
+    switch (tab) {
+      case "recent":
+        return (
+          <ExploreCommon
+            className="px-2"
+            search={debouncedSearchTerm}
+            searching={searching}
+            setShowHeader={handleHeaderVisibility}
+          />
+        );
+      case "followings":
+        return (
+          <ExploreFollowing
+            search={debouncedSearchTerm}
+            searching={searching}
+          />
+        );
+      default:
+        return null;
+    }
+  }, [tab, debouncedSearchTerm, searching, handleHeaderVisibility]);
+
   return (
-    <SafeAreaView className="flex-1 px-1">
-      <View className="flex flex-row gap-2 pt-2">
-        <StablePressable
-          onPress={() => setTab("recent")}
-          className={cn(
-            "h-12 w-1/2 flex items-center justify-center",
-            tab === "recent" ? "border-b-2 border-b-primary" : ""
-          )}
+    <View className="flex flex-1 mx-2">
+      {/* Animated Header */}
+      <SafeAreaView>
+        <Animated.View
+          style={animatedHeaderStyle}
+          className="bg-background shadow-sm"
         >
-          <Text>Recent</Text>
-        </StablePressable>
-        <StablePressable
-          onPress={() => setTab("followings")}
-          className={cn(
-            "h-12 w-1/2 flex items-center justify-center",
-            tab === "followings" ? "border-b-2 border-b-primary" : ""
-          )}
-        >
-          <Text>Followings</Text>
-        </StablePressable>
-      </View>
-      <View className="flex-1 mx-2">
-        {/* Manual Tabs */}
-
-        <ExploreHeader className="my-5 bg-transparent" />
-
-        <SafeAreaView className="">
-          {tab === "recent" ? (
-            <ExploreCommon
-              className="mx-2"
-              search={debouncedSearchTerm}
-              searching={searching}
-            />
-          ) : (
-            <ExploreFollowing
-              search={debouncedSearchTerm}
-              searching={searching}
-            />
-          )}
-        </SafeAreaView>
-      </View>
-    </SafeAreaView>
+          <ExploreHeader />
+          {/* Tab Navigation */}
+          <View className="flex flex-row border-b border-border">
+            {renderTabButton("recent", "Recent")}
+            {renderTabButton("followings", "Following")}
+          </View>
+          {/* Search Header */}
+        </Animated.View>
+      </SafeAreaView>
+      {/* Content */}
+      {renderContent}
+    </View>
   );
 };

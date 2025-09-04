@@ -77,7 +77,7 @@ export default function Application() {
 
   return (
     <View className="flex-1">
-      <View className="flex-1 pb-[8vh]">
+      <View className="flex-1">
         {tabs.map((tab) => (
           <View
             key={tab.value + (tab.value === activeTab ? `-${tabKey}` : "")}
