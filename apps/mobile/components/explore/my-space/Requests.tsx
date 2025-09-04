@@ -78,8 +78,8 @@ export const Requests = ({
   return (
     <View className="flex flex-1">
       <View className="flex flex-row border-b border-border">
-        {renderTabButton("incoming", "Incoming", ArrowUp)}
-        {renderTabButton("outgoing", "Outgoing", ArrowDown)}
+        {renderTabButton("incoming", "Incoming", ArrowDown)}
+        {renderTabButton("outgoing", "Outgoing", ArrowUp)}
       </View>
       <View className="flex-1 p-4">
         <RequestsList

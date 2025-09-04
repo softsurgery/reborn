@@ -21,7 +21,6 @@ import {
 import { Text } from "./ui/text";
 import { Balance } from "./balance/Balance";
 import { Explore } from "./explore/Explore";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { JobCreateForm } from "./explore/jobs/JobCreateForm";
 
 export default function Application() {

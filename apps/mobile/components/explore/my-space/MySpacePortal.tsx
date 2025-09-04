@@ -37,9 +37,9 @@ export const MySpacePortal = ({ className }: MySpacePortalProps) => {
       onPress: () => {},
     },
     {
-      title: "Recently Viewed",
+      title: "Viewed",
       icon: Eye,
-      description: "View your recently viewed jobs",
+      description: "Latest viewed jobs",
       onPress: () => {},
     },
   ];
@@ -57,7 +57,7 @@ export const MySpacePortal = ({ className }: MySpacePortalProps) => {
             <View className="flex flex-col justify-between gap-2 p-4">
               <View className="flex flex-row  justify-between items-center w-full">
                 <Text className="text-lg font-semibold">{card.title}</Text>
-                <Icon name={card.icon} size={24} />
+                <Icon name={card.icon} size={20} />
               </View>
               <Text className="text-xs text-muted-foreground">
                 {card.description}
