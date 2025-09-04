@@ -1,33 +1,49 @@
 import React from "react";
-import { View, Button } from "react-native";
 import LottieView from "lottie-react-native";
-import { cn } from "~/lib/utils";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+} from "react-native-reanimated";
 
 interface LoaderProps {
-  className?: string;
-  isPending?: boolean;
+  isPending: boolean;
   size?: "small" | "large";
+  className?: string;
 }
 
-export const Loader = ({
-  className,
-  isPending = false,
+export const Loader: React.FC<LoaderProps> = ({
+  isPending,
   size = "large",
-}: LoaderProps) => {
-  const animation = React.useRef<LottieView>(null);
+  className,
+}) => {
+  const height = useSharedValue(isPending ? 1 : 0); // 1 = visible, 0 = hidden
+  const opacity = useSharedValue(isPending ? 1 : 0);
 
-  // Adjust size dynamically
-  const dimension = size === "small" ? 100 : 200;
+  React.useEffect(() => {
+    height.value = withTiming(isPending ? 1 : 0, { duration: 300 });
+    opacity.value = withTiming(isPending ? 1 : 0, { duration: 300 });
+  }, [isPending]);
 
-  if (isPending)
-    return (
-      <View className={cn(className)}>
+  const animatedStyle = useAnimatedStyle(() => ({
+    opacity: opacity.value,
+    height: height.value * (size === "small" ? 100 : 200), // dynamically adjust
+    overflow: "hidden",
+  }));
+
+  return (
+    <Animated.View style={animatedStyle} className={className}>
+      {isPending && (
         <LottieView
           autoPlay
-          ref={animation}
-          style={{ width: dimension, height: dimension }}
+          loop
+          style={{
+            width: size === "small" ? 100 : 200,
+            height: size === "small" ? 100 : 200,
+          }}
           source={require("~/assets/sandy-loading.json")}
         />
-      </View>
-    );
+      )}
+    </Animated.View>
+  );
 };
