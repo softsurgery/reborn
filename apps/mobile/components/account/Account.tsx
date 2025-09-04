@@ -14,18 +14,20 @@ import { View } from "react-native";
 import { PlanInfo } from "./Plan";
 import { GoPremium } from "./GoPremium";
 import { Separator } from "../ui/separator";
-import { StableScrollView } from "../shared/StableScrollView";
 import { MenuItem } from "./MenuItem";
 import { useAuthPersistStore } from "~/hooks/stores/useAuthPersistStore";
 import { useNavigation } from "~/hooks/useNavigation";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const Account = () => {
   const navigation = useNavigation();
   const authPersistStore = useAuthPersistStore();
+  const queryClient = useQueryClient();
 
   const signout = async () => {
     authPersistStore.logout();
+    queryClient.clear();
     navigation.navigate("index", { reset: true });
   };
 
