@@ -8,7 +8,7 @@ import Animated, {
 
 interface LoaderProps {
   isPending: boolean;
-  size?: "small" | "large";
+  size?: "small" | "large" | number;
   className?: string;
 }
 
@@ -38,8 +38,8 @@ export const Loader: React.FC<LoaderProps> = ({
           autoPlay
           loop
           style={{
-            width: size === "small" ? 100 : 200,
-            height: size === "small" ? 100 : 200,
+            width: size === "small" ? 100 : size === "large" ? 200 : size,
+            height: size === "small" ? 100 : size === "large" ? 200 : size,
           }}
           source={require("~/assets/sandy-loading.json")}
         />

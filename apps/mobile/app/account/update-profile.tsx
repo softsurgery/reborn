@@ -1,4 +1,4 @@
-import { UpdateProfile } from "~/components/account/profile/UpdateProfile";
+import { UpdateProfile } from "~/components/profile/UpdateProfile";
 
 export default function Screen() {
   return <UpdateProfile />;

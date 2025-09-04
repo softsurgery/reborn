@@ -1,6 +1,6 @@
 import * as React from "react";
 import { View, Pressable } from "react-native";
-import { Plus, Telescope, User, Users, Wallet } from "lucide-react-native";
+import { Menu, Plus, Telescope, Users, Wallet } from "lucide-react-native";
 import { MenuItem } from "~/components/menu/MenuItem";
 import { Account } from "./account/Account";
 import { Connect } from "./connect/Connect";
@@ -50,9 +50,9 @@ export default function Application() {
         component: <Balance />,
       },
       {
-        value: "account",
-        icon: User,
-        title: "Account",
+        value: "menu",
+        icon: Menu,
+        title: "Menu",
         component: <Account />,
       },
     ],

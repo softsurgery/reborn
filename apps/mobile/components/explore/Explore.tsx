@@ -20,10 +20,10 @@ interface ExploreProps {
   onTabChange?: (tab: TabType) => void;
 }
 
-export const Explore: React.FC<ExploreProps> = ({
+export const Explore = ({
   initialTab = "recent",
   onTabChange,
-}) => {
+}: ExploreProps) => {
   const [tab, setTab] = React.useState<TabType>(initialTab);
   const [search, setSearch] = React.useState("");
 
@@ -53,13 +53,13 @@ export const Explore: React.FC<ExploreProps> = ({
   const animatedHeaderStyle = useAnimatedStyle(() => ({
     transform: [
       {
-        translateY: withTiming(showHeader.value ? 0 : -100, {
+        translateY: withTiming(showHeader.value ? 0 : -120, {
           duration: 250,
         }),
       },
     ],
     opacity: withTiming(showHeader.value ? 1 : 0, { duration: 250 }),
-    height: withTiming(showHeader.value ? 100 : 0, {
+    height: withTiming(showHeader.value ? 120 : 0, {
       duration: 250,
     }),
   }));

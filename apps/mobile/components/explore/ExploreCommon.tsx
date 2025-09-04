@@ -14,6 +14,7 @@ import { Text } from "../ui/text";
 import { JobCardSkeleton } from "./jobs/JobCardSkeleton";
 import { Loader } from "../shared/Loader";
 import { cn } from "~/lib/utils";
+import { useDebounce } from "~/hooks/useDebounce";
 
 interface ExploreCommonProps {
   className?: string;
@@ -64,6 +65,12 @@ export const ExploreCommon = ({
     []
   );
 
+  const [dragging, setDragging] = React.useState(false);
+  const { value: debouncedDragging, loading: isDragging } = useDebounce(
+    dragging,
+    1000
+  );
+
   // Track scroll direction
   const lastOffsetY = React.useRef(0);
 
@@ -92,6 +99,8 @@ export const ExploreCommon = ({
       recycleItems={true}
       maintainVisibleContentPosition
       onScroll={handleScroll}
+      onScrollBeginDrag={() => setDragging(true)}
+      onScrollEndDrag={() => setDragging(false)}
       refreshControl={
         <RefreshControl
           refreshing={isRefetching}
@@ -109,8 +118,8 @@ export const ExploreCommon = ({
       ListHeaderComponent={
         <Loader
           size="small"
-          isPending={isRefetching}
-          className="flex items-center"
+          isPending={isRefetching || debouncedDragging || isDragging}
+          className="flex items-center h-fit"
         />
       }
       ListEmptyComponent={

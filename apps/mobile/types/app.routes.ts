@@ -12,10 +12,13 @@ export type StackParamList = {
   "account/managment": undefined;
   "account/user-preferences": undefined;
   "account/update-profile": undefined;
+  "my-space/index": undefined;
+  "my-space/requests": undefined;
 
   "account/support/report-bug": undefined;
   "account/support/send-feedback": undefined;
   "account/support/faqs": undefined;
+
   // Chat
   "chat/conversation": { user?: ResponseClientDto };
   // Explore

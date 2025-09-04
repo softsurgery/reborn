@@ -23,8 +23,8 @@ export const StablePressable = ({
       onPressOut={() => setPressed(false)}
       className={cn(
         "rounded-lg",
-        pressed && (onPressClassname || "bg-secondary/25"),
-        className
+        className,
+        pressed && (onPressClassname || "bg-secondary/25")
       )}
       onPress={onPress}
     >

@@ -167,6 +167,24 @@ export default function RootLayout() {
             }}
           />
           <Stack.Screen
+            name="my-space/index"
+            options={{
+              headerShown: true,
+              headerTitle: "My Space",
+              headerBackVisible: false,
+              animation: "slide_from_right",
+            }}
+          />
+          <Stack.Screen
+            name="my-space/requests"
+            options={{
+              headerShown: true,
+              headerTitle: "Requests",
+              headerBackVisible: false,
+              animation: "slide_from_right",
+            }}
+          />
+          <Stack.Screen
             name="explore/user-profile"
             options={{
               animation: "slide_from_right",

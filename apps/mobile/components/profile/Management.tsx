@@ -12,6 +12,7 @@ import { useNavigation } from "expo-router";
 import { NavigationProps } from "~/types/app.routes";
 import { useClientStore } from "~/hooks/stores/useClientStore";
 import { ProfileManagmentCardSkeleton } from "~/components/explore/users/ProfileManagmentCardSkeleton";
+import { cn } from "~/lib/utils";
 
 interface ManagementProps {
   className?: string;
@@ -59,37 +60,18 @@ export const Management = ({ className }: ManagementProps) => {
   }, []);
 
   return (
-    <StableScrollView className={className}>
-      <View className="flex flex-col gap-2 px-5 mb-7">
-        {isCurrentUserPending ? (
-          <ProfileManagmentCardSkeleton />
-        ) : (
-          <ProfileManagmentCard className="mt-5" clientStore={clientStore} />
-        )}
-        <Button
-          onPress={() => navigation.navigate("account/update-profile")}
-          className="w-full"
-        >
-          <Text className="bold">Update Your Profile</Text>
-        </Button>
-        <View className="flex flex-col gap-4 px-5">
-          <Text className="font-bold">Your Images</Text>
-          <View className="flex flex-row gap-4 my-2">
-            <Image
-              style={{ width: 96, height: 96, borderRadius: 4 }}
-              source={picture}
-            />
-            <Image
-              style={{ width: 96, height: 96, borderRadius: 4 }}
-              source={picture}
-            />
-            <Image
-              style={{ width: 96, height: 96, borderRadius: 4 }}
-              source={picture}
-            />
-          </View>
-        </View>
-      </View>
-    </StableScrollView>
+    <View className={cn("flex flex-col gap-2", className)}>
+      {isCurrentUserPending ? (
+        <ProfileManagmentCardSkeleton />
+      ) : (
+        <ProfileManagmentCard className="mt-5" clientStore={clientStore} />
+      )}
+      <Button
+        onPress={() => navigation.navigate("account/update-profile")}
+        className="w-full"
+      >
+        <Text className="bold">Update Your Profile</Text>
+      </Button>
+    </View>
   );
 };

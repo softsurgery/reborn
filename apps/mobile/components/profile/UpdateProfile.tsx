@@ -131,7 +131,7 @@ export const UpdateProfile = () => {
     updateProfile();
   };
 
-  if (isCurrentUserPending) return <Loader />;
+  if (isCurrentUserPending) return <Loader isPending={true} />;
 
   return (
     <StableKeyboardAwareScrollView>

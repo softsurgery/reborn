@@ -71,3 +71,24 @@ export enum JobStyle {
   NIGHT = "Night Shift",
   DAY = "Day Shift",
 }
+
+export interface ResponseJobRequestDto extends DatabaseEntity {
+  id: number;
+  jobId: string;
+  job?: ResponseJobDto;
+  userId: string;
+  user?: ResponseClientDto;
+  status: JobRequestStatus;
+}
+
+export enum JobRequestStatus {
+  Pending = "pending",
+  Approved = "approved",
+  Rejected = "rejected",
+}
+
+export interface CreateJobRequestDto {
+  jobId: string;
+}
+
+export interface UpdateJobRequestDto extends Partial<CreateJobRequestDto> {}

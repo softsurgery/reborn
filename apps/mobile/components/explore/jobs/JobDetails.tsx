@@ -17,7 +17,7 @@ import {
 } from "lucide-react-native";
 import { showToastable } from "react-native-toastable";
 import type { NavigationProps } from "~/types/app.routes";
-import { useQuery, useQueries } from "@tanstack/react-query";
+import { useQuery, useQueries, useMutation } from "@tanstack/react-query";
 import { api } from "~/api";
 import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
 import { format } from "date-fns";
@@ -35,6 +35,7 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "~/components/shared/StableAvatar";
+import { ServerErrorResponse } from "~/types";
 
 export const JobDetails = () => {
   const navigation = useNavigation<NavigationProps>();
@@ -61,6 +62,25 @@ export const JobDetails = () => {
     [job]
   );
 
+  const { mutate: sendRequest, isPending: isRequestPending } = useMutation({
+    mutationFn: () =>
+      api.jobRequest.create({
+        jobId: id as string,
+      }),
+    onSuccess: () => {
+      showToastable({
+        message: "Request sent successfully",
+        status: "success",
+      });
+    },
+    onError: (error: ServerErrorResponse) => {
+      showToastable({
+        message: error.response?.data.message,
+        status: "danger",
+      });
+    },
+  });
+
   // Fetch each image individually
   const imageQueries = useQueries({
     queries: Array.isArray(uploads)
@@ -73,7 +93,9 @@ export const JobDetails = () => {
       : [],
   });
 
-  const handleApply = () => console.log("Apply to job:", id);
+  const handleApply = () => {
+    sendRequest();
+  };
 
   const handleSave = (e: any) => {
     e.stopPropagation();
@@ -154,7 +176,7 @@ export const JobDetails = () => {
           <Text className="text-lg font-semibold text-foreground mb-2">
             Images
           </Text>
-          <View className="flex flex-wrap flex-row justify-start items-center gap-x-[5%]">
+          <View className="flex flex-wrap flex-row justify-center items-center gap-x-[5%]">
             {imageQueries.map((query, index) => {
               const uploadId = uploads[index];
 
@@ -172,7 +194,7 @@ export const JobDetails = () => {
                       alignItems: "center",
                     }}
                   >
-                    <Loader />
+                    <Loader isPending={true} size="small" />
                   </View>
                 );
               }
@@ -318,6 +340,7 @@ export const JobDetails = () => {
           onPress={handleApply}
           className="w-full py-3 rounded-lg"
           size="lg"
+          disabled={isRequestPending}
         >
           <Text className="text-base font-semibold">Apply for this job</Text>
         </Button>
