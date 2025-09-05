@@ -13,7 +13,7 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "~/components/shared/StableAvatar";
-import { useCurrentUser } from "~/hooks/useCurrentUser";
+import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
 import { Button } from "~/components/ui/button";
 import { useQueryClient } from "@tanstack/react-query";
 import { ClientStore } from "~/hooks/stores/useClientStore";
@@ -23,7 +23,7 @@ import Icon from "~/lib/Icon";
 import { Mail, UserPlus } from "lucide-react-native";
 import { ServerErrorResponse } from "~/types";
 import { ProfileStat } from "./ProfileStat";
-import { useFollowSystem } from "~/hooks/useFollowSystem";
+import { useFollowSystem } from "~/hooks/content/useFollowSystem";
 
 interface ProfileManagmentCardProps {
   className?: string;

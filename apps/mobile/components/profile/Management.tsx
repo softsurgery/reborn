@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { StableScrollView } from "~/components/shared/StableScrollView";
 import { ProfileManagmentCard } from "~/components/explore/users/ProfileManagementCard";
 import { Text } from "~/components/ui/text";
-import { useCurrentUser } from "~/hooks/useCurrentUser";
+import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "~/api";
 import { Image } from "expo-image";

@@ -14,7 +14,7 @@ import {
   AccordionContent,
   AccordionTrigger,
 } from "~/components/ui/accordion";
-import { useJobCategories } from "~/hooks/useJobCategories";
+import { useJobCategories } from "~/hooks/content/job/useJobCategories";
 import { StablePressable } from "~/components/shared/StablePressable";
 
 interface JobFiltersProps {

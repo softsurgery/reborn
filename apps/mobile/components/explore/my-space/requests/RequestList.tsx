@@ -1,7 +1,7 @@
 import React from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { api } from "~/api";
-import { useCurrentUser } from "~/hooks/useCurrentUser";
+import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
 import { ResponseJobRequestDto } from "~/types";
 import { IncomingRequestEntry } from "./IncomingRequest";
 import { useDebounce } from "~/hooks/useDebounce";

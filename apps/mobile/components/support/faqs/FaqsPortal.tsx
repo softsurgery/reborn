@@ -9,7 +9,7 @@ import {
   AccordionTrigger,
 } from "~/components/ui/accordion";
 import { Text } from "~/components/ui/text";
-import { useDataStore } from "~/hooks/useDataStore";
+import { useDataStore } from "~/hooks/content/useDataStore";
 import Icon from "~/lib/Icon";
 import { cn } from "~/lib/utils";
 import { StoreIDs } from "~/types";

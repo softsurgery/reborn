@@ -5,7 +5,7 @@ import { View } from "react-native";
 import { Loader } from "~/components/shared/Loader";
 import { Button } from "~/components/ui/button";
 import { useClientStore } from "~/hooks/stores/useClientStore";
-import { useCurrentUser } from "~/hooks/useCurrentUser";
+import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
 import Icon from "~/lib/Icon";
 import { ServerErrorResponse } from "~/types";
 import { Text } from "~/components/ui/text";
@@ -20,7 +20,7 @@ import {
   updateProfileSchema,
 } from "~/types/validations/client.validation";
 import { api } from "~/api";
-import { useUploadMutation } from "~/hooks/useUploadMutation";
+import { useUploadMutation } from "~/hooks/content/useUploadMutation";
 import { Upload } from "~/types/upload";
 import { StableKeyboardAwareScrollView } from "~/components/shared/KeyboardAwareScrollView";
 

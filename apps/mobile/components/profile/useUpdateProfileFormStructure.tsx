@@ -11,7 +11,7 @@ import {
   TextFieldProps,
 } from "~/components/shared/form-builder/types";
 import { ClientStore } from "~/hooks/stores/useClientStore";
-import { useUploadMutation } from "~/hooks/useUploadMutation";
+import { useUploadMutation } from "~/hooks/content/useUploadMutation";
 import { Gender } from "~/types";
 
 interface useUpdateProfileFormStructureProps {

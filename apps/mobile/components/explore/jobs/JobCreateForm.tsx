@@ -2,10 +2,10 @@ import React from "react";
 import { FormBuilder } from "~/components/shared/form-builder/FormBuilder";
 import { useCreateJobFormStructure } from "./forms/useCreatJobFormStructure";
 import { useJobStore } from "~/hooks/stores/useJobStore";
-import { useCurrencies } from "~/hooks/useCurrencies";
+import { useCurrencies } from "~/hooks/content/useCurrencies";
 import { mapToSelectOptions } from "~/components/shared/form-builder/utils/mapToSelectOptions";
-import { useJobTags } from "~/hooks/useJobTags";
-import { useJobCategories } from "~/hooks/useJobCategories";
+import { useJobTags } from "~/hooks/content/job/useJobTags";
+import { useJobCategories } from "~/hooks/content/job/useJobCategories";
 import { StableScrollView } from "~/components/shared/StableScrollView";
 
 interface JobCreateFormProps {
