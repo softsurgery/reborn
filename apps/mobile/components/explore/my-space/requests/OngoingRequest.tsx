@@ -12,13 +12,11 @@ import {
   DialogTitle,
 } from "~/components/ui/dialog";
 import { Text } from "~/components/ui/text";
-import { identifyUser } from "~/lib/user.utils";
+import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
 import { cn } from "~/lib/utils";
 import { JobRequestStatus, ResponseJobRequestDto } from "~/types";
 import { NavigationProps } from "~/types/app.routes";
-import { Image } from "expo-image";
-import { useQuery } from "@tanstack/react-query";
-import { api } from "~/api";
+import { useServerImage } from "~/hooks/content/useServerImage";
 
 interface OngoingRequestEntryProps {
   className?: string;
@@ -32,12 +30,10 @@ export const OngoingRequestEntry = ({
   const navigation = useNavigation<NavigationProps>();
   const [open, setOpen] = useState(false);
 
-  const { data: profilePicture } = useQuery({
-    queryKey: ["profile-picture", request.job?.postedBy?.profile?.pictureId],
-    queryFn: () =>
-      api.upload.getUploadById(request.job?.postedBy?.profile?.pictureId!),
-    enabled: !!request.job?.postedBy?.profile?.pictureId,
-    staleTime: Infinity,
+  const { jsx } = useServerImage({
+    id: request.job?.postedBy?.profile?.pictureId!,
+    fallback: identifyUserAvatar(request.job?.postedBy),
+    size: { width: 80, height: 80 },
   });
 
   return (
@@ -92,14 +88,7 @@ export const OngoingRequestEntry = ({
             </Text>
           </View>
         </View>
-
-        <View className="h-16 w-16">
-          <Image
-            source={profilePicture}
-            style={{ height: "100%", width: "100%" }}
-            contentFit="contain"
-          />
-        </View>
+        {jsx}
       </StablePressable>
 
       <DialogContent className="w-[90vw]">
