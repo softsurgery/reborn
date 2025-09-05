@@ -7,6 +7,9 @@ import { StablePressable } from "../shared/StablePressable";
 import { cn } from "~/lib/utils";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Chat } from "./Chat";
+import { StableSafeAreaView } from "../shared/StableSafeAreaView";
+import { ApplicationHeader } from "../shared/AppHeader";
+import { User } from "lucide-react-native";
 
 export const Connect = () => {
   const [tab, setTab] = React.useState<"recent" | "followings">("recent");
@@ -14,7 +17,16 @@ export const Connect = () => {
   const navigation = useNavigation<NavigationProps>();
 
   return (
-    <SafeAreaView className="flex-1 px-1">
+    <StableSafeAreaView className="flex flex-1 mx-2">
+      <ApplicationHeader
+        title="Messages"
+        shortcuts={[
+          {
+            icon: User,
+            onPress: () => navigation.navigate("my-space/index", {}),
+          },
+        ]}
+      />
       <View className="px-4"></View>
       <View className="flex flex-row gap-2 pt-2">
         <StablePressable
@@ -43,6 +55,6 @@ export const Connect = () => {
           {tab === "recent" ? <Chat /> : <Text>Old</Text>}
         </SafeAreaView>
       </View>
-    </SafeAreaView>
+    </StableSafeAreaView>
   );
 };

@@ -5,7 +5,6 @@ import Animated, {
   withTiming,
   useSharedValue,
 } from "react-native-reanimated";
-import { ExploreHeader } from "./ExploreHeader";
 import { useDebounce } from "~/hooks/useDebounce";
 import { ExploreCommon } from "./ExploreCommon";
 import { Text } from "../ui/text";
@@ -13,6 +12,10 @@ import { ExploreFollowing } from "./ExploreFollowing";
 import { cn } from "~/lib/utils";
 import { StablePressable } from "../shared/StablePressable";
 import { StableSafeAreaView } from "../shared/StableSafeAreaView";
+import { ApplicationHeader } from "../shared/AppHeader";
+import { useNavigation } from "expo-router";
+import { NavigationProps } from "~/types/app.routes";
+import { Search, User } from "lucide-react-native";
 
 type TabType = "recent" | "followings";
 
@@ -25,6 +28,7 @@ export const Explore = ({
   initialTab = "recent",
   onTabChange,
 }: ExploreProps) => {
+  const navigation = useNavigation<NavigationProps>();
   const [tab, setTab] = React.useState<TabType>(initialTab);
   const [search, setSearch] = React.useState("");
 
@@ -121,7 +125,19 @@ export const Explore = ({
           style={animatedHeaderStyle}
           className="bg-background shadow-sm"
         >
-          <ExploreHeader />
+          <ApplicationHeader
+            title="Explore"
+            shortcuts={[
+              {
+                icon: Search,
+                onPress: () => navigation.navigate("explore/job-search", {}),
+              },
+              {
+                icon: User,
+                onPress: () => navigation.navigate("my-space/index", {}),
+              },
+            ]}
+          />
           {/* Tab Navigation */}
           <View className="flex flex-row border-b border-border">
             {renderTabButton("recent", "Recent")}

@@ -2,32 +2,32 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ResponseClientDto } from "./user-management";
 
 export type StackParamList = {
-  index: undefined;
+  index: { reset?: true };
   // Auth
-  "on-boarding": undefined;
-  "auth/sign-in": undefined;
-  "auth/sign-up": undefined;
-  "auth/sign-up-carry-on": undefined;
+  "on-boarding": { reset?: boolean };
+  "auth/sign-in": { reset?: boolean };
+  "auth/sign-up": { reset?: boolean };
+  "auth/sign-up-carry-on": { reset?: boolean };
   // Account
-  "account/managment": undefined;
-  "account/user-preferences": undefined;
-  "account/update-profile": undefined;
-  "my-space/index": undefined;
-  "my-space/requests": undefined;
+  "account/managment": { reset?: boolean };
+  "account/user-preferences": { reset?: boolean };
+  "account/update-profile": { reset?: boolean };
+  "my-space/index": { reset?: boolean };
+  "my-space/requests": { reset?: boolean };
 
-  "account/support/report-bug": undefined;
-  "account/support/send-feedback": undefined;
-  "account/support/faqs": undefined;
+  "account/support/report-bug": { reset?: boolean };
+  "account/support/send-feedback": { reset?: boolean };
+  "account/support/faqs": { reset?: boolean };
 
   // Chat
-  "chat/conversation": { user?: ResponseClientDto };
+  "chat/conversation": { user?: ResponseClientDto; reset?: boolean };
   // Explore
-  "explore/job-details": { id?: string; uploads: number[] };
-  "explore/job-search": undefined;
-  "explore/user-profile": { id?: string };
-  test: undefined;
+  "explore/job-details": { id?: string; uploads: number[]; reset?: boolean };
+  "explore/job-search": { reset?: boolean };
+  "explore/user-profile": { id?: string; reset?: boolean };
+  test: { reset?: boolean };
   //balance
-  balance: undefined;
+  balance: { reset?: boolean };
 };
 
 export type NavigationProps = NativeStackNavigationProp<StackParamList>;

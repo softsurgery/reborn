@@ -1,6 +1,12 @@
 import * as React from "react";
 import { View, Pressable } from "react-native";
-import { Menu, Plus, Telescope, Users, Wallet } from "lucide-react-native";
+import {
+  Menu,
+  MessageCircle,
+  Plus,
+  Telescope,
+  Wallet,
+} from "lucide-react-native";
 import { MenuItem } from "~/components/menu/MenuItem";
 import { Account } from "./account/Account";
 import { Connect } from "./connect/Connect";
@@ -37,9 +43,9 @@ export default function Application() {
         component: <Explore />,
       },
       {
-        value: "inter",
-        icon: Users,
-        title: "Connect",
+        value: "messages",
+        icon: MessageCircle,
+        title: "Messages",
         component: <Connect />,
       },
       {

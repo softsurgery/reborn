@@ -8,7 +8,7 @@ import {
   LogOut,
   MailCheck,
   Settings,
-  User2,
+  User,
 } from "lucide-react-native";
 import { View } from "react-native";
 import { PlanInfo } from "./Plan";
@@ -16,12 +16,14 @@ import { GoPremium } from "./GoPremium";
 import { Separator } from "../ui/separator";
 import { MenuItem } from "./MenuItem";
 import { useAuthPersistStore } from "~/hooks/stores/useAuthPersistStore";
-import { useNavigation } from "~/hooks/useNavigation";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { useQueryClient } from "@tanstack/react-query";
+import { ApplicationHeader } from "../shared/AppHeader";
+import { NavigationProps } from "~/types/app.routes";
+import { useNavigation } from "expo-router";
+import { StableSafeAreaView } from "../shared/StableSafeAreaView";
 
 export const Account = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProps>();
   const authPersistStore = useAuthPersistStore();
   const queryClient = useQueryClient();
 
@@ -32,7 +34,16 @@ export const Account = () => {
   };
 
   return (
-    <SafeAreaView className="flex-1 px-5">
+    <StableSafeAreaView className="flex flex-1 mx-2">
+      <ApplicationHeader
+        title="Menu"
+        shortcuts={[
+          {
+            icon: User,
+            onPress: () => navigation.navigate("my-space/index", {}),
+          },
+        ]}
+      />
       <PlanInfo className="my-2" />
       <GoPremium className="my-3" />
 
@@ -40,11 +51,7 @@ export const Account = () => {
         {/* App Settings */}
         <Text className="text-xl font-semibold">App Settings</Text>
         <View className="flex flex-col mt-2">
-          <MenuItem
-            title="My Profile"
-            icon={User2}
-            link={"account/managment"}
-          />
+          <MenuItem title="Account" icon={User} link={"account/managment"} />
           <Separator />
           <MenuItem
             title="User Preferences"
@@ -87,6 +94,6 @@ export const Account = () => {
           </View>
         </View>
       </View>
-    </SafeAreaView>
+    </StableSafeAreaView>
   );
 };
