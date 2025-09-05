@@ -104,6 +104,13 @@ const findById = async (
   return response.data;
 };
 
+const findRequested = async (id: string): Promise<ResponseJobRequestDto> => {
+  const response = await axios.get<ResponseJobRequestDto>(
+    `/job-request/${id}/exists`
+  );
+  return response.data;
+};
+
 const create = async (createJobRequestDto: CreateJobRequestDto) => {
   const response = await axios.post<ResponseJobRequestDto>(
     `/job-request`,
@@ -118,5 +125,6 @@ export const jobRequest = {
   findPaginatedOngoing,
   findAll,
   findById,
+  findRequested,
   create,
 };

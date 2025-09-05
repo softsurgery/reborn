@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { View, TouchableOpacity, SafeAreaView } from "react-native";
+import { View, TouchableOpacity } from "react-native";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { Text } from "~/components/ui/text";
 import { Button } from "~/components/ui/button";
@@ -36,6 +36,7 @@ import {
   AvatarImage,
 } from "~/components/shared/StableAvatar";
 import { ServerErrorResponse } from "~/types";
+import { StableSafeAreaView } from "~/components/shared/StableSafeAreaView";
 
 export const JobDetails = () => {
   const navigation = useNavigation<NavigationProps>();
@@ -62,6 +63,16 @@ export const JobDetails = () => {
     [job]
   );
 
+  const {
+    data: isJobRequested,
+    isPending: isJobRequestedPending,
+    refetch: refetchJobRequested,
+  } = useQuery({
+    queryKey: ["job-request", id],
+    queryFn: () => api.jobRequest.findRequested(id as string),
+    enabled: !!id,
+  });
+
   const { mutate: sendRequest, isPending: isRequestPending } = useMutation({
     mutationFn: () =>
       api.jobRequest.create({
@@ -72,6 +83,7 @@ export const JobDetails = () => {
         message: "Request sent successfully",
         status: "success",
       });
+      refetchJobRequested();
     },
     onError: (error: ServerErrorResponse) => {
       showToastable({
@@ -116,9 +128,11 @@ export const JobDetails = () => {
     );
   }
 
-  if (isJobPending) return <JobDetailsSkeleton uploads={uploads as string[]} />;
+  const isPending = isJobPending || isJobRequestedPending;
+
+  if (isPending) return <JobDetailsSkeleton uploads={uploads as string[]} />;
   return (
-    <SafeAreaView className="flex-1 pb-2">
+    <StableSafeAreaView className="flex-1 pb-2">
       {/* Header */}
       <View className="bg-card px-6 py-5 border-b border-border">
         <View className="flex-row items-start justify-between mb-3">
@@ -340,9 +354,13 @@ export const JobDetails = () => {
           onPress={handleApply}
           className="w-full py-3 rounded-lg"
           size="lg"
-          disabled={isRequestPending}
+          disabled={
+            isRequestPending || isJobRequestedPending || !!isJobRequested
+          }
         >
-          <Text className="text-base font-semibold">Apply for this job</Text>
+          <Text className="text-base font-semibold">
+            {isJobRequested ? "Request Sent" : "Apply for this job"}
+          </Text>
         </Button>
         <Text className="text-xs text-muted-foreground text-center mt-2">
           You'll be able to chat with
@@ -352,6 +370,6 @@ export const JobDetails = () => {
           before starting work
         </Text>
       </View>
-    </SafeAreaView>
+    </StableSafeAreaView>
   );
 };
