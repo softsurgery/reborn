@@ -1,5 +1,5 @@
 import React from "react";
-import { SafeAreaView, View } from "react-native";
+import { View } from "react-native";
 import Animated, {
   useAnimatedStyle,
   withTiming,
@@ -12,6 +12,7 @@ import { Text } from "../ui/text";
 import { ExploreFollowing } from "./ExploreFollowing";
 import { cn } from "~/lib/utils";
 import { StablePressable } from "../shared/StablePressable";
+import { StableSafeAreaView } from "../shared/StableSafeAreaView";
 
 type TabType = "recent" | "followings";
 
@@ -115,7 +116,7 @@ export const Explore = ({
   return (
     <View className="flex flex-1 mx-2">
       {/* Animated Header */}
-      <SafeAreaView>
+      <StableSafeAreaView>
         <Animated.View
           style={animatedHeaderStyle}
           className="bg-background shadow-sm"
@@ -128,7 +129,7 @@ export const Explore = ({
           </View>
           {/* Search Header */}
         </Animated.View>
-      </SafeAreaView>
+      </StableSafeAreaView>
       {/* Content */}
       {renderContent}
     </View>
