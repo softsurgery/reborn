@@ -14,6 +14,8 @@ import {
   Star,
   Calendar,
   Wallet,
+  CopyX,
+  CopyPlus,
 } from "lucide-react-native";
 import { showToastable } from "react-native-toastable";
 import type { NavigationProps } from "~/types/app.routes";
@@ -37,11 +39,23 @@ import {
 } from "~/components/shared/StableAvatar";
 import { ServerErrorResponse } from "~/types";
 import { StableSafeAreaView } from "~/components/shared/StableSafeAreaView";
+import { is } from "zod/v4/locales";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "~/components/ui/dialog";
+import Icon from "~/lib/Icon";
 
 export const JobDetails = () => {
   const navigation = useNavigation<NavigationProps>();
   const { id, uploads } = useLocalSearchParams();
   const [saved, setSaved] = React.useState(false);
+  const [applicationDialogOpen, setApplicationDialogOpen] =
+    React.useState(false);
 
   const { data: jobResp, isPending: isJobPending } = useQuery({
     queryKey: ["job", id],
@@ -73,17 +87,14 @@ export const JobDetails = () => {
     enabled: !!id,
   });
 
-  const { mutate: sendRequest, isPending: isRequestPending } = useMutation({
+  const { mutate: sendRequest, isPending: isSendRequestPending } = useMutation({
     mutationFn: () =>
       api.jobRequest.create({
         jobId: id as string,
       }),
     onSuccess: () => {
-      showToastable({
-        message: "Request sent successfully",
-        status: "success",
-      });
       refetchJobRequested();
+      setApplicationDialogOpen(false);
     },
     onError: (error: ServerErrorResponse) => {
       showToastable({
@@ -92,6 +103,21 @@ export const JobDetails = () => {
       });
     },
   });
+
+  const { mutate: cancelRequest, isPending: isCancelRequestPending } =
+    useMutation({
+      mutationFn: () => api.jobRequest.cancel(isJobRequested?.id as number),
+      onSuccess: () => {
+        refetchJobRequested();
+        setApplicationDialogOpen(false);
+      },
+      onError: (error: ServerErrorResponse) => {
+        showToastable({
+          message: error.response?.data.message,
+          status: "danger",
+        });
+      },
+    });
 
   // Fetch each image individually
   const imageQueries = useQueries({
@@ -106,7 +132,11 @@ export const JobDetails = () => {
   });
 
   const handleApply = () => {
-    sendRequest();
+    if (!isJobRequested) {
+      sendRequest();
+    } else {
+      cancelRequest();
+    }
   };
 
   const handleSave = (e: any) => {
@@ -185,55 +215,6 @@ export const JobDetails = () => {
       </View>
 
       <StableKeyboardAwareScrollView className={cn("flex-1 px-6 pb-5 mt-4")}>
-        {/* Images Grid */}
-        <View className={cn(uploads?.length > 0 ? "" : "hidden")}>
-          <Text className="text-lg font-semibold text-foreground mb-2">
-            Images
-          </Text>
-          <View className="flex flex-wrap flex-row justify-center items-center gap-x-[5%]">
-            {imageQueries.map((query, index) => {
-              const uploadId = uploads[index];
-
-              if (query.isLoading) {
-                return (
-                  <View
-                    key={uploadId}
-                    style={{
-                      width: "30%",
-                      height: 300,
-                      aspectRatio: 1,
-                      borderRadius: 8,
-                      marginBottom: 8,
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Loader isPending={true} size="small" />
-                  </View>
-                );
-              }
-
-              if (query.isError || !query.data) return null;
-
-              return (
-                <Image
-                  key={uploadId}
-                  source={query.data}
-                  style={{
-                    width: "30%",
-                    height: 300,
-                    aspectRatio: 1,
-                    borderRadius: 8,
-                    marginBottom: 8,
-                  }}
-                  contentFit="cover"
-                />
-              );
-            })}
-          </View>
-          <Separator className="my-4" />
-        </View>
-
         {/* About Project */}
         <View>
           <Text className="text-lg font-semibold text-foreground mb-2">
@@ -289,11 +270,59 @@ export const JobDetails = () => {
             </View>
           </View>
         </View>
+
+        <Separator className="my-4" />
+
+        {/* Images Grid */}
+        <View className={cn(uploads?.length > 0 ? "" : "hidden")}>
+          <Text className="text-lg font-semibold text-foreground">Images</Text>
+          <View className="flex flex-wrap flex-row justify-center items-center gap-x-[5%]">
+            {imageQueries.map((query, index) => {
+              const uploadId = uploads[index];
+
+              if (query.isLoading) {
+                return (
+                  <View
+                    key={uploadId}
+                    style={{
+                      width: "30%",
+                      height: 300,
+                      aspectRatio: 1,
+                      borderRadius: 8,
+                      marginBottom: 8,
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Loader isPending={true} size="small" />
+                  </View>
+                );
+              }
+
+              if (query.isError || !query.data) return null;
+
+              return (
+                <Image
+                  key={uploadId}
+                  source={query.data}
+                  style={{
+                    width: "30%",
+                    height: 300,
+                    aspectRatio: 1,
+                    borderRadius: 8,
+                    marginBottom: 8,
+                  }}
+                  contentFit="cover"
+                />
+              );
+            })}
+          </View>
+        </View>
       </StableKeyboardAwareScrollView>
 
       {/* Client Info */}
       <StablePressable
-        className="px-6 py-4"
+        className="px-6 pb-4"
         onPress={() =>
           navigation.navigate("explore/user-profile", { id: job?.postedBy.id })
         }
@@ -350,25 +379,82 @@ export const JobDetails = () => {
 
       {/* Apply Button */}
       <View className="px-6 py-5 bg-card border-t border-border">
-        <Button
-          onPress={handleApply}
-          className="w-full py-3 rounded-lg"
-          size="lg"
-          disabled={
-            isRequestPending || isJobRequestedPending || !!isJobRequested
-          }
+        <Dialog
+          open={applicationDialogOpen}
+          onOpenChange={(value) => setApplicationDialogOpen(value)}
         >
-          <Text className="text-base font-semibold">
-            {isJobRequested ? "Request Sent" : "Apply for this job"}
+          <DialogTrigger asChild>
+            <Button
+              className="w-full py-3 rounded-lg"
+              size="lg"
+              disabled={
+                isJobRequestedPending ||
+                isCancelRequestPending ||
+                isSendRequestPending
+              }
+              variant={isJobRequested ? "outline" : "default"}
+            >
+              <Text className="text-base font-semibold">
+                {isJobRequested ? "Cancel Application" : "Apply for this job"}
+              </Text>
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="w-[90vw]">
+            <DialogHeader>
+              <DialogTitle>
+                <View className="flex flex-row items-center gap-2">
+                  <Icon name={isJobRequested ? CopyX : CopyPlus} size={24} />
+                  <Text variant={"large"}>
+                    {isJobRequested
+                      ? "Cancel Application"
+                      : "Confirm Application"}
+                  </Text>
+                </View>
+              </DialogTitle>
+              <DialogDescription>
+                <View>
+                  <Text>
+                    {isJobRequested
+                      ? "Are you sure you want to cancel your application? The client will no longer see you as a candidate."
+                      : "Are you sure you want to apply for this job? The client will be notified, and you'll be able to chat after the application is approved."}
+                  </Text>
+                  <View className="flex flex-row items-center gap-2 mt-4">
+                    <Button
+                      onPress={handleApply}
+                      className="w-1/2"
+                      size="sm"
+                      disabled={
+                        isJobRequestedPending ||
+                        isCancelRequestPending ||
+                        isSendRequestPending
+                      }
+                    >
+                      <Text className="text-base font-semibold">Confirm</Text>
+                    </Button>
+                    <Button
+                      className="w-1/2"
+                      size="sm"
+                      variant={"outline"}
+                      onPress={() => setApplicationDialogOpen(false)}
+                    >
+                      <Text>Cancel</Text>
+                    </Button>
+                  </View>
+                </View>
+              </DialogDescription>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
+
+        <View className="flex flex-row items-baseline gap-2 justify-center mt-2">
+          <Text className="text-xs text-muted-foreground text-center">
+            You'll be able to chat with
           </Text>
-        </Button>
-        <Text className="text-xs text-muted-foreground text-center mt-2">
-          You'll be able to chat with
-          <Text className="font-medium mx-1">
-            {identifyUser(job?.postedBy)}
+          <Text className="font-medium ">{identifyUser(job?.postedBy)}</Text>
+          <Text className="text-xs text-muted-foreground text-center">
+            before starting work
           </Text>
-          before starting work
-        </Text>
+        </View>
       </View>
     </StableSafeAreaView>
   );

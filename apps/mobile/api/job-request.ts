@@ -119,6 +119,27 @@ const create = async (createJobRequestDto: CreateJobRequestDto) => {
   return response.data;
 };
 
+const approve = async (id: number) => {
+  const response = await axios.put<ResponseJobRequestDto>(
+    `/job-request/${id}/approve`
+  );
+  return response.data;
+};
+
+const reject = async (id: number) => {
+  const response = await axios.put<ResponseJobRequestDto>(
+    `/job-request/${id}/reject`
+  );
+  return response.data;
+};
+
+const cancel = async (id: number) => {
+  const response = await axios.put<ResponseJobRequestDto>(
+    `/job-request/${id}/cancel`
+  );
+  return response.data;
+};
+
 export const jobRequest = {
   findPaginated,
   findPaginatedIncoming,
@@ -127,4 +148,7 @@ export const jobRequest = {
   findById,
   findRequested,
   create,
+  approve,
+  reject,
+  cancel,
 };
