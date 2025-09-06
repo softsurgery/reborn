@@ -32,14 +32,8 @@ import { Badge } from "../../ui/badge";
 import { StablePressable } from "~/components/shared/StablePressable";
 import { cn } from "~/lib/utils";
 import { JobDetailsSkeleton } from "./JobDetailsSkeleton";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "~/components/shared/StableAvatar";
 import { ServerErrorResponse } from "~/types";
 import { StableSafeAreaView } from "~/components/shared/StableSafeAreaView";
-import { is } from "zod/v4/locales";
 import {
   Dialog,
   DialogContent,
@@ -50,9 +44,11 @@ import {
 } from "~/components/ui/dialog";
 import Icon from "~/lib/Icon";
 import { useServerImage } from "~/hooks/content/useServerImage";
+import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
 
 export const JobDetails = () => {
   const navigation = useNavigation<NavigationProps>();
+  const { currentUser } = useCurrentUser();
   const { id, uploads } = useLocalSearchParams();
   const [saved, setSaved] = React.useState(false);
   const [applicationDialogOpen, setApplicationDialogOpen] =
@@ -265,10 +261,9 @@ export const JobDetails = () => {
           </View>
         </View>
 
-        <Separator className="my-4" />
-
         {/* Images Grid */}
         <View className={cn(uploads?.length > 0 ? "" : "hidden")}>
+          <Separator className="my-4" />
           <Text className="text-lg font-semibold text-foreground">Images</Text>
           <View className="flex flex-wrap flex-row justify-center items-center gap-x-[5%]">
             {imageQueries.map((query, index) => {
@@ -369,20 +364,28 @@ export const JobDetails = () => {
           onOpenChange={(value) => setApplicationDialogOpen(value)}
         >
           <DialogTrigger asChild>
-            <Button
-              className="w-full py-3 rounded-lg"
-              size="lg"
-              disabled={
-                isJobRequestedPending ||
-                isCancelRequestPending ||
-                isSendRequestPending
-              }
-              variant={isJobRequested ? "outline" : "default"}
-            >
-              <Text className="text-base font-semibold">
-                {isJobRequested ? "Cancel Application" : "Apply for this job"}
-              </Text>
-            </Button>
+            {job?.postedBy.id !== currentUser?.id ? (
+              <Button
+                className="w-full py-3 rounded-lg"
+                size="lg"
+                disabled={
+                  isJobRequestedPending ||
+                  isCancelRequestPending ||
+                  isSendRequestPending
+                }
+                variant={isJobRequested ? "outline" : "default"}
+              >
+                <Text className="text-base font-semibold">
+                  {isJobRequested ? "Cancel Application" : "Apply for this job"}
+                </Text>
+              </Button>
+            ) : (
+              <Button disabled={true} className="w-full py-3 rounded-lg">
+                <Text className="text-base font-semibold">
+                  You cannot apply for your own job
+                </Text>
+              </Button>
+            )}
           </DialogTrigger>
           <DialogContent className="w-[90vw]">
             <DialogHeader>
