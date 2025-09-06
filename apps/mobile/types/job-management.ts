@@ -8,6 +8,7 @@ export interface ResponseJobDto extends DatabaseEntity {
   description: string;
   price: number;
   postedBy: ResponseClientDto;
+  postedById: string;
   tags: ResponseJobTagDto[];
   categoryId: number;
   style: JobStyle;

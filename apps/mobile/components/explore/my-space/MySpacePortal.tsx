@@ -1,13 +1,13 @@
-import { Bookmark, Eye, Inbox, Star } from "lucide-react-native";
-import { SafeAreaView, View } from "react-native";
+import { Bookmark, Briefcase, Eye, Inbox, Star } from "lucide-react-native";
+import { View } from "react-native";
 import { Management } from "~/components/profile/Management";
 import { StablePressable } from "~/components/shared/StablePressable";
 import { Text } from "~/components/ui/text";
 import Icon from "~/lib/Icon";
 import { cn } from "~/lib/utils";
-import { ProfileManagmentCard } from "../users/ProfileManagementCard";
 import { useNavigation } from "expo-router";
 import { NavigationProps } from "~/types/app.routes";
+import { Separator } from "~/components/ui/separator";
 
 interface MySpacePortalProps {
   className?: string;
@@ -21,7 +21,7 @@ export const MySpacePortal = ({ className }: MySpacePortalProps) => {
       icon: Inbox,
       description: "View all your requests",
       onPress: () => {
-        navigation.navigate("my-space/requests");
+        navigation.navigate("my-space/requests", {});
       },
     },
     {
@@ -66,6 +66,8 @@ export const MySpacePortal = ({ className }: MySpacePortalProps) => {
           </StablePressable>
         ))}
       </View>
+      <Separator className="my-4" />
+      
     </View>
   );
 };
