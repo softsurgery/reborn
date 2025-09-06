@@ -23,16 +23,19 @@ import { api } from "~/api";
 import { useUploadMutation } from "~/hooks/content/useUploadMutation";
 import { Upload } from "~/types/upload";
 import { StableKeyboardAwareScrollView } from "~/components/shared/KeyboardAwareScrollView";
+import { useServerImage } from "~/hooks/content/useServerImage";
+import { identifyUserAvatar } from "~/lib/user.utils";
 
 export const UpdateProfile = () => {
   const queryClient = useQueryClient();
   const { currentUser, isCurrentUserPending } = useCurrentUser();
-  const { data: profilePicture } = useQuery({
-    queryKey: ["profile-picture", currentUser?.profile?.pictureId],
-    queryFn: () => api.upload.getUploadById(currentUser?.profile?.pictureId!),
-    enabled: !!currentUser?.profile?.pictureId,
-    staleTime: Infinity,
+
+  const { upload } = useServerImage({
+    id: currentUser?.profile?.pictureId,
+    fallback: identifyUserAvatar(currentUser),
+    size: { width: 40, height: 40 },
   });
+
   const clientStore = useClientStore();
   const navigation = useNavigation();
   const { regions, isFetchRegionsPending } = useRegions();
@@ -76,7 +79,7 @@ export const UpdateProfile = () => {
           regionId: currentUser.profile.regionId,
         },
       });
-      clientStore.set("picture", profilePicture);
+      clientStore.set("picture", upload!);
     }
   }, [currentUser]);
 

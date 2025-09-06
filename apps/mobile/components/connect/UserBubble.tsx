@@ -1,12 +1,9 @@
-import { Pressable } from "react-native";
-import { Text } from "../ui/text";
-import { Avatar, AvatarFallback, AvatarImage } from "../shared/StableAvatar";
-import { useQuery } from "@tanstack/react-query";
-import { api } from "~/api";
-import { ResponseClientDto } from "~/types";
 import React from "react";
+import { Pressable } from "react-native";
+import { ResponseClientDto } from "~/types";
 import { identifyUserAvatar } from "~/lib/user.utils";
 import { cn } from "~/lib/utils";
+import { useServerImage } from "~/hooks/content/useServerImage";
 
 interface UserBubbleProps {
   className?: string;
@@ -14,14 +11,11 @@ interface UserBubbleProps {
 }
 
 export const UserBubble = ({ className, user }: UserBubbleProps) => {
-  const { data: profilePicture } = useQuery({
-    queryKey: ["profile-picture", user?.profile?.pictureId],
-    queryFn: () => api.upload.getUploadById(user?.profile?.pictureId!),
-    enabled: !!user?.profile?.pictureId,
-    staleTime: Infinity,
+  const { jsx: profilePicture } = useServerImage({
+    id: user?.profile?.pictureId,
+    fallback: identifyUserAvatar(user),
+    size: { width: 100, height: 100 },
   });
-
-  const fallback = React.useMemo(() => identifyUserAvatar(user), [user]);
 
   return (
     <Pressable
@@ -30,16 +24,7 @@ export const UserBubble = ({ className, user }: UserBubbleProps) => {
         className
       )}
     >
-      <Avatar
-        alt={fallback}
-        className="border border-border"
-        style={{ width: 50, height: 50, borderRadius: 25 }}
-      >
-        <AvatarImage source={profilePicture} />
-        <AvatarFallback>
-          <Text>{fallback}</Text>
-        </AvatarFallback>
-      </Avatar>
+      {profilePicture}
     </Pressable>
   );
 };

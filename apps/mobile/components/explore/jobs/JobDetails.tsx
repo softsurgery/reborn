@@ -49,6 +49,7 @@ import {
   DialogTrigger,
 } from "~/components/ui/dialog";
 import Icon from "~/lib/Icon";
+import { useServerImage } from "~/hooks/content/useServerImage";
 
 export const JobDetails = () => {
   const navigation = useNavigation<NavigationProps>();
@@ -64,18 +65,11 @@ export const JobDetails = () => {
 
   const job = React.useMemo(() => jobResp ?? null, [jobResp]);
 
-  const { data: profilePicture } = useQuery({
-    queryKey: ["profile-picture", jobResp?.postedBy?.profile?.pictureId],
-    queryFn: () =>
-      api.upload.getUploadById(jobResp?.postedBy?.profile?.pictureId!),
-    enabled: !!jobResp?.postedBy?.profile?.pictureId,
-    staleTime: Infinity,
+  const { jsx: profilePicture } = useServerImage({
+    id: job?.postedBy?.profile?.pictureId,
+    fallback: identifyUserAvatar(job?.postedBy),
+    size: { width: 40, height: 40 },
   });
-
-  const fallback = React.useMemo(
-    () => identifyUserAvatar(job?.postedBy),
-    [job]
-  );
 
   const {
     data: isJobRequested,
@@ -333,16 +327,7 @@ export const JobDetails = () => {
         </Text>
         <View className="flex-row items-center justify-between">
           <View className="flex-row items-center gap-3">
-            <Avatar
-              alt={fallback}
-              style={{ width: 40, height: 40, borderRadius: 20 }}
-              className="border border-border"
-            >
-              <AvatarImage source={{ uri: profilePicture }} />
-              <AvatarFallback>
-                <Text>{fallback}</Text>
-              </AvatarFallback>
-            </Avatar>
+            {profilePicture}
             <View>
               <Text className="text-base font-medium text-card-foreground">
                 {identifyUser(job?.postedBy)}

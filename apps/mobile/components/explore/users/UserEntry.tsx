@@ -22,6 +22,7 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "~/components/shared/StableAvatar";
+import { useServerImage } from "~/hooks/content/useServerImage";
 
 interface UserEntryProps {
   className?: string;
@@ -79,14 +80,11 @@ export const UserEntry = ({
     use: ["is-following"],
   });
 
-  const { data: profilePicture } = useQuery({
-    queryKey: ["profile-picture", user?.profile?.pictureId],
-    queryFn: () => api.upload.getUploadById(user?.profile?.pictureId!),
-    enabled: !!user?.profile?.pictureId,
-    staleTime: Infinity,
+  const { jsx: profilePicture } = useServerImage({
+    id: user?.profile?.pictureId,
+    fallback: identifyUserAvatar(user),
+    size: { width: 40, height: 40 },
   });
-
-  const fallback = React.useMemo(() => identifyUserAvatar(user), [user]);
 
   return (
     <StablePressable
@@ -103,16 +101,7 @@ export const UserEntry = ({
       <View className="flex-row items-center justify-between">
         <View className="flex flex-row justify-between items-center gap-3">
           <View className="w-10 h-10 bg-accent/20 rounded-full items-center justify-center">
-            <Avatar
-              alt={fallback}
-              style={{ width: 40, height: 40, borderRadius: 20 }}
-              className="border border-border"
-            >
-              <AvatarImage source={{ uri: profilePicture }} />
-              <AvatarFallback>
-                <Text>{fallback}</Text>
-              </AvatarFallback>
-            </Avatar>
+            {profilePicture}
           </View>
           <View>
             <Text className="text-base font-medium text-card-foreground">
