@@ -7,15 +7,11 @@ import { Button } from "~/components/ui/button";
 import { Text } from "~/components/ui/text";
 import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
 import { cn } from "~/lib/utils";
-import {
-  JobRequestStatus,
-  ResponseJobRequestDto,
-  ServerErrorResponse,
-} from "~/types";
+import { JobRequestStatus, ResponseJobRequestDto } from "~/types";
 import { NavigationProps } from "~/types/app.routes";
 import { useServerImage } from "~/hooks/content/useServerImage";
 import Icon from "~/lib/Icon";
-import { CopyX, Search } from "lucide-react-native";
+import { CopyX, Mail, Search } from "lucide-react-native";
 import {
   Dialog,
   DialogContent,
@@ -24,9 +20,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "~/components/ui/dialog";
-import { useMutation } from "@tanstack/react-query";
-import { showToastable } from "react-native-toastable";
-import { api } from "~/api";
+import { useJobRequestActions } from "~/hooks/content/job/useJobRequestActions";
 
 interface OutgoingRequestEntryProps {
   className?: string;
@@ -59,23 +53,23 @@ export const OutgoingRequestEntry = ({
         </Text>
         {/* Client */}
         <View className="flex flex-row items-center gap-1">
-          <Text>Client:</Text>
+          <Text className="text-sm">Client</Text>
           <Text className="font-thin">
             {identifyUser(request.job?.postedBy)}
           </Text>
         </View>
         {/* Requested At */}
         <View className="flex flex-row items-center gap-1">
-          <Text>Requested at:</Text>
+          <Text className="text-sm">Requested at</Text>
           <Text className="text-muted-foreground font-thin">
             {request.createdAt
-              ? format(request.createdAt, "hh:mm dd MMMM yyyy")
+              ? format(request.createdAt, "hh:mm - dd MMMM yyyy")
               : ""}
           </Text>
         </View>
         {/* Status */}
         <View className="flex flex-row items-center gap-1">
-          <Text>Status:</Text>
+          <Text className="text-sm">Status</Text>
           <Text
             className={cn(
               "text-sm font-medium",
@@ -96,14 +90,22 @@ export const OutgoingRequestEntry = ({
           </Text>
         </View>
         {/* Actions */}
-        {request.status === JobRequestStatus.Pending && (
+        {request.status === JobRequestStatus.Pending ? (
           <PendingActionBlock
             request={request}
             refetchRequests={refetchRequests}
           />
+        ) : request.status === JobRequestStatus.Approved ? (
+          <ApprovedActionBlock
+            request={request}
+            refetchRequests={refetchRequests}
+          />
+        ) : (
+          // <RejectedActionBlock />
+          <View></View>
         )}
       </View>
-      {/* Client Profile */}
+      {/* Client Profile Picture */}
       <StablePressable
         className="w-1/4"
         onPressClassname="opacity-50"
@@ -125,26 +127,18 @@ export const PendingActionBlock = ({
   refetchRequests,
 }: OutgoingRequestEntryProps) => {
   const navigation = useNavigation<NavigationProps>();
-  const [cancelDialogOpen, setCancelDialogOpen] = React.useState(false);
-  const { mutate: cancelRequest, isPending: isCancelRequestPending } =
-    useMutation({
-      mutationFn: () => api.jobRequest.cancel(request.id),
-      onSuccess: () => {
-        refetchRequests();
-        setCancelDialogOpen(false);
-      },
-      onError: (error: ServerErrorResponse) => {
-        showToastable({
-          message: error.response?.data.message,
-          status: "danger",
-        });
-      },
-    });
+  const [open, setOpen] = React.useState(false);
+  const { cancelJobRequest, isCancelPending } = useJobRequestActions({
+    onSuccess: () => {
+      refetchRequests();
+      setOpen(false);
+    },
+  });
+
   return (
     <View className={cn("flex flex-row items-center gap-2 mt-4", className)}>
       <Button
         size={"sm"}
-        variant={"secondary"}
         className="flex-row items-center gap-2"
         onPress={() => {
           navigation.navigate("explore/job-details", {
@@ -154,15 +148,12 @@ export const PendingActionBlock = ({
           });
         }}
       >
-        <Icon name={Search} size={14} className="text-secondary-foreground" />
+        <Icon name={Search} size={14} className="text-primary-foreground" />
         <Text>View Details</Text>
       </Button>
-      <Dialog
-        open={cancelDialogOpen}
-        onOpenChange={(value) => setCancelDialogOpen(value)}
-      >
+      <Dialog open={open} onOpenChange={(value) => setOpen(value)}>
         <DialogTrigger asChild>
-          <Button size={"sm"} variant={"outline"}>
+          <Button size={"sm"} variant={"secondary"}>
             <Text>Cancel Request</Text>
           </Button>
         </DialogTrigger>
@@ -182,10 +173,10 @@ export const PendingActionBlock = ({
                 </Text>
                 <View className="flex flex-row items-center gap-2 mt-4">
                   <Button
-                    onPress={() => cancelRequest()}
+                    onPress={() => cancelJobRequest(request.id)}
                     className="w-1/2"
                     size="sm"
-                    disabled={isCancelRequestPending}
+                    disabled={isCancelPending}
                   >
                     <Text className="text-base font-semibold">Confirm</Text>
                   </Button>
@@ -193,7 +184,7 @@ export const PendingActionBlock = ({
                     className="w-1/2"
                     size="sm"
                     variant={"outline"}
-                    onPress={() => setCancelDialogOpen(false)}
+                    onPress={() => setOpen(false)}
                   >
                     <Text>Cancel</Text>
                   </Button>
@@ -203,6 +194,41 @@ export const PendingActionBlock = ({
           </DialogHeader>
         </DialogContent>
       </Dialog>
+    </View>
+  );
+};
+
+const ApprovedActionBlock = ({
+  className,
+  request,
+  refetchRequests,
+}: OutgoingRequestEntryProps) => {
+  const navigation = useNavigation<NavigationProps>();
+
+  return (
+    <View className={cn("flex flex-row items-center gap-2 mt-4", className)}>
+      <Button
+        size={"sm"}
+        className="flex-row items-center gap-2"
+        onPress={() => {
+          navigation.navigate("explore/job-details", {
+            id: request.job?.id,
+            uploads:
+              request.job?.uploads?.map((upload) => upload.uploadId) ?? [],
+          });
+        }}
+      >
+        <Icon name={Search} size={14} className="text-primary-foreground" />
+        <Text>View Details</Text>
+      </Button>
+      <Button
+        size={"sm"}
+        className="flex-row items-center gap-2"
+        variant={"outline"}
+      >
+        <Icon name={Mail} size={14} className="text-primary-foreground" />
+        <Text>Send Message</Text>
+      </Button>
     </View>
   );
 };

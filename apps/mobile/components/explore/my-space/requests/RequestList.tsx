@@ -9,7 +9,7 @@ import { RefreshControl, View } from "react-native";
 import { Loader } from "~/components/shared/Loader";
 import { Text } from "~/components/ui/text";
 import { OutgoingRequestEntry } from "./OutgoingRequest";
-import { useRequestSystem } from "~/hooks/content/useRequestSystem";
+import { useRequestSystem } from "~/hooks/content/job/useInfiniteJobRequests";
 
 interface RequestsListProps {
   className?: string;
@@ -42,7 +42,11 @@ export const RequestsList = ({
   const renderItem = React.useCallback(
     ({ item }: { item: ResponseJobRequestDto }) =>
       variant == "incoming" ? (
-        <IncomingRequestEntry request={item} className="mb-4" />
+        <IncomingRequestEntry
+          request={item}
+          className="mb-4"
+          refetchRequests={refetchRequests}
+        />
       ) : (
         <OutgoingRequestEntry
           request={item}
