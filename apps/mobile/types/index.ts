@@ -5,3 +5,4 @@ export * from "./system-reports";
 export * from "./utils";
 export * from "./job-management";
 export * from "./content";
+export * from "./chat";

@@ -187,6 +187,7 @@ export default function RootLayout() {
           <Stack.Screen
             name="explore/user-profile"
             options={{
+              title: "",
               animation: "slide_from_right",
             }}
           />

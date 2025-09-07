@@ -9,7 +9,7 @@ import {
 } from "lucide-react-native";
 import { MenuItem } from "~/components/menu/MenuItem";
 import { Account } from "./account/Account";
-import { Connect } from "./connect/Connect";
+import { Connect } from "./chat/Connect";
 import { Button } from "./ui/button";
 import Icon from "~/lib/Icon";
 import { useNavigation } from "expo-router";

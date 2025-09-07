@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, TouchableWithoutFeedback } from "react-native";
+import { StablePressable } from "~/components/shared/StablePressable";
 import { cn } from "~/lib/utils";
 
 interface ChatBubbleProps {
@@ -18,7 +19,7 @@ export const ChatBubble = ({
   isOutgoing,
 }: ChatBubbleProps) => {
   return (
-    <TouchableWithoutFeedback>
+    <StablePressable>
       <View className="mt-2 ">
         <View
           className={cn(
@@ -32,6 +33,6 @@ export const ChatBubble = ({
           <Text className="text-xs text-white text-right">{timestamp}</Text>
         </View>
       </View>
-    </TouchableWithoutFeedback>
+    </StablePressable>
   );
 };
