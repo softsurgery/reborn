@@ -73,7 +73,6 @@ export const useServerImage = ({
 
     // 4️⃣ Fallback is a string → render Avatar with initials
     if (typeof fallback === "string") {
-      console.log(fallback);
       return (
         <Avatar
           style={{

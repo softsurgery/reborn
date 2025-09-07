@@ -86,7 +86,7 @@ export default function ChatPage() {
           <Button title="Send" onPress={sendMessage} />
         </View>
       </View>
-      <Loader size="small" />
+      <Loader size="small" isPending />
     </StableKeyboardAwareScrollView>
   );
 }

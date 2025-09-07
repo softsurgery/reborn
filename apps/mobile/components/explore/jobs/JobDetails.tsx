@@ -263,7 +263,7 @@ export const JobDetails = () => {
         <View className={cn(uploads?.length > 0 ? "" : "hidden")}>
           <Separator className="my-4" />
           <Text className="text-lg font-semibold text-foreground">Images</Text>
-          <View className="flex flex-wrap flex-row justify-center items-center gap-x-[5%]">
+          <View className="flex flex-wrap flex-row gap-x-[5%]">
             {imageQueries.map((query, index) => {
               const uploadId = uploads[index];
 

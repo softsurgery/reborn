@@ -138,12 +138,6 @@ export const JobFilters = ({ className }: JobFiltersProps) => {
           <Button
             className="w-[49%]"
             onPress={() => {
-              console.log({
-                startDate,
-                endDate,
-                category,
-                tags,
-              });
               closeDialog();
             }}
           >
