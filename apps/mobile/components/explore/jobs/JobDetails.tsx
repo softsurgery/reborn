@@ -59,6 +59,20 @@ export const JobDetails = () => {
 
   const job = React.useMemo(() => jobResp ?? null, [jobResp]);
 
+  const {
+    data: jobMetadataResp,
+    isPending: isJobMetadataPending,
+    refetch: refetchJobMetadata,
+  } = useQuery({
+    queryKey: ["job-metadata", id],
+    queryFn: () => api.job.findMetadataById(id as string),
+  });
+
+  const jobMetadata = React.useMemo(
+    () => jobMetadataResp ?? null,
+    [jobMetadataResp]
+  );
+
   const { jsx: profilePicture } = useServerImage({
     id: job?.postedBy?.profile?.pictureId,
     fallback: identifyUserAvatar(job?.postedBy),
@@ -82,6 +96,7 @@ export const JobDetails = () => {
       }),
     onSuccess: () => {
       refetchJobRequested();
+      refetchJobMetadata();
       setApplicationDialogOpen(false);
     },
     onError: (error: ServerErrorResponse) => {
@@ -97,6 +112,7 @@ export const JobDetails = () => {
       mutationFn: () => api.jobRequest.cancel(isJobRequested?.id as number),
       onSuccess: () => {
         refetchJobRequested();
+        refetchJobMetadata();
         setApplicationDialogOpen(false);
       },
       onError: (error: ServerErrorResponse) => {
@@ -146,7 +162,8 @@ export const JobDetails = () => {
     );
   }
 
-  const isPending = isJobPending || isJobRequestedPending;
+  const isPending =
+    isJobPending || isJobRequestedPending || isJobMetadataPending;
 
   if (isPending) return <JobDetailsSkeleton uploads={uploads as string[]} />;
   return (
@@ -185,7 +202,9 @@ export const JobDetails = () => {
         <View className="flex-row items-center gap-3">
           <View className="flex-row items-center gap-1">
             <FileText size={14} color="#6366f1" />
-            <Text className="text-sm text-card-foreground">3 proposals</Text>
+            <Text className="text-sm text-card-foreground">
+              {jobMetadata?.requestCount} proposals
+            </Text>
           </View>
           <View className="flex-row items-center gap-1">
             <CheckCircle size={14} color="#16a34a" />
@@ -202,23 +221,97 @@ export const JobDetails = () => {
         </View>
       </View>
 
-      <StableKeyboardAwareScrollView className={cn("flex-1 px-6 pb-5 mt-4")}>
-        {/* About Project */}
-        <View>
-          <Text className="text-lg font-semibold text-foreground mb-2">
-            About this project
+      <StableKeyboardAwareScrollView className={cn("flex-1 px-6 pb-5")}>
+        {/* Client Info */}
+        <StablePressable
+          className="mt-4"
+          onPress={() =>
+            navigation.navigate("explore/user-profile", {
+              id: job?.postedBy.id,
+            })
+          }
+          onPressClassname="bg-secondary/10"
+        >
+          <Text className="text-lg font-semibold text-foreground mb-3">
+            Client information
           </Text>
-          <Text className="text-card-foreground leading-6 text-sm">
-            {job?.description}
-          </Text>
+          <View className="flex-row items-center justify-between">
+            <View className="flex-row items-center gap-3">
+              {profilePicture}
+              <View>
+                <Text className="text-base font-medium text-card-foreground">
+                  {identifyUser(job?.postedBy)}
+                </Text>
+                <View className="flex-row items-center gap-4 mt-1">
+                  <View className="flex-row items-center gap-1">
+                    <Star size={12} color="#fbbf24" fill="#fbbf24" />
+                    <Text className="text-xs text-muted-foreground">
+                      4.9 (127 reviews)
+                    </Text>
+                  </View>
+                  {job?.postedBy.profile?.region && (
+                    <View className="flex-row items-center gap-1">
+                      <MapPin size={12} color="#6366f1" />
+                      <Text className="text-xs text-muted-foreground">
+                        {job.postedBy.profile.region.label}
+                      </Text>
+                    </View>
+                  )}
+                </View>
+              </View>
+            </View>
+            <View className="items-end">
+              <Text className="text-xs text-muted-foreground">
+                Member since
+              </Text>
+              <Text className="text-xs text-card-foreground font-medium">
+                {job?.postedBy.createdAt
+                  ? format(job.postedBy.createdAt, "MMMM yyyy")
+                  : ""}
+              </Text>
+              <Text className="text-xs text-muted-foreground">
+                89% hire rate
+              </Text>
+            </View>
+          </View>
+        </StablePressable>
+        <Separator className="my-4 opacity-0" />
+        <View className="flex flex-row gap-4">
+          {/* About Project */}
+          <View className="w-2/3">
+            <Text className="text-lg font-semibold text-foreground mb-2">
+              About this project
+            </Text>
+            <Text className="text-card-foreground leading-6 text-sm">
+              {job?.description}
+            </Text>
+          </View>
+          {/* Project Scope */}
+          <View className="w-1/3">
+            <Text className="text-lg font-semibold text-foreground mb-2">
+              Project scope
+            </Text>
+            <View className="flex flex-col gap-1">
+              <View className="flex-row items-center gap-2">
+                <Calendar size={12} color="#6366f1" />
+                <Text className="text-xs text-muted-foreground">
+                  3-6 months
+                </Text>
+              </View>
+              <Text className="text-xs text-muted-foreground">
+                Intermediate level
+              </Text>
+              <Text className="text-xs text-muted-foreground">
+                {job?.style}
+              </Text>
+            </View>
+          </View>
         </View>
-
-        <Separator className="my-4" />
-
+        <Separator className="my-4 opacity-0" />
         {/* details */}
         <View className="flex flex-row gap-4">
           {/* Skills */}
-          <View className="w-1/2">
+          <View>
             <Text className="text-lg font-semibold text-foreground mb-2">
               Tags
             </Text>
@@ -236,34 +329,12 @@ export const JobDetails = () => {
               )}
             </View>
           </View>
-
-          {/* Project Scope */}
-          <View className="w-1/2">
-            <Text className="text-lg font-semibold text-foreground mb-2">
-              Project scope
-            </Text>
-            <View className="space-y-1">
-              <View className="flex-row items-center gap-2">
-                <Calendar size={12} color="#6366f1" />
-                <Text className="text-xs text-muted-foreground">
-                  3-6 months
-                </Text>
-              </View>
-              <Text className="text-xs text-muted-foreground">
-                Intermediate level
-              </Text>
-              <Text className="text-xs text-muted-foreground">
-                {job?.style}
-              </Text>
-            </View>
-          </View>
         </View>
-
         {/* Images Grid */}
         <View className={cn(uploads?.length > 0 ? "" : "hidden")}>
-          <Separator className="my-4" />
+          <Separator className="my-4 opacity-0" />
           <Text className="text-lg font-semibold text-foreground">Images</Text>
-          <View className="flex flex-wrap flex-row gap-x-[5%]">
+          <View className="flex flex-wrap flex-row gap-x-[5%] mt-2">
             {imageQueries.map((query, index) => {
               const uploadId = uploads[index];
 
@@ -306,54 +377,6 @@ export const JobDetails = () => {
           </View>
         </View>
       </StableKeyboardAwareScrollView>
-
-      {/* Client Info */}
-      <StablePressable
-        className="px-6 pb-4"
-        onPress={() =>
-          navigation.navigate("explore/user-profile", { id: job?.postedBy.id })
-        }
-        onPressClassname="bg-secondary/10"
-      >
-        <Text className="text-lg font-semibold text-foreground mb-3">
-          Client information
-        </Text>
-        <View className="flex-row items-center justify-between">
-          <View className="flex-row items-center gap-3">
-            {profilePicture}
-            <View>
-              <Text className="text-base font-medium text-card-foreground">
-                {identifyUser(job?.postedBy)}
-              </Text>
-              <View className="flex-row items-center gap-4 mt-1">
-                <View className="flex-row items-center gap-1">
-                  <Star size={12} color="#fbbf24" fill="#fbbf24" />
-                  <Text className="text-xs text-muted-foreground">
-                    4.9 (127 reviews)
-                  </Text>
-                </View>
-                {job?.postedBy.profile?.region && (
-                  <View className="flex-row items-center gap-1">
-                    <MapPin size={12} color="#6366f1" />
-                    <Text className="text-xs text-muted-foreground">
-                      {job.postedBy.profile.region.label}
-                    </Text>
-                  </View>
-                )}
-              </View>
-            </View>
-          </View>
-          <View className="items-end">
-            <Text className="text-xs text-muted-foreground">Member since</Text>
-            <Text className="text-xs text-card-foreground font-medium">
-              {job?.postedBy.createdAt
-                ? format(job.postedBy.createdAt, "MMMM yyyy")
-                : ""}
-            </Text>
-            <Text className="text-xs text-muted-foreground">89% hire rate</Text>
-          </View>
-        </View>
-      </StablePressable>
 
       {/* Apply Button */}
       <View className="px-6 py-5 bg-card border-t border-border">

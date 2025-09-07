@@ -1,5 +1,11 @@
 import axios from "./axios";
-import { CreateJobDto, Paginated, QueryParams, ResponseJobDto } from "~/types";
+import {
+  CreateJobDto,
+  Paginated,
+  QueryParams,
+  ResponseJobDto,
+  ResponseJobMetadataDto,
+} from "~/types";
 
 const findPaginated = async ({
   page = "1",
@@ -31,8 +37,17 @@ const findAll = async (): Promise<ResponseJobDto[]> => {
   return response.data;
 };
 
-const findById = async (jobId: string): Promise<ResponseJobDto> => {
-  const response = await axios.get<ResponseJobDto>(`/job/${jobId}`);
+const findById = async (id: string): Promise<ResponseJobDto> => {
+  const response = await axios.get<ResponseJobDto>(`/job/${id}`);
+  return response.data;
+};
+
+const findMetadataById = async (
+  id: string
+): Promise<ResponseJobMetadataDto> => {
+  const response = await axios.get<ResponseJobMetadataDto>(
+    `/job/${id}/metadata`
+  );
   return response.data;
 };
 
@@ -43,6 +58,7 @@ const create = async (createJobDto: CreateJobDto): Promise<CreateJobDto> => {
 
 export const job = {
   findPaginated,
+  findMetadataById,
   findAll,
   findById,
   create,

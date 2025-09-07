@@ -35,45 +35,6 @@ export const JobDetailsSkeleton = ({
         </View>
       </View>
 
-      <View className="flex-1 px-6 pb-5 mt-4">
-        {/* About project */}
-        <Skeleton className="h-5 w-40 mb-3" />
-        <Skeleton className="h-4 w-full mb-2" />
-        <Skeleton className="h-4 w-3/4" />
-        <Separator className="my-4" />
-
-        {/* Tags + Project scope */}
-        <View className="flex flex-row justify-between mt-6">
-          <View className="w-1/2 pr-2">
-            <Skeleton className="h-5 w-20 mb-3" />
-            <View className="flex flex-row flex-wrap gap-2">
-              <Skeleton className="h-5 w-12 rounded-full" />
-              <Skeleton className="h-5 w-12 rounded-full" />
-              <Skeleton className="h-5 w-12 rounded-full" />
-            </View>
-          </View>
-          <View className="w-1/2 pl-2">
-            <Skeleton className="h-5 w-28 mb-3" />
-            <Skeleton className="h-4 w-20 mb-1" />
-            <Skeleton className="h-4 w-24 mb-1" />
-            <Skeleton className="h-4 w-16" />
-          </View>
-        </View>
-
-        {/* Images */}
-        {uploads && uploads.length > 0 ? (
-          <React.Fragment>
-            <Skeleton className="h-5 w-24 mb-3" />
-            <View className="flex flex-wrap flex-row justify-start items-center gap-x-[5%] mb-5">
-              <Skeleton className="w-[30%] aspect-square rounded-lg" />
-              <Skeleton className="w-[30%] aspect-square rounded-lg" />
-              <Skeleton className="w-[30%] aspect-square rounded-lg" />
-            </View>
-            <Separator className="my-4" />
-          </React.Fragment>
-        ) : null}
-      </View>
-
       {/* Client Info */}
       <View className="px-6 py-4 border-t border-border">
         <Skeleton className="h-5 w-40 mb-3" />
@@ -91,6 +52,48 @@ export const JobDetailsSkeleton = ({
             <Skeleton className="h-3 w-14" />
           </View>
         </View>
+      </View>
+
+      <View className="flex-1 px-6 pb-5 mt-4">
+        {/*  About project + Project scope */}
+        <View className="flex flex-row justify-between mt-6">
+          {/* About project */}
+          <View>
+            <Skeleton className="h-5 w-40 mb-3" />
+            <Skeleton className="h-4 w-full mb-2" />
+            <Skeleton className="h-4 w-3/4" />
+            <Separator className="my-4" />
+          </View>
+          {/* Project scope */}
+          <View className="w-1/2 pl-2">
+            <Skeleton className="h-5 w-28 mb-3" />
+            <Skeleton className="h-4 w-20 mb-1" />
+            <Skeleton className="h-4 w-24 mb-1" />
+            <Skeleton className="h-4 w-16" />
+          </View>
+        </View>
+        {/* tags */}
+        <View className="w-1/2 pr-2">
+          <Skeleton className="h-5 w-20 mb-3" />
+          <View className="flex flex-row flex-wrap gap-2">
+            <Skeleton className="h-5 w-12 rounded-full" />
+            <Skeleton className="h-5 w-12 rounded-full" />
+            <Skeleton className="h-5 w-12 rounded-full" />
+          </View>
+        </View>
+
+        {/* Images */}
+        {uploads && uploads.length > 0 ? (
+          <React.Fragment>
+            <Skeleton className="h-5 w-24 mb-3" />
+            <View className="flex flex-wrap flex-row justify-start items-center gap-x-[5%] mb-5">
+              <Skeleton className="w-[30%] aspect-square rounded-lg" />
+              <Skeleton className="w-[30%] aspect-square rounded-lg" />
+              <Skeleton className="w-[30%] aspect-square rounded-lg" />
+            </View>
+            <Separator className="my-4" />
+          </React.Fragment>
+        ) : null}
       </View>
 
       {/* Apply button */}

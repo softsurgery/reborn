@@ -28,6 +28,15 @@ export interface UpdateJobDto extends Partial<CreateJobDto> {
   uploads?: { id: number; uploadId: number }[];
 }
 
+export interface ResponseJobMetadataDto {
+  id: string;
+  requestCount: number;
+  paymentVerified: boolean;
+  reviewCount: number;
+  rating: number;
+  hireRate: number;
+}
+
 export interface ResponseJobTagDto extends DatabaseEntity {
   id: number;
   label: string;
