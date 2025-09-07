@@ -1,7 +1,5 @@
 import React from "react";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { api } from "~/api";
-import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
+
 import { ResponseJobRequestDto } from "~/types";
 import { IncomingRequestEntry } from "./IncomingRequest";
 import { useDebounce } from "~/hooks/useDebounce";
@@ -10,11 +8,12 @@ import { cn } from "~/lib/utils";
 import { RefreshControl, View } from "react-native";
 import { Loader } from "~/components/shared/Loader";
 import { Text } from "~/components/ui/text";
-import { OngoingRequestEntry } from "./OngoingRequest";
+import { OutgoingRequestEntry } from "./OutgoingRequest";
+import { useRequestSystem } from "~/hooks/content/useRequestSystem";
 
 interface RequestsListProps {
   className?: string;
-  variant: "incoming" | "ongoing";
+  variant: "incoming" | "outgoing";
   search: string;
   searching: boolean;
 }
@@ -26,35 +25,17 @@ export const RequestsList = ({
   searching,
 }: RequestsListProps) => {
   const {
-    data,
-    fetchNextPage,
+    requests,
     hasNextPage,
-    isFetchingNextPage,
-    refetch,
+    isRequestsPending,
     isRefetching,
-    isPending: isRequestsPending,
-  } = useInfiniteQuery({
-    queryKey: ["requests", search, variant],
-    initialPageParam: 1,
-    queryFn: ({ pageParam = 1 }) => {
-      const queryParams = {
-        page: String(pageParam),
-        limit: "20",
-        sort: "createdAt,desc",
-        join: "job.postedBy,job.uploads",
-      };
-      return variant === "incoming"
-        ? api.jobRequest.findPaginatedIncoming(queryParams)
-        : api.jobRequest.findPaginatedOngoing(queryParams);
-    },
-    getNextPageParam: (lastPage) =>
-      lastPage.meta.hasNextPage ? lastPage.meta.page + 1 : undefined,
+    isFetchingNextPage,
+    fetchNextPage,
+    refetchRequests,
+  } = useRequestSystem({
+    search,
+    variant,
   });
-
-  const requests = React.useMemo(() => {
-    return data?.pages.flatMap((page) => page.data) ?? [];
-  }, [data]);
-
   const isPending =
     isRequestsPending || isRefetching || isFetchingNextPage || searching;
 
@@ -63,7 +44,11 @@ export const RequestsList = ({
       variant == "incoming" ? (
         <IncomingRequestEntry request={item} className="mb-4" />
       ) : (
-        <OngoingRequestEntry request={item} className="mb-4" />
+        <OutgoingRequestEntry
+          request={item}
+          className="mb-4"
+          refetchRequests={refetchRequests}
+        />
       ),
     [variant]
   );
@@ -88,7 +73,7 @@ export const RequestsList = ({
       refreshControl={
         <RefreshControl
           refreshing={isRefetching}
-          onRefresh={refetch}
+          onRefresh={refetchRequests}
           tintColor="transparent"
           colors={["transparent"]}
         />
