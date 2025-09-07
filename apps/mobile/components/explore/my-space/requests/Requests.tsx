@@ -75,7 +75,7 @@ export const Requests = ({
         <RequestsList
           search=""
           searching={false}
-          variant={tab as "incoming" | "ongoing"}
+          variant={tab as "incoming" | "outgoing"}
         />
       </View>
     </View>

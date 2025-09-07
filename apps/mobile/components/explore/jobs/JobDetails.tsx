@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { View, TouchableOpacity } from "react-native";
 import { useLocalSearchParams, useNavigation } from "expo-router";
@@ -359,80 +357,106 @@ export const JobDetails = () => {
 
       {/* Apply Button */}
       <View className="px-6 py-5 bg-card border-t border-border">
-        <Dialog
-          open={applicationDialogOpen}
-          onOpenChange={(value) => setApplicationDialogOpen(value)}
+        <View
+          className={cn(isJobRequested && "flex flex-row items-center gap-2")}
         >
-          <DialogTrigger asChild>
-            {job?.postedBy.id !== currentUser?.id ? (
-              <Button
-                className="w-full py-3 rounded-lg"
-                size="lg"
-                disabled={
-                  isJobRequestedPending ||
-                  isCancelRequestPending ||
-                  isSendRequestPending
-                }
-                variant={isJobRequested ? "outline" : "default"}
-              >
-                <Text className="text-base font-semibold">
-                  {isJobRequested ? "Cancel Application" : "Apply for this job"}
-                </Text>
-              </Button>
-            ) : (
-              <Button disabled={true} className="w-full py-3 rounded-lg">
-                <Text className="text-base font-semibold">
-                  You cannot apply for your own job
-                </Text>
-              </Button>
-            )}
-          </DialogTrigger>
-          <DialogContent className="w-[90vw]">
-            <DialogHeader>
-              <DialogTitle>
-                <View className="flex flex-row items-center gap-2">
-                  <Icon name={isJobRequested ? CopyX : CopyPlus} size={24} />
-                  <Text variant={"large"}>
-                    {isJobRequested
-                      ? "Cancel Application"
-                      : "Confirm Application"}
-                  </Text>
-                </View>
-              </DialogTitle>
-              <DialogDescription>
-                <View>
-                  <Text>
-                    {isJobRequested
-                      ? "Are you sure you want to cancel your application? The client will no longer see you as a candidate."
-                      : "Are you sure you want to apply for this job? The client will be notified, and you'll be able to chat after the application is approved."}
-                  </Text>
-                  <View className="flex flex-row items-center gap-2 mt-4">
-                    <Button
-                      onPress={handleApply}
-                      className="w-1/2"
-                      size="sm"
-                      disabled={
-                        isJobRequestedPending ||
-                        isCancelRequestPending ||
-                        isSendRequestPending
-                      }
-                    >
-                      <Text className="text-base font-semibold">Confirm</Text>
-                    </Button>
-                    <Button
-                      className="w-1/2"
-                      size="sm"
-                      variant={"outline"}
-                      onPress={() => setApplicationDialogOpen(false)}
-                    >
-                      <Text>Cancel</Text>
-                    </Button>
-                  </View>
-                </View>
-              </DialogDescription>
-            </DialogHeader>
-          </DialogContent>
-        </Dialog>
+          {isJobRequested && (
+            <Button
+              className="w-[49%] rounded-lg"
+              size="lg"
+              onPress={() =>
+                navigation.navigate("my-space/requests", {
+                  variant: "outgoing",
+                })
+              }
+            >
+              <Text className="text-base font-semibold">View Requests</Text>
+            </Button>
+          )}
+          <View className={cn(isJobRequested && "w-[49%]")}>
+            <Dialog
+              open={applicationDialogOpen}
+              onOpenChange={(value) => setApplicationDialogOpen(value)}
+            >
+              <DialogTrigger asChild>
+                {job?.postedBy.id !== currentUser?.id ? (
+                  <Button
+                    className="py-3 rounded-lg"
+                    size="lg"
+                    disabled={
+                      isJobRequestedPending ||
+                      isCancelRequestPending ||
+                      isSendRequestPending
+                    }
+                    variant={isJobRequested ? "outline" : "default"}
+                  >
+                    <Text className="text-base font-semibold">
+                      {isJobRequested
+                        ? "Cancel Application"
+                        : "Apply for this job"}
+                    </Text>
+                  </Button>
+                ) : (
+                  <Button disabled={true} className="w-full py-3 rounded-lg">
+                    <Text className="text-base font-semibold">
+                      You cannot apply for your own job
+                    </Text>
+                  </Button>
+                )}
+              </DialogTrigger>
+              <DialogContent className="w-[90vw]">
+                <DialogHeader>
+                  <DialogTitle>
+                    <View className="flex flex-row items-center gap-2">
+                      <Icon
+                        name={isJobRequested ? CopyX : CopyPlus}
+                        size={24}
+                      />
+                      <Text variant={"large"}>
+                        {isJobRequested
+                          ? "Cancel Application"
+                          : "Confirm Application"}
+                      </Text>
+                    </View>
+                  </DialogTitle>
+                  <DialogDescription>
+                    <View>
+                      <Text>
+                        {isJobRequested
+                          ? "Are you sure you want to cancel your application? The client will no longer see you as a candidate."
+                          : "Are you sure you want to apply for this job? The client will be notified, and you'll be able to chat after the application is approved."}
+                      </Text>
+                      <View className="flex flex-row items-center gap-2 mt-4">
+                        <Button
+                          onPress={handleApply}
+                          className="w-1/2"
+                          size="sm"
+                          disabled={
+                            isJobRequestedPending ||
+                            isCancelRequestPending ||
+                            isSendRequestPending
+                          }
+                        >
+                          <Text className="text-base font-semibold">
+                            Confirm
+                          </Text>
+                        </Button>
+                        <Button
+                          className="w-1/2"
+                          size="sm"
+                          variant={"outline"}
+                          onPress={() => setApplicationDialogOpen(false)}
+                        >
+                          <Text>Cancel</Text>
+                        </Button>
+                      </View>
+                    </View>
+                  </DialogDescription>
+                </DialogHeader>
+              </DialogContent>
+            </Dialog>
+          </View>
+        </View>
 
         <View className="flex flex-row items-baseline gap-2 justify-center mt-2">
           <Text className="text-xs text-muted-foreground text-center">

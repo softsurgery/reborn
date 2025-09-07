@@ -13,7 +13,10 @@ export type StackParamList = {
   "account/user-preferences": { reset?: boolean };
   "account/update-profile": { reset?: boolean };
   "my-space/index": { reset?: boolean };
-  "my-space/requests": { reset?: boolean };
+  "my-space/requests": {
+    reset?: boolean;
+    variant?: "incoming" | "outgoing";
+  };
 
   "account/support/report-bug": { reset?: boolean };
   "account/support/send-feedback": { reset?: boolean };
