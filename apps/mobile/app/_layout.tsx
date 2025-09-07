@@ -1,171 +1,205 @@
-import "~/global.css";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Theme, ThemeProvider } from "@react-navigation/native";
+import React from "react";
 import { SplashScreen, Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import React from "react";
-import { Platform } from "react-native";
+import { View } from "react-native";
 import { NAV_THEME } from "~/lib/constants";
-import { useColorScheme } from "~/lib/useColorScheme";
 import { PortalHost } from "@rn-primitives/portal";
 import { ThemeToggle } from "~/components/ThemeToggle";
-import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ToastProvider } from "react-native-toast-notifications";
-import { AuthProvider } from "~/context/AuthContext";
-
-const LIGHT_THEME: Theme = {
-  dark: false,
-  colors: NAV_THEME.light,
-  fonts: {
-    regular: {
-      fontFamily: 'System',
-      fontWeight: '400',
-    },
-    medium: {
-      fontFamily: 'System',
-      fontWeight: '500',
-    },
-    bold: {
-      fontFamily: 'System',
-      fontWeight: '600',
-    },
-    heavy: {
-      fontFamily: 'System',
-      fontWeight: '700',
-    },
-  },
-};
-const DARK_THEME: Theme = {
-  dark: true,
-  colors: NAV_THEME.dark,
-  fonts: {
-    regular: {
-      fontFamily: 'System',
-      fontWeight: '400',
-    },
-    medium: {
-      fontFamily: 'System',
-      fontWeight: '500',
-    },
-    bold: {
-      fontFamily: 'System',
-      fontWeight: '600',
-    },
-    heavy: {
-      fontFamily: 'System',
-      fontWeight: '700',
-    },
-  },
-};
+import { cn } from "~/lib/utils";
+import Toastable from "react-native-toastable";
 
 export { ErrorBoundary } from "expo-router";
+import { usePreferencePersistStore } from "~/hooks/stores/usePreferencePersistStore";
+
+import "~/global.css";
 
 SplashScreen.preventAutoHideAsync();
 
 const queryClient = new QueryClient();
 
 export default function RootLayout() {
-  const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme();
-  const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
-
-  React.useEffect(() => {
-    (async () => {
-        const theme = await AsyncStorage.getItem("theme");
-        if (Platform.OS === "web") {
-          document.documentElement.classList.add("bg-background");
-        }
-        if (!theme) {
-         AsyncStorage.setItem("theme", colorScheme);
-          setIsColorSchemeLoaded(true);
-          return;
-        }
-        const colorTheme = theme === "dark" ? "dark" : "light";
-        if (colorTheme !== colorScheme) {
-          setColorScheme(colorTheme);
-          setAndroidNavigationBar(colorTheme);
-          setIsColorSchemeLoaded(true);
-          return;
-        }
-        setAndroidNavigationBar(colorTheme);
-        setIsColorSchemeLoaded(true);
-      })().finally(() => {
-        SplashScreen.hideAsync();
-      });
-    }, []);
-
-  if (!isColorSchemeLoaded) {
-    return null;
-  }
+  const preferencePersistStore = usePreferencePersistStore();
+  const isDarkMode = React.useMemo(
+    () => preferencePersistStore.theme === "dark",
+    [preferencePersistStore.theme]
+  );
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-          <ToastProvider>
-            <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
-            <Stack>
-              <Stack.Screen
-                name="index"
-                options={{
-                  title: "",
-                  headerShown: false,
-                }}
-              />
-              <Stack.Screen
-                name="auth/sign-in-screen"
-                options={{
-                  title: "",
-                  headerRight: () => <ThemeToggle />,
-                }}
-              />
-              <Stack.Screen
-                name="auth/sign-up-screen"
-                options={{
-                  title: "",
-                  headerRight: () => <ThemeToggle />,
-                }}
-              />
-              <Stack.Screen
-                name="settings/app-settings/profile-managment"
-                options={{
-                  title: "Profile Management",
-                  animation: "slide_from_right",
-                }}
-              />
-              <Stack.Screen
-                name="settings/app-settings/profile/update-profile"
-                options={{
-                  title: "Update Profile",
-                  animation: "slide_from_right",
-                }}
-              />
-              <Stack.Screen
-                name="settings/app-settings/user-preferences"
-                options={{
-                  title: "User Preferences",
-                  animation: "slide_from_right",
-                }}
-              />
-              <Stack.Screen
-                name="settings/support/report-bug"
-                options={{
-                  title: "Report a Bug",
-                  animation: "slide_from_right",
-                }}
-              />
-              <Stack.Screen
-                name="settings/support/send-feedback"
-                options={{
-                  title: "Send us feedback",
-                  animation: "slide_from_right",
-                }}
-              />
-            </Stack>
-            <PortalHost />
-          </ToastProvider>
-        </ThemeProvider>
-      </AuthProvider>
-    </QueryClientProvider>
+    <View className={cn("flex-1", isDarkMode ? "dark" : "light")}>
+      <QueryClientProvider client={queryClient}>
+        <Toastable
+          statusMap={{
+            success: isDarkMode
+              ? NAV_THEME.dark.primary
+              : NAV_THEME.light.primary,
+            danger: isDarkMode
+              ? NAV_THEME.dark.destructive
+              : NAV_THEME.light.destructive,
+            warning: "green",
+            info: isDarkMode
+              ? NAV_THEME.dark.notification
+              : NAV_THEME.light.notification,
+          }}
+          position="top"
+        />
+        <StatusBar style={isDarkMode ? "light" : "dark"} translucent />
+        <Stack
+          screenOptions={{
+            contentStyle: {
+              flex: 1,
+              backgroundColor: isDarkMode
+                ? NAV_THEME.dark.background
+                : NAV_THEME.light.background,
+            },
+            headerStyle: {
+              backgroundColor: isDarkMode
+                ? NAV_THEME.dark.background
+                : NAV_THEME.light.background,
+            },
+            headerTintColor: isDarkMode
+              ? NAV_THEME.dark.text
+              : NAV_THEME.light.text,
+          }}
+        >
+          {/* Auth */}
+          <Stack.Screen
+            name="index"
+            options={{
+              title: "",
+              headerShown: false,
+              animation: "fade",
+              animationDuration: 200,
+            }}
+          />
+          <Stack.Screen
+            name="auth/sign-in"
+            options={{
+              title: "",
+              headerRight: () => <ThemeToggle />,
+              animation: "fade",
+              animationDuration: 200,
+            }}
+          />
+          <Stack.Screen
+            name="auth/sign-up"
+            options={{
+              title: "",
+              headerRight: () => <ThemeToggle />,
+              animation: "fade",
+              animationDuration: 200,
+            }}
+          />
+          <Stack.Screen
+            name="auth/sign-up-carry-on"
+            options={{
+              title: "",
+              headerRight: () => <ThemeToggle />,
+              animation: "fade",
+              animationDuration: 200,
+            }}
+          />
+          {/* Account */}
+          <Stack.Screen
+            name="account/managment"
+            options={{
+              title: "My Profile",
+              animation: "slide_from_right",
+            }}
+          />
+          <Stack.Screen
+            name="account/update-profile"
+            options={{
+              title: "Update Profile",
+              animation: "slide_from_right",
+            }}
+          />
+          <Stack.Screen
+            name="account/user-preferences"
+            options={{
+              title: "User Preferences",
+              animation: "slide_from_right",
+            }}
+          />
+          <Stack.Screen
+            name="account/support/report-bug"
+            options={{
+              title: "Report a Bug",
+              animation: "slide_from_right",
+            }}
+          />
+          <Stack.Screen
+            name="account/support/send-feedback"
+            options={{
+              title: "Send us feedback",
+              animation: "slide_from_right",
+            }}
+          />
+          <Stack.Screen
+            name="account/support/faqs"
+            options={{
+              title: "FAQs",
+              animation: "slide_from_right",
+            }}
+          />
+          {/* Chat */}
+          <Stack.Screen
+            name="chat/conversation"
+            options={{
+              title: "Chat",
+              headerBackTitle: "Chat",
+            }}
+          />
+          {/* Explore */}
+          <Stack.Screen
+            name="explore/job-search"
+            options={{
+              title: "Job Search",
+              headerShown: false,
+              animation: "slide_from_bottom",
+            }}
+          />
+          <Stack.Screen
+            name="explore/job-details"
+            options={{
+              headerShown: false,
+              animation: "slide_from_right",
+            }}
+          />
+          <Stack.Screen
+            name="my-space/index"
+            options={{
+              headerShown: true,
+              headerTitle: "My Space",
+              headerBackVisible: false,
+              animation: "slide_from_right",
+            }}
+          />
+          <Stack.Screen
+            name="my-space/requests"
+            options={{
+              headerShown: true,
+              headerTitle: "Requests",
+              headerBackVisible: false,
+              animation: "slide_from_right",
+            }}
+          />
+          <Stack.Screen
+            name="explore/user-profile"
+            options={{
+              animation: "slide_from_right",
+            }}
+          />
+          <Stack.Screen
+            name="test"
+            options={{
+              title: "TEST",
+              animation: "slide_from_right",
+            }}
+          />
+        </Stack>
+        <PortalHost />
+      </QueryClientProvider>
+    </View>
   );
 }

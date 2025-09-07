@@ -1,7 +1,7 @@
 export const BUG_CATEGORIES = [
     "Crash",
-    "UI Issue",
+    "UiIssue",
     "Performance",
-    "Feature Not Working",
+    "FeatureNotWorking",
     "Other",
   ];

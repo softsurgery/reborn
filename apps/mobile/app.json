@@ -26,7 +26,10 @@
       "bundler": "metro",
       "output": "static"
     },
-    "plugins": ["expo-router", "expo-image-picker"],
+    "plugins": [
+      "expo-router",
+      "expo-image-picker"
+    ],
     "experiments": {
       "typedRoutes": true
     },

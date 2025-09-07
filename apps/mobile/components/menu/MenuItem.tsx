@@ -1,9 +1,12 @@
 import React from "react";
 import { LucideIcon } from "lucide-react-native";
-import { IconWithTheme } from "~/lib/IconWithTheme";
-import { Text } from "../ui/text";
+import Icon from "~/lib/Icon";
+import { Text } from "~/components/ui/text";
+import { cn } from "~/lib/utils";
+import { View } from "react-native";
 
 interface MenuItemProps {
+  className?: string;
   title: string;
   icon: LucideIcon;
   active?: boolean;
@@ -12,25 +15,22 @@ interface MenuItemProps {
 }
 
 export const MenuItem = ({
+  className,
   title,
   icon,
   active = false,
   size = 32,
-  color = "blue",
 }: MenuItemProps) => {
   return (
-    <>
-      <IconWithTheme
-        icon={icon}
+    <View className={cn("flex-col items-center justify-between", className)}>
+      <Icon
+        name={icon as LucideIcon}
+        className={cn(active ? "text-primary" : "text-foreground")}
         size={size}
-        color={active ? color : undefined} 
       />
-      <Text
-        className="text-xs"
-        style={active ? { color: color } : {}}
-      >
+      <Text className={cn(active ? "text-primary" : "text-foreground")}>
         {title}
       </Text>
-    </>
+    </View>
   );
 };

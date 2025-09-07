@@ -1,5 +1,5 @@
 import { Image, View } from "react-native";
-import { Text } from "../ui/text";
+import { Text } from "~/components/ui/text";
 import { cn } from "~/lib/utils";
 
 interface GoPremiumProps {
@@ -8,9 +8,9 @@ interface GoPremiumProps {
 
 export const GoPremium = ({ className }: GoPremiumProps) => {
   return (
-    <View className={cn("border-4 border-yellow-400 rounded-lg", className)}>
+    <View className={cn("border-4 border-primary rounded-lg", className)}>
       <View>
-        <Text className="text-center bg-yellow-400 text-2xl py-2 font-bold">
+        <Text className="text-center text-white bg-primary text-2xl py-2 font-bold">
           Go Premium
         </Text>
       </View>
@@ -22,7 +22,7 @@ export const GoPremium = ({ className }: GoPremiumProps) => {
           </Text>
           <View className="w-1/3 flex items-center">
             <Image
-              className="shadow-md h-24 w-32 "
+              className="shadow-md h-24 w-32"
               source={require("~/assets/images/20-discount.png")}
             />
           </View>

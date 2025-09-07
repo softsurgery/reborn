@@ -3,11 +3,19 @@ const colors = require('tailwindcss/colors');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: 'class',
+  darkMode: 'media',
   content: ['./app/**/*.{ts,tsx}', './components/**/*.{ts,tsx}'],
   presets: [require('nativewind/preset')],
   theme: {
     extend: {
+      screens: {
+        xs: '360px',
+        sm: '480px',
+        md: '768px',
+        lg: '1024px',
+        xl: '1280px',
+        '2xl': '1536px',
+      },
       colors: {
         ...colors,
         border: 'hsl(var(--border))',
@@ -46,6 +54,11 @@ module.exports = {
       },
       borderWidth: {
         hairline: hairlineWidth(),
+      },
+      fontFamily: {
+        sans: 'var(--font-sans)',
+        serif: 'var(--font-serif)',
+        mono: 'var(--font-mono)',
       },
       keyframes: {
         'accordion-down': {

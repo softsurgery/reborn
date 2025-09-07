@@ -1,104 +1,160 @@
 import * as React from "react";
-import { Platform, ScrollView, View } from "react-native";
-import { Button } from "~/components/ui/button";
+import { View, Pressable } from "react-native";
 import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTriggerWithIcon,
-} from "~/components/ui/tabs";
-import {
-  Home,
-  MessageSquareText,
+  Menu,
+  MessageCircle,
   Plus,
-  User,
+  Telescope,
   Wallet,
 } from "lucide-react-native";
-import { IconWithTheme } from "~/lib/IconWithTheme";
 import { MenuItem } from "~/components/menu/MenuItem";
 import { Account } from "./account/Account";
-import { StableScrollView } from "./common/StableScrollView";
+import { Connect } from "./connect/Connect";
+import { Button } from "./ui/button";
+import Icon from "~/lib/Icon";
+import { useNavigation } from "expo-router";
+import * as Haptics from "expo-haptics";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/dialog";
+import { Text } from "./ui/text";
+import { Balance } from "./balance/Balance";
+import { Explore } from "./explore/Explore";
+import { JobCreateForm } from "./explore/jobs/JobCreateForm";
 
 export default function Application() {
-  const [value, setValue] = React.useState("account");
+  const navigation = useNavigation<any>();
+  const [activeTab, setActiveTab] = React.useState("explore");
+  const [tabKey, setTabKey] = React.useState(0);
 
-  const tabs = [
-    { value: "home", icon: Home, title: "Home", component: <></> },
-    { value: "chat", icon: MessageSquareText, title: "Chat", component: <></> },
-    { value: "balance", icon: Wallet, title: "Balance", component: <></> },
-    { value: "account", icon: User, title: "Account", component: <Account /> },
-  ];
+  const tabs = React.useMemo(
+    () => [
+      {
+        value: "explore",
+        icon: Telescope,
+        title: "Explore",
+        component: <Explore />,
+      },
+      {
+        value: "messages",
+        icon: MessageCircle,
+        title: "Messages",
+        component: <Connect />,
+      },
+      {
+        value: "balance",
+        icon: Wallet,
+        title: "Balance",
+        component: <Balance />,
+      },
+      {
+        value: "menu",
+        icon: Menu,
+        title: "Menu",
+        component: <Account />,
+      },
+    ],
+    []
+  );
 
   const leftTabs = tabs.slice(0, 2);
   const rightTabs = tabs.slice(2);
 
+  const handleTabPress = (value: string) => {
+    if (activeTab === value) {
+      // Reload the tab by updating the key
+      setTabKey((prev) => prev + 1);
+    } else {
+      setActiveTab(value);
+    }
+    navigation.setOptions({
+      title: tabs.find((tab) => tab.value === value)?.title,
+    });
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+  };
+
   return (
-    <View className="flex-1 w-full">
-      <Tabs
-        value={value}
-        onValueChange={setValue}
-        className="flex-1 w-full flex-col justify-between gap-1.5"
-      >
-        <View className="flex-grow pt-10">
-          {tabs.map((tab) => (
-            <TabsContent key={tab.value} value={tab.value}>
-              <StableScrollView
-                className="mt-5 mb-24"
-              >
-                {tab.component}
-              </StableScrollView>
-            </TabsContent>
-          ))}
-        </View>
-
-        <TabsList
-          className="flex flex-row justify-center absolute bottom-0 w-full"
-          style={{
-            height: Platform.OS == "ios" ? 80 : 70,
-            paddingBottom: Platform.OS == "ios" ? 15 : 0,
-          }}
-        >
-          {/* Left side tabs */}
-          {leftTabs.map((tab) => (
-            <TabsTriggerWithIcon
-              key={tab.value}
-              value={tab.value}
-              className="w-auto mx-auto"
-            >
-              <MenuItem
-                icon={tab.icon}
-                title={tab.title}
-                active={value === tab.value}
-                color="#0066b5"
-              />
-            </TabsTriggerWithIcon>
-          ))}
-
-          {/* Plus Button in the middle */}
-          <Button
-            variant="outline"
-            className="w-20 h-20 -top-4 rounded-full aspect-square flex items-center justify-center border-4"
+    <View className="flex-1">
+      <View className="flex-1">
+        {tabs.map((tab) => (
+          <View
+            key={tab.value + (tab.value === activeTab ? `-${tabKey}` : "")}
+            style={{
+              display: activeTab === tab.value ? "flex" : "none",
+              flex: 1,
+            }}
           >
-            <IconWithTheme icon={Plus} size={32} />
-          </Button>
+            {tab.component}
+          </View>
+        ))}
+      </View>
 
-          {/* Right side tabs */}
-          {rightTabs.map((tab) => (
-            <TabsTriggerWithIcon
-              key={tab.value}
-              value={tab.value}
-              className="w-1/5"
+      <View className="flex flex-row items-center justify-between w-full pb-4">
+        {leftTabs.map((tab) => (
+          <Pressable
+            key={tab.value}
+            style={{ flex: 1, alignItems: "center" }}
+            onPress={() => handleTabPress(tab.value)}
+          >
+            <MenuItem
+              icon={tab.icon}
+              title={tab.title}
+              active={activeTab === tab.value}
+            />
+          </Pressable>
+        ))}
+
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button
+              variant="default"
+              className="w-20 h-20 -top-4 rounded-full aspect-square flex items-center justify-center border border-border shadow-lg"
             >
-              <MenuItem
-                icon={tab.icon}
-                title={tab.title}
-                active={value === tab.value}
-                color="#0066b2"
-              />
-            </TabsTriggerWithIcon>
-          ))}
-        </TabsList>
-      </Tabs>
+              <Icon name={Plus} size={32} className="text-white" />
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="h-[85vh] w-[95vw] rounded-lg">
+            <DialogHeader>
+              <DialogTitle>New Job</DialogTitle>
+              <DialogDescription>
+                <Text>Add a new job</Text>
+              </DialogDescription>
+            </DialogHeader>
+            <JobCreateForm />
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button variant="outline">
+                  <Text>Cancel</Text>
+                </Button>
+              </DialogClose>
+              <Button>
+                <Text>Save changes</Text>
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
+        {rightTabs.map((tab) => (
+          <Pressable
+            key={tab.value}
+            style={{ flex: 1, alignItems: "center" }}
+            onPress={() => handleTabPress(tab.value)}
+          >
+            <MenuItem
+              icon={tab.icon}
+              title={tab.title}
+              active={activeTab === tab.value}
+            />
+          </Pressable>
+        ))}
+      </View>
     </View>
   );
 }

@@ -1,109 +1,123 @@
 import React from "react";
-import { Text } from "../ui/text";
-import { IconWithTheme } from "~/lib/IconWithTheme";
+import { View } from "react-native";
 import {
   Bell,
   Bug,
-  ChevronRight,
+  FlaskConical,
+  HelpCircle,
   LogOut,
   MailCheck,
   Settings,
-  User2,
+  User,
 } from "lucide-react-native";
-import { useQuery } from "@tanstack/react-query";
-import { useNavigation } from "expo-router";
-import { NavigationProps, StackParamList } from "~/types/app.routes";
-import { Pressable, View } from "react-native";
-import { firebaseFns } from "~/firebase";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { PlanInfo } from "./Plan";
 import { GoPremium } from "./GoPremium";
-import { cn } from "~/lib/utils";
 import { Separator } from "../ui/separator";
-import { useAuth } from "~/context/AuthContext";
+import { MenuItem } from "./MenuItem";
+import { useAuthPersistStore } from "~/hooks/stores/useAuthPersistStore";
+import { useQueryClient } from "@tanstack/react-query";
+import { ApplicationHeader } from "../shared/AppHeader";
+import { NavigationProps } from "~/types/app.routes";
+import { useNavigation } from "expo-router";
+import { StableSafeAreaView } from "../shared/StableSafeAreaView";
+import { Text } from "../ui/text";
 
 export const Account = () => {
-  const { disconnect } = useAuth();
   const navigation = useNavigation<NavigationProps>();
+  const authPersistStore = useAuthPersistStore();
+  const queryClient = useQueryClient();
 
-  const { data: userData, isPending: isUserDataPending } = useQuery({
-    queryKey: ["user"],
-    queryFn: async () => {
-      const uid = await AsyncStorage.getItem("uid");
-      return uid && firebaseFns.user.fetch(uid);
+  const signout = async () => {
+    authPersistStore.logout();
+    queryClient.clear();
+    navigation.navigate("index", { reset: true });
+  };
+
+  const menus = {
+    "app-settings": {
+      title: "App Settings",
+      submenus: [
+        {
+          title: "Account",
+          icon: User,
+          onPress: () => navigation.navigate("account/managment", {}),
+        },
+        {
+          title: "User Preferences",
+          icon: Settings,
+          onPress: () => navigation.navigate("account/user-preferences", {}),
+        },
+        { title: "Notifications", icon: Bell, onPress: () => {} },
+      ],
     },
-  });
+    support: {
+      title: "Support",
+      submenus: [
+        {
+          title: "Report a Bug",
+          icon: Bug,
+          onPress: () => navigation.navigate("account/support/report-bug", {}),
+        },
+        {
+          title: "Send us Feedback",
+          icon: MailCheck,
+          onPress: () =>
+            navigation.navigate("account/support/send-feedback", {}),
+        },
+        {
+          title: "FAQs",
+          icon: HelpCircle,
+          onPress: () => navigation.navigate("account/support/faqs", {}),
+        },
+      ],
+    },
+    "account-actions": {
+      title: "Account Actions",
+      submenus: [
+        { title: "Switch Account", icon: LogOut, onPress: signout },
+        {
+          title: "Try Anything",
+          icon: FlaskConical,
+          onPress: () => navigation.navigate("test", {}),
+        },
+      ],
+    },
+  };
 
   return (
-    <View className="flex flex-col px-4">
-      <Text className="text-4xl font-bold pb-1">Account</Text>
-      <View className="border-t border-gray-100 dark:border-gray-900 mx-1">
-        <PlanInfo className="my-2" />
-        <GoPremium className="my-3" />
-        <View className="flex flex-col gap-4 mt-5">
-          {/* App Settings */}
-          <View>
-            <Text className="text-2xl font-bold mb-2">App Settings</Text>
-            <View className="flex flex-col">
-              <Item title="Profile Management" icon={User2} link={"settings/app-settings/profile-managment"} />
-              <Separator />
-              <Item title="User Preferences" icon={Settings} link={"settings/app-settings/user-preferences"} />
-              <Separator />
-              <Item title="Notifications" icon={Bell} />
-            </View>
-          </View>
-          {/* Support */}
-          <View>
-            <Text className="text-2xl font-bold mb-2">Support</Text>
-            <View className="flex flex-col">
-              <Item title="Report a Bug" icon={Bug} link={"settings/support/report-bug"} />
-              <Separator />
-              <Item title="Send us Feedback" icon={MailCheck} link={"settings/support/send-feedback"} />
-            </View>
-          </View>
+    <StableSafeAreaView className="flex flex-1 mx-2">
+      <ApplicationHeader
+        title="Menu"
+        shortcuts={[
+          {
+            icon: User,
+            onPress: () => navigation.navigate("my-space/index", {}),
+          },
+        ]}
+      />
 
-          <View>
-            <Text className="text-2xl font-bold mb-2">Account Actions</Text>
-            <View className="flex flex-col">
-              <Item title="Switch Account" icon={LogOut} onPress={disconnect} />
+      <PlanInfo className="my-2" />
+      <GoPremium className="my-3" />
+
+      <View className="flex flex-col gap-5 my-5">
+        {Object.values(menus).map((section) => (
+          <View key={section.title}>
+            <Text variant={"h3"}>{section.title}</Text>
+            <View className="flex flex-col mt-2">
+              {section.submenus.map((item, index) => (
+                <View key={item.title}>
+                  <MenuItem
+                    title={item.title}
+                    icon={item.icon}
+                    onPress={item.onPress}
+                  />
+                  {index < section.submenus.length - 1 && <Separator />}
+                </View>
+              ))}
             </View>
           </View>
-        </View>
+        ))}
       </View>
-    </View>
-  );
-};
-
-interface ItemProps {
-  className?: string;
-  title?: string;
-  icon?: React.ElementType;
-  link?: keyof StackParamList;
-  onPress?: () => void;
-}
-
-const Item = ({ className, title, icon, link, onPress }: ItemProps) => {
-  const [pressed, setPressed] = React.useState(false);
-  const navigation = useNavigation<NavigationProps>();
-
-  return (
-    <Pressable
-      onPressIn={() => setPressed(true)}
-      onPressOut={() => setPressed(false)}
-      className={cn(
-        "rounded-lg",
-        pressed && "bg-slate-100 dark:bg-gray-900",
-        className
-      )}
-      onPress={link ? () => { navigation.push(link) } : onPress}
-    >
-      <View className="flex flex-row justify-between py-4 border-gray-100 dark:border-gray-900 px-2">
-        <View className="flex flex-row items-center gap-4">
-          <IconWithTheme icon={icon as React.ElementType} size={28} />
-          <Text className="text-xl">{title}</Text>
-        </View>
-        <IconWithTheme icon={ChevronRight} size={24} />
-      </View>
-    </Pressable>
+    </StableSafeAreaView>
   );
 };
