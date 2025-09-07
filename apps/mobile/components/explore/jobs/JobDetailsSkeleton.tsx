@@ -36,19 +36,6 @@ export const JobDetailsSkeleton = ({
       </View>
 
       <View className="flex-1 px-6 pb-5 mt-4">
-        {/* Images */}
-        {uploads && uploads.length > 0 ? (
-          <React.Fragment>
-            <Skeleton className="h-5 w-24 mb-3" />
-            <View className="flex flex-wrap flex-row justify-start items-center gap-x-[5%] mb-5">
-              <Skeleton className="w-[30%] aspect-square rounded-lg" />
-              <Skeleton className="w-[30%] aspect-square rounded-lg" />
-              <Skeleton className="w-[30%] aspect-square rounded-lg" />
-            </View>
-            <Separator className="my-4" />
-          </React.Fragment>
-        ) : null}
-
         {/* About project */}
         <Skeleton className="h-5 w-40 mb-3" />
         <Skeleton className="h-4 w-full mb-2" />
@@ -72,6 +59,19 @@ export const JobDetailsSkeleton = ({
             <Skeleton className="h-4 w-16" />
           </View>
         </View>
+
+        {/* Images */}
+        {uploads && uploads.length > 0 ? (
+          <React.Fragment>
+            <Skeleton className="h-5 w-24 mb-3" />
+            <View className="flex flex-wrap flex-row justify-start items-center gap-x-[5%] mb-5">
+              <Skeleton className="w-[30%] aspect-square rounded-lg" />
+              <Skeleton className="w-[30%] aspect-square rounded-lg" />
+              <Skeleton className="w-[30%] aspect-square rounded-lg" />
+            </View>
+            <Separator className="my-4" />
+          </React.Fragment>
+        ) : null}
       </View>
 
       {/* Client Info */}
