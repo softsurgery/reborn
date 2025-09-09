@@ -1,21 +1,14 @@
-import {
-  NativeScrollEvent,
-  NativeSyntheticEvent,
-  Pressable,
-  RefreshControl,
-  View,
-} from "react-native";
+import React from "react";
+import { RefreshControl, View } from "react-native";
 import { Text } from "../ui/text";
 import { Separator } from "../ui/separator";
 import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
-import { useFollowSystem } from "~/hooks/content/useFollowSystem";
 import { useNavigation } from "expo-router";
 import { NavigationProps } from "~/types/app.routes";
 import { UserEntry } from "./UserEntry";
 import { StableSafeAreaView } from "../shared/StableSafeAreaView";
 import { api } from "~/api";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import React from "react";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { ResponseConversationDto } from "~/types";
 import { useDebounce } from "~/hooks/useDebounce";
 import { LegendList } from "@legendapp/list";
@@ -24,6 +17,8 @@ import { Loader } from "../shared/Loader";
 import { useConversationMessages } from "~/hooks/content/chat/useConversationMessages";
 import { format } from "date-fns";
 import { StablePressable } from "../shared/StablePressable";
+import { ApplicationHeader } from "../shared/AppHeader";
+import { User } from "lucide-react-native";
 
 interface ChatProps {
   className?: string;
@@ -73,7 +68,9 @@ export const Chat = ({ className }: ChatProps) => {
         <StablePressable
           key={new Date().getTime()}
           className="flex flex-col gap-4 py-2"
-          onPress={() => navigation.navigate("chat/conversation", {})}
+          onPress={() =>
+            navigation.navigate("chat/conversation", { id: item.id })
+          }
         >
           <UserEntry
             user={
@@ -99,64 +96,83 @@ export const Chat = ({ className }: ChatProps) => {
   );
 
   return (
-    <View className="flex-1">
-      <View className="flex flex-col gap-2">
-        <Text className="text-sm">Recent Messages</Text>
-      </View>
-
-      <Separator className="mt-2" />
-      <LegendList
-        className={cn("flex-1", className)}
-        data={conversations}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id.toString()}
-        showsVerticalScrollIndicator={false}
-        recycleItems={true}
-        maintainVisibleContentPosition
-        onScrollBeginDrag={() => setDragging(true)}
-        onScrollEndDrag={() => setDragging(false)}
-        refreshControl={
-          <RefreshControl
-            refreshing={isRefetching}
-            onRefresh={refetch}
-            tintColor="transparent"
-            colors={["transparent"]}
-          />
-        }
-        onEndReached={() => {
-          if (hasNextPage && !isFetchingNextPage) {
-            fetchNextPage();
-          }
-        }}
-        onEndReachedThreshold={0.5}
-        ListHeaderComponent={
-          <Loader
-            size="small"
-            isPending={isRefetching || debouncedDragging || isDragging}
-            className="flex items-center h-fit"
-          />
-        }
-        ListEmptyComponent={
-          !isPending ? (
-            <View className="p-6 items-center">
-              <Text className="text-muted-foreground">No jobs available</Text>
-            </View>
-          ) : null
-        }
-        ListFooterComponent={
-          <View className="items-center">
-            {isPending ? (
-              <Loader isPending />
-            ) : hasNextPage ? null : (
-              <View className="flex flex-row items-center justify-center gap-2 p-6">
-                <Text className="text-muted-foreground text-lg font-thin">
-                  No more conversations
-                </Text>
-              </View>
-            )}
-          </View>
-        }
+    <StableSafeAreaView className="flex flex-1 mx-2">
+      <ApplicationHeader
+        title="Messages"
+        shortcuts={[
+          {
+            icon: User,
+            onPress: () => navigation.navigate("my-space/index", {}),
+          },
+        ]}
       />
-    </View>
+      <View className="px-4"></View>
+
+      <View className="flex-1 mx-2">
+        {/* Manual Tabs */}
+
+        <View className="flex-1">
+          <View className="flex flex-col gap-2">
+            <Text className="text-sm">Recent Messages</Text>
+          </View>
+
+          <Separator className="mt-2" />
+          <LegendList
+            className={cn("flex-1", className)}
+            data={conversations}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.id.toString()}
+            showsVerticalScrollIndicator={false}
+            recycleItems={true}
+            maintainVisibleContentPosition
+            onScrollBeginDrag={() => setDragging(true)}
+            onScrollEndDrag={() => setDragging(false)}
+            refreshControl={
+              <RefreshControl
+                refreshing={isRefetching}
+                onRefresh={refetch}
+                tintColor="transparent"
+                colors={["transparent"]}
+              />
+            }
+            onEndReached={() => {
+              if (hasNextPage && !isFetchingNextPage) {
+                fetchNextPage();
+              }
+            }}
+            onEndReachedThreshold={0.5}
+            ListHeaderComponent={
+              <Loader
+                size="small"
+                isPending={isRefetching || debouncedDragging || isDragging}
+                className="flex items-center h-fit"
+              />
+            }
+            ListEmptyComponent={
+              !isPending ? (
+                <View className="p-6 items-center">
+                  <Text className="text-muted-foreground">
+                    No conversations available
+                  </Text>
+                </View>
+              ) : null
+            }
+            ListFooterComponent={
+              <View className="items-center">
+                {isPending ? (
+                  <Loader isPending />
+                ) : hasNextPage ? null : (
+                  <View className="flex flex-row items-center justify-center gap-2 p-6">
+                    <Text className="text-muted-foreground text-lg font-thin">
+                      No more conversations
+                    </Text>
+                  </View>
+                )}
+              </View>
+            }
+          />
+        </View>
+      </View>
+    </StableSafeAreaView>
   );
 };

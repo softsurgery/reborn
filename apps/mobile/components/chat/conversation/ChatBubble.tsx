@@ -1,36 +1,38 @@
+import { format } from "date-fns";
 import React from "react";
-import { View, Text, TouchableWithoutFeedback } from "react-native";
+import { View } from "react-native";
 import { StablePressable } from "~/components/shared/StablePressable";
+import { Text } from "~/components/ui/text";
 import { cn } from "~/lib/utils";
 
 interface ChatBubbleProps {
   message?: string;
-  currentUserUid?: string;
-  senderUid?: string;
-  timestamp?: string;
-  isOutgoing?: boolean;
+  timestamp: Date;
+  right?: boolean;
+  isPending?: boolean;
 }
 
 export const ChatBubble = ({
   message,
-  currentUserUid,
-  senderUid,
   timestamp,
-  isOutgoing,
+  right,
+  isPending,
 }: ChatBubbleProps) => {
   return (
     <StablePressable>
-      <View className="mt-2 ">
+      <View className="mt-2">
         <View
           className={cn(
-            "bg-purple-600 max-w-[80%] mx-2 p-2 rounded-lg ",
-            senderUid === currentUserUid
-              ? "self-end rounded-bl-xl rounded-br-none"
-              : "self-start rounded-br-xl rounded-bl-none"
+            "max-w-[80%] mx-2 p-2 rounded-lg",
+            right
+              ? "self-end rounded-bl-xl rounded-br-none bg-muted"
+              : "self-start rounded-br-xl rounded-bl-none bg-secondary"
           )}
         >
-          <Text className="text-white font-semibold pb-0.5">{message}</Text>
-          <Text className="text-xs text-white text-right">{timestamp}</Text>
+          <Text className="font-semibold pb-0.5">{message}</Text>
+          <Text className="text-xs text-right">
+            {format(timestamp, "hh:mm a")}
+          </Text>
         </View>
       </View>
     </StablePressable>

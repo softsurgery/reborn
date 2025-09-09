@@ -1,34 +1,30 @@
-import { ChevronLeft } from "lucide-react-native";
-import { TouchableOpacity, View } from "react-native";
-import Icon from "~/lib/Icon";
+import { View } from "react-native";
 import { cn } from "~/lib/utils";
 import { Text } from "../../ui/text";
-import { UserBubble } from "../UserBubble";
-import { User } from "~/types";
 
 interface ChatHeaderLeftProps {
   className?: string;
-  user?: User;
+  identifier?: string;
+  profilePicture?: React.ReactNode;
   lastSeen?: string;
-  goBack?: () => void;
 }
 
 export const ChatHeaderLeft = ({
   className,
-  user,
+  identifier,
+  profilePicture,
   lastSeen,
-  goBack,
 }: ChatHeaderLeftProps) => {
   return (
     <View
-      className={cn("flex flex-row items-center justify-center", className)}
+      className={cn(
+        "flex flex-row items-center justify-center gap-2",
+        className
+      )}
     >
-      <TouchableOpacity onPress={goBack}>
-        <Icon name={ChevronLeft} />
-      </TouchableOpacity>
-      <UserBubble className="w-9 h-9" gender={user?.isMale} uid={user?.uid} />
-      <View className="px-3 flex flex-col justify-center">
-        <Text>{`${user?.surname} ${user?.name}`}</Text>
+      <View>{profilePicture}</View>
+      <View className="flex flex-col justify-center ">
+        <Text variant={"large"}>{identifier}</Text>
         <Text className="font-thin">{lastSeen}</Text>
       </View>
     </View>

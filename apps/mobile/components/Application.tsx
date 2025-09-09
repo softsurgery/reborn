@@ -9,7 +9,7 @@ import {
 } from "lucide-react-native";
 import { MenuItem } from "~/components/menu/MenuItem";
 import { Account } from "./account/Account";
-import { Connect } from "./chat/Connect";
+import { Chat } from "./chat/Chat";
 import { Button } from "./ui/button";
 import Icon from "~/lib/Icon";
 import { useNavigation } from "expo-router";
@@ -46,7 +46,7 @@ export default function Application() {
         value: "messages",
         icon: MessageCircle,
         title: "Messages",
-        component: <Connect />,
+        component: <Chat />,
       },
       {
         value: "balance",

@@ -1,6 +1,8 @@
+import { useLocalSearchParams } from "expo-router";
 import React from "react";
-import { View } from "react-native";
+import { Conversation } from "~/components/chat/Conversation";
 
 export default function Screen() {
-  return <View className="flex-1 px-5"></View>;
+  const { id } = useLocalSearchParams();
+  return <Conversation id={Number(id)} />;
 }

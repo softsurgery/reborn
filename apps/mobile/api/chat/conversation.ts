@@ -29,6 +29,14 @@ const findPaginatedUserConversations = async ({
   return response.data;
 };
 
+const findById = async (id: number): Promise<ResponseConversationDto> => {
+  const response = await axios.get<ResponseConversationDto>(
+    `/conversation/${id}`
+  );
+  return response.data;
+};
+
 export const conversation = {
   findPaginatedUserConversations,
+  findById,
 };
