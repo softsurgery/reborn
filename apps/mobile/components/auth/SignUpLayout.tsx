@@ -10,7 +10,7 @@ import { useSignUpFormStructure } from "./useSignUpFormStructure";
 import { FormBuilder } from "../shared/form-builder/FormBuilder";
 import { isEmail } from "~/lib/validators/isEmail";
 import { useNavigation } from "~/hooks/useNavigation";
-import { StableKeyboardAwareScrollView } from "../shared/KeyboardAwareScrollView";
+import { StableKeyboardAwareScrollView } from "../shared/StableKeyboardAwareScrollView";
 import { cn } from "~/lib/utils";
 
 interface SignUpLayoutProps {

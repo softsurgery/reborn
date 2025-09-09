@@ -23,7 +23,7 @@ import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
 import { format } from "date-fns";
 import { timeAgo } from "~/lib/dates.utils";
 import { Image } from "expo-image";
-import { StableKeyboardAwareScrollView } from "../../shared/KeyboardAwareScrollView";
+import { StableKeyboardAwareScrollView } from "../../shared/StableKeyboardAwareScrollView";
 import { Loader } from "../../shared/Loader";
 import { Separator } from "../../ui/separator";
 import { Badge } from "../../ui/badge";
@@ -393,7 +393,9 @@ export const JobDetails = () => {
                 })
               }
             >
-              <Text className="text-base font-semibold">View Requests</Text>
+              <Text ellipsizeMode="tail" numberOfLines={1}>
+                View Requests
+              </Text>
             </Button>
           )}
           <View className={cn(isJobRequested && "w-[49%]")}>
@@ -404,7 +406,7 @@ export const JobDetails = () => {
               <DialogTrigger asChild>
                 {job?.postedBy.id !== currentUser?.id ? (
                   <Button
-                    className="py-3 rounded-lg"
+                    className="rounded-lg"
                     size="lg"
                     disabled={
                       isJobRequestedPending ||
@@ -413,7 +415,7 @@ export const JobDetails = () => {
                     }
                     variant={isJobRequested ? "outline" : "default"}
                   >
-                    <Text className="text-base font-semibold">
+                    <Text numberOfLines={1} ellipsizeMode="tail">
                       {isJobRequested
                         ? "Cancel Application"
                         : "Apply for this job"}

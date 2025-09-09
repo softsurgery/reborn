@@ -13,7 +13,7 @@ import { createBugSchema } from "~/types/validations/system-reports.validation";
 import { cn } from "~/lib/utils";
 import { showToastable } from "react-native-toastable";
 import { useNavigation } from "~/hooks/useNavigation";
-import { StableKeyboardAwareScrollView } from "~/components/shared/KeyboardAwareScrollView";
+import { StableKeyboardAwareScrollView } from "~/components/shared/StableKeyboardAwareScrollView";
 
 interface BugReportPortalProps {
   className?: string;

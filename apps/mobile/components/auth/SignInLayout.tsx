@@ -15,7 +15,7 @@ import { requestSignInDtoSchema } from "~/types/validations/auth.validation";
 import { useNavigation } from "~/hooks/useNavigation";
 import { showToastable } from "react-native-toastable";
 import { ServerErrorResponse } from "~/types";
-import { StableKeyboardAwareScrollView } from "../shared/KeyboardAwareScrollView";
+import { StableKeyboardAwareScrollView } from "../shared/StableKeyboardAwareScrollView";
 
 interface SignInLayoutProps {
   className?: string;

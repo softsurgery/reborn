@@ -7,7 +7,6 @@ import { FieldBuilder } from "./FieldBuilder";
 import { Separator } from "~/components/ui/separator";
 import { Label } from "~/components/ui/label";
 import { Text } from "~/components/ui/text";
-import { useStableScrollIntoView } from "~/hooks/useStableScrollIntoView";
 
 interface FormBuilderProps {
   className?: string;
@@ -16,16 +15,13 @@ interface FormBuilderProps {
 
 export const FormBuilder = React.forwardRef(
   ({ className, structure }: FormBuilderProps, ref) => {
-    const scrollIntoView = useStableScrollIntoView();
-    const fieldRefs = React.useRef<Record<string, View | null>>({});
+    const fieldRefs = React.useRef<Record<string, any>>({});
 
     React.useImperativeHandle(ref, () => ({
-      scrollToError: (id: string) => {
+      scrollToError: (id: string, scrollRef?: any) => {
         const target = fieldRefs.current[id];
-        if (target) {
-          requestAnimationFrame(() => {
-            scrollIntoView?.(target, { align: "top", animated: true });
-          });
+        if (target && scrollRef?.current) {
+          scrollRef.current.scrollToFocusedInput(target);
         }
       },
     }));

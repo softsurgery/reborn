@@ -11,7 +11,7 @@ import { useMutation } from "@tanstack/react-query";
 import { api } from "~/api";
 import { showToastable } from "react-native-toastable";
 import { requestSignUpDtoSchema } from "~/types/validations/auth.validation";
-import { StableKeyboardAwareScrollView } from "../shared/KeyboardAwareScrollView";
+import { StableKeyboardAwareScrollView } from "../shared/StableKeyboardAwareScrollView";
 import { ServerErrorResponse } from "~/types";
 
 interface SignUpCarryOnLayoutProps {
