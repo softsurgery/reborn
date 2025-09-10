@@ -23,7 +23,7 @@ export type StackParamList = {
   "account/support/faqs": { reset?: boolean };
 
   // Chat
-  "chat/conversation": { user?: ResponseClientDto; reset?: boolean };
+  "chat/conversation": { id?: number; reset?: boolean };
   // Explore
   "explore/job-details": { id?: string; uploads: number[]; reset?: boolean };
   "explore/job-search": { reset?: boolean };

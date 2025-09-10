@@ -1,22 +1,21 @@
 import React from "react";
 import { SplashScreen, Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { View } from "react-native";
 import { NAV_THEME } from "~/lib/constants";
 import { PortalHost } from "@rn-primitives/portal";
 import { ThemeToggle } from "~/components/ThemeToggle";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { cn } from "~/lib/utils";
 import Toastable from "react-native-toastable";
-
-export { ErrorBoundary } from "expo-router";
 import { usePreferencePersistStore } from "~/hooks/stores/usePreferencePersistStore";
-
+import { View } from "react-native";
 import "~/global.css";
+import { cn } from "~/lib/utils";
 
 SplashScreen.preventAutoHideAsync();
 
 const queryClient = new QueryClient();
+
+export { ErrorBoundary } from "expo-router";
 
 export default function RootLayout() {
   const preferencePersistStore = usePreferencePersistStore();
@@ -26,24 +25,25 @@ export default function RootLayout() {
   );
 
   return (
-    <View className={cn("flex-1", isDarkMode ? "dark" : "light")}>
-      <QueryClientProvider client={queryClient}>
-        <Toastable
-          statusMap={{
-            success: isDarkMode
-              ? NAV_THEME.dark.primary
-              : NAV_THEME.light.primary,
-            danger: isDarkMode
-              ? NAV_THEME.dark.destructive
-              : NAV_THEME.light.destructive,
-            warning: "green",
-            info: isDarkMode
-              ? NAV_THEME.dark.notification
-              : NAV_THEME.light.notification,
-          }}
-          position="top"
-        />
+    <QueryClientProvider client={queryClient}>
+      <Toastable
+        statusMap={{
+          success: isDarkMode
+            ? NAV_THEME.dark.primary
+            : NAV_THEME.light.primary,
+          danger: isDarkMode
+            ? NAV_THEME.dark.destructive
+            : NAV_THEME.light.destructive,
+          warning: "green",
+          info: isDarkMode
+            ? NAV_THEME.dark.notification
+            : NAV_THEME.light.notification,
+        }}
+        position="top"
+      />
+      <View className={cn("flex-1", isDarkMode ? "dark" : "light")}>
         <StatusBar style={isDarkMode ? "light" : "dark"} translucent />
+
         <Stack
           screenOptions={{
             contentStyle: {
@@ -99,6 +99,7 @@ export default function RootLayout() {
               animationDuration: 200,
             }}
           />
+
           {/* Account */}
           <Stack.Screen
             name="account/managment"
@@ -142,14 +143,15 @@ export default function RootLayout() {
               animation: "slide_from_right",
             }}
           />
+
           {/* Chat */}
           <Stack.Screen
             name="chat/conversation"
             options={{
-              title: "Chat",
-              headerBackTitle: "Chat",
+              headerShown: false,
             }}
           />
+
           {/* Explore */}
           <Stack.Screen
             name="explore/job-search"
@@ -166,6 +168,15 @@ export default function RootLayout() {
               animation: "slide_from_right",
             }}
           />
+          <Stack.Screen
+            name="explore/user-profile"
+            options={{
+              title: "",
+              animation: "slide_from_right",
+            }}
+          />
+
+          {/* My Space */}
           <Stack.Screen
             name="my-space/index"
             options={{
@@ -184,13 +195,8 @@ export default function RootLayout() {
               animation: "slide_from_right",
             }}
           />
-          <Stack.Screen
-            name="explore/user-profile"
-            options={{
-              title: "",
-              animation: "slide_from_right",
-            }}
-          />
+
+          {/* Test */}
           <Stack.Screen
             name="test"
             options={{
@@ -200,7 +206,7 @@ export default function RootLayout() {
           />
         </Stack>
         <PortalHost />
-      </QueryClientProvider>
-    </View>
+      </View>
+    </QueryClientProvider>
   );
 }

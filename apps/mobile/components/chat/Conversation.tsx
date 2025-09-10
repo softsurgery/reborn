@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigation } from "expo-router";
-import { FlatList, View } from "react-native";
+import { View, KeyboardAvoidingView, Platform, FlatList } from "react-native";
 import { NavigationProps } from "~/types/app.routes";
 import { ChatHeaderRight } from "./conversation/ChatHeaderRight";
 import { api } from "~/api";
@@ -11,20 +11,18 @@ import { ChatHeaderLeft } from "./conversation/ChatHeaderLeft";
 import { useServerImage } from "~/hooks/content/useServerImage";
 import { ImageBackground } from "expo-image";
 import { StableSafeAreaView } from "../shared/StableSafeAreaView";
-import { StableKeyboardAwareScrollView } from "../shared/KeyboardAwareScrollView";
 import { format } from "date-fns";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
-import Icon from "~/lib/Icon";
-import { SendHorizonal } from "lucide-react-native";
 import { usePreferencePersistStore } from "~/hooks/stores/usePreferencePersistStore";
 import { useAuthPersistStore } from "~/hooks/stores/useAuthPersistStore";
 import { ResponseMessageDto } from "~/types";
 import { io } from "socket.io-client";
-import { Text } from "../ui/text";
 import { ChatBubble } from "./conversation/ChatBubble";
-import { StableScrollView } from "../shared/StableScrollView";
-import { StableScrollIntoView } from "../shared/StableScrollIntoView";
+import { Text } from "../ui/text";
+import Icon from "~/lib/Icon";
+import { Plus, SendHorizonal, SendHorizontal } from "lucide-react-native";
+import { StablePressable } from "../shared/StablePressable";
 
 interface ConversationProps {
   className?: string;
@@ -43,11 +41,10 @@ export const Conversation = ({ className, id }: ConversationProps) => {
   const { currentUser } = useCurrentUser();
   const navigation = useNavigation<NavigationProps>();
 
-  const { data: conversationresp, isPending: isConversationsPending } =
-    useQuery({
-      queryKey: ["conversation", id],
-      queryFn: () => api.chat.conversation.findById(id),
-    });
+  const { data: conversationresp } = useQuery({
+    queryKey: ["conversation", id],
+    queryFn: () => api.chat.conversation.findById(id),
+  });
 
   const conversation = React.useMemo(
     () => conversationresp ?? null,
@@ -64,7 +61,7 @@ export const Conversation = ({ className, id }: ConversationProps) => {
   const { jsx: profilePicture } = useServerImage({
     id: user?.profile?.pictureId,
     fallback: identifyUserAvatar(user),
-    size: { width: 50, height: 50 },
+    size: { width: 40, height: 40 },
     enabled: !!user?.profile?.pictureId,
   });
 
@@ -79,19 +76,16 @@ export const Conversation = ({ className, id }: ConversationProps) => {
 
     s.on("connect", () => {
       console.log("Connected to chat server");
-
-      // Join conversation room
       s.emit("joinConversation", { conversationId: id });
     });
 
-    // Receive chat history
     s.on("conversationHistory", (history: ResponseMessageDto[]) => {
-      setMessages(history);
+      // Reverse messages so FlatList inverted renders correctly
+      setMessages(history.reverse());
     });
 
-    // Receive new messages
     s.on("message", (message: ResponseMessageDto) => {
-      setMessages((prev) => [...prev, message]);
+      setMessages((prev) => [message, ...prev]);
     });
 
     s.on("error", (err: any) => {
@@ -105,14 +99,16 @@ export const Conversation = ({ className, id }: ConversationProps) => {
 
   const sendMessage = () => {
     if (!input.trim() || !socket) return;
-
     socket.emit("message", { conversationId: id, content: input });
     setInput("");
   };
 
   return (
-    <StableKeyboardAwareScrollView bounces={false} className="flex-1">
-      <StableSafeAreaView className="flex-1">
+    <StableSafeAreaView className="flex-1">
+      <KeyboardAvoidingView
+        className="flex-1"
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
+      >
         <ImageBackground
           source={
             preferencePersistStore.theme === "dark"
@@ -123,19 +119,20 @@ export const Conversation = ({ className, id }: ConversationProps) => {
           resizeMode="cover"
         >
           {/* header */}
-          <View className="flex flex-row bg-background/75 justify-between items-center py-4 px-2">
+          <View className="flex flex-row bg-background justify-between border-b-2 border-primary items-center p-4">
             <ChatHeaderLeft
               profilePicture={profilePicture}
               identifier={identifyUser(user)}
               lastSeen={format(new Date(), "hh:mm a")}
             />
-
             <ChatHeaderRight />
           </View>
+
           {/* messages */}
           <FlatList
             className="flex-1"
-            scrollEnabled={true}
+            inverted={true}
+            keyboardShouldPersistTaps="handled"
             data={messages}
             keyExtractor={(item) => item.id.toString()}
             renderItem={({ item }) => (
@@ -145,27 +142,36 @@ export const Conversation = ({ className, id }: ConversationProps) => {
                 right={item.userId === currentUser?.id}
               />
             )}
-            contentContainerStyle={{ paddingBottom: 80 }}
+            contentContainerStyle={{ paddingVertical: 12 }}
           />
+
           {/* controls */}
-          <View className="flex flex-row justify-center items-end w-full gap-2 pb-6 pt-5 bg-background">
-            <Textarea
-              placeholder="Aa"
-              className="w-4/5 h-full"
-              value={input}
-              onChangeText={setInput}
-            />
-            <Button
-              variant={"secondary"}
-              size={"sm"}
-              className="rounded-lg h-12 w-12"
+          <View className="flex flex-row items-end justify-between bg-background border-t-2 border-primary w-screen py-4 px-2">
+            <StablePressable
+              className="w-10 h-10 flex items-center justify-center"
               onPress={sendMessage}
             >
-              <Icon name={SendHorizonal} size={24} className="p-2" />
-            </Button>
+              <Icon name={Plus} size={20} />
+            </StablePressable>
+
+            <Textarea
+              value={input}
+              onChangeText={setInput}
+              placeholder="Aa"
+              multiline
+              style={{ minHeight: 42 }}
+              className="flex-1 mx-1 rounded-lg"
+            />
+
+            <StablePressable
+              className="w-10 h-10 flex items-center justify-center"
+              onPress={sendMessage}
+            >
+              <Icon name={SendHorizonal} size={20} />
+            </StablePressable>
           </View>
         </ImageBackground>
-      </StableSafeAreaView>
-    </StableKeyboardAwareScrollView>
+      </KeyboardAvoidingView>
+    </StableSafeAreaView>
   );
 };

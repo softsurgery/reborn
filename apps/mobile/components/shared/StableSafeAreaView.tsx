@@ -1,19 +1,26 @@
-import { SafeAreaView as NativeSafeAreaView, Platform } from "react-native";
-import {
-  SafeAreaView,
-  SafeAreaViewProps,
-} from "react-native-safe-area-context";
+import { Platform, SafeAreaView, StatusBar } from "react-native";
+import { SafeAreaViewProps } from "react-native-safe-area-context";
+
+import { cn } from "~/lib/utils";
 
 interface StableSafeAreaViewProps extends SafeAreaViewProps {
   children: React.ReactNode;
 }
 
 export const StableSafeAreaView = ({
+  className,
   children,
   ...props
 }: StableSafeAreaViewProps) => {
-  if (Platform.OS === "android")
-    return <SafeAreaView {...props}>{children}</SafeAreaView>;
-
-  return <NativeSafeAreaView {...props}>{children}</NativeSafeAreaView>;
+  return (
+    <SafeAreaView
+      className={cn(className)}
+      style={{
+        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+      }}
+      {...props}
+    >
+      {children}
+    </SafeAreaView>
+  );
 };

@@ -21,6 +21,7 @@ import { NavigationProps } from "~/types/app.routes";
 import { useNavigation } from "expo-router";
 import { StableSafeAreaView } from "../shared/StableSafeAreaView";
 import { Text } from "../ui/text";
+import { StableScrollView } from "../shared/StableScrollView";
 
 export const Account = () => {
   const navigation = useNavigation<NavigationProps>();
@@ -99,7 +100,7 @@ export const Account = () => {
       <PlanInfo className="my-2" />
       <GoPremium className="my-3" />
 
-      <View className="flex flex-col gap-5 my-5">
+      <StableScrollView className="flex flex-col gap-5 my-5">
         {Object.values(menus).map((section) => (
           <View key={section.title}>
             <Text variant={"h3"}>{section.title}</Text>
@@ -117,7 +118,7 @@ export const Account = () => {
             </View>
           </View>
         ))}
-      </View>
+      </StableScrollView>
     </StableSafeAreaView>
   );
 };

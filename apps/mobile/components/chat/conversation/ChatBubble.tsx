@@ -19,22 +19,26 @@ export const ChatBubble = ({
   isPending,
 }: ChatBubbleProps) => {
   return (
-    <StablePressable>
-      <View className="mt-2">
-        <View
-          className={cn(
-            "max-w-[80%] mx-2 p-2 rounded-lg",
-            right
-              ? "self-end rounded-bl-xl rounded-br-none bg-muted"
-              : "self-start rounded-br-xl rounded-bl-none bg-secondary"
-          )}
-        >
-          <Text className="font-semibold pb-0.5">{message}</Text>
-          <Text className="text-xs text-right">
-            {format(timestamp, "hh:mm a")}
-          </Text>
-        </View>
-      </View>
-    </StablePressable>
+    <View
+      className={cn(
+        "max-w-[80%] mx-2 rounded-lg mt-2",
+        right
+          ? "self-end rounded-bl-xl rounded-br-none bg-muted"
+          : "self-start rounded-br-xl rounded-bl-none bg-secondary"
+      )}
+    >
+      <StablePressable
+        className={cn("p-2")}
+        onPressClassname="bg-muted/50 "
+        onPress={() => {
+          console.log("Pressed");
+        }}
+      >
+        <Text className="font-semibold pb-0.5">{message}</Text>
+        <Text className="text-xs text-right">
+          {format(timestamp, "hh:mm a")}
+        </Text>
+      </StablePressable>
+    </View>
   );
 };

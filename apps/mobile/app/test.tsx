@@ -1,20 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { View, Button, FlatList, StyleSheet } from "react-native";
 import io from "socket.io-client";
-import { StableKeyboardAwareScrollView } from "~/components/shared/KeyboardAwareScrollView";
+import { StableKeyboardAwareScrollView } from "~/components/shared/StableKeyboardAwareScrollView";
 import { Loader } from "~/components/shared/Loader";
 import { Input } from "~/components/ui/input";
 import { Text } from "~/components/ui/text";
 import { useAuthPersistStore } from "~/hooks/stores/useAuthPersistStore";
 
-const CHAT_SERVER_URL = "http://192.168.1.41:5000";
-
-type Message = {
-  id: string;
-  content: string;
-  user: { id: string; username: string };
-  createdAt: string;
-};
+const CHAT_SERVER_URL = "http://192.168.2.164:5000";
 
 export default function ChatPage() {
   const authPersistStore = useAuthPersistStore();

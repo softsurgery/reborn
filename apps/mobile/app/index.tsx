@@ -35,7 +35,7 @@ export default function Screen() {
   }, [isDarkMode]);
 
   if (!isAuthPersistStoreReady && !isPreferencePersistStoreReady)
-    return <Loader />;
+    return <Loader isPending />;
   if (isAuthenticated) return <Application />;
   return <OnBoarding />;
 }
