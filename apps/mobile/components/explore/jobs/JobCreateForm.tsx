@@ -7,6 +7,8 @@ import { mapToSelectOptions } from "~/components/shared/form-builder/utils/mapTo
 import { useJobTags } from "~/hooks/content/job/useJobTags";
 import { useJobCategories } from "~/hooks/content/job/useJobCategories";
 import { StableScrollView } from "~/components/shared/StableScrollView";
+import { Stepper } from "~/components/shared/Stepper";
+import { Text } from "~/components/ui/text";
 
 interface JobCreateFormProps {
   className?: string;
@@ -33,8 +35,15 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
     }),
   });
   return (
-    <StableScrollView>
-      <FormBuilder structure={jobCreateFormStructure} className={className} />
-    </StableScrollView>
+    <Stepper
+      steps={[
+        <FormBuilder
+          structure={jobCreateFormStructure}
+          className={className}
+        />,
+        <Text>Step 2</Text>,
+        <Text>Step 3</Text>,
+      ]}
+    />
   );
 };

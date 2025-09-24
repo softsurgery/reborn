@@ -154,6 +154,12 @@ export default function RootLayout() {
 
           {/* Explore */}
           <Stack.Screen
+            name="explore/new-job"
+            options={{
+              title: "New Job",
+            }}
+          />
+          <Stack.Screen
             name="explore/job-search"
             options={{
               title: "Job Search",
@@ -180,18 +186,14 @@ export default function RootLayout() {
           <Stack.Screen
             name="my-space/index"
             options={{
-              headerShown: true,
               headerTitle: "My Space",
-              headerBackVisible: false,
               animation: "slide_from_right",
             }}
           />
           <Stack.Screen
             name="my-space/requests"
             options={{
-              headerShown: true,
               headerTitle: "Requests",
-              headerBackVisible: false,
               animation: "slide_from_right",
             }}
           />

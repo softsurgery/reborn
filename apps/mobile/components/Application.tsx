@@ -111,35 +111,13 @@ export default function Application() {
           </Pressable>
         ))}
 
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button
-              variant="default"
-              className="w-20 h-20 -top-4 rounded-full aspect-square flex items-center justify-center border border-border shadow-lg"
-            >
-              <Icon name={Plus} size={32} className="text-white" />
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="h-[85vh] w-[95vw] rounded-lg">
-            <DialogHeader>
-              <DialogTitle>New Job</DialogTitle>
-              <DialogDescription>
-                <Text>Add a new job</Text>
-              </DialogDescription>
-            </DialogHeader>
-            <JobCreateForm />
-            <DialogFooter>
-              <DialogClose asChild>
-                <Button variant="outline">
-                  <Text>Cancel</Text>
-                </Button>
-              </DialogClose>
-              <Button>
-                <Text>Save changes</Text>
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+        <Button
+          variant="default"
+          className="w-20 h-20 -top-4 rounded-full aspect-square flex items-center justify-center border border-border shadow-lg"
+          onPress={() => navigation.push("explore/new-job")}
+        >
+          <Icon name={Plus} size={32} className="text-white" />
+        </Button>
 
         {rightTabs.map((tab) => (
           <Pressable

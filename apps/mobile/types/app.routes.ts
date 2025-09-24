@@ -25,6 +25,7 @@ export type StackParamList = {
   // Chat
   "chat/conversation": { id?: number; reset?: boolean };
   // Explore
+  "explore/new-job": { reset?: boolean };
   "explore/job-details": { id?: string; uploads: number[]; reset?: boolean };
   "explore/job-search": { reset?: boolean };
   "explore/user-profile": { id?: string; reset?: boolean };
