@@ -10,7 +10,7 @@ import {
   TextFieldProps,
 } from "~/components/shared/form-builder/types";
 import { JobStore } from "~/hooks/stores/useJobStore";
-import { ResponseCurrencyDto } from "~/types";
+import { JobStyle, ResponseCurrencyDto } from "~/types";
 
 interface JobCreateFormStructureProps {
   jobStore: JobStore;
@@ -87,73 +87,8 @@ export const useCreateJobFormStructure = ({
     },
   };
 
-  //   const currencyField: Field<SelectFieldProps> = {
-  //     id: "currency",
-  //     label: "Currency",
-  //     variant: FieldVariant.SELECT,
-  //     required: true,
-  //     description: "Select the currency for the budget.",
-  //     placeholder: "Choose currency",
-  //     error: jobStore.createDtoErrors?.currencyId?.[0],
-  //     props: {
-  //       options: currencies.map((currency) => ({
-  //         label: `${currency.label} (${currency.symbol})`,
-  //         value: currency.id.toString(),
-  //       })),
-  //       value: jobStore.createDto?.currencyId?.toString(),
-  //       onSelect: (value: string) => {
-  //         jobStore.setNested("createDto.currencyId", value);
-  //         jobStore.setNested("createDtoErrors.currencyId", []);
-  //       },
-  //     },
-  //   };
-
-  //   const uploadsField: Field<ImageGalleryFieldProps> = {
-  //     id: "uploads",
-  //     label: "Uploads",
-  //     variant: FieldVariant.IMAGE_GALLERY,
-  //     props: {
-  //       images: jobStore.images,
-  //       onFilesChange: (e: ImageFile[]) => {
-  //         jobStore.updateImages("create", e);
-  //       },
-  //       onUpload: (file, onProgress) => {
-  //         uploadPicture({
-  //           files: [file],
-  //           onProgress: (progress: number) => {
-  //             jobStore.setImageProgress(file, progress);
-  //             onProgress(progress);
-  //           },
-  //         });
-  //       },
-  //     },
-  //   };
-
-  //   const jobTagsField: Field<MultiSelectFieldProps> = {
-  //     id: "tags",
-  //     label: "Tags",
-  //     variant: FieldVariant.MULTI_SELECT,
-  //     required: true,
-  //     description: "Select tags related to this job.",
-  //     placeholder: "Choose tags",
-  //     error: jobStore.createDtoErrors?.tags?.[0],
-  //     props: {
-  //       options: jobTags,
-  //       value: jobTags.filter((option: SelectOption) =>
-  //         jobStore.createDto?.tagIds?.includes(Number(option.value))
-  //       ),
-  //       onChange: (value) => {
-  //         jobStore.setNested(
-  //           "createDto.tagIds",
-  //           value.map((v) => Number(v.value))
-  //         );
-  //         jobStore.setNested("createDtoErrors.tagIds", []);
-  //       },
-  //     },
-  //   };
-
-  const jobCategoriesField: Field<SelectFieldProps> = {
-    id: "categories",
+  const jobCategoryField: Field<SelectFieldProps> = {
+    id: "category",
     label: "Category",
     variant: FieldVariant.SELECT,
     required: true,
@@ -170,6 +105,27 @@ export const useCreateJobFormStructure = ({
     },
   };
 
+  const jobStyleField: Field<SelectFieldProps> = {
+    id: "style",
+    label: "Style",
+    variant: FieldVariant.SELECT,
+    required: true,
+    placeholder: "Choose style",
+    description: "Select a style for the job.",
+    error: jobStore.createDtoErrors?.style?.[0],
+    props: {
+      options: Object.entries(JobStyle).map(([_key, value]) => ({
+        label: value,
+        value: value,
+      })),
+      value: jobStore.createDto?.style,
+      onSelect: (value) => {
+        jobStore.setNested("createDto.style", value);
+        jobStore.setNested("createDtoErrors.style", []);
+      },
+    },
+  };
+
   const jobCreateFormStructure: FormStructure = {
     title: "Create New Job",
     description: "Basic information for creating a new job.",
@@ -181,7 +137,8 @@ export const useCreateJobFormStructure = ({
           { id: 1, fields: [titleField] },
           { id: 2, fields: [descriptionField] },
           { id: 3, fields: [priceField] },
-          { id: 4, fields: [jobCategoriesField] },
+          { id: 4, fields: [jobCategoryField] },
+          { id: 5, fields: [jobStyleField] },
         ],
       },
     ],

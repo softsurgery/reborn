@@ -21,6 +21,7 @@ export interface CreateJobDto {
   tagIds: number[];
   currencyId?: string;
   categoryId?: number;
+  style?: JobStyle;
   uploads?: { uploadId: number }[];
 }
 
@@ -42,10 +43,6 @@ export interface ResponseJobTagDto extends DatabaseEntity {
   label: string;
 }
 
-export interface CreateJobTagDto {
-  label: string;
-}
-
 export interface ResponseJobCatgeoryDto extends DatabaseEntity {
   id: number;
   label: string;
@@ -55,8 +52,6 @@ export interface CreateJobCategoryDto {
   label: string;
 }
 
-export interface UpdateJobTagDto extends Partial<CreateJobTagDto> {}
-
 export interface ResponseJobUploadDto extends DatabaseEntity {
   id: number;
   jobId: string;
@@ -65,6 +60,7 @@ export interface ResponseJobUploadDto extends DatabaseEntity {
   upload: Upload;
   order: number;
 }
+
 export interface ResponseJobCategoryDto extends DatabaseEntity {
   id: number;
   label: string;

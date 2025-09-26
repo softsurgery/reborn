@@ -6,15 +6,22 @@ import { useCurrencies } from "~/hooks/content/useCurrencies";
 import { mapToSelectOptions } from "~/components/shared/form-builder/utils/mapToSelectOptions";
 import { useJobTags } from "~/hooks/content/job/useJobTags";
 import { useJobCategories } from "~/hooks/content/job/useJobCategories";
-import { StableScrollView } from "~/components/shared/StableScrollView";
 import { Stepper } from "~/components/shared/Stepper";
 import { Text } from "~/components/ui/text";
+import { StableKeyboardAwareScrollView } from "~/components/shared/StableKeyboardAwareScrollView";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { api } from "~/api";
+import { useMutation } from "@tanstack/react-query";
+import { CreateJobDto, ServerErrorResponse } from "~/types";
+import { showToastable } from "react-native-toastable";
 
 interface JobCreateFormProps {
   className?: string;
 }
 
 export const JobCreateForm = ({ className }: JobCreateFormProps) => {
+  const scrollRef = React.useRef<KeyboardAwareScrollView>(null);
+
   const jobStore = useJobStore();
   const { currencies } = useCurrencies();
   const { isFetchJobTagsPending, jobTags } = useJobTags();
@@ -34,16 +41,51 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
       valueKey: "id",
     }),
   });
+
+  const { mutate: createJob, isPending: isCreationPending } = useMutation({
+    mutationFn: (job: CreateJobDto) => api.job.create(job),
+    onSuccess: () => {
+      jobStore.reset();
+      showToastable({
+        message: "Job created successfully",
+        status: "success",
+      });
+    },
+    onError: (error: ServerErrorResponse) => {
+      showToastable({
+        message: `Failed to create job: ${error.response?.data.message}`,
+        status: "danger",
+      });
+    },
+  });
+
+  //hardcoded tunisian value
+  React.useEffect(() => {
+    jobStore.setNested("createDto.currencyId", "TND");
+  }, []);
+
   return (
-    <Stepper
-      steps={[
-        <FormBuilder
-          structure={jobCreateFormStructure}
-          className={className}
-        />,
-        <Text>Step 2</Text>,
-        <Text>Step 3</Text>,
-      ]}
-    />
+    <StableKeyboardAwareScrollView
+      className="flex flex-col flex-1 gap-6 mx-2 mb-10"
+      ref={scrollRef}
+    >
+      <Stepper
+        steps={[
+          <FormBuilder
+            structure={jobCreateFormStructure}
+            className={className}
+          />,
+          <Text>Step 2</Text>,
+          <Text>Step 3</Text>,
+        ]}
+        closingAction={{
+          label: "Publish",
+          onPress: () => {
+            console.log("Creating job with data:", jobStore.createDto);
+            createJob(jobStore.createDto);
+          },
+        }}
+      />
+    </StableKeyboardAwareScrollView>
   );
 };

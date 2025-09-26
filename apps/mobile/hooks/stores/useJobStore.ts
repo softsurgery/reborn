@@ -21,6 +21,10 @@ const initialState: JobStoreData = {
     title: "",
     description: "",
     price: 0,
+    tagIds: [],
+    categoryId: undefined,
+    style: undefined,
+    uploads: [],
   },
   updateDto: {
     title: "",
