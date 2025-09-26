@@ -24,7 +24,6 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
   switch (field?.variant) {
     case "text":
     case "tel":
-    case "number":
       return (
         <View className="flex flex-col w-full">
           <Input
@@ -32,15 +31,24 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
             editable={field?.props?.editable}
             id={field.label}
             keyboardType={
-              field.variant === FieldVariant.TEL
-                ? "phone-pad"
-                : field.variant === FieldVariant.NUMBER
-                ? "numeric"
-                : "default"
+              field.variant === FieldVariant.TEL ? "phone-pad" : "default"
             }
             placeholder={field.placeholder}
             value={field?.props?.value?.toString() || ""}
             onChangeText={(text) => field?.props?.onChangeText?.(text)}
+            className={cn("p-3 rounded-md", field?.error && "border-red-500")}
+          />
+        </View>
+      );
+    case "number":
+      return (
+        <View className="flex flex-col w-full">
+          <Input
+            {...field?.props}
+            editable={field?.props?.editable}
+            placeholder={field.placeholder}
+            value={field?.props?.value}
+            onChangeText={(text) => field?.props?.onChangeText?.(Number(text))}
             className={cn("p-3 rounded-md", field?.error && "border-red-500")}
           />
         </View>
