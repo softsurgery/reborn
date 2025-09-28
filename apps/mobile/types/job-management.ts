@@ -12,6 +12,7 @@ export interface ResponseJobDto extends DatabaseEntity {
   tags: ResponseJobTagDto[];
   categoryId: number;
   style: JobStyle;
+  difficulty: JobDifficulty;
   uploads: ResponseJobUploadDto[];
 }
 export interface CreateJobDto {
@@ -22,6 +23,7 @@ export interface CreateJobDto {
   currencyId?: string;
   categoryId?: number;
   style?: JobStyle;
+  difficulty?: JobDifficulty;
   uploads?: { uploadId: number }[];
 }
 
@@ -64,6 +66,13 @@ export interface ResponseJobUploadDto extends DatabaseEntity {
 export interface ResponseJobCategoryDto extends DatabaseEntity {
   id: number;
   label: string;
+}
+
+export enum JobDifficulty {
+  ENTRY_LEVEL = "Entry Level",
+  MID_LEVEL = "Mid Level",
+  SENIOR_LEVEL = "Senior Level",
+  INTERN = "Internship",
 }
 
 export enum JobStyle {

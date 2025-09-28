@@ -10,7 +10,7 @@ import {
   TextFieldProps,
 } from "~/components/shared/form-builder/types";
 import { JobStore } from "~/hooks/stores/useJobStore";
-import { JobStyle, ResponseCurrencyDto } from "~/types";
+import { JobDifficulty, JobStyle, ResponseCurrencyDto } from "~/types";
 
 interface JobCreateFormStructureProps {
   jobStore: JobStore;
@@ -126,6 +126,27 @@ export const useCreateJobFormStructure = ({
     },
   };
 
+  const jobDifficultyField: Field<SelectFieldProps> = {
+    id: "difficulty",
+    label: "Difficulty",
+    variant: FieldVariant.SELECT,
+    required: true,
+    placeholder: "Choose difficulty",
+    description: "Select a difficulty for the job.",
+    error: jobStore.createDtoErrors?.difficulty?.[0],
+    props: {
+      options: Object.entries(JobDifficulty).map(([_key, value]) => ({
+        label: value,
+        value: value,
+      })),
+      value: jobStore.createDto?.difficulty,
+      onSelect: (value) => {
+        jobStore.setNested("createDto.difficulty", value);
+        jobStore.setNested("createDtoErrors.difficulty", []);
+      },
+    },
+  };
+
   const jobCreateFormStructure: FormStructure = {
     title: "Create New Job",
     description: "Basic information for creating a new job.",
@@ -139,6 +160,7 @@ export const useCreateJobFormStructure = ({
           { id: 3, fields: [priceField] },
           { id: 4, fields: [jobCategoryField] },
           { id: 5, fields: [jobStyleField] },
+          { id: 6, fields: [jobDifficultyField] },
         ],
       },
     ],

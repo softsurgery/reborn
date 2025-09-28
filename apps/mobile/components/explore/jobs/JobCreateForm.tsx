@@ -1,6 +1,6 @@
 import React from "react";
 import { FormBuilder } from "~/components/shared/form-builder/FormBuilder";
-import { useCreateJobFormStructure } from "./forms/useCreatJobFormStructure";
+import { useCreateJobFormStructure } from "./forms/useCreateJobFormStructure";
 import { useJobStore } from "~/hooks/stores/useJobStore";
 import { useCurrencies } from "~/hooks/content/useCurrencies";
 import { mapToSelectOptions } from "~/components/shared/form-builder/utils/mapToSelectOptions";
