@@ -65,27 +65,22 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
   }, []);
 
   return (
-    <StableKeyboardAwareScrollView
-      className="flex flex-col flex-1 gap-6 mx-2 mb-10"
-      ref={scrollRef}
-    >
-      <Stepper
-        steps={[
-          <FormBuilder
-            structure={jobCreateFormStructure}
-            className={className}
-          />,
-          <Text>Step 2</Text>,
-          <Text>Step 3</Text>,
-        ]}
-        closingAction={{
-          label: "Publish",
-          onPress: () => {
-            console.log("Creating job with data:", jobStore.createDto);
-            createJob(jobStore.createDto);
-          },
-        }}
-      />
-    </StableKeyboardAwareScrollView>
+    <Stepper
+      steps={[
+        <FormBuilder
+          structure={jobCreateFormStructure}
+          className={className}
+        />,
+        <Text>Step 2</Text>,
+        <Text>Step 3</Text>,
+      ]}
+      closingAction={{
+        label: "Publish",
+        onPress: () => {
+          console.log("Creating job with data:", jobStore.createDto);
+          createJob(jobStore.createDto);
+        },
+      }}
+    />
   );
 };

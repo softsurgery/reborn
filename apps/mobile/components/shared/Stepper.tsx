@@ -2,7 +2,7 @@ import React from "react";
 import { View } from "react-native";
 import { Button } from "../ui/button";
 import { Text } from "../ui/text";
-import { cn } from "~/lib/utils";
+import { StableKeyboardAwareScrollView } from "./StableKeyboardAwareScrollView";
 
 interface StepperProps {
   className?: string;
@@ -45,12 +45,14 @@ export const Stepper = ({
   };
 
   return (
-    <View className={cn("flex flex-col flex-1 justify-between", className)}>
+    <React.Fragment>
       {/* Step Content */}
-      <View className="flex-1 items-center">{steps[currentStep]}</View>
+      <StableKeyboardAwareScrollView className="flex-1">
+        {steps[currentStep]}
+      </StableKeyboardAwareScrollView>
 
       {/* Controls */}
-      <View className="flex-row justify-between px-2 py-4">
+      <View className="flex-row justify-between px-2 py-4 bg-muted border-t border-border">
         <Button
           disabled={currentStep === 0}
           onPress={prevStep}
@@ -59,10 +61,6 @@ export const Stepper = ({
         >
           <Text className="font-semibold">Previous</Text>
         </Button>
-
-        <Text className="self-center font-bold text-lg">
-          {currentStep + 1} / {steps.length}
-        </Text>
 
         {currentStep === steps.length - 1 && closingAction ? (
           <Button
@@ -79,6 +77,6 @@ export const Stepper = ({
           </Button>
         )}
       </View>
-    </View>
+    </React.Fragment>
   );
 };
