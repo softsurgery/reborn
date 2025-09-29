@@ -71,13 +71,14 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
       return (
         <Select
           {...field?.props}
+          className={cn(field?.error && "border-red-500")}
           title={field.label}
+          description={field.description}
+          placeholder={field?.placeholder}
           value={field?.props?.value?.toString()}
           onSelect={(value) => field?.props?.onSelect?.(value)}
-          options={field?.props?.options}
-          description={field.description}
           disabled={field?.props?.other}
-          className={cn(field?.error && "border-red-500")}
+          options={field?.props?.options}
         />
       );
     case "date":

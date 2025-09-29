@@ -1,119 +1,247 @@
 import React from "react";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "~/components/ui/dialog";
-import { Button } from "../ui/button";
-import { Label } from "../ui/label";
 import { cn } from "~/lib/utils";
 import { ScrollView, View } from "react-native";
-import { RadioGroupItemWithLabel } from "./RadioGroupItemWithLabel";
 import * as Haptics from "expo-haptics";
-import { ChevronDown } from "lucide-react-native";
-import { SelectOption } from "~/components/shared/form-builder/types";
+import { ChevronDown, Check, Search } from "lucide-react-native";
+import type { SelectOption } from "~/components/shared/form-builder/types";
 import { Text } from "../ui/text";
 import Icon from "~/lib/Icon";
+import { StablePressable } from "./StablePressable";
+import { Input } from "../ui/input";
 
 interface SelectProps {
   className?: string;
-  disabled?: boolean;
   title?: string;
+  description?: string;
+  placeholder?: string;
   value?: string;
   onSelect?: (value: string) => void;
-  description?: string;
+  disabled?: boolean;
   options?: SelectOption[];
+  searchable?: boolean;
 }
 
 const Select = React.memo(
   ({
     className,
-    disabled,
     title,
+    description,
+    placeholder,
     value,
     onSelect,
-    description,
+    disabled,
     options = [],
+    searchable = false,
   }: SelectProps) => {
+    const [searchQuery, setSearchQuery] = React.useState("");
+    const [isOpen, setIsOpen] = React.useState(false);
+
+    // Fallback local state (uncontrolled mode)
+    const [internalValue, setInternalValue] = React.useState<
+      string | undefined
+    >(value);
+
+    // Sync local state with external `value` when controlled
+    React.useEffect(() => {
+      if (value !== undefined) {
+        setInternalValue(value);
+      }
+    }, [value]);
+
+    const selectedValue = value !== undefined ? value : internalValue;
+
+    const [rowHeight, setRowHeight] = React.useState(0);
+    const scrollViewRef = React.useRef<ScrollView>(null);
+
+    const filteredOptions = React.useMemo(() => {
+      if (!searchQuery) return options;
+      return options.filter((option) =>
+        option.label.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }, [options, searchQuery]);
+
+    const selectedOption = options.find(
+      (option) => option.value === selectedValue
+    );
+
+    // Scroll to selected option when reopening
+    React.useEffect(() => {
+      if (
+        isOpen &&
+        selectedValue &&
+        scrollViewRef.current &&
+        filteredOptions.length > 0
+      ) {
+        const selectedIndex = filteredOptions.findIndex(
+          (option) => option.value === selectedValue
+        );
+
+        if (selectedIndex !== -1 && rowHeight > 0) {
+          const scrollOffset = selectedIndex * rowHeight;
+
+          requestAnimationFrame(() => {
+            scrollViewRef.current?.scrollTo({
+              y: Math.max(0, scrollOffset - rowHeight),
+              animated: true,
+            });
+          });
+        }
+      }
+    }, [isOpen, selectedValue, filteredOptions, rowHeight]);
+
+    const handleSelect = (optionValue: string) => {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      onSelect?.(optionValue);
+      if (value === undefined) {
+        setInternalValue(optionValue); // uncontrolled mode
+      }
+      setIsOpen(false);
+      setSearchQuery("");
+    };
+
+    const handleOpenChange = (open: boolean) => {
+      setIsOpen(open);
+      if (!open) {
+        setSearchQuery("");
+      }
+    };
+
     return (
-      <Dialog>
+      <Dialog open={isOpen} onOpenChange={handleOpenChange}>
         <DialogTrigger asChild>
-          <Button
-            disabled={disabled}
-            variant="outline"
+          <View
             className={cn(
-              "flex flex-row justify-between items-start",
+              "flex flex-row items-center h-14 pr-4 py-3",
+              "border border-border/60 rounded-lg bg-background",
+              "shadow-sm hover:shadow-md cursor-pointer transition-all duration-200",
+              disabled && "opacity-50 cursor-not-allowed",
               className
             )}
           >
-            <Text
+            <Input
+              readOnly
+              editable={!disabled}
+              value={selectedOption?.label || ""}
+              placeholder={placeholder || "Select an option"}
               className={cn(
-                value
-                  ? "text-lg text-black dark:text-white"
-                  : "text-gray-400 dark:text-gray-400"
-              )}
-            >
-              {value
-                ? options.find((option) => option.value === value)?.label
-                : "Select an option"}
-            </Text>
-            <Icon
-              name={ChevronDown}
-              size={20}
-              className={cn(
-                value
-                  ? "text-lg text-black dark:text-white"
-                  : "text-gray-400 dark:text-gray-400"
+                "flex-1 bg-transparent outline-none cursor-pointer border-transparent"
               )}
             />
-          </Button>
+
+            <Icon
+              name={ChevronDown}
+              size={18}
+              className={cn(
+                "pl-5 transition-transform duration-200",
+                isOpen && "rotate-180"
+              )}
+              color={disabled ? "#A1A1AA" : "#3F3F46"}
+            />
+          </View>
         </DialogTrigger>
-        <DialogContent className="w-[80vw] max-h-[50vh]">
-          <DialogHeader>
+
+        <DialogContent className="w-[85vw] max-w-md max-h-[70vh] flex flex-col bg-card border-border/60 shadow-2xl">
+          <DialogHeader className="">
             <DialogTitle>
-              <Label>{title}</Label>
+              <Text className="text-xl font-semibold text-foreground text-balance">
+                {title || "Select Option"}
+              </Text>
             </DialogTitle>
-            <DialogDescription>{description}</DialogDescription>
+            {description && (
+              <DialogDescription>
+                <Text className="text-lg text-muted-foreground leading-relaxed">
+                  {description}
+                </Text>
+              </DialogDescription>
+            )}
           </DialogHeader>
+
+          {searchable && (
+            <View className="px-1">
+              <View className="relative">
+                <Icon
+                  name={Search}
+                  size={16}
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground z-10"
+                />
+                <input
+                  type="text"
+                  placeholder="Search options..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full h-10 pl-10 pr-4 bg-muted border border-border/60 rounded-lg text-sm  focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200"
+                />
+              </View>
+            </View>
+          )}
+
           <ScrollView
-            className="max-h-[30vh]"
+            ref={scrollViewRef}
+            className="flex flex-col max-h-[40vh] px-1"
             keyboardShouldPersistTaps="handled"
             nestedScrollEnabled
+            showsVerticalScrollIndicator={false}
           >
-            <View>
-              {options.map((option) => (
-                <RadioGroupItemWithLabel
-                  className="pe-4 py-2 border-b border-gray-200 dark:border-gray-700 w-full"
-                  key={option.label}
-                  label={option.label}
-                  selected={option.value == value}
-                  onSelect={() => {
-                    Haptics.notificationAsync(
-                      Haptics.NotificationFeedbackType.Success
-                    );
-                    onSelect?.(option.value);
-                  }}
-                />
-              ))}
-            </View>
+            {filteredOptions.length === 0 ? (
+              <View className="py-8 px-4 text-center">
+                <Text className="text-muted-foreground text-sm">
+                  {searchQuery ? "No options found" : "No options available"}
+                </Text>
+              </View>
+            ) : (
+              filteredOptions.map((option) => {
+                const isSelected = option.value === selectedValue;
+                return (
+                  <StablePressable
+                    key={option.value}
+                    className={cn(
+                      "flex flex-row items-center justify-between py-3 px-4 mb-1 rounded-lg transition-all duration-200",
+                      "hover:bg-accent/50 active:bg-accent/70",
+                      isSelected && "bg-primary/10 border border-primary/20"
+                    )}
+                    onPress={() => handleSelect(option.value)}
+                    onLayout={(e) => {
+                      if (rowHeight === 0) {
+                        setRowHeight(e.nativeEvent.layout.height);
+                      }
+                    }}
+                  >
+                    <Text
+                      className={cn(
+                        "text-base font-medium flex-1 text-balance",
+                        isSelected
+                          ? "text-primary font-semibold"
+                          : "text-foreground"
+                      )}
+                    >
+                      {option.label}
+                    </Text>
+                    {isSelected && (
+                      <Icon
+                        name={Check}
+                        size={18}
+                        className="text-primary ml-2"
+                      />
+                    )}
+                  </StablePressable>
+                );
+              })
+            )}
           </ScrollView>
-
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button>
-                <Text className="text-white">Save</Text>
-              </Button>
-            </DialogClose>
-          </DialogFooter>
         </DialogContent>
       </Dialog>
     );
   }
 );
+
+Select.displayName = "Select";
 
 export default Select;
