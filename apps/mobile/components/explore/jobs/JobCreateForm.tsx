@@ -59,9 +59,12 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
     },
   });
 
-  //hardcoded tunisian value
   React.useEffect(() => {
+    //hardcoded tunisian value
     jobStore.setNested("createDto.currencyId", "TND");
+    return () => {
+      jobStore.reset();
+    };
   }, []);
 
   return (

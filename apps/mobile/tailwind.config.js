@@ -1,23 +1,13 @@
 const { hairlineWidth } = require("nativewind/theme");
-const colors = require("tailwindcss/colors");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: "media",
+  darkMode: "class",
   content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}"],
   presets: [require("nativewind/preset")],
   theme: {
     extend: {
-      screens: {
-        xs: "360px",
-        sm: "480px",
-        md: "768px",
-        lg: "1024px",
-        xl: "1280px",
-        "2xl": "1536px",
-      },
       colors: {
-        ...colors,
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -52,13 +42,13 @@ module.exports = {
           foreground: "hsl(var(--card-foreground))",
         },
       },
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
+      },
       borderWidth: {
         hairline: hairlineWidth(),
-      },
-      fontFamily: {
-        sans: "var(--font-sans)",
-        serif: "var(--font-serif)",
-        mono: "var(--font-mono)",
       },
       keyframes: {
         "accordion-down": {
@@ -76,5 +66,8 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  future: {
+    hoverOnlyWhenSupported: true,
+  },
+  plugins: [require("tailwindcss-animate")],
 };

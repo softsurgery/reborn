@@ -27,18 +27,18 @@ export default function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
       <Toastable
-        statusMap={{
-          success: isDarkMode
-            ? NAV_THEME.dark.primary
-            : NAV_THEME.light.primary,
-          danger: isDarkMode
-            ? NAV_THEME.dark.destructive
-            : NAV_THEME.light.destructive,
-          warning: "green",
-          info: isDarkMode
-            ? NAV_THEME.dark.notification
-            : NAV_THEME.light.notification,
-        }}
+        // statusMap={{
+        //   success: isDarkMode
+        //     ? NAV_THEME.dark.primary
+        //     : NAV_THEME.light.primary,
+        //   danger: isDarkMode
+        //     ? NAV_THEME.dark.destructive
+        //     : NAV_THEME.light.destructive,
+        //   warning: "green",
+        //   info: isDarkMode
+        //     ? NAV_THEME.dark.notification
+        //     : NAV_THEME.light.notification,
+        // }}
         position="top"
       />
       <View className={cn("flex-1", isDarkMode ? "dark" : "light")}>

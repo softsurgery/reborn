@@ -1,5 +1,6 @@
 import React from "react";
-import { View, SafeAreaView } from "react-native";
+import { View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Separator } from "~/components/ui/separator";
 import { Skeleton } from "~/components/ui/skeleton";
 import { cn } from "~/lib/utils";

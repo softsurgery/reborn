@@ -1,5 +1,8 @@
-import { Platform, SafeAreaView, StatusBar } from "react-native";
-import { SafeAreaViewProps } from "react-native-safe-area-context";
+import { Platform, StatusBar } from "react-native";
+import {
+  SafeAreaView,
+  SafeAreaViewProps,
+} from "react-native-safe-area-context";
 
 import { cn } from "~/lib/utils";
 

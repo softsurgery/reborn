@@ -5,7 +5,6 @@ import { Text } from "../ui/text";
 import { StableKeyboardAwareScrollView } from "./StableKeyboardAwareScrollView";
 
 interface StepperProps {
-  className?: string;
   steps: React.ReactNode[];
   initialStep?: number;
   forwaredAdditionalActions?: Record<number, () => void>;
@@ -17,7 +16,6 @@ interface StepperProps {
 }
 
 export const Stepper = ({
-  className,
   steps,
   initialStep = 0,
   forwaredAdditionalActions = {},
