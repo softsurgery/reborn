@@ -22,6 +22,7 @@ export const StableSafeAreaView = ({
         paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
       }}
       {...props}
+      edges={["left", "right"]}
     >
       {children}
     </SafeAreaView>

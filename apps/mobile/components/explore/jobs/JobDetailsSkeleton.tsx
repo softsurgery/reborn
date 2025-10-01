@@ -1,6 +1,6 @@
 import React from "react";
 import { View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { StableSafeAreaView } from "~/components/shared/StableSafeAreaView";
 import { Separator } from "~/components/ui/separator";
 import { Skeleton } from "~/components/ui/skeleton";
 import { cn } from "~/lib/utils";
@@ -15,7 +15,7 @@ export const JobDetailsSkeleton = ({
   uploads,
 }: SkeletonBlockProps) => {
   return (
-    <SafeAreaView className={cn("flex-1", className)}>
+    <StableSafeAreaView className={cn("flex-1", className)}>
       {/* Header */}
       <View className="bg-card px-6 py-5 border-b border-border">
         <View className="flex-row items-start justify-between mb-3">
@@ -101,6 +101,6 @@ export const JobDetailsSkeleton = ({
       <View className="px-6 py-5 bg-card border-t border-border">
         <Skeleton className="h-12 w-full rounded-lg mb-2" />
       </View>
-    </SafeAreaView>
+    </StableSafeAreaView>
   );
 };

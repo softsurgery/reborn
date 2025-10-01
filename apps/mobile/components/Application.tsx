@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { View, Pressable } from "react-native";
 import {
   Menu,
@@ -14,20 +14,8 @@ import { Button } from "./ui/button";
 import Icon from "~/lib/Icon";
 import { useNavigation } from "expo-router";
 import * as Haptics from "expo-haptics";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "./ui/dialog";
-import { Text } from "./ui/text";
 import { Balance } from "./balance/Balance";
 import { Explore } from "./explore/Explore";
-import { JobCreateForm } from "./explore/jobs/JobCreateForm";
 
 export default function Application() {
   const navigation = useNavigation<any>();
@@ -81,22 +69,16 @@ export default function Application() {
   };
 
   return (
-    <View className="flex-1">
+    <View className="flex flex-col flex-1 justify-between">
       <View className="flex-1">
-        {tabs.map((tab) => (
-          <View
-            key={tab.value + (tab.value === activeTab ? `-${tabKey}` : "")}
-            style={{
-              display: activeTab === tab.value ? "flex" : "none",
-              flex: 1,
-            }}
-          >
-            {tab.component}
+        {tabs.find((tab) => tab.value === activeTab)?.component && (
+          <View key={tabKey} className="flex-1">
+            {tabs.find((tab) => tab.value === activeTab)?.component}
           </View>
-        ))}
+        )}
       </View>
 
-      <View className="flex flex-row items-center justify-between w-full pb-4">
+      <View className="flex flex-row items-center justify-between mb-2">
         {leftTabs.map((tab) => (
           <Pressable
             key={tab.value}

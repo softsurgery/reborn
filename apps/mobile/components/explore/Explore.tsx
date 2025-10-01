@@ -58,13 +58,13 @@ export const Explore = ({
   const animatedHeaderStyle = useAnimatedStyle(() => ({
     transform: [
       {
-        translateY: withTiming(showHeader.value ? 0 : -120, {
+        translateY: withTiming(showHeader.value ? 0 : -100, {
           duration: 250,
         }),
       },
     ],
     opacity: withTiming(showHeader.value ? 1 : 0, { duration: 250 }),
-    height: withTiming(showHeader.value ? 120 : 0, {
+    height: withTiming(showHeader.value ? 100 : 0, {
       duration: 250,
     }),
   }));
@@ -118,36 +118,34 @@ export const Explore = ({
   }, [tab, debouncedSearchTerm, searching, handleHeaderVisibility]);
 
   return (
-    <View className="flex flex-1 mx-2">
+    <StableSafeAreaView className="flex flex-1 flex-col mx-2">
       {/* Animated Header */}
-      <StableSafeAreaView>
-        <Animated.View
-          style={animatedHeaderStyle}
-          className="bg-background shadow-sm"
-        >
-          <ApplicationHeader
-            title="Explore"
-            shortcuts={[
-              {
-                icon: Search,
-                onPress: () => navigation.navigate("explore/job-search", {}),
-              },
-              {
-                icon: User,
-                onPress: () => navigation.navigate("my-space/index", {}),
-              },
-            ]}
-          />
-          {/* Tab Navigation */}
-          <View className="flex flex-row border-b border-border">
-            {renderTabButton("recent", "Recent")}
-            {renderTabButton("followings", "Following")}
-          </View>
-          {/* Search Header */}
-        </Animated.View>
-      </StableSafeAreaView>
+      <Animated.View
+        style={animatedHeaderStyle}
+        className="bg-background shadow-sm"
+      >
+        <ApplicationHeader
+          title="Explore"
+          shortcuts={[
+            {
+              icon: Search,
+              onPress: () => navigation.navigate("explore/job-search", {}),
+            },
+            {
+              icon: User,
+              onPress: () => navigation.navigate("my-space/index", {}),
+            },
+          ]}
+        />
+        {/* Tab Navigation */}
+        <View className="flex flex-row border-b border-border">
+          {renderTabButton("recent", "Recent")}
+          {renderTabButton("followings", "Following")}
+        </View>
+      </Animated.View>
+      {/* Search Header */}
       {/* Content */}
       {renderContent}
-    </View>
+    </StableSafeAreaView>
   );
 };

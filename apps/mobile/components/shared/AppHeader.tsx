@@ -25,7 +25,7 @@ export const ApplicationHeader = ({
   return (
     <View
       className={cn(
-        "flex flex-row justify-between items-center gap-2 p-2",
+        "flex flex-row justify-between items-center gap-2 px-2",
         className
       )}
     >

@@ -22,8 +22,13 @@ import { useNavigation } from "expo-router";
 import { StableSafeAreaView } from "../shared/StableSafeAreaView";
 import { Text } from "../ui/text";
 import { StableScrollView } from "../shared/StableScrollView";
+import { cn } from "~/lib/utils";
 
-export const Account = () => {
+interface AccountProps {
+  className?: string;
+}
+
+export const Account = ({ className }: AccountProps) => {
   const navigation = useNavigation<NavigationProps>();
   const authPersistStore = useAuthPersistStore();
   const queryClient = useQueryClient();
@@ -86,7 +91,7 @@ export const Account = () => {
   };
 
   return (
-    <StableSafeAreaView className="flex flex-1 mx-2">
+    <StableSafeAreaView className={cn("flex flex-1 mx-2", className)}>
       <ApplicationHeader
         title="Menu"
         shortcuts={[
@@ -100,7 +105,7 @@ export const Account = () => {
       <PlanInfo className="my-2" />
       <GoPremium className="my-3" />
 
-      <StableScrollView className="flex flex-col gap-5 my-5">
+      <StableScrollView className="flex flex-col gap-5">
         {Object.values(menus).map((section) => (
           <View key={section.title}>
             <Text variant={"h3"}>{section.title}</Text>

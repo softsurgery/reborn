@@ -96,7 +96,7 @@ export const Chat = ({ className }: ChatProps) => {
   );
 
   return (
-    <StableSafeAreaView className="flex flex-1 mx-2">
+    <StableSafeAreaView className={cn("flex flex-1", className)}>
       <ApplicationHeader
         title="Messages"
         shortcuts={[
@@ -118,7 +118,7 @@ export const Chat = ({ className }: ChatProps) => {
 
           <Separator className="mt-2" />
           <LegendList
-            className={cn("flex-1", className)}
+            className={cn("flex-1")}
             data={conversations}
             renderItem={renderItem}
             keyExtractor={(item) => item.id.toString()}
