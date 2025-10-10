@@ -44,13 +44,13 @@ export const RequestsList = ({
       variant === "incoming" ? (
         <IncomingRequestEntry
           request={item}
-          className="mb-4"
+          className="mt-4"
           refetchRequests={refetchRequests}
         />
       ) : (
         <OutgoingRequestEntry
           request={item}
-          className="mb-4"
+          className="mt-4"
           refetchRequests={refetchRequests}
         />
       ),

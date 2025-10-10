@@ -11,7 +11,16 @@ import { JobRequestStatus, ResponseJobRequestDto } from "~/types";
 import { NavigationProps } from "~/types/app.routes";
 import { useServerImage } from "~/hooks/content/useServerImage";
 import Icon from "~/lib/Icon";
-import { CopyX, Mail, Search } from "lucide-react-native";
+import {
+  AlertCircle,
+  CheckCircle2,
+  Clock,
+  CopyX,
+  Mail,
+  Search,
+  User,
+  XCircle,
+} from "lucide-react-native";
 import {
   Dialog,
   DialogContent,
@@ -37,86 +46,122 @@ export const OutgoingRequestEntry = ({
   const { jsx: profilePictureBlock } = useServerImage({
     id: request.job?.postedBy?.profile?.pictureId!,
     fallback: identifyUserAvatar(request.job?.postedBy),
-    size: { width: 80, height: 80 },
+    size: { width: 60, height: 60 },
   });
+
+  const statusConfig = {
+    [JobRequestStatus.Pending]: {
+      icon: AlertCircle,
+      color: "text-amber-500",
+      bgColor: "bg-amber-500/10",
+      label: "Pending",
+    },
+    [JobRequestStatus.Approved]: {
+      icon: CheckCircle2,
+      color: "text-emerald-500",
+      bgColor: "bg-emerald-500/10",
+      label: "Approved",
+    },
+    [JobRequestStatus.Rejected]: {
+      icon: XCircle,
+      color: "text-rose-500",
+      bgColor: "bg-rose-500/10",
+      label: "Rejected",
+    },
+  };
+
+  const currentStatus =
+    statusConfig[request.status] || statusConfig[JobRequestStatus.Pending];
 
   return (
     <View
       className={cn(
-        "flex flex-row items-center justify-between p-4 m border border-border rounded-lg",
+        "flex flex-col bg-card border border-border rounded-xl overflow-hidden shadow-sm",
         className
       )}
     >
-      <View className="flex flex-1 w-full">
-        <Text variant={"lead"} className="my-1">
-          {request.job?.title}
-        </Text>
-        {/* Client */}
-        <View className="flex flex-row items-center gap-1">
-          <Text className="text-sm">Client</Text>
-          <Text className="font-thin">
-            {identifyUser(request.job?.postedBy)}
-          </Text>
-        </View>
-        {/* Requested At */}
-        <View className="flex flex-row items-center gap-1">
-          <Text className="text-sm">Requested at</Text>
-          <Text className="text-muted-foreground font-thin">
-            {request.createdAt
-              ? format(request.createdAt, "hh:mm - dd MMMM yyyy")
-              : ""}
-          </Text>
-        </View>
-        {/* Status */}
-        <View className="flex flex-row items-center gap-1">
-          <Text className="text-sm">Status</Text>
+      <View className="flex flex-row items-start justify-between p-4 pb-2 border-b border-border/50">
+        <View className="flex-1 pr-3">
           <Text
+            variant={"h3"}
+            className="text-lg font-semibold leading-tight mb-2"
+          >
+            {request.job?.title}
+          </Text>
+          <View
             className={cn(
-              "text-sm font-medium",
-              request.status === JobRequestStatus.Approved
-                ? "text-green-500"
-                : request.status === JobRequestStatus.Rejected
-                ? "text-red-500"
-                : request.status === JobRequestStatus.Pending
-                ? "text-secondary-foreground"
-                : ""
+              "flex flex-row items-center gap-1.5 self-start px-2.5 py-1 rounded-full",
+              currentStatus.bgColor
             )}
           >
-            {request.status === JobRequestStatus.Pending
-              ? "Pending"
-              : request.status === JobRequestStatus.Approved
-              ? "Approved"
-              : "Rejected"}
-          </Text>
+            <Icon
+              name={currentStatus.icon}
+              size={14}
+              className={currentStatus.color}
+            />
+            <Text className={cn("text-xs font-medium", currentStatus.color)}>
+              {currentStatus.label}
+            </Text>
+          </View>
         </View>
-        {/* Actions */}
-        {request.status === JobRequestStatus.Pending ? (
-          <PendingActionBlock
-            request={request}
-            refetchRequests={refetchRequests}
-          />
-        ) : request.status === JobRequestStatus.Approved ? (
-          <ApprovedActionBlock
-            request={request}
-            refetchRequests={refetchRequests}
-          />
-        ) : (
-          // <RejectedActionBlock />
-          <View></View>
-        )}
+        <StablePressable
+          className="w-16 h-16 rounded-full overflow-hidden border-2 border-border"
+          onPressClassname="opacity-70"
+          onPress={() => {
+            navigation.navigate("explore/user-profile", {
+              id: request.job?.postedById,
+            });
+          }}
+        >
+          {profilePictureBlock}
+        </StablePressable>
       </View>
-      {/* Client Profile Picture */}
-      <StablePressable
-        className="w-1/4"
-        onPressClassname="opacity-50"
-        onPress={() => {
-          navigation.navigate("explore/user-profile", {
-            id: request.job?.postedById,
-          });
-        }}
-      >
-        {profilePictureBlock}
-      </StablePressable>
+
+      <View className="flex flex-col gap-2.5 p-4 bg-muted/30">
+        {/* Client info */}
+        <View className="flex flex-row items-center gap-2">
+          <View className="w-8 h-8 rounded-full bg-primary/10 items-center justify-center">
+            <Icon name={User} size={14} className="text-primary" />
+          </View>
+          <View className="flex-1">
+            <Text className="text-xs text-muted-foreground mb-0.5">Client</Text>
+            <Text className="text-sm font-medium">
+              {identifyUser(request.job?.postedBy)}
+            </Text>
+          </View>
+        </View>
+
+        {/* Requested at */}
+        <View className="flex flex-row items-center gap-2">
+          <View className="w-8 h-8 rounded-full bg-primary/10 items-center justify-center">
+            <Icon name={Clock} size={14} className="text-primary" />
+          </View>
+          <View className="flex-1">
+            <Text className="text-xs text-muted-foreground mb-0.5">
+              Requested
+            </Text>
+            <Text className="text-sm font-medium">
+              {request.createdAt
+                ? format(request.createdAt, "MMM dd, yyyy 'at' hh:mm a")
+                : "N/A"}
+            </Text>
+          </View>
+        </View>
+      </View>
+
+      {request.status === JobRequestStatus.Pending ? (
+        <PendingActionBlock
+          request={request}
+          refetchRequests={refetchRequests}
+        />
+      ) : request.status === JobRequestStatus.Approved ? (
+        <ApprovedActionBlock
+          request={request}
+          refetchRequests={refetchRequests}
+        />
+      ) : (
+        <View className="p-4" />
+      )}
     </View>
   );
 };
@@ -136,28 +181,38 @@ export const PendingActionBlock = ({
   });
 
   return (
-    <View className={cn("flex flex-row items-center gap-2 mt-4", className)}>
-      <Button
-        size={"sm"}
-        className="flex-row items-center gap-2"
-        onPress={() => {
-          navigation.navigate("explore/job-details", {
-            id: request.job?.id,
-            uploads:
-              request.job?.uploads?.map((upload) => upload.uploadId) ?? [],
-          });
-        }}
+    <React.Fragment>
+      <View
+        className={cn(
+          "flex flex-row items-center justify-center mb-4 px-3 gap-2",
+          className
+        )}
       >
-        <Icon name={Search} size={14} className="text-primary-foreground" />
-        <Text>View Details</Text>
-      </Button>
+        <Button
+          size={"sm"}
+          className="flex flex-row flex-1 items-center gap-2"
+          onPress={() => {
+            navigation.navigate("explore/job-details", {
+              id: request.job?.id,
+              uploads:
+                request.job?.uploads?.map((upload) => upload.uploadId) ?? [],
+            });
+          }}
+        >
+          <Icon name={Search} size={14} className="text-primary-foreground" />
+          <Text>View Details</Text>
+        </Button>
+        <Button
+          size={"sm"}
+          variant={"secondary"}
+          className="flex flex-row flex-1 items-center gap-2"
+          onPress={() => setOpen(true)}
+        >
+          <Text>Cancel Request</Text>
+        </Button>
+      </View>
       <Dialog open={open} onOpenChange={(value) => setOpen(value)}>
-        <DialogTrigger asChild>
-          <Button size={"sm"} variant={"secondary"}>
-            <Text>Cancel Request</Text>
-          </Button>
-        </DialogTrigger>
-        <DialogContent className="w-[90vw]">
+        <DialogContent className="">
           <DialogHeader>
             <DialogTitle>
               <View className="flex flex-row items-center gap-2">
@@ -194,7 +249,7 @@ export const PendingActionBlock = ({
           </DialogHeader>
         </DialogContent>
       </Dialog>
-    </View>
+    </React.Fragment>
   );
 };
 
@@ -206,7 +261,12 @@ const ApprovedActionBlock = ({
   const navigation = useNavigation<NavigationProps>();
 
   return (
-    <View className={cn("flex flex-row items-center gap-2 mt-4", className)}>
+    <View
+      className={cn(
+        "flex flex-row items-center gap-2 my-4 w-full justify-center",
+        className
+      )}
+    >
       <Button
         size={"sm"}
         className="flex-row items-center gap-2"

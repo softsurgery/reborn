@@ -71,7 +71,7 @@ export const Requests = ({
         {renderTabButton("incoming", "Incoming", ArrowDown)}
         {renderTabButton("outgoing", "Outgoing", ArrowUp)}
       </View>
-      <View className="flex-1 p-4">
+      <View className="flex-1 mx-4">
         <RequestsList
           search=""
           searching={false}
