@@ -17,7 +17,12 @@ import {
 } from "lucide-react-native";
 import { showToastable } from "react-native-toastable";
 import type { NavigationProps } from "~/types/app.routes";
-import { useQuery, useQueries, useMutation } from "@tanstack/react-query";
+import {
+  useQuery,
+  useQueries,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { api } from "~/api";
 import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
 import { format } from "date-fns";
@@ -43,14 +48,29 @@ import {
 import Icon from "~/lib/Icon";
 import { useServerImage } from "~/hooks/content/useServerImage";
 import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
+import { useIsJobSaved } from "~/hooks/content/job/useIsJobSaved";
+import { useJobSaveActions } from "~/hooks/content/job/useJobSaveActions";
 
 export const JobDetails = () => {
+  const queryClient = useQueryClient();
   const navigation = useNavigation<NavigationProps>();
   const { currentUser } = useCurrentUser();
   const { id, uploads } = useLocalSearchParams();
-  const [saved, setSaved] = React.useState(false);
   const [applicationDialogOpen, setApplicationDialogOpen] =
     React.useState(false);
+
+  const { isJobSaved } = useIsJobSaved(id as string);
+  const { saveJob, isSavePending, unsaveJob, isUnsavePending } =
+    useJobSaveActions({
+      onSuccess: (response) => {
+        queryClient.invalidateQueries({
+          queryKey: ["is-job-saved", id as string],
+        });
+        showToastable({
+          message: response,
+        });
+      },
+    });
 
   const { data: jobResp, isPending: isJobPending } = useQuery({
     queryKey: ["job", id],
@@ -145,10 +165,9 @@ export const JobDetails = () => {
 
   const handleSave = (e: any) => {
     e.stopPropagation();
-    setSaved(!saved);
-    if (!saved) {
-      showToastable({ message: "Saved to favorites", status: "success" });
-    }
+    if (isSavePending || isUnsavePending) return;
+    if (isJobSaved) unsaveJob(id as string);
+    else saveJob(id as string);
   };
 
   if (!id) {
@@ -190,12 +209,19 @@ export const JobDetails = () => {
               </View>
             </View>
           </View>
-          <TouchableOpacity onPress={handleSave} className="p-2">
-            <Heart
-              size={24}
-              color={saved ? "#ef4444" : "#9ca3af"}
-              fill={saved ? "#ef4444" : "none"}
-            />
+          <TouchableOpacity
+            onPress={handleSave}
+            disabled={isSavePending || isUnsavePending}
+          >
+            {isSavePending || isUnsavePending ? (
+              <Heart size={24} color={"#ef4444"} fill={"#ef4444"} />
+            ) : (
+              <Heart
+                size={24}
+                color={isJobSaved ? "#ef4444" : "#6b7280"}
+                fill={isJobSaved ? "#ef4444" : "none"}
+              />
+            )}
           </TouchableOpacity>
         </View>
 

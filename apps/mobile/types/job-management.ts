@@ -87,6 +87,12 @@ export enum JobStyle {
   DAY = "Day Shift",
 }
 
+export enum JobRequestStatus {
+  Pending = "pending",
+  Approved = "approved",
+  Rejected = "rejected",
+}
+
 export interface ResponseJobRequestDto extends DatabaseEntity {
   id: number;
   jobId: string;
@@ -96,14 +102,20 @@ export interface ResponseJobRequestDto extends DatabaseEntity {
   status: JobRequestStatus;
 }
 
-export enum JobRequestStatus {
-  Pending = "pending",
-  Approved = "approved",
-  Rejected = "rejected",
-}
-
 export interface CreateJobRequestDto {
   jobId: string;
 }
 
 export interface UpdateJobRequestDto extends Partial<CreateJobRequestDto> {}
+
+export interface ResponseJobSaveDto extends DatabaseEntity {
+  id: string;
+  jobId: string;
+  job?: ResponseJobDto;
+  userId: string;
+  user?: ResponseClientDto;
+}
+
+export interface CreateJobSaveDto {
+  jobId: string;
+}

@@ -4,7 +4,6 @@ import { View, TouchableOpacity } from "react-native";
 import { Heart, Clock, Wallet } from "lucide-react-native";
 import { useNavigation } from "expo-router";
 import { NavigationProps } from "~/types/app.routes";
-import { showToastable } from "react-native-toastable";
 import { ResponseJobDto } from "~/types";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { api } from "~/api";
@@ -13,6 +12,9 @@ import { Skeleton } from "../../ui/skeleton";
 import { timeAgo } from "~/lib/dates.utils";
 import { Text } from "../../ui/text";
 import { Badge } from "~/components/ui/badge";
+import { useJobSaveActions } from "~/hooks/content/job/useJobSaveActions";
+import { useIsJobSaved } from "~/hooks/content/job/useIsJobSaved";
+import { showToastable } from "react-native-toastable";
 
 interface JobCardProps {
   className?: string;
@@ -20,16 +22,26 @@ interface JobCardProps {
 }
 
 export const JobCard = ({ className, job }: JobCardProps) => {
-  const [saved, setSaved] = React.useState(false);
+  const queryClient = useQueryClient();
   const [showFullDesc, setShowFullDesc] = React.useState(false);
   const navigation = useNavigation<NavigationProps>();
+
+  const { isJobSaved } = useIsJobSaved(job.id);
+  const { saveJob, isSavePending, unsaveJob, isUnsavePending } =
+    useJobSaveActions({
+      onSuccess: (response) => {
+        queryClient.invalidateQueries({ queryKey: ["is-job-saved", job.id] });
+        showToastable({
+          message: response,
+        });
+      },
+    });
 
   const orderedUploads = React.useMemo(
     () => job.uploads?.sort((a, b) => a.order - b.order),
     [job.uploads]
   );
 
-  const queryClient = useQueryClient();
   const { data: thumbnail, isPending: isThumbnailPending } = useQuery({
     queryKey: ["job-thumbnail", orderedUploads?.[0]?.uploadId],
     queryFn: () => api.upload.getUploadById(orderedUploads?.[0]?.uploadId),
@@ -46,15 +58,15 @@ export const JobCard = ({ className, job }: JobCardProps) => {
       queryClient.invalidateQueries({
         queryKey: ["job-thumbnail", job.id],
       });
+      queryClient.invalidateQueries({ queryKey: ["is-job-saved", job.id] });
     };
   }, []);
 
   const handleSave = (e: any) => {
     e.stopPropagation();
-    setSaved(!saved);
-    if (!saved) {
-      showToastable({ message: "Job has been saved", status: "success" });
-    }
+    if (isSavePending || isUnsavePending) return;
+    if (isJobSaved) unsaveJob(job.id);
+    else saveJob(job.id);
   };
 
   return (
@@ -137,12 +149,19 @@ export const JobCard = ({ className, job }: JobCardProps) => {
           </View>
         </View>
 
-        <TouchableOpacity onPress={handleSave}>
-          <Heart
-            size={24}
-            color={saved ? "#ef4444" : "#6b7280"}
-            fill={saved ? "#ef4444" : "none"}
-          />
+        <TouchableOpacity
+          onPress={handleSave}
+          disabled={isSavePending || isUnsavePending}
+        >
+          {isSavePending || isUnsavePending ? (
+            <Heart size={24} color={"#ef4444"} fill={"#ef4444"} />
+          ) : (
+            <Heart
+              size={24}
+              color={isJobSaved ? "#ef4444" : "#6b7280"}
+              fill={isJobSaved ? "#ef4444" : "none"}
+            />
+          )}
         </TouchableOpacity>
       </View>
     </TouchableOpacity>
