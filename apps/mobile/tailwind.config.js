@@ -64,6 +64,17 @@ module.exports = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      fontFamily: {
+        poppins: [
+          "Poppins-Regular",
+          "Poppins-Medium",
+          "Poppins-SemiBold",
+          "Poppins-Bold",
+          "Poppins-ExtraBold",
+          "Poppins-Light",
+          "Poppins-Thin",
+        ],
+      },
     },
   },
   future: {
