@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Dialog, DialogContent, DialogTrigger } from "../../ui/dialog";
 import { Button } from "../../ui/button";
-import { Sparkles } from "lucide-react-native";
+import { Settings2 } from "lucide-react-native";
 import Icon from "~/lib/Icon";
-import { View } from "react-native";
+import { Keyboard, View } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Checkbox } from "~/components/ui/checkbox";
 import Select from "~/components/shared/Select";
@@ -15,7 +15,6 @@ import {
   AccordionTrigger,
 } from "~/components/ui/accordion";
 import { useJobCategories } from "~/hooks/content/job/useJobCategories";
-import { StablePressable } from "~/components/shared/StablePressable";
 
 interface JobFiltersProps {
   className?: string;
@@ -36,18 +35,24 @@ export const JobFilters = ({ className }: JobFiltersProps) => {
 
   const { jobCategories } = useJobCategories();
 
+  const handleOpenChange = (open: boolean) => {
+    setOpen(open);
+    Keyboard.dismiss();
+  };
+
   const closeDialog = () => {
     setOpen(false);
+    Keyboard.dismiss();
   };
 
   const accordionTriggerClassName = "flex flex-row items-center";
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger className={className} asChild>
-        <StablePressable className="p-2">
-          <Icon name={Sparkles} size={28} />
-        </StablePressable>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
+      <DialogTrigger asChild>
+        <Button variant={"outline"} size={"icon"} className={className}>
+          <Icon name={Settings2} size={24} />
+        </Button>
       </DialogTrigger>
 
       <DialogContent className="w-[80vw]" exit>
