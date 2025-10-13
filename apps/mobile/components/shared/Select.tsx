@@ -8,7 +8,7 @@ import {
   DialogTrigger,
 } from "~/components/ui/dialog";
 import { cn } from "~/lib/utils";
-import { ScrollView, View } from "react-native";
+import { Keyboard, ScrollView, View } from "react-native";
 import * as Haptics from "expo-haptics";
 import { ChevronDown, Check, Search } from "lucide-react-native";
 import type { SelectOption } from "~/components/shared/form-builder/types";
@@ -43,20 +43,14 @@ const Select = React.memo(
   }: SelectProps) => {
     const [searchQuery, setSearchQuery] = React.useState("");
     const [isOpen, setIsOpen] = React.useState(false);
-
-    // Fallback local state (uncontrolled mode)
     const [internalValue, setInternalValue] = React.useState<
       string | undefined
     >(value);
+    const selectedValue = value ?? internalValue;
 
-    // Sync local state with external `value` when controlled
     React.useEffect(() => {
-      if (value !== undefined) {
-        setInternalValue(value);
-      }
+      if (value !== undefined) setInternalValue(value);
     }, [value]);
-
-    const selectedValue = value !== undefined ? value : internalValue;
 
     const [rowHeight, setRowHeight] = React.useState(0);
     const scrollViewRef = React.useRef<ScrollView>(null);
@@ -72,7 +66,6 @@ const Select = React.memo(
       (option) => option.value === selectedValue
     );
 
-    // Scroll to selected option when reopening
     React.useEffect(() => {
       if (
         isOpen &&
@@ -83,10 +76,8 @@ const Select = React.memo(
         const selectedIndex = filteredOptions.findIndex(
           (option) => option.value === selectedValue
         );
-
         if (selectedIndex !== -1 && rowHeight > 0) {
           const scrollOffset = selectedIndex * rowHeight;
-
           requestAnimationFrame(() => {
             scrollViewRef.current?.scrollTo({
               y: Math.max(0, scrollOffset - rowHeight),
@@ -100,18 +91,14 @@ const Select = React.memo(
     const handleSelect = (optionValue: string) => {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       onSelect?.(optionValue);
-      if (value === undefined) {
-        setInternalValue(optionValue); // uncontrolled mode
-      }
+      if (value === undefined) setInternalValue(optionValue);
       setIsOpen(false);
       setSearchQuery("");
     };
 
     const handleOpenChange = (open: boolean) => {
       setIsOpen(open);
-      if (!open) {
-        setSearchQuery("");
-      }
+      if (!open) setSearchQuery("");
     };
 
     return (
@@ -119,39 +106,38 @@ const Select = React.memo(
         <DialogTrigger asChild>
           <View
             className={cn(
-              "flex flex-row items-center h-14 pr-4 py-3",
-              "border border-border/60 rounded-lg bg-background",
-              "shadow-sm hover:shadow-md cursor-pointer transition-all duration-200",
-              disabled && "opacity-50 cursor-not-allowed",
+              "relative flex flex-row items-center w-full",
+              disabled && "opacity-50 pointer-events-none",
               className
             )}
           >
             <Input
+              onPress={() => {
+                setIsOpen(true);
+                Keyboard.dismiss();
+              }}
               readOnly
               editable={!disabled}
               value={selectedOption?.label || ""}
               placeholder={placeholder || "Select an option"}
-              className={cn(
-                "flex-1 bg-transparent outline-none cursor-pointer border-transparent"
-              )}
+              className="pr-10 cursor-pointer"
             />
-
             <Icon
               name={ChevronDown}
               size={18}
               className={cn(
-                "pl-5 transition-transform duration-200",
+                "absolute right-3 -top-2 transition-transform duration-200 text-muted-foreground",
                 isOpen && "rotate-180"
               )}
-              color={disabled ? "#A1A1AA" : "#3F3F46"}
+              color={disabled ? "#A1A1AA" : "#71717A"}
             />
           </View>
         </DialogTrigger>
 
         <DialogContent className="w-[85vw] max-w-md max-h-[70vh] flex flex-col bg-card border-border/60 shadow-2xl">
-          <DialogHeader className="">
+          <DialogHeader>
             <DialogTitle>
-              <Text className="text-xl font-semibold text-foreground text-balance">
+              <Text className="text-xl font-semibold text-foreground">
                 {title || "Select Option"}
               </Text>
             </DialogTitle>
@@ -177,7 +163,7 @@ const Select = React.memo(
                   placeholder="Search options..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full h-10 pl-10 pr-4 bg-muted border border-border/60 rounded-lg text-sm  focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200"
+                  className="w-full h-10 pl-10 pr-4 bg-muted border border-border/60 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200"
                 />
               </View>
             </View>
@@ -209,14 +195,13 @@ const Select = React.memo(
                     )}
                     onPress={() => handleSelect(option.value)}
                     onLayout={(e) => {
-                      if (rowHeight === 0) {
+                      if (rowHeight === 0)
                         setRowHeight(e.nativeEvent.layout.height);
-                      }
                     }}
                   >
                     <Text
                       className={cn(
-                        "text-base font-medium flex-1 text-balance",
+                        "text-base font-medium flex-1",
                         isSelected
                           ? "text-primary font-semibold"
                           : "text-foreground"
