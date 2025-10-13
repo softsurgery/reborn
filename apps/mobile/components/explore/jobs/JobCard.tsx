@@ -26,7 +26,7 @@ export const JobCard = ({ className, job }: JobCardProps) => {
   const [showFullDesc, setShowFullDesc] = React.useState(false);
   const navigation = useNavigation<NavigationProps>();
 
-  const { isJobSaved } = useIsJobSaved(job.id);
+  const { isJobSaved, isSavedPending } = useIsJobSaved(job.id);
   const { saveJob, isSavePending, unsaveJob, isUnsavePending } =
     useJobSaveActions({
       onSuccess: (response) => {
@@ -153,7 +153,7 @@ export const JobCard = ({ className, job }: JobCardProps) => {
           onPress={handleSave}
           disabled={isSavePending || isUnsavePending}
         >
-          {isSavePending || isUnsavePending ? (
+          {isSavePending || isUnsavePending || isSavedPending ? (
             <Heart size={24} color={"#ef4444"} fill={"#ef4444"} />
           ) : (
             <Heart

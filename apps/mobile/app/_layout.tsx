@@ -188,6 +188,13 @@ export default function RootLayout() {
               animation: "slide_from_right",
             }}
           />
+          <Stack.Screen
+            name="my-space/saved"
+            options={{
+              headerTitle: "Saved",
+              animation: "slide_from_right",
+            }}
+          />
 
           {/* Test */}
           <Stack.Screen

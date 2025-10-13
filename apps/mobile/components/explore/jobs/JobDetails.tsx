@@ -186,24 +186,24 @@ export const JobDetails = () => {
 
   if (isPending) return <JobDetailsSkeleton uploads={uploads as string[]} />;
   return (
-    <StableSafeAreaView className="flex-1 pb-2">
+    <StableSafeAreaView className="flex-1">
       {/* Header */}
       <View className="bg-card px-6 py-5 border-b border-border">
         <View className="flex-row items-start justify-between mb-3">
           <View className="flex-1 pr-4">
-            <Text className="text-2xl font-bold text-foreground mb-1">
+            <Text className="text-lg font-bold text-foreground mb-1">
               {job?.title}
             </Text>
             <View className="flex flex-row gap-2">
               <View className="flex-row items-center gap-1">
                 <Clock size={14} color="#9ca3af" />
-                <Text className="text-sm text-muted-foreground">
+                <Text className="text-xs text-muted-foreground">
                   {timeAgo(job?.createdAt || new Date())}
                 </Text>
               </View>
               <View className="flex-row items-center gap-1">
                 <Wallet size={14} color="#9ca3af" />
-                <Text className="text-sm text-muted-foreground">
+                <Text className="text-xs text-muted-foreground">
                   {job?.price.toFixed(3)} TND
                 </Text>
               </View>
@@ -228,19 +228,19 @@ export const JobDetails = () => {
         <View className="flex-row items-center gap-3">
           <View className="flex-row items-center gap-1">
             <FileText size={14} color="#6366f1" />
-            <Text className="text-sm text-card-foreground">
+            <Text className="text-xs text-card-foreground">
               {jobMetadata?.requestCount} proposals
             </Text>
           </View>
           <View className="flex-row items-center gap-1">
             <CheckCircle size={14} color="#16a34a" />
-            <Text className="text-sm text-card-foreground">
+            <Text className="text-xs text-card-foreground">
               Payment verified
             </Text>
           </View>
           <View className="flex-row items-center gap-1">
             <Star size={14} color="#fbbf24" fill="#fbbf24" />
-            <Text className="text-sm text-card-foreground">
+            <Text className="text-xs text-card-foreground">
               4.8 client rating
             </Text>
           </View>
@@ -256,7 +256,7 @@ export const JobDetails = () => {
               id: job?.postedBy.id,
             })
           }
-          onPressClassname="bg-secondary/10"
+          onPressClassname="bg-transparent"
         >
           <Text className="text-lg font-semibold text-foreground mb-3">
             Client information
@@ -302,9 +302,9 @@ export const JobDetails = () => {
           </View>
         </StablePressable>
         <Separator className="my-4 opacity-0" />
-        <View className="flex flex-row gap-4">
+        <View className="flex flex-col gap-4">
           {/* About Project */}
-          <View className="w-2/3">
+          <View>
             <Text className="text-lg font-semibold text-foreground mb-2">
               About this project
             </Text>
@@ -313,7 +313,7 @@ export const JobDetails = () => {
             </Text>
           </View>
           {/* Project Scope */}
-          <View className="w-1/3">
+          <View>
             <Text className="text-lg font-semibold text-foreground mb-2">
               Project scope
             </Text>
@@ -412,7 +412,7 @@ export const JobDetails = () => {
           {isJobRequested && (
             <Button
               className="w-[49%] rounded-lg"
-              size="lg"
+              size="sm"
               onPress={() =>
                 navigation.navigate("my-space/requests", {
                   variant: "outgoing",
@@ -433,7 +433,7 @@ export const JobDetails = () => {
                 {job?.postedBy.id !== currentUser?.id ? (
                   <Button
                     className="rounded-lg"
-                    size="lg"
+                    size="sm"
                     disabled={
                       isJobRequestedPending ||
                       isCancelRequestPending ||
@@ -510,11 +510,11 @@ export const JobDetails = () => {
         </View>
 
         <View className="flex flex-row items-baseline gap-2 justify-center mt-2">
-          <Text className="text-xs text-muted-foreground text-center">
-            You'll be able to chat with
-          </Text>
-          <Text className="font-medium ">{identifyUser(job?.postedBy)}</Text>
-          <Text className="text-xs text-muted-foreground text-center">
+          <Text variant={"small"} className="text-muted-foreground text-center">
+            You'll be able to chat with{" "}
+            <Text variant={"small"} className="font-medium ">
+              {identifyUser(job?.postedBy)}
+            </Text>{" "}
             before starting work
           </Text>
         </View>

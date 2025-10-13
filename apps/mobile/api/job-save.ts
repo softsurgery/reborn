@@ -34,6 +34,34 @@ const findPaginated = async ({
   return response.data;
 };
 
+const findUserPaginated = async ({
+  page = "1",
+  limit = "5",
+  sort,
+  search = "",
+  filter = "",
+  join = "",
+}: QueryParams): Promise<Paginated<ResponseJobSaveDto>> => {
+  const params: { [key: string]: any } = {
+    page,
+    limit,
+    sort,
+  };
+
+  if (search) params.search = search;
+  if (filter) params.filter = filter;
+  if (join) params.join = join;
+
+  const response = await axios.get<Paginated<ResponseJobSaveDto>>(
+    `/job-save/user-list`,
+    {
+      params,
+    }
+  );
+
+  return response.data;
+};
+
 const findAll = async (): Promise<ResponseJobSaveDto[]> => {
   const response = await axios.get<ResponseJobSaveDto[]>(`/job-save/all`);
   return response.data;
@@ -68,6 +96,7 @@ const remove = async (id: string) => {
 
 export const jobSave = {
   findPaginated,
+  findUserPaginated,
   findAll,
   findById,
   findSaved,

@@ -19,6 +19,9 @@ export type StackParamList = {
     reset?: boolean;
     variant?: "incoming" | "outgoing";
   };
+  "my-space/saved": {
+    reset?: boolean;
+  };
 
   "account/support/report-bug": { reset?: boolean };
   "account/support/send-feedback": { reset?: boolean };

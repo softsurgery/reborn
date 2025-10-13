@@ -28,7 +28,9 @@ export const MySpacePortal = ({ className }: MySpacePortalProps) => {
       title: "Saved",
       icon: Bookmark,
       description: "View all your saved jobs",
-      onPress: () => {},
+      onPress: () => {
+        navigation.navigate("my-space/saved", {});
+      },
     },
     {
       title: "Reviews",
@@ -67,7 +69,6 @@ export const MySpacePortal = ({ className }: MySpacePortalProps) => {
         ))}
       </View>
       <Separator className="my-4" />
-      
     </View>
   );
 };
