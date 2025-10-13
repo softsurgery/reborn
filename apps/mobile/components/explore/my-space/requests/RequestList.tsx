@@ -100,7 +100,7 @@ export const RequestsList = ({
           {isPending ? (
             <View className="w-full">
               {[...Array(3)].map((_, idx) => (
-                <SkeletonComponent key={idx} className="mb-4" />
+                <SkeletonComponent key={idx} className="mt-4" />
               ))}
             </View>
           ) : hasNextPage ? null : (

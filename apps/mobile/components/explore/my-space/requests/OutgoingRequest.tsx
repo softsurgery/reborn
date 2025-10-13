@@ -75,7 +75,7 @@ export const OutgoingRequestEntry = ({
   return (
     <View
       className={cn(
-        "flex flex-col border border-border rounded-xl overflow-hidden shadow-sm",
+        "flex flex-col bg-card border border-border rounded-xl overflow-hidden shadow-sm",
         className
       )}
     >
@@ -108,7 +108,7 @@ export const OutgoingRequestEntry = ({
           onPressClassname="opacity-70"
           onPress={() => {
             navigation.navigate("explore/user-profile", {
-              id: request.job?.postedById,
+              id: request.job?.postedBy.id,
             });
           }}
         >
@@ -228,14 +228,14 @@ export const PendingActionBlock = ({
                 <View className="flex flex-row items-center gap-2 mt-4">
                   <Button
                     onPress={() => cancelJobRequest(request.id)}
-                    className="w-1/2"
+                    className="flex flex-row flex-1 items-center gap-2"
                     size="sm"
                     disabled={isCancelPending}
                   >
                     <Text className="text-base font-semibold">Confirm</Text>
                   </Button>
                   <Button
-                    className="w-1/2"
+                    className="flex flex-row flex-1 items-center gap-2"
                     size="sm"
                     variant={"outline"}
                     onPress={() => setOpen(false)}
