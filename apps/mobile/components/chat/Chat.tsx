@@ -76,7 +76,7 @@ export const Chat = ({ className }: ChatProps) => {
             user={
               item.participants.find((user) => user.id !== currentUser?.id)!
             }
-            lastMessage={messages.length > 0 ? messages[0].content : ""}
+            lastMessage={messages?.length > 0 ? messages[0].content : ""}
             sentAt={
               messages.length > 0
                 ? format(messages[0].createdAt, "hh:mm a")
@@ -96,7 +96,7 @@ export const Chat = ({ className }: ChatProps) => {
   );
 
   return (
-    <StableSafeAreaView className={cn("flex flex-1", className)}>
+    <StableSafeAreaView className={cn("flex flex-1 mx-2", className)}>
       <ApplicationHeader
         title="Messages"
         shortcuts={[

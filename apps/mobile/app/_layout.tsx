@@ -26,21 +26,7 @@ export default function RootLayout() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Toastable
-        // statusMap={{
-        //   success: isDarkMode
-        //     ? NAV_THEME.dark.primary
-        //     : NAV_THEME.light.primary,
-        //   danger: isDarkMode
-        //     ? NAV_THEME.dark.destructive
-        //     : NAV_THEME.light.destructive,
-        //   warning: "green",
-        //   info: isDarkMode
-        //     ? NAV_THEME.dark.notification
-        //     : NAV_THEME.light.notification,
-        // }}
-        position="top"
-      />
+      <Toastable position="top" />
       <View className={cn("flex-1", isDarkMode ? "dark" : "light")}>
         <StatusBar style={isDarkMode ? "light" : "dark"} translucent />
 
@@ -54,12 +40,17 @@ export default function RootLayout() {
             },
             headerStyle: {
               backgroundColor: isDarkMode
-                ? NAV_THEME.dark.background
-                : NAV_THEME.light.background,
+                ? NAV_THEME.dark.card
+                : NAV_THEME.light.card,
             },
             headerTintColor: isDarkMode
               ? NAV_THEME.dark.text
               : NAV_THEME.light.text,
+            headerTitleStyle: {
+              fontFamily: "Poppins-SemiBold",
+              fontSize: 18,
+              color: isDarkMode ? NAV_THEME.dark.text : NAV_THEME.light.text,
+            },
           }}
         >
           {/* Auth */}

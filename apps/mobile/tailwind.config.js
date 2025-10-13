@@ -6,6 +6,9 @@ module.exports = {
   content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}"],
   presets: [require("nativewind/preset")],
   theme: {
+    fontFamily: {
+      poppins: ["Poppins"],
+    },
     extend: {
       colors: {
         border: "hsl(var(--border))",
@@ -63,17 +66,6 @@ module.exports = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-      },
-      fontFamily: {
-        poppins: [
-          "Poppins-Regular",
-          "Poppins-Medium",
-          "Poppins-SemiBold",
-          "Poppins-Bold",
-          "Poppins-ExtraBold",
-          "Poppins-Light",
-          "Poppins-Thin",
-        ],
       },
     },
   },

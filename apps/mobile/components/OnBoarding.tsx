@@ -3,12 +3,22 @@ import { Image, View } from "react-native";
 import { Text } from "~/components/ui/text";
 import { Button } from "~/components/ui/button";
 import { useNavigation } from "~/hooks/useNavigation";
+import { cn } from "~/lib/utils";
 
-export default function OnBoarding() {
+interface OnBoardingProps {
+  className?: string;
+}
+
+export default function OnBoarding({ className }: OnBoardingProps) {
   const navigation = useNavigation();
 
   return (
-    <View className="flex-1 justify-between items-center p-6 bg-background">
+    <View
+      className={cn(
+        "flex-1 justify-between items-center p-6 bg-background",
+        className
+      )}
+    >
       <View className="flex-1 justify-center items-center">
         <Image
           className="h-80 w-80"

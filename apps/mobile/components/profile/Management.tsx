@@ -1,12 +1,10 @@
 import React from "react";
 import { View } from "react-native";
-import { StableScrollView } from "~/components/shared/StableScrollView";
 import { ProfileManagmentCard } from "~/components/explore/users/ProfileManagementCard";
 import { Text } from "~/components/ui/text";
 import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "~/api";
-import { Image } from "expo-image";
 import { Button } from "~/components/ui/button";
 import { useNavigation } from "expo-router";
 import { NavigationProps } from "~/types/app.routes";
@@ -60,17 +58,22 @@ export const Management = ({ className }: ManagementProps) => {
   }, []);
 
   return (
-    <View className={cn("flex flex-col gap-2", className)}>
+    <View className={cn("flex flex-col gap-2 mx-2", className)}>
       {isCurrentUserPending ? (
         <ProfileManagmentCardSkeleton />
       ) : (
         <ProfileManagmentCard className="mt-5" clientStore={clientStore} />
       )}
       <Button
-        onPress={() => navigation.navigate("account/update-profile")}
+        onPress={() =>
+          navigation.navigate("account/update-profile", { reset: false })
+        }
         className="w-full"
       >
         <Text className="bold">Update Your Profile</Text>
+      </Button>
+      <Button onPress={() => {}} className="w-full">
+        <Text className="bold">Update Official Documents</Text>
       </Button>
     </View>
   );

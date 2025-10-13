@@ -16,8 +16,13 @@ import { useNavigation } from "expo-router";
 import * as Haptics from "expo-haptics";
 import { Balance } from "./balance/Balance";
 import { Explore } from "./explore/Explore";
+import { cn } from "~/lib/utils";
 
-export default function Application() {
+interface ApplicationProps {
+  className?: string;
+}
+
+export default function Application({ className }: ApplicationProps) {
   const navigation = useNavigation<any>();
   const [activeTab, setActiveTab] = React.useState("explore");
   const [tabKey, setTabKey] = React.useState(0);
@@ -69,7 +74,7 @@ export default function Application() {
   };
 
   return (
-    <View className="flex flex-col flex-1 justify-between">
+    <View className={cn("flex flex-col flex-1 justify-between", className)}>
       <View className="flex-1">
         {tabs.find((tab) => tab.value === activeTab)?.component && (
           <View key={tabKey} className="flex-1">
@@ -77,8 +82,7 @@ export default function Application() {
           </View>
         )}
       </View>
-
-      <View className="flex flex-row items-center justify-between mb-2">
+      <View className="flex flex-row items-center justify-between mb-2 bg-card border-2 border-border">
         {leftTabs.map((tab) => (
           <Pressable
             key={tab.value}
@@ -95,7 +99,7 @@ export default function Application() {
 
         <Button
           variant="default"
-          className="w-20 h-20 -top-4 rounded-full aspect-square flex items-center justify-center border border-border shadow-lg"
+          className="w-16 h-16 -top-4 rounded-full aspect-square flex items-center justify-center shadow-lg"
           onPress={() => navigation.push("explore/new-job")}
         >
           <Icon name={Plus} size={32} className="text-white" />
