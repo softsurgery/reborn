@@ -6,7 +6,7 @@ import { cn } from "~/lib/utils";
 
 const textVariants = cva(
   cn(
-    "text-foreground text-base",
+    "text-foreground text-base font-poppins",
     Platform.select({
       web: "select-text",
     })
@@ -16,19 +16,19 @@ const textVariants = cva(
       variant: {
         default: "",
         h1: cn(
-          "text-center text-4xl font-extrabold tracking-tight",
+          "text-center text-4xl font-bold tracking-tight",
           Platform.select({ web: "scroll-m-20 text-balance" })
         ),
         h2: cn(
-          "border-border border-b pb-2 text-3xl font-semibold tracking-tight",
+          "border-border border-b pb-2 text-3xl font-bold tracking-tight",
           Platform.select({ web: "scroll-m-20 first:mt-0" })
         ),
         h3: cn(
-          "text-2xl font-semibold tracking-tight",
+          "text-2xl font-bold tracking-tight",
           Platform.select({ web: "scroll-m-20" })
         ),
         h4: cn(
-          "text-xl font-semibold tracking-tight",
+          "text-xl font-bold tracking-tight",
           Platform.select({ web: "scroll-m-20" })
         ),
         p: "mt-3 leading-7 sm:mt-6",
@@ -39,7 +39,7 @@ const textVariants = cva(
         lead: "text-muted-foreground text-xl",
         large: "text-lg font-semibold",
         small: "text-sm font-medium leading-none",
-        muted: "text-muted-foreground text-sm",
+        muted: "text-muted-foreground text-xs",
       },
     },
     defaultVariants: {
@@ -84,12 +84,7 @@ function Text({
   const Component = asChild ? Slot.Text : RNText;
   return (
     <Component
-      className={cn(
-        "font-poppins",
-        textVariants({ variant }),
-        textClass,
-        className
-      )}
+      className={cn(textVariants({ variant }), textClass, className)}
       role={variant ? ROLE[variant] : undefined}
       aria-level={variant ? ARIA_LEVEL[variant] : undefined}
       {...props}
