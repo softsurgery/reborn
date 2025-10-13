@@ -8,7 +8,7 @@ import {
   DialogTrigger,
 } from "~/components/ui/dialog";
 import { cn } from "~/lib/utils";
-import { Keyboard, ScrollView, View } from "react-native";
+import { Keyboard, ScrollView, TouchableOpacity, View } from "react-native";
 import * as Haptics from "expo-haptics";
 import { ChevronDown, Check, Search } from "lucide-react-native";
 import type { SelectOption } from "~/components/shared/form-builder/types";
@@ -99,12 +99,13 @@ const Select = React.memo(
     const handleOpenChange = (open: boolean) => {
       setIsOpen(open);
       if (!open) setSearchQuery("");
+      Keyboard.dismiss();
     };
 
     return (
       <Dialog open={isOpen} onOpenChange={handleOpenChange}>
         <DialogTrigger asChild>
-          <View
+          <TouchableOpacity
             className={cn(
               "relative flex flex-row items-center w-full",
               disabled && "opacity-50 pointer-events-none",
@@ -112,10 +113,7 @@ const Select = React.memo(
             )}
           >
             <Input
-              onPress={() => {
-                setIsOpen(true);
-                Keyboard.dismiss();
-              }}
+              pointerEvents="none"
               readOnly
               editable={!disabled}
               value={selectedOption?.label || ""}
@@ -131,7 +129,7 @@ const Select = React.memo(
               )}
               color={disabled ? "#A1A1AA" : "#71717A"}
             />
-          </View>
+          </TouchableOpacity>
         </DialogTrigger>
 
         <DialogContent className="w-[85vw] max-w-md max-h-[70vh] flex flex-col bg-card border-border/60 shadow-2xl">
