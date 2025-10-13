@@ -169,7 +169,7 @@ export const IncomingRequestEntry = ({
           refetchRequests={refetchRequests}
         />
       ) : (
-        <View className="p-4" />
+        <View />
       )}
     </View>
   );

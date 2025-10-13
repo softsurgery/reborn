@@ -159,7 +159,7 @@ export const OutgoingRequestEntry = ({
           refetchRequests={refetchRequests}
         />
       ) : (
-        <View className="p-4" />
+        <View />
       )}
     </View>
   );
@@ -251,6 +251,8 @@ export const PendingActionBlock = ({
     </React.Fragment>
   );
 };
+
+/* ------------------------------ ACTION BLOCKS ------------------------------ */
 
 const ApprovedActionBlock = ({
   className,
