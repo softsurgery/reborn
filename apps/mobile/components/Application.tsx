@@ -20,11 +20,17 @@ import { cn } from "~/lib/utils";
 
 interface ApplicationProps {
   className?: string;
+  defaultTab?: "explore" | "messages" | "balance" | "menu";
 }
 
-export default function Application({ className }: ApplicationProps) {
+export default function Application({
+  className,
+  defaultTab,
+}: ApplicationProps) {
   const navigation = useNavigation<any>();
-  const [activeTab, setActiveTab] = React.useState("explore");
+  const [activeTab, setActiveTab] = React.useState(
+    (defaultTab as string) ?? "explore"
+  );
   const [tabKey, setTabKey] = React.useState(0);
 
   const tabs = React.useMemo(

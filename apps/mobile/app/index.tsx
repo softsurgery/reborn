@@ -9,10 +9,12 @@ import { useAuthPersistStore } from "~/hooks/stores/useAuthPersistStore";
 import { usePreferencePersistStore } from "~/hooks/stores/usePreferencePersistStore";
 import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
 import { useColorScheme } from "~/lib/useColorScheme";
+import { useLocalSearchParams } from "expo-router/build/hooks";
 
 SplashScreen.preventAutoHideAsync();
 
 export default function Screen() {
+  const { defaultTab } = useLocalSearchParams();
   const { isAuthenticated, isReady: isAuthPersistStoreReady } =
     useAuthPersistStore();
   const { setColorScheme } = useColorScheme();
@@ -62,6 +64,11 @@ export default function Screen() {
   )
     return <Loader isPending />;
 
-  if (isAuthenticated) return <Application />;
+  if (isAuthenticated)
+    return (
+      <Application
+        defaultTab={defaultTab as "explore" | "messages" | "balance" | "menu"}
+      />
+    );
   return <OnBoarding />;
 }

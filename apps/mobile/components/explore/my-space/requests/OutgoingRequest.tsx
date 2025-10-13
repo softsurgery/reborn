@@ -27,7 +27,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "~/components/ui/dialog";
 import { useJobRequestActions } from "~/hooks/content/job/useJobRequestActions";
 
@@ -76,7 +75,7 @@ export const OutgoingRequestEntry = ({
   return (
     <View
       className={cn(
-        "flex flex-col bg-card border border-border rounded-xl overflow-hidden shadow-sm",
+        "flex flex-col border border-border rounded-xl overflow-hidden shadow-sm",
         className
       )}
     >
@@ -261,34 +260,42 @@ const ApprovedActionBlock = ({
   const navigation = useNavigation<NavigationProps>();
 
   return (
-    <View
-      className={cn(
-        "flex flex-row items-center gap-2 my-4 w-full justify-center",
-        className
-      )}
-    >
-      <Button
-        size={"sm"}
-        className="flex-row items-center gap-2"
-        onPress={() => {
-          navigation.navigate("explore/job-details", {
-            id: request.job?.id,
-            uploads:
-              request.job?.uploads?.map((upload) => upload.uploadId) ?? [],
-          });
-        }}
+    <React.Fragment>
+      <View
+        className={cn(
+          "flex flex-row items-center justify-center mb-4 px-3 gap-2",
+          className
+        )}
       >
-        <Icon name={Search} size={14} className="text-primary-foreground" />
-        <Text>View Details</Text>
-      </Button>
-      <Button
-        size={"sm"}
-        className="flex-row items-center gap-2"
-        variant={"outline"}
-      >
-        <Icon name={Mail} size={14} className="text-primary-foreground" />
-        <Text>Send Message</Text>
-      </Button>
-    </View>
+        <Button
+          size={"sm"}
+          className="flex flex-row flex-1 items-center gap-2"
+          onPress={() => {
+            navigation.navigate("explore/job-details", {
+              id: request.job?.id,
+              uploads:
+                request.job?.uploads?.map((upload) => upload.uploadId) ?? [],
+            });
+          }}
+        >
+          <Icon name={Search} size={14} className="text-primary-foreground" />
+          <Text>View Details</Text>
+        </Button>
+        <Button
+          size={"sm"}
+          className="flex flex-row flex-1 items-center gap-2"
+          variant={"outline"}
+          onPress={() =>
+            navigation.navigate("index", {
+              defaultTab: "messages",
+              reset: true,
+            })
+          }
+        >
+          <Icon name={Mail} size={14} className="text-primary-foreground" />
+          <Text>Send Message</Text>
+        </Button>
+      </View>
+    </React.Fragment>
   );
 };

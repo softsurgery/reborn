@@ -1,8 +1,10 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { ResponseClientDto } from "./user-management";
 
 export type StackParamList = {
-  index: { reset?: true };
+  index: {
+    defaultTab: "explore" | "messages" | "balance" | "menu";
+    reset: boolean;
+  };
   // Auth
   "on-boarding": { reset?: boolean };
   "auth/sign-in": { reset?: boolean };
