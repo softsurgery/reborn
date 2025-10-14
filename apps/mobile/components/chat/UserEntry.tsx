@@ -43,9 +43,17 @@ export const UserEntry = ({
           <Text className="text-lg font-semibold">{identifyUser(user)}</Text>
           <View className="flex flex-row gap-2 items-center">
             {!!lastMessage ? (
-              <Text className="text-xs font-semibold">{lastMessage}</Text>
+              <Text
+                className="text-xs font-semibold"
+                numberOfLines={1}
+                ellipsizeMode="tail"
+              >
+                {lastMessage.replaceAll("\n", " ").replace("  ", " ")}
+              </Text>
             ) : (
-              <Text className="italic">You can start a conversation now</Text>
+              <Text className="text-xs font-poppins-bold">
+                You can start a conversation now
+              </Text>
             )}
             {!!lastMessage && (
               <Text className="text-xs font-thin">{sentAt}</Text>

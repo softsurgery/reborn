@@ -5,9 +5,15 @@ import {
   Platform,
   FlatList,
   Text,
+  ActivityIndicator,
 } from "react-native";
 import { ImageBackground } from "expo-image";
-import { format } from "date-fns";
+import {
+  differenceInCalendarDays,
+  format,
+  isToday,
+  isYesterday,
+} from "date-fns";
 import { io } from "socket.io-client";
 
 import { useQuery } from "@tanstack/react-query";
@@ -26,6 +32,8 @@ import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
 
 import { ResponseMessageDto } from "~/types";
 import { ConversationInput } from "./conversation/ConversationInput";
+import { Loader } from "../shared/Loader";
+import { useDebounce } from "~/hooks/useDebounce";
 
 interface ConversationProps {
   id: number;
@@ -47,8 +55,12 @@ export const Conversation = ({ id }: ConversationProps) => {
   const [loadingMore, setLoadingMore] = React.useState(false);
   const [hasMore, setHasMore] = React.useState(true);
   const [input, setInput] = React.useState("");
+  const [isInitialMessagesLoading, setIsInitialMessagesLoading] =
+    React.useState(true);
+  const { value: debouncedIsInitialMessagesLoading, loading: isLoading } =
+    useDebounce(isInitialMessagesLoading, 1000);
 
-  const { data: conversation } = useQuery({
+  const { data: conversation, isPending: isConversationLoading } = useQuery({
     queryKey: ["conversation", id],
     queryFn: () => api.chat.conversation.findById(id),
   });
@@ -72,6 +84,7 @@ export const Conversation = ({ id }: ConversationProps) => {
   // -----------------------------
   const groupMessagesByDay = React.useCallback(
     (msgs: ResponseMessageDto[]): FlatListItem[] => {
+      // Sort messages descending
       const sorted = [...msgs].sort(
         (a, b) =>
           new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
@@ -84,10 +97,24 @@ export const Conversation = ({ id }: ConversationProps) => {
         grouped[dateKey].push(msg);
       });
 
-      return Object.entries(grouped).flatMap(([date, msgs]) => [
-        ...msgs.map((msg) => ({ type: "message" as const, message: msg })),
-        { type: "header" as const, date },
-      ]);
+      // Create headers dynamically
+      return Object.entries(grouped).flatMap(([date, msgs]) => {
+        const dateObj = new Date(date);
+        let label: string;
+
+        if (isToday(dateObj)) label = "Today";
+        else if (isYesterday(dateObj)) label = "Yesterday";
+        else {
+          const diff = differenceInCalendarDays(new Date(), dateObj);
+          if (diff <= 4) label = `${diff} days ago`;
+          else label = format(dateObj, "MMMM dd, yyyy");
+        }
+
+        return [
+          ...msgs.map((msg) => ({ type: "message" as const, message: msg })),
+          { type: "header" as const, date: label },
+        ];
+      });
     },
     []
   );
@@ -137,6 +164,7 @@ export const Conversation = ({ id }: ConversationProps) => {
         setMessages((prev) => [...prev, ...newMessages]);
       }
       setLoadingMore(false);
+      setIsInitialMessagesLoading(false);
     });
 
     s.on("message", (message: ResponseMessageDto) => {
@@ -195,39 +223,58 @@ export const Conversation = ({ id }: ConversationProps) => {
           </View>
 
           {/* Messages */}
-          <FlatList
-            className="flex-1"
-            inverted
-            keyboardShouldPersistTaps="handled"
-            data={flattenedMessages}
-            keyExtractor={(item, index) =>
-              item.type === "header"
-                ? `header-${item.date}`
-                : item.message.id.toString()
-            }
-            renderItem={({ item }) => {
-              if (item.type === "header") {
-                return (
-                  <View className="w-fit items-center py-2 my-1 mx-auto">
-                    <Text className="text-xs text-foreground">
-                      {format(new Date(item.date), "MMMM dd, yyyy")}
-                    </Text>
-                  </View>
-                );
+          {isConversationLoading || debouncedIsInitialMessagesLoading ? (
+            <View className="flex-1 justify-center items-center">
+              <Loader />
+              <Text className="text-foreground font-bold">
+                Loading conversation...
+              </Text>
+            </View>
+          ) : (
+            <FlatList
+              className="flex-1 bg-gree-500"
+              inverted
+              keyboardShouldPersistTaps="handled"
+              data={flattenedMessages}
+              keyExtractor={(item, index) =>
+                item.type === "header"
+                  ? `header-${item.date}`
+                  : item.message.id.toString()
               }
-              return (
-                <ChatBubble
-                  message={item.message.content}
-                  timestamp={item.message.createdAt}
-                  right={item.message.userId === currentUser?.id}
-                />
-              );
-            }}
-            onEndReached={handleLoadMore}
-            onEndReachedThreshold={0.2}
-            contentContainerStyle={{ paddingVertical: 12 }}
-          />
-
+              renderItem={({ item }) => {
+                if (item.type === "header") {
+                  return (
+                    <View className="w-fit items-center py-2 my-1 mx-auto">
+                      <Text className="text-xs text-foreground">
+                        {item.date}
+                      </Text>
+                    </View>
+                  );
+                }
+                return (
+                  <ChatBubble
+                    message={item.message.content}
+                    timestamp={item.message.createdAt}
+                    right={item.message.userId === currentUser?.id}
+                  />
+                );
+              }}
+              onEndReached={handleLoadMore}
+              onEndReachedThreshold={0.2}
+              contentContainerStyle={{
+                marginTop:
+                  100 + Math.min(25 * (input.match(/\n/g)?.length ?? 0), 100),
+                marginBottom: 12,
+              }}
+              ListFooterComponent={
+                loadingMore ? (
+                  <View className="py-2">
+                    <ActivityIndicator />
+                  </View>
+                ) : null
+              }
+            />
+          )}
           {/* Input */}
           <ConversationInput
             input={input}
