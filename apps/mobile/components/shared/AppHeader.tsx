@@ -40,7 +40,7 @@ export const ApplicationHeader = ({
             return (
               <StablePressable
                 key={index}
-                className="p-2"
+                className="p-1"
                 onPress={shortcut.onPress}
               >
                 <Icon name={shortcut.icon} size={28} />

@@ -15,7 +15,7 @@ import { StableSafeAreaView } from "../shared/StableSafeAreaView";
 import { ApplicationHeader } from "../shared/AppHeader";
 import { useNavigation } from "expo-router";
 import { NavigationProps } from "~/types/app.routes";
-import { Search, User } from "lucide-react-native";
+import { Bell, Search, User } from "lucide-react-native";
 
 type TabType = "recent" | "followings";
 
@@ -120,10 +120,7 @@ export const Explore = ({
   return (
     <StableSafeAreaView className="flex flex-1 flex-col mx-2">
       {/* Animated Header */}
-      <Animated.View
-        style={animatedHeaderStyle}
-        className="bg-background shadow-sm"
-      >
+      <Animated.View style={animatedHeaderStyle}>
         <ApplicationHeader
           title="Explore"
           shortcuts={[
@@ -133,6 +130,10 @@ export const Explore = ({
             },
             {
               icon: User,
+              onPress: () => navigation.navigate("my-space/index", {}),
+            },
+            {
+              icon: Bell,
               onPress: () => navigation.navigate("my-space/index", {}),
             },
           ]}

@@ -36,7 +36,7 @@ export const Account = ({ className }: AccountProps) => {
   const signout = async () => {
     authPersistStore.logout();
     queryClient.clear();
-    navigation.navigate("index", { reset: true });
+    navigation.navigate("index", { defaultTab: "explore", reset: true });
   };
 
   const menus = {
@@ -97,6 +97,10 @@ export const Account = ({ className }: AccountProps) => {
         shortcuts={[
           {
             icon: User,
+            onPress: () => navigation.navigate("my-space/index", {}),
+          },
+          {
+            icon: Bell,
             onPress: () => navigation.navigate("my-space/index", {}),
           },
         ]}

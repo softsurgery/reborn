@@ -18,7 +18,7 @@ import { useConversationMessages } from "~/hooks/content/chat/useConversationMes
 import { format } from "date-fns";
 import { StablePressable } from "../shared/StablePressable";
 import { ApplicationHeader } from "../shared/AppHeader";
-import { User } from "lucide-react-native";
+import { Bell, User } from "lucide-react-native";
 
 interface ChatProps {
   className?: string;
@@ -102,6 +102,10 @@ export const Chat = ({ className }: ChatProps) => {
         shortcuts={[
           {
             icon: User,
+            onPress: () => navigation.navigate("my-space/index", {}),
+          },
+          {
+            icon: Bell,
             onPress: () => navigation.navigate("my-space/index", {}),
           },
         ]}
