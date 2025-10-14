@@ -27,7 +27,7 @@ export const ProfileStat = ({ className, clientStore }: ProfileStatProps) => {
   return (
     <View
       className={cn(
-        "flex flex-row w-full items-center justify-between",
+        "flex flex-row flex-1 w-full items-center justify-between",
         className
       )}
     >
@@ -63,8 +63,8 @@ export const ProfileStat = ({ className, clientStore }: ProfileStatProps) => {
             <Text variant={"muted"}>Following</Text>
           </StablePressable>
         </DialogTrigger>
-        <DialogContent className="w-[90vw] min-h-[50vh] py-0">
-          <StableScrollView className="flex flex-col">
+        <DialogContent className="w-[90vw] p-2">
+          <StableScrollView className="flex flex-col max-h-[50vh] min-h-[50vh] overflow-y-scroll">
             {clientStore.followings.map((f) => (
               <UserEntry
                 key={f.id}
@@ -91,8 +91,8 @@ export const ProfileStat = ({ className, clientStore }: ProfileStatProps) => {
             <Text variant={"muted"}>Followers</Text>
           </StablePressable>
         </DialogTrigger>
-        <DialogContent className="w-[90vw] min-h-[50vh] py-0">
-          <StableScrollView className="flex flex-col">
+        <DialogContent className="w-[90vw] p-2">
+          <StableScrollView className="flex flex-col max-h-[50vh] min-h-[50vh] overflow-y-scroll">
             {clientStore.followers.map((f) => (
               <UserEntry
                 key={f.id}
