@@ -16,7 +16,7 @@ export const ChatHeaderRight = ({ className }: ChatHeaderRightProps) => {
         Alert.alert("This is supposed to be informative");
       }}
     >
-      <Icon name={Info} size={24} />
+      <Icon name={Info} size={20} />
     </StablePressable>
   );
 };

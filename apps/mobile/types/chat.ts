@@ -15,3 +15,8 @@ export interface ResponseMessageDto extends DatabaseEntity {
   userId: string;
   user: ResponseClientDto;
 }
+
+export interface GroupedMessages {
+  date: string;
+  messages: ResponseMessageDto[];
+}

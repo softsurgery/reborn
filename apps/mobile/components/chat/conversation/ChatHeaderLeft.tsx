@@ -24,22 +24,23 @@ export const ChatHeaderLeft = ({
   return (
     <View
       className={cn(
-        "flex flex-row items-center justify-center gap-4",
+        "flex flex-row items-center justify-center gap-2 my-2",
         className
       )}
     >
       {/* backbuttin */}
       <StablePressable
+        className="ml-4 mr-2"
         onPress={() => {
           navigation.goBack();
         }}
       >
-        <Icon name={ArrowLeft} size={28} strokeWidth={3} className="p-2" />
+        <Icon name={ArrowLeft} size={20} strokeWidth={3} />
       </StablePressable>
       <View>{profilePicture}</View>
-      <View className="flex flex-col justify-center ">
-        <Text variant={"large"}>{identifier}</Text>
-        <Text className="font-thin">{lastSeen}</Text>
+      <View className="flex flex-col justify-center">
+        <Text>{identifier}</Text>
+        <Text className="text-xs">{lastSeen}</Text>
       </View>
     </View>
   );

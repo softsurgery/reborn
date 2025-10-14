@@ -1,60 +1,62 @@
 import React from "react";
-import { useNavigation } from "expo-router";
-import { View, KeyboardAvoidingView, Platform, FlatList } from "react-native";
-import { NavigationProps } from "~/types/app.routes";
-import { ChatHeaderRight } from "./conversation/ChatHeaderRight";
-import { api } from "~/api";
-import { useQuery } from "@tanstack/react-query";
-import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
-import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
-import { ChatHeaderLeft } from "./conversation/ChatHeaderLeft";
-import { useServerImage } from "~/hooks/content/useServerImage";
+import {
+  View,
+  KeyboardAvoidingView,
+  Platform,
+  FlatList,
+  Text,
+} from "react-native";
 import { ImageBackground } from "expo-image";
-import { StableSafeAreaView } from "../shared/StableSafeAreaView";
 import { format } from "date-fns";
-import { Button } from "../ui/button";
-import { Textarea } from "../ui/textarea";
+import { io } from "socket.io-client";
+
+import { useQuery } from "@tanstack/react-query";
+
+import { ChatHeaderLeft } from "./conversation/ChatHeaderLeft";
+import { ChatHeaderRight } from "./conversation/ChatHeaderRight";
+import { ChatBubble } from "./conversation/ChatBubble";
+import { StableSafeAreaView } from "../shared/StableSafeAreaView";
+
+import { api } from "~/api";
+import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
+import { useServerImage } from "~/hooks/content/useServerImage";
 import { usePreferencePersistStore } from "~/hooks/stores/usePreferencePersistStore";
 import { useAuthPersistStore } from "~/hooks/stores/useAuthPersistStore";
+import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
+
 import { ResponseMessageDto } from "~/types";
-import { io } from "socket.io-client";
-import { ChatBubble } from "./conversation/ChatBubble";
-import { Text } from "../ui/text";
-import Icon from "~/lib/Icon";
-import { Plus, SendHorizonal, SendHorizontal } from "lucide-react-native";
-import { StablePressable } from "../shared/StablePressable";
+import { ConversationInput } from "./conversation/ConversationInput";
 
 interface ConversationProps {
-  className?: string;
   id: number;
 }
 
-const CHAT_SERVER_URL = "http://192.168.2.164:5000";
+const CHAT_SERVER_URL = process.env.EXPO_PUBLIC_API_SOCKET_URL;
 
-export const Conversation = ({ className, id }: ConversationProps) => {
+type FlatListItem =
+  | { type: "header"; date: string }
+  | { type: "message"; message: ResponseMessageDto };
+
+export const Conversation = ({ id }: ConversationProps) => {
   const authPersistStore = useAuthPersistStore();
-  const [socket, setSocket] = React.useState<any>(null);
-  const [messages, setMessages] = React.useState<ResponseMessageDto[]>([]);
-  const [input, setInput] = React.useState("");
-
   const preferencePersistStore = usePreferencePersistStore();
   const { currentUser } = useCurrentUser();
-  const navigation = useNavigation<NavigationProps>();
 
-  const { data: conversationresp } = useQuery({
+  const [socket, setSocket] = React.useState<any>(null);
+  const [messages, setMessages] = React.useState<ResponseMessageDto[]>([]);
+  const [loadingMore, setLoadingMore] = React.useState(false);
+  const [hasMore, setHasMore] = React.useState(true);
+  const [input, setInput] = React.useState("");
+
+  const { data: conversation } = useQuery({
     queryKey: ["conversation", id],
     queryFn: () => api.chat.conversation.findById(id),
   });
 
-  const conversation = React.useMemo(
-    () => conversationresp ?? null,
-    [conversationresp]
-  );
-
   const user = React.useMemo(() => {
-    if (!conversation) return null;
+    if (!conversation || !currentUser) return null;
     return conversation.participants.find(
-      (participant) => participant.id !== currentUser?.id
+      (participant) => participant.id !== currentUser.id
     );
   }, [conversation, currentUser]);
 
@@ -65,6 +67,55 @@ export const Conversation = ({ className, id }: ConversationProps) => {
     enabled: !!user?.profile?.pictureId,
   });
 
+  // -----------------------------
+  // Message grouping by day
+  // -----------------------------
+  const groupMessagesByDay = React.useCallback(
+    (msgs: ResponseMessageDto[]): FlatListItem[] => {
+      const sorted = [...msgs].sort(
+        (a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      );
+
+      const grouped: Record<string, ResponseMessageDto[]> = {};
+      sorted.forEach((msg) => {
+        const dateKey = format(new Date(msg.createdAt), "yyyy-MM-dd");
+        if (!grouped[dateKey]) grouped[dateKey] = [];
+        grouped[dateKey].push(msg);
+      });
+
+      return Object.entries(grouped).flatMap(([date, msgs]) => [
+        ...msgs.map((msg) => ({ type: "message" as const, message: msg })),
+        { type: "header" as const, date },
+      ]);
+    },
+    []
+  );
+
+  const flattenedMessages = React.useMemo(
+    () => groupMessagesByDay(messages),
+    [messages, groupMessagesByDay]
+  );
+
+  // -----------------------------
+  // Load messages
+  // -----------------------------
+  const loadMessages = React.useCallback(
+    (before?: string | Date) => {
+      if (!socket) return;
+      setLoadingMore(true);
+      socket.emit("getConversationMessages", {
+        conversationId: id,
+        limit: 20,
+        before: before instanceof Date ? before.toISOString() : before,
+      });
+    },
+    [socket, id]
+  );
+
+  // -----------------------------
+  // Socket setup
+  // -----------------------------
   React.useEffect(() => {
     const s = io(CHAT_SERVER_URL, {
       extraHeaders: {
@@ -75,32 +126,47 @@ export const Conversation = ({ className, id }: ConversationProps) => {
     setSocket(s);
 
     s.on("connect", () => {
-      console.log("Connected to chat server");
+      console.log("✅ Connected to chat server");
       s.emit("joinConversation", { conversationId: id });
+      loadMessages();
     });
 
-    s.on("conversationHistory", (history: ResponseMessageDto[]) => {
-      // Reverse messages so FlatList inverted renders correctly
-      setMessages(history.reverse());
+    s.on("conversationMessages", (newMessages: ResponseMessageDto[]) => {
+      if (newMessages.length === 0) setHasMore(false);
+      else {
+        setMessages((prev) => [...prev, ...newMessages]);
+      }
+      setLoadingMore(false);
     });
 
     s.on("message", (message: ResponseMessageDto) => {
       setMessages((prev) => [message, ...prev]);
     });
 
-    s.on("error", (err: any) => {
-      console.log("Socket error:", err);
-    });
+    s.on("error", (err: any) => console.log("❌ Socket error:", err));
 
     return () => {
+      setMessages([]);
       s.disconnect();
     };
-  }, []);
+  }, [id]);
 
+  // -----------------------------
+  // Send message
+  // -----------------------------
   const sendMessage = () => {
     if (!input.trim() || !socket) return;
-    socket.emit("message", { conversationId: id, content: input });
+    socket.emit("message", { conversationId: id, content: input.trim() });
     setInput("");
+  };
+
+  // -----------------------------
+  // Infinite scroll
+  // -----------------------------
+  const handleLoadMore = () => {
+    if (loadingMore || !hasMore || messages.length === 0) return;
+    const oldest = messages[messages.length - 1];
+    loadMessages(oldest.createdAt);
   };
 
   return (
@@ -118,8 +184,8 @@ export const Conversation = ({ className, id }: ConversationProps) => {
           style={{ flex: 1 }}
           resizeMode="cover"
         >
-          {/* header */}
-          <View className="flex flex-row bg-background justify-between border-b-2 border-primary items-center p-4">
+          {/* Header */}
+          <View className="flex flex-row bg-background justify-between items-center">
             <ChatHeaderLeft
               profilePicture={profilePicture}
               identifier={identifyUser(user)}
@@ -128,48 +194,46 @@ export const Conversation = ({ className, id }: ConversationProps) => {
             <ChatHeaderRight />
           </View>
 
-          {/* messages */}
+          {/* Messages */}
           <FlatList
             className="flex-1"
-            inverted={true}
+            inverted
             keyboardShouldPersistTaps="handled"
-            data={messages}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => (
-              <ChatBubble
-                message={item.content}
-                timestamp={item.createdAt}
-                right={item.userId === currentUser?.id}
-              />
-            )}
+            data={flattenedMessages}
+            keyExtractor={(item, index) =>
+              item.type === "header"
+                ? `header-${item.date}`
+                : item.message.id.toString()
+            }
+            renderItem={({ item }) => {
+              if (item.type === "header") {
+                return (
+                  <View className="w-fit items-center py-2 my-1 mx-auto">
+                    <Text className="text-xs text-foreground">
+                      {format(new Date(item.date), "MMMM dd, yyyy")}
+                    </Text>
+                  </View>
+                );
+              }
+              return (
+                <ChatBubble
+                  message={item.message.content}
+                  timestamp={item.message.createdAt}
+                  right={item.message.userId === currentUser?.id}
+                />
+              );
+            }}
+            onEndReached={handleLoadMore}
+            onEndReachedThreshold={0.2}
             contentContainerStyle={{ paddingVertical: 12 }}
           />
 
-          {/* controls */}
-          <View className="flex flex-row items-end justify-between bg-background border-t-2 border-primary w-screen py-4 px-2">
-            <StablePressable
-              className="w-10 h-10 flex items-center justify-center"
-              onPress={sendMessage}
-            >
-              <Icon name={Plus} size={20} />
-            </StablePressable>
-
-            <Textarea
-              value={input}
-              onChangeText={setInput}
-              placeholder="Aa"
-              multiline
-              style={{ minHeight: 42 }}
-              className="flex-1 mx-1 rounded-lg"
-            />
-
-            <StablePressable
-              className="w-10 h-10 flex items-center justify-center"
-              onPress={sendMessage}
-            >
-              <Icon name={SendHorizonal} size={20} />
-            </StablePressable>
-          </View>
+          {/* Input */}
+          <ConversationInput
+            input={input}
+            setInput={setInput}
+            sendMessage={sendMessage}
+          />
         </ImageBackground>
       </KeyboardAvoidingView>
     </StableSafeAreaView>
