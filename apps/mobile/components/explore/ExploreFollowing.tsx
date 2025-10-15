@@ -4,19 +4,31 @@ import React from "react";
 import { api } from "~/api";
 import { ResponseJobDto } from "~/types";
 import { JobCard } from "./jobs/JobCard";
-import { RefreshControl, View } from "react-native";
+import {
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  RefreshControl,
+  View,
+} from "react-native";
 import { Text } from "../ui/text";
 import { JobCardSkeleton } from "./jobs/JobCardSkeleton";
-import { PackageOpenIcon } from "lucide-react-native";
+import { PackageOpenIcon, User } from "lucide-react-native";
+import { useDebounce } from "~/hooks/useDebounce";
+import { cn } from "~/lib/utils";
+import { Loader } from "../shared/Loader";
 
 interface ExploreFollowingProps {
+  className?: string;
   search: string;
   searching: boolean;
+  setShowHeader: (show: boolean) => void;
 }
 
 export const ExploreFollowing = ({
+  className,
   search,
   searching,
+  setShowHeader,
 }: ExploreFollowingProps) => {
   const {
     data,
@@ -27,10 +39,10 @@ export const ExploreFollowing = ({
     isRefetching,
     isPending: isJobsPending,
   } = useInfiniteQuery({
-    queryKey: ["jobs", search],
+    queryKey: ["jobs-followed", search],
     initialPageParam: 1,
     queryFn: ({ pageParam = 1 }) =>
-      api.job.findPaginated({
+      api.job.findFollowedPaginated({
         page: String(pageParam),
         limit: "5",
         join: "uploads",
@@ -53,14 +65,43 @@ export const ExploreFollowing = ({
     ),
     []
   );
+
+  const [dragging, setDragging] = React.useState(false);
+  const { value: debouncedDragging, loading: isDragging } = useDebounce(
+    dragging,
+    1000
+  );
+
+  // Track scroll direction
+  const lastOffsetY = React.useRef(0);
+
+  const handleScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const currentOffsetY = e.nativeEvent.contentOffset.y;
+
+    const delta = currentOffsetY - lastOffsetY.current;
+    if (currentOffsetY <= 0) {
+      setShowHeader(true);
+    } else if (delta < -10) {
+      setShowHeader(true); // scrolling up
+    } else if (delta > 0) {
+      setShowHeader(false); // scrolling down
+    }
+
+    lastOffsetY.current = currentOffsetY;
+  };
+
   return (
     <LegendList
+      className={cn("flex-1", className)}
       data={jobs}
       renderItem={renderItem}
       keyExtractor={(item) => item.id}
       showsVerticalScrollIndicator={false}
       recycleItems={true}
       maintainVisibleContentPosition
+      onScroll={handleScroll}
+      onScrollBeginDrag={() => setDragging(true)}
+      onScrollEndDrag={() => setDragging(false)}
       refreshControl={
         <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
       }
@@ -70,6 +111,13 @@ export const ExploreFollowing = ({
         }
       }}
       onEndReachedThreshold={0.5}
+      ListHeaderComponent={
+        <Loader
+          size="small"
+          isPending={isRefetching || debouncedDragging || isDragging}
+          className="flex items-center h-fit"
+        />
+      }
       ListEmptyComponent={
         !isPending ? (
           <View className="p-8 items-center">
@@ -80,7 +128,10 @@ export const ExploreFollowing = ({
       ListFooterComponent={
         <View className="items-center pb-5">
           {isPending ? (
-            <JobCardSkeleton />
+            <>
+              <JobCardSkeleton />
+              <JobCardSkeleton />
+            </>
           ) : hasNextPage ? null : (
             <View className="flex flex-row items-center justify-center gap-2 p-6">
               <Text className="text-muted-foreground text-lg">

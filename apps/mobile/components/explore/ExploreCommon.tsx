@@ -132,7 +132,10 @@ export const ExploreCommon = ({
       ListFooterComponent={
         <View className="items-center">
           {isPending ? (
-            <JobCardSkeleton />
+            <>
+              <JobCardSkeleton />
+              <JobCardSkeleton />
+            </>
           ) : hasNextPage ? null : (
             <View className="flex flex-row items-center justify-center gap-2 p-6">
               <Text className="text-muted-foreground text-lg font-thin">

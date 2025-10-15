@@ -108,8 +108,10 @@ export const Explore = ({
       case "followings":
         return (
           <ExploreFollowing
+            className="px-2"
             search={debouncedSearchTerm}
             searching={searching}
+            setShowHeader={handleHeaderVisibility}
           />
         );
       default:
