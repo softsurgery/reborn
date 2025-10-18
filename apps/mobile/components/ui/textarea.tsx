@@ -26,6 +26,7 @@ const Textarea = React.forwardRef<
             native: "placeholder:text-muted-foreground/50",
           }),
           props.editable === false && "opacity-50",
+          "font-poppins",
           className
         )}
         placeholderClassName={cn("text-muted-foreground", placeholderClassName)}

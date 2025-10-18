@@ -24,6 +24,7 @@ const Input = React.forwardRef<TextInput, TextInputProps>(
             ),
             native: "placeholder:text-muted-foreground/50",
           }),
+          "font-poppins",
           className
         )}
         {...props}
