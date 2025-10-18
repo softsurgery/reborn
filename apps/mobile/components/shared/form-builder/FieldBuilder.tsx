@@ -46,6 +46,7 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
           <Input
             {...field?.props}
             editable={field?.props?.editable}
+            keyboardType="number-pad"
             placeholder={field.placeholder}
             value={field?.props?.value}
             onChangeText={(text) => field?.props?.onChangeText?.(Number(text))}
