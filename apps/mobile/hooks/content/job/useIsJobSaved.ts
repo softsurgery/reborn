@@ -9,11 +9,13 @@ export const useIsJobSaved = (id: string) => {
     refetch: refetchIsJobSaved,
   } = useQuery({
     queryKey: ["is-job-saved", id],
-    queryFn: () => api.jobSave.findSaved(id as string),
-    enabled: !!id,
+    queryFn: async () => {
+      const isSaved = await api.jobSave.findSaved(id as string);
+      return !!isSaved;
+    },
   });
 
-  const isJobSaved = React.useMemo(() => !!isJobSavedResp, [isJobSavedResp]);
+  const isJobSaved = React.useMemo(() => isJobSavedResp, [isJobSavedResp]);
 
   return {
     isJobSaved,

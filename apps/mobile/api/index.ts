@@ -12,6 +12,7 @@ import { jobTag } from "./job-tag";
 import { jobRequest } from "./job-request";
 import { chat } from "./chat";
 import { jobSave } from "./job-save";
+import { jobView } from "./job-view";
 
 export const api = {
   auth,
@@ -25,6 +26,7 @@ export const api = {
   jobCategory,
   jobRequest,
   jobSave,
+  jobView,
   jobTag,
   store,
   chat,

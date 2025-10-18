@@ -50,6 +50,8 @@ import { useServerImage } from "~/hooks/content/useServerImage";
 import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
 import { useIsJobSaved } from "~/hooks/content/job/useIsJobSaved";
 import { useJobSaveActions } from "~/hooks/content/job/useJobSaveActions";
+import { useIsJobViewed } from "~/hooks/content/job/useIsJobViewed";
+import { useJobViewActions } from "~/hooks/content/job/useJobViewActions";
 
 export const JobDetails = () => {
   const queryClient = useQueryClient();
@@ -59,7 +61,9 @@ export const JobDetails = () => {
   const [applicationDialogOpen, setApplicationDialogOpen] =
     React.useState(false);
 
-  const { isJobSaved } = useIsJobSaved(id as string);
+  const { isJobSaved, isSavedPending } = useIsJobSaved(id as string);
+  const { isJobViewed, isViewedPending } = useIsJobViewed(id as string);
+
   const { saveJob, isSavePending, unsaveJob, isUnsavePending } =
     useJobSaveActions({
       onSuccess: (response) => {
@@ -71,6 +75,21 @@ export const JobDetails = () => {
         });
       },
     });
+
+  const { viewJob, isViewPending } = useJobViewActions({
+    onSuccess: (response) => {
+      queryClient.invalidateQueries({
+        queryKey: ["is-job-viewed", id as string],
+      });
+      showToastable({
+        message: response,
+      });
+    },
+  });
+
+  React.useEffect(() => {
+    if (!isJobViewed) viewJob(id as string);
+  }, []);
 
   const { data: jobResp, isPending: isJobPending } = useQuery({
     queryKey: ["job", id],
@@ -325,7 +344,7 @@ export const JobDetails = () => {
                 </Text>
               </View>
               <Text className="text-xs text-muted-foreground">
-                Intermediate level
+                {job?.difficulty}
               </Text>
               <Text className="text-xs text-muted-foreground">
                 {job?.style}

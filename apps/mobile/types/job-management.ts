@@ -119,3 +119,15 @@ export interface ResponseJobSaveDto extends DatabaseEntity {
 export interface CreateJobSaveDto {
   jobId: string;
 }
+
+export interface ResponseJobViewDto extends DatabaseEntity {
+  id: string;
+  jobId: string;
+  job?: ResponseJobDto;
+  userId: string;
+  user?: ResponseClientDto;
+}
+
+export interface CreateJobViewDto {
+  jobId: string;
+}
