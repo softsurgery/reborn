@@ -1,12 +1,12 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import React from "react";
-import { Pressable, View } from "react-native";
+import { View } from "react-native";
 import { usePreferencePersistStore } from "~/hooks/stores/usePreferencePersistStore";
 import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
 import { MoonStar } from "~/lib/icons/MoonStar";
 import { Sun } from "~/lib/icons/Sun";
 import { useColorScheme } from "~/lib/useColorScheme";
 import { cn } from "~/lib/utils";
+import { StablePressable } from "./shared/StablePressable";
 
 interface ThemeToggleProps {
   className?: string;
@@ -18,33 +18,22 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
   const isDarkMode = React.useMemo(() => theme === "dark", [theme]);
 
   return (
-    <Pressable
+    <StablePressable
       onPress={() => {
         toggleTheme();
         setColorScheme(theme);
         setAndroidNavigationBar(theme);
         toggleColorScheme();
       }}
+      onPressClassname="bg-none"
     >
-      {({ pressed }) => (
-        <View
-          className={cn(
-            "flex-1 aspect-square pt-0.5 justify-center items-center",
-            pressed && "opacity-70",
-            className
-          )}
-        >
-          {isDarkMode ? (
-            <MoonStar
-              className="text-foreground"
-              size={23}
-              strokeWidth={1.25}
-            />
-          ) : (
-            <Sun className="text-foreground" size={24} strokeWidth={1.25} />
-          )}
-        </View>
-      )}
-    </Pressable>
+      <View className={cn("mx-2", className)}>
+        {isDarkMode ? (
+          <MoonStar className="text-foreground" strokeWidth={1.25} />
+        ) : (
+          <Sun className="text-foreground" size={24} strokeWidth={1.25} />
+        )}
+      </View>
+    </StablePressable>
   );
 }
