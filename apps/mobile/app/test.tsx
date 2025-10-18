@@ -1,98 +1,81 @@
-import React, { useEffect, useState } from "react";
-import { View, Button, FlatList, StyleSheet } from "react-native";
-import io from "socket.io-client";
+import React from "react";
+import { Text, View } from "react-native";
 import { StableKeyboardAwareScrollView } from "~/components/shared/StableKeyboardAwareScrollView";
-import { Loader } from "~/components/shared/Loader";
-import { Input } from "~/components/ui/input";
-import { Text } from "~/components/ui/text";
-import { useAuthPersistStore } from "~/hooks/stores/useAuthPersistStore";
 
-const CHAT_SERVER_URL = "http://192.168.2.164:5000";
-
-export default function ChatPage() {
-  const authPersistStore = useAuthPersistStore();
-  const [socket, setSocket] = useState<any>(null);
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [input, setInput] = useState("");
-  const conversationId = 1;
-
-  useEffect(() => {
-    const s = io(CHAT_SERVER_URL, {
-      extraHeaders: {
-        Authorization: `Bearer ${authPersistStore.accessToken}`,
-      },
-    });
-
-    setSocket(s);
-
-    s.on("connect", () => {
-      console.log("Connected to chat server");
-
-      // Join conversation room
-      s.emit("joinConversation", { conversationId });
-    });
-
-    // Receive chat history
-    s.on("conversationHistory", (history: Message[]) => {
-      setMessages(history);
-    });
-
-    // Receive new messages
-    s.on("message", (message: Message) => {
-      setMessages((prev) => [...prev, message]);
-    });
-
-    s.on("error", (err: any) => {
-      console.log("Socket error:", err);
-    });
-
-    return () => {
-      s.disconnect();
-    };
-  }, []);
-
-  const sendMessage = () => {
-    if (!input.trim() || !socket) return;
-
-    socket.emit("message", { conversationId, content: input });
-    setInput("");
-  };
-
+export default function Screen() {
   return (
-    <StableKeyboardAwareScrollView>
-      <View style={styles.container}>
-        <FlatList
-          data={messages}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <Text style={styles.message}>{item.content}</Text>
-          )}
-        />
+    <StableKeyboardAwareScrollView className="mx-4 mt-6">
+      <Text className="text-foreground font-poppins text-2xl font-bold mb-6">
+        Tailwind Font Weight Test (Poppins)
+      </Text>
 
-        <View style={styles.inputContainer}>
-          <Input
-            style={styles.input}
-            value={input}
-            onChangeText={setInput}
-            placeholder="Type a message"
-          />
-          <Button title="Send" onPress={sendMessage} />
+      <View className="space-y-4">
+        <View>
+          <Text className="text-muted-foreground text-sm">font-thin</Text>
+          <Text className="text-foreground font-poppins text-xl font-thin">
+            The quick brown fox jumps over the lazy dog.
+          </Text>
+        </View>
+
+        <View>
+          <Text className="text-muted-foreground text-sm">font-extralight</Text>
+          <Text className="text-foreground font-poppins text-xl font-extralight">
+            The quick brown fox jumps over the lazy dog.
+          </Text>
+        </View>
+
+        <View>
+          <Text className="text-muted-foreground text-sm">font-light</Text>
+          <Text className="text-foreground font-poppins text-xl font-light">
+            The quick brown fox jumps over the lazy dog.
+          </Text>
+        </View>
+
+        <View>
+          <Text className="text-muted-foreground text-sm">font-normal</Text>
+          <Text className="text-foreground font-poppins text-xl font-normal">
+            The quick brown fox jumps over the lazy dog.
+          </Text>
+        </View>
+
+        <View>
+          <Text className="text-muted-foreground text-sm">font-medium</Text>
+          <Text className="text-foreground font-poppins text-xl font-medium">
+            The quick brown fox jumps over the lazy dog.
+          </Text>
+        </View>
+
+        <View>
+          <Text className="text-muted-foreground text-sm">font-semibold</Text>
+          <Text className="text-foreground font-poppins text-xl font-semibold">
+            The quick brown fox jumps over the lazy dog.
+          </Text>
+        </View>
+
+        <View>
+          <Text className="text-muted-foreground text-sm">font-bold</Text>
+          <Text className="text-foreground font-poppins text-xl font-bold">
+            The quick brown fox jumps over the lazy dog.
+          </Text>
+        </View>
+
+        <View>
+          <Text className="text-muted-foreground text-sm">font-extrabold</Text>
+          <Text className="text-foreground font-poppins text-xl font-extrabold">
+            The quick brown fox jumps over the lazy dog.
+          </Text>
+          <Text className="text-foreground text-xl font-extrabold">
+            The quick brown fox jumps over the lazy dog.
+          </Text>
+        </View>
+
+        <View>
+          <Text className="text-muted-foreground text-sm">font-black</Text>
+          <Text className="text-foreground font-poppins text-xl font-black">
+            The quick brown fox jumps over the lazy dog.
+          </Text>
         </View>
       </View>
-      <Loader size="small" isPending />
     </StableKeyboardAwareScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: { flex: 1, padding: 10, backgroundColor: "black" },
-  message: { paddingVertical: 5 },
-  inputContainer: { flexDirection: "row", alignItems: "center" },
-  input: {
-    flex: 1,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    padding: 10,
-    borderRadius: 5,
-  },
-});
