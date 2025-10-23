@@ -28,6 +28,7 @@ export default function Application({
   defaultTab,
 }: ApplicationProps) {
   const navigation = useNavigation<any>();
+
   const [activeTab, setActiveTab] = React.useState(
     (defaultTab as string) ?? "explore"
   );
@@ -38,25 +39,25 @@ export default function Application({
       {
         value: "explore",
         icon: Telescope,
-        title: "Explore",
+        title: "explore",
         component: <Explore />,
       },
       {
-        value: "messages",
+        value: "chat",
         icon: MessageCircle,
-        title: "Messages",
+        title: "chat",
         component: <Chat />,
       },
       {
         value: "balance",
         icon: Wallet,
-        title: "Balance",
+        title: "balance",
         component: <Balance />,
       },
       {
         value: "menu",
         icon: Menu,
-        title: "Menu",
+        title: "menu",
         component: <Account />,
       },
     ],

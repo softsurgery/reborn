@@ -4,6 +4,7 @@ import Icon from "~/lib/Icon";
 import { Text } from "~/components/ui/text";
 import { cn } from "~/lib/utils";
 import { View } from "react-native";
+import { useTranslation } from "react-i18next";
 
 interface MenuItemProps {
   className?: string;
@@ -21,6 +22,7 @@ export const MenuItem = ({
   active = false,
   size = 32,
 }: MenuItemProps) => {
+  const { t } = useTranslation("common");
   return (
     <View className={cn("flex-col items-center justify-between", className)}>
       <Icon
@@ -29,7 +31,7 @@ export const MenuItem = ({
         size={size}
       />
       <Text className={cn(active ? "text-primary" : "text-foreground")}>
-        {title}
+        {t(`screens.${title}`)}
       </Text>
     </View>
   );

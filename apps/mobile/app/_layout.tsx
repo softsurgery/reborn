@@ -10,6 +10,7 @@ import { usePreferencePersistStore } from "~/hooks/stores/usePreferencePersistSt
 import { View } from "react-native";
 import "~/global.css";
 import { cn } from "~/lib/utils";
+import "../i18n";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -200,7 +201,14 @@ export default function RootLayout() {
               animation: "slide_from_right",
             }}
           />
-
+          {/* Notifications */}
+          <Stack.Screen
+            name="notifications"
+            options={{
+              title: "Notifications",
+              animation: "slide_from_right",
+            }}
+          />
           {/* Test */}
           <Stack.Screen
             name="test"

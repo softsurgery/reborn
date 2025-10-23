@@ -1,0 +1,11 @@
+{
+  "app_name": "Reborn",
+  "language": "اللغة",
+  "select_language": "خصص تجربةك باختيار لغتك",
+  "screens": {
+    "explore": "الاستكشاف",
+    "chat": "الدردشة",
+    "balance": "الرصيد",
+    "menu": "القائمة"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "app_name": "Reborn",
+  "language": "Langue",
+  "select_language": "Personnalisez votre expérience en sélectionnant votre langue",
+  "screens": {
+    "explore": "Explorer",
+    "chat": "Chat",
+    "balance": "Solde",
+    "menu": "Menu"
+  }
+}
