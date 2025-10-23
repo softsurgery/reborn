@@ -88,7 +88,7 @@ export default function Application({
           </View>
         )}
       </View>
-      <View className="flex flex-row items-center justify-between mb-2 bg-card border-2 border-border">
+      <View className="flex flex-row items-center justify-between mb-2 bg-card border-2 border-primary/20">
         {leftTabs.map((tab) => (
           <Pressable
             key={tab.value}

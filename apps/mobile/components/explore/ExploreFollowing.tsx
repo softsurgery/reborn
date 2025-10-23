@@ -15,7 +15,7 @@ import { JobCardSkeleton } from "./jobs/JobCardSkeleton";
 import { PackageOpenIcon, User } from "lucide-react-native";
 import { useDebounce } from "~/hooks/useDebounce";
 import { cn } from "~/lib/utils";
-import { Loader } from "../shared/Loader";
+import { NAV_THEME } from "~/lib/constants";
 
 interface ExploreFollowingProps {
   className?: string;
@@ -103,7 +103,12 @@ export const ExploreFollowing = ({
       onScrollBeginDrag={() => setDragging(true)}
       onScrollEndDrag={() => setDragging(false)}
       refreshControl={
-        <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
+        <RefreshControl
+          refreshing={isRefetching}
+          onRefresh={refetch}
+          tintColor={NAV_THEME.light.secondary}
+          colors={[NAV_THEME.light.secondary]}
+        />
       }
       onEndReached={() => {
         if (hasNextPage && !isFetchingNextPage) {
@@ -111,13 +116,6 @@ export const ExploreFollowing = ({
         }
       }}
       onEndReachedThreshold={0.5}
-      ListHeaderComponent={
-        <Loader
-          size="small"
-          isPending={isRefetching || debouncedDragging || isDragging}
-          className="flex items-center h-fit"
-        />
-      }
       ListEmptyComponent={
         !isPending ? (
           <View className="p-8 items-center">

@@ -111,9 +111,9 @@ export const ProfileManagmentCard = ({
             </Avatar>
           </View>
           {/* info block */}
-          <View className="flex flex-col justify-between gap-6 w-[60%] items-start">
+          <View className="flex flex-col justify-between w-[60%] items-start">
             {/* identity */}
-            <Text variant={"h4"}>{identity}</Text>
+            <Text variant={"large"}>{identity}</Text>
             {/* stats */}
             <ProfileStat clientStore={clientStore} />
           </View>
@@ -129,7 +129,7 @@ export const ProfileManagmentCard = ({
               size="sm"
               onPress={() => (isFollowing ? unfollowUser() : followUser())}
               variant={isFollowing ? "outline" : "default"}
-              className="flex flex-row gap-2 w-1/2"
+              className="flex flex-row flex-1 gap-2 "
               disabled={isFollowPending || isUnfollowPending}
             >
               {!isFollowing && <Icon name={UserPlus} size={20} />}
@@ -137,7 +137,7 @@ export const ProfileManagmentCard = ({
             </Button>
             <Button
               size="sm"
-              className="flex flex-row gap-2 w-1/2"
+              className="flex flex-row flex-1 gap-2"
               variant="outline"
             >
               <Icon name={Mail} size={20} />

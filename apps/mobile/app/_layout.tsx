@@ -139,6 +139,7 @@ export default function RootLayout() {
           <Stack.Screen
             name="chat/conversation"
             options={{
+              title: "",
               headerShown: false,
             }}
           />
@@ -161,6 +162,7 @@ export default function RootLayout() {
           <Stack.Screen
             name="explore/job-details"
             options={{
+              title: "",
               headerShown: false,
               animation: "slide_from_right",
             }}
@@ -177,6 +179,7 @@ export default function RootLayout() {
           <Stack.Screen
             name="my-space/index"
             options={{
+              title: "",
               headerTitle: "My Space",
               animation: "slide_from_right",
             }}
@@ -184,6 +187,7 @@ export default function RootLayout() {
           <Stack.Screen
             name="my-space/requests"
             options={{
+              title: "",
               headerTitle: "Requests",
               animation: "slide_from_right",
             }}
@@ -191,6 +195,7 @@ export default function RootLayout() {
           <Stack.Screen
             name="my-space/saved"
             options={{
+              title: "",
               headerTitle: "Saved",
               animation: "slide_from_right",
             }}

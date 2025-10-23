@@ -1,4 +1,5 @@
 import React from "react";
+import { View } from "react-native";
 import { FormBuilder } from "~/components/shared/form-builder/FormBuilder";
 import { useCreateJobFormStructure } from "./forms/useCreateJobFormStructure";
 import { useJobStore } from "~/hooks/stores/useJobStore";
@@ -7,19 +8,21 @@ import { mapToSelectOptions } from "~/components/shared/form-builder/utils/mapTo
 import { useJobTags } from "~/hooks/content/job/useJobTags";
 import { useJobCategories } from "~/hooks/content/job/useJobCategories";
 import { Stepper } from "~/components/shared/Stepper";
-import { Text } from "~/components/ui/text";
-import { StableKeyboardAwareScrollView } from "~/components/shared/StableKeyboardAwareScrollView";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { api } from "~/api";
 import { useMutation } from "@tanstack/react-query";
 import { CreateJobDto, ServerErrorResponse } from "~/types";
 import { showToastable } from "react-native-toastable";
+import { cn } from "~/lib/utils";
+import { useNavigation } from "expo-router";
+import { NavigationProps } from "~/types/app.routes";
 
 interface JobCreateFormProps {
   className?: string;
 }
 
 export const JobCreateForm = ({ className }: JobCreateFormProps) => {
+  const navigation = useNavigation<NavigationProps>();
   const scrollRef = React.useRef<KeyboardAwareScrollView>(null);
 
   const jobStore = useJobStore();
@@ -50,6 +53,7 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
         message: "Job created successfully",
         status: "success",
       });
+      navigation.navigate("index", { defaultTab: "explore", reset: true });
     },
     onError: (error: ServerErrorResponse) => {
       showToastable({
@@ -68,22 +72,18 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
   }, []);
 
   return (
-    <Stepper
-      steps={[
-        <FormBuilder
-          structure={jobCreateFormStructure}
-          className={className}
-        />,
-        <Text>Step 2</Text>,
-        <Text>Step 3</Text>,
-      ]}
-      closingAction={{
-        label: "Publish",
-        onPress: () => {
-          console.log("Creating job with data:", jobStore.createDto);
-          createJob(jobStore.createDto);
-        },
-      }}
-    />
+    <View className={cn("flex-1 mx-2", className)}>
+      <Stepper
+        steps={[
+          <FormBuilder structure={jobCreateFormStructure} className="py-2" />,
+        ]}
+        closingAction={{
+          label: "Publish",
+          onPress: () => {
+            createJob(jobStore.createDto);
+          },
+        }}
+      />
+    </View>
   );
 };

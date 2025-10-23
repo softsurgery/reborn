@@ -12,9 +12,9 @@ import {
 } from "react-native";
 import { Text } from "../ui/text";
 import { JobCardSkeleton } from "./jobs/JobCardSkeleton";
-import { Loader } from "../shared/Loader";
 import { cn } from "~/lib/utils";
 import { useDebounce } from "~/hooks/useDebounce";
+import { NAV_THEME } from "~/lib/constants";
 
 interface ExploreCommonProps {
   className?: string;
@@ -105,8 +105,8 @@ export const ExploreCommon = ({
         <RefreshControl
           refreshing={isRefetching}
           onRefresh={refetch}
-          tintColor="transparent"
-          colors={["transparent"]}
+          tintColor={NAV_THEME.light.secondary}
+          colors={[NAV_THEME.light.secondary]}
         />
       }
       onEndReached={() => {
@@ -115,13 +115,6 @@ export const ExploreCommon = ({
         }
       }}
       onEndReachedThreshold={0.5}
-      ListHeaderComponent={
-        <Loader
-          size="small"
-          isPending={isRefetching || debouncedDragging || isDragging}
-          className="flex items-center h-fit"
-        />
-      }
       ListEmptyComponent={
         !isPending ? (
           <View className="p-6 items-center">
