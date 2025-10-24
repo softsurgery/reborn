@@ -134,7 +134,7 @@ export const Balance = ({ className }: BalanceProps) => {
           },
           {
             icon: Bell,
-            onPress: () => navigation.navigate("my-space/index", {}),
+            onPress: () => navigation.navigate("notifications", {}),
           },
         ]}
       />

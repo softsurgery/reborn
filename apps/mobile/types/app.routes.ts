@@ -34,6 +34,10 @@ export type StackParamList = {
   "explore/job-details": { id?: string; uploads: number[]; reset?: boolean };
   "explore/job-search": { reset?: boolean };
   "explore/user-profile": { id?: string; reset?: boolean };
+
+  //Notifications
+  notifications: { reset?: boolean };
+
   test: { reset?: boolean };
   //balance
   balance: { reset?: boolean };

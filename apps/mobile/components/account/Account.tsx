@@ -101,7 +101,7 @@ export const Account = ({ className }: AccountProps) => {
           },
           {
             icon: Bell,
-            onPress: () => navigation.navigate("my-space/index", {}),
+            onPress: () => navigation.navigate("notifications", {}),
           },
         ]}
       />

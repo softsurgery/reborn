@@ -106,7 +106,7 @@ export const Chat = ({ className }: ChatProps) => {
           },
           {
             icon: Bell,
-            onPress: () => navigation.navigate("my-space/index", {}),
+            onPress: () => navigation.navigate("notifications", {}),
           },
         ]}
       />

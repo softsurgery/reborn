@@ -136,7 +136,7 @@ export const Explore = ({
             },
             {
               icon: Bell,
-              onPress: () => navigation.navigate("my-space/index", {}),
+              onPress: () => navigation.navigate("notifications", {}),
             },
           ]}
         />
