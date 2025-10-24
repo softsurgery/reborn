@@ -9,8 +9,8 @@ import { ResponseNotificationDto } from "~/types/notifications";
 import { StablePressable } from "../shared/StablePressable";
 import { useNavigation } from "expo-router";
 import { NavigationProps } from "~/types/app.routes";
-import { Loader } from "lucide-react-native";
 import { NotificationEntry } from "./NotificationEntry";
+import { Loader } from "../shared/Loader";
 
 export const NotificationsPortal = () => {
   const navigation = useNavigation<NavigationProps>();
@@ -81,7 +81,11 @@ export const NotificationsPortal = () => {
         }}
         onEndReachedThreshold={0.5}
         ListHeaderComponent={
-          <Loader size="small" className="flex items-center h-fit" />
+          <Loader
+            isPending={isNotificationsPending || isFetchingNextPage}
+            size="small"
+            className="flex items-center h-fit"
+          />
         }
         ListEmptyComponent={
           !isPending ? (
