@@ -5,6 +5,7 @@ import { Text } from "../ui/text";
 import { StablePressable } from "../shared/StablePressable";
 import { IconBadge } from "../ui/icon-badge";
 import { Icon } from "../ui/icon";
+import { badgeTextVariants } from "../ui/badge";
 
 type Shortcut =
   | {
@@ -46,7 +47,11 @@ export const ApplicationHeader = ({
                 onPress={shortcut.onPress}
               >
                 {shortcut.badgeText ? (
-                  <IconBadge as={shortcut.icon} size={28} badgeText={"3"} />
+                  <IconBadge
+                    as={shortcut.icon}
+                    size={28}
+                    badgeText={shortcut.badgeText}
+                  />
                 ) : (
                   <Icon as={shortcut.icon} size={28} />
                 )}
