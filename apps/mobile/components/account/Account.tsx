@@ -18,7 +18,7 @@ import { useAuthPersistStore } from "~/hooks/stores/useAuthPersistStore";
 import { useQueryClient } from "@tanstack/react-query";
 import { ApplicationHeader } from "../shared/AppHeader";
 import { NavigationProps } from "~/types/app.routes";
-import { useNavigation } from "expo-router";
+import { router, useNavigation } from "expo-router";
 import { StableSafeAreaView } from "../shared/StableSafeAreaView";
 import { Text } from "../ui/text";
 import { StableScrollView } from "../shared/StableScrollView";
@@ -29,14 +29,13 @@ interface AccountProps {
 }
 
 export const Account = ({ className }: AccountProps) => {
-  const navigation = useNavigation<NavigationProps>();
   const authPersistStore = useAuthPersistStore();
   const queryClient = useQueryClient();
 
   const signout = async () => {
     authPersistStore.logout();
     queryClient.clear();
-    navigation.navigate("index", { defaultTab: "explore", reset: true });
+    router.navigate("/main", {});
   };
 
   const menus = {
@@ -46,12 +45,12 @@ export const Account = ({ className }: AccountProps) => {
         {
           title: "Account",
           icon: User,
-          onPress: () => navigation.navigate("account/managment", {}),
+          onPress: () => router.navigate("/main/account/managment", {}),
         },
         {
           title: "User Preferences",
           icon: Settings,
-          onPress: () => navigation.navigate("account/user-preferences", {}),
+          onPress: () => router.navigate("/main/account/user-preferences", {}),
         },
         { title: "Notifications", icon: Bell, onPress: () => {} },
       ],
@@ -62,18 +61,19 @@ export const Account = ({ className }: AccountProps) => {
         {
           title: "Report a Bug",
           icon: Bug,
-          onPress: () => navigation.navigate("account/support/report-bug", {}),
+          onPress: () =>
+            router.navigate("/main/account/support/report-bug", {}),
         },
         {
           title: "Send us Feedback",
           icon: MailCheck,
           onPress: () =>
-            navigation.navigate("account/support/send-feedback", {}),
+            router.navigate("/main/account/support/send-feedback", {}),
         },
         {
           title: "FAQs",
           icon: HelpCircle,
-          onPress: () => navigation.navigate("account/support/faqs", {}),
+          onPress: () => router.navigate("/main/account/support/faqs", {}),
         },
       ],
     },
@@ -84,7 +84,7 @@ export const Account = ({ className }: AccountProps) => {
         {
           title: "Try Anything",
           icon: FlaskConical,
-          onPress: () => navigation.navigate("test", {}),
+          onPress: () => router.navigate("/", {}),
         },
       ],
     },
@@ -97,11 +97,11 @@ export const Account = ({ className }: AccountProps) => {
         shortcuts={[
           {
             icon: User,
-            onPress: () => navigation.navigate("my-space/index", {}),
+            onPress: () => router.navigate("/main/my-space", {}),
           },
           {
             icon: Bell,
-            onPress: () => navigation.navigate("notifications", {}),
+            onPress: () => router.navigate("/main/notifications", {}),
           },
         ]}
       />

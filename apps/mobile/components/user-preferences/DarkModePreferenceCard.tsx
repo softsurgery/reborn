@@ -4,8 +4,8 @@ import { View } from "react-native";
 import { Switch } from "~/components/ui/switch";
 import { Label } from "~/components/ui/label";
 import { cn } from "~/lib/utils";
-import { usePreferencePersistStore } from "~/hooks/stores/usePreferencePersistStore";
 import { useColorScheme } from "~/lib/useColorScheme";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface DarkModePreferenceCardProps {
   className?: string;
@@ -14,13 +14,19 @@ interface DarkModePreferenceCardProps {
 export const DarkModePreferenceCard = ({
   className,
 }: DarkModePreferenceCardProps) => {
-  const { toggleColorScheme } = useColorScheme();
+  const { isDarkColorScheme, toggleColorScheme } = useColorScheme();
 
-  const preferencePersistStore = usePreferencePersistStore();
-
-  const onPersistPress = () => {
-    preferencePersistStore.toggleTheme();
+  const onPersistPress = async () => {
+    // Toggle color scheme
     toggleColorScheme();
+
+    try {
+      // Persist the new theme
+      const newTheme = isDarkColorScheme ? "light" : "dark";
+      await AsyncStorage.setItem("@theme_preference", newTheme);
+    } catch (err) {
+      console.error("Failed to persist theme:", err);
+    }
   };
 
   return (
@@ -35,10 +41,7 @@ export const DarkModePreferenceCard = ({
           Switch between light and dark themes
         </Text>
       </View>
-      <Switch
-        checked={preferencePersistStore.theme == "dark"}
-        onCheckedChange={onPersistPress}
-      />
+      <Switch checked={isDarkColorScheme} onCheckedChange={onPersistPress} />
     </View>
   );
 };

@@ -33,7 +33,7 @@ export const Explore = ({
   const [tab, setTab] = React.useState<TabType>(initialTab);
   const [search, setSearch] = React.useState("");
 
-  const { newCount, resetCount } = useNotifications({});
+  const { newCount, resetCount } = useNotifications();
 
   const { value: debouncedSearchTerm, loading: searching } =
     useDebounce<string>(search, 1000);
@@ -123,7 +123,7 @@ export const Explore = ({
   }, [tab, debouncedSearchTerm, searching, handleHeaderVisibility]);
 
   return (
-    <StableSafeAreaView className="flex flex-1 flex-col mx-2">
+    <StableSafeAreaView className={cn("flex flex-1 flex-col mx-2")}>
       {/* Animated Header */}
       <Animated.View style={animatedHeaderStyle}>
         <ApplicationHeader
@@ -140,7 +140,7 @@ export const Explore = ({
             {
               icon: Bell,
               onPress: () => {
-                navigation.navigate("notifications", {});
+                navigation.navigate("notifications", { reset: false });
                 resetCount();
               },
               badgeText: newCount > 0 ? `${newCount}` : undefined,

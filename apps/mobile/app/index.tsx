@@ -1,27 +1,15 @@
 import React from "react";
+import { router, SplashScreen } from "expo-router";
+import { useColorScheme } from "~/lib/useColorScheme";
 import * as Font from "expo-font";
-import { SplashScreen } from "expo-router";
+import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
 import { Platform } from "react-native";
 import { Loader } from "~/components/shared/Loader";
-import Application from "~/components/Application";
-import OnBoarding from "~/components/OnBoarding";
-import { useAuthPersistStore } from "~/hooks/stores/useAuthPersistStore";
-import { usePreferencePersistStore } from "~/hooks/stores/usePreferencePersistStore";
-import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
-import { useColorScheme } from "~/lib/useColorScheme";
-import { useLocalSearchParams } from "expo-router/build/hooks";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-SplashScreen.preventAutoHideAsync();
-
-export default function Screen() {
-  const { defaultTab } = useLocalSearchParams();
-  const { isAuthenticated, isReady: isAuthPersistStoreReady } =
-    useAuthPersistStore();
+export default function ScreenRedirect() {
   const { setColorScheme } = useColorScheme();
-  const { theme, isReady: isPreferencePersistStoreReady } =
-    usePreferencePersistStore();
-
-  const isDarkMode = React.useMemo(() => theme === "dark", [theme]);
+  const [theme, setTheme] = React.useState<"light" | "dark" | null>(null);
 
   const [fontsLoaded] = Font.useFonts({
     "Poppins-Black": require("../assets/fonts/Poppins/Poppins-Black.ttf"),
@@ -43,43 +31,43 @@ export default function Screen() {
     "Poppins-Thin": require("../assets/fonts/Poppins/Poppins-Thin.ttf"),
     "Poppins-ThinItalic": require("../assets/fonts/Poppins/Poppins-ThinItalic.ttf"),
   });
+  // Load dark mode from AsyncStorage
+  React.useEffect(() => {
+    const loadTheme = async () => {
+      try {
+        const storedTheme = await AsyncStorage.getItem("@theme_preference");
+        if (storedTheme === "dark" || storedTheme === "light") {
+          setTheme(storedTheme);
+        } else {
+          // fallback to system default
+          setTheme(Platform.OS === "web" ? "light" : "dark");
+        }
+      } catch (err) {
+        console.error("Failed to load theme from storage", err);
+        setTheme("light");
+      }
+    };
+    loadTheme();
+  }, []);
 
   React.useEffect(() => {
-    if (
-      isPreferencePersistStoreReady &&
-      isAuthPersistStoreReady &&
-      fontsLoaded
-    ) {
-      setAndroidNavigationBar(isDarkMode ? "light" : "dark");
+    if (fontsLoaded && theme) {
+      // Set system color scheme
+      setColorScheme(theme);
 
+      // Set Android navigation bar
+      setAndroidNavigationBar(theme === "dark" ? "light" : "dark");
+
+      // Apply web background if on web
       if (Platform.OS === "web") {
         document.documentElement.classList.add("bg-background");
       }
 
-      setColorScheme(theme === "dark" ? "dark" : "light");
-      setAndroidNavigationBar(theme);
-
       SplashScreen.hideAsync();
+      router.replace("/main");
     }
-  }, [
-    fontsLoaded,
-    isPreferencePersistStoreReady,
-    isAuthPersistStoreReady,
-    isDarkMode,
-  ]);
+  }, [fontsLoaded, theme]);
 
-  if (
-    !fontsLoaded ||
-    !isAuthPersistStoreReady ||
-    !isPreferencePersistStoreReady
-  )
-    return <Loader isPending />;
-
-  if (isAuthenticated)
-    return (
-      <Application
-        defaultTab={defaultTab as "explore" | "messages" | "balance" | "menu"}
-      />
-    );
-  return <OnBoarding />;
+  if (!fontsLoaded || !theme) return <Loader isPending />;
+  return null;
 }
