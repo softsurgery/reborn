@@ -1,11 +1,10 @@
 import React from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Save, View } from "lucide-react-native";
+import { Save } from "lucide-react-native";
 import { Loader } from "~/components/shared/Loader";
 import { Button } from "~/components/ui/button";
 import { useClientStore } from "~/hooks/stores/useClientStore";
 import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
-import Icon from "~/lib/Icon";
 import { ServerErrorResponse } from "~/types";
 import { Text } from "~/components/ui/text";
 import { FormBuilder } from "~/components/shared/form-builder/FormBuilder";
@@ -25,6 +24,7 @@ import { useServerImage } from "~/hooks/content/useServerImage";
 import { identifyUserAvatar } from "~/lib/user.utils";
 import { StableKeyboardAwareScrollView } from "../shared/StableKeyboardAwareScrollView";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { Icon } from "../ui/icon";
 
 export const UpdateProfile = () => {
   const queryClient = useQueryClient();
@@ -147,7 +147,7 @@ export const UpdateProfile = () => {
         className="flex flex-row gap-2"
         disabled={isUpdateProfilePending || isUploadPending}
       >
-        <Icon name={Save} size={24} />
+        <Icon as={Save} size={24} />
         <Text>Update Profile</Text>
       </Button>
     </StableKeyboardAwareScrollView>

@@ -1,27 +1,21 @@
 import React from "react";
+import { router } from "expo-router";
+import { useColorScheme } from "nativewind";
 import * as Font from "expo-font";
-import { SplashScreen } from "expo-router";
-import { Platform } from "react-native";
-import { Loader } from "~/components/shared/Loader";
-import Application from "~/components/Application";
-import OnBoarding from "~/components/OnBoarding";
-import { useAuthPersistStore } from "~/hooks/stores/useAuthPersistStore";
-import { usePreferencePersistStore } from "~/hooks/stores/usePreferencePersistStore";
 import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
-import { useColorScheme } from "~/lib/useColorScheme";
-import { useLocalSearchParams } from "expo-router/build/hooks";
+import { ActivityIndicator, Platform } from "react-native";
 
+import * as SplashScreen from "expo-splash-screen";
+import { usePreferencePersistStore } from "~/hooks/stores/usePreferencePersistStore";
 SplashScreen.preventAutoHideAsync();
 
-export default function Screen() {
-  const { defaultTab } = useLocalSearchParams();
-  const { isAuthenticated, isReady: isAuthPersistStoreReady } =
-    useAuthPersistStore();
+export default function ScreenRedirect() {
   const { setColorScheme } = useColorScheme();
-  const { theme, isReady: isPreferencePersistStoreReady } =
-    usePreferencePersistStore();
-
-  const isDarkMode = React.useMemo(() => theme === "dark", [theme]);
+  const preferencePersistStore = usePreferencePersistStore();
+  const isDarkMode = React.useMemo(
+    () => preferencePersistStore.theme === "dark",
+    [preferencePersistStore.theme]
+  );
 
   const [fontsLoaded] = Font.useFonts({
     "Poppins-Black": require("../assets/fonts/Poppins/Poppins-Black.ttf"),
@@ -45,41 +39,26 @@ export default function Screen() {
   });
 
   React.useEffect(() => {
-    if (
-      isPreferencePersistStoreReady &&
-      isAuthPersistStoreReady &&
-      fontsLoaded
-    ) {
+    if (fontsLoaded && preferencePersistStore.isReady) {
+      // Set system color scheme
+      setColorScheme(preferencePersistStore.theme);
+
+      // Set Android navigation bar
       setAndroidNavigationBar(isDarkMode ? "light" : "dark");
 
+      // Apply web background if on web
       if (Platform.OS === "web") {
         document.documentElement.classList.add("bg-background");
       }
 
-      setColorScheme(theme === "dark" ? "dark" : "light");
-      setAndroidNavigationBar(theme);
-
       SplashScreen.hideAsync();
+      router.replace("/main");
     }
   }, [
     fontsLoaded,
-    isPreferencePersistStoreReady,
-    isAuthPersistStoreReady,
-    isDarkMode,
+    preferencePersistStore.theme,
+    preferencePersistStore.isReady,
   ]);
 
-  if (
-    !fontsLoaded ||
-    !isAuthPersistStoreReady ||
-    !isPreferencePersistStoreReady
-  )
-    return <Loader isPending />;
-
-  if (isAuthenticated)
-    return (
-      <Application
-        defaultTab={defaultTab as "explore" | "messages" | "balance" | "menu"}
-      />
-    );
-  return <OnBoarding />;
+  return <ActivityIndicator size="large" />;
 }

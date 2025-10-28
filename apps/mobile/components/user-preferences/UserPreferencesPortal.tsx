@@ -1,9 +1,6 @@
 import React from "react";
 import { StableScrollView } from "../shared/StableScrollView";
 import { DarkModePreferenceCard } from "./DarkModePreferenceCard";
-import { View } from "react-native";
-import { Button } from "../ui/button";
-import { Text } from "../ui/text";
 import { useTranslation } from "react-i18next";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { Separator } from "../ui/separator";

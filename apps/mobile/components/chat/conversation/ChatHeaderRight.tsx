@@ -1,7 +1,7 @@
 import { Info } from "lucide-react-native";
 import { Alert, TouchableOpacity } from "react-native";
 import { StablePressable } from "~/components/shared/StablePressable";
-import Icon from "~/lib/Icon";
+import { Icon } from "~/components/ui/icon";
 import { cn } from "~/lib/utils";
 
 interface ChatHeaderRightProps {
@@ -16,7 +16,7 @@ export const ChatHeaderRight = ({ className }: ChatHeaderRightProps) => {
         Alert.alert("This is supposed to be informative");
       }}
     >
-      <Icon name={Info} size={20} />
+      <Icon as={Info} size={20} />
     </StablePressable>
   );
 };

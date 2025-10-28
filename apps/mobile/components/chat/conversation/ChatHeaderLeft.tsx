@@ -4,8 +4,8 @@ import { Text } from "../../ui/text";
 import { StablePressable } from "~/components/shared/StablePressable";
 import { useNavigation } from "expo-router";
 import { NavigationProps } from "~/types/app.routes";
-import Icon from "~/lib/Icon";
 import { ArrowLeft } from "lucide-react-native";
+import { Icon } from "~/components/ui/icon";
 
 interface ChatHeaderLeftProps {
   className?: string;
@@ -35,7 +35,7 @@ export const ChatHeaderLeft = ({
           navigation.goBack();
         }}
       >
-        <Icon name={ArrowLeft} size={20} strokeWidth={3} />
+        <Icon as={ArrowLeft} size={20} strokeWidth={3} />
       </StablePressable>
       <View>{profilePicture}</View>
       <View className="flex flex-col justify-center">

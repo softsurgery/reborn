@@ -2,13 +2,15 @@ import { View } from "react-native";
 import { cn } from "~/lib/utils";
 import { LucideIcon } from "lucide-react-native";
 import { Text } from "../ui/text";
-import Icon from "~/lib/Icon";
 import { StablePressable } from "../shared/StablePressable";
+import { IconBadge } from "../ui/icon-badge";
+import { Icon } from "../ui/icon";
 
 type Shortcut =
   | {
       icon: LucideIcon;
       onPress: () => void;
+      badgeText?: string;
     }
   | React.ReactNode;
 
@@ -43,7 +45,15 @@ export const ApplicationHeader = ({
                 className="p-1"
                 onPress={shortcut.onPress}
               >
-                <Icon name={shortcut.icon} size={28} />
+                {shortcut.badgeText ? (
+                  <IconBadge
+                    as={shortcut.icon}
+                    size={28}
+                    badgeText={shortcut.badgeText}
+                  />
+                ) : (
+                  <Icon as={shortcut.icon} size={28} />
+                )}
               </StablePressable>
             );
           }

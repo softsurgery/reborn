@@ -10,7 +10,6 @@ import { cn } from "~/lib/utils";
 import { JobRequestStatus, ResponseJobRequestDto } from "~/types";
 import { NavigationProps } from "~/types/app.routes";
 import { useServerImage } from "~/hooks/content/useServerImage";
-import Icon from "~/lib/Icon";
 import {
   AlertCircle,
   CheckCircle2,
@@ -29,6 +28,7 @@ import {
   DialogTitle,
 } from "~/components/ui/dialog";
 import { useJobRequestActions } from "~/hooks/content/job/useJobRequestActions";
+import { Icon } from "~/components/ui/icon";
 
 interface OutgoingRequestEntryProps {
   className?: string;
@@ -94,7 +94,7 @@ export const OutgoingRequestEntry = ({
             )}
           >
             <Icon
-              name={currentStatus.icon}
+              as={currentStatus.icon}
               size={14}
               className={currentStatus.color}
             />
@@ -120,7 +120,7 @@ export const OutgoingRequestEntry = ({
         {/* Client info */}
         <View className="flex flex-row items-center gap-2">
           <View className="w-8 h-8 rounded-full bg-primary/10 items-center justify-center">
-            <Icon name={User} size={14} className="text-primary" />
+            <Icon as={User} size={14} className="text-primary" />
           </View>
           <View className="flex-1">
             <Text className="text-xs text-muted-foreground mb-0.5">Client</Text>
@@ -133,7 +133,7 @@ export const OutgoingRequestEntry = ({
         {/* Requested at */}
         <View className="flex flex-row items-center gap-2">
           <View className="w-8 h-8 rounded-full bg-primary/10 items-center justify-center">
-            <Icon name={Clock} size={14} className="text-primary" />
+            <Icon as={Clock} size={14} className="text-primary" />
           </View>
           <View className="flex-1">
             <Text className="text-xs text-muted-foreground mb-0.5">
@@ -198,7 +198,7 @@ export const PendingActionBlock = ({
             });
           }}
         >
-          <Icon name={Search} size={14} className="text-primary-foreground" />
+          <Icon as={Search} size={14} className="text-primary-foreground" />
           <Text>View Details</Text>
         </Button>
         <Button
@@ -215,7 +215,7 @@ export const PendingActionBlock = ({
           <DialogHeader>
             <DialogTitle>
               <View className="flex flex-row items-center gap-2">
-                <Icon name={CopyX} size={24} />
+                <Icon as={CopyX} size={24} />
                 <Text variant={"large"}>Cancel Application</Text>
               </View>
             </DialogTitle>
@@ -280,7 +280,7 @@ const ApprovedActionBlock = ({
             });
           }}
         >
-          <Icon name={Search} size={14} className="text-primary-foreground" />
+          <Icon as={Search} size={14} className="text-primary-foreground" />
           <Text>View Details</Text>
         </Button>
         <Button
@@ -294,7 +294,7 @@ const ApprovedActionBlock = ({
             })
           }
         >
-          <Icon name={Mail} size={14} className="text-primary-foreground" />
+          <Icon as={Mail} size={14} className="text-primary-foreground" />
           <Text>Send Message</Text>
         </Button>
       </View>

@@ -12,7 +12,6 @@ import {
   Bell,
 } from "lucide-react-native";
 import { Button } from "~/components/ui/button";
-import { Card } from "~/components/ui/card";
 import { Badge } from "~/components/ui/badge";
 import { Separator } from "~/components/ui/separator";
 import { cn } from "~/lib/utils";
@@ -21,6 +20,7 @@ import { StableSafeAreaView } from "../shared/StableSafeAreaView";
 import { ApplicationHeader } from "../shared/AppHeader";
 import { useNavigation } from "expo-router";
 import { NavigationProps } from "~/types/app.routes";
+import { useNotificationContext } from "~/contexts/NotificationContext";
 
 interface Transaction {
   id: string;
@@ -80,6 +80,8 @@ interface BalanceProps {
 
 export const Balance = ({ className }: BalanceProps) => {
   const navigation = useNavigation<NavigationProps>();
+  const { newCount, resetCount } = useNotificationContext();
+
   const totalEarnings = 28750.0;
   const availableBalance = 15420.0;
   const pendingAmount = 2450.0;
@@ -134,7 +136,11 @@ export const Balance = ({ className }: BalanceProps) => {
           },
           {
             icon: Bell,
-            onPress: () => navigation.navigate("my-space/index", {}),
+            onPress: () => {
+              navigation.navigate("notifications", { reset: false });
+              resetCount();
+            },
+            badgeText: newCount > 0 ? `${newCount}` : undefined,
           },
         ]}
       />

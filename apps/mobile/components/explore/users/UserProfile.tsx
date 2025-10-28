@@ -10,8 +10,8 @@ import { ProfileManagmentCardSkeleton } from "./ProfileManagmentCardSkeleton";
 import { Inbox } from "lucide-react-native";
 import { StablePressable } from "~/components/shared/StablePressable";
 import { Text } from "~/components/ui/text";
-import Icon from "~/lib/Icon";
 import { NavigationProps } from "~/types/app.routes";
+import { Icon } from "~/components/ui/icon";
 
 interface UserProfileProps {
   className?: string;
@@ -100,7 +100,7 @@ export const UserProfile = ({ className }: UserProfileProps) => {
                     {card.description}
                   </Text>
                 </View>
-                <Icon name={card.icon} size={28} />
+                <Icon as={card.icon} size={28} />
               </View>
             </StablePressable>
           ))}

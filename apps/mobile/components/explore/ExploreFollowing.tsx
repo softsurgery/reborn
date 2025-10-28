@@ -15,7 +15,7 @@ import { JobCardSkeleton } from "./jobs/JobCardSkeleton";
 import { PackageOpenIcon, User } from "lucide-react-native";
 import { useDebounce } from "~/hooks/useDebounce";
 import { cn } from "~/lib/utils";
-import { NAV_THEME } from "~/lib/constants";
+import { NAV_THEME } from "~/lib/theme";
 
 interface ExploreFollowingProps {
   className?: string;
@@ -106,8 +106,8 @@ export const ExploreFollowing = ({
         <RefreshControl
           refreshing={isRefetching}
           onRefresh={refetch}
-          tintColor={NAV_THEME.light.secondary}
-          colors={[NAV_THEME.light.secondary]}
+          tintColor={NAV_THEME.light.colors.primary}
+          colors={[NAV_THEME.light.colors.primary]}
         />
       }
       onEndReached={() => {

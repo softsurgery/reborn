@@ -8,6 +8,7 @@ interface PreferencePersistData {
 
 interface PreferencePersistStore extends PreferencePersistData {
   isReady: boolean;
+  setTheme: (theme: "dark" | "light") => void;
   toggleTheme: () => void;
 }
 
@@ -25,6 +26,11 @@ export const usePreferencePersistStore = create<PreferencePersistStore>()(
       return {
         ...preferencePersistStore,
         isReady: false,
+        setTheme: (theme) =>
+          set((state) => ({
+            ...state,
+            theme,
+          })),
         toggleTheme: () =>
           set((state) => ({
             ...state,

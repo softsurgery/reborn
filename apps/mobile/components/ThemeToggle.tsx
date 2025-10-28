@@ -2,11 +2,11 @@ import React from "react";
 import { View } from "react-native";
 import { usePreferencePersistStore } from "~/hooks/stores/usePreferencePersistStore";
 import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
-import { MoonStar } from "~/lib/icons/MoonStar";
-import { Sun } from "~/lib/icons/Sun";
-import { useColorScheme } from "~/lib/useColorScheme";
 import { cn } from "~/lib/utils";
 import { StablePressable } from "./shared/StablePressable";
+import { useColorScheme } from "nativewind";
+import { Icon } from "./ui/icon";
+import { MoonStar, Sun } from "lucide-react-native";
 
 interface ThemeToggleProps {
   className?: string;
@@ -29,9 +29,14 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
     >
       <View className={cn("mx-2", className)}>
         {isDarkMode ? (
-          <MoonStar className="text-foreground" strokeWidth={1.25} />
+          <Icon as={MoonStar} className="text-foreground" strokeWidth={1.25} />
         ) : (
-          <Sun className="text-foreground" size={24} strokeWidth={1.25} />
+          <Icon
+            as={Sun}
+            className="text-foreground"
+            size={24}
+            strokeWidth={1.25}
+          />
         )}
       </View>
     </StablePressable>

@@ -19,6 +19,7 @@ import { format } from "date-fns";
 import { StablePressable } from "../shared/StablePressable";
 import { ApplicationHeader } from "../shared/AppHeader";
 import { Bell, User } from "lucide-react-native";
+import { useNotificationContext } from "~/contexts/NotificationContext";
 
 interface ChatProps {
   className?: string;
@@ -26,6 +27,8 @@ interface ChatProps {
 
 export const Chat = ({ className }: ChatProps) => {
   const navigation = useNavigation<NavigationProps>();
+  const { newCount, resetCount } = useNotificationContext();
+
   const { currentUser } = useCurrentUser();
 
   const {
@@ -106,7 +109,11 @@ export const Chat = ({ className }: ChatProps) => {
           },
           {
             icon: Bell,
-            onPress: () => navigation.navigate("my-space/index", {}),
+            onPress: () => {
+              navigation.navigate("notifications", { reset: false });
+              resetCount();
+            },
+            badgeText: newCount > 0 ? `${newCount}` : undefined,
           },
         ]}
       />

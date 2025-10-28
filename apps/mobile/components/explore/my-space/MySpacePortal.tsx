@@ -3,11 +3,11 @@ import { View } from "react-native";
 import { Management } from "~/components/profile/Management";
 import { StablePressable } from "~/components/shared/StablePressable";
 import { Text } from "~/components/ui/text";
-import Icon from "~/lib/Icon";
 import { cn } from "~/lib/utils";
 import { useNavigation } from "expo-router";
 import { NavigationProps } from "~/types/app.routes";
 import { Separator } from "~/components/ui/separator";
+import { Icon } from "~/components/ui/icon";
 
 interface MySpacePortalProps {
   className?: string;
@@ -59,7 +59,7 @@ export const MySpacePortal = ({ className }: MySpacePortalProps) => {
             <View className="flex flex-col justify-between gap-2 p-4">
               <View className="flex flex-row  justify-between items-center w-full">
                 <Text className="text-lg font-semibold">{card.title}</Text>
-                <Icon name={card.icon} size={20} />
+                <Icon as={card.icon} size={20} />
               </View>
               <Text className="text-xs text-muted-foreground">
                 {card.description}

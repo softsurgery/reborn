@@ -9,7 +9,6 @@ import { Textarea } from "~/components/ui/textarea";
 import { Input } from "~/components/ui/input";
 import StarRating from "react-native-star-rating-widget";
 import { PictureUploader } from "../PictureUploader";
-import { RadioField } from "../RadioField";
 import { Text } from "~/components/ui/text";
 import { cn } from "~/lib/utils";
 import { Switch } from "~/components/ui/switch";
@@ -182,18 +181,6 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
           onUpload={field?.props?.onUpload}
           className={field?.className}
           editable={field?.props?.editable}
-        />
-      );
-    case "radio":
-      return (
-        <RadioField
-          {...field?.props}
-          className={field?.className}
-          itemWidthClass={field?.props?.itemWidthClass}
-          options={field?.props?.options || []}
-          checked={field?.props?.checked}
-          onCheckedChange={field?.props?.onCheckedChange}
-          disabled={field?.props?.disabled}
         />
       );
     case "switch":

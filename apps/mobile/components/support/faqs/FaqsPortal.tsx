@@ -1,6 +1,6 @@
+import React from "react";
 import { HelpCircle } from "lucide-react-native";
-import React, { use } from "react";
-import { useColorScheme, View } from "react-native";
+import { View } from "react-native";
 import { Loader } from "~/components/shared/Loader";
 import {
   Accordion,
@@ -10,9 +10,9 @@ import {
 } from "~/components/ui/accordion";
 import { Text } from "~/components/ui/text";
 import { useDataStore } from "~/hooks/content/useDataStore";
-import Icon from "~/lib/Icon";
 import { cn } from "~/lib/utils";
 import { StoreIDs } from "~/types";
+import { Icon } from "~/components/ui/icon";
 
 interface FaqsPortalProps {
   className?: string;
@@ -33,7 +33,7 @@ export const FaqsPortal = ({ className }: FaqsPortalProps) => {
     <View className={cn("flex flex-col mx-4 my-4 gap-2", className)}>
       {/* Header Section */}
       <View className="mx-auto">
-        <Icon name={HelpCircle} />
+        <Icon as={HelpCircle} />
       </View>
       <View>
         <Text className="font-extrabold">Frequently Asked Questions</Text>

@@ -1,28 +1,21 @@
 import React from "react";
 import { View } from "react-native";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Image } from "expo-image";
+import { useQueryClient } from "@tanstack/react-query";
 import { MapPin, Star, UserPlus } from "lucide-react-native";
 import { router } from "expo-router";
 import { showToastable } from "react-native-toastable";
-
-import { api } from "~/api";
 import { StablePressable } from "~/components/shared/StablePressable";
 import { Button } from "~/components/ui/button";
 import { Text } from "~/components/ui/text";
 import { ClientStore } from "~/hooks/stores/useClientStore";
 import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
 import { useFollowSystem } from "~/hooks/content/useFollowSystem";
-import Icon from "~/lib/Icon";
 import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
 import { cn } from "~/lib/utils";
 import { ResponseClientDto, ServerErrorResponse } from "~/types";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "~/components/shared/StableAvatar";
+
 import { useServerImage } from "~/hooks/content/useServerImage";
+import { Icon } from "~/components/ui/icon";
 
 interface UserEntryProps {
   className?: string;
@@ -91,7 +84,7 @@ export const UserEntry = ({
       className={cn("p-2", className)}
       onPress={() => {
         router.push({
-          pathname: "/explore/user-profile",
+          pathname: "/main/explore/user-profile",
           params: { id: user.id },
         });
         closeDialog?.();
@@ -133,7 +126,7 @@ export const UserEntry = ({
             className="flex flex-row gap-2"
             disabled={isFollowPending || isUnfollowPending}
           >
-            {!isFollowing && <Icon name={UserPlus} size={20} />}
+            {!isFollowing && <Icon as={UserPlus} size={20} />}
             <Text>{isFollowing ? "Following" : "Follow"}</Text>
           </Button>
         )}

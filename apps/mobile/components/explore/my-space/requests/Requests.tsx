@@ -4,8 +4,8 @@ import { cn } from "~/lib/utils";
 import { ArrowDown, ArrowUp, LucideIcon } from "lucide-react-native";
 import { StablePressable } from "~/components/shared/StablePressable";
 import { Text } from "~/components/ui/text";
-import Icon from "~/lib/Icon";
 import { RequestsList } from "./RequestList";
+import { Icon } from "~/components/ui/icon";
 
 type TabType = "incoming" | "outgoing";
 
@@ -53,7 +53,7 @@ export const Requests = ({
             {label}
           </Text>
           <Icon
-            name={icon}
+            as={icon}
             size={20}
             className={cn(
               "font-medium",

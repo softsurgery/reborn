@@ -14,7 +14,7 @@ import { Text } from "../ui/text";
 import { JobCardSkeleton } from "./jobs/JobCardSkeleton";
 import { cn } from "~/lib/utils";
 import { useDebounce } from "~/hooks/useDebounce";
-import { NAV_THEME } from "~/lib/constants";
+import { NAV_THEME } from "~/lib/theme";
 
 interface ExploreCommonProps {
   className?: string;
@@ -105,8 +105,8 @@ export const ExploreCommon = ({
         <RefreshControl
           refreshing={isRefetching}
           onRefresh={refetch}
-          tintColor={NAV_THEME.light.secondary}
-          colors={[NAV_THEME.light.secondary]}
+          tintColor={NAV_THEME.light.colors.primary}
+          colors={[NAV_THEME.light.colors.primary]}
         />
       }
       onEndReached={() => {

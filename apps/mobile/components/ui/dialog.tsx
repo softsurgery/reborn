@@ -2,8 +2,9 @@ import * as DialogPrimitive from "@rn-primitives/dialog";
 import * as React from "react";
 import { Platform, StyleSheet, View, type ViewProps } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
-import { X } from "~/lib/icons/X";
 import { cn } from "~/lib/utils";
+import { Icon } from "./icon";
+import { X } from "lucide-react-native";
 
 const Dialog = DialogPrimitive.Root;
 
@@ -92,7 +93,8 @@ const DialogContent = React.forwardRef<
             }
           >
             {exit && (
-              <X
+              <Icon
+                as={X}
                 size={Platform.OS === "web" ? 16 : 18}
                 className={cn(
                   "text-muted-foreground",

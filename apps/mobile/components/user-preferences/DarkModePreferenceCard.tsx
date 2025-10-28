@@ -4,8 +4,7 @@ import { View } from "react-native";
 import { Switch } from "~/components/ui/switch";
 import { Label } from "~/components/ui/label";
 import { cn } from "~/lib/utils";
-import { usePreferencePersistStore } from "~/hooks/stores/usePreferencePersistStore";
-import { useColorScheme } from "~/lib/useColorScheme";
+import { useColorScheme } from "nativewind";
 
 interface DarkModePreferenceCardProps {
   className?: string;
@@ -14,31 +13,23 @@ interface DarkModePreferenceCardProps {
 export const DarkModePreferenceCard = ({
   className,
 }: DarkModePreferenceCardProps) => {
-  const { toggleColorScheme } = useColorScheme();
+  const { colorScheme, toggleColorScheme } = useColorScheme();
 
-  const preferencePersistStore = usePreferencePersistStore();
-
-  const onPersistPress = () => {
-    preferencePersistStore.toggleTheme();
-    toggleColorScheme();
-  };
+  const isDarkColorScheme = colorScheme === "dark";
 
   return (
     <View
       className={cn("flex-row items-center justify-between gap-2", className)}
     >
       <View className="flex flex-col items-start">
-        <Label className="text-2xl font-bold" onPress={onPersistPress}>
+        <Label className="text-2xl font-bold" onPress={toggleColorScheme}>
           Dark Mode
         </Label>
         <Text className="text-xs text-gray-500 dark:text-gray-400">
           Switch between light and dark themes
         </Text>
       </View>
-      <Switch
-        checked={preferencePersistStore.theme == "dark"}
-        onCheckedChange={onPersistPress}
-      />
+      <Switch checked={isDarkColorScheme} onCheckedChange={toggleColorScheme} />
     </View>
   );
 };

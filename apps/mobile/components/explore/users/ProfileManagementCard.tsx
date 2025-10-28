@@ -19,11 +19,11 @@ import { useQueryClient } from "@tanstack/react-query";
 import { ClientStore } from "~/hooks/stores/useClientStore";
 import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
 import { showToastable } from "react-native-toastable";
-import Icon from "~/lib/Icon";
 import { Mail, UserPlus } from "lucide-react-native";
 import { ServerErrorResponse } from "~/types";
 import { ProfileStat } from "./ProfileStat";
 import { useFollowSystem } from "~/hooks/content/useFollowSystem";
+import { Icon } from "~/components/ui/icon";
 
 interface ProfileManagmentCardProps {
   className?: string;
@@ -132,7 +132,7 @@ export const ProfileManagmentCard = ({
               className="flex flex-row flex-1 gap-2 "
               disabled={isFollowPending || isUnfollowPending}
             >
-              {!isFollowing && <Icon name={UserPlus} size={20} />}
+              {!isFollowing && <Icon as={UserPlus} size={20} />}
               <Text>{isFollowing ? "Following" : "Follow"}</Text>
             </Button>
             <Button
@@ -140,7 +140,7 @@ export const ProfileManagmentCard = ({
               className="flex flex-row flex-1 gap-2"
               variant="outline"
             >
-              <Icon name={Mail} size={20} />
+              <Icon as={Mail} size={20} />
               <Text>Send Message</Text>
             </Button>
           </View>

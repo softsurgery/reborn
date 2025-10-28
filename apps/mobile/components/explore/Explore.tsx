@@ -16,6 +16,7 @@ import { ApplicationHeader } from "../shared/AppHeader";
 import { useNavigation } from "expo-router";
 import { NavigationProps } from "~/types/app.routes";
 import { Bell, Search, User } from "lucide-react-native";
+import { useNotificationContext } from "~/contexts/NotificationContext";
 
 type TabType = "recent" | "followings";
 
@@ -31,6 +32,8 @@ export const Explore = ({
   const navigation = useNavigation<NavigationProps>();
   const [tab, setTab] = React.useState<TabType>(initialTab);
   const [search, setSearch] = React.useState("");
+
+  const { newCount, resetCount } = useNotificationContext();
 
   const { value: debouncedSearchTerm, loading: searching } =
     useDebounce<string>(search, 1000);
@@ -120,7 +123,7 @@ export const Explore = ({
   }, [tab, debouncedSearchTerm, searching, handleHeaderVisibility]);
 
   return (
-    <StableSafeAreaView className="flex flex-1 flex-col mx-2">
+    <StableSafeAreaView className={cn("flex flex-1 flex-col mx-2")}>
       {/* Animated Header */}
       <Animated.View style={animatedHeaderStyle}>
         <ApplicationHeader
@@ -136,7 +139,11 @@ export const Explore = ({
             },
             {
               icon: Bell,
-              onPress: () => navigation.navigate("my-space/index", {}),
+              onPress: () => {
+                navigation.navigate("notifications", { reset: false });
+                resetCount();
+              },
+              badgeText: newCount > 0 ? `${newCount}` : undefined,
             },
           ]}
         />

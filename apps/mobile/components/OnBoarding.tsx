@@ -2,16 +2,14 @@ import * as React from "react";
 import { Image, View } from "react-native";
 import { Text } from "~/components/ui/text";
 import { Button } from "~/components/ui/button";
-import { useNavigation } from "~/hooks/useNavigation";
 import { cn } from "~/lib/utils";
+import { router } from "expo-router";
 
 interface OnBoardingProps {
   className?: string;
 }
 
 export default function OnBoarding({ className }: OnBoardingProps) {
-  const navigation = useNavigation();
-
   return (
     <View
       className={cn(
@@ -37,7 +35,7 @@ export default function OnBoarding({ className }: OnBoardingProps) {
       <Button
         className="w-full mb-6"
         variant="outline"
-        onPress={() => navigation.navigate("auth/sign-in", { reset: true })}
+        onPress={() => router.navigate("/main/auth/sign-in")}
       >
         <Text className="text-3xl tracking-wider font-bold">
           {"Get Started".toUpperCase()}

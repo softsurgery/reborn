@@ -13,9 +13,9 @@ import * as Haptics from "expo-haptics";
 import { ChevronDown, Check, Search } from "lucide-react-native";
 import type { SelectOption } from "~/components/shared/form-builder/types";
 import { Text } from "../ui/text";
-import Icon from "~/lib/Icon";
 import { StablePressable } from "./StablePressable";
 import { Input } from "../ui/input";
+import { Icon } from "../ui/icon";
 
 interface SelectProps {
   className?: string;
@@ -121,7 +121,7 @@ const Select = React.memo(
               className="pr-10 cursor-pointer"
             />
             <Icon
-              name={ChevronDown}
+              as={ChevronDown}
               size={18}
               className={cn(
                 "absolute right-3 -top-2 transition-transform duration-200 text-muted-foreground",
@@ -152,7 +152,7 @@ const Select = React.memo(
             <View className="px-1">
               <View className="relative">
                 <Icon
-                  name={Search}
+                  as={Search}
                   size={16}
                   className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground z-10"
                 />
@@ -209,7 +209,7 @@ const Select = React.memo(
                     </Text>
                     {isSelected && (
                       <Icon
-                        name={Check}
+                        as={Check}
                         size={18}
                         className="text-primary ml-2"
                       />
