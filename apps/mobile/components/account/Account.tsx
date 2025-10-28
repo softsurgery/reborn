@@ -34,10 +34,11 @@ export const Account = ({ className }: AccountProps) => {
 
   const queryClient = useQueryClient();
 
-  const signout = async () => {
+  const signout = () => {
     authPersistStore.logout();
     queryClient.clear();
-    router.navigate("/main", {});
+    router.dismissAll();
+    router.replace("/");
   };
 
   const menus = {

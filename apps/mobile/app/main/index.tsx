@@ -9,7 +9,7 @@ export default function Screen() {
 
   React.useEffect(() => {
     if (isAuthenticated && isAuthPersistStoreReady) {
-      router.replace("/main/(tabs)");
+      router.navigate("/main/(tabs)");
     }
   }, [isAuthenticated]);
 
