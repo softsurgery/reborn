@@ -16,7 +16,7 @@ import { ApplicationHeader } from "../shared/AppHeader";
 import { useNavigation } from "expo-router";
 import { NavigationProps } from "~/types/app.routes";
 import { Bell, Search, User } from "lucide-react-native";
-import { useNotifications } from "~/hooks/content/notifications/useNotification";
+import { useNotificationContext } from "~/contexts/NotificationContext";
 
 type TabType = "recent" | "followings";
 
@@ -33,7 +33,7 @@ export const Explore = ({
   const [tab, setTab] = React.useState<TabType>(initialTab);
   const [search, setSearch] = React.useState("");
 
-  const { newCount, resetCount } = useNotifications();
+  const { newCount, resetCount } = useNotificationContext();
 
   const { value: debouncedSearchTerm, loading: searching } =
     useDebounce<string>(search, 1000);

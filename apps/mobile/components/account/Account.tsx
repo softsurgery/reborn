@@ -17,12 +17,12 @@ import { MenuItem } from "./MenuItem";
 import { useAuthPersistStore } from "~/hooks/stores/useAuthPersistStore";
 import { useQueryClient } from "@tanstack/react-query";
 import { ApplicationHeader } from "../shared/AppHeader";
-import { NavigationProps } from "~/types/app.routes";
-import { router, useNavigation } from "expo-router";
+import { router } from "expo-router";
 import { StableSafeAreaView } from "../shared/StableSafeAreaView";
 import { Text } from "../ui/text";
 import { StableScrollView } from "../shared/StableScrollView";
 import { cn } from "~/lib/utils";
+import { useNotificationContext } from "~/contexts/NotificationContext";
 
 interface AccountProps {
   className?: string;
@@ -30,6 +30,8 @@ interface AccountProps {
 
 export const Account = ({ className }: AccountProps) => {
   const authPersistStore = useAuthPersistStore();
+  const { newCount, resetCount } = useNotificationContext();
+
   const queryClient = useQueryClient();
 
   const signout = async () => {
@@ -101,7 +103,11 @@ export const Account = ({ className }: AccountProps) => {
           },
           {
             icon: Bell,
-            onPress: () => router.navigate("/main/notifications", {}),
+            onPress: () => {
+              router.navigate("/main/notifications", {});
+              resetCount();
+            },
+            badgeText: newCount > 0 ? `${newCount}` : undefined,
           },
         ]}
       />

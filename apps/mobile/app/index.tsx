@@ -68,6 +68,5 @@ export default function ScreenRedirect() {
     }
   }, [fontsLoaded, theme]);
 
-  if (!fontsLoaded || !theme) return <Loader isPending />;
   return null;
 }

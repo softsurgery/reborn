@@ -10,10 +10,12 @@ import { cn } from "~/lib/utils";
 import { PortalHost } from "@rn-primitives/portal";
 import { View } from "react-native";
 import { useColorScheme } from "~/lib/useColorScheme";
+import { useNotifications } from "~/hooks/content/notifications/useNotification";
 
 const queryClient = new QueryClient();
 
 export default function AppLayout() {
+  const { newCount, notifications, resetCount } = useNotifications();
   const { isDarkColorScheme } = useColorScheme();
   const [ready, setReady] = React.useState(false);
 
@@ -28,7 +30,9 @@ export default function AppLayout() {
   if (!ready) return <View className="flex-1" />;
   return (
     <QueryClientProvider client={queryClient}>
-      <NotificationContext.Provider value={{}}>
+      <NotificationContext.Provider
+        value={{ newCount, notifications, resetCount }}
+      >
         <Toastable position="top" />
         <StatusBar style={isDarkColorScheme ? "light" : "dark"} translucent />
 

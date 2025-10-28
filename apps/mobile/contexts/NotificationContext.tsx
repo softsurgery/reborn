@@ -7,9 +7,12 @@ interface NotificationContextProps {
   resetCount: () => void;
 }
 
-export const NotificationContext = React.createContext<
-  Partial<NotificationContextProps>
->({});
+export const NotificationContext =
+  React.createContext<NotificationContextProps>({
+    notifications: [],
+    newCount: 0,
+    resetCount: () => {},
+  });
 
 export const useNotificationContext = () =>
   React.useContext(NotificationContext);
