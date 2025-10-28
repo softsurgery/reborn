@@ -1,14 +1,21 @@
 import React from "react";
-import { router, SplashScreen } from "expo-router";
+import { router } from "expo-router";
 import { useColorScheme } from "nativewind";
 import * as Font from "expo-font";
 import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
-import { Platform } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { ActivityIndicator, Platform } from "react-native";
+
+import * as SplashScreen from "expo-splash-screen";
+import { usePreferencePersistStore } from "~/hooks/stores/usePreferencePersistStore";
+SplashScreen.preventAutoHideAsync();
 
 export default function ScreenRedirect() {
   const { setColorScheme } = useColorScheme();
-  const [theme, setTheme] = React.useState<"light" | "dark" | null>(null);
+  const preferencePersistStore = usePreferencePersistStore();
+  const isDarkMode = React.useMemo(
+    () => preferencePersistStore.theme === "dark",
+    [preferencePersistStore.theme]
+  );
 
   const [fontsLoaded] = Font.useFonts({
     "Poppins-Black": require("../assets/fonts/Poppins/Poppins-Black.ttf"),
@@ -30,32 +37,14 @@ export default function ScreenRedirect() {
     "Poppins-Thin": require("../assets/fonts/Poppins/Poppins-Thin.ttf"),
     "Poppins-ThinItalic": require("../assets/fonts/Poppins/Poppins-ThinItalic.ttf"),
   });
-  // Load dark mode from AsyncStorage
-  React.useEffect(() => {
-    const loadTheme = async () => {
-      try {
-        const storedTheme = await AsyncStorage.getItem("@theme_preference");
-        if (storedTheme === "dark" || storedTheme === "light") {
-          setTheme(storedTheme);
-        } else {
-          // fallback to system default
-          setTheme(Platform.OS === "web" ? "light" : "dark");
-        }
-      } catch (err) {
-        console.error("Failed to load theme from storage", err);
-        setTheme("light");
-      }
-    };
-    loadTheme();
-  }, []);
 
   React.useEffect(() => {
-    if (fontsLoaded && theme) {
+    if (fontsLoaded && preferencePersistStore.isReady) {
       // Set system color scheme
-      setColorScheme(theme);
+      setColorScheme(preferencePersistStore.theme);
 
       // Set Android navigation bar
-      setAndroidNavigationBar(theme === "dark" ? "light" : "dark");
+      setAndroidNavigationBar(isDarkMode ? "light" : "dark");
 
       // Apply web background if on web
       if (Platform.OS === "web") {
@@ -65,7 +54,11 @@ export default function ScreenRedirect() {
       SplashScreen.hideAsync();
       router.replace("/main");
     }
-  }, [fontsLoaded, theme]);
+  }, [
+    fontsLoaded,
+    preferencePersistStore.theme,
+    preferencePersistStore.isReady,
+  ]);
 
-  return null;
+  return <ActivityIndicator size="large" />;
 }

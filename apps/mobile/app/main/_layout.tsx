@@ -14,7 +14,7 @@ import { NAV_THEME } from "~/lib/theme";
 
 const queryClient = new QueryClient();
 
-export default function AppLayout() {
+export default function MainLayout() {
   const { newCount, notifications, resetCount } = useNotifications();
   const { colorScheme } = useColorScheme();
   const [ready, setReady] = React.useState(false);
@@ -29,7 +29,6 @@ export default function AppLayout() {
     }
   }, [navigationState]);
 
-  if (!ready) return <View className="flex-1" />;
   return (
     <QueryClientProvider client={queryClient}>
       <NotificationContext.Provider
@@ -39,13 +38,6 @@ export default function AppLayout() {
         <StatusBar style={isDarkColorScheme ? "light" : "dark"} translucent />
 
         <Stack
-          screenLayout={({ children }) => (
-            <View
-              className={cn("flex-1", isDarkColorScheme ? "dark" : "light")}
-            >
-              {children}
-            </View>
-          )}
           screenOptions={{
             contentStyle: {
               flex: 1,
