@@ -154,12 +154,12 @@ export const JobCard = ({ className, job }: JobCardProps) => {
           disabled={isSavePending || isUnsavePending}
         >
           {isSavePending || isUnsavePending || isSavedPending ? (
-            <Heart size={24} color={"#ef4444"} fill={"#ef4444"} />
+            <Heart size={24} color={"#FAA0A0"} fill={"#FAA0A0"} />
           ) : (
             <Heart
               size={24}
-              color={isJobSaved ? "#ef4444" : "#6b7280"}
-              fill={isJobSaved ? "#ef4444" : "none"}
+              color={"#EE4B2B"}
+              fill={isJobSaved ? "#EE4B2B" : "none"}
             />
           )}
         </TouchableOpacity>

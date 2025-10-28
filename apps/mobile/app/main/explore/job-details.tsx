@@ -1,4 +1,4 @@
-import { JobDetails } from "~/components/explore/jobs/JobDetails";
+import { JobDetails } from "~/components/explore/jobs/job-details/JobDetails";
 
 export default function Screen() {
   return <JobDetails />;
