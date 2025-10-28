@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Platform, StatusBar, ViewProps } from "react-native";
+import { Platform, StatusBar, ViewProps } from "react-native";
 import {
   SafeAreaView,
   useSafeAreaInsets,
@@ -18,7 +18,6 @@ export const StableSafeAreaView: React.FC<StableSafeAreaViewProps> = ({
 }) => {
   const insets = useSafeAreaInsets();
 
-  // Only add Android StatusBar height once
   const paddingTop =
     Platform.OS === "android"
       ? (StatusBar.currentHeight ?? 0) + insets.top

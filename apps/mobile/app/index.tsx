@@ -1,10 +1,9 @@
 import React from "react";
 import { router, SplashScreen } from "expo-router";
-import { useColorScheme } from "~/lib/useColorScheme";
+import { useColorScheme } from "nativewind";
 import * as Font from "expo-font";
 import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
 import { Platform } from "react-native";
-import { Loader } from "~/components/shared/Loader";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function ScreenRedirect() {

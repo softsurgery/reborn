@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Dialog, DialogContent, DialogTrigger } from "../../ui/dialog";
 import { Button } from "../../ui/button";
 import { Settings2 } from "lucide-react-native";
-import Icon from "~/lib/Icon";
 import { Keyboard, View } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Checkbox } from "~/components/ui/checkbox";
@@ -15,6 +14,7 @@ import {
   AccordionTrigger,
 } from "~/components/ui/accordion";
 import { useJobCategories } from "~/hooks/content/job/useJobCategories";
+import { Icon } from "~/components/ui/icon";
 
 interface JobFiltersProps {
   className?: string;
@@ -51,7 +51,7 @@ export const JobFilters = ({ className }: JobFiltersProps) => {
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         <Button variant={"outline"} size={"icon"} className={className}>
-          <Icon name={Settings2} size={24} />
+          <Icon as={Settings2} size={24} />
         </Button>
       </DialogTrigger>
 

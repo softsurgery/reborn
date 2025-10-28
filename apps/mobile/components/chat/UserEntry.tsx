@@ -2,11 +2,11 @@ import React from "react";
 import { View } from "react-native";
 import { Text } from "~/components/ui/text";
 import { cn } from "~/lib/utils";
-import Icon from "~/lib/Icon";
 import { MessageCircleMoreIcon } from "lucide-react-native";
 import { ResponseClientDto } from "~/types";
 import { useServerImage } from "~/hooks/content/useServerImage";
 import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
+import { Icon } from "../ui/icon";
 
 interface UserCardProps {
   className?: string;
@@ -65,7 +65,7 @@ export const UserEntry = ({
       {/* Message Row */}
       {seen && (
         <Text className="text-sm text-gray-600 dark:text-gray-400">
-          <Icon name={MessageCircleMoreIcon} />
+          <Icon as={MessageCircleMoreIcon} />
         </Text>
       )}
     </View>

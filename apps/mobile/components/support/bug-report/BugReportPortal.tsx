@@ -5,7 +5,6 @@ import { api } from "~/api";
 import { Button } from "~/components/ui/button";
 import { Text } from "~/components/ui/text";
 import { useReportBugStore } from "~/hooks/stores/useReportBugStore";
-import Icon from "~/lib/Icon";
 import { View } from "react-native";
 import { useBugReportFormStructure } from "./useBugReportFormStructure";
 import { FormBuilder } from "~/components/shared/form-builder/FormBuilder";
@@ -14,6 +13,7 @@ import { cn } from "~/lib/utils";
 import { showToastable } from "react-native-toastable";
 import { useNavigation } from "~/hooks/useNavigation";
 import { StableKeyboardAwareScrollView } from "~/components/shared/StableKeyboardAwareScrollView";
+import { Icon } from "~/components/ui/icon";
 
 interface BugReportPortalProps {
   className?: string;
@@ -62,7 +62,7 @@ export const BugReportPortal = ({ className }: BugReportPortalProps) => {
       <View className={cn("flex flex-col mx-4 my-4 gap-2", className)}>
         {/* Header Section */}
         <View className="mx-auto">
-          <Icon name={BugIcon} />
+          <Icon as={BugIcon} />
         </View>
         <View>
           <Text className="font-extrabold">

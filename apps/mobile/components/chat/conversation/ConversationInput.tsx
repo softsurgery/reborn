@@ -1,8 +1,8 @@
 import { Plus, SendHorizonal } from "lucide-react-native";
 import { View } from "react-native";
 import { StablePressable } from "~/components/shared/StablePressable";
+import { Icon } from "~/components/ui/icon";
 import { Textarea } from "~/components/ui/textarea";
-import Icon from "~/lib/Icon";
 import { cn } from "~/lib/utils";
 
 interface ConversationInputProps {
@@ -49,7 +49,7 @@ export const ConversationInput = ({
           onPress={() => {}}
           accessibilityLabel="Add attachment"
         >
-          <Icon name={Plus} size={20} />
+          <Icon as={Plus} size={20} />
         </StablePressable>
 
         {/* Text Input */}
@@ -70,7 +70,7 @@ export const ConversationInput = ({
           accessibilityLabel="Send message"
         >
           <Icon
-            name={SendHorizonal}
+            as={SendHorizonal}
             size={20}
             color={input.trim() ? "#fff" : "#999"}
           />

@@ -25,7 +25,7 @@ export const NotificationEntry = ({
         variant={"small"}
         className="text-xs text-muted-foreground mt-1 ml-auto"
       >
-        {timeAgo(new Date(notification.createdAt))}
+        {timeAgo(notification.createdAt)}
       </Text>
     </View>
   );

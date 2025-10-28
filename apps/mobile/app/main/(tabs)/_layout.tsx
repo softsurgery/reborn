@@ -10,14 +10,15 @@ import {
 import React from "react";
 import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/icon";
-import { NAV_THEME } from "~/lib/constants";
-import { usePreferencePersistStore } from "~/hooks/stores/usePreferencePersistStore";
 import { useTranslation } from "react-i18next";
-import { useColorScheme } from "~/lib/useColorScheme";
+import { useColorScheme } from "nativewind";
+import { NAV_THEME } from "~/lib/theme";
 
 export default function TabLayout() {
-  const { isDarkColorScheme } = useColorScheme();
+  const { colorScheme } = useColorScheme();
   const { t } = useTranslation("common");
+
+  const isDarkColorScheme = colorScheme === "dark";
 
   const withHaptic = (onPress: Function) => {
     return async () => {
@@ -88,15 +89,15 @@ export default function TabLayout() {
         headerShown: false,
         tabBarStyle: {
           backgroundColor: isDarkColorScheme
-            ? NAV_THEME.dark.card
-            : NAV_THEME.light.card,
+            ? NAV_THEME.dark.colors.card
+            : NAV_THEME.light.colors.card,
           borderColor: "transparent",
         },
         sceneStyle: {
           flex: 1,
           backgroundColor: isDarkColorScheme
-            ? NAV_THEME.dark.background
-            : NAV_THEME.light.background,
+            ? NAV_THEME.dark.colors.background
+            : NAV_THEME.light.colors.background,
         },
       }}
     >
@@ -114,11 +115,11 @@ export default function TabLayout() {
                     color={
                       focused
                         ? isDarkColorScheme
-                          ? NAV_THEME.dark.primary
-                          : NAV_THEME.light.primary
+                          ? NAV_THEME.dark.colors.primary
+                          : NAV_THEME.light.colors.primary
                         : isDarkColorScheme
-                        ? NAV_THEME.dark.text
-                        : NAV_THEME.light.text
+                        ? NAV_THEME.dark.colors.text
+                        : NAV_THEME.light.colors.text
                     }
                   />
                 )
@@ -126,8 +127,8 @@ export default function TabLayout() {
             tabBarButton: tab.customButton || VibratingTabButton,
             tabBarLabel: tab.hideLabel ? () => null : undefined,
             tabBarActiveTintColor: isDarkColorScheme
-              ? NAV_THEME.dark.primary
-              : NAV_THEME.light.primary,
+              ? NAV_THEME.dark.colors.primary
+              : NAV_THEME.light.colors.primary,
             tabBarLabelStyle: {
               fontFamily: "Poppins-SemiBold",
               fontSize: 11,

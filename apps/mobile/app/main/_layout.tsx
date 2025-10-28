@@ -5,19 +5,21 @@ import { StatusBar } from "expo-status-bar";
 import Toastable from "react-native-toastable";
 import { ThemeToggle } from "~/components/ThemeToggle";
 import { NotificationContext } from "~/contexts/NotificationContext";
-import { NAV_THEME } from "~/lib/constants";
 import { cn } from "~/lib/utils";
 import { PortalHost } from "@rn-primitives/portal";
 import { View } from "react-native";
-import { useColorScheme } from "~/lib/useColorScheme";
+import { useColorScheme } from "nativewind";
 import { useNotifications } from "~/hooks/content/notifications/useNotification";
+import { NAV_THEME } from "~/lib/theme";
 
 const queryClient = new QueryClient();
 
 export default function AppLayout() {
   const { newCount, notifications, resetCount } = useNotifications();
-  const { isDarkColorScheme } = useColorScheme();
+  const { colorScheme } = useColorScheme();
   const [ready, setReady] = React.useState(false);
+
+  const isDarkColorScheme = colorScheme === "dark";
 
   // Wait for navigation context to load
   const navigationState = useRootNavigationState();
@@ -48,23 +50,23 @@ export default function AppLayout() {
             contentStyle: {
               flex: 1,
               backgroundColor: isDarkColorScheme
-                ? NAV_THEME.dark.background
-                : NAV_THEME.light.background,
+                ? NAV_THEME.dark.colors.background
+                : NAV_THEME.light.colors.background,
             },
             headerStyle: {
               backgroundColor: isDarkColorScheme
-                ? NAV_THEME.dark.card
-                : NAV_THEME.light.card,
+                ? NAV_THEME.dark.colors.card
+                : NAV_THEME.light.colors.card,
             },
             headerTintColor: isDarkColorScheme
-              ? NAV_THEME.dark.text
-              : NAV_THEME.light.text,
+              ? NAV_THEME.dark.colors.text
+              : NAV_THEME.light.colors.text,
             headerTitleStyle: {
               fontFamily: "Poppins-SemiBold",
               fontSize: 18,
               color: isDarkColorScheme
-                ? NAV_THEME.dark.text
-                : NAV_THEME.light.text,
+                ? NAV_THEME.dark.colors.text
+                : NAV_THEME.light.colors.text,
             },
           }}
         >

@@ -8,7 +8,6 @@ import { Text } from "../ui/text";
 import { FormBuilder } from "../shared/form-builder/FormBuilder";
 import { useSignInFormStructure } from "./useSignInFormStructure";
 import { Button } from "../ui/button";
-import Icon from "~/lib/Icon";
 import { ArrowRight } from "lucide-react-native";
 import DividerWithText from "../ui/divider-with-text";
 import { requestSignInDtoSchema } from "~/types/validations/auth.validation";
@@ -16,6 +15,7 @@ import { useNavigation } from "~/hooks/useNavigation";
 import { showToastable } from "react-native-toastable";
 import { ServerErrorResponse } from "~/types";
 import { StableKeyboardAwareScrollView } from "../shared/StableKeyboardAwareScrollView";
+import { Icon } from "../ui/icon";
 
 interface SignInLayoutProps {
   className?: string;
@@ -82,7 +82,7 @@ export const SignInLayout = ({ className }: SignInLayoutProps) => {
             onPress={onSignInPress}
           >
             <Text className="font-bold">Continue with E-mail</Text>
-            <Icon name={ArrowRight} size={24} className="text-white" />
+            <Icon as={ArrowRight} size={24} className="text-white" />
           </Button>
 
           <DividerWithText text="OR" />

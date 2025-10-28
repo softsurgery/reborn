@@ -1,5 +1,5 @@
 import React from "react";
-import { ResponseJobRequestDto, ResponseJobSaveDto } from "~/types";
+import { ResponseJobSaveDto } from "~/types";
 import { LegendList } from "@legendapp/list";
 import { cn } from "~/lib/utils";
 import { RefreshControl, View } from "react-native";

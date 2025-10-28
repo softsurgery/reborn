@@ -4,8 +4,7 @@ import { View } from "react-native";
 import { Switch } from "~/components/ui/switch";
 import { Label } from "~/components/ui/label";
 import { cn } from "~/lib/utils";
-import { useColorScheme } from "~/lib/useColorScheme";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useColorScheme } from "nativewind";
 
 interface DarkModePreferenceCardProps {
   className?: string;
@@ -14,34 +13,23 @@ interface DarkModePreferenceCardProps {
 export const DarkModePreferenceCard = ({
   className,
 }: DarkModePreferenceCardProps) => {
-  const { isDarkColorScheme, toggleColorScheme } = useColorScheme();
+  const { colorScheme, toggleColorScheme } = useColorScheme();
 
-  const onPersistPress = async () => {
-    // Toggle color scheme
-    toggleColorScheme();
-
-    try {
-      // Persist the new theme
-      const newTheme = isDarkColorScheme ? "light" : "dark";
-      await AsyncStorage.setItem("@theme_preference", newTheme);
-    } catch (err) {
-      console.error("Failed to persist theme:", err);
-    }
-  };
+  const isDarkColorScheme = colorScheme === "dark";
 
   return (
     <View
       className={cn("flex-row items-center justify-between gap-2", className)}
     >
       <View className="flex flex-col items-start">
-        <Label className="text-2xl font-bold" onPress={onPersistPress}>
+        <Label className="text-2xl font-bold" onPress={toggleColorScheme}>
           Dark Mode
         </Label>
         <Text className="text-xs text-gray-500 dark:text-gray-400">
           Switch between light and dark themes
         </Text>
       </View>
-      <Switch checked={isDarkColorScheme} onCheckedChange={onPersistPress} />
+      <Switch checked={isDarkColorScheme} onCheckedChange={toggleColorScheme} />
     </View>
   );
 };

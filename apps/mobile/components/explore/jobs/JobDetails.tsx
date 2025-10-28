@@ -45,13 +45,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "~/components/ui/dialog";
-import Icon from "~/lib/Icon";
 import { useServerImage } from "~/hooks/content/useServerImage";
 import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
 import { useIsJobSaved } from "~/hooks/content/job/useIsJobSaved";
 import { useJobSaveActions } from "~/hooks/content/job/useJobSaveActions";
 import { useIsJobViewed } from "~/hooks/content/job/useIsJobViewed";
 import { useJobViewActions } from "~/hooks/content/job/useJobViewActions";
+import { Icon } from "~/components/ui/icon";
 
 export const JobDetails = () => {
   const queryClient = useQueryClient();
@@ -478,10 +478,7 @@ export const JobDetails = () => {
                 <DialogHeader>
                   <DialogTitle>
                     <View className="flex flex-row items-center gap-2">
-                      <Icon
-                        name={isJobRequested ? CopyX : CopyPlus}
-                        size={24}
-                      />
+                      <Icon as={isJobRequested ? CopyX : CopyPlus} size={24} />
                       <Text variant={"large"}>
                         {isJobRequested
                           ? "Cancel Application"

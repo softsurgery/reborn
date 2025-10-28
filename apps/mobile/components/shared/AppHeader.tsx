@@ -5,7 +5,6 @@ import { Text } from "../ui/text";
 import { StablePressable } from "../shared/StablePressable";
 import { IconBadge } from "../ui/icon-badge";
 import { Icon } from "../ui/icon";
-import { badgeTextVariants } from "../ui/badge";
 
 type Shortcut =
   | {

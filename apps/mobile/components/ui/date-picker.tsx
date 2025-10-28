@@ -7,8 +7,8 @@ import { Platform, View } from "react-native";
 import { cn } from "~/lib/utils";
 import { Popover, PopoverContent, PopoverTrigger } from "./popover";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import Icon from "~/lib/Icon";
 import { X } from "lucide-react-native";
+import { Icon } from "./icon";
 
 interface DatePickerProps {
   className?: string;
@@ -95,7 +95,11 @@ export const DatePicker = ({
       >
         <Popover className="w-full">
           <PopoverTrigger asChild>
-            <Button disabled={disabled} variant="outline" className={cn("w-full", className)}>
+            <Button
+              disabled={disabled}
+              variant="outline"
+              className={cn("w-full", className)}
+            >
               <Text>{displayText}</Text>
             </Button>
           </PopoverTrigger>
@@ -124,7 +128,7 @@ export const DatePicker = ({
           </PopoverContent>
         </Popover>
         <Button variant="ghost" onPress={clearDate} size={"icon"}>
-          <Icon name={X} size={24} />
+          <Icon as={X} size={24} />
         </Button>
       </View>
     );

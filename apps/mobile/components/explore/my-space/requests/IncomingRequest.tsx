@@ -13,7 +13,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "~/components/ui/dialog";
-import Icon from "~/lib/Icon";
 import {
   CheckCircle2,
   XCircle,
@@ -32,6 +31,7 @@ import { useServerImage } from "~/hooks/content/useServerImage";
 import { useJobRequestActions } from "~/hooks/content/job/useJobRequestActions";
 import { JobRequestStatus, ResponseJobRequestDto } from "~/types";
 import { NavigationProps } from "~/types/app.routes";
+import { Icon } from "~/components/ui/icon";
 
 interface IncomingRequestEntryProps {
   className?: string;
@@ -98,7 +98,7 @@ export const IncomingRequestEntry = ({
             )}
           >
             <Icon
-              name={currentStatus.icon}
+              as={currentStatus.icon}
               size={14}
               className={currentStatus.color}
             />
@@ -127,7 +127,7 @@ export const IncomingRequestEntry = ({
         {/* Candidate Info */}
         <View className="flex flex-row items-center gap-2">
           <View className="w-8 h-8 rounded-full bg-primary/10 items-center justify-center">
-            <Icon name={User} size={14} className="text-primary" />
+            <Icon as={User} size={14} className="text-primary" />
           </View>
           <View className="flex-1">
             <Text className="text-xs text-muted-foreground mb-0.5">
@@ -142,7 +142,7 @@ export const IncomingRequestEntry = ({
         {/* Requested At */}
         <View className="flex flex-row items-center gap-2">
           <View className="w-8 h-8 rounded-full bg-primary/10 items-center justify-center">
-            <Icon name={Clock} size={14} className="text-primary" />
+            <Icon as={Clock} size={14} className="text-primary" />
           </View>
           <View className="flex-1">
             <Text className="text-xs text-muted-foreground mb-0.5">
@@ -205,7 +205,7 @@ const IncomingPendingActionBlock = ({
           className="flex flex-row flex-1 items-center gap-2"
           onPress={() => setOpenApprove(true)}
         >
-          <Icon name={Check} size={24} className="text-primary-foreground" />
+          <Icon as={Check} size={24} className="text-primary-foreground" />
           <Text>Approve</Text>
         </Button>
         <Button
@@ -214,7 +214,7 @@ const IncomingPendingActionBlock = ({
           className="flex flex-row flex-1 items-center gap-2"
           onPress={() => setOpenReject(true)}
         >
-          <Icon name={X} size={24} className="text-primary-foreground" />
+          <Icon as={X} size={24} className="text-primary-foreground" />
           <Text>Reject</Text>
         </Button>
       </View>
@@ -225,7 +225,7 @@ const IncomingPendingActionBlock = ({
           <DialogHeader>
             <DialogTitle>
               <View className="flex flex-row items-center gap-2">
-                <Icon name={CopyCheck} size={20} />
+                <Icon as={CopyCheck} size={20} />
                 <Text variant={"large"}>Approve Application</Text>
               </View>
             </DialogTitle>
@@ -264,7 +264,7 @@ const IncomingPendingActionBlock = ({
           <DialogHeader>
             <DialogTitle>
               <View className="flex flex-row items-center gap-2">
-                <Icon name={CopyX} size={20} />
+                <Icon as={CopyX} size={20} />
                 <Text variant={"large"}>Reject Application</Text>
               </View>
             </DialogTitle>
@@ -323,7 +323,7 @@ const IncomingApprovedActionBlock = ({
           })
         }
       >
-        <Icon name={Mail} size={14} className="text-primary-foreground" />
+        <Icon as={Mail} size={14} className="text-primary-foreground" />
         <Text>Send Message</Text>
       </Button>
     </View>

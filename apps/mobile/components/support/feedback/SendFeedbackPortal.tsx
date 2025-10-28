@@ -4,7 +4,6 @@ import { api } from "~/api";
 import { useSendFeedbackStore } from "~/hooks/stores/useFeedbackManager";
 import { View } from "react-native";
 import { MailCheck } from "lucide-react-native";
-import Icon from "~/lib/Icon";
 import { Text } from "~/components/ui/text";
 import { createFeedbackSchema } from "~/types/validations/system-reports.validation";
 import { Button } from "~/components/ui/button";
@@ -14,6 +13,7 @@ import { cn } from "~/lib/utils";
 import { showToastable } from "react-native-toastable";
 import { useNavigation } from "~/hooks/useNavigation";
 import { StableKeyboardAwareScrollView } from "~/components/shared/StableKeyboardAwareScrollView";
+import { Icon } from "~/components/ui/icon";
 
 interface SendFeedbackPortalProps {
   className?: string;
@@ -67,7 +67,7 @@ export const SendFeedbackPortal = ({ className }: SendFeedbackPortalProps) => {
       <View className={cn("flex flex-col my-4 gap-2 mx-4", className)}>
         {/* Header Section */}
         <View className="mx-auto ">
-          <Icon name={MailCheck} />
+          <Icon as={MailCheck} />
         </View>
         <View>
           <Text className="font-extrabold text-lg">

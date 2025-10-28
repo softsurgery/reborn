@@ -4,7 +4,6 @@ import { Text } from "~/components/ui/text";
 import { ArrowRight } from "lucide-react-native";
 import { Button } from "~/components/ui/button";
 import { useAuthStore } from "~/hooks/stores/useAuthStore";
-import Icon from "~/lib/Icon";
 import DividerWithText from "~/components/ui/divider-with-text";
 import { useSignUpFormStructure } from "./useSignUpFormStructure";
 import { FormBuilder } from "../shared/form-builder/FormBuilder";
@@ -12,6 +11,7 @@ import { isEmail } from "~/lib/validators/isEmail";
 import { useNavigation } from "~/hooks/useNavigation";
 import { StableKeyboardAwareScrollView } from "../shared/StableKeyboardAwareScrollView";
 import { cn } from "~/lib/utils";
+import { Icon } from "../ui/icon";
 
 interface SignUpLayoutProps {
   className?: string;
@@ -51,7 +51,7 @@ export const SignUpLayout = ({ className }: SignUpLayoutProps) => {
             disabled={!isEmail(authStore.signUpRequest.email)}
           >
             <Text className="font-bold text-white">Continue with E-mail</Text>
-            <Icon name={ArrowRight} size={24} className="text-white" />
+            <Icon as={ArrowRight} size={24} className="text-white" />
           </Button>
 
           {/* Divider */}
