@@ -18,7 +18,7 @@ import { cn } from "~/lib/utils";
 import { Text } from "../ui/text";
 import { StableSafeAreaView } from "../shared/StableSafeAreaView";
 import { ApplicationHeader } from "../shared/AppHeader";
-import { useNavigation } from "expo-router";
+import { router, useNavigation } from "expo-router";
 import { NavigationProps } from "~/types/app.routes";
 import { useNotificationContext } from "~/contexts/NotificationContext";
 
@@ -132,12 +132,12 @@ export const Balance = ({ className }: BalanceProps) => {
         shortcuts={[
           {
             icon: User,
-            onPress: () => navigation.navigate("my-space/index", {}),
+            onPress: () => router.push("/main/my-space"),
           },
           {
             icon: Bell,
             onPress: () => {
-              navigation.navigate("notifications", { reset: false });
+              router.push("/main/notifications");
               resetCount();
             },
             badgeText: newCount > 0 ? `${newCount}` : undefined,

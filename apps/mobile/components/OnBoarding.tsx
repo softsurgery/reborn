@@ -35,7 +35,7 @@ export default function OnBoarding({ className }: OnBoardingProps) {
       <Button
         className="w-full mb-6"
         variant="outline"
-        onPress={() => router.navigate("/main/auth/sign-in")}
+        onPress={() => router.navigate("/auth/sign-in")}
       >
         <Text className="text-3xl tracking-wider font-bold">
           {"Get Started".toUpperCase()}

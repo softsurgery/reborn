@@ -2,7 +2,7 @@ import React from "react";
 import { cn } from "~/lib/utils";
 import { View, TouchableOpacity } from "react-native";
 import { Heart, Clock, Wallet } from "lucide-react-native";
-import { useNavigation } from "expo-router";
+import { router, useNavigation } from "expo-router";
 import { NavigationProps } from "~/types/app.routes";
 import { ResponseJobDto } from "~/types";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -24,7 +24,6 @@ interface JobCardProps {
 export const JobCard = ({ className, job }: JobCardProps) => {
   const queryClient = useQueryClient();
   const [showFullDesc, setShowFullDesc] = React.useState(false);
-  const navigation = useNavigation<NavigationProps>();
 
   const { isJobSaved, isSavedPending } = useIsJobSaved(job.id);
   const { saveJob, isSavePending, unsaveJob, isUnsavePending } =
@@ -72,9 +71,12 @@ export const JobCard = ({ className, job }: JobCardProps) => {
   return (
     <TouchableOpacity
       onPress={() => {
-        navigation.navigate("explore/job-details", {
-          id: job.id,
-          uploads: job.uploads.map((u) => u.uploadId) || [],
+        router.push({
+          pathname: "/main/explore/job-details",
+          params: {
+            id: job.id,
+            uploads: job.uploads.map((u) => u.uploadId) || [],
+          },
         });
       }}
       className={cn(

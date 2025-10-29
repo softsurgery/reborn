@@ -28,7 +28,7 @@ export const useNavigation = (): useNavigationReturn => {
         })
       );
     } else {
-      navigation.navigate(route, params);
+      router.push(route, params);
     }
   };
 

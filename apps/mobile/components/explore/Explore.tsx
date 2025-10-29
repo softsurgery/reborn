@@ -13,10 +13,9 @@ import { cn } from "~/lib/utils";
 import { StablePressable } from "../shared/StablePressable";
 import { StableSafeAreaView } from "../shared/StableSafeAreaView";
 import { ApplicationHeader } from "../shared/AppHeader";
-import { useNavigation } from "expo-router";
-import { NavigationProps } from "~/types/app.routes";
 import { Bell, Search, User } from "lucide-react-native";
 import { useNotificationContext } from "~/contexts/NotificationContext";
+import { router } from "expo-router";
 
 type TabType = "recent" | "followings";
 
@@ -29,7 +28,6 @@ export const Explore = ({
   initialTab = "recent",
   onTabChange,
 }: ExploreProps) => {
-  const navigation = useNavigation<NavigationProps>();
   const [tab, setTab] = React.useState<TabType>(initialTab);
   const [search, setSearch] = React.useState("");
 
@@ -131,16 +129,16 @@ export const Explore = ({
           shortcuts={[
             {
               icon: Search,
-              onPress: () => navigation.navigate("explore/job-search", {}),
+              onPress: () => router.push("/main/explore/job-search"),
             },
             {
               icon: User,
-              onPress: () => navigation.navigate("my-space/index", {}),
+              onPress: () => router.push("/main/my-space"),
             },
             {
               icon: Bell,
               onPress: () => {
-                navigation.navigate("notifications", { reset: false });
+                router.push("/main/notifications");
                 resetCount();
               },
               badgeText: newCount > 0 ? `${newCount}` : undefined,

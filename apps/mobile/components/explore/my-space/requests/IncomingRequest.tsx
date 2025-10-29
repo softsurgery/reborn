@@ -1,6 +1,6 @@
 import React from "react";
 import { format } from "date-fns";
-import { useNavigation } from "expo-router";
+import { router, useNavigation } from "expo-router";
 import { View } from "react-native";
 import { StablePressable } from "~/components/shared/StablePressable";
 import { Button } from "~/components/ui/button";
@@ -11,7 +11,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "~/components/ui/dialog";
 import {
   CheckCircle2,
@@ -113,8 +112,11 @@ export const IncomingRequestEntry = ({
           className="w-16 h-16 rounded-full overflow-hidden border-2 border-border"
           onPressClassname="opacity-70"
           onPress={() => {
-            navigation.navigate("explore/user-profile", {
-              id: request.userId,
+            router.push({
+              pathname: "/main/explore/user-profile",
+              params: {
+                id: request.userId,
+              },
             });
           }}
         >
@@ -316,12 +318,7 @@ const IncomingApprovedActionBlock = ({
         size="sm"
         className="flex flex-row flex-1 items-center gap-2"
         variant={"outline"}
-        onPress={() =>
-          navigation.navigate("index", {
-            defaultTab: "messages",
-            reset: true,
-          })
-        }
+        onPress={() => router.push("/main/(tabs)/chat")}
       >
         <Icon as={Mail} size={14} className="text-primary-foreground" />
         <Text>Send Message</Text>

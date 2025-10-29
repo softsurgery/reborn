@@ -1,18 +1,18 @@
+import React from "react";
 import { View } from "react-native";
 import { Text } from "../ui/text";
 import { FormBuilder } from "../shared/form-builder/FormBuilder";
 import { useSignUpFormStructure } from "./useSignUpFormStructure";
 import { useAuthStore } from "~/hooks/stores/useAuthStore";
 import { Button } from "../ui/button";
-import React from "react";
 import { cn } from "~/lib/utils";
-import { useNavigation } from "~/hooks/useNavigation";
 import { useMutation } from "@tanstack/react-query";
 import { api } from "~/api";
 import { showToastable } from "react-native-toastable";
 import { requestSignUpDtoSchema } from "~/types/validations/auth.validation";
 import { StableKeyboardAwareScrollView } from "../shared/StableKeyboardAwareScrollView";
 import { ServerErrorResponse } from "~/types";
+import { router } from "expo-router";
 
 interface SignUpCarryOnLayoutProps {
   className?: string;
@@ -22,12 +22,11 @@ export const SignUpCarryOnLayout = ({
   className,
 }: SignUpCarryOnLayoutProps) => {
   const authStore = useAuthStore();
-  const navigation = useNavigation();
 
   const { mutate: SignUp, isPending: isSignUpPending } = useMutation({
     mutationFn: async () => api.auth.signUp(authStore.signUpRequest),
     onSuccess: () => {
-      navigation.navigate("auth/sign-in", { reset: true });
+      router.push("/auth/sign-in");
       showToastable({
         message: "Now you can sign in with your new account",
         status: "success",

@@ -7,14 +7,10 @@ import { api } from "~/api";
 import React from "react";
 import { ResponseNotificationDto } from "~/types/notifications";
 import { StablePressable } from "../shared/StablePressable";
-import { useNavigation } from "expo-router";
-import { NavigationProps } from "~/types/app.routes";
 import { NotificationEntry } from "./NotificationEntry";
 import { Loader } from "../shared/Loader";
 
 export const NotificationsPortal = () => {
-  const navigation = useNavigation<NavigationProps>();
-
   const {
     data,
     fetchNextPage,

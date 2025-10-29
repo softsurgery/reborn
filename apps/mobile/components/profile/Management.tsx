@@ -6,8 +6,7 @@ import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "~/api";
 import { Button } from "~/components/ui/button";
-import { useNavigation } from "expo-router";
-import { NavigationProps } from "~/types/app.routes";
+import { router, useNavigation } from "expo-router";
 import { useClientStore } from "~/hooks/stores/useClientStore";
 import { ProfileManagmentCardSkeleton } from "~/components/explore/users/ProfileManagmentCardSkeleton";
 import { cn } from "~/lib/utils";
@@ -17,7 +16,7 @@ interface ManagementProps {
 }
 
 export const Management = ({ className }: ManagementProps) => {
-  const navigation = useNavigation<NavigationProps>();
+  const navigation = useNavigation();
   const { currentUser, isCurrentUserPending } = useCurrentUser();
   const clientStore = useClientStore();
 
@@ -65,9 +64,7 @@ export const Management = ({ className }: ManagementProps) => {
         <ProfileManagmentCard className="mt-5" clientStore={clientStore} />
       )}
       <Button
-        onPress={() =>
-          navigation.navigate("account/update-profile", { reset: false })
-        }
+        onPress={() => router.push("/main/account/update-profile")}
         className="w-full"
       >
         <Text className="bold">Update Your Profile</Text>

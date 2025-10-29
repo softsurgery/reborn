@@ -1,11 +1,10 @@
-import { Bookmark, Briefcase, Eye, Inbox, Star } from "lucide-react-native";
+import { Bookmark, Eye, Inbox, Star } from "lucide-react-native";
 import { View } from "react-native";
 import { Management } from "~/components/profile/Management";
 import { StablePressable } from "~/components/shared/StablePressable";
 import { Text } from "~/components/ui/text";
 import { cn } from "~/lib/utils";
-import { useNavigation } from "expo-router";
-import { NavigationProps } from "~/types/app.routes";
+import { router } from "expo-router";
 import { Separator } from "~/components/ui/separator";
 import { Icon } from "~/components/ui/icon";
 
@@ -14,14 +13,13 @@ interface MySpacePortalProps {
 }
 
 export const MySpacePortal = ({ className }: MySpacePortalProps) => {
-  const navigation = useNavigation<NavigationProps>();
   const cards = [
     {
       title: "Requests",
       icon: Inbox,
       description: "View all your requests",
       onPress: () => {
-        navigation.navigate("my-space/requests", {});
+        router.push("/main/my-space/requests");
       },
     },
     {
@@ -29,7 +27,7 @@ export const MySpacePortal = ({ className }: MySpacePortalProps) => {
       icon: Bookmark,
       description: "View all your saved jobs",
       onPress: () => {
-        navigation.navigate("my-space/saved", {});
+        router.push("/main/my-space/saved");
       },
     },
     {

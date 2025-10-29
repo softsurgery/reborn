@@ -14,15 +14,13 @@ import { useMutation } from "@tanstack/react-query";
 import { CreateJobDto, ServerErrorResponse } from "~/types";
 import { showToastable } from "react-native-toastable";
 import { cn } from "~/lib/utils";
-import { useNavigation } from "expo-router";
-import { NavigationProps } from "~/types/app.routes";
+import { router } from "expo-router";
 
 interface JobCreateFormProps {
   className?: string;
 }
 
 export const JobCreateForm = ({ className }: JobCreateFormProps) => {
-  const navigation = useNavigation<NavigationProps>();
   const scrollRef = React.useRef<KeyboardAwareScrollView>(null);
 
   const jobStore = useJobStore();
@@ -53,7 +51,7 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
         message: "Job created successfully",
         status: "success",
       });
-      navigation.navigate("index", { defaultTab: "explore", reset: true });
+      router.push("/main/(tabs)");
     },
     onError: (error: ServerErrorResponse) => {
       showToastable({

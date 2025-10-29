@@ -1,6 +1,6 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
-import { useLocalSearchParams, useNavigation } from "expo-router";
+import { router, useLocalSearchParams, useNavigation } from "expo-router";
 import { View } from "react-native";
 import { api } from "~/api";
 import { ProfileManagmentCard } from "~/components/explore/users/ProfileManagementCard";
@@ -10,7 +10,6 @@ import { ProfileManagmentCardSkeleton } from "./ProfileManagmentCardSkeleton";
 import { Inbox } from "lucide-react-native";
 import { StablePressable } from "~/components/shared/StablePressable";
 import { Text } from "~/components/ui/text";
-import { NavigationProps } from "~/types/app.routes";
 import { Icon } from "~/components/ui/icon";
 
 interface UserProfileProps {
@@ -18,15 +17,14 @@ interface UserProfileProps {
 }
 
 export const UserProfile = ({ className }: UserProfileProps) => {
-  const navigation = useNavigation<NavigationProps>();
-
+  const navigation = useNavigation();
   const cards = [
     {
       title: "Open Jobs",
       icon: Inbox,
       description: "View all open jobs for this user",
       onPress: () => {
-        navigation.navigate("index", { defaultTab: "explore", reset: true });
+        router.push("/main/(tabs)");
       },
     },
   ];

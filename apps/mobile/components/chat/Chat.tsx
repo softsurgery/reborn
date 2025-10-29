@@ -3,8 +3,6 @@ import { RefreshControl, View } from "react-native";
 import { Text } from "../ui/text";
 import { Separator } from "../ui/separator";
 import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
-import { useNavigation } from "expo-router";
-import { NavigationProps } from "~/types/app.routes";
 import { UserEntry } from "./UserEntry";
 import { StableSafeAreaView } from "../shared/StableSafeAreaView";
 import { api } from "~/api";
@@ -20,13 +18,13 @@ import { StablePressable } from "../shared/StablePressable";
 import { ApplicationHeader } from "../shared/AppHeader";
 import { Bell, User } from "lucide-react-native";
 import { useNotificationContext } from "~/contexts/NotificationContext";
+import { router } from "expo-router";
 
 interface ChatProps {
   className?: string;
 }
 
 export const Chat = ({ className }: ChatProps) => {
-  const navigation = useNavigation<NavigationProps>();
   const { newCount, resetCount } = useNotificationContext();
 
   const { currentUser } = useCurrentUser();
@@ -72,7 +70,10 @@ export const Chat = ({ className }: ChatProps) => {
           key={new Date().getTime()}
           className="flex flex-col gap-4 py-2"
           onPress={() =>
-            navigation.navigate("chat/conversation", { id: item.id })
+            router.push({
+              pathname: "/main/chat/conversation",
+              params: { id: item.id },
+            })
           }
         >
           <UserEntry
@@ -105,12 +106,12 @@ export const Chat = ({ className }: ChatProps) => {
         shortcuts={[
           {
             icon: User,
-            onPress: () => navigation.navigate("my-space/index", {}),
+            onPress: () => router.push("/main/my-space"),
           },
           {
             icon: Bell,
             onPress: () => {
-              navigation.navigate("notifications", { reset: false });
+              router.push("/main/notifications");
               resetCount();
             },
             badgeText: newCount > 0 ? `${newCount}` : undefined,

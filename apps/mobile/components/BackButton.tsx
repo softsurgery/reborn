@@ -1,26 +1,21 @@
 import { ArrowLeft } from "lucide-react-native";
 import { Pressable } from "react-native";
-import { useNavigation } from "~/hooks/useNavigation";
 import { cn } from "~/lib/utils";
-import { StackParamList } from "~/types/app.routes";
 import { Icon } from "./ui/icon";
+import { router } from "expo-router";
 
 interface BackButtonProps {
   className?: string;
-  route: keyof StackParamList;
+  size?: number;
 }
 
-export const BackButton = ({ className, route }: BackButtonProps) => {
-  const navigation = useNavigation();
-  if (!navigation) {
-    return null;
-  }
+export const BackButton = ({ className, size = 24 }: BackButtonProps) => {
   return (
     <Pressable
       className={cn("flex flex-row items-center gap-2", className)}
-      onPress={() => navigation.navigate(route, { reset: true })}
+      onPress={() => router.back()}
     >
-      <Icon as={ArrowLeft} size={24} />
+      <Icon as={ArrowLeft} size={size} />
     </Pressable>
   );
 };

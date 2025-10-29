@@ -1,6 +1,6 @@
 import React from "react";
 import { format } from "date-fns";
-import { useNavigation } from "expo-router";
+import { router, useNavigation } from "expo-router";
 import { View } from "react-native";
 import { StablePressable } from "~/components/shared/StablePressable";
 import { Button } from "~/components/ui/button";
@@ -107,8 +107,11 @@ export const OutgoingRequestEntry = ({
           className="w-16 h-16 rounded-full overflow-hidden border-2 border-border"
           onPressClassname="opacity-70"
           onPress={() => {
-            navigation.navigate("explore/user-profile", {
-              id: request.job?.postedBy.id,
+            router.push({
+              pathname: "/main/explore/user-profile",
+              params: {
+                id: request.job?.postedBy.id,
+              },
             });
           }}
         >
@@ -191,10 +194,13 @@ export const PendingActionBlock = ({
           size={"sm"}
           className="flex flex-row flex-1 items-center gap-2"
           onPress={() => {
-            navigation.navigate("explore/job-details", {
-              id: request.job?.id,
-              uploads:
-                request.job?.uploads?.map((upload) => upload.uploadId) ?? [],
+            router.push({
+              pathname: "/main/explore/job-details",
+              params: {
+                id: request.job?.id,
+                uploads:
+                  request.job?.uploads?.map((upload) => upload.uploadId) ?? [],
+              },
             });
           }}
         >
@@ -273,10 +279,13 @@ const ApprovedActionBlock = ({
           size={"sm"}
           className="flex flex-row flex-1 items-center gap-2"
           onPress={() => {
-            navigation.navigate("explore/job-details", {
-              id: request.job?.id,
-              uploads:
-                request.job?.uploads?.map((upload) => upload.uploadId) ?? [],
+            router.push({
+              pathname: "/main/explore/job-details",
+              params: {
+                id: request.job?.id,
+                uploads:
+                  request.job?.uploads?.map((upload) => upload.uploadId) ?? [],
+              },
             });
           }}
         >
@@ -287,12 +296,7 @@ const ApprovedActionBlock = ({
           size={"sm"}
           className="flex flex-row flex-1 items-center gap-2"
           variant={"outline"}
-          onPress={() =>
-            navigation.navigate("index", {
-              defaultTab: "messages",
-              reset: true,
-            })
-          }
+          onPress={() => router.push("/main/(tabs)/chat")}
         >
           <Icon as={Mail} size={14} className="text-primary-foreground" />
           <Text>Send Message</Text>

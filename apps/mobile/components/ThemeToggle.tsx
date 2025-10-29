@@ -29,14 +29,9 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
     >
       <View className={cn("mx-2", className)}>
         {isDarkMode ? (
-          <Icon as={MoonStar} className="text-foreground" strokeWidth={1.25} />
+          <Icon as={MoonStar} className="text-foreground" size={24} />
         ) : (
-          <Icon
-            as={Sun}
-            className="text-foreground"
-            size={24}
-            strokeWidth={1.25}
-          />
+          <Icon as={Sun} className="text-foreground" size={24} />
         )}
       </View>
     </StablePressable>

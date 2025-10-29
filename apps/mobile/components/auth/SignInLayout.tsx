@@ -11,11 +11,11 @@ import { Button } from "../ui/button";
 import { ArrowRight } from "lucide-react-native";
 import DividerWithText from "../ui/divider-with-text";
 import { requestSignInDtoSchema } from "~/types/validations/auth.validation";
-import { useNavigation } from "~/hooks/useNavigation";
 import { showToastable } from "react-native-toastable";
 import { ServerErrorResponse } from "~/types";
 import { StableKeyboardAwareScrollView } from "../shared/StableKeyboardAwareScrollView";
 import { Icon } from "../ui/icon";
+import { router } from "expo-router";
 
 interface SignInLayoutProps {
   className?: string;
@@ -23,12 +23,12 @@ interface SignInLayoutProps {
 
 export const SignInLayout = ({ className }: SignInLayoutProps) => {
   const authStore = useAuthStore();
-  const navigation = useNavigation();
 
   const { mutate: SignIn, isPending: isSignInPending } = useMutation({
     mutationFn: async () => api.auth.signIn(authStore.signInRequest),
     onSuccess: () => {
-      navigation.navigate("index", { reset: true });
+      router.dismissAll();
+      router.replace("/main/(tabs)");
     },
     onError: (error: ServerErrorResponse) => {
       showToastable({
@@ -120,7 +120,7 @@ export const SignInLayout = ({ className }: SignInLayoutProps) => {
           <Text className="text-lg">Don't have an account?</Text>
           <Text
             className="font-bold text-lg"
-            onPress={() => navigation.navigate("auth/sign-up", { reset: true })}
+            onPress={() => router.push("/auth/sign-up")}
           >
             Create an account
           </Text>

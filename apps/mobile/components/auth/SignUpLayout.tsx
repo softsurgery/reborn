@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { Image, View } from "react-native";
 import { Text } from "~/components/ui/text";
 import { ArrowRight } from "lucide-react-native";
@@ -12,6 +12,7 @@ import { useNavigation } from "~/hooks/useNavigation";
 import { StableKeyboardAwareScrollView } from "../shared/StableKeyboardAwareScrollView";
 import { cn } from "~/lib/utils";
 import { Icon } from "../ui/icon";
+import { router } from "expo-router";
 
 interface SignUpLayoutProps {
   className?: string;
@@ -46,7 +47,7 @@ export const SignUpLayout = ({ className }: SignUpLayoutProps) => {
           <Button
             className="flex flex-row justify-center gap-2 my-1"
             onPress={() => {
-              navigation.navigate("auth/sign-up-carry-on");
+              router.push("/auth/sign-up-carry-on");
             }}
             disabled={!isEmail(authStore.signUpRequest.email)}
           >
@@ -88,7 +89,7 @@ export const SignUpLayout = ({ className }: SignUpLayoutProps) => {
           <Text className="text-lg">Already have an account?</Text>
           <Text
             className="font-bold text-lg"
-            onPress={() => navigation.navigate("auth/sign-in", { reset: true })}
+            onPress={() => router.push("/auth/sign-in")}
           >
             Sign-in
           </Text>
