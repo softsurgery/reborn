@@ -90,4 +90,18 @@ function Text({
   );
 }
 
-export { Text, TextClassContext };
+type TextVariantDefaults =
+  | "default"
+  | "h1"
+  | "h2"
+  | "h3"
+  | "h4"
+  | "p"
+  | "blockquote"
+  | "code"
+  | "lead"
+  | "large"
+  | "small"
+  | "muted";
+
+export { Text, TextClassContext, TextVariantDefaults };
