@@ -10,7 +10,6 @@ import { Text } from "~/components/ui/text";
 import { FormBuilder } from "~/components/shared/form-builder/FormBuilder";
 import { useUpdateProfileFormStructure } from "./useUpdateProfileFormStructure";
 import { showToastable } from "react-native-toastable";
-import { useNavigation } from "~/hooks/useNavigation";
 import { useRegions } from "~/hooks/content/useRegions";
 import { mapToSelectOptions } from "~/components/shared/form-builder/utils/mapToSelectOptions";
 import {
@@ -25,6 +24,7 @@ import { identifyUserAvatar } from "~/lib/user.utils";
 import { StableKeyboardAwareScrollView } from "../shared/StableKeyboardAwareScrollView";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Icon } from "../ui/icon";
+import { router } from "expo-router";
 
 export const UpdateProfile = () => {
   const queryClient = useQueryClient();
@@ -37,7 +37,6 @@ export const UpdateProfile = () => {
   });
 
   const clientStore = useClientStore();
-  const navigation = useNavigation();
   const { regions, isFetchRegionsPending } = useRegions();
 
   const { uploadFiles: uploadPicture, isUploadPending } = useUploadMutation({
@@ -94,7 +93,7 @@ export const UpdateProfile = () => {
           message: "Profile Updated Successfully",
           status: "success",
         });
-        navigation.goBack();
+        router.back();
       },
       onError: (error: ServerErrorResponse) => {
         showToastable({

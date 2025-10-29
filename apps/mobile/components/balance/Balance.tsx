@@ -19,7 +19,6 @@ import { Text } from "../ui/text";
 import { StableSafeAreaView } from "../shared/StableSafeAreaView";
 import { ApplicationHeader } from "../shared/AppHeader";
 import { router, useNavigation } from "expo-router";
-import { NavigationProps } from "~/types/app.routes";
 import { useNotificationContext } from "~/contexts/NotificationContext";
 
 interface Transaction {
@@ -79,7 +78,6 @@ interface BalanceProps {
 }
 
 export const Balance = ({ className }: BalanceProps) => {
-  const navigation = useNavigation<NavigationProps>();
   const { newCount, resetCount } = useNotificationContext();
 
   const totalEarnings = 28750.0;

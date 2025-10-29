@@ -1,6 +1,6 @@
 import React from "react";
 import { format } from "date-fns";
-import { router, useNavigation } from "expo-router";
+import { router } from "expo-router";
 import { View } from "react-native";
 import { StablePressable } from "~/components/shared/StablePressable";
 import { Button } from "~/components/ui/button";
@@ -29,7 +29,6 @@ import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
 import { useServerImage } from "~/hooks/content/useServerImage";
 import { useJobRequestActions } from "~/hooks/content/job/useJobRequestActions";
 import { JobRequestStatus, ResponseJobRequestDto } from "~/types";
-import { NavigationProps } from "~/types/app.routes";
 import { Icon } from "~/components/ui/icon";
 
 interface IncomingRequestEntryProps {
@@ -43,7 +42,6 @@ export const IncomingRequestEntry = ({
   request,
   refetchRequests,
 }: IncomingRequestEntryProps) => {
-  const navigation = useNavigation<NavigationProps>();
   const { jsx: profilePictureBlock } = useServerImage({
     id: request.user?.profile?.pictureId!,
     fallback: identifyUserAvatar(request.user),
@@ -306,7 +304,6 @@ const IncomingApprovedActionBlock = ({
   className,
   request,
 }: IncomingRequestEntryProps) => {
-  const navigation = useNavigation<NavigationProps>();
   return (
     <View
       className={cn(

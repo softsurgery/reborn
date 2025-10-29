@@ -8,7 +8,6 @@ import { Text } from "~/components/ui/text";
 import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
 import { cn } from "~/lib/utils";
 import { JobRequestStatus, ResponseJobRequestDto } from "~/types";
-import { NavigationProps } from "~/types/app.routes";
 import { useServerImage } from "~/hooks/content/useServerImage";
 import {
   AlertCircle,
@@ -41,7 +40,6 @@ export const OutgoingRequestEntry = ({
   request,
   refetchRequests,
 }: OutgoingRequestEntryProps) => {
-  const navigation = useNavigation<NavigationProps>();
   const { jsx: profilePictureBlock } = useServerImage({
     id: request.job?.postedBy?.profile?.pictureId!,
     fallback: identifyUserAvatar(request.job?.postedBy),
@@ -173,7 +171,6 @@ export const PendingActionBlock = ({
   request,
   refetchRequests,
 }: OutgoingRequestEntryProps) => {
-  const navigation = useNavigation<NavigationProps>();
   const [open, setOpen] = React.useState(false);
   const { cancelJobRequest, isCancelPending } = useJobRequestActions({
     onSuccess: () => {
@@ -265,8 +262,6 @@ const ApprovedActionBlock = ({
   request,
   refetchRequests,
 }: OutgoingRequestEntryProps) => {
-  const navigation = useNavigation<NavigationProps>();
-
   return (
     <React.Fragment>
       <View

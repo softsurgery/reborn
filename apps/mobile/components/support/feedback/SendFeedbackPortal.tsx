@@ -11,16 +11,15 @@ import { FormBuilder } from "~/components/shared/form-builder/FormBuilder";
 import { useSendFeedbackFormStructure } from "./useSendFeedbackFormStructure";
 import { cn } from "~/lib/utils";
 import { showToastable } from "react-native-toastable";
-import { useNavigation } from "~/hooks/useNavigation";
 import { StableKeyboardAwareScrollView } from "~/components/shared/StableKeyboardAwareScrollView";
 import { Icon } from "~/components/ui/icon";
+import { router } from "expo-router";
 
 interface SendFeedbackPortalProps {
   className?: string;
 }
 
 export const SendFeedbackPortal = ({ className }: SendFeedbackPortalProps) => {
-  const navigation = useNavigation();
   React.useEffect(() => {
     return () => {
       sendFeedbackStore.reset();
@@ -40,7 +39,7 @@ export const SendFeedbackPortal = ({ className }: SendFeedbackPortalProps) => {
           message: "Feedback submitted successfully",
           status: "success",
         });
-        navigation.goBack();
+        router.back();
         sendFeedbackStore.reset();
       },
       onError: (error) => {

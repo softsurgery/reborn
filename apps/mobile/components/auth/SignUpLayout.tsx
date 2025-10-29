@@ -8,7 +8,6 @@ import DividerWithText from "~/components/ui/divider-with-text";
 import { useSignUpFormStructure } from "./useSignUpFormStructure";
 import { FormBuilder } from "../shared/form-builder/FormBuilder";
 import { isEmail } from "~/lib/validators/isEmail";
-import { useNavigation } from "~/hooks/useNavigation";
 import { StableKeyboardAwareScrollView } from "../shared/StableKeyboardAwareScrollView";
 import { cn } from "~/lib/utils";
 import { Icon } from "../ui/icon";
@@ -20,7 +19,6 @@ interface SignUpLayoutProps {
 
 export const SignUpLayout = ({ className }: SignUpLayoutProps) => {
   const authStore = useAuthStore();
-  const navigation = useNavigation();
 
   const { signUpFormStructure } = useSignUpFormStructure({
     store: authStore,

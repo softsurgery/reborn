@@ -11,16 +11,15 @@ import { FormBuilder } from "~/components/shared/form-builder/FormBuilder";
 import { createBugSchema } from "~/types/validations/system-reports.validation";
 import { cn } from "~/lib/utils";
 import { showToastable } from "react-native-toastable";
-import { useNavigation } from "~/hooks/useNavigation";
 import { StableKeyboardAwareScrollView } from "~/components/shared/StableKeyboardAwareScrollView";
 import { Icon } from "~/components/ui/icon";
+import { router } from "expo-router";
 
 interface BugReportPortalProps {
   className?: string;
 }
 
 export const BugReportPortal = ({ className }: BugReportPortalProps) => {
-  const navigation = useNavigation();
   React.useEffect(() => {
     return () => {
       bugStore.reset();
@@ -37,7 +36,7 @@ export const BugReportPortal = ({ className }: BugReportPortalProps) => {
         message: "Bug reported successfully",
         status: "success",
       });
-      navigation.goBack();
+      router.back();
       bugStore.reset();
     },
     onError: (error) => {
