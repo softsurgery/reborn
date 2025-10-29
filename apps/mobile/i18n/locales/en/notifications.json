@@ -1,10 +1,16 @@
 {
   "titles": {
     "TEST": "This is a test notification",
-    "NEW_SIGNIN": "New Sign-in!"
+    "NEW_SIGNIN": "New Sign-in!",
+    "NEW_JOB_REQUEST": "New Job Request for you 🫵🏻",
+    "JOB_REQUEST_APPROVED": "Job Request Approved 😆",
+    "JOB_REQUEST_REJECTED": "Job Request Rejected 😢"
   },
   "descriptions": {
     "TEST": "This is a test notification description designed to verify that the notification system is working properly.",
-    "NEW_SIGNIN": "We noticed a new sigin from a new device"
+    "NEW_SIGNIN": "We noticed a new sigin from a new device",
+    "NEW_JOB_REQUEST": "Your job <strong>{{title}}</strong> has been requested by <strong>{{fullname}}</strong>",
+    "JOB_REQUEST_APPROVED": "Your job request on the job with title <strong>{{title}}</strong> has been approved",
+    "JOB_REQUEST_REJECTED": "Your job request on the job with title <strong>{{title}}</strong> has been rejected"
   }
 }

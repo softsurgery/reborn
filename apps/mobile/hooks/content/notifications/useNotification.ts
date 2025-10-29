@@ -5,6 +5,7 @@ import { Platform } from "react-native";
 import { useAuthPersistStore } from "~/hooks/stores/useAuthPersistStore";
 import { ResponseNotificationDto } from "~/types/notifications";
 import { useTranslation } from "react-i18next";
+import { sanitizeText } from "~/lib/string.lib";
 
 const SOCKET_URL = `${process.env.EXPO_PUBLIC_API_SOCKET_URL}/notifications`;
 
@@ -54,8 +55,15 @@ export function useNotifications() {
       setNewCount((prev) => prev + 1);
       await Notifications.scheduleNotificationAsync({
         content: {
-          title: t(`titles.${notification.type}`),
-          body: t(`descriptions.${notification.type}`),
+          title: sanitizeText(
+            t(`titles.${notification.type}`, notification.payload).toString()
+          ),
+          body: sanitizeText(
+            t(
+              `descriptions.${notification.type}`,
+              notification.payload
+            ).toString()
+          ),
           sound: true,
         },
         trigger: null,

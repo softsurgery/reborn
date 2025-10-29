@@ -1,10 +1,16 @@
 {
   "titles": {
     "TEST": "Ceci est une notification de test",
-    "NEW_SIGNIN": "Nouvelle connexion!"
+    "NEW_SIGNIN": "Nouvelle connexion!",
+    "NEW_JOB_REQUEST": "Nouvelle demande de travail pour vous 🫵🏻",
+    "JOB_REQUEST_APPROVED": "Demande de travail approuvée 😆",
+    "JOB_REQUEST_REJECTED": "Demande de travail rejetée 😢"
   },
   "descriptions": {
     "TEST": "Ceci est une notification de test décrivant ce qui est testé pour vérifier que le système de notification fonctionne correctement.",
-    "NEW_SIGNIN": "Nous avons remarqué une nouvelle connexion de nouveau dispositif"
+    "NEW_SIGNIN": "Nous avons remarqué une nouvelle connexion de nouveau dispositif",
+    "NEW_JOB_REQUEST": "Votre demande de travail <strong>{{title}}</strong> a été demandée par <strong>{{fullname}}</strong>",
+    "JOB_REQUEST_APPROVED": "Votre demande de travail sur le travail avec le titre <strong>{{title}}</strong> a été approuvée",
+    "JOB_REQUEST_REJECTED": "Votre demande de travail sur le travail avec le titre <strong>{{title}}</strong> a été rejetée"
   }
 }

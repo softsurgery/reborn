@@ -41,13 +41,11 @@ export const NotificationsPortal = () => {
   const renderItem = React.useCallback(
     ({ item }: { item: ResponseNotificationDto }) => {
       return (
-        <StablePressable
-          key={new Date().getTime()}
+        <NotificationEntry
           className="flex flex-col gap-4 py-2"
-          onPress={() => {}}
-        >
-          <NotificationEntry notification={item} />
-        </StablePressable>
+          key={item.id}
+          notification={item}
+        />
       );
     },
     []
