@@ -42,10 +42,6 @@ export const JobDetails = () => {
 
   const { currentUser } = useCurrentUser();
   const { id, uploads: rawUploads } = useLocalSearchParams();
-  const uploads = React.useMemo(
-    () => JSON.parse(rawUploads as string),
-    [rawUploads]
-  );
 
   const { data: jobResp, isPending: isJobPending } = useQuery({
     queryKey: ["job", id],
@@ -54,6 +50,13 @@ export const JobDetails = () => {
   });
 
   const job = React.useMemo(() => jobResp ?? null, [jobResp]);
+
+  const uploads = React.useMemo(
+    () =>
+      (rawUploads && JSON.parse(rawUploads as string)) ||
+      job?.uploads.map((upload) => upload.uploadId),
+    [rawUploads, job?.uploads]
+  );
 
   //application
   const [requestDialogOpen, setRequestDialogOpen] = React.useState(false);

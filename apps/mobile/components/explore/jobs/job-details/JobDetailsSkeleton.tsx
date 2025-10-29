@@ -18,9 +18,9 @@ export const JobDetailsSkeleton = ({
     <StableSafeAreaView className={cn("flex-1", className)}>
       {/* Header */}
       <View className="bg-card px-6 py-5 border-b border-border">
-        <View className="flex-row items-start justify-between mb-3">
+        <View className="flex-row items-start justify-between mb-2">
           <View className="flex-1 pr-4">
-            <Skeleton className="h-6 w-2/3 mb-2" />
+            <Skeleton className="h-5 w-full mb-1" />
             <View className="flex flex-row gap-2">
               <Skeleton className="h-4 w-16" />
               <Skeleton className="h-4 w-20" />
@@ -29,7 +29,7 @@ export const JobDetailsSkeleton = ({
           <Skeleton className="w-6 h-6 rounded-full" />
         </View>
 
-        <View className="flex-row items-center gap-3">
+        <View className="flex-row items-center gap-5">
           <Skeleton className="h-4 w-16" />
           <Skeleton className="h-4 w-20" />
           <Skeleton className="h-4 w-20" />
@@ -43,7 +43,7 @@ export const JobDetailsSkeleton = ({
           <View className="flex-row items-center gap-3">
             <Skeleton className="w-10 h-10 rounded-full" />
             <View>
-              <Skeleton className="h-4 w-32 mb-1" />
+              <Skeleton className="h-4 w-32 mb-3" />
               <Skeleton className="h-3 w-24" />
             </View>
           </View>
@@ -57,7 +57,7 @@ export const JobDetailsSkeleton = ({
 
       <View className="flex-1 px-6 pb-5 mt-4">
         {/*  About project + Project scope */}
-        <View className="flex flex-row justify-between mt-6">
+        <View className="flex flex-col justify-between mt-6">
           {/* About project */}
           <View>
             <Skeleton className="h-5 w-40 mb-3" />
@@ -66,7 +66,7 @@ export const JobDetailsSkeleton = ({
             <Separator className="my-4" />
           </View>
           {/* Project scope */}
-          <View className="w-1/2 pl-2">
+          <View className="flex flex-col justify-between mb-4">
             <Skeleton className="h-5 w-28 mb-3" />
             <Skeleton className="h-4 w-20 mb-1" />
             <Skeleton className="h-4 w-24 mb-1" />
@@ -74,9 +74,11 @@ export const JobDetailsSkeleton = ({
           </View>
         </View>
         {/* tags */}
-        <View className="w-1/2 pr-2">
+        <View className="flex flex-col justify-between mb-4">
           <Skeleton className="h-5 w-20 mb-3" />
           <View className="flex flex-row flex-wrap gap-2">
+            <Skeleton className="h-5 w-12 rounded-full" />
+            <Skeleton className="h-5 w-12 rounded-full" />
             <Skeleton className="h-5 w-12 rounded-full" />
             <Skeleton className="h-5 w-12 rounded-full" />
             <Skeleton className="h-5 w-12 rounded-full" />
