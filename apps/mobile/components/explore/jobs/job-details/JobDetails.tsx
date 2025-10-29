@@ -41,7 +41,11 @@ export const JobDetails = () => {
   const queryClient = useQueryClient();
 
   const { currentUser } = useCurrentUser();
-  const { id, uploads } = useLocalSearchParams();
+  const { id, uploads: rawUploads } = useLocalSearchParams();
+  const uploads = React.useMemo(
+    () => JSON.parse(rawUploads as string),
+    [rawUploads]
+  );
 
   const { data: jobResp, isPending: isJobPending } = useQuery({
     queryKey: ["job", id],
@@ -156,17 +160,13 @@ export const JobDetails = () => {
           queryKey: ["upload", uploadId],
           queryFn: () => api.upload.getUploadById(Number(uploadId)),
           enabled: !!uploadId,
-          staleTime: Infinity,
         }))
       : [],
   });
 
   const handleApply = () => {
-    if (!isJobRequested) {
-      sendRequest();
-    } else {
-      cancelRequest();
-    }
+    if (!isJobRequested) sendRequest();
+    else cancelRequest();
   };
 
   const handleSave = (e: any) => {

@@ -1,7 +1,7 @@
+import React from "react";
 import { UseQueryResult } from "@tanstack/react-query";
 import { Image } from "expo-image";
 import { Calendar } from "lucide-react-native";
-import React from "react";
 import { View } from "react-native";
 import { Loader } from "~/components/shared/Loader";
 import { Badge } from "~/components/ui/badge";

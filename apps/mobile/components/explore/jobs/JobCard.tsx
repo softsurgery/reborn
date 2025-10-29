@@ -74,7 +74,7 @@ export const JobCard = ({ className, job }: JobCardProps) => {
           pathname: "/main/explore/job-details",
           params: {
             id: job.id,
-            uploads: job.uploads.map((u) => u.uploadId) || [],
+            uploads: JSON.stringify(job.uploads.map((u) => u.uploadId)),
           },
         });
       }}
