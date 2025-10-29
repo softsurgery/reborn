@@ -16,6 +16,7 @@ import { ApplicationHeader } from "../shared/AppHeader";
 import { Bell, Search, User } from "lucide-react-native";
 import { useNotificationContext } from "~/contexts/NotificationContext";
 import { router } from "expo-router";
+import { useTranslation } from "react-i18next";
 
 type TabType = "recent" | "followings";
 
@@ -28,6 +29,7 @@ export const Explore = ({
   initialTab = "recent",
   onTabChange,
 }: ExploreProps) => {
+  const { t } = useTranslation("common");
   const [tab, setTab] = React.useState<TabType>(initialTab);
   const [search, setSearch] = React.useState("");
 
@@ -125,7 +127,7 @@ export const Explore = ({
       {/* Animated Header */}
       <Animated.View style={animatedHeaderStyle}>
         <ApplicationHeader
-          title="Explore"
+          title={t("screens.explore")}
           shortcuts={[
             {
               icon: Search,

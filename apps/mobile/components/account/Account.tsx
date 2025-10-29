@@ -23,12 +23,14 @@ import { Text } from "../ui/text";
 import { StableScrollView } from "../shared/StableScrollView";
 import { cn } from "~/lib/utils";
 import { useNotificationContext } from "~/contexts/NotificationContext";
+import { useTranslation } from "react-i18next";
 
 interface AccountProps {
   className?: string;
 }
 
 export const Account = ({ className }: AccountProps) => {
+  const { t } = useTranslation("common");
   const authPersistStore = useAuthPersistStore();
   const { newCount, resetCount } = useNotificationContext();
 
@@ -95,7 +97,7 @@ export const Account = ({ className }: AccountProps) => {
   return (
     <StableSafeAreaView className={cn("flex flex-1 mx-2", className)}>
       <ApplicationHeader
-        title="Menu"
+        title={t("screens.menu")}
         shortcuts={[
           {
             icon: User,

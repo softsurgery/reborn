@@ -19,12 +19,14 @@ import { ApplicationHeader } from "../shared/AppHeader";
 import { Bell, User } from "lucide-react-native";
 import { useNotificationContext } from "~/contexts/NotificationContext";
 import { router } from "expo-router";
+import { useTranslation } from "react-i18next";
 
 interface ChatProps {
   className?: string;
 }
 
 export const Chat = ({ className }: ChatProps) => {
+  const { t } = useTranslation("common");
   const { newCount, resetCount } = useNotificationContext();
 
   const { currentUser } = useCurrentUser();
@@ -102,7 +104,7 @@ export const Chat = ({ className }: ChatProps) => {
   return (
     <StableSafeAreaView className={cn("flex flex-1 mx-2", className)}>
       <ApplicationHeader
-        title="Messages"
+        title={t("screens.chat")}
         shortcuts={[
           {
             icon: User,

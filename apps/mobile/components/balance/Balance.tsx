@@ -18,8 +18,9 @@ import { cn } from "~/lib/utils";
 import { Text } from "../ui/text";
 import { StableSafeAreaView } from "../shared/StableSafeAreaView";
 import { ApplicationHeader } from "../shared/AppHeader";
-import { router, useNavigation } from "expo-router";
+import { router } from "expo-router";
 import { useNotificationContext } from "~/contexts/NotificationContext";
+import { useTranslation } from "react-i18next";
 
 interface Transaction {
   id: string;
@@ -78,6 +79,7 @@ interface BalanceProps {
 }
 
 export const Balance = ({ className }: BalanceProps) => {
+  const { t } = useTranslation("common");
   const { newCount, resetCount } = useNotificationContext();
 
   const totalEarnings = 28750.0;
@@ -126,7 +128,7 @@ export const Balance = ({ className }: BalanceProps) => {
   return (
     <StableSafeAreaView className={cn("flex-1 mx-2", className)}>
       <ApplicationHeader
-        title="Balance"
+        title={t("screens.balance")}
         shortcuts={[
           {
             icon: User,
