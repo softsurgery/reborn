@@ -27,8 +27,7 @@ export const SignInLayout = ({ className }: SignInLayoutProps) => {
   const { mutate: SignIn, isPending: isSignInPending } = useMutation({
     mutationFn: async () => api.auth.signIn(authStore.signInRequest),
     onSuccess: () => {
-      router.dismissAll();
-      router.replace("/main/(tabs)");
+      router.replace("/");
     },
     onError: (error: ServerErrorResponse) => {
       showToastable({

@@ -37,7 +37,6 @@ export const Account = ({ className }: AccountProps) => {
   const signout = () => {
     authPersistStore.logout();
     queryClient.clear();
-    router.dismissAll();
     router.replace("/");
   };
 

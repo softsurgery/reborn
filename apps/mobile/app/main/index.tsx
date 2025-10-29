@@ -1,5 +1,6 @@
 import { router } from "expo-router";
 import React from "react";
+import { ActivityIndicator, View } from "react-native";
 import OnBoarding from "~/components/OnBoarding";
 import { useAuthPersistStore } from "~/hooks/stores/useAuthPersistStore";
 
@@ -9,9 +10,19 @@ export default function Screen() {
 
   React.useEffect(() => {
     if (isAuthenticated && isAuthPersistStoreReady) {
-      router.navigate("/main/(tabs)");
-    }
-  }, [isAuthenticated]);
+      router.replace("/main/(tabs)");
 
-  return <OnBoarding />;
+      if (router.canDismiss()) router.dismissAll?.();
+    }
+  }, [isAuthenticated, isAuthPersistStoreReady]);
+
+  return (
+    <View className="flex-1 flex items-center justify-center w-full">
+      {!isAuthenticated && isAuthPersistStoreReady ? (
+        <OnBoarding className="w-full" />
+      ) : (
+        <ActivityIndicator size="large" />
+      )}
+    </View>
+  );
 }

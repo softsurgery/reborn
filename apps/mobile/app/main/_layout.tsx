@@ -1,25 +1,29 @@
 import React from "react";
 import { Stack } from "expo-router";
-import { ThemeToggle } from "~/components/ThemeToggle";
+import { useAuthPersistStore } from "~/hooks/stores/useAuthPersistStore";
 
 export default function MainLayout() {
+  const { isAuthenticated, isReady: isAuthPersistStoreReady } =
+    useAuthPersistStore();
   return (
     <Stack>
-      {/* Auth */}
-      <Stack.Screen
-        name="(tabs)"
-        options={{
-          title: "",
-          headerShown: false,
-          animation: "fade",
-          animationDuration: 200,
-        }}
-      />
       <Stack.Screen
         name="index"
         options={{
           title: "",
           headerShown: false,
+          animation: "fade_from_bottom",
+          animationDuration: 200,
+        }}
+      />
+      {/* Main Application */}
+      <Stack.Screen
+        name="(tabs)"
+        options={{
+          title: "",
+          headerShown: false,
+          animation: "fade_from_bottom",
+          animationDuration: 200,
         }}
       />
       {/* Account */}
