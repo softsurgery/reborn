@@ -4,12 +4,14 @@ import { cn } from "~/lib/utils";
 import { useTranslation } from "react-i18next";
 import { Label } from "../ui/label";
 import { Text } from "../ui/text";
+import { usePreferencePersistStore } from "~/hooks/stores/usePreferencePersistStore";
 
 interface LanguageSwitcherProps {
   className?: string;
 }
 
 export const LanguageSwitcher = ({ className }: LanguageSwitcherProps) => {
+  const preferencePersistStore = usePreferencePersistStore();
   const { t, i18n } = useTranslation("common");
   return (
     <View
@@ -25,10 +27,11 @@ export const LanguageSwitcher = ({ className }: LanguageSwitcherProps) => {
         <Select
           className="w-full"
           title={t("language")}
-          description={t("select_language")}
-          value={i18n.language}
+          description={t("select_language").toString()}
+          value={preferencePersistStore.language}
           onSelect={(value) => {
             i18n.changeLanguage(value);
+            preferencePersistStore.setLanguage(value as "en" | "fr" | "ar");
           }}
           options={[
             { label: "English", value: "en" },

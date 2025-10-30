@@ -5,6 +5,7 @@ import { Text } from "../ui/text";
 import { StablePressable } from "../shared/StablePressable";
 import { IconBadge } from "../ui/icon-badge";
 import { Icon } from "../ui/icon";
+import { useRTL } from "~/hooks/useRTL";
 
 type Shortcut =
   | {
@@ -24,10 +25,12 @@ export const ApplicationHeader = ({
   title,
   shortcuts,
 }: ApplicationHeaderProps) => {
+  const isRTL = useRTL();
   return (
     <View
       className={cn(
         "flex flex-row justify-between items-center gap-2 px-2",
+        isRTL ? "flex-row-reverse" : "",
         className
       )}
     >

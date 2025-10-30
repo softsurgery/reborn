@@ -13,9 +13,11 @@ import { Icon } from "~/components/ui/icon";
 import { useTranslation } from "react-i18next";
 import { useColorScheme } from "nativewind";
 import { NAV_THEME } from "~/lib/theme";
+import { useRTL } from "~/hooks/useRTL";
 
 export default function TabLayout() {
   const { colorScheme } = useColorScheme();
+  const isRTL = useRTL();
   const { t } = useTranslation("common");
 
   const isDarkColorScheme = colorScheme === "dark";
@@ -101,7 +103,7 @@ export default function TabLayout() {
         },
       }}
     >
-      {tabsConfig.map((tab) => (
+      {(isRTL ? tabsConfig.reverse() : tabsConfig).map((tab) => (
         <Tabs.Screen
           key={tab.name}
           name={tab.name}

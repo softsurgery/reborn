@@ -3,16 +3,19 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
 interface PreferencePersistData {
+  language: "en" | "fr" | "ar";
   theme: "dark" | "light";
 }
 
 interface PreferencePersistStore extends PreferencePersistData {
   isReady: boolean;
   setTheme: (theme: "dark" | "light") => void;
+  setLanguage: (language: "en" | "fr" | "ar") => void;
   toggleTheme: () => void;
 }
 
 const preferencePersistStore: PreferencePersistData = {
+  language: "en",
   theme: "light",
 };
 
@@ -31,6 +34,11 @@ export const usePreferencePersistStore = create<PreferencePersistStore>()(
             ...state,
             theme,
           })),
+        setLanguage: (language) =>
+          set((state) => ({
+            ...state,
+            language,
+          })),
         toggleTheme: () =>
           set((state) => ({
             ...state,
@@ -38,6 +46,7 @@ export const usePreferencePersistStore = create<PreferencePersistStore>()(
           })),
       };
     },
+
     {
       name: "preference-storage",
       storage: createJSONStorage(() => AsyncStorage),

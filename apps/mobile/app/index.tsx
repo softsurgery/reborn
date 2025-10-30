@@ -4,12 +4,13 @@ import { useColorScheme } from "nativewind";
 import * as Font from "expo-font";
 import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
 import { ActivityIndicator, Platform } from "react-native";
-
 import * as SplashScreen from "expo-splash-screen";
 import { usePreferencePersistStore } from "~/hooks/stores/usePreferencePersistStore";
+import { useTranslation } from "react-i18next";
 SplashScreen.preventAutoHideAsync();
 
 export default function ScreenRedirect() {
+  const { i18n } = useTranslation();
   const { setColorScheme } = useColorScheme();
   const preferencePersistStore = usePreferencePersistStore();
   const isDarkMode = React.useMemo(
@@ -42,6 +43,7 @@ export default function ScreenRedirect() {
     if (fontsLoaded && preferencePersistStore.isReady) {
       // Set system color scheme
       setColorScheme(preferencePersistStore.theme);
+      i18n.changeLanguage(preferencePersistStore.language);
 
       // Set Android navigation bar
       setAndroidNavigationBar(isDarkMode ? "light" : "dark");
