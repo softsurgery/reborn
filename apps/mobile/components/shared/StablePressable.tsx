@@ -2,7 +2,7 @@ import React from "react";
 import { cn } from "~/lib/utils";
 import { Pressable } from "react-native";
 
-interface StablePressableProps
+export interface StablePressableProps
   extends React.ComponentPropsWithoutRef<typeof Pressable> {
   className?: string;
   onPressClassname?: string;

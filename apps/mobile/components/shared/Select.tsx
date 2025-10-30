@@ -12,6 +12,7 @@ import type { SelectOption } from "~/components/shared/form-builder/types";
 interface SelectProps {
   className?: string;
   title?: string;
+  description?: string;
   placeholder?: string;
   value?: string;
   onSelect?: (value: string) => void;

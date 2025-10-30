@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 import { setDeepValue } from "~/lib/object.lib";
 import { CreateJobDto, ResponseJobDto, UpdateJobDto } from "~/types";
 
@@ -8,11 +9,13 @@ interface JobStoreData {
   updateDto: UpdateJobDto;
   createDtoErrors: Record<string, string[]>;
   updateDtoErrors: Record<string, string[]>;
+  searchHistory: ResponseJobDto[];
 }
 
 export interface JobStore extends JobStoreData {
   set: <K extends keyof JobStoreData>(name: K, value: JobStoreData[K]) => void;
   setNested: <T>(path: string, value: T) => void;
+  addJobToSearchHistory: (job: ResponseJobDto) => void;
   reset: () => void;
 }
 
@@ -39,32 +42,50 @@ const initialState: JobStoreData = {
   },
   createDtoErrors: {},
   updateDtoErrors: {},
+  searchHistory: [],
 };
 
-export const useJobStore = create<JobStore>((set, get) => ({
-  ...initialState,
-  set: (name, value) => {
-    set((state) => ({
-      ...state,
-      [name]: value,
-    }));
-  },
-  setNested: (path, value) => {
-    const [rootKey, ...restPath] = path.split(".");
-    const nestedPath = restPath.join(".");
-    set((state) => {
-      const updatedRoot = setDeepValue(
-        { ...state[rootKey as keyof JobStoreData] },
-        nestedPath,
-        value
-      );
-      return {
-        ...state,
-        [rootKey]: updatedRoot,
-      };
-    });
-  },
-  reset: () => {
-    set({ ...initialState });
-  },
-}));
+export const useJobStore = create<JobStore>()(
+  persist(
+    (set, get) => ({
+      ...initialState,
+      set: (name, value) => {
+        set((state) => ({
+          ...state,
+          [name]: value,
+        }));
+      },
+      setNested: (path, value) => {
+        const [rootKey, ...restPath] = path.split(".");
+        const nestedPath = restPath.join(".");
+        set((state) => {
+          const updatedRoot = setDeepValue(
+            { ...state[rootKey as keyof JobStoreData] },
+            nestedPath,
+            value
+          );
+          return {
+            ...state,
+            [rootKey]: updatedRoot,
+          };
+        });
+      },
+      addJobToSearchHistory: (job) => {
+        set((state) => {
+          const updatedSearchHistory = [...state.searchHistory, job];
+          return {
+            ...state,
+            searchHistory: updatedSearchHistory,
+          };
+        });
+      },
+      reset: () => {
+        set({ ...initialState });
+      },
+    }),
+    {
+      name: "job-store", // key in localStorage
+      partialize: (state) => ({ searchHistory: state.searchHistory }), // only persist searchHistory
+    }
+  )
+);

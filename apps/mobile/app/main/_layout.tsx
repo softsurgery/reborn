@@ -1,10 +1,12 @@
 import React from "react";
 import { Stack } from "expo-router";
-import { useAuthPersistStore } from "~/hooks/stores/useAuthPersistStore";
+import { NAV_THEME } from "~/lib/theme";
+import { useColorScheme } from "nativewind";
 
 export default function MainLayout() {
-  const { isAuthenticated, isReady: isAuthPersistStoreReady } =
-    useAuthPersistStore();
+  const { colorScheme } = useColorScheme();
+
+  const isDarkColorScheme = colorScheme === "dark";
   return (
     <Stack>
       <Stack.Screen
@@ -89,9 +91,14 @@ export default function MainLayout() {
       <Stack.Screen
         name="explore/job-search"
         options={{
-          title: "Job Search",
-          headerShown: false,
+          title: "",
           animation: "slide_from_bottom",
+          animationDuration: 300,
+          headerStyle: {
+            backgroundColor: isDarkColorScheme
+              ? NAV_THEME.dark.colors.background
+              : NAV_THEME.light.colors.background,
+          },
         }}
       />
       <Stack.Screen
