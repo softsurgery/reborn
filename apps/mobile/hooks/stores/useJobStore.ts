@@ -72,6 +72,9 @@ export const useJobStore = create<JobStore>()(
       },
       addJobToSearchHistory: (job) => {
         set((state) => {
+          if (state.searchHistory.find((item) => item.id === job.id)) {
+            return state;
+          }
           const updatedSearchHistory = [...state.searchHistory, job];
           return {
             ...state,
