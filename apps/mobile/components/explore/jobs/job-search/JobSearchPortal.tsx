@@ -62,27 +62,32 @@ export const JobSearchPortal = ({ className }: JobSearchPortalProps) => {
       {searchQuery ? (
         <JobSearchResults search={searchQuery} searching={searching} />
       ) : (
-        <View className="flex-1">
-          <View className="px-2 pt-2">
-            <Text variant={"muted"}>Recent</Text>
+        <View className="flex-1 mt-2">
+          <View>
+            <View className="px-2 py-2">
+              <Text variant={"small"}>Recent</Text>
+            </View>
+
+            <LegendList
+              data={jobStore.searchHistory}
+              renderItem={renderItem}
+              keyExtractor={(item) => item.id}
+              showsVerticalScrollIndicator={false}
+              recycleItems={true}
+              maintainVisibleContentPosition
+              ListEmptyComponent={
+                <View className="p-6 items-center">
+                  <Text className="text-muted-foreground">
+                    No jobs available
+                  </Text>
+                </View>
+              }
+              bounces={false}
+            />
           </View>
 
-          <LegendList
-            data={jobStore.searchHistory}
-            renderItem={renderItem}
-            keyExtractor={(item) => item.id}
-            showsVerticalScrollIndicator={false}
-            recycleItems={true}
-            maintainVisibleContentPosition
-            ListEmptyComponent={
-              <View className="p-6 items-center">
-                <Text className="text-muted-foreground">No jobs available</Text>
-              </View>
-            }
-          />
-
           <View className="px-2 pt-2">
-            <Text variant={"muted"}>Suggested</Text>
+            <Text variant={"small"}>Suggested</Text>
           </View>
         </View>
       )}

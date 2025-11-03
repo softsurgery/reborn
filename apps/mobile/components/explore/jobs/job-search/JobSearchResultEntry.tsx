@@ -1,4 +1,4 @@
-import { PressableProps } from "react-native";
+import { View } from "react-native";
 import {
   StablePressable,
   StablePressableProps,
@@ -18,10 +18,17 @@ export const JobSearchResultEntry = ({
   ...props
 }: JobSearchResultEntryProps) => {
   return (
-    <StablePressable {...props} className="p-4">
-      <Text>{item.title}</Text>
-      <Text variant={"muted"}>{item.description}</Text>
-      <Text variant={"muted"} className="ml-auto">
+    <StablePressable
+      {...props}
+      className="p-4 flex-row items-start justify-between"
+    >
+      <View className="flex-1">
+        <Text className="font-semibold">{item.title}</Text>
+        <Text variant="muted" className="truncate" numberOfLines={3}>
+          {item.description}
+        </Text>
+      </View>
+      <Text variant="muted" className="ml-2 shrink-0">
         {timeAgo(item.createdAt)}
       </Text>
     </StablePressable>

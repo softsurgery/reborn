@@ -1,7 +1,6 @@
-import React, { useState } from "react";
-import { Dialog, DialogContent, DialogTrigger } from "../../ui/dialog";
+import React from "react";
+import { Dialog, DialogContent } from "../../ui/dialog";
 import { Button } from "../../ui/button";
-import { Settings2 } from "lucide-react-native";
 import { Keyboard, View } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Checkbox } from "~/components/ui/checkbox";
@@ -14,19 +13,24 @@ import {
   AccordionTrigger,
 } from "~/components/ui/accordion";
 import { useJobCategories } from "~/hooks/content/job/useJobCategories";
-import { Icon } from "~/components/ui/icon";
+import { cn } from "~/lib/utils";
 
 interface JobFiltersProps {
   className?: string;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }
 
-export const JobFilters = ({ className }: JobFiltersProps) => {
+export const JobFilters = ({
+  className,
+  open,
+  onOpenChange,
+}: JobFiltersProps) => {
   // States
-  const [open, setOpen] = useState(false);
-  const [startDate, setStartDate] = useState<Date | undefined>(undefined);
-  const [endDate, setEndDate] = useState<Date | undefined>(undefined);
-  const [category, setCategory] = useState<string | undefined>(undefined);
-  const [tags, setTags] = useState<{ [key: string]: boolean }>({
+  const [startDate, setStartDate] = React.useState<Date | undefined>(undefined);
+  const [endDate, setEndDate] = React.useState<Date | undefined>(undefined);
+  const [category, setCategory] = React.useState<string | undefined>(undefined);
+  const [tags, setTags] = React.useState<{ [key: string]: boolean }>({
     Remote: false,
     "Full-time": false,
     "Part-time": false,
@@ -36,12 +40,12 @@ export const JobFilters = ({ className }: JobFiltersProps) => {
   const { jobCategories } = useJobCategories();
 
   const handleOpenChange = (open: boolean) => {
-    setOpen(open);
+    onOpenChange?.(open);
     Keyboard.dismiss();
   };
 
   const closeDialog = () => {
-    setOpen(false);
+    onOpenChange?.(false);
     Keyboard.dismiss();
   };
 
@@ -49,13 +53,7 @@ export const JobFilters = ({ className }: JobFiltersProps) => {
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogTrigger asChild>
-        <Button variant={"outline"} size={"icon"} className={className}>
-          <Icon as={Settings2} size={24} />
-        </Button>
-      </DialogTrigger>
-
-      <DialogContent className="w-[80vw]" exit>
+      <DialogContent className={cn("w-[80vw]", className)}>
         <Accordion type="single" collapsible>
           {/* Date Range */}
           <AccordionItem value="date">

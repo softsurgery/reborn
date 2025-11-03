@@ -53,36 +53,35 @@ export default function RootLayout() {
         >
           <Toastable position="top" />
           <StatusBar style={isDarkColorScheme ? "light" : "dark"} translucent />
-          <Stack
-            screenLayout={({ children }) => (
-              <View className={cn("flex-1", colorScheme)}>{children}</View>
-            )}
-            screenOptions={{
-              headerShown: false,
-              contentStyle: {
-                flex: 1,
-                backgroundColor: isDarkColorScheme
-                  ? NAV_THEME.dark.colors.background
-                  : NAV_THEME.light.colors.background,
-              },
-              headerStyle: {
-                backgroundColor: isDarkColorScheme
-                  ? NAV_THEME.dark.colors.card
-                  : NAV_THEME.light.colors.card,
-              },
-              headerTintColor: isDarkColorScheme
-                ? NAV_THEME.dark.colors.text
-                : NAV_THEME.light.colors.text,
-              headerTitleStyle: {
-                fontFamily: "Poppins-SemiBold",
-                fontSize: 18,
-                color: isDarkColorScheme
+          <View className={cn("flex-1", colorScheme)}>
+            <Stack
+              screenOptions={{
+                headerShown: false,
+                contentStyle: {
+                  flex: 1,
+                  backgroundColor: isDarkColorScheme
+                    ? NAV_THEME.dark.colors.background
+                    : NAV_THEME.light.colors.background,
+                },
+                headerStyle: {
+                  backgroundColor: isDarkColorScheme
+                    ? NAV_THEME.dark.colors.card
+                    : NAV_THEME.light.colors.card,
+                },
+                headerTintColor: isDarkColorScheme
                   ? NAV_THEME.dark.colors.text
                   : NAV_THEME.light.colors.text,
-              },
-            }}
-          />
-          <PortalHost />
+                headerTitleStyle: {
+                  fontFamily: "Poppins-SemiBold",
+                  fontSize: 18,
+                  color: isDarkColorScheme
+                    ? NAV_THEME.dark.colors.text
+                    : NAV_THEME.light.colors.text,
+                },
+              }}
+            />
+            <PortalHost />
+          </View>
         </NotificationContext.Provider>
       </QueryClientProvider>
     </ThemeProvider>

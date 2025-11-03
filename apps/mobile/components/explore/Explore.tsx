@@ -13,10 +13,11 @@ import { cn } from "~/lib/utils";
 import { StablePressable } from "../shared/StablePressable";
 import { StableSafeAreaView } from "../shared/StableSafeAreaView";
 import { ApplicationHeader } from "../shared/AppHeader";
-import { Bell, Search, User } from "lucide-react-native";
+import { ArrowDownNarrowWide, Bell, Search, User } from "lucide-react-native";
 import { useNotificationContext } from "~/contexts/NotificationContext";
 import { router } from "expo-router";
 import { useTranslation } from "react-i18next";
+import { JobFilters } from "./jobs/JobFilters";
 
 type TabType = "recent" | "followings";
 
@@ -32,6 +33,7 @@ export const Explore = ({
   const { t } = useTranslation("common");
   const [tab, setTab] = React.useState<TabType>(initialTab);
   const [search, setSearch] = React.useState("");
+  const [openJobFilters, setOpenJobFilters] = React.useState(false);
 
   const { newCount, resetCount } = useNotificationContext();
 
@@ -134,6 +136,12 @@ export const Explore = ({
               onPress: () => router.push("/main/explore/job-search"),
             },
             {
+              icon: ArrowDownNarrowWide,
+              onPress: () => {
+                setOpenJobFilters(true);
+              },
+            },
+            {
               icon: User,
               onPress: () => router.push("/main/my-space"),
             },
@@ -156,6 +164,11 @@ export const Explore = ({
       {/* Search Header */}
       {/* Content */}
       {renderContent}
+      <JobFilters
+        className="min-h-[70vh] min-w-[90vw]"
+        open={openJobFilters}
+        onOpenChange={setOpenJobFilters}
+      />
     </StableSafeAreaView>
   );
 };
