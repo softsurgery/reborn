@@ -1,6 +1,7 @@
 import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 import { Platform, Text as RNText, type Role } from "react-native";
+import { useRTL } from "~/hooks/useRTL";
 import { cn } from "~/lib/utils";
 
 const textVariants = cva(
@@ -80,9 +81,15 @@ function Text({
     asChild?: boolean;
   }) {
   const textClass = React.useContext(TextClassContext);
+  const isRTL = useRTL();
   return (
     <RNText
-      className={cn(textVariants({ variant }), textClass, className)}
+      className={cn(
+        textVariants({ variant }),
+        textClass,
+        isRTL ? "text-right" : "text-left",
+        className
+      )}
       role={variant ? ROLE[variant] : undefined}
       aria-level={variant ? ARIA_LEVEL[variant] : undefined}
       {...props}

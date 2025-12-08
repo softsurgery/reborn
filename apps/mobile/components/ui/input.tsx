@@ -1,9 +1,11 @@
 import * as React from "react";
 import { Platform, TextInput, type TextInputProps } from "react-native";
+import { useRTL } from "~/hooks/useRTL";
 import { cn } from "~/lib/utils";
 
 const Input = React.forwardRef<TextInput, TextInputProps>(
   ({ className, ...props }, ref) => {
+    const isRTL = useRTL();
     return (
       <TextInput
         ref={ref}
@@ -25,6 +27,7 @@ const Input = React.forwardRef<TextInput, TextInputProps>(
             native: "placeholder:text-muted-foreground/50",
           }),
           "font-poppins",
+          isRTL ? "text-right" : "text-left",
           className
         )}
         {...props}

@@ -1,5 +1,6 @@
 import * as LabelPrimitive from "@rn-primitives/label";
 import * as React from "react";
+import { useRTL } from "~/hooks/useRTL";
 import { cn } from "~/lib/utils";
 
 const Label = React.forwardRef<
@@ -9,24 +10,28 @@ const Label = React.forwardRef<
   (
     { className, onPress, onLongPress, onPressIn, onPressOut, ...props },
     ref
-  ) => (
-    <LabelPrimitive.Root
-      className="web:cursor-default"
-      onPress={onPress}
-      onLongPress={onLongPress}
-      onPressIn={onPressIn}
-      onPressOut={onPressOut}
-    >
-      <LabelPrimitive.Text
-        ref={ref}
-        className={cn(
-          "font-poppins text-sm text-foreground native:text-base font-medium leading-none web:peer-disabled:cursor-not-allowed web:peer-disabled:opacity-70",
-          className
-        )}
-        {...props}
-      />
-    </LabelPrimitive.Root>
-  )
+  ) => {
+    const isRTL = useRTL();
+    return (
+      <LabelPrimitive.Root
+        className="web:cursor-default"
+        onPress={onPress}
+        onLongPress={onLongPress}
+        onPressIn={onPressIn}
+        onPressOut={onPressOut}
+      >
+        <LabelPrimitive.Text
+          ref={ref}
+          className={cn(
+            "font-poppins text-sm text-foreground native:text-base font-medium leading-none web:peer-disabled:cursor-not-allowed web:peer-disabled:opacity-70",
+            isRTL ? "text-right" : "text-left",
+            className
+          )}
+          {...props}
+        />
+      </LabelPrimitive.Root>
+    );
+  }
 );
 Label.displayName = LabelPrimitive.Root.displayName;
 
