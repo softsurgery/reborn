@@ -1,11 +1,11 @@
-import { View } from "react-native";
-import { cn } from "~/lib/utils";
 import { LucideIcon } from "lucide-react-native";
-import { Text } from "../ui/text";
-import { StablePressable } from "../shared/StablePressable";
-import { IconBadge } from "../ui/icon-badge";
-import { Icon } from "../ui/icon";
+import { View } from "react-native";
 import { useRTL } from "~/hooks/useRTL";
+import { cn } from "~/lib/utils";
+import { StablePressable } from "../shared/StablePressable";
+import { Icon } from "../ui/icon";
+import { IconBadge } from "../ui/icon-badge";
+import { Text } from "../ui/text";
 
 type Shortcut =
   | {
@@ -19,23 +19,28 @@ interface ApplicationHeaderProps {
   className?: string;
   title: string;
   shortcuts?: Shortcut[];
+  reverse?: boolean;
 }
+
 export const ApplicationHeader = ({
   className,
   title,
   shortcuts,
+  reverse = false,
 }: ApplicationHeaderProps) => {
   const isRTL = useRTL();
   return (
     <View
       className={cn(
         "flex flex-row justify-between items-center gap-2 px-2",
-        isRTL ? "flex-row-reverse" : "",
+        isRTL || reverse ? "flex-row-reverse" : "flex-row",
         className
       )}
     >
       <Text variant="h1">{title}</Text>
-      <View className="flex flex-row gap-2">
+      <View
+        className={cn("flex gap-2", reverse ? "flex-row-reverse" : "flex-row")}
+      >
         {shortcuts?.map((shortcut, index) => {
           if (
             shortcut !== null &&
