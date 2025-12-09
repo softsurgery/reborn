@@ -4,6 +4,7 @@ import { Text } from "~/components/ui/text";
 import { Button } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
 import { router } from "expo-router";
+import Logo from "~/assets/images/reborn.svg";
 
 interface OnBoardingProps {
   className?: string;
@@ -18,11 +19,7 @@ export default function OnBoarding({ className }: OnBoardingProps) {
       )}
     >
       <View className="flex-1 justify-center items-center">
-        <Image
-          className="h-80 w-80"
-          source={require("~/assets/images/adaptive-icon.png")}
-          style={{ resizeMode: "contain" }}
-        />
+        <Logo width={320} height={320} />
         <Text className="text-[50px] font-bold italic">REBORN</Text>
         <Text className="text-xl font-semibold text-primary/70">
           The future of mobile apps
