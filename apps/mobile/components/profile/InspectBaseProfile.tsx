@@ -24,6 +24,8 @@ import { StableScrollView } from "../shared/StableScrollView";
 import { cn } from "~/lib/utils";
 import { ProfileStat } from "../explore/users/ProfileStat";
 import { Button } from "../ui/button";
+import { useEditProfileRecipes } from "./useEditProfileRecipes";
+import { useSceneContext } from "../shared/scene-builder/SceneContext";
 
 interface ProfileSection<T = unknown> {
   key: string;
@@ -48,6 +50,15 @@ export const InspectBaseProfile = ({
   customContent,
   overrideContent = true,
 }: InspectBaseProfileProps) => {
+  const { experienceRecipe } = useEditProfileRecipes({});
+  const { push, pop } = useSceneContext();
+  React.useEffect(() => {
+    push?.("experience", experienceRecipe);
+    return () => {
+      pop?.("experience");
+    };
+  }, [push]);
+
   const queryClient = useQueryClient();
   const navigation = useNavigation();
   const storeRef = React.useRef(createClientStore());
@@ -215,7 +226,12 @@ export const InspectBaseProfile = ({
           <View className="flex flex-row gap-1 items-center -mx-2">
             <StablePressable
               className="p-2"
-              //   onPress={() => router.push("/main/edit-screen")}
+              onPress={() =>
+                router.push({
+                  pathname: "/main/scene-screen",
+                  params: { id: section.key },
+                })
+              }
               onPressClassname="bg-primary/25 rounded-full"
             >
               <Icon as={Pen} size={18} className="text-muted-foreground" />
