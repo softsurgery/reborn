@@ -51,9 +51,12 @@ export default function RootLayout() {
         <NotificationContext.Provider
           value={{ newCount, notifications, resetCount }}
         >
-          <Toastable position="top" />
-          <StatusBar style={isDarkColorScheme ? "light" : "dark"} translucent />
-          <View className={cn("flex-1", colorScheme)}>
+          <View className={cn("flex-1 light dark:dark")}>
+            <Toastable position="top" />
+            <StatusBar
+              style={isDarkColorScheme ? "light" : "dark"}
+              translucent
+            />
             <Stack
               screenOptions={{
                 headerShown: false,
