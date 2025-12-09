@@ -113,6 +113,7 @@ export default function MainLayout() {
         name="explore/user-profile"
         options={{
           title: "",
+          headerShown: false,
           animation: "slide_from_right",
         }}
       />

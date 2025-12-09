@@ -1,0 +1,40 @@
+import { router } from "expo-router";
+import { ArrowLeft } from "lucide-react-native";
+import { View } from "react-native";
+import { ApplicationHeader } from "../shared/AppHeader";
+import { StableSafeAreaView } from "../shared/StableSafeAreaView";
+import { InspectBaseProfile } from "./BaseProfile";
+import { cn } from "~/lib/utils";
+
+interface InspectProfileProps {
+  className?: string;
+  id: string;
+}
+
+export const InspectProfile = ({ className, id }: InspectProfileProps) => {
+  return (
+    <View className={cn("flex-1", className)}>
+      <InspectBaseProfile
+        id={id}
+        coverExtra={
+          <StableSafeAreaView
+            className="absolute top-0 left-0 right-0 z-30 px-2"
+            pointerEvents="box-none"
+          >
+            <ApplicationHeader
+              title=""
+              reverse
+              shortcuts={[
+                {
+                  key: "settings",
+                  icon: ArrowLeft,
+                  onPress: () => router.back(),
+                },
+              ]}
+            />
+          </StableSafeAreaView>
+        }
+      />
+    </View>
+  );
+};

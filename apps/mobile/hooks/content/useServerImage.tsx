@@ -1,19 +1,23 @@
-import React from "react";
-import { Image, ImageSource } from "expo-image";
 import { useQuery } from "@tanstack/react-query";
+import React from "react";
+import { Image, View } from "react-native";
 import { api } from "~/api";
-import { Skeleton } from "~/components/ui/skeleton";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from "~/components/shared/StableAvatar";
+import { Skeleton } from "~/components/ui/skeleton";
 import { Text } from "~/components/ui/text";
+import { cn } from "~/lib/utils";
 
 interface UseServerImageProps {
   id?: number;
-  size: { width: number; height: number };
-  fallback?: string | React.ReactNode | ImageSource;
+  size?: { width: number; height: number };
+  fallback?: string | React.ReactNode;
+  className?: string;
+  wrapperClassName?: string;
+  fallbackClassName?: string;
   enabled?: boolean;
 }
 
@@ -21,36 +25,54 @@ export const useServerImage = ({
   id,
   size,
   fallback,
+  className,
+  wrapperClassName,
+  fallbackClassName,
   enabled = true,
 }: UseServerImageProps) => {
   const { data: uploadResp, isPending: isUploadPending } = useQuery({
     queryKey: ["server-image", id],
     queryFn: async () => api.upload.getUploadById(id!),
     enabled: !!id && enabled,
-    staleTime: Infinity,
-    retry: false,
   });
 
   const upload = React.useMemo(() => uploadResp ?? null, [uploadResp]);
 
   const jsx = React.useMemo(() => {
-    // 1️⃣ Server image loaded → show Image
     if (upload && !isUploadPending) {
       return (
-        <Image
-          source={upload}
+        <View
+          className={cn(wrapperClassName, "flex items-center justify-center")}
           style={{
-            width: size.width,
-            height: size.height,
-            borderRadius: size.width / 2,
+            width: size?.width ? size.width * 1.05 : undefined,
+            height: size?.height ? size.height * 1.05 : undefined,
+            borderRadius: size?.width ? (size.width * 1.05) / 2 : undefined,
           }}
-          contentFit="cover"
-        />
+        >
+          <Image
+            className={cn(className)}
+            source={{
+              uri: upload,
+            }}
+            style={{
+              width: size?.width || "auto",
+              height: size?.height || "auto",
+              borderRadius: size?.width ? size.width / 2 : undefined,
+            }}
+          />
+        </View>
       );
     }
 
     if (isUploadPending && id) {
-      return <Skeleton style={{ ...size, borderRadius: size.width / 2 }} />;
+      return (
+        <Skeleton
+          style={{
+            ...size,
+            borderRadius: size?.width ? size.width / 2 : undefined,
+          }}
+        />
+      );
     }
 
     if (
@@ -59,15 +81,24 @@ export const useServerImage = ({
       ("uri" in fallback || typeof fallback === "number")
     ) {
       return (
-        <Image
-          source={fallback as ImageSource}
+        <View
+          className={cn(wrapperClassName, "flex items-center justify-center")}
           style={{
-            width: size.width,
-            height: size.height,
-            borderRadius: size.width / 2,
+            width: size?.width ? size.width * 1.05 : undefined,
+            height: size?.height ? size.height * 1.05 : undefined,
+            borderRadius: size?.width ? (size.width * 1.05) / 2 : undefined,
           }}
-          contentFit="cover"
-        />
+        >
+          <Image
+            alt={typeof fallback === "string" ? fallback : ""}
+            className={cn(className)}
+            style={{
+              width: size?.width || "auto",
+              height: size?.height || "auto",
+              borderRadius: size?.width ? size.width / 2 : undefined,
+            }}
+          />
+        </View>
       );
     }
 
@@ -75,15 +106,16 @@ export const useServerImage = ({
     if (typeof fallback === "string") {
       return (
         <Avatar
+          className={cn(className)}
           style={{
-            width: size.width,
-            height: size.height,
-            borderRadius: size.width / 2,
+            width: size?.width || "auto",
+            height: size?.height || "auto",
+            borderRadius: size?.width ? size.width / 2 : undefined,
           }}
         >
           <AvatarImage />
           <AvatarFallback>
-            <Text>{fallback.toUpperCase()}</Text>
+            <Text className={fallbackClassName}>{fallback.toUpperCase()}</Text>
           </AvatarFallback>
         </Avatar>
       );
@@ -95,7 +127,11 @@ export const useServerImage = ({
     }
 
     // 6️⃣ Default → Skeleton
-    return <Skeleton style={{ ...size, borderRadius: size.width / 2 }} />;
+    return (
+      <Skeleton
+        style={{ ...size, borderRadius: size?.width ? size.width / 2 : "auto" }}
+      />
+    );
   }, [upload, isUploadPending, fallback, size]);
 
   return { upload, isUploadPending, jsx };
