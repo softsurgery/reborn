@@ -3,15 +3,22 @@ import { ArrowLeft } from "lucide-react-native";
 import { View } from "react-native";
 import { ApplicationHeader } from "../shared/AppHeader";
 import { StableSafeAreaView } from "../shared/StableSafeAreaView";
-import { InspectBaseProfile } from "./BaseProfile";
+import { InspectBaseProfile } from "./InspectBaseProfile";
 import { cn } from "~/lib/utils";
 
 interface InspectProfileProps {
   className?: string;
   id: string;
+  customContent?: React.ReactNode;
+  overrideContent?: boolean;
 }
 
-export const InspectProfile = ({ className, id }: InspectProfileProps) => {
+export const InspectProfile = ({
+  className,
+  id,
+  customContent,
+  overrideContent,
+}: InspectProfileProps) => {
   return (
     <View className={cn("flex-1", className)}>
       <InspectBaseProfile
@@ -34,6 +41,8 @@ export const InspectProfile = ({ className, id }: InspectProfileProps) => {
             />
           </StableSafeAreaView>
         }
+        customContent={customContent}
+        overrideContent={overrideContent}
       />
     </View>
   );

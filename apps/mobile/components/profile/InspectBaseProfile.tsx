@@ -37,12 +37,16 @@ interface InspectBaseProfileProps {
   className?: string;
   id: string;
   coverExtra?: React.ReactNode;
+  customContent?: React.ReactNode;
+  overrideContent?: boolean;
 }
 
 export const InspectBaseProfile = ({
   className,
   id,
   coverExtra,
+  customContent,
+  overrideContent = true,
 }: InspectBaseProfileProps) => {
   const queryClient = useQueryClient();
   const navigation = useNavigation();
@@ -180,28 +184,35 @@ export const InspectBaseProfile = ({
         <Text className="text-sm font-bold">{skill.name}</Text>
       ),
     },
+    {
+      key: "snippets",
+      title: "Snippets",
+      // data: user?.profile?.snippets as unknown[],
+      data: [],
+      editable: currentUser?.id === user?.id,
+      renderItem: (snippet) => (
+        <View className="flex flex-col">
+          <Text className="font-semibold">{snippet.title}</Text>
+          <Text className="text-sm text-muted-foreground">
+            {snippet.description}
+          </Text>
+        </View>
+      ),
+    },
   ];
 
   // ---------------------------------------------------------------
   //  SECTION RENDERER
   // ---------------------------------------------------------------
   const renderSection = (section: ProfileSection) => (
-    <Card key={section.key} className="m-0 pt-1">
-      <CardHeader className="flex flex-row items-center justify-between mt-2 -mb-2">
+    <Card key={section.key} className="m-0">
+      <CardHeader className="flex flex-row items-center justify-between -my-2">
         <CardTitle>
           <Text variant="h4">{section.title}</Text>
         </CardTitle>
 
         {section.editable && (
           <View className="flex flex-row gap-1 items-center -mx-2">
-            <StablePressable
-              className="p-2"
-              //   onPress={() => router.push("/main/edit-screen")}
-              onPressClassname="bg-primary/25 rounded-full"
-            >
-              <Icon as={Plus} size={20} className="text-muted-foreground" />
-            </StablePressable>
-
             <StablePressable
               className="p-2"
               //   onPress={() => router.push("/main/edit-screen")}
@@ -244,7 +255,7 @@ export const InspectBaseProfile = ({
         <View className="z-10">{profilePicture}</View>
 
         <View className="flex-1 mt-16">
-          <View className="flex-row items-center justify-between mx-2">
+          <View className="flex-col items-start justify-between mx-2">
             <View>
               <Text className="text-xl font-semibold text-foreground">
                 {identity}
@@ -258,7 +269,7 @@ export const InspectBaseProfile = ({
 
             <ProfileStat
               clientStore={clientStore}
-              className="flex flex-row gap-4"
+              className="flex flex-row gap-4 mt-4"
             />
           </View>
         </View>
@@ -294,9 +305,14 @@ export const InspectBaseProfile = ({
         )}
 
         {/* Render all abstracted profile sections */}
-        <View className="flex flex-col gap-4">
-          {profileSections.map(renderSection)}
-        </View>
+        {overrideContent && customContent ? (
+          customContent
+        ) : (
+          <View className="flex flex-col gap-4">
+            {profileSections.map(renderSection)}
+          </View>
+        )}
+        {!overrideContent && customContent ? customContent : null}
       </View>
     </StableScrollView>
   );

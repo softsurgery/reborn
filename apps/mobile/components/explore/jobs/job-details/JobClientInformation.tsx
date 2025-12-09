@@ -25,7 +25,7 @@ export const JobClientInformation = ({
       className={cn(className)}
       onPress={() =>
         router.navigate({
-          pathname: "/main/explore/user-profile",
+          pathname: "/main/explore/inspect-profile",
           params: { id: job?.postedBy.id },
         })
       }

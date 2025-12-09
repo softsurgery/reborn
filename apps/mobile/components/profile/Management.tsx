@@ -10,68 +10,35 @@ import { router, useNavigation } from "expo-router";
 import { useClientStore } from "~/hooks/stores/useClientStore";
 import { ProfileManagmentCardSkeleton } from "~/components/explore/users/ProfileManagmentCardSkeleton";
 import { cn } from "~/lib/utils";
+import { InspectProfile } from "./InspectProfile";
+import { Separator } from "../ui/separator";
 
 interface ManagementProps {
   className?: string;
 }
 
 export const Management = ({ className }: ManagementProps) => {
-  const navigation = useNavigation();
-  const { currentUser, isCurrentUserPending } = useCurrentUser();
-  const clientStore = useClientStore();
-
-  React.useEffect(() => {
-    if (currentUser) clientStore.set("response", currentUser);
-    navigation.setOptions({
-      title: currentUser?.username,
-    });
-  }, [currentUser]);
-
-  const { data: picture } = useQuery({
-    queryKey: ["picture", currentUser?.profile?.pictureId],
-    queryFn: () => api.upload.getUploadById(currentUser?.profile?.pictureId!),
-    enabled: !!currentUser?.profile?.pictureId,
-    staleTime: Infinity,
-  });
-
-  React.useEffect(() => {
-    if (currentUser) clientStore.set("picture", picture);
-  }, [picture]);
-
-  const { data: followDataCount, isPending: isFollowDataCountPending } =
-    useQuery({
-      queryKey: ["follow-data-count", currentUser?.id],
-      queryFn: () => api.follow.findDataCount(currentUser?.id!),
-      enabled: !!currentUser?.id,
-    });
-
-  React.useEffect(() => {
-    if (followDataCount)
-      clientStore.set("responseFollowCountsDto", followDataCount);
-  }, [followDataCount]);
-
-  React.useEffect(() => {
-    return () => {
-      clientStore.reset();
-    };
-  }, []);
+  const { currentUser } = useCurrentUser();
 
   return (
-    <View className={cn("flex flex-col gap-2 mx-2", className)}>
-      {isCurrentUserPending ? (
-        <ProfileManagmentCardSkeleton />
-      ) : (
-        <ProfileManagmentCard className="mt-5" clientStore={clientStore} />
-      )}
-      <Button
-        onPress={() => router.push("/main/account/update-profile")}
-        className="w-full"
-      >
-        <Text className="bold">Update Your Profile</Text>
-      </Button>
-      <Button onPress={() => {}} className="w-full">
-        <Text className="bold">Update Official Documents</Text>
-      </Button>
+    <View className={cn("flex-1", className)}>
+      <InspectProfile
+        id={currentUser?.id as string}
+        overrideContent={false}
+        customContent={
+          <React.Fragment>
+            <Button
+              onPress={() => router.push("/main/account/update-profile")}
+              className="w-full"
+            >
+              <Text className="bold">Update Your Profile (deprecated)</Text>
+            </Button>
+            <Button onPress={() => {}} className="w-full">
+              <Text className="bold">Update Official Documents</Text>
+            </Button>
+          </React.Fragment>
+        }
+      />
     </View>
   );
 };

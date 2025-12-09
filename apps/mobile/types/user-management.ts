@@ -40,6 +40,8 @@ export interface ResponseProfileDto extends DatabaseEntity {
   user: ResponseClientDto;
   pictureId?: number;
   picture?: Upload;
+  regionId?: number;
+  region?: ResponseRegionDto;
   experiences?: Experience[] | null;
   educations?: Education[] | null;
   skills?: Skill[] | null;

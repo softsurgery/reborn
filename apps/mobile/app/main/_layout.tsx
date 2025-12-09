@@ -33,6 +33,7 @@ export default function MainLayout() {
         name="account/managment"
         options={{
           title: "My Profile",
+          headerShown: false,
           animation: "slide_from_right",
         }}
       />
@@ -110,7 +111,7 @@ export default function MainLayout() {
         }}
       />
       <Stack.Screen
-        name="explore/user-profile"
+        name="explore/inspect-profile"
         options={{
           title: "",
           headerShown: false,
@@ -123,7 +124,7 @@ export default function MainLayout() {
         name="my-space/index"
         options={{
           title: "",
-          headerTitle: "My Space",
+          headerShown: false,
           animation: "slide_from_right",
         }}
       />

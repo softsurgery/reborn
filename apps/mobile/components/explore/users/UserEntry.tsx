@@ -84,7 +84,7 @@ export const UserEntry = ({
       className={cn("p-2", className)}
       onPress={() => {
         router.push({
-          pathname: "/main/explore/user-profile",
+          pathname: "/main/explore/inspect-profile",
           params: { id: user.id },
         });
         closeDialog?.();

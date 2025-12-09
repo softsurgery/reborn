@@ -111,7 +111,7 @@ export const IncomingRequestEntry = ({
           onPressClassname="opacity-70"
           onPress={() => {
             router.push({
-              pathname: "/main/explore/user-profile",
+              pathname: "/main/explore/inspect-profile",
               params: {
                 id: request.userId,
               },
