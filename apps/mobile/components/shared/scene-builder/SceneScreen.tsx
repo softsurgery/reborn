@@ -6,6 +6,7 @@ import { cn } from "~/lib/utils";
 import { SceneBuilder } from "./SceneBuilder";
 import { Text } from "~/components/ui/text";
 import { StablePressable } from "../StablePressable";
+import React from "react";
 
 interface SceneScreenProps {
   id: string;
@@ -13,7 +14,12 @@ interface SceneScreenProps {
 }
 
 export const SceneScreen = ({ className, id }: SceneScreenProps) => {
-  const { scenes } = useSceneContext();
+  const { scenes, pop } = useSceneContext();
+  React.useEffect(() => {
+    return () => {
+      pop?.(id);
+    };
+  }, []);
   return (
     <StableSafeAreaView className={cn("flex-1 bg-card")}>
       {scenes?.[id] ? (

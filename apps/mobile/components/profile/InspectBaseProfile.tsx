@@ -1,6 +1,6 @@
+import React from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { router, useNavigation } from "expo-router";
-import React from "react";
 import { Image, View } from "react-native";
 import { showToastable } from "react-native-toastable";
 import { api } from "~/api";
@@ -8,17 +8,20 @@ import { useFollowSystem } from "~/hooks/content/useFollowSystem";
 import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
 import { useIdentifiedUser } from "~/hooks/content/user/useIdentifiedUser";
 import { useServerImage } from "~/hooks/content/useServerImage";
-import {
-  createClientStore,
-  useClientStore,
-} from "~/hooks/stores/useClientStore";
+import { createClientStore } from "~/hooks/stores/useClientStore";
 import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
-import { Education, Experience, ServerErrorResponse, Skill } from "~/types";
+import {
+  Education,
+  Experience,
+  ServerErrorResponse,
+  Skill,
+  UpdateClientDto,
+} from "~/types";
 import { Text } from "../ui/text";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { StablePressable } from "../shared/StablePressable";
 import { Icon } from "../ui/icon";
-import { Mail, Pen, Plus, UserPlus } from "lucide-react-native";
+import { Mail, Pen, UserPlus } from "lucide-react-native";
 import { Separator } from "../ui/separator";
 import { StableScrollView } from "../shared/StableScrollView";
 import { cn } from "~/lib/utils";
@@ -50,22 +53,17 @@ export const InspectBaseProfile = ({
   customContent,
   overrideContent = true,
 }: InspectBaseProfileProps) => {
-  const { experienceRecipe } = useEditProfileRecipes({});
-  const { push, pop } = useSceneContext();
-  React.useEffect(() => {
-    push?.("experience", experienceRecipe);
-    return () => {
-      pop?.("experience");
-    };
-  }, [push]);
-
+  const { push } = useSceneContext();
   const queryClient = useQueryClient();
-  const navigation = useNavigation();
   const storeRef = React.useRef(createClientStore());
-  const { currentUser } = useCurrentUser();
-  const clientStore = useClientStore();
+  const clientStore = storeRef?.current?.();
+
+  const { experienceRecipe } = useEditProfileRecipes({
+    store: clientStore,
+  });
 
   const { user } = useIdentifiedUser({ id });
+  const { currentUser } = useCurrentUser();
 
   const identity = React.useMemo(() => identifyUser(user), [user]);
   const fallback = React.useMemo(() => identifyUserAvatar(user), [user]);
@@ -77,11 +75,19 @@ export const InspectBaseProfile = ({
     size: { width: 100, height: 100 },
   });
 
+  const hasSeededRef = React.useRef(false);
+
   React.useEffect(() => {
-    if (user) clientStore.set("response", user);
-    navigation.setOptions({
-      title: user?.username ?? "Profile",
-    });
+    if (!user || hasSeededRef.current) return;
+
+    clientStore.set("response", user);
+    clientStore.set("updateDto", {
+      profile: {
+        experiences: structuredClone(user.profile.experiences),
+      },
+    } as UpdateClientDto);
+
+    hasSeededRef.current = true;
   }, [user]);
 
   const {
@@ -127,8 +133,8 @@ export const InspectBaseProfile = ({
   });
 
   React.useEffect(() => {
-    clientStore.set("followers", followers);
-    clientStore.set("followings", followings);
+    clientStore?.set("followers", followers);
+    clientStore?.set("followings", followings);
   }, [followers, followings]);
 
   const { data: followDataCount } = useQuery({
@@ -139,13 +145,13 @@ export const InspectBaseProfile = ({
 
   React.useEffect(() => {
     if (followDataCount)
-      clientStore.set("responseFollowCountsDto", followDataCount);
+      clientStore?.set("responseFollowCountsDto", followDataCount);
   }, [followDataCount]);
 
   React.useEffect(() => {
     return () => {
-      clientStore.reset();
-      storeRef.current = null as any;
+      clientStore?.reset();
+      if (!__DEV__) storeRef.current = null as any;
     };
   }, []);
 
@@ -174,7 +180,7 @@ export const InspectBaseProfile = ({
     {
       key: "education",
       title: "Education",
-      data: user?.profile?.educations as unknown[],
+      data: user?.profile?.educations || [],
       editable: currentUser?.id === user?.id,
       renderItem: (edu: Education) => (
         <View className="flex flex-col">
@@ -189,7 +195,7 @@ export const InspectBaseProfile = ({
     {
       key: "skills",
       title: "Skills",
-      data: user?.profile?.skills as unknown[],
+      data: user?.profile?.skills || [],
       editable: currentUser?.id === user?.id,
       renderItem: (skill: Skill) => (
         <Text className="text-sm font-bold">{skill.name}</Text>
@@ -226,12 +232,13 @@ export const InspectBaseProfile = ({
           <View className="flex flex-row gap-1 items-center -mx-2">
             <StablePressable
               className="p-2"
-              onPress={() =>
+              onPress={() => {
+                push?.("experience", experienceRecipe);
                 router.push({
                   pathname: "/main/scene-screen",
                   params: { id: section.key },
-                })
-              }
+                });
+              }}
               onPressClassname="bg-primary/25 rounded-full"
             >
               <Icon as={Pen} size={18} className="text-muted-foreground" />
@@ -242,11 +249,16 @@ export const InspectBaseProfile = ({
 
       <Separator />
 
-      <CardContent className="flex flex-col gap-2">
-        {Array.isArray(section.data) &&
+      <CardContent className="flex flex-col gap-7 mt-4">
+        {Array.isArray(section.data) && section.data?.length > 0 ? (
           section.data.map((item, idx) => (
             <View key={idx}>{section.renderItem(item)}</View>
-          ))}
+          ))
+        ) : (
+          <Text className="text-sm text-muted-foreground italic">
+            No {section.title.toLowerCase()} yet.
+          </Text>
+        )}
       </CardContent>
     </Card>
   );
@@ -283,10 +295,12 @@ export const InspectBaseProfile = ({
               )}
             </View>
 
-            <ProfileStat
-              clientStore={clientStore}
-              className="flex flex-row gap-4 mt-4"
-            />
+            {clientStore ? (
+              <ProfileStat
+                clientStore={clientStore}
+                className="flex flex-row gap-4 mt-4"
+              />
+            ) : null}
           </View>
         </View>
       </View>
@@ -296,29 +310,41 @@ export const InspectBaseProfile = ({
         <Text className="italic text-xs">{user?.profile?.bio}</Text>
 
         {/* Follow buttons */}
-        {currentUser?.id !== user?.id && (
-          <View className="flex flex-row w-full justify-between gap-2">
-            <Button
-              size="sm"
-              onPress={() => (isFollowing ? unfollowUser() : followUser())}
-              variant={isFollowing ? "outline" : "default"}
-              className="flex flex-row flex-1 gap-2"
-              disabled={isFollowPending || isUnfollowPending}
-            >
-              {!isFollowing && <Icon as={UserPlus} size={20} />}
-              <Text>{isFollowing ? "Following" : "Follow"}</Text>
-            </Button>
+        <View className="flex flex-row w-full justify-between gap-2">
+          {currentUser?.id !== user?.id ? (
+            <React.Fragment>
+              <Button
+                size="sm"
+                onPress={() => (isFollowing ? unfollowUser() : followUser())}
+                variant={isFollowing ? "outline" : "default"}
+                className="flex flex-row flex-1 gap-2"
+                disabled={isFollowPending || isUnfollowPending}
+              >
+                {!isFollowing && <Icon as={UserPlus} size={20} />}
+                <Text>{isFollowing ? "Following" : "Follow"}</Text>
+              </Button>
 
-            <Button
-              size="sm"
-              className="flex flex-row flex-1 gap-2"
-              variant="outline"
-            >
-              <Icon as={Mail} size={20} />
-              <Text>Send Message</Text>
-            </Button>
-          </View>
-        )}
+              <Button
+                size="sm"
+                className="flex flex-row flex-1 gap-2"
+                variant="outline"
+              >
+                <Icon as={Mail} size={20} />
+                <Text>Send Message</Text>
+              </Button>
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              <Button
+                size="sm"
+                onPress={() => router.push("/main/account/update-profile")}
+                className="flex flex-row flex-1 gap-2"
+              >
+                <Text className="bold">Update Your Profile</Text>
+              </Button>
+            </React.Fragment>
+          )}
+        </View>
 
         {/* Render all abstracted profile sections */}
         {overrideContent && customContent ? (

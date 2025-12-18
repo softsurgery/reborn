@@ -26,3 +26,8 @@ export function timeAgo(input: string | Date): string {
   if (diffHours < 24) return `${diffHours}h ago`;
   return `${diffDays}d ago`;
 }
+
+export const parseDateString = (str: string): Date | null => {
+  const d = new Date(str);
+  return isNaN(d.getTime()) ? null : d;
+};

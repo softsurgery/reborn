@@ -55,6 +55,9 @@ export class UpdateProfileDto {
   isPrivate?: boolean;
   regionId?: number;
   pictureId?: number;
+  experiences?: Experience[] | null;
+  educations?: Education[] | null;
+  skills?: Skill[] | null;
 }
 
 export interface ResponseFollowDto extends DatabaseEntity {

@@ -9,10 +9,10 @@ import {
 
 interface ClientData {
   response?: ResponseClientDto;
+  updateDto: UpdateClientDto;
   responseFollowCountsDto: ResponseFollowCountsDto;
   followers: ResponseFollowDto[];
   followings: ResponseFollowDto[];
-  updateDto: UpdateClientDto;
   picture?: string;
   progress: number;
   errors: Record<string, string[]>;
@@ -46,6 +46,9 @@ const initialState: ClientData = {
       gender: undefined,
       isPrivate: true,
       regionId: 0,
+      experiences: [],
+      educations: [],
+      skills: [],
     },
   },
   picture: undefined,
@@ -129,7 +132,6 @@ export const createClientStore = () =>
           nestedPath,
           value
         );
-
         return {
           ...state,
           [rootKey]: updatedRoot,

@@ -41,12 +41,17 @@ export const SceneBuilder = ({ className, scene }: SceneBuilderProps) => {
           {Object.keys(scene.content).map((key) => {
             return (
               <View key={key}>
-                <Text className="opacity-60 first:mt-0 m-4 font-normal">
+                <Text className={cn("opacity-60 first:mt-0 m-4 font-normal")}>
                   {scene.content[key].name.toUpperCase()}
                 </Text>
                 <Separator />
                 {scene.content[key].rows.map((row, idx) => {
-                  return <SceneRowBuilder row={row} key={idx} />;
+                  return (
+                    <SceneRowBuilder
+                      row={row}
+                      key={`[{${row.props}}][${idx}]`}
+                    />
+                  );
                 })}
                 {scene.content[key].description ? (
                   <Text className="opacity-60 first:mb-0 m-4 font-normal text-xs">
