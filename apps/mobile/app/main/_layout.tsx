@@ -169,6 +169,7 @@ export default function MainLayout() {
           name="notifications"
           options={{
             title: "Notifications",
+            headerShown: false,
             animation: "slide_from_right",
           }}
         />

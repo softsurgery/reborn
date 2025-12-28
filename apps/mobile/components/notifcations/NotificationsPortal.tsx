@@ -1,14 +1,18 @@
+import React from "react";
 import { RefreshControl, View } from "react-native";
 import { Text } from "../ui/text";
 import { LegendList } from "@legendapp/list";
 import { cn } from "~/lib/utils";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { api } from "~/api";
-import React from "react";
 import { ResponseNotificationDto } from "~/types/notifications";
-import { StablePressable } from "../shared/StablePressable";
 import { NotificationEntry } from "./NotificationEntry";
 import { Loader } from "../shared/Loader";
+import { ApplicationHeader } from "../shared/AppHeader";
+import { ArrowLeft } from "lucide-react-native";
+import { router } from "expo-router";
+import { StableScrollView } from "../shared/StableScrollView";
+import { StableSafeAreaView } from "../shared/StableSafeAreaView";
 
 export const NotificationsPortal = () => {
   const {
@@ -51,59 +55,74 @@ export const NotificationsPortal = () => {
     []
   );
   return (
-    <View className="flex-1 px-2">
-      <LegendList
-        className={cn("flex-1")}
-        data={notifications}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id.toString()}
-        showsVerticalScrollIndicator={false}
-        recycleItems={true}
-        maintainVisibleContentPosition
-        refreshControl={
-          <RefreshControl
-            refreshing={isRefetching}
-            onRefresh={refetch}
-            tintColor="transparent"
-            colors={["transparent"]}
-          />
-        }
-        onEndReached={() => {
-          if (hasNextPage && !isFetchingNextPage) {
-            fetchNextPage();
+    <StableSafeAreaView className={cn("flex-1 bg-card")}>
+      <ApplicationHeader
+        title={"Notifications"}
+        titleVariant="large"
+        reverse
+        shortcuts={[
+          {
+            key: "back",
+            icon: ArrowLeft,
+            onPress: () => router.back(),
+          },
+        ]}
+        className="border-b border-border pb-2 bg-transparent"
+      />
+      <StableScrollView className="bg-background px-2 pt-4">
+        <LegendList
+          className={cn("flex-1")}
+          data={notifications}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id.toString()}
+          showsVerticalScrollIndicator={false}
+          recycleItems={true}
+          maintainVisibleContentPosition
+          refreshControl={
+            <RefreshControl
+              refreshing={isRefetching}
+              onRefresh={refetch}
+              tintColor="transparent"
+              colors={["transparent"]}
+            />
           }
-        }}
-        onEndReachedThreshold={0.5}
-        ListHeaderComponent={
-          <Loader
-            isPending={isNotificationsPending || isFetchingNextPage}
-            size="small"
-            className="flex items-center h-fit"
-          />
-        }
-        ListEmptyComponent={
-          !isPending ? (
-            <View className="p-6 items-center">
-              <Text className="text-muted-foreground">
-                No conversations available
-              </Text>
-            </View>
-          ) : null
-        }
-        ListFooterComponent={
-          <View className="items-center">
-            {isPending ? (
-              <Loader />
-            ) : hasNextPage ? null : (
-              <View className="flex flex-row items-center justify-center gap-2 p-6">
-                <Text variant={"p"} className="text-muted-foreground">
-                  You have catched up with all notifications
+          onEndReached={() => {
+            if (hasNextPage && !isFetchingNextPage) {
+              fetchNextPage();
+            }
+          }}
+          onEndReachedThreshold={0.5}
+          ListHeaderComponent={
+            <Loader
+              isPending={isNotificationsPending || isFetchingNextPage}
+              size="small"
+              className="flex items-center h-fit"
+            />
+          }
+          ListEmptyComponent={
+            !isPending ? (
+              <View className="p-6 items-center">
+                <Text className="text-muted-foreground">
+                  No conversations available
                 </Text>
               </View>
-            )}
-          </View>
-        }
-      />
-    </View>
+            ) : null
+          }
+          ListFooterComponent={
+            <View className="items-center mb-8">
+              {isPending ? (
+                <Loader />
+              ) : hasNextPage ? null : (
+                <View className="flex flex-row items-center justify-center gap-2 p-6">
+                  <Text variant={"p"} className="text-muted-foreground">
+                    You have catched up with all notifications
+                  </Text>
+                </View>
+              )}
+            </View>
+          }
+        />
+      </StableScrollView>
+    </StableSafeAreaView>
   );
 };
