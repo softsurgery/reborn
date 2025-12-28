@@ -6980,6 +6980,11 @@ react-native-gesture-handler@^2.12.0:
     hoist-non-react-statics "^3.3.0"
     invariant "^2.2.4"
 
+react-native-immersive-mode@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/react-native-immersive-mode/-/react-native-immersive-mode-2.0.2.tgz#7535dcc170bfa802233c63e29d024092e3c936a7"
+  integrity sha512-W4YBpf/seURr6pdt91bKWtlQhwoZYgQN1nllj/y+EkwKs5xbu/IiRxlCs/8ML7dyA8wbOFaXR24AC4HOrvxapw==
+
 react-native-iphone-x-helper@^1.0.3:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.3.1.tgz#20c603e9a0e765fd6f97396638bdeb0e5a60b010"

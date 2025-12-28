@@ -7,6 +7,8 @@ import { ActivityIndicator, Platform } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
 import { usePreferencePersistStore } from "~/hooks/stores/usePreferencePersistStore";
 import { useTranslation } from "react-i18next";
+import * as NavigationBar from "expo-navigation-bar";
+
 SplashScreen.preventAutoHideAsync();
 
 export default function ScreenRedirect() {
@@ -54,6 +56,10 @@ export default function ScreenRedirect() {
       }
 
       SplashScreen.hideAsync();
+      if (Platform.OS === "android") {
+        NavigationBar.setVisibilityAsync("hidden");
+        NavigationBar.setBehaviorAsync("overlay-swipe");
+      }
       router.replace("/main");
     }
   }, [
