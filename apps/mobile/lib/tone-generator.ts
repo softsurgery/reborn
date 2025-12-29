@@ -1,73 +1,63 @@
+import { Audio } from "expo-av"
 import { Vibration } from "react-native"
 
-export const TONE_FREQUENCIES = {
-  default: { freq: 800, duration: 300 },
-  bell: { freq: 1000, duration: 400 },
-  digital: { freq: 600, duration: 250 },
-  chime: { freq: 1200, duration: 350 },
-  pop: { freq: 900, duration: 200 },
-  bubble: { freq: 700, duration: 300 },
-  swoosh: { freq: 500, duration: 400 },
-  ping: { freq: 1100, duration: 200 },
-  soft: { freq: 650, duration: 350 },
+const TONES = {
+  default: require("../assets/sounds/default.mp3"),
+  bell: require("../assets/sounds/bell.mp3"),
+  digital: require("../assets/sounds/digital.mp3"),
+  chime: require("../assets/sounds/chime.mp3"),
+  pop: require("../assets/sounds/pop.mp3"),
+  bubble: require("../assets/sounds/bubble.mp3"),
+  swoosh: require("../assets/sounds/swoosh.mp3"),
+  ping: require("../assets/sounds/ping.mp3"),
+  soft: require("../assets/sounds/soft.mp3"),
 } as const
 
-export type ToneId = keyof typeof TONE_FREQUENCIES
+export type ToneId = keyof typeof TONES
 
-interface ToneOptions {
-  frequency: number
-  duration: number
-  volume?: number
-  vibration?: boolean
-}
+let currentSound: Audio.Sound | null = null
 
-export const playTone = async (toneId: ToneId, options?: Partial<ToneOptions>) => {
+export const playTone = async (
+  toneId: ToneId,
+  options?: { vibration?: boolean; volume?: number }
+) => {
   try {
-    const toneFreq = TONE_FREQUENCIES[toneId]
-    const { frequency = toneFreq.freq, duration = toneFreq.duration, volume = 0.5, vibration = true } = options || {}
+    if (currentSound) {
+      await currentSound.unloadAsync()
+      currentSound = null
+    }
 
-    console.log(`[v0] Playing tone: ${toneId} (${frequency}Hz, ${duration}ms)`)
+    const { vibration = true, volume = 0.7 } = options || {}
+
+    const { sound } = await Audio.Sound.createAsync(
+      TONES[toneId],
+      {
+        shouldPlay: true,
+        volume,
+      }
+    )
+
+    currentSound = sound
 
     if (vibration) {
-      // Create unique vibration pattern for each tone
-      const vibrationPattern = getVibrationPattern(toneId, duration)
-      Vibration.vibrate(vibrationPattern)
+      Vibration.vibrate([80, 60, 80])
     }
-  } catch (error) {
-    console.log("[v0] Tone playback error:", error)
+
+    sound.setOnPlaybackStatusUpdate((status: { isLoaded: any; didJustFinish: any }) => {
+      if (status.isLoaded && status.didJustFinish) {
+        sound.unloadAsync()
+        currentSound = null
+      }
+    })
+  } catch (e) {
+    console.log("Tone error", e)
   }
 }
 
-const getVibrationPattern = (toneId: ToneId, duration: number): number | number[] => {
-  const patterns: Record<ToneId, number | number[]> = {
-    default: [100, 100, 100],
-    bell: [150, 100, 150],
-    digital: [50, 50, 50, 50],
-    chime: [200, 100, 200],
-    pop: [80],
-    bubble: [100, 50, 100],
-    swoosh: [250, 100],
-    ping: [120, 80],
-    soft: [150],
+export const stopTone = async () => {
+  if (currentSound) {
+    await currentSound.unloadAsync()
+    currentSound = null
   }
-  return patterns[toneId]
-}
-
-export const stopTone = () => {
   Vibration.cancel()
-}
-
-export const getToneName = (toneId: ToneId): string => {
-  const toneNames: Record<ToneId, string> = {
-    default: "Par défaut",
-    bell: "Cloche",
-    digital: "Numérique",
-    chime: "Carillon",
-    pop: "Pop",
-    bubble: "Bulle",
-    swoosh: "Swoosh",
-    ping: "Ping",
-    soft: "Douce",
-  }
-  return toneNames[toneId]
 }

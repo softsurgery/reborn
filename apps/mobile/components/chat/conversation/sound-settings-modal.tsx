@@ -1,15 +1,11 @@
-"use client";
-
 import {
   View,
   Text,
   Modal,
   TouchableOpacity,
-  TouchableWithoutFeedback,
   Switch,
-  Keyboard,
   ScrollView,
-  FlatList,
+  KeyboardAvoidingView,
 } from "react-native";
 import { X, Volume2 } from "lucide-react-native";
 import { Icon } from "~/components/ui/icon";
@@ -62,8 +58,16 @@ export function SoundSettingsModal({
 
   const loadSettings = async () => {
     const settings = await storageManager.loadSettings();
-    setSoundSettings(settings.soundSettings);
+    if (settings?.soundSettings) {
+      setSoundSettings(settings.soundSettings);
+    }
     setLoading(false);
+  };
+
+  const updateSettings = async (updated: any) => {
+    setSoundSettings(updated);
+    await storageManager.updateSoundSettings(updated);
+    onSettingsChange?.(updated);
   };
 
   const handlePlayTone = (toneId: string) => {
@@ -72,44 +76,9 @@ export function SoundSettingsModal({
     setTimeout(() => setPlayingTone(null), 500);
   };
 
-  const handleNotificationMutedChange = async (value: boolean) => {
-    const updated = { ...soundSettings, notificationMuted: value };
-    setSoundSettings(updated);
-    await storageManager.updateSoundSettings(updated);
-    onSettingsChange?.(updated);
-  };
-
-  const handleCallMutedChange = async (value: boolean) => {
-    const updated = { ...soundSettings, callMuted: value };
-    setSoundSettings(updated);
-    await storageManager.updateSoundSettings(updated);
-    onSettingsChange?.(updated);
-  };
-
-  const handleNotificationToneChange = async (toneId: string) => {
-    const updated = { ...soundSettings, notificationTone: toneId };
-    setSoundSettings(updated);
-    await storageManager.updateSoundSettings(updated);
-    onSettingsChange?.(updated);
-  };
-
-  const handleMessageToneChange = async (toneId: string) => {
-    const updated = { ...soundSettings, messageTone: toneId };
-    setSoundSettings(updated);
-    await storageManager.updateSoundSettings(updated);
-    onSettingsChange?.(updated);
-  };
-
-  const handleVibrationChange = async (value: boolean) => {
-    const updated = { ...soundSettings, vibrationEnabled: value };
-    setSoundSettings(updated);
-    await storageManager.updateSoundSettings(updated);
-    onSettingsChange?.(updated);
-  };
-
   if (loading) {
     return (
-      <Modal visible={visible} animationType="slide" transparent>
+      <Modal visible={visible} transparent>
         <View
           style={{
             flex: 1,
@@ -126,7 +95,7 @@ export function SoundSettingsModal({
 
   return (
     <Modal visible={visible} animationType="slide" transparent>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
         <View style={{ flex: 1, backgroundColor: "rgba(0,0,0,0.6)" }}>
           <View style={{ flex: 1 }} />
           <View
@@ -161,7 +130,7 @@ export function SoundSettingsModal({
 
             {/* Content */}
             <ScrollView style={{ paddingHorizontal: 24, paddingVertical: 16 }}>
-              {/* Mettre les notifications en sourdine */}
+              {/* Notifications muted */}
               <View
                 style={{
                   paddingVertical: 16,
@@ -174,7 +143,6 @@ export function SoundSettingsModal({
                     flexDirection: "row",
                     alignItems: "center",
                     justifyContent: "space-between",
-                    marginBottom: 12,
                   }}
                 >
                   <View style={{ flex: 1 }}>
@@ -187,132 +155,82 @@ export function SoundSettingsModal({
                     >
                       Mettre les notifications en sourdine
                     </Text>
-                    <Text
-                      style={{ color: "#a1a1a1", fontSize: 14, marginTop: 4 }}
-                    >
+                    <Text style={{ color: "#a1a1a1", fontSize: 14, marginTop: 4 }}>
                       Désactiver tous les sons de notification
                     </Text>
                   </View>
                   <Switch
                     value={soundSettings.notificationMuted}
-                    onValueChange={handleNotificationMutedChange}
-                    trackColor={{ false: "#52525b", true: "#ef4444" }}
-                    thumbColor={
-                      soundSettings.notificationMuted ? "#ffffff" : "#f4f3f4"
+                    onValueChange={(v) =>
+                      updateSettings({ ...soundSettings, notificationMuted: v })
                     }
+                    trackColor={{ false: "#52525b", true: "#ef4444" }}
+                    thumbColor={soundSettings.notificationMuted ? "#ffffff" : "#f4f3f4"}
                   />
                 </View>
               </View>
 
-              {/* Tonalité des notifications */}
-              {!soundSettings.notificationMuted && (
-                <View
-                  style={{
-                    paddingVertical: 16,
-                    borderBottomWidth: 1,
-                    borderBottomColor: "#27272a",
-                  }}
-                >
-                  <Text
-                    style={{
-                      color: "white",
-                      fontWeight: "600",
-                      fontSize: 16,
-                      marginBottom: 12,
-                    }}
-                  >
-                    Tonalité des notifications
-                  </Text>
-                  <FlatList
-                    scrollEnabled={false}
-                    data={NOTIFICATION_TONES}
-                    keyExtractor={(item: { id: any }) => item.id}
-                    renderItem={({
-                      item,
-                    }: {
-                      item: (typeof NOTIFICATION_TONES)[number];
-                    }) => (
-                      <View
+              {/* Notification tones */}
+              {!soundSettings.notificationMuted &&
+                NOTIFICATION_TONES.map((item) => {
+                  const selected = soundSettings.notificationTone === item.id;
+                  return (
+                    <View
+                      key={item.id}
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        padding: 12,
+                        marginBottom: 8,
+                        borderRadius: 12,
+                        backgroundColor: selected ? "#2563eb" : "#27272a",
+                      }}
+                    >
+                      <Text style={{ fontSize: 24, marginRight: 12 }}>{item.tone}</Text>
+                      <Text
                         style={{
-                          flexDirection: "row",
-                          alignItems: "center",
-                          paddingHorizontal: 16,
-                          paddingVertical: 12,
-                          borderRadius: 12,
-                          marginBottom: 8,
-                          backgroundColor:
-                            soundSettings.notificationTone === item.id
-                              ? "#2563eb"
-                              : "#27272a",
+                          color: selected ? "white" : "#d4d4d8",
+                          fontWeight: selected ? "600" : "400",
+                          flex: 1,
                         }}
                       >
-                        <Text style={{ fontSize: 24, marginRight: 12 }}>
-                          {item.tone}
-                        </Text>
-                        <Text
-                          style={{
-                            color:
-                              soundSettings.notificationTone === item.id
-                                ? "white"
-                                : "#d4d4d8",
-                            fontWeight:
-                              soundSettings.notificationTone === item.id
-                                ? "600"
-                                : "400",
-                            flex: 1,
-                          }}
-                        >
-                          {item.name}
-                        </Text>
-                        <TouchableOpacity
-                          onPress={() => handlePlayTone(item.id)}
-                          style={{
-                            padding: 8,
-                            backgroundColor:
-                              playingTone === item.id
-                                ? "#3b82f6"
-                                : "rgba(59, 130, 246, 0.2)",
-                            borderRadius: 8,
-                            marginRight: 8,
-                          }}
-                        >
-                          <Icon
-                            as={Volume2}
-                            size={18}
-                            color={
-                              playingTone === item.id ? "white" : "#60a5fa"
-                            }
-                          />
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                          onPress={() => handleNotificationToneChange(item.id)}
-                          style={{
-                            width: 20,
-                            height: 20,
-                            borderRadius: 10,
-                            borderWidth: 2,
-                            borderColor:
-                              soundSettings.notificationTone === item.id
-                                ? "#2563eb"
-                                : "#52525b",
-                            backgroundColor:
-                              soundSettings.notificationTone === item.id
-                                ? "#2563eb"
-                                : "transparent",
-                          }}
-                        />
-                      </View>
-                    )}
-                  />
-                </View>
-              )}
+                        {item.name}
+                      </Text>
+                      <TouchableOpacity
+                        onPress={() => handlePlayTone(item.id)}
+                        style={{
+                          padding: 8,
+                          backgroundColor: playingTone === item.id ? "#3b82f6" : "rgba(59,130,246,0.2)",
+                          borderRadius: 8,
+                          marginRight: 8,
+                        }}
+                      >
+                        <Icon as={Volume2} size={18} color={playingTone === item.id ? "white" : "#60a5fa"} />
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={() =>
+                          updateSettings({ ...soundSettings, notificationTone: item.id })
+                        }
+                        style={{
+                          width: 20,
+                          height: 20,
+                          borderRadius: 10,
+                          borderWidth: 2,
+                          borderColor: selected ? "#2563eb" : "#52525b",
+                          backgroundColor: selected ? "#2563eb" : "transparent",
+                        }}
+                      />
+                    </View>
+                  );
+                })}
 
-              {/* Mettre les appels en sourdine */}
+              {/* Call muted */}
               <View
                 style={{
                   paddingVertical: 16,
                   borderBottomWidth: 1,
                   borderBottomColor: "#27272a",
+                  marginTop: 16,
                 }}
               >
                 <View
@@ -320,7 +238,6 @@ export function SoundSettingsModal({
                     flexDirection: "row",
                     alignItems: "center",
                     justifyContent: "space-between",
-                    marginBottom: 12,
                   }}
                 >
                   <View style={{ flex: 1 }}>
@@ -333,181 +250,102 @@ export function SoundSettingsModal({
                     >
                       Mettre les appels en sourdine
                     </Text>
-                    <Text
-                      style={{ color: "#a1a1a1", fontSize: 14, marginTop: 4 }}
-                    >
+                    <Text style={{ color: "#a1a1a1", fontSize: 14, marginTop: 4 }}>
                       Désactiver les sons d'appels entrants
                     </Text>
                   </View>
                   <Switch
                     value={soundSettings.callMuted}
-                    onValueChange={handleCallMutedChange}
+                    onValueChange={(v) =>
+                      updateSettings({ ...soundSettings, callMuted: v })
+                    }
                     trackColor={{ false: "#52525b", true: "#ef4444" }}
                     thumbColor={soundSettings.callMuted ? "#ffffff" : "#f4f3f4"}
                   />
                 </View>
               </View>
 
-              {/* Tonalité des messages */}
-              <View
-                style={{
-                  paddingVertical: 16,
-                  borderBottomWidth: 1,
-                  borderBottomColor: "#27272a",
-                }}
-              >
-                <Text
-                  style={{
-                    color: "white",
-                    fontWeight: "600",
-                    fontSize: 16,
-                    marginBottom: 12,
-                  }}
-                >
-                  Tonalité des messages
-                </Text>
-                <FlatList
-                  scrollEnabled={false}
-                  data={MESSAGE_TONES}
-                  keyExtractor={(item: { id: any }) => item.id}
-                  renderItem={({
-                    item,
-                  }: {
-                    item: (typeof MESSAGE_TONES)[number];
-                  }) => (
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        alignItems: "center",
-                        paddingHorizontal: 16,
-                        paddingVertical: 12,
-                        borderRadius: 12,
-                        marginBottom: 8,
-                        backgroundColor:
-                          soundSettings.messageTone === item.id
-                            ? "#2563eb"
-                            : "#27272a",
-                      }}
-                    >
-                      <Text style={{ fontSize: 24, marginRight: 12 }}>
-                        {item.tone}
-                      </Text>
-                      <Text
-                        style={{
-                          color:
-                            soundSettings.messageTone === item.id
-                              ? "white"
-                              : "#d4d4d8",
-                          fontWeight:
-                            soundSettings.messageTone === item.id
-                              ? "600"
-                              : "400",
-                          flex: 1,
-                        }}
-                      >
-                        {item.name}
-                      </Text>
-                      <TouchableOpacity
-                        onPress={() => handlePlayTone(item.id)}
-                        style={{
-                          padding: 8,
-                          backgroundColor:
-                            playingTone === item.id
-                              ? "#3b82f6"
-                              : "rgba(59, 130, 246, 0.2)",
-                          borderRadius: 8,
-                          marginRight: 8,
-                        }}
-                      >
-                        <Icon
-                          as={Volume2}
-                          size={18}
-                          color={playingTone === item.id ? "white" : "#60a5fa"}
-                        />
-                      </TouchableOpacity>
-                      <TouchableOpacity
-                        onPress={() => handleMessageToneChange(item.id)}
-                        style={{
-                          width: 20,
-                          height: 20,
-                          borderRadius: 10,
-                          borderWidth: 2,
-                          borderColor:
-                            soundSettings.messageTone === item.id
-                              ? "#2563eb"
-                              : "#52525b",
-                          backgroundColor:
-                            soundSettings.messageTone === item.id
-                              ? "#2563eb"
-                              : "transparent",
-                        }}
-                      />
-                    </View>
-                  )}
-                />
-              </View>
-
-              {/* Vibration */}
-              <View style={{ paddingVertical: 16 }}>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <View style={{ flex: 1 }}>
-                    <Text
-                      style={{
-                        color: "white",
-                        fontWeight: "600",
-                        fontSize: 16,
-                      }}
-                    >
-                      Vibration
-                    </Text>
-                    <Text
-                      style={{ color: "#a1a1a1", fontSize: 14, marginTop: 4 }}
-                    >
-                      Activer la vibration pour les notifications
-                    </Text>
-                  </View>
-                  <Switch
-                    value={soundSettings.vibrationEnabled}
-                    onValueChange={handleVibrationChange}
-                    trackColor={{ false: "#52525b", true: "#3b82f6" }}
-                    thumbColor={
-                      soundSettings.vibrationEnabled ? "#ffffff" : "#f4f3f4"
-                    }
-                  />
-                </View>
-              </View>
-            </ScrollView>
-
-            {/* Close Button */}
-            <TouchableOpacity
-              onPress={onClose}
-              style={{
-                marginHorizontal: 24,
-                marginBottom: 24,
-                backgroundColor: "#2563eb",
-                paddingVertical: 12,
-                borderRadius: 12,
-              }}
-            >
+              {/* Message tones */}
               <Text
                 style={{
                   color: "white",
-                  textAlign: "center",
                   fontWeight: "600",
+                  fontSize: 16,
+                  marginVertical: 12,
                 }}
               >
-                Fermer
+                Tonalité des messages
               </Text>
-            </TouchableOpacity>
+              {MESSAGE_TONES.map((item) => {
+                const selected = soundSettings.messageTone === item.id;
+                return (
+                  <View
+                    key={item.id}
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      padding: 12,
+                      marginBottom: 8,
+                      borderRadius: 12,
+                      backgroundColor: selected ? "#2563eb" : "#27272a",
+                    }}
+                  >
+                    <Text style={{ fontSize: 24, marginRight: 12 }}>{item.tone}</Text>
+                    <Text
+                      style={{
+                        color: selected ? "white" : "#d4d4d8",
+                        fontWeight: selected ? "600" : "400",
+                        flex: 1,
+                      }}
+                    >
+                      {item.name}
+                    </Text>
+                    <TouchableOpacity
+                      onPress={() => handlePlayTone(item.id)}
+                      style={{
+                        padding: 8,
+                        backgroundColor: playingTone === item.id ? "#3b82f6" : "rgba(59,130,246,0.2)",
+                        borderRadius: 8,
+                        marginRight: 8,
+                      }}
+                    >
+                      <Icon as={Volume2} size={18} color={playingTone === item.id ? "white" : "#60a5fa"} />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => updateSettings({ ...soundSettings, messageTone: item.id })}
+                      style={{
+                        width: 20,
+                        height: 20,
+                        borderRadius: 10,
+                        borderWidth: 2,
+                        borderColor: selected ? "#2563eb" : "#52525b",
+                        backgroundColor: selected ? "#2563eb" : "transparent",
+                      }}
+                    />
+                  </View>
+                );
+              })}
+
+              {/* Close button */}
+              <TouchableOpacity
+                onPress={onClose}
+                style={{
+                  marginVertical: 24,
+                  backgroundColor: "#2563eb",
+                  paddingVertical: 12,
+                  borderRadius: 12,
+                }}
+              >
+                <Text
+                  style={{ color: "white", textAlign: "center", fontWeight: "600" }}
+                >
+                  Fermer
+                </Text>
+              </TouchableOpacity>
+            </ScrollView>
           </View>
         </View>
-      </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
     </Modal>
   );
 }
