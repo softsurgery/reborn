@@ -5,9 +5,9 @@ import {
   TouchableOpacity,
   Alert,
   TextInput,
-  FlatList,
   useColorScheme,
 } from "react-native";
+import { LegendList } from "@legendapp/list";
 import {
   User,
   Bell,
@@ -389,7 +389,7 @@ export const ConversationDetails = ({ id }: ConversationDetailsProps) => {
         </View>
 
         {/* Résultats */}
-        <FlatList
+        <LegendList
           data={searchResults}
           keyExtractor={(item: { id: any }) => item.id}
           renderItem={({ item }: { item: any }) => (
