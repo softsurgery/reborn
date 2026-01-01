@@ -67,7 +67,7 @@ const SettingItem = ({
   toggleValue,
   onToggle,
 }: SettingItemProps) => {
-  // Déplacer useColorScheme() ici, TOUJOURS au début
+
   const colorScheme = useColorScheme();
   const iconColor = colorScheme === 'dark' ? '#FFFFFF' : '#000000';
   const destructiveColor = colorScheme === 'dark' ? '#FF6B6B' : '#DC2626';
@@ -104,7 +104,6 @@ const SettingItem = ({
       </View>
       <View className="flex-row items-center">
         {toggleValue !== undefined ? (
-          // Utilise Toggle comme dans ton exemple
           <Toggle
             pressed={toggleValue}
             onPressedChange={onToggle}
@@ -249,7 +248,7 @@ export const ConversationDetails = ({ id }: ConversationDetailsProps) => {
     const fetchMessages = async () => {
       try {
         const response = await messageApi.findPaginatedConversationMessages(
-          0, // TODO: replace with conversation ID
+          0,
           {
             page: "1",
             limit: "100",
@@ -270,7 +269,7 @@ export const ConversationDetails = ({ id }: ConversationDetailsProps) => {
       }
     };
     fetchMessages();
-  }, [user?.id]);
+  }, [id]); // Ajouter id comme dépendance pour recharger si l'ID change
 
   // Fonction de recherche sur messages réels
   const handleSearch = (query: string) => {
@@ -322,7 +321,7 @@ export const ConversationDetails = ({ id }: ConversationDetailsProps) => {
           style: "destructive",
           onPress: async () => {
             try {
-              await axios.delete(`/conversation/${user?.id}`);
+              await axios.delete(`/conversation/${id}`); // Utiliser id au lieu de user?.id pour cohérence
               Alert.alert("Succès", "La conversation a été supprimée.");
               router.back();
             } catch (error) {

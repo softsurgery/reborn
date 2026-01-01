@@ -47,6 +47,7 @@
     "date-fns": "^4.1.0",
     "date-fns-tz": "^3.2.0",
     "expo": "^54.0.0",
+    "expo-av": "^16.0.8",
     "expo-constants": "~18.0.9",
     "expo-dev-client": "~6.0.12",
     "expo-device": "~8.0.8",
