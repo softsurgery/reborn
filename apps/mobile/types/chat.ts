@@ -8,6 +8,8 @@ export interface ResponseConversationDto extends DatabaseEntity {
 }
 
 export interface ResponseMessageDto extends DatabaseEntity {
+  sender: any;
+  timestamp: string | number | Date;
   id: number;
   content: string;
   conversationId: number;

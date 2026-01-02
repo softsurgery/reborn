@@ -94,6 +94,14 @@ export default function MainLayout() {
           }}
         />
 
+        <Stack.Screen
+          name="chat/conversation-details"
+          options={{
+            title: "",
+            headerShown: false,
+          }}
+        />
+
         {/* Explore */}
         <Stack.Screen
           name="explore/new-job"
@@ -161,6 +169,7 @@ export default function MainLayout() {
           name="notifications"
           options={{
             title: "Notifications",
+            headerShown: false,
             animation: "slide_from_right",
           }}
         />
