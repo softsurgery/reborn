@@ -9,6 +9,7 @@ export default function AuthLayout() {
         name="sign-in"
         options={{
           title: "",
+          headerShown: false,
           headerRight: () => <ThemeToggle />,
           animation: "fade",
           animationDuration: 200,
@@ -18,6 +19,7 @@ export default function AuthLayout() {
         name="sign-up"
         options={{
           title: "",
+          headerShown: false,
           headerRight: () => <ThemeToggle />,
           animation: "fade",
           animationDuration: 200,
@@ -27,6 +29,7 @@ export default function AuthLayout() {
         name="sign-up-carry-on"
         options={{
           title: "",
+          headerShown: false,
           headerRight: () => <ThemeToggle />,
           animation: "fade",
           animationDuration: 200,

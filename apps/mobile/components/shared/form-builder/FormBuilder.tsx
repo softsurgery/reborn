@@ -77,7 +77,7 @@ export const FormBuilder = React.forwardRef(
                             fieldRefs.current[field.id] = r;
                           }}
                           className={cn(
-                            "flex flex-col p-2",
+                            "flex flex-col py-2",
                             structure.orientation === "vertical"
                               ? "w-full"
                               : getItemWidth(fieldCount),
