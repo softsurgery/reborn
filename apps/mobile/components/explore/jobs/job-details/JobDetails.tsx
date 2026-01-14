@@ -226,7 +226,7 @@ export const JobDetails = () => {
         <View
           className={cn(isJobRequested && "flex flex-row items-center gap-2")}
         >
-          {isJobRequested && (
+          {isJobRequested ? (
             <Button
               className="w-[49%] rounded-lg"
               size="sm"
@@ -241,7 +241,7 @@ export const JobDetails = () => {
                 View Requests
               </Text>
             </Button>
-          )}
+          ) : null}
           <View className={cn(isJobRequested && "w-[49%]")}>
             <Dialog
               open={requestDialogOpen}
