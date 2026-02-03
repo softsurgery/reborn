@@ -2,8 +2,7 @@ import { View } from "react-native";
 import { cn } from "~/lib/utils";
 import { Text } from "../../ui/text";
 import { StablePressable } from "~/components/shared/StablePressable";
-import { useNavigation } from "expo-router";
-import { NavigationProps } from "~/types/app.routes";
+import { router, useNavigation } from "expo-router";
 import { ArrowLeft } from "lucide-react-native";
 import { Icon } from "~/components/ui/icon";
 
@@ -20,19 +19,18 @@ export const ChatHeaderLeft = ({
   profilePicture,
   lastSeen,
 }: ChatHeaderLeftProps) => {
-  const navigation = useNavigation<NavigationProps>();
   return (
     <View
       className={cn(
         "flex flex-row items-center justify-center gap-2 my-2",
-        className
+        className,
       )}
     >
       {/* backbuttin */}
       <StablePressable
         className="ml-4 mr-2"
         onPress={() => {
-          navigation.goBack();
+          router.back();
         }}
       >
         <Icon as={ArrowLeft} size={20} strokeWidth={3} />

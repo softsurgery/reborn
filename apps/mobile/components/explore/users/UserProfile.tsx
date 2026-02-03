@@ -5,7 +5,7 @@ import { View } from "react-native";
 import { api } from "~/api";
 import { ProfileManagmentCard } from "~/components/explore/users/ProfileManagementCard";
 import { StableScrollView } from "~/components/shared/StableScrollView";
-import { createClientStore } from "~/hooks/stores/useClientStore";
+import { createUserStore } from "~/hooks/stores/useClientStore";
 import { ProfileManagmentCardSkeleton } from "./ProfileManagmentCardSkeleton";
 import { Inbox } from "lucide-react-native";
 import { StablePressable } from "~/components/shared/StablePressable";
@@ -30,7 +30,7 @@ export const UserProfile = ({ className }: UserProfileProps) => {
   ];
 
   const { id } = useLocalSearchParams();
-  const storeRef = React.useRef(createClientStore());
+  const storeRef = React.useRef(createUserStore());
   const clientStore = storeRef.current();
 
   const { data: userResp, isPending: isUserPending } = useQuery({
@@ -46,9 +46,9 @@ export const UserProfile = ({ className }: UserProfileProps) => {
   }, [userResp]);
 
   const { data: picture } = useQuery({
-    queryKey: ["picture", userResp?.profile?.pictureId],
-    queryFn: () => api.upload.getUploadById(userResp?.profile?.pictureId!),
-    enabled: !!userResp?.profile?.pictureId,
+    queryKey: ["picture", userResp?.pictureId],
+    queryFn: () => api.upload.getUploadById(userResp?.pictureId!),
+    enabled: !!userResp?.pictureId,
     staleTime: Infinity,
   });
 

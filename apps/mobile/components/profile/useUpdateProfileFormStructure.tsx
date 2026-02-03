@@ -10,12 +10,12 @@ import {
   TextareaFieldProps,
   TextFieldProps,
 } from "~/components/shared/form-builder/types";
-import { ClientStore } from "~/hooks/stores/useClientStore";
+import { UserStore } from "~/hooks/stores/useClientStore";
 import { useUploadMutation } from "~/hooks/content/useUploadMutation";
 import { Gender } from "~/types";
 
 interface useUpdateProfileFormStructureProps {
-  store: ClientStore;
+  store: UserStore;
   regions: SelectOption[];
   uploadPicture: ReturnType<typeof useUploadMutation>["uploadFiles"];
   isUploadPending?: boolean;
@@ -121,9 +121,9 @@ export const useUpdateProfileFormStructure = ({
     description: "Enter a phone number so we can reach you if needed.",
     error: store.errors?.phone?.[0],
     props: {
-      value: store.updateDto?.profile?.phone,
+      value: store.updateDto?.phone,
       onChangeText: (value: string) => {
-        store.setNested("updateDto.profile.phone", value);
+        store.setNested("updateDto.phone", value);
         store.setNested("errors.phone", []);
       },
     },
@@ -156,9 +156,9 @@ export const useUpdateProfileFormStructure = ({
     description: "Tell us a little bit about yourself.",
     error: store.errors?.bio?.[0],
     props: {
-      value: store.updateDto.profile?.bio,
+      value: store.updateDto?.bio,
       onChangeText: (value: string) => {
-        store.setNested("updateDto.profile.bio", value);
+        store.setNested("updateDto.bio", value);
         store.setNested("errors.bio", []);
       },
     },
@@ -174,9 +174,9 @@ export const useUpdateProfileFormStructure = ({
     error: store.errors?.regionId?.[0],
     props: {
       options: regions,
-      value: store.updateDto.profile?.regionId?.toString(),
+      value: store.updateDto?.regionId?.toString(),
       onSelect: (value: string) => {
-        store.setNested("updateDto.profile.regionId", Number(value));
+        store.setNested("updateDto.regionId", Number(value));
         store.setNested("errors.regionId", []);
       },
     },
@@ -191,9 +191,9 @@ export const useUpdateProfileFormStructure = ({
     description: "Check to make your profile private",
     error: store.errors?.isPrivate?.[0],
     props: {
-      checked: store.updateDto.profile?.isPrivate,
+      checked: store.updateDto?.isPrivate,
       onCheckedChange: (value) => {
-        store.setNested("updateDto.profile.isPrivate", value);
+        store.setNested("updateDto.isPrivate", value);
         store.setNested("errors.isPrivate", []);
       },
     },
@@ -207,9 +207,9 @@ export const useUpdateProfileFormStructure = ({
     description: "Specifying your gender helps us personalize your experience.",
     error: store.errors?.gender?.[0],
     props: {
-      value: store.updateDto.profile?.gender?.toString(),
+      value: store.updateDto?.gender?.toString(),
       onSelect: (value: string) => {
-        store.setNested("updateDto.profile.gender", value);
+        store.setNested("updateDto.gender", value);
         store.setNested("errors.gender", []);
       },
       options: Object.entries(Gender).map(([value, label]) => ({

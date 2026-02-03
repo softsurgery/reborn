@@ -67,11 +67,10 @@ const SettingItem = ({
   toggleValue,
   onToggle,
 }: SettingItemProps) => {
-
   const colorScheme = useColorScheme();
-  const iconColor = colorScheme === 'dark' ? '#FFFFFF' : '#000000';
-  const destructiveColor = colorScheme === 'dark' ? '#FF6B6B' : '#DC2626';
-  
+  const iconColor = colorScheme === "dark" ? "#FFFFFF" : "#000000";
+  const destructiveColor = colorScheme === "dark" ? "#FF6B6B" : "#DC2626";
+
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -80,7 +79,7 @@ const SettingItem = ({
       <View
         className={cn(
           "w-10 items-center",
-          destructive ? "text-destructive" : "text-foreground"
+          destructive ? "text-destructive" : "text-foreground",
         )}
       >
         <Icon
@@ -93,25 +92,26 @@ const SettingItem = ({
         <Text
           className={cn(
             "text-[17px]",
-            destructive ? "text-destructive" : "text-foreground"
+            destructive ? "text-destructive" : "text-foreground",
           )}
         >
           {label}
         </Text>
         {description && (
-          <Text className="text-muted-foreground text-sm mt-0.5">{description}</Text>
+          <Text className="text-muted-foreground text-sm mt-0.5">
+            {description}
+          </Text>
         )}
       </View>
       <View className="flex-row items-center">
         {toggleValue !== undefined ? (
-          <Toggle
-            pressed={toggleValue}
-            onPressedChange={onToggle}
-          />
+          <Toggle pressed={toggleValue} onPressedChange={onToggle} />
         ) : (
           <>
             {value && (
-              <Text className="text-muted-foreground text-[17px] mr-2">{value}</Text>
+              <Text className="text-muted-foreground text-[17px] mr-2">
+                {value}
+              </Text>
             )}
             {showChevron && (
               <Icon as={ChevronRight} size={20} color={iconColor} />
@@ -150,7 +150,7 @@ const MessageResultItem = ({
             </Text>
           ) : (
             <Text key={index}>{part}</Text>
-          )
+          ),
         )}
       </Text>
     );
@@ -172,7 +172,9 @@ const MessageResultItem = ({
         </View>
         <View className="flex-1">
           <View className="flex-row items-center mb-1">
-            <Text className="text-foreground font-medium mr-2">{senderName}</Text>
+            <Text className="text-foreground font-medium mr-2">
+              {senderName}
+            </Text>
             <Text className="text-muted-foreground text-xs">
               {new Date(message.createdAt).toLocaleTimeString([], {
                 hour: "2-digit",
@@ -199,9 +201,9 @@ interface ConversationDetailsProps {
 
 export const ConversationDetails = ({ id }: ConversationDetailsProps) => {
   const colorScheme = useColorScheme();
-  const iconColor = colorScheme === 'dark' ? '#FFFFFF' : '#000000';
-  const mutedIconColor = colorScheme === 'dark' ? '#A1A1AA' : '#71717A';
-  
+  const iconColor = colorScheme === "dark" ? "#FFFFFF" : "#000000";
+  const mutedIconColor = colorScheme === "dark" ? "#A1A1AA" : "#71717A";
+
   const { user } = useIdentifiedUser({
     id,
   });
@@ -213,7 +215,7 @@ export const ConversationDetails = ({ id }: ConversationDetailsProps) => {
   const searchInputRef = useRef<TextInput>(null);
 
   const { jsx: profilePicture } = useServerImage({
-    id: user?.profile?.pictureId,
+    id: user?.pictureId,
     fallback: identifyUserAvatar(user),
     size: { width: 90, height: 90 },
     enabled: !!user,
@@ -243,18 +245,14 @@ export const ConversationDetails = ({ id }: ConversationDetailsProps) => {
     await storageManager.updateAutoSavePhotos(value);
   };
 
- 
   useEffect(() => {
     const fetchMessages = async () => {
       try {
-        const response = await messageApi.findPaginatedConversationMessages(
-          0,
-          {
-            page: "1",
-            limit: "100",
-            sort: "DESC",
-          }
-        );
+        const response = await messageApi.findPaginatedConversationMessages(0, {
+          page: "1",
+          limit: "100",
+          sort: "DESC",
+        });
         // On vérifie si response est Paginated ou directement un tableau (fallback)
         const data = Array.isArray(response)
           ? response
@@ -283,7 +281,7 @@ export const ConversationDetails = ({ id }: ConversationDetailsProps) => {
       .filter((msg) => msg.content?.toLowerCase().includes(query.toLowerCase()))
       .sort(
         (a, b) =>
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
       );
 
     setSearchResults(results);
@@ -305,7 +303,7 @@ export const ConversationDetails = ({ id }: ConversationDetailsProps) => {
     setSearchQuery("");
     Alert.alert(
       "Naviguer",
-      `Aller au message: ${message.content.substring(0, 50)}...`
+      `Aller au message: ${message.content.substring(0, 50)}...`,
     );
   };
 
@@ -330,7 +328,7 @@ export const ConversationDetails = ({ id }: ConversationDetailsProps) => {
             }
           },
         },
-      ]
+      ],
     );
   };
 
@@ -372,7 +370,7 @@ export const ConversationDetails = ({ id }: ConversationDetailsProps) => {
                 placeholderTextColor={mutedIconColor}
                 value={searchQuery}
                 autoFocus
-                selectionColor={colorScheme === 'dark' ? '#3b82f6' : '#2563eb'}
+                selectionColor={colorScheme === "dark" ? "#3b82f6" : "#2563eb"}
                 onChangeText={setSearchQuery}
               />
               {searchQuery.length > 0 && (
@@ -412,7 +410,9 @@ export const ConversationDetails = ({ id }: ConversationDetailsProps) => {
           ListEmptyComponent={() => (
             <View className="flex-1 items-center justify-center py-20">
               {loadingSearch ? (
-                <Text className="text-muted-foreground">Recherche en cours...</Text>
+                <Text className="text-muted-foreground">
+                  Recherche en cours...
+                </Text>
               ) : searchQuery ? (
                 <>
                   <Icon as={Search} size={60} color={mutedIconColor} />
@@ -458,7 +458,9 @@ export const ConversationDetails = ({ id }: ConversationDetailsProps) => {
             {profilePicture}
             <View className="absolute bottom-0 right-0 w-6 h-6 bg-green-500 border-2 border-background rounded-full" />
           </View>
-          <Text className="text-foreground text-2xl font-bold mt-4">{nickname}</Text>
+          <Text className="text-foreground text-2xl font-bold mt-4">
+            {nickname}
+          </Text>
           <View className="flex-row items-center bg-muted px-3 py-1 rounded-full mt-2">
             <Icon as={ShieldCheck} size={14} color={mutedIconColor} />
             <Text className="text-muted-foreground text-xs ml-1 font-medium">
@@ -485,7 +487,7 @@ export const ConversationDetails = ({ id }: ConversationDetailsProps) => {
 
         {/* Personnalisation */}
         <View className="px-4 pt-6 pb-2">
-            <Text className="text-primary text-xs font-semibold uppercase tracking-wider">
+          <Text className="text-primary text-xs font-semibold uppercase tracking-wider">
             Personnalisation
           </Text>
         </View>
@@ -500,7 +502,7 @@ export const ConversationDetails = ({ id }: ConversationDetailsProps) => {
 
         {/* Autres Actions */}
         <View className="px-4 pt-6 pb-2">
-            <Text className="text-primary text-xs font-semibold uppercase tracking-wider">
+          <Text className="text-primary text-xs font-semibold uppercase tracking-wider">
             Autres actions
           </Text>
         </View>
@@ -534,7 +536,7 @@ export const ConversationDetails = ({ id }: ConversationDetailsProps) => {
 
         {/* Confidentialité et assistance */}
         <View className="px-4 pt-6 pb-2">
-            <Text className="text-primary text-xs font-semibold uppercase tracking-wider">
+          <Text className="text-primary text-xs font-semibold uppercase tracking-wider">
             Confidentialité et assistance
           </Text>
         </View>
@@ -550,7 +552,7 @@ export const ConversationDetails = ({ id }: ConversationDetailsProps) => {
             label="Supprimer la discussion"
             destructive
             onPress={handleDeleteConversation}
-          /> 
+          />
         </View>
         {/* Modal MediaViewerModal */}
         <MediaViewerModal

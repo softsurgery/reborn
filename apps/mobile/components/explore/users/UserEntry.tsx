@@ -7,27 +7,27 @@ import { showToastable } from "react-native-toastable";
 import { StablePressable } from "~/components/shared/StablePressable";
 import { Button } from "~/components/ui/button";
 import { Text } from "~/components/ui/text";
-import { ClientStore } from "~/hooks/stores/useClientStore";
+import { UserStore } from "~/hooks/stores/useClientStore";
 import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
 import { useFollowSystem } from "~/hooks/content/useFollowSystem";
 import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
 import { cn } from "~/lib/utils";
-import { ResponseClientDto, ServerErrorResponse } from "~/types";
+import { ResponseUserDto, ServerErrorResponse } from "~/types";
 
 import { useServerImage } from "~/hooks/content/useServerImage";
 import { Icon } from "~/components/ui/icon";
 
 interface UserEntryProps {
   className?: string;
-  user: ResponseClientDto;
-  clientStore: ClientStore;
+  user: ResponseUserDto;
+  userStore: UserStore;
   closeDialog?: () => void;
 }
 
 export const UserEntry = ({
   className,
   user,
-  clientStore,
+  userStore,
   closeDialog,
 }: UserEntryProps) => {
   const { currentUser } = useCurrentUser();
@@ -46,10 +46,10 @@ export const UserEntry = ({
       onSuccess: () => {
         refetchIsFollowing();
         queryClient.invalidateQueries({
-          queryKey: ["follow-data-count", clientStore?.response?.id],
+          queryKey: ["follow-data-count", userStore?.response?.id],
         });
         queryClient.invalidateQueries({
-          queryKey: ["followings", clientStore?.response?.id],
+          queryKey: ["followings", userStore?.response?.id],
         });
       },
       onError: (err: ServerErrorResponse) => {
@@ -60,10 +60,10 @@ export const UserEntry = ({
       onSuccess: () => {
         refetchIsFollowing();
         queryClient.invalidateQueries({
-          queryKey: ["follow-data-count", clientStore?.response?.id],
+          queryKey: ["follow-data-count", userStore?.response?.id],
         });
         queryClient.invalidateQueries({
-          queryKey: ["followers", clientStore?.response?.id],
+          queryKey: ["followers", userStore?.response?.id],
         });
       },
       onError: (err: ServerErrorResponse) => {
@@ -74,7 +74,7 @@ export const UserEntry = ({
   });
 
   const { jsx: profilePicture } = useServerImage({
-    id: user?.profile?.pictureId,
+    id: user?.pictureId,
     fallback: identifyUserAvatar(user),
     size: { width: 40, height: 40 },
   });
@@ -107,11 +107,11 @@ export const UserEntry = ({
                   4.9 (127 reviews)
                 </Text>
               </View>
-              {user.profile?.region && (
+              {user?.region && (
                 <View className="flex-row items-center gap-1">
                   <MapPin size={12} color="#6366f1" />
                   <Text className="text-xs text-muted-foreground">
-                    {user.profile.region.label}
+                    {user.region.label}
                   </Text>
                 </View>
               )}

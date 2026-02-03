@@ -8,14 +8,13 @@ import { useFollowSystem } from "~/hooks/content/useFollowSystem";
 import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
 import { useIdentifiedUser } from "~/hooks/content/user/useIdentifiedUser";
 import { useServerImage } from "~/hooks/content/useServerImage";
-import { createClientStore } from "~/hooks/stores/useClientStore";
+import { createUserStore } from "~/hooks/stores/useClientStore";
 import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
 import {
-  Education,
-  Experience,
+  ResponseEducationDto,
+  ResponseExperienceDto,
   ServerErrorResponse,
-  Skill,
-  UpdateClientDto,
+  UpdateUserDto,
 } from "~/types";
 import { Text } from "../ui/text";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
@@ -27,7 +26,6 @@ import { StableScrollView } from "../shared/StableScrollView";
 import { cn } from "~/lib/utils";
 import { ProfileStat } from "../explore/users/ProfileStat";
 import { Button } from "../ui/button";
-import { useEditProfileRecipes } from "./useEditProfileRecipes";
 import { useSceneContext } from "../shared/scene-builder/SceneContext";
 
 interface ProfileSection<T = unknown> {
@@ -55,12 +53,8 @@ export const InspectBaseProfile = ({
 }: InspectBaseProfileProps) => {
   const { push } = useSceneContext();
   const queryClient = useQueryClient();
-  const storeRef = React.useRef(createClientStore());
-  const clientStore = storeRef?.current?.();
-
-  const { experienceRecipe } = useEditProfileRecipes({
-    store: clientStore,
-  });
+  const storeRef = React.useRef(createUserStore());
+  const userStore = storeRef?.current?.();
 
   const { user } = useIdentifiedUser({ id });
   const { currentUser } = useCurrentUser();
@@ -68,7 +62,7 @@ export const InspectBaseProfile = ({
   const identity = React.useMemo(() => identifyUser(user), [user]);
   const fallback = React.useMemo(() => identifyUserAvatar(user), [user]);
   const { jsx: profilePicture } = useServerImage({
-    id: user?.profile?.pictureId,
+    id: user?.pictureId,
     fallback,
     wrapperClassName:
       "border border-border bg-background rounded-full shadow-md",
@@ -80,12 +74,12 @@ export const InspectBaseProfile = ({
   React.useEffect(() => {
     if (!user || hasSeededRef.current) return;
 
-    clientStore.set("response", user);
-    clientStore.set("updateDto", {
+    userStore.set("response", user);
+    userStore.set("updateDto", {
       profile: {
-        experiences: structuredClone(user.profile.experiences),
+        experiences: structuredClone(user.experiences),
       },
-    } as UpdateClientDto);
+    } as UpdateUserDto);
 
     hasSeededRef.current = true;
   }, [user]);
@@ -102,12 +96,12 @@ export const InspectBaseProfile = ({
     unfollowUser,
     isUnfollowPending,
   } = useFollowSystem({
-    id: clientStore?.response?.id!,
+    id: userStore?.response?.id!,
     use: ["is-following", "followers", "followings"],
     follow: {
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: ["follow-data-count", clientStore?.response?.id],
+          queryKey: ["follow-data-count", userStore?.response?.id],
         });
         refetchFollowers();
         refetchFollowing();
@@ -120,7 +114,7 @@ export const InspectBaseProfile = ({
     unfollow: {
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: ["follow-data-count", clientStore?.response?.id],
+          queryKey: ["follow-data-count", userStore?.response?.id],
         });
         refetchFollowers();
         refetchFollowing();
@@ -133,8 +127,8 @@ export const InspectBaseProfile = ({
   });
 
   React.useEffect(() => {
-    clientStore?.set("followers", followers);
-    clientStore?.set("followings", followings);
+    userStore?.set("followers", followers);
+    userStore?.set("followings", followings);
   }, [followers, followings]);
 
   const { data: followDataCount } = useQuery({
@@ -145,12 +139,12 @@ export const InspectBaseProfile = ({
 
   React.useEffect(() => {
     if (followDataCount)
-      clientStore?.set("responseFollowCountsDto", followDataCount);
+      userStore?.set("responseFollowCountsDto", followDataCount);
   }, [followDataCount]);
 
   React.useEffect(() => {
     return () => {
-      clientStore?.reset();
+      userStore?.reset();
       if (!__DEV__) storeRef.current = null as any;
     };
   }, []);
@@ -162,9 +156,9 @@ export const InspectBaseProfile = ({
     {
       key: "experience",
       title: "Experience",
-      data: user?.profile?.experiences as unknown[],
+      data: user?.experiences as unknown[],
       editable: currentUser?.id === user?.id,
-      renderItem: (experience: Experience) => (
+      renderItem: (experience: ResponseExperienceDto) => (
         <View className="flex flex-col">
           <Text className="font-semibold">{experience.title}</Text>
           <Text className="text-sm text-muted-foreground">
@@ -180,27 +174,27 @@ export const InspectBaseProfile = ({
     {
       key: "education",
       title: "Education",
-      data: user?.profile?.educations || [],
+      data: user?.educations || [],
       editable: currentUser?.id === user?.id,
-      renderItem: (edu: Education) => (
+      renderItem: (edu: ResponseEducationDto) => (
         <View className="flex flex-col">
-          <Text className="font-semibold">{edu.school}</Text>
-          <Text className="text-sm text-muted-foreground">{edu.degree}</Text>
+          <Text className="font-semibold">{edu.institution}</Text>
+          <Text className="text-sm text-muted-foreground">{edu.title}</Text>
           <Text className="text-xs text-muted-foreground">
-            {edu.startYear} — {edu.endYear}
+            {edu.startDate.toString()} — {edu.endDate?.toString()}
           </Text>
         </View>
       ),
     },
-    {
-      key: "skills",
-      title: "Skills",
-      data: user?.profile?.skills || [],
-      editable: currentUser?.id === user?.id,
-      renderItem: (skill: Skill) => (
-        <Text className="text-sm font-bold">{skill.name}</Text>
-      ),
-    },
+    // {
+    //   key: "skills",
+    //   title: "Skills",
+    //   data: user?.skills || [],
+    //   editable: currentUser?.id === user?.id,
+    //   renderItem: (skill: Skill) => (
+    //     <Text className="text-sm font-bold">{skill.name}</Text>
+    //   ),
+    // },
     {
       key: "snippets",
       title: "Snippets",
@@ -233,7 +227,6 @@ export const InspectBaseProfile = ({
             <StablePressable
               className="p-2"
               onPress={() => {
-                push?.("experience", experienceRecipe);
                 router.push({
                   pathname: "/main/scene-screen",
                   params: { id: section.key },
@@ -295,9 +288,9 @@ export const InspectBaseProfile = ({
               )}
             </View>
 
-            {clientStore ? (
+            {userStore ? (
               <ProfileStat
-                clientStore={clientStore}
+                clientStore={userStore}
                 className="flex flex-row gap-4 mt-4"
               />
             ) : null}
@@ -307,7 +300,7 @@ export const InspectBaseProfile = ({
 
       {/* Bio + Sections */}
       <View className="flex flex-col gap-4 flex-1 px-4 mt-6 pb-10">
-        <Text className="italic text-xs">{user?.profile?.bio}</Text>
+        <Text className="italic text-xs">{user?.bio}</Text>
 
         {/* Follow buttons */}
         <View className="flex flex-row w-full justify-between gap-2">

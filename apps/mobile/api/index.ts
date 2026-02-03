@@ -2,7 +2,6 @@ import { auth } from "./auth";
 import { feedback } from "./feedback";
 import { bug } from "./bug";
 import { client } from "./client";
-import { walkOfLife } from "./walk-of-life";
 import { follow } from "./follow";
 import { upload } from "./upload";
 import { _public } from "./public";
@@ -22,7 +21,6 @@ export const api = {
   feedback,
   bug,
   client,
-  walkOfLife,
   follow,
   upload,
   job,

@@ -68,7 +68,7 @@ export const Conversation = ({ id }: ConversationProps) => {
   const user = React.useMemo(() => {
     if (!conversation || !currentUser) return null;
     return conversation.participants.find(
-      (participant) => participant.id !== currentUser.id
+      (participant) => participant.id !== currentUser.id,
     );
   }, [conversation, currentUser]);
 
@@ -87,7 +87,7 @@ export const Conversation = ({ id }: ConversationProps) => {
       // Sort messages descending
       const sorted = [...msgs].sort(
         (a, b) =>
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
       );
 
       const grouped: Record<string, ResponseMessageDto[]> = {};
@@ -116,12 +116,12 @@ export const Conversation = ({ id }: ConversationProps) => {
         ];
       });
     },
-    []
+    [],
   );
 
   const flattenedMessages = React.useMemo(
     () => groupMessagesByDay(messages),
-    [messages, groupMessagesByDay]
+    [messages, groupMessagesByDay],
   );
 
   // -----------------------------
@@ -137,7 +137,7 @@ export const Conversation = ({ id }: ConversationProps) => {
         before: before instanceof Date ? before.toISOString() : before,
       });
     },
-    [socket, id]
+    [socket, id],
   );
 
   // -----------------------------

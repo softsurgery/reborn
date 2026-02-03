@@ -1,6 +1,6 @@
 import React from "react";
 import { format } from "date-fns";
-import { router, useNavigation } from "expo-router";
+import { router } from "expo-router";
 import { View } from "react-native";
 import { StablePressable } from "~/components/shared/StablePressable";
 import { Button } from "~/components/ui/button";
@@ -74,7 +74,7 @@ export const OutgoingRequestEntry = ({
     <View
       className={cn(
         "flex flex-col bg-card border border-border rounded-xl overflow-hidden shadow-sm",
-        className
+        className,
       )}
     >
       <View className="flex flex-row items-start justify-between p-4 pb-2 border-b border-border/50">
@@ -88,7 +88,7 @@ export const OutgoingRequestEntry = ({
           <View
             className={cn(
               "flex flex-row items-center gap-1.5 self-start px-2.5 py-1 rounded-full",
-              currentStatus.bgColor
+              currentStatus.bgColor,
             )}
           >
             <Icon
@@ -184,7 +184,7 @@ export const PendingActionBlock = ({
       <View
         className={cn(
           "flex flex-row items-center justify-center mb-4 px-3 gap-2",
-          className
+          className,
         )}
       >
         <Button
@@ -267,7 +267,7 @@ const ApprovedActionBlock = ({
       <View
         className={cn(
           "flex flex-row items-center justify-center mb-4 px-3 gap-2",
-          className
+          className,
         )}
       >
         <Button

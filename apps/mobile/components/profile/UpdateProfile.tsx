@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Save } from "lucide-react-native";
 import { Loader } from "~/components/shared/Loader";
 import { Button } from "~/components/ui/button";
-import { useClientStore } from "~/hooks/stores/useClientStore";
+import { useUserStore } from "~/hooks/stores/useClientStore";
 import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
 import { ServerErrorResponse } from "~/types";
 import { Text } from "~/components/ui/text";
@@ -31,25 +31,25 @@ export const UpdateProfile = () => {
   const { currentUser, isCurrentUserPending } = useCurrentUser();
 
   const { upload } = useServerImage({
-    id: currentUser?.profile?.pictureId,
+    id: currentUser?.pictureId,
     fallback: identifyUserAvatar(currentUser),
     size: { width: 40, height: 40 },
   });
 
-  const clientStore = useClientStore();
+  const userStore = useUserStore();
   const { regions, isFetchRegionsPending } = useRegions();
 
   const { uploadFiles: uploadPicture, isUploadPending } = useUploadMutation({
     onSuccess: (response: Upload[]) => {
-      clientStore.setNested("updateDto.profile.pictureId", response?.[0]?.id);
+      userStore.setNested("updateDto.profile.pictureId", response?.[0]?.id);
     },
     onError: (error: any) => {
-      clientStore.setNested("errors.pictureId", [error.message]);
+      userStore.setNested("errors.pictureId", [error.message]);
     },
   });
 
   const { updateProfileStructure } = useUpdateProfileFormStructure({
-    store: clientStore,
+    store: userStore,
     regions: mapToSelectOptions({
       data: isFetchRegionsPending ? [] : regions,
       labelKey: "label",
@@ -61,7 +61,7 @@ export const UpdateProfile = () => {
 
   React.useEffect(() => {
     if (currentUser) {
-      clientStore.set("updateDto", {
+      userStore.set("updateDto", {
         email: currentUser.email,
         firstName: currentUser.firstName,
         lastName: currentUser.lastName,
@@ -69,22 +69,20 @@ export const UpdateProfile = () => {
           ? new Date(currentUser.dateOfBirth)
           : undefined,
         isActive: currentUser.isActive,
-        profile: {
-          phone: currentUser.profile.phone,
-          cin: currentUser.profile.cin,
-          bio: currentUser.profile.bio,
-          gender: currentUser.profile.gender,
-          isPrivate: currentUser.profile.isPrivate,
-          regionId: currentUser.profile.regionId,
-        },
+        phone: currentUser.phone,
+        cin: currentUser.cin,
+        bio: currentUser.bio,
+        gender: currentUser.gender,
+        isPrivate: currentUser.isPrivate,
+        regionId: currentUser.regionId,
       });
-      clientStore.set("picture", upload!);
+      userStore.set("picture", upload!);
     }
   }, [currentUser]);
 
   const { mutate: updateProfile, isPending: isUpdateProfilePending } =
     useMutation({
-      mutationFn: () => api.client.updateCurrent(clientStore.updateDto),
+      mutationFn: () => api.client.updateCurrent(userStore.updateDto),
       onSuccess: () => {
         queryClient.invalidateQueries({
           queryKey: ["current-user"],
@@ -109,10 +107,8 @@ export const UpdateProfile = () => {
   }>(null);
 
   const handleUpdate = () => {
-    const resultUser = updateClientSchema.safeParse(clientStore.updateDto);
-    const resultProfile = updateProfileSchema.safeParse(
-      clientStore.updateDto.profile
-    );
+    const resultUser = updateClientSchema.safeParse(userStore.updateDto);
+    const resultProfile = updateProfileSchema.safeParse(userStore.updateDto);
 
     if (!resultUser.success || !resultProfile.success) {
       const errors = {
@@ -121,7 +117,7 @@ export const UpdateProfile = () => {
           ? {}
           : resultProfile.error.flatten().fieldErrors),
       };
-      clientStore.set("errors", errors);
+      userStore.set("errors", errors);
 
       const firstErrorKey = Object.keys(errors)[0];
       if (firstErrorKey) {

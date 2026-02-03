@@ -3,14 +3,14 @@ import { View } from "react-native";
 import { Text } from "~/components/ui/text";
 import { cn } from "~/lib/utils";
 import { MessageCircleMoreIcon } from "lucide-react-native";
-import { ResponseClientDto } from "~/types";
 import { useServerImage } from "~/hooks/content/useServerImage";
 import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
 import { Icon } from "../ui/icon";
+import { ResponseUserDto } from "~/types";
 
 interface UserCardProps {
   className?: string;
-  user: ResponseClientDto;
+  user: ResponseUserDto;
   lastMessage?: string;
   sentAt?: string;
   seen?: boolean;
@@ -26,7 +26,7 @@ export const UserEntry = ({
   isPending,
 }: UserCardProps) => {
   const { jsx: profilePicture } = useServerImage({
-    id: user.profile?.pictureId,
+    id: user?.pictureId,
     fallback: identifyUserAvatar(user),
     size: { width: 60, height: 60 },
   });
@@ -34,7 +34,7 @@ export const UserEntry = ({
     <View
       className={cn(
         "flex flex-row justify-between items-center gap-2 w-full",
-        className
+        className,
       )}
     >
       <View className="flex flex-row gap-2 items-center">

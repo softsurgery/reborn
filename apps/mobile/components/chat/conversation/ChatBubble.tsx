@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 import React from "react";
-import { View, Alert } from "react-native";
+import { Alert } from "react-native";
 import {
   Gesture,
   GestureDetector,
@@ -67,7 +67,7 @@ export const ChatBubble = ({
             "max-w-[80%] mx-2 rounded-lg mt-2",
             right
               ? "self-end rounded-bl-xl rounded-br-none bg-muted"
-              : "self-start rounded-br-xl rounded-bl-none bg-secondary"
+              : "self-start rounded-br-xl rounded-bl-none bg-secondary",
           )}
         >
           <StablePressable
