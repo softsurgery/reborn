@@ -10,8 +10,6 @@ import {
   Settings,
   User,
 } from "lucide-react-native";
-import { PlanInfo } from "./Plan";
-import { GoPremium } from "./GoPremium";
 import { Separator } from "../ui/separator";
 import { MenuItem } from "./MenuItem";
 import { useAuthPersistStore } from "~/hooks/stores/useAuthPersistStore";
@@ -114,23 +112,24 @@ export const Account = ({ className }: AccountProps) => {
         ]}
       />
 
-      <PlanInfo className="my-2" />
-      <GoPremium className="my-3" />
-
-      <StableScrollView className="flex flex-col gap-5">
+      <StableScrollView className="flex flex-col gap-6">
         {Object.values(menus).map((section) => (
           <View key={section.title}>
-            <Text variant={"h3"}>{section.title}</Text>
-            <View className="flex flex-col mt-2">
+            <Text variant={"h3"} className="mb-5 px-1">
+              {section.title}
+            </Text>
+            <View className="flex flex-col bg-card rounded-xl overflow-hidden border border-border/50 mb-4">
               {section.submenus.map((item, index) => (
-                <View key={item.title}>
+                <React.Fragment key={item.title}>
                   <MenuItem
                     title={item.title}
                     icon={item.icon}
                     onPress={item.onPress}
                   />
-                  {index < section.submenus.length - 1 && <Separator />}
-                </View>
+                  {index < section.submenus.length - 1 && (
+                    <Separator className="mx-4" />
+                  )}
+                </React.Fragment>
               ))}
             </View>
           </View>
