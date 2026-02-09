@@ -52,6 +52,7 @@ export default function MainLayout() {
         <Stack.Screen
           name="account/update-profile"
           options={{
+            headerShown: false,
             title: "Update Profile",
             animation: "slide_from_right",
           }}
@@ -60,12 +61,14 @@ export default function MainLayout() {
           name="account/user-preferences"
           options={{
             title: "User Preferences",
+            headerShown: false,
             animation: "slide_from_right",
           }}
         />
         <Stack.Screen
           name="account/support/report-bug"
           options={{
+            headerShown: false,
             title: "Report a Bug",
             animation: "slide_from_right",
           }}
@@ -73,6 +76,7 @@ export default function MainLayout() {
         <Stack.Screen
           name="account/support/send-feedback"
           options={{
+            headerShown: false,
             title: "Send us feedback",
             animation: "slide_from_right",
           }}
@@ -80,6 +84,7 @@ export default function MainLayout() {
         <Stack.Screen
           name="account/support/faqs"
           options={{
+            headerShown: false,
             title: "FAQs",
             animation: "slide_from_right",
           }}

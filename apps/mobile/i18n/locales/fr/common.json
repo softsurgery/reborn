@@ -6,6 +6,10 @@
     "explore": "Explorer",
     "chat": "Chat",
     "balance": "Solde",
+    "userPreferences": "Préférences Utilisateur",
+    "reportBug": "Signaler un Bug",
+    "faqs": "FAQ",
+    "sendFeedback": "Envoyer des commentaires",
     "menu": "Menu"
   },
   "auth": {

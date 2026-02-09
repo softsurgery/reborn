@@ -1,6 +1,6 @@
 import React from "react";
 import { useMutation } from "@tanstack/react-query";
-import { BugIcon } from "lucide-react-native";
+import { ArrowLeft, BugIcon } from "lucide-react-native";
 import { api } from "~/api";
 import { Button } from "~/components/ui/button";
 import { Text } from "~/components/ui/text";
@@ -14,12 +14,17 @@ import { showToastable } from "react-native-toastable";
 import { StableKeyboardAwareScrollView } from "~/components/shared/StableKeyboardAwareScrollView";
 import { Icon } from "~/components/ui/icon";
 import { router } from "expo-router";
+import { StableSafeAreaView } from "~/components/shared/StableSafeAreaView";
+import { ApplicationHeader } from "~/components/shared/AppHeader";
+import { useTranslation } from "react-i18next";
 
 interface BugReportPortalProps {
   className?: string;
 }
 
 export const BugReportPortal = ({ className }: BugReportPortalProps) => {
+  const { t } = useTranslation("common");
+
   React.useEffect(() => {
     return () => {
       bugStore.reset();
@@ -57,29 +62,43 @@ export const BugReportPortal = ({ className }: BugReportPortalProps) => {
   };
 
   return (
-    <StableKeyboardAwareScrollView>
-      <View className={cn("flex flex-col mx-4 my-4 gap-2", className)}>
-        {/* Header Section */}
-        <View className="mx-auto">
-          <Icon as={BugIcon} />
+    <StableSafeAreaView className={cn("flex flex-1", className)}>
+      <ApplicationHeader
+        title={t("screens.reportBug")}
+        titleVariant="large"
+        reverse
+        shortcuts={[
+          {
+            key: "user-preferences",
+            icon: ArrowLeft,
+            onPress: () => router.back(),
+          },
+        ]}
+      />
+      <StableKeyboardAwareScrollView>
+        <View className={cn("flex flex-col mx-4 my-4 gap-2", className)}>
+          {/* Header Section */}
+          <View className="mx-auto">
+            <Icon as={BugIcon} />
+          </View>
+          <View>
+            <Text className="font-extrabold">
+              Help us improve by reporting any issues you encounter.
+            </Text>
+            <Text className="font-thin mt-2">
+              Please provide as much detail as possible
+            </Text>
+          </View>
+          <FormBuilder structure={bugFormStructure} />
+          <Button
+            disabled={isReportBugPending}
+            className="w-full"
+            onPress={handleSubmit}
+          >
+            <Text>{isReportBugPending ? "Submitting..." : "Submit Bug"}</Text>
+          </Button>
         </View>
-        <View>
-          <Text className="font-extrabold">
-            Help us improve by reporting any issues you encounter.
-          </Text>
-          <Text className="font-thin mt-2">
-            Please provide as much detail as possible
-          </Text>
-        </View>
-        <FormBuilder structure={bugFormStructure} />
-        <Button
-          disabled={isReportBugPending}
-          className="w-full"
-          onPress={handleSubmit}
-        >
-          <Text>{isReportBugPending ? "Submitting..." : "Submit Bug"}</Text>
-        </Button>
-      </View>
-    </StableKeyboardAwareScrollView>
+      </StableKeyboardAwareScrollView>
+    </StableSafeAreaView>
   );
 };
