@@ -13,7 +13,6 @@ import { Text } from "../../ui/text";
 import { Badge } from "~/components/ui/badge";
 import { useJobSaveActions } from "~/hooks/content/job/useJobSaveActions";
 import { useIsJobSaved } from "~/hooks/content/job/useIsJobSaved";
-import { showToastable } from "react-native-toastable";
 
 interface JobCardProps {
   className?: string;
@@ -27,11 +26,8 @@ export const JobCard = ({ className, job }: JobCardProps) => {
   const { isJobSaved, isSavedPending } = useIsJobSaved(job.id);
   const { saveJob, isSavePending, unsaveJob, isUnsavePending } =
     useJobSaveActions({
-      onSuccess: (response) => {
+      onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ["is-job-saved", job.id] });
-        showToastable({
-          message: response,
-        });
       },
     });
 

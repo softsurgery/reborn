@@ -78,23 +78,17 @@ export const JobDetails = () => {
 
   const { saveJob, isSavePending, unsaveJob, isUnsavePending } =
     useJobSaveActions({
-      onSuccess: (response) => {
+      onSuccess: () => {
         queryClient.invalidateQueries({
           queryKey: ["is-job-saved", id as string],
-        });
-        showToastable({
-          message: response,
         });
       },
     });
 
   const { viewJob, isViewPending } = useJobViewActions({
-    onSuccess: (response) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["is-job-viewed", id as string],
-      });
-      showToastable({
-        message: response,
       });
     },
   });
