@@ -51,9 +51,9 @@ export const Account = ({ className }: AccountProps) => {
           onPress: () => router.navigate("/main/account/managment", {}),
         },
         {
-          title: "User Preferences",
+          title: "Settings",
           icon: Settings,
-          onPress: () => router.navigate("/main/account/user-preferences", {}),
+          onPress: () => router.navigate("/main/settings", {}),
         },
         { title: "Notifications", icon: Bell, onPress: () => {} },
       ],
@@ -81,11 +81,10 @@ export const Account = ({ className }: AccountProps) => {
         },
       ],
     },
-    accountActions: {
-      key: "account-actions",
-      title: "Account Actions",
+    actions: {
+      key: "actions",
+      title: "Actions",
       submenus: [
-        { title: "Switch Account", icon: LogOut, onPress: signout },
         {
           title: "Try Anything",
           icon: FlaskConical,

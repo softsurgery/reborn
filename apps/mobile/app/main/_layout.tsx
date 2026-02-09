@@ -227,6 +227,42 @@ export default function MainLayout() {
           animation: "slide_from_right",
         }}
       />
+      <Stack.Screen
+        name="settings"
+        options={{
+          title: "Settings",
+          headerShown: false,
+          animation: "fade_from_bottom",
+          animationDuration: 200,
+        }}
+      />
+      <Stack.Screen
+        name="terms"
+        options={{
+          title: "Terms & Conditions",
+          headerShown: false,
+          animation: "fade_from_bottom",
+          animationDuration: 200,
+        }}
+      />
+      <Stack.Screen
+        name="privacy-policy"
+        options={{
+          title: "Privacy Policy",
+          headerShown: false,
+          animation: "fade_from_bottom",
+          animationDuration: 200,
+        }}
+      />
+      <Stack.Screen
+        name="about"
+        options={{
+          title: "About Reborn",
+          headerShown: false,
+          animation: "fade_from_bottom",
+          animationDuration: 200,
+        }}
+      />
       {/* Test */}
       <Stack.Screen
         name="test"
