@@ -41,7 +41,7 @@ export const UpdateProfile = () => {
 
   const { uploadFiles: uploadPicture, isUploadPending } = useUploadMutation({
     onSuccess: (response: Upload[]) => {
-      userStore.setNested("updateDto.profile.pictureId", response?.[0]?.id);
+      userStore.setNested("updateDto.pictureId", response?.[0]?.id);
     },
     onError: (error: any) => {
       userStore.setNested("errors.pictureId", [error.message]);
