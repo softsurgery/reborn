@@ -4,15 +4,17 @@
     "slug": "reborn-mobile-app-v-2",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/reborn.svg",
+    "icon": "assets/images/reborn.svg",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/reborn.svg",
+      "image": "assets/images/reborn.svg",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.softsurgery.rebornmobileappv2",
@@ -25,7 +27,9 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "permissions": ["android.permission.RECORD_AUDIO"],
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ],
       "package": "com.softsurgery.rebornmobileappv2"
     },
     "web": {
@@ -35,7 +39,8 @@
       "expo-router",
       "expo-image-picker",
       "expo-font",
-      "react-native-localize"
+      "react-native-localize",
+      "expo-localization"
     ],
     "experiments": {
       "typedRoutes": true
