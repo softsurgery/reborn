@@ -5,7 +5,7 @@ import { View } from "react-native";
 import { api } from "~/api";
 import { ProfileManagmentCard } from "~/components/explore/users/ProfileManagementCard";
 import { StableScrollView } from "~/components/shared/StableScrollView";
-import { createUserStore } from "~/hooks/stores/useClientStore";
+import { createUserStore } from "~/hooks/stores/useUserStore";
 import { ProfileManagmentCardSkeleton } from "./ProfileManagmentCardSkeleton";
 import { Inbox } from "lucide-react-native";
 import { StablePressable } from "~/components/shared/StablePressable";

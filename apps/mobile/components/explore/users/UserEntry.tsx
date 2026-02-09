@@ -7,13 +7,12 @@ import { showToastable } from "react-native-toastable";
 import { StablePressable } from "~/components/shared/StablePressable";
 import { Button } from "~/components/ui/button";
 import { Text } from "~/components/ui/text";
-import { UserStore } from "~/hooks/stores/useClientStore";
+import { UserStore } from "~/hooks/stores/useUserStore";
 import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
 import { useFollowSystem } from "~/hooks/content/useFollowSystem";
 import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
 import { cn } from "~/lib/utils";
 import { ResponseUserDto, ServerErrorResponse } from "~/types";
-
 import { useServerImage } from "~/hooks/content/useServerImage";
 import { Icon } from "~/components/ui/icon";
 

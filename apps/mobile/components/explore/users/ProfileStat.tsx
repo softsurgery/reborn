@@ -10,14 +10,14 @@ import {
   DialogTrigger,
 } from "~/components/ui/dialog";
 import { Text } from "~/components/ui/text";
-import { ClientStore } from "~/hooks/stores/useClientStore";
+import { UserStore } from "~/hooks/stores/useUserStore";
 import { cn } from "~/lib/utils";
 import { UserEntry } from "./UserEntry";
 import { StableScrollView } from "~/components/shared/StableScrollView";
 
 interface ProfileStatProps {
   className?: string;
-  clientStore: ClientStore;
+  clientStore: UserStore;
 }
 
 export const ProfileStat = ({ className, clientStore }: ProfileStatProps) => {
@@ -28,7 +28,7 @@ export const ProfileStat = ({ className, clientStore }: ProfileStatProps) => {
     <View
       className={cn(
         "flex flex-row flex-1 w-full items-center justify-between",
-        className
+        className,
       )}
     >
       {/* Services */}
@@ -69,7 +69,7 @@ export const ProfileStat = ({ className, clientStore }: ProfileStatProps) => {
               <UserEntry
                 key={f.id}
                 user={f.following}
-                clientStore={clientStore}
+                userStore={clientStore}
                 className="mt-4"
                 closeDialog={() => setOpenFollowing(false)}
               />
@@ -97,7 +97,7 @@ export const ProfileStat = ({ className, clientStore }: ProfileStatProps) => {
               <UserEntry
                 key={f.id}
                 user={f.follower}
-                clientStore={clientStore}
+                userStore={clientStore}
                 className="mt-4"
                 closeDialog={() => setOpenFollowers(false)}
               />

@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Save } from "lucide-react-native";
 import { Loader } from "~/components/shared/Loader";
 import { Button } from "~/components/ui/button";
-import { useUserStore } from "~/hooks/stores/useClientStore";
+import { useUserStore } from "~/hooks/stores/useUserStore";
 import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
 import { ServerErrorResponse } from "~/types";
 import { Text } from "~/components/ui/text";
