@@ -41,8 +41,9 @@ export const Account = ({ className }: AccountProps) => {
   };
 
   const menus = {
-    "app-settings": {
-      title: "App Settings",
+    appSettings: {
+      key: "app-settings",
+      title: undefined,
       submenus: [
         {
           title: "Account",
@@ -58,6 +59,7 @@ export const Account = ({ className }: AccountProps) => {
       ],
     },
     support: {
+      key: "support",
       title: "Support",
       submenus: [
         {
@@ -79,7 +81,8 @@ export const Account = ({ className }: AccountProps) => {
         },
       ],
     },
-    "account-actions": {
+    accountActions: {
+      key: "account-actions",
       title: "Account Actions",
       submenus: [
         { title: "Switch Account", icon: LogOut, onPress: signout },
@@ -112,12 +115,14 @@ export const Account = ({ className }: AccountProps) => {
         ]}
       />
 
-      <StableScrollView className="flex flex-col gap-6">
+      <StableScrollView className="flex flex-col gap-6 px-2 py-4">
         {Object.values(menus).map((section) => (
-          <View key={section.title}>
-            <Text variant={"h3"} className="mb-5 px-1">
-              {section.title}
-            </Text>
+          <View key={section.key}>
+            {section.title ? (
+              <Text variant={"h3"} className="mb-5 px-1">
+                {section.title}
+              </Text>
+            ) : null}
             <View className="flex flex-col bg-card rounded-xl overflow-hidden border border-border/50 mb-4">
               {section.submenus.map((item, index) => (
                 <React.Fragment key={item.title}>

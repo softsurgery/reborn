@@ -24,7 +24,7 @@ export const MenuItem = ({
       onPressIn={() => setPressed(true)}
       onPressOut={() => setPressed(false)}
       className={cn(
-        "transition-colors duration-150",
+        "transition-colors duration-150 px-2",
         pressed && "bg-secondary/50",
         className,
       )}
