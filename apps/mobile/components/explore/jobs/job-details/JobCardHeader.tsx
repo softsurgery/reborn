@@ -6,22 +6,15 @@ import {
   Star,
   Wallet,
 } from "lucide-react-native";
-import { Dimensions, TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import { Text } from "~/components/ui/text";
 import { timeAgo } from "~/lib/dates.utils";
 import { cn } from "~/lib/utils";
 import { ResponseJobDto, ResponseJobMetadataDto } from "~/types";
-
-import Carousel, {
-  ICarouselInstance,
-  Pagination,
-} from "react-native-reanimated-carousel";
 import React from "react";
-import { useSharedValue } from "react-native-reanimated";
 import { UseQueryResult } from "@tanstack/react-query";
-import { Image } from "expo-image";
-import { useColorScheme } from "nativewind";
-import { THEME } from "~/lib/theme";
+
+import { ImageCarouselWithModal } from "~/components/shared/ImageCarouselWithModal";
 
 interface JobCardHeaderProps {
   className?: string;
@@ -44,68 +37,16 @@ export const JobCardHeader = ({
   uploads,
   imageQueries,
 }: JobCardHeaderProps) => {
-  const ref = React.useRef<ICarouselInstance>(null);
-  const progress = useSharedValue<number>(0);
-  const { colorScheme } = useColorScheme();
-
-  const width = Dimensions.get("window").width;
-  const height = Dimensions.get("window").height * 0.3;
-
-  const onPressPagination = (index: number) => {
-    ref.current?.scrollTo({
-      count: index - progress.value,
-      animated: true,
-    });
-  };
-
   return (
     <View
       className={cn("bg-muted px-6 pb-5 border-b border-border", className)}
     >
       <View className="flex flex-col items-center mb-4">
-        <Carousel
-          ref={ref}
-          width={width}
-          height={height}
-          data={uploads}
-          onProgressChange={progress}
-          autoPlay
+        <ImageCarouselWithModal
+          uploads={uploads}
+          imageQueries={imageQueries}
+          autoPlay={true}
           autoPlayInterval={3000}
-          renderItem={({ index }) => {
-            const query = imageQueries[index];
-
-            if (!query?.data) {
-              return (
-                <View className="justify-center items-center">
-                  <Text>Loading...</Text>
-                </View>
-              );
-            }
-
-            return (
-              <View className="justify-center items-center">
-                <Image
-                  source={{ uri: query.data }}
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                  }}
-                  resizeMode="cover"
-                />
-              </View>
-            );
-          }}
-        />
-        <Pagination.Basic
-          progress={progress}
-          data={uploads}
-          dotStyle={{
-            backgroundColor:
-              colorScheme == "dark" ? THEME.dark.primary : THEME.light.primary,
-            borderRadius: 50,
-          }}
-          containerStyle={{ gap: 5, marginTop: -20 }}
-          onPress={onPressPagination}
         />
       </View>
       <View className="flex-row items-center justify-between mt-3">
