@@ -8,7 +8,7 @@ import { useFollowSystem } from "~/hooks/content/useFollowSystem";
 import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
 import { useIdentifiedUser } from "~/hooks/content/user/useIdentifiedUser";
 import { useServerImage } from "~/hooks/content/useServerImage";
-import { createUserStore } from "~/hooks/stores/useClientStore";
+import { createUserStore } from "~/hooks/stores/useUserStore";
 import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
 import {
   ResponseEducationDto,
@@ -20,13 +20,14 @@ import { Text } from "../ui/text";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { StablePressable } from "../shared/StablePressable";
 import { Icon } from "../ui/icon";
-import { Mail, Pen, UserPlus } from "lucide-react-native";
+import { Mail, Pen, Plus, UserPlus } from "lucide-react-native";
 import { Separator } from "../ui/separator";
 import { StableScrollView } from "../shared/StableScrollView";
 import { cn } from "~/lib/utils";
 import { ProfileStat } from "../explore/users/ProfileStat";
 import { Button } from "../ui/button";
-import { useSceneContext } from "../shared/scene-builder/SceneContext";
+import { SeeMoreText } from "../shared/SeeMoreText";
+import { format } from "date-fns";
 
 interface ProfileSection<T = unknown> {
   key: string;
@@ -51,7 +52,6 @@ export const InspectBaseProfile = ({
   customContent,
   overrideContent = true,
 }: InspectBaseProfileProps) => {
-  const { push } = useSceneContext();
   const queryClient = useQueryClient();
   const storeRef = React.useRef(createUserStore());
   const userStore = storeRef?.current?.();
@@ -159,15 +159,18 @@ export const InspectBaseProfile = ({
       data: user?.experiences as unknown[],
       editable: currentUser?.id === user?.id,
       renderItem: (experience: ResponseExperienceDto) => (
-        <View className="flex flex-col">
+        <View className="flex flex-col mb-4">
           <Text className="font-semibold">{experience.title}</Text>
-          <Text className="text-sm text-muted-foreground">
+          <Text className="text-sm text-muted-foreground font-bold">
             {experience.company}
           </Text>
-          <Text className="text-xs text-muted-foreground">
-            {experience.startDate} — {experience.endDate}
+          <Text className="text-xs text-muted-foreground my-1">
+            {format(new Date(experience.startDate), "MMM yyyy")} —{" "}
+            {format(new Date(experience.endDate), "MMM yyyy")}
           </Text>
-          <Text className="text-sm mt-1">{experience.description}</Text>
+          <SeeMoreText textClassname="text-sm" numberOfLines={2}>
+            {experience.description}
+          </SeeMoreText>
         </View>
       ),
     },
@@ -177,12 +180,20 @@ export const InspectBaseProfile = ({
       data: user?.educations || [],
       editable: currentUser?.id === user?.id,
       renderItem: (edu: ResponseEducationDto) => (
-        <View className="flex flex-col">
-          <Text className="font-semibold">{edu.institution}</Text>
-          <Text className="text-sm text-muted-foreground">{edu.title}</Text>
-          <Text className="text-xs text-muted-foreground">
-            {edu.startDate.toString()} — {edu.endDate?.toString()}
+        <View className="flex flex-col mb-4">
+          <Text className="font-semibold">{edu.title}</Text>
+          <Text className="text-sm text-muted-foreground">
+            {edu.institution}
           </Text>
+          <Text className="text-xs text-muted-foreground my-1">
+            {format(new Date(edu.startDate), "MMM yyyy")} —{" "}
+            {edu.endDate
+              ? format(new Date(edu.endDate), "MMM yyyy")
+              : "Present"}
+          </Text>
+          <SeeMoreText textClassname="text-sm" numberOfLines={2}>
+            {edu.description}
+          </SeeMoreText>
         </View>
       ),
     },
@@ -227,10 +238,24 @@ export const InspectBaseProfile = ({
             <StablePressable
               className="p-2"
               onPress={() => {
-                router.push({
-                  pathname: "/main/scene-screen",
-                  params: { id: section.key },
-                });
+                if (section.key === "experience") {
+                  router.push("/main/account/create-experience");
+                } else {
+                  router.push("/main/account/create-education");
+                }
+              }}
+              onPressClassname="bg-primary/25 rounded-full"
+            >
+              <Icon as={Plus} size={20} className="text-muted-foreground" />
+            </StablePressable>
+            <StablePressable
+              className="p-2"
+              onPress={() => {
+                if (section.key === "experience") {
+                  router.push("/main/account/update-experiences");
+                } else {
+                  router.push("/main/account/update-educations");
+                }
               }}
               onPressClassname="bg-primary/25 rounded-full"
             >
