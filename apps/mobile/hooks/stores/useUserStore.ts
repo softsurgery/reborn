@@ -1,21 +1,43 @@
 import { create } from "zustand";
 import { setDeepValue } from "~/lib/object.lib";
 import {
+  CreateEducationDto,
+  CreateExperienceDto,
+  ResponseEducationDto,
+  ResponseExperienceDto,
   ResponseFollowCountsDto,
   ResponseFollowDto,
   ResponseUserDto,
+  UpdateEducationDto,
+  UpdateExperienceDto,
   UpdateUserDto,
 } from "~/types";
 
 interface UserData {
   response?: ResponseUserDto;
   updateDto: UpdateUserDto;
+
+  //experiences
+  experiences?: ResponseExperienceDto[];
+  responseExperience?: ResponseExperienceDto;
+  createExperienceDto: CreateExperienceDto;
+  updateExperienceDto: UpdateExperienceDto;
+
+  //educations
+  educations?: ResponseEducationDto[];
+  responseEducation?: ResponseEducationDto;
+  createEducationDto: CreateEducationDto;
+  updateEducationDto: UpdateEducationDto;
+
   responseFollowCountsDto: ResponseFollowCountsDto;
   followers: ResponseFollowDto[];
   followings: ResponseFollowDto[];
+
   picture?: string;
   progress: number;
   errors: Record<string, string[]>;
+  experienceErrors: Record<string, string[]>;
+  educationErrors: Record<string, string[]>;
 }
 
 export interface UserStore extends UserData {
@@ -29,6 +51,34 @@ const initialState: UserData = {
   responseFollowCountsDto: {
     followers: 0,
     following: 0,
+  },
+  createExperienceDto: {
+    title: "",
+    company: "",
+    startDate: new Date(),
+    endDate: new Date(),
+    description: "",
+  },
+  updateExperienceDto: {
+    title: "",
+    company: "",
+    startDate: new Date(),
+    endDate: new Date(),
+    description: "",
+  },
+  createEducationDto: {
+    title: "",
+    institution: "",
+    startDate: new Date(),
+    endDate: new Date(),
+    description: "",
+  },
+  updateEducationDto: {
+    title: "",
+    institution: "",
+    startDate: new Date(),
+    endDate: new Date(),
+    description: "",
   },
   followers: [],
   followings: [],
@@ -49,6 +99,8 @@ const initialState: UserData = {
   picture: undefined,
   progress: 0,
   errors: {},
+  experienceErrors: {},
+  educationErrors: {},
 };
 
 export const useUserStore = create<UserStore>((set, get) => ({
