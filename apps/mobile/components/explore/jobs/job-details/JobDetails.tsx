@@ -36,6 +36,7 @@ import { Icon } from "~/components/ui/icon";
 import { JobCardHeader } from "./JobCardHeader";
 import { JobClientInformation } from "./JobClientInformation";
 import { JobDetailsBody } from "./JobDetailsBody";
+import { StableScrollView } from "~/components/shared/StableScrollView";
 
 export const JobDetails = () => {
   const queryClient = useQueryClient();
@@ -55,7 +56,7 @@ export const JobDetails = () => {
     () =>
       (rawUploads && JSON.parse(rawUploads as string)) ||
       job?.uploads.map((upload) => upload.uploadId),
-    [rawUploads, job?.uploads]
+    [rawUploads, job?.uploads],
   );
 
   //application
@@ -113,7 +114,7 @@ export const JobDetails = () => {
 
   const jobMetadata = React.useMemo(
     () => jobMetadataResp ?? null,
-    [jobMetadataResp]
+    [jobMetadataResp],
   );
 
   const { jsx: profilePicture } = useServerImage({
@@ -202,24 +203,20 @@ export const JobDetails = () => {
         metadata={jobMetadata}
         handleSave={handleSave}
         isJobSaved={!!isJobSaved}
-        isSavePending={isSavePending}
-        isUnsavePending={isUnsavePending}
+        isSavePending={isSavePending || isUnsavePending}
+        uploads={uploads as string[]}
+        imageQueries={imageQueries}
       />
 
-      <StableKeyboardAwareScrollView className={cn("flex-1 px-6")}>
+      <StableScrollView className={cn("flex-1 px-6")}>
         {/* Client Info */}
         <JobClientInformation
           className="mt-4"
           job={job}
           profilePicture={profilePicture}
         />
-        <JobDetailsBody
-          className="mb-4"
-          job={job}
-          uploads={uploads as string[]}
-          imageQueries={imageQueries}
-        />
-      </StableKeyboardAwareScrollView>
+        <JobDetailsBody className="mb-4" job={job} />
+      </StableScrollView>
 
       {/* Apply Button */}
       <View className="px-6 py-5 bg-card border-t border-border">
@@ -325,9 +322,9 @@ export const JobDetails = () => {
         </View>
 
         <View className="flex flex-row items-baseline gap-2 justify-center mt-2">
-          <Text variant={"small"} className="text-muted-foreground text-center">
+          <Text className="text-xs text-muted-foreground text-center">
             You'll be able to chat with{" "}
-            <Text variant={"small"} className="font-medium ">
+            <Text className="text-xs font-medium">
               {identifyUser(job?.postedBy)}
             </Text>{" "}
             before starting work
