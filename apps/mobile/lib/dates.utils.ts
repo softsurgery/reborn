@@ -31,3 +31,13 @@ export const parseDateString = (str: string): Date | null => {
   const d = new Date(str);
   return isNaN(d.getTime()) ? null : d;
 };
+
+export function getExperienceYears(
+  startDate: string | Date,
+  endDate?: string | Date | null,
+): number {
+  const start = new Date(startDate).getTime();
+  const end = endDate ? new Date(endDate).getTime() : Date.now();
+
+  return Math.round((end - start) / (1000 * 60 * 60 * 24 * 365.25));
+}
