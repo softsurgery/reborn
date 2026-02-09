@@ -1,5 +1,5 @@
-import * as React from "react";
-import { Image, View } from "react-native";
+import React from "react";
+import { View } from "react-native";
 import { Text } from "~/components/ui/text";
 import { Button } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
@@ -33,6 +33,7 @@ export default function OnBoarding({ className }: OnBoardingProps) {
       animated: true,
     });
   };
+
   return (
     <StableSafeAreaView
       className={cn("flex-1 justify-between mb-8", className)}
