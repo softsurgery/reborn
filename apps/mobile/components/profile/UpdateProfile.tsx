@@ -1,18 +1,15 @@
 import React from "react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Save } from "lucide-react-native";
-import { View } from "react-native";
 import { Loader } from "~/components/shared/Loader";
 import { Button } from "~/components/ui/button";
-import { useClientStore } from "~/hooks/stores/useClientStore";
+import { useUserStore } from "~/hooks/stores/useUserStore";
 import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
-import Icon from "~/lib/Icon";
 import { ServerErrorResponse } from "~/types";
 import { Text } from "~/components/ui/text";
 import { FormBuilder } from "~/components/shared/form-builder/FormBuilder";
 import { useUpdateProfileFormStructure } from "./useUpdateProfileFormStructure";
 import { showToastable } from "react-native-toastable";
-import { useNavigation } from "~/hooks/useNavigation";
 import { useRegions } from "~/hooks/content/useRegions";
 import { mapToSelectOptions } from "~/components/shared/form-builder/utils/mapToSelectOptions";
 import {
@@ -22,35 +19,37 @@ import {
 import { api } from "~/api";
 import { useUploadMutation } from "~/hooks/content/useUploadMutation";
 import { Upload } from "~/types/upload";
-import { StableKeyboardAwareScrollView } from "~/components/shared/KeyboardAwareScrollView";
 import { useServerImage } from "~/hooks/content/useServerImage";
 import { identifyUserAvatar } from "~/lib/user.utils";
+import { StableKeyboardAwareScrollView } from "../shared/StableKeyboardAwareScrollView";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { Icon } from "../ui/icon";
+import { router } from "expo-router";
 
 export const UpdateProfile = () => {
   const queryClient = useQueryClient();
   const { currentUser, isCurrentUserPending } = useCurrentUser();
 
   const { upload } = useServerImage({
-    id: currentUser?.profile?.pictureId,
+    id: currentUser?.pictureId,
     fallback: identifyUserAvatar(currentUser),
     size: { width: 40, height: 40 },
   });
 
-  const clientStore = useClientStore();
-  const navigation = useNavigation();
+  const userStore = useUserStore();
   const { regions, isFetchRegionsPending } = useRegions();
 
   const { uploadFiles: uploadPicture, isUploadPending } = useUploadMutation({
     onSuccess: (response: Upload[]) => {
-      clientStore.setNested("updateDto.profile.pictureId", response?.[0]?.id);
+      userStore.setNested("updateDto.pictureId", response?.[0]?.id);
     },
     onError: (error: any) => {
-      clientStore.setNested("errors.pictureId", [error.message]);
+      userStore.setNested("errors.pictureId", [error.message]);
     },
   });
 
   const { updateProfileStructure } = useUpdateProfileFormStructure({
-    store: clientStore,
+    store: userStore,
     regions: mapToSelectOptions({
       data: isFetchRegionsPending ? [] : regions,
       labelKey: "label",
@@ -62,7 +61,7 @@ export const UpdateProfile = () => {
 
   React.useEffect(() => {
     if (currentUser) {
-      clientStore.set("updateDto", {
+      userStore.set("updateDto", {
         email: currentUser.email,
         firstName: currentUser.firstName,
         lastName: currentUser.lastName,
@@ -70,22 +69,20 @@ export const UpdateProfile = () => {
           ? new Date(currentUser.dateOfBirth)
           : undefined,
         isActive: currentUser.isActive,
-        profile: {
-          phone: currentUser.profile.phone,
-          cin: currentUser.profile.cin,
-          bio: currentUser.profile.bio,
-          gender: currentUser.profile.gender,
-          isPrivate: currentUser.profile.isPrivate,
-          regionId: currentUser.profile.regionId,
-        },
+        phone: currentUser.phone,
+        cin: currentUser.cin,
+        bio: currentUser.bio,
+        gender: currentUser.gender,
+        isPrivate: currentUser.isPrivate,
+        regionId: currentUser.regionId,
       });
-      clientStore.set("picture", upload!);
+      userStore.set("picture", upload!);
     }
   }, [currentUser]);
 
   const { mutate: updateProfile, isPending: isUpdateProfilePending } =
     useMutation({
-      mutationFn: () => api.client.updateCurrent(clientStore.updateDto),
+      mutationFn: () => api.client.updateCurrent(userStore.updateDto),
       onSuccess: () => {
         queryClient.invalidateQueries({
           queryKey: ["current-user"],
@@ -94,7 +91,7 @@ export const UpdateProfile = () => {
           message: "Profile Updated Successfully",
           status: "success",
         });
-        navigation.goBack();
+        router.back();
       },
       onError: (error: ServerErrorResponse) => {
         showToastable({
@@ -104,29 +101,27 @@ export const UpdateProfile = () => {
       },
     });
 
-  const formRef = React.useRef<{ scrollToError: (id: string) => void }>(null);
+  const scrollRef = React.useRef<KeyboardAwareScrollView>(null);
+  const formRef = React.useRef<{
+    scrollToError: (id: string, scrollRef?: any) => void;
+  }>(null);
 
-  const handleUpdate = async () => {
-    const resultUser = updateClientSchema.safeParse(clientStore.updateDto);
-    const resultProfile = updateProfileSchema.safeParse(
-      clientStore.updateDto.profile
-    );
+  const handleUpdate = () => {
+    const resultUser = updateClientSchema.safeParse(userStore.updateDto);
+    const resultProfile = updateProfileSchema.safeParse(userStore.updateDto);
 
     if (!resultUser.success || !resultProfile.success) {
-      const userErrors = resultUser.success
-        ? {}
-        : resultUser.error.flatten().fieldErrors;
-
-      const profileErrors = resultProfile.success
-        ? {}
-        : resultProfile.error.flatten().fieldErrors;
-
-      const errors = { ...userErrors, ...profileErrors };
-      clientStore.set("errors", errors);
+      const errors = {
+        ...(resultUser.success ? {} : resultUser.error.flatten().fieldErrors),
+        ...(resultProfile.success
+          ? {}
+          : resultProfile.error.flatten().fieldErrors),
+      };
+      userStore.set("errors", errors);
 
       const firstErrorKey = Object.keys(errors)[0];
       if (firstErrorKey) {
-        formRef.current?.scrollToError(firstErrorKey);
+        formRef.current?.scrollToError(firstErrorKey, scrollRef);
       }
       return;
     }
@@ -137,23 +132,19 @@ export const UpdateProfile = () => {
   if (isCurrentUserPending) return <Loader isPending={true} />;
 
   return (
-    <StableKeyboardAwareScrollView>
-      <View className="flex flex-col gap-6 mx-4 mb-6">
-        <FormBuilder
-          ref={formRef}
-          structure={updateProfileStructure}
-          className="my-4"
-        />
-
-        <Button
-          onPress={handleUpdate}
-          className="flex flex-row gap-2 w-full"
-          disabled={isUpdateProfilePending || isUploadPending}
-        >
-          <Icon name={Save} size={24} />
-          <Text>Update Profile</Text>
-        </Button>
-      </View>
+    <StableKeyboardAwareScrollView
+      className="flex flex-col flex-1 gap-6 mx-2 mb-10"
+      ref={scrollRef}
+    >
+      <FormBuilder structure={updateProfileStructure} ref={formRef} />
+      <Button
+        onPress={handleUpdate}
+        className="flex flex-row gap-2"
+        disabled={isUpdateProfilePending || isUploadPending}
+      >
+        <Icon as={Save} size={24} />
+        <Text>Update Profile</Text>
+      </Button>
     </StableKeyboardAwareScrollView>
   );
 };

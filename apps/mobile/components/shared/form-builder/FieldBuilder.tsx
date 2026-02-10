@@ -9,7 +9,6 @@ import { Textarea } from "~/components/ui/textarea";
 import { Input } from "~/components/ui/input";
 import StarRating from "react-native-star-rating-widget";
 import { PictureUploader } from "../PictureUploader";
-import { RadioField } from "../RadioField";
 import { Text } from "~/components/ui/text";
 import { cn } from "~/lib/utils";
 import { Switch } from "~/components/ui/switch";
@@ -24,7 +23,6 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
   switch (field?.variant) {
     case "text":
     case "tel":
-    case "number":
       return (
         <View className="flex flex-col w-full">
           <Input
@@ -32,16 +30,26 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
             editable={field?.props?.editable}
             id={field.label}
             keyboardType={
-              field.variant === FieldVariant.TEL
-                ? "phone-pad"
-                : field.variant === FieldVariant.NUMBER
-                ? "numeric"
-                : "default"
+              field.variant === FieldVariant.TEL ? "phone-pad" : "default"
             }
             placeholder={field.placeholder}
             value={field?.props?.value?.toString() || ""}
             onChangeText={(text) => field?.props?.onChangeText?.(text)}
-            className={cn("p-3 rounded-md", field?.error && "border-red-500")}
+            className={cn("rounded-md", field?.error && "border-red-500")}
+          />
+        </View>
+      );
+    case "number":
+      return (
+        <View className="flex flex-col w-full">
+          <Input
+            {...field?.props}
+            editable={field?.props?.editable}
+            keyboardType="number-pad"
+            placeholder={field.placeholder}
+            value={field?.props?.value}
+            onChangeText={(text) => field?.props?.onChangeText?.(Number(text))}
+            className={cn("rounded-md", field?.error && "border-red-500")}
           />
         </View>
       );
@@ -54,7 +62,7 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
           placeholder={field.placeholder}
           value={field?.props?.value?.toString() || ""}
           onChangeText={(text) => field?.props?.onChangeText?.(text)}
-          className={cn("p-3 rounded-md", field?.error && "border-red-500")}
+          className={cn("rounded-md", field?.error && "border-red-500")}
           style={field?.error ? { borderColor: "red" } : {}}
           {...field.props?.other}
         />
@@ -63,13 +71,14 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
       return (
         <Select
           {...field?.props}
+          className={cn(field?.error && "border-red-500")}
           title={field.label}
+          description={field.description}
+          placeholder={field?.placeholder}
           value={field?.props?.value?.toString()}
           onSelect={(value) => field?.props?.onSelect?.(value)}
-          options={field?.props?.options}
-          description={field.description}
           disabled={field?.props?.other}
-          className={cn(field?.error && "border-red-500")}
+          options={field?.props?.options}
         />
       );
     case "date":
@@ -140,7 +149,7 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
         <View className="flex flex-col gap-2 w-full">
           <Textarea
             {...field?.props}
-            className={cn("h-52", field?.error && "border-red-500")}
+            className={cn("h-32", field?.error && "border-red-500")}
             editable={field?.props?.other}
             placeholder={field.placeholder}
             value={field?.props?.value?.toString() || ""}
@@ -172,18 +181,6 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
           onUpload={field?.props?.onUpload}
           className={field?.className}
           editable={field?.props?.editable}
-        />
-      );
-    case "radio":
-      return (
-        <RadioField
-          {...field?.props}
-          className={field?.className}
-          itemWidthClass={field?.props?.itemWidthClass}
-          options={field?.props?.options || []}
-          checked={field?.props?.checked}
-          onCheckedChange={field?.props?.onCheckedChange}
-          disabled={field?.props?.disabled}
         />
       );
     case "switch":

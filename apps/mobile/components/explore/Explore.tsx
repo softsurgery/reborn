@@ -13,9 +13,11 @@ import { cn } from "~/lib/utils";
 import { StablePressable } from "../shared/StablePressable";
 import { StableSafeAreaView } from "../shared/StableSafeAreaView";
 import { ApplicationHeader } from "../shared/AppHeader";
-import { useNavigation } from "expo-router";
-import { NavigationProps } from "~/types/app.routes";
-import { Search, User } from "lucide-react-native";
+import { ArrowDownNarrowWide, Bell, Search, User } from "lucide-react-native";
+import { useNotificationContext } from "~/contexts/NotificationContext";
+import { router } from "expo-router";
+import { useTranslation } from "react-i18next";
+import { JobFilters } from "./jobs/JobFilters";
 
 type TabType = "recent" | "followings";
 
@@ -28,9 +30,12 @@ export const Explore = ({
   initialTab = "recent",
   onTabChange,
 }: ExploreProps) => {
-  const navigation = useNavigation<NavigationProps>();
+  const { t } = useTranslation("common");
   const [tab, setTab] = React.useState<TabType>(initialTab);
   const [search, setSearch] = React.useState("");
+  const [openJobFilters, setOpenJobFilters] = React.useState(false);
+
+  const { newCount, resetCount } = useNotificationContext();
 
   const { value: debouncedSearchTerm, loading: searching } =
     useDebounce<string>(search, 1000);
@@ -58,13 +63,13 @@ export const Explore = ({
   const animatedHeaderStyle = useAnimatedStyle(() => ({
     transform: [
       {
-        translateY: withTiming(showHeader.value ? 0 : -120, {
+        translateY: withTiming(showHeader.value ? 0 : -100, {
           duration: 250,
         }),
       },
     ],
     opacity: withTiming(showHeader.value ? 1 : 0, { duration: 250 }),
-    height: withTiming(showHeader.value ? 120 : 0, {
+    height: withTiming(showHeader.value ? 100 : 0, {
       duration: 250,
     }),
   }));
@@ -108,8 +113,10 @@ export const Explore = ({
       case "followings":
         return (
           <ExploreFollowing
+            className="px-2"
             search={debouncedSearchTerm}
             searching={searching}
+            setShowHeader={handleHeaderVisibility}
           />
         );
       default:
@@ -118,36 +125,50 @@ export const Explore = ({
   }, [tab, debouncedSearchTerm, searching, handleHeaderVisibility]);
 
   return (
-    <View className="flex flex-1 mx-2">
+    <StableSafeAreaView className={cn("flex flex-1 flex-col mx-2")}>
       {/* Animated Header */}
-      <StableSafeAreaView>
-        <Animated.View
-          style={animatedHeaderStyle}
-          className="bg-background shadow-sm"
-        >
-          <ApplicationHeader
-            title="Explore"
-            shortcuts={[
-              {
-                icon: Search,
-                onPress: () => navigation.navigate("explore/job-search", {}),
+      <Animated.View style={animatedHeaderStyle}>
+        <ApplicationHeader
+          title={t("screens.explore")}
+          shortcuts={[
+            {
+              icon: Search,
+              onPress: () => router.push("/main/explore/job-search"),
+            },
+            {
+              icon: ArrowDownNarrowWide,
+              onPress: () => {
+                setOpenJobFilters(true);
               },
-              {
-                icon: User,
-                onPress: () => navigation.navigate("my-space/index", {}),
+            },
+            {
+              icon: User,
+              onPress: () => router.push("/main/my-space"),
+            },
+            {
+              icon: Bell,
+              onPress: () => {
+                router.push("/main/notifications");
+                resetCount();
               },
-            ]}
-          />
-          {/* Tab Navigation */}
-          <View className="flex flex-row border-b border-border">
-            {renderTabButton("recent", "Recent")}
-            {renderTabButton("followings", "Following")}
-          </View>
-          {/* Search Header */}
-        </Animated.View>
-      </StableSafeAreaView>
+              badgeText: newCount > 0 ? `${newCount}` : undefined,
+            },
+          ]}
+        />
+        {/* Tab Navigation */}
+        <View className="flex flex-row border-b border-border">
+          {renderTabButton("recent", "Recent")}
+          {renderTabButton("followings", "Following")}
+        </View>
+      </Animated.View>
+      {/* Search Header */}
       {/* Content */}
       {renderContent}
-    </View>
+      <JobFilters
+        className="min-h-[70vh] min-w-[90vw]"
+        open={openJobFilters}
+        onOpenChange={setOpenJobFilters}
+      />
+    </StableSafeAreaView>
   );
 };

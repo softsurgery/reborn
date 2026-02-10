@@ -16,18 +16,18 @@ import {
 import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
 import { Button } from "~/components/ui/button";
 import { useQueryClient } from "@tanstack/react-query";
-import { ClientStore } from "~/hooks/stores/useClientStore";
+import { UserStore } from "~/hooks/stores/useUserStore";
 import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
 import { showToastable } from "react-native-toastable";
-import Icon from "~/lib/Icon";
 import { Mail, UserPlus } from "lucide-react-native";
 import { ServerErrorResponse } from "~/types";
 import { ProfileStat } from "./ProfileStat";
 import { useFollowSystem } from "~/hooks/content/useFollowSystem";
+import { Icon } from "~/components/ui/icon";
 
 interface ProfileManagmentCardProps {
   className?: string;
-  clientStore: ClientStore;
+  clientStore: UserStore;
 }
 
 export const ProfileManagmentCard = ({
@@ -89,12 +89,12 @@ export const ProfileManagmentCard = ({
 
   const identity = React.useMemo(
     () => identifyUser(clientStore?.response),
-    [clientStore?.response]
+    [clientStore?.response],
   );
 
   const fallback = React.useMemo(
     () => identifyUserAvatar(clientStore?.response),
-    [clientStore?.response]
+    [clientStore?.response],
   );
 
   return (
@@ -111,16 +111,16 @@ export const ProfileManagmentCard = ({
             </Avatar>
           </View>
           {/* info block */}
-          <View className="flex flex-col justify-between gap-6 w-[60%] items-start">
+          <View className="flex flex-col justify-between w-[60%] items-start">
             {/* identity */}
-            <Text variant={"h4"}>{identity}</Text>
+            <Text variant={"large"}>{identity}</Text>
             {/* stats */}
             <ProfileStat clientStore={clientStore} />
           </View>
         </View>
       </CardHeader>
       <CardContent className="w-full">
-        <Text variant={"small"}>{clientStore?.response?.profile?.bio}</Text>
+        <Text variant={"small"}>{clientStore?.response?.bio}</Text>
       </CardContent>
       {!isCurrentUser && (
         <CardFooter>
@@ -129,18 +129,18 @@ export const ProfileManagmentCard = ({
               size="sm"
               onPress={() => (isFollowing ? unfollowUser() : followUser())}
               variant={isFollowing ? "outline" : "default"}
-              className="flex flex-row gap-2 w-1/2"
+              className="flex flex-row flex-1 gap-2 "
               disabled={isFollowPending || isUnfollowPending}
             >
-              {!isFollowing && <Icon name={UserPlus} size={20} />}
+              {!isFollowing && <Icon as={UserPlus} size={20} />}
               <Text>{isFollowing ? "Following" : "Follow"}</Text>
             </Button>
             <Button
               size="sm"
-              className="flex flex-row gap-2 w-1/2"
+              className="flex flex-row flex-1 gap-2"
               variant="outline"
             >
-              <Icon name={Mail} size={20} />
+              <Icon as={Mail} size={20} />
               <Text>Send Message</Text>
             </Button>
           </View>

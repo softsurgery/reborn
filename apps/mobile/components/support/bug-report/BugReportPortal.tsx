@@ -1,26 +1,30 @@
 import React from "react";
 import { useMutation } from "@tanstack/react-query";
-import { BugIcon } from "lucide-react-native";
+import { ArrowLeft, BugIcon } from "lucide-react-native";
 import { api } from "~/api";
 import { Button } from "~/components/ui/button";
 import { Text } from "~/components/ui/text";
 import { useReportBugStore } from "~/hooks/stores/useReportBugStore";
-import Icon from "~/lib/Icon";
 import { View } from "react-native";
 import { useBugReportFormStructure } from "./useBugReportFormStructure";
 import { FormBuilder } from "~/components/shared/form-builder/FormBuilder";
 import { createBugSchema } from "~/types/validations/system-reports.validation";
 import { cn } from "~/lib/utils";
 import { showToastable } from "react-native-toastable";
-import { useNavigation } from "~/hooks/useNavigation";
-import { StableKeyboardAwareScrollView } from "~/components/shared/KeyboardAwareScrollView";
+import { StableKeyboardAwareScrollView } from "~/components/shared/StableKeyboardAwareScrollView";
+import { Icon } from "~/components/ui/icon";
+import { router } from "expo-router";
+import { StableSafeAreaView } from "~/components/shared/StableSafeAreaView";
+import { ApplicationHeader } from "~/components/shared/AppHeader";
+import { useTranslation } from "react-i18next";
 
 interface BugReportPortalProps {
   className?: string;
 }
 
 export const BugReportPortal = ({ className }: BugReportPortalProps) => {
-  const navigation = useNavigation();
+  const { t } = useTranslation("common");
+
   React.useEffect(() => {
     return () => {
       bugStore.reset();
@@ -37,7 +41,7 @@ export const BugReportPortal = ({ className }: BugReportPortalProps) => {
         message: "Bug reported successfully",
         status: "success",
       });
-      navigation.goBack();
+      router.back();
       bugStore.reset();
     },
     onError: (error) => {
@@ -58,29 +62,43 @@ export const BugReportPortal = ({ className }: BugReportPortalProps) => {
   };
 
   return (
-    <StableKeyboardAwareScrollView>
-      <View className={cn("flex flex-col mx-4 my-4 gap-2", className)}>
-        {/* Header Section */}
-        <View className="mx-auto">
-          <Icon name={BugIcon} />
+    <StableSafeAreaView className={cn("flex flex-1", className)}>
+      <ApplicationHeader
+        title={t("screens.reportBug")}
+        titleVariant="large"
+        reverse
+        shortcuts={[
+          {
+            key: "user-preferences",
+            icon: ArrowLeft,
+            onPress: () => router.back(),
+          },
+        ]}
+      />
+      <StableKeyboardAwareScrollView>
+        <View className={cn("flex flex-col mx-4 my-4 gap-2", className)}>
+          {/* Header Section */}
+          <View className="mx-auto">
+            <Icon as={BugIcon} />
+          </View>
+          <View>
+            <Text className="font-extrabold">
+              Help us improve by reporting any issues you encounter.
+            </Text>
+            <Text className="font-thin mt-2">
+              Please provide as much detail as possible
+            </Text>
+          </View>
+          <FormBuilder structure={bugFormStructure} />
+          <Button
+            disabled={isReportBugPending}
+            className="w-full"
+            onPress={handleSubmit}
+          >
+            <Text>{isReportBugPending ? "Submitting..." : "Submit Bug"}</Text>
+          </Button>
         </View>
-        <View>
-          <Text className="font-extrabold">
-            Help us improve by reporting any issues you encounter.
-          </Text>
-          <Text className="font-thin mt-2">
-            Please provide as much detail as possible
-          </Text>
-        </View>
-        <FormBuilder structure={bugFormStructure} />
-        <Button
-          disabled={isReportBugPending}
-          className="w-full"
-          onPress={handleSubmit}
-        >
-          <Text>{isReportBugPending ? "Submitting..." : "Submit Bug"}</Text>
-        </Button>
-      </View>
-    </StableKeyboardAwareScrollView>
+      </StableKeyboardAwareScrollView>
+    </StableSafeAreaView>
   );
 };

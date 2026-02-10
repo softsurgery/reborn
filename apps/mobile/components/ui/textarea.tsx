@@ -1,46 +1,30 @@
-import * as React from "react";
-import { TextInput, type TextInputProps } from "react-native";
 import { cn } from "~/lib/utils";
+import { Platform, TextInput, type TextInputProps } from "react-native";
 
-interface TextareaProps extends TextInputProps {
-  placeholderClassName?: string;
-  placeholderTextColor?: string; 
+function Textarea({
+  className,
+  multiline = true,
+  numberOfLines = Platform.select({ web: 2, native: 8 }), // On web, numberOfLines also determines initial height. On native, it determines the maximum height.
+  placeholderClassName,
+  ...props
+}: TextInputProps & React.RefAttributes<TextInput>) {
+  return (
+    <TextInput
+      className={cn(
+        "text-foreground border-input dark:bg-input/30 flex h-16 w-full flex-row rounded-md border bg-transparent px-3 py-2 text-xs shadow-sm shadow-black/5",
+        Platform.select({
+          web: "placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive field-sizing-content resize-y outline-none transition-[color,box-shadow] focus-visible:ring-[3px] disabled:cursor-not-allowed",
+        }),
+        props.editable === false && "opacity-50",
+        className,
+      )}
+      placeholderClassName={cn("text-muted-foreground", placeholderClassName)}
+      multiline={multiline}
+      numberOfLines={numberOfLines}
+      textAlignVertical="top"
+      {...props}
+    />
+  );
 }
-
-const Textarea = React.forwardRef<
-  React.ElementRef<typeof TextInput>,
-  TextareaProps
->(
-  (
-    {
-      className,
-      multiline = true,
-      numberOfLines = 4,
-      placeholderClassName,
-      placeholderTextColor = "#9CA3AF",
-      ...props
-    },
-    ref
-  ) => {
-    return (
-      <TextInput
-        ref={ref}
-        className={cn(
-          "web:flex w-full text-foreground rounded-md border border-input bg-background px-3 py-2 text-base lg:text-sm native:text-lg native:leading-[1.25] web:ring-offset-background web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2",
-          props.editable === false && "opacity-50 web:cursor-not-allowed",
-          className
-        )}
-        placeholderClassName={cn(placeholderClassName)}
-        placeholderTextColor={placeholderTextColor}
-        multiline={multiline}
-        numberOfLines={numberOfLines}
-        textAlignVertical="top"
-        {...props}
-      />
-    );
-  }
-);
-
-Textarea.displayName = "Textarea";
 
 export { Textarea };

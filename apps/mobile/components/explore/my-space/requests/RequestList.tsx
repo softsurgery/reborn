@@ -1,15 +1,14 @@
 import React from "react";
-
 import { ResponseJobRequestDto } from "~/types";
 import { IncomingRequestEntry } from "./IncomingRequest";
-import { useDebounce } from "~/hooks/useDebounce";
+import { IncomingRequestSkeleton } from "./IncomingRequestSkeleton";
+import { OutgoingRequestEntry } from "./OutgoingRequest";
+import { OutgoingRequestSkeleton } from "./OutgoingRequestSkeleton";
 import { LegendList } from "@legendapp/list";
 import { cn } from "~/lib/utils";
 import { RefreshControl, View } from "react-native";
-import { Loader } from "~/components/shared/Loader";
 import { Text } from "~/components/ui/text";
-import { OutgoingRequestEntry } from "./OutgoingRequest";
-import { useRequestSystem } from "~/hooks/content/useRequestSystem";
+import { useRequestSystem } from "~/hooks/content/job/useInfiniteJobRequests";
 
 interface RequestsListProps {
   className?: string;
@@ -36,17 +35,22 @@ export const RequestsList = ({
     search,
     variant,
   });
+
   const isPending =
     isRequestsPending || isRefetching || isFetchingNextPage || searching;
 
   const renderItem = React.useCallback(
     ({ item }: { item: ResponseJobRequestDto }) =>
-      variant == "incoming" ? (
-        <IncomingRequestEntry request={item} className="mb-4" />
+      variant === "incoming" ? (
+        <IncomingRequestEntry
+          request={item}
+          className="mt-4"
+          refetchRequests={refetchRequests}
+        />
       ) : (
         <OutgoingRequestEntry
           request={item}
-          className="mb-4"
+          className="mt-4"
           refetchRequests={refetchRequests}
         />
       ),
@@ -54,15 +58,14 @@ export const RequestsList = ({
   );
 
   const [dragging, setDragging] = React.useState(false);
-  const { value: debouncedDragging, loading: isDragging } = useDebounce(
-    dragging,
-    1000
-  );
+
+  const SkeletonComponent =
+    variant === "incoming" ? IncomingRequestSkeleton : OutgoingRequestSkeleton;
 
   return (
     <LegendList
       className={cn("flex-1", className)}
-      data={requests}
+      data={isPending ? [] : requests}
       renderItem={renderItem}
       keyExtractor={(item) => item.id.toString()}
       showsVerticalScrollIndicator={false}
@@ -84,13 +87,7 @@ export const RequestsList = ({
         }
       }}
       onEndReachedThreshold={0.5}
-      ListHeaderComponent={
-        <Loader
-          size="small"
-          isPending={isRefetching || debouncedDragging || isDragging}
-          className="flex items-center h-fit"
-        />
-      }
+      ListHeaderComponent={isPending ? null : <View />}
       ListEmptyComponent={
         !isPending ? (
           <View className="p-6 items-center">
@@ -99,9 +96,13 @@ export const RequestsList = ({
         ) : null
       }
       ListFooterComponent={
-        <View className="items-center">
+        <View className="items-center w-full">
           {isPending ? (
-            <Text>Skeleton</Text>
+            <View className="w-full">
+              {[...Array(3)].map((_, idx) => (
+                <SkeletonComponent key={idx} className="mt-4" />
+              ))}
+            </View>
           ) : hasNextPage ? null : (
             <View className="flex flex-row items-center justify-center gap-2 p-6"></View>
           )}

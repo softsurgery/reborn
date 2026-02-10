@@ -12,6 +12,7 @@ export interface ResponseJobDto extends DatabaseEntity {
   tags: ResponseJobTagDto[];
   categoryId: number;
   style: JobStyle;
+  difficulty: JobDifficulty;
   uploads: ResponseJobUploadDto[];
 }
 export interface CreateJobDto {
@@ -21,6 +22,8 @@ export interface CreateJobDto {
   tagIds: number[];
   currencyId?: string;
   categoryId?: number;
+  style?: JobStyle;
+  difficulty?: JobDifficulty;
   uploads?: { uploadId: number }[];
 }
 
@@ -28,12 +31,17 @@ export interface UpdateJobDto extends Partial<CreateJobDto> {
   uploads?: { id: number; uploadId: number }[];
 }
 
-export interface ResponseJobTagDto extends DatabaseEntity {
-  id: number;
-  label: string;
+export interface ResponseJobMetadataDto {
+  id: string;
+  requestCount: number;
+  paymentVerified: boolean;
+  reviewCount: number;
+  rating: number;
+  hireRate: number;
 }
 
-export interface CreateJobTagDto {
+export interface ResponseJobTagDto extends DatabaseEntity {
+  id: number;
   label: string;
 }
 
@@ -46,8 +54,6 @@ export interface CreateJobCategoryDto {
   label: string;
 }
 
-export interface UpdateJobTagDto extends Partial<CreateJobTagDto> {}
-
 export interface ResponseJobUploadDto extends DatabaseEntity {
   id: number;
   jobId: string;
@@ -56,9 +62,17 @@ export interface ResponseJobUploadDto extends DatabaseEntity {
   upload: Upload;
   order: number;
 }
+
 export interface ResponseJobCategoryDto extends DatabaseEntity {
   id: number;
   label: string;
+}
+
+export enum JobDifficulty {
+  ENTRY_LEVEL = "Entry Level",
+  MID_LEVEL = "Mid Level",
+  SENIOR_LEVEL = "Senior Level",
+  INTERN = "Internship",
 }
 
 export enum JobStyle {
@@ -73,6 +87,12 @@ export enum JobStyle {
   DAY = "Day Shift",
 }
 
+export enum JobRequestStatus {
+  Pending = "pending",
+  Approved = "approved",
+  Rejected = "rejected",
+}
+
 export interface ResponseJobRequestDto extends DatabaseEntity {
   id: number;
   jobId: string;
@@ -82,14 +102,32 @@ export interface ResponseJobRequestDto extends DatabaseEntity {
   status: JobRequestStatus;
 }
 
-export enum JobRequestStatus {
-  Pending = "pending",
-  Approved = "approved",
-  Rejected = "rejected",
-}
-
 export interface CreateJobRequestDto {
   jobId: string;
 }
 
 export interface UpdateJobRequestDto extends Partial<CreateJobRequestDto> {}
+
+export interface ResponseJobSaveDto extends DatabaseEntity {
+  id: string;
+  jobId: string;
+  job?: ResponseJobDto;
+  userId: string;
+  user?: ResponseClientDto;
+}
+
+export interface CreateJobSaveDto {
+  jobId: string;
+}
+
+export interface ResponseJobViewDto extends DatabaseEntity {
+  id: string;
+  jobId: string;
+  job?: ResponseJobDto;
+  userId: string;
+  user?: ResponseClientDto;
+}
+
+export interface CreateJobViewDto {
+  jobId: string;
+}

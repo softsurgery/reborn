@@ -77,7 +77,7 @@ const Button = React.forwardRef<
     >
       <Pressable
         className={cn(
-          props.disabled && "opacity-50 web:pointer-events-none",
+          props.disabled && "opacity-50 web:pointer-events-none font-poppins",
           buttonVariants({ variant, size, className })
         )}
         ref={ref}

@@ -1,20 +1,20 @@
-import { ResponseClientDto, UpdateClientDto } from "~/types";
+import { ResponseUserDto, UpdateUserDto } from "~/types";
 import axios from "./axios";
 
-const findCurrent = async (): Promise<ResponseClientDto> => {
-  const response = await axios.get<ResponseClientDto>(`/client/current`);
+const findCurrent = async (): Promise<ResponseUserDto> => {
+  const response = await axios.get<ResponseUserDto>(`/admin/user/current`);
   return response.data;
 };
 
-const findById = async (id: string): Promise<ResponseClientDto> => {
-  const response = await axios.get<ResponseClientDto>(`/client/${id}`);
+const findById = async (id: string): Promise<ResponseUserDto> => {
+  const response = await axios.get<ResponseUserDto>(`/admin/user/${id}`);
   return response.data;
 };
 
 const updateCurrent = async (
-  updateClientDto: UpdateClientDto
-): Promise<ResponseClientDto> => {
-  const response = await axios.put(`/client`, updateClientDto);
+  updateClientDto: UpdateUserDto,
+): Promise<ResponseUserDto> => {
+  const response = await axios.put(`/admin/user/current`, updateClientDto);
   return response.data;
 };
 

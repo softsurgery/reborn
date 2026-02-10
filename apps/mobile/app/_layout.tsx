@@ -1,205 +1,92 @@
 import React from "react";
-import { SplashScreen, Stack } from "expo-router";
-import { StatusBar } from "expo-status-bar";
+import { Stack, useRootNavigationState } from "expo-router";
+import * as Notifications from "expo-notifications";
+import { useColorScheme } from "nativewind";
+import { ThemeProvider } from "@react-navigation/native";
+import { NAV_THEME } from "~/lib/theme";
+import "~/global.css";
+import "../i18n";
 import { View } from "react-native";
-import { NAV_THEME } from "~/lib/constants";
-import { PortalHost } from "@rn-primitives/portal";
-import { ThemeToggle } from "~/components/ThemeToggle";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { cn } from "~/lib/utils";
+import { useNotifications } from "~/hooks/content/notifications/useNotification";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { NotificationContext } from "~/contexts/NotificationContext";
 import Toastable from "react-native-toastable";
+import { StatusBar } from "expo-status-bar";
+import { PortalHost } from "@rn-primitives/portal";
 
 export { ErrorBoundary } from "expo-router";
-import { usePreferencePersistStore } from "~/hooks/stores/usePreferencePersistStore";
 
-import "~/global.css";
-
-SplashScreen.preventAutoHideAsync();
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+    shouldShowBanner: true,
+    shouldShowList: true,
+  }),
+});
 
 const queryClient = new QueryClient();
 
 export default function RootLayout() {
-  const preferencePersistStore = usePreferencePersistStore();
-  const isDarkMode = React.useMemo(
-    () => preferencePersistStore.theme === "dark",
-    [preferencePersistStore.theme]
-  );
+  const { colorScheme } = useColorScheme();
+  const { newCount, notifications, resetCount } = useNotifications();
+  const [ready, setReady] = React.useState(false);
 
+  const isDarkColorScheme = colorScheme === "dark";
+
+  // Wait for navigation context to load
+  const navigationState = useRootNavigationState();
+  React.useEffect(() => {
+    if (navigationState) {
+      setReady(true);
+    }
+  }, [navigationState]);
+
+  if (!ready) return null;
   return (
-    <View className={cn("flex-1", isDarkMode ? "dark" : "light")}>
+    <ThemeProvider value={NAV_THEME[colorScheme ?? "light"]}>
       <QueryClientProvider client={queryClient}>
-        <Toastable
-          statusMap={{
-            success: isDarkMode
-              ? NAV_THEME.dark.primary
-              : NAV_THEME.light.primary,
-            danger: isDarkMode
-              ? NAV_THEME.dark.destructive
-              : NAV_THEME.light.destructive,
-            warning: "green",
-            info: isDarkMode
-              ? NAV_THEME.dark.notification
-              : NAV_THEME.light.notification,
-          }}
-          position="top"
-        />
-        <StatusBar style={isDarkMode ? "light" : "dark"} translucent />
-        <Stack
-          screenOptions={{
-            contentStyle: {
-              flex: 1,
-              backgroundColor: isDarkMode
-                ? NAV_THEME.dark.background
-                : NAV_THEME.light.background,
-            },
-            headerStyle: {
-              backgroundColor: isDarkMode
-                ? NAV_THEME.dark.background
-                : NAV_THEME.light.background,
-            },
-            headerTintColor: isDarkMode
-              ? NAV_THEME.dark.text
-              : NAV_THEME.light.text,
-          }}
+        <NotificationContext.Provider
+          value={{ newCount, notifications, resetCount }}
         >
-          {/* Auth */}
-          <Stack.Screen
-            name="index"
-            options={{
-              title: "",
-              headerShown: false,
-              animation: "fade",
-              animationDuration: 200,
-            }}
-          />
-          <Stack.Screen
-            name="auth/sign-in"
-            options={{
-              title: "",
-              headerRight: () => <ThemeToggle />,
-              animation: "fade",
-              animationDuration: 200,
-            }}
-          />
-          <Stack.Screen
-            name="auth/sign-up"
-            options={{
-              title: "",
-              headerRight: () => <ThemeToggle />,
-              animation: "fade",
-              animationDuration: 200,
-            }}
-          />
-          <Stack.Screen
-            name="auth/sign-up-carry-on"
-            options={{
-              title: "",
-              headerRight: () => <ThemeToggle />,
-              animation: "fade",
-              animationDuration: 200,
-            }}
-          />
-          {/* Account */}
-          <Stack.Screen
-            name="account/managment"
-            options={{
-              title: "My Profile",
-              animation: "slide_from_right",
-            }}
-          />
-          <Stack.Screen
-            name="account/update-profile"
-            options={{
-              title: "Update Profile",
-              animation: "slide_from_right",
-            }}
-          />
-          <Stack.Screen
-            name="account/user-preferences"
-            options={{
-              title: "User Preferences",
-              animation: "slide_from_right",
-            }}
-          />
-          <Stack.Screen
-            name="account/support/report-bug"
-            options={{
-              title: "Report a Bug",
-              animation: "slide_from_right",
-            }}
-          />
-          <Stack.Screen
-            name="account/support/send-feedback"
-            options={{
-              title: "Send us feedback",
-              animation: "slide_from_right",
-            }}
-          />
-          <Stack.Screen
-            name="account/support/faqs"
-            options={{
-              title: "FAQs",
-              animation: "slide_from_right",
-            }}
-          />
-          {/* Chat */}
-          <Stack.Screen
-            name="chat/conversation"
-            options={{
-              title: "Chat",
-              headerBackTitle: "Chat",
-            }}
-          />
-          {/* Explore */}
-          <Stack.Screen
-            name="explore/job-search"
-            options={{
-              title: "Job Search",
-              headerShown: false,
-              animation: "slide_from_bottom",
-            }}
-          />
-          <Stack.Screen
-            name="explore/job-details"
-            options={{
-              headerShown: false,
-              animation: "slide_from_right",
-            }}
-          />
-          <Stack.Screen
-            name="my-space/index"
-            options={{
-              headerShown: true,
-              headerTitle: "My Space",
-              headerBackVisible: false,
-              animation: "slide_from_right",
-            }}
-          />
-          <Stack.Screen
-            name="my-space/requests"
-            options={{
-              headerShown: true,
-              headerTitle: "Requests",
-              headerBackVisible: false,
-              animation: "slide_from_right",
-            }}
-          />
-          <Stack.Screen
-            name="explore/user-profile"
-            options={{
-              animation: "slide_from_right",
-            }}
-          />
-          <Stack.Screen
-            name="test"
-            options={{
-              title: "TEST",
-              animation: "slide_from_right",
-            }}
-          />
-        </Stack>
-        <PortalHost />
+          <View className={cn("flex-1 light dark:dark")}>
+            <Toastable position="top" />
+            <StatusBar
+              style={isDarkColorScheme ? "light" : "dark"}
+              translucent
+            />
+            <Stack
+              screenOptions={{
+                headerShown: false,
+                contentStyle: {
+                  flex: 1,
+                  backgroundColor: isDarkColorScheme
+                    ? NAV_THEME.dark.colors.background
+                    : NAV_THEME.light.colors.background,
+                },
+                headerStyle: {
+                  backgroundColor: isDarkColorScheme
+                    ? NAV_THEME.dark.colors.card
+                    : NAV_THEME.light.colors.card,
+                },
+                headerTintColor: isDarkColorScheme
+                  ? NAV_THEME.dark.colors.text
+                  : NAV_THEME.light.colors.text,
+                headerTitleStyle: {
+                  fontFamily: "Poppins-SemiBold",
+                  fontSize: 18,
+                  color: isDarkColorScheme
+                    ? NAV_THEME.dark.colors.text
+                    : NAV_THEME.light.colors.text,
+                },
+              }}
+            />
+            <PortalHost />
+          </View>
+        </NotificationContext.Provider>
       </QueryClientProvider>
-    </View>
+    </ThemeProvider>
   );
 }

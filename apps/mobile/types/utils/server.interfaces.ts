@@ -23,6 +23,8 @@ export interface PageMeta {
 }
 
 export interface Paginated<T> {
+  items(items: any): unknown;
+  totalPages(totalPages: any): unknown;
   data: T[];
   meta: PageMeta;
 }

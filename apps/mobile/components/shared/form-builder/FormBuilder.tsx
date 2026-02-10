@@ -7,7 +7,6 @@ import { FieldBuilder } from "./FieldBuilder";
 import { Separator } from "~/components/ui/separator";
 import { Label } from "~/components/ui/label";
 import { Text } from "~/components/ui/text";
-import { useStableScrollIntoView } from "~/hooks/useStableScrollIntoView";
 
 interface FormBuilderProps {
   className?: string;
@@ -16,16 +15,13 @@ interface FormBuilderProps {
 
 export const FormBuilder = React.forwardRef(
   ({ className, structure }: FormBuilderProps, ref) => {
-    const scrollIntoView = useStableScrollIntoView();
-    const fieldRefs = React.useRef<Record<string, View | null>>({});
+    const fieldRefs = React.useRef<Record<string, any>>({});
 
     React.useImperativeHandle(ref, () => ({
-      scrollToError: (id: string) => {
+      scrollToError: (id: string, scrollRef?: any) => {
         const target = fieldRefs.current[id];
-        if (target) {
-          requestAnimationFrame(() => {
-            scrollIntoView?.(target, { align: "top", animated: true });
-          });
+        if (target && scrollRef?.current) {
+          scrollRef.current.scrollToFocusedInput(target);
         }
       },
     }));
@@ -45,7 +41,7 @@ export const FormBuilder = React.forwardRef(
         <View
           className={cn(
             "flex gap-4",
-            structure.orientation === "vertical" ? "flex-col" : "flex-col"
+            structure.orientation === "vertical" ? "flex-col" : "flex-col",
           )}
         >
           {structure?.fieldsets?.map((fieldset, fieldsetIndex) => (
@@ -55,7 +51,7 @@ export const FormBuilder = React.forwardRef(
                 "flex w-full border-border rounded-lg",
                 structure.orientation === "vertical"
                   ? "flex-col gap-10"
-                  : "flex-col"
+                  : "flex-col",
               )}
             >
               {fieldset.isHeaderVisible && (
@@ -81,16 +77,16 @@ export const FormBuilder = React.forwardRef(
                             fieldRefs.current[field.id] = r;
                           }}
                           className={cn(
-                            "flex flex-col p-2",
+                            "flex flex-col py-2",
                             structure.orientation === "vertical"
                               ? "w-full"
                               : getItemWidth(fieldCount),
-                            field.containerClassName
+                            field.containerClassName,
                           )}
                         >
                           {/* Label */}
                           {field.variant !== "check" && (
-                            <Label className="text-md font-semibold mb-2">
+                            <Label className="text-xs font-poppins mb-1">
                               {field.label}{" "}
                               {field.required && (
                                 <Text className="text-red-500">*</Text>
@@ -102,26 +98,20 @@ export const FormBuilder = React.forwardRef(
                           <FieldBuilder field={field} />
 
                           {/* Description & Error */}
-                          <View className="pt-2">
+                          <View className="pt-1">
                             {field.description && (
                               <View className="flex flex-col justify-between">
                                 {!field?.error && (
                                   <Text
                                     className={cn(
-                                      "text-md text-gray-500 dark:text-gray-400",
-                                      field.variant === "picture"
-                                        ? "text-center"
-                                        : ""
+                                      "text-xs text-gray-500 dark:text-gray-400",
                                     )}
                                   >
                                     {field.description}
                                   </Text>
                                 )}
                                 {field?.error && (
-                                  <Text
-                                    className="text-md font-medium"
-                                    style={{ color: "red" }}
-                                  >
+                                  <Text className="text-xs font-medium text-red-500">
                                     {field?.error}
                                   </Text>
                                 )}
@@ -139,7 +129,7 @@ export const FormBuilder = React.forwardRef(
         </View>
       </View>
     );
-  }
+  },
 );
 
 FormBuilder.displayName = "FormBuilder";

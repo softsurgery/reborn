@@ -1,8 +1,11 @@
 import { ResponseRegionDto } from "./content";
+import { ResponseRefParamDto } from "./reference-types";
 import { Upload } from "./upload";
 import { DatabaseEntity } from "./utils/database-entity";
 
-export interface ResponseClientDto extends DatabaseEntity {
+//abstract user dtos *****************************************************************************
+
+interface ResponseAbstractUsertDto extends DatabaseEntity {
   id: string;
   firstName?: string;
   lastName?: string;
@@ -11,54 +14,112 @@ export interface ResponseClientDto extends DatabaseEntity {
   username: string;
   email: string;
   emailVerified?: Date;
-  profile: ResponseProfileDto;
-  profileId: string;
 }
 
-export interface UpdateClientDto {
+interface CreateAbstractUserDto {
   firstName?: string;
   lastName?: string;
   dateOfBirth?: Date;
   isActive?: boolean;
   password?: string;
+  username: string;
   email: string;
-  profile?: UpdateProfileDto;
+  roleId?: string;
 }
+
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type, @typescript-eslint/no-unused-vars
+interface UpdateAbstractUserDto extends Partial<CreateAbstractUserDto> {}
+
+// user dtos ************************************************************************************
+
+export interface ResponseUserDto extends ResponseAbstractUsertDto {
+  phone?: string;
+  cin?: string;
+  bio?: string;
+  gender?: Gender;
+  isPrivate?: boolean;
+  pictureId?: number;
+  picture?: Upload;
+  region?: ResponseRefParamDto;
+  regionId?: number;
+  experiences?: ResponseExperienceDto[];
+  educations?: ResponseEducationDto[];
+}
+
+export interface CreateUserDto extends CreateAbstractUserDto {
+  phone?: string;
+  cin?: string;
+  bio?: string;
+  gender?: Gender;
+  isPrivate?: boolean;
+  pictureId?: number;
+  regionId?: number;
+  officialDocumentId?: number;
+  driverLicenseDocumentId?: number;
+  uploads?: Upload[];
+}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export interface UpdateUserDto extends Partial<CreateUserDto> {}
 
 export enum Gender {
   Male = "Male",
   Female = "Female",
 }
 
-export interface ResponseProfileDto extends DatabaseEntity {
+//experience dtos *****************************************************************************
+
+export interface ResponseExperienceDto extends DatabaseEntity {
   id: number;
-  phone?: string;
-  cin?: string;
-  bio?: string;
-  gender?: Gender;
-  isPrivate?: boolean;
-  region?: ResponseRegionDto;
-  regionId?: number;
-  user: ResponseClientDto;
-  pictureId?: number;
-  picture?: Upload;
+  title: string;
+  startDate: string;
+  endDate: string;
+  company: string;
+  description: string;
+  user: ResponseUserDto;
+  userId: string;
 }
 
-export class UpdateProfileDto {
-  phone?: string;
-  cin?: string;
-  bio?: string;
-  gender?: Gender;
-  isPrivate?: boolean;
-  regionId?: number;
-  pictureId?: number;
+export interface CreateExperienceDto {
+  title: string;
+  startDate: Date;
+  endDate: Date | null;
+  company: string;
+  description: string;
 }
+
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export interface UpdateExperienceDto extends Partial<CreateExperienceDto> {}
+
+//education dtos *****************************************************************************
+
+export interface ResponseEducationDto extends DatabaseEntity {
+  id: number;
+  title: string;
+  startDate: Date;
+  endDate: Date | null;
+  institution: string;
+  description: string;
+  user: ResponseUserDto;
+  userId: string;
+}
+
+export interface CreateEducationDto {
+  title: string;
+  startDate: Date;
+  endDate: Date | null;
+  institution: string;
+  description: string;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export interface UpdateEducationDto extends Partial<CreateEducationDto> {}
 
 export interface ResponseFollowDto extends DatabaseEntity {
   id: string;
-  follower: ResponseClientDto;
+  follower: ResponseUserDto;
   followerId: string;
-  following: ResponseClientDto;
+  following: ResponseUserDto;
   followingId: string;
   isFollowing: boolean;
 }
@@ -73,3 +134,50 @@ export interface ResponseIsFollowingDto {
   targetId?: string;
   isFollowing?: boolean;
 }
+//experience dtos *****************************************************************************
+
+export interface ResponseExperienceDto extends DatabaseEntity {
+  id: number;
+  title: string;
+  startDate: string;
+  endDate: string;
+  company: string;
+  description: string;
+  user: ResponseUserDto;
+  userId: string;
+}
+
+export interface CreateExperienceDto {
+  title: string;
+  startDate: Date;
+  endDate: Date | null;
+  company: string;
+  description: string;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export interface UpdateExperienceDto extends Partial<CreateExperienceDto> {}
+
+//education dtos *****************************************************************************
+
+export interface ResponseEducationDto extends DatabaseEntity {
+  id: number;
+  title: string;
+  startDate: Date;
+  endDate: Date | null;
+  institution: string;
+  description: string;
+  user: ResponseUserDto;
+  userId: string;
+}
+
+export interface CreateEducationDto {
+  title: string;
+  startDate: Date;
+  endDate: Date | null;
+  institution: string;
+  description: string;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export interface UpdateEducationDto extends Partial<CreateEducationDto> {}

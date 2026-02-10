@@ -2,7 +2,7 @@ import React from "react";
 import { cn } from "~/lib/utils";
 import { Pressable } from "react-native";
 
-interface StablePressableProps
+export interface StablePressableProps
   extends React.ComponentPropsWithoutRef<typeof Pressable> {
   className?: string;
   onPressClassname?: string;
@@ -15,6 +15,7 @@ export const StablePressable = ({
   onPressClassname,
   onPress,
   children,
+  ...props
 }: StablePressableProps) => {
   const [pressed, setPressed] = React.useState(false);
   return (
@@ -27,6 +28,7 @@ export const StablePressable = ({
         pressed && (onPressClassname || "bg-secondary/25")
       )}
       onPress={onPress}
+      {...props}
     >
       {children}
     </Pressable>

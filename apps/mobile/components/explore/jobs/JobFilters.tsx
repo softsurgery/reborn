@@ -1,9 +1,7 @@
-import React, { useState } from "react";
-import { Dialog, DialogContent, DialogTrigger } from "../../ui/dialog";
+import React from "react";
+import { Dialog, DialogContent } from "../../ui/dialog";
 import { Button } from "../../ui/button";
-import { Sparkles } from "lucide-react-native";
-import Icon from "~/lib/Icon";
-import { View } from "react-native";
+import { Keyboard, View } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Checkbox } from "~/components/ui/checkbox";
 import Select from "~/components/shared/Select";
@@ -15,19 +13,24 @@ import {
   AccordionTrigger,
 } from "~/components/ui/accordion";
 import { useJobCategories } from "~/hooks/content/job/useJobCategories";
-import { StablePressable } from "~/components/shared/StablePressable";
+import { cn } from "~/lib/utils";
 
 interface JobFiltersProps {
   className?: string;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }
 
-export const JobFilters = ({ className }: JobFiltersProps) => {
+export const JobFilters = ({
+  className,
+  open,
+  onOpenChange,
+}: JobFiltersProps) => {
   // States
-  const [open, setOpen] = useState(false);
-  const [startDate, setStartDate] = useState<Date | undefined>(undefined);
-  const [endDate, setEndDate] = useState<Date | undefined>(undefined);
-  const [category, setCategory] = useState<string | undefined>(undefined);
-  const [tags, setTags] = useState<{ [key: string]: boolean }>({
+  const [startDate, setStartDate] = React.useState<Date | undefined>(undefined);
+  const [endDate, setEndDate] = React.useState<Date | undefined>(undefined);
+  const [category, setCategory] = React.useState<string | undefined>(undefined);
+  const [tags, setTags] = React.useState<{ [key: string]: boolean }>({
     Remote: false,
     "Full-time": false,
     "Part-time": false,
@@ -36,114 +39,117 @@ export const JobFilters = ({ className }: JobFiltersProps) => {
 
   const { jobCategories } = useJobCategories();
 
+  const handleOpenChange = (open: boolean) => {
+    onOpenChange?.(open);
+    Keyboard.dismiss();
+  };
+
   const closeDialog = () => {
-    setOpen(false);
+    onOpenChange?.(false);
+    Keyboard.dismiss();
   };
 
   const accordionTriggerClassName = "flex flex-row items-center";
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger className={className} asChild>
-        <StablePressable className="p-2">
-          <Icon name={Sparkles} size={28} />
-        </StablePressable>
-      </DialogTrigger>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
+      <DialogContent className={cn("w-[90vw]", className)}>
+        <View>
+          <Text variant={"large"}>Filters</Text>
+          <Text variant={"muted"} className="text-xs">
+            Apply filters to narrow down your search results.
+          </Text>
+        </View>
 
-      <DialogContent className="w-[80vw]" exit>
-        <Accordion type="single" collapsible>
-          {/* Date Range */}
-          <AccordionItem value="date">
-            <AccordionTrigger className={accordionTriggerClassName}>
-              <View className="w-[90%]">
-                <Text className="font-semibold">Date Range</Text>
-                <Text className="text-muted-foreground text-xs">
-                  Choose a start and end date to filter job postings.
-                </Text>
-              </View>
-            </AccordionTrigger>
-            <AccordionContent>
-              <View className="flex flex-col gap-2 items-center">
-                <View className="flex flex-row items-center justify-between w-full">
-                  <Text className="font-medium">Start</Text>
-                  <DateTimePicker
-                    value={startDate || new Date()}
-                    mode="date"
-                    onChange={(e, date) => setStartDate(date)}
-                  />
+        <View className="flex-1">
+          <Accordion type="single" collapsible>
+            {/* Date Range */}
+            <AccordionItem value="date">
+              <AccordionTrigger className={accordionTriggerClassName}>
+                <View className="w-[90%]">
+                  <Text className="font-semibold">Date Range</Text>
+                  <Text className="text-muted-foreground text-xs">
+                    Choose a start and end date to filter job postings.
+                  </Text>
                 </View>
-                <View className="flex flex-row items-center justify-between w-full">
-                  <Text className="font-medium">End</Text>
-                  <DateTimePicker
-                    value={endDate || new Date()}
-                    mode="date"
-                    onChange={(e, date) => setEndDate(date)}
-                  />
+              </AccordionTrigger>
+              <AccordionContent>
+                <View className="flex flex-col gap-2 items-center">
+                  <View className="flex flex-row items-center justify-between w-full">
+                    <Text className="font-medium">Start</Text>
+                    <DateTimePicker
+                      value={startDate || new Date()}
+                      mode="date"
+                      onChange={(e, date) => setStartDate(date)}
+                    />
+                  </View>
+                  <View className="flex flex-row items-center justify-between w-full">
+                    <Text className="font-medium">End</Text>
+                    <DateTimePicker
+                      value={endDate || new Date()}
+                      mode="date"
+                      onChange={(e, date) => setEndDate(date)}
+                    />
+                  </View>
                 </View>
-              </View>
-            </AccordionContent>
-          </AccordionItem>
+              </AccordionContent>
+            </AccordionItem>
 
-          {/* Category */}
-          <AccordionItem value="category">
-            <AccordionTrigger className={accordionTriggerClassName}>
-              <View className="w-[90%]">
-                <Text className="font-semibold">Category</Text>
-                <Text className="text-muted-foreground text-xs">
-                  Narrow down jobs based on their main category.
-                </Text>
-              </View>
-            </AccordionTrigger>
-            <AccordionContent>
-              <Select
-                title="Select a category to filter with"
-                value={category}
-                onSelect={(itemValue) => setCategory(itemValue)}
-                options={jobCategories.map((category) => ({
-                  label: category.label,
-                  value: category.id.toString(),
-                }))}
-              />
-            </AccordionContent>
-          </AccordionItem>
-
-          {/* Tags */}
-          <AccordionItem value="tags">
-            <AccordionTrigger className={accordionTriggerClassName}>
-              <View className="w-[90%]">
-                <Text className="font-semibold">Tags</Text>
-                <Text className="text-muted-foreground text-xs">
-                  Apply additional filters such as job type or work style.
-                </Text>
-              </View>
-            </AccordionTrigger>
-            <AccordionContent>
-              {Object.keys(tags).map((tag) => (
-                <View key={tag} className="flex-row items-center gap-2 mt-1">
-                  <Checkbox
-                    checked={tags[tag]}
-                    onCheckedChange={(newValue) =>
-                      setTags((prev) => ({ ...prev, [tag]: newValue }))
-                    }
-                  />
-                  <Text>{tag}</Text>
+            {/* Category */}
+            <AccordionItem value="category">
+              <AccordionTrigger className={accordionTriggerClassName}>
+                <View className="w-[90%]">
+                  <Text className="font-semibold">Category</Text>
+                  <Text className="text-muted-foreground text-xs">
+                    Narrow down jobs based on their main category.
+                  </Text>
                 </View>
-              ))}
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
+              </AccordionTrigger>
+              <AccordionContent>
+                <Select
+                  title="Select a category to filter with"
+                  value={category}
+                  onSelect={(itemValue) => setCategory(itemValue)}
+                  options={jobCategories.map((category) => ({
+                    label: category.label,
+                    value: category.id.toString(),
+                  }))}
+                />
+              </AccordionContent>
+            </AccordionItem>
+
+            {/* Tags */}
+            <AccordionItem value="tags">
+              <AccordionTrigger className={accordionTriggerClassName}>
+                <View className="w-[90%]">
+                  <Text className="font-semibold">Tags</Text>
+                  <Text className="text-muted-foreground text-xs">
+                    Apply additional filters such as job type or work style.
+                  </Text>
+                </View>
+              </AccordionTrigger>
+              <AccordionContent>
+                {Object.keys(tags).map((tag) => (
+                  <View key={tag} className="flex-row items-center gap-2 mt-1">
+                    <Checkbox
+                      checked={tags[tag]}
+                      onCheckedChange={(newValue) =>
+                        setTags((prev) => ({ ...prev, [tag]: newValue }))
+                      }
+                    />
+                    <Text>{tag}</Text>
+                  </View>
+                ))}
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </View>
 
         {/* Actions */}
         <View className="flex-row justify-between w-full gap-2 mt-4">
           <Button
             className="w-[49%]"
             onPress={() => {
-              console.log({
-                startDate,
-                endDate,
-                category,
-                tags,
-              });
               closeDialog();
             }}
           >

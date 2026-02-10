@@ -1,15 +1,16 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Image } from "expo-image";
-import { useLocalSearchParams, useNavigation } from "expo-router";
+import { router, useLocalSearchParams, useNavigation } from "expo-router";
 import { View } from "react-native";
 import { api } from "~/api";
 import { ProfileManagmentCard } from "~/components/explore/users/ProfileManagementCard";
 import { StableScrollView } from "~/components/shared/StableScrollView";
-import { Text } from "~/components/ui/text";
-import { createClientStore } from "~/hooks/stores/useClientStore";
-import { is } from "zod/v4/locales";
+import { createUserStore } from "~/hooks/stores/useUserStore";
 import { ProfileManagmentCardSkeleton } from "./ProfileManagmentCardSkeleton";
+import { Inbox } from "lucide-react-native";
+import { StablePressable } from "~/components/shared/StablePressable";
+import { Text } from "~/components/ui/text";
+import { Icon } from "~/components/ui/icon";
 
 interface UserProfileProps {
   className?: string;
@@ -17,9 +18,19 @@ interface UserProfileProps {
 
 export const UserProfile = ({ className }: UserProfileProps) => {
   const navigation = useNavigation();
+  const cards = [
+    {
+      title: "Open Jobs",
+      icon: Inbox,
+      description: "View all open jobs for this user",
+      onPress: () => {
+        router.push("/main/(tabs)");
+      },
+    },
+  ];
 
   const { id } = useLocalSearchParams();
-  const storeRef = React.useRef(createClientStore());
+  const storeRef = React.useRef(createUserStore());
   const clientStore = storeRef.current();
 
   const { data: userResp, isPending: isUserPending } = useQuery({
@@ -35,9 +46,9 @@ export const UserProfile = ({ className }: UserProfileProps) => {
   }, [userResp]);
 
   const { data: picture } = useQuery({
-    queryKey: ["picture", userResp?.profile?.pictureId],
-    queryFn: () => api.upload.getUploadById(userResp?.profile?.pictureId!),
-    enabled: !!userResp?.profile?.pictureId,
+    queryKey: ["picture", userResp?.pictureId],
+    queryFn: () => api.upload.getUploadById(userResp?.pictureId!),
+    enabled: !!userResp?.pictureId,
     staleTime: Infinity,
   });
 
@@ -72,24 +83,25 @@ export const UserProfile = ({ className }: UserProfileProps) => {
         ) : (
           <ProfileManagmentCard className="mt-5" clientStore={clientStore} />
         )}
-        <View className="flex flex-col gap-4 px-5">
-          <View>
-            <Text className="font-bold">Your Images</Text>
-            <View className="flex flex-row gap-4 my-2">
-              <Image
-                style={{ width: 96, height: 96, borderRadius: 4 }}
-                source={clientStore.picture}
-              />
-              <Image
-                style={{ width: 96, height: 96, borderRadius: 4 }}
-                source={clientStore.picture}
-              />
-              <Image
-                style={{ width: 96, height: 96, borderRadius: 4 }}
-                source={clientStore?.picture}
-              />
-            </View>
-          </View>
+        <View className="flex flex-col gap-4">
+          {cards.map((card) => (
+            <StablePressable
+              key={card.title}
+              className="border-b-2 border-border bg-muted"
+              onPressClassname="bg-secondary"
+              onPress={() => card.onPress()}
+            >
+              <View className="flex flex-row justify-between items-center p-4">
+                <View className="flex flex-col w-full flex-1">
+                  <Text className="text-lg font-semibold">{card.title}</Text>
+                  <Text className="text-xs text-muted-foreground">
+                    {card.description}
+                  </Text>
+                </View>
+                <Icon as={card.icon} size={28} />
+              </View>
+            </StablePressable>
+          ))}
         </View>
       </View>
     </StableScrollView>

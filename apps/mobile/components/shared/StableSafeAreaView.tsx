@@ -1,19 +1,36 @@
-import { SafeAreaView as NativeSafeAreaView, Platform } from "react-native";
+import React from "react";
+import { Platform, StatusBar, ViewProps } from "react-native";
 import {
   SafeAreaView,
-  SafeAreaViewProps,
+  useSafeAreaInsets,
 } from "react-native-safe-area-context";
+import { cn } from "~/lib/utils";
 
-interface StableSafeAreaViewProps extends SafeAreaViewProps {
+interface StableSafeAreaViewProps extends ViewProps {
   children: React.ReactNode;
 }
 
-export const StableSafeAreaView = ({
+export const StableSafeAreaView: React.FC<StableSafeAreaViewProps> = ({
+  className,
   children,
+  style,
   ...props
-}: StableSafeAreaViewProps) => {
-  if (Platform.OS === "android")
-    return <SafeAreaView {...props}>{children}</SafeAreaView>;
+}) => {
+  const insets = useSafeAreaInsets();
 
-  return <NativeSafeAreaView {...props}>{children}</NativeSafeAreaView>;
+  const paddingTop =
+    Platform.OS === "android"
+      ? (StatusBar.currentHeight ?? 0) + insets.top
+      : insets.top;
+
+  return (
+    <SafeAreaView
+      edges={["left", "right"]}
+      style={[{ flex: 1, paddingTop }, style]}
+      className={cn(className)}
+      {...props}
+    >
+      {children}
+    </SafeAreaView>
+  );
 };

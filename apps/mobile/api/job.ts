@@ -1,5 +1,11 @@
 import axios from "./axios";
-import { CreateJobDto, Paginated, QueryParams, ResponseJobDto } from "~/types";
+import {
+  CreateJobDto,
+  Paginated,
+  QueryParams,
+  ResponseJobDto,
+  ResponseJobMetadataDto,
+} from "~/types";
 
 const findPaginated = async ({
   page = "1",
@@ -26,13 +32,50 @@ const findPaginated = async ({
   return response.data;
 };
 
+const findFollowedPaginated = async ({
+  page = "1",
+  limit = "5",
+  sort,
+  search = "",
+  filter = "",
+  join = "",
+}: QueryParams): Promise<Paginated<ResponseJobDto>> => {
+  const params: { [key: string]: any } = {
+    page,
+    limit,
+    sort,
+  };
+
+  if (search) params.search = search;
+  if (filter) params.filter = filter;
+  if (join) params.join = join;
+
+  const response = await axios.get<Paginated<ResponseJobDto>>(
+    `/job/list-followed`,
+    {
+      params,
+    }
+  );
+
+  return response.data;
+};
+
 const findAll = async (): Promise<ResponseJobDto[]> => {
   const response = await axios.get<ResponseJobDto[]>(`/job/all`);
   return response.data;
 };
 
-const findById = async (jobId: string): Promise<ResponseJobDto> => {
-  const response = await axios.get<ResponseJobDto>(`/job/${jobId}`);
+const findById = async (id: string): Promise<ResponseJobDto> => {
+  const response = await axios.get<ResponseJobDto>(`/job/${id}`);
+  return response.data;
+};
+
+const findMetadataById = async (
+  id: string
+): Promise<ResponseJobMetadataDto> => {
+  const response = await axios.get<ResponseJobMetadataDto>(
+    `/job/${id}/metadata`
+  );
   return response.data;
 };
 
@@ -43,6 +86,8 @@ const create = async (createJobDto: CreateJobDto): Promise<CreateJobDto> => {
 
 export const job = {
   findPaginated,
+  findFollowedPaginated,
+  findMetadataById,
   findAll,
   findById,
   create,
