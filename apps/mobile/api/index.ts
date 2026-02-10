@@ -14,6 +14,9 @@ import { chat } from "./chat";
 import { jobSave } from "./job-save";
 import { jobView } from "./job-view";
 import { notifications } from "./notifications";
+import { education } from "./education";
+import { experience } from "./experience";
+import { refImpl } from "./ref-impl";
 
 export const api = {
   auth,
@@ -32,4 +35,7 @@ export const api = {
   store,
   chat,
   notifications,
+  education,
+  experience,
+  refImpl,
 };

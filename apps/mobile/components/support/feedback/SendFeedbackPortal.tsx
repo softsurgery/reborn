@@ -3,7 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { api } from "~/api";
 import { useSendFeedbackStore } from "~/hooks/stores/useFeedbackManager";
 import { View } from "react-native";
-import { MailCheck } from "lucide-react-native";
+import { ArrowLeft, MailCheck } from "lucide-react-native";
 import { Text } from "~/components/ui/text";
 import { createFeedbackSchema } from "~/types/validations/system-reports.validation";
 import { Button } from "~/components/ui/button";
@@ -14,12 +14,16 @@ import { showToastable } from "react-native-toastable";
 import { StableKeyboardAwareScrollView } from "~/components/shared/StableKeyboardAwareScrollView";
 import { Icon } from "~/components/ui/icon";
 import { router } from "expo-router";
+import { StableSafeAreaView } from "~/components/shared/StableSafeAreaView";
+import { useTranslation } from "react-i18next";
+import { ApplicationHeader } from "~/components/shared/AppHeader";
 
 interface SendFeedbackPortalProps {
   className?: string;
 }
 
 export const SendFeedbackPortal = ({ className }: SendFeedbackPortalProps) => {
+  const { t } = useTranslation("common");
   React.useEffect(() => {
     return () => {
       sendFeedbackStore.reset();
@@ -59,34 +63,46 @@ export const SendFeedbackPortal = ({ className }: SendFeedbackPortalProps) => {
     }
   };
 
-  const [rating, setRating] = React.useState(0);
-
   return (
-    <StableKeyboardAwareScrollView>
-      <View className={cn("flex flex-col my-4 gap-2 mx-4", className)}>
-        {/* Header Section */}
-        <View className="mx-auto ">
-          <Icon as={MailCheck} />
-        </View>
-        <View>
-          <Text className="font-extrabold text-lg">
-            We'd love your feedback!
-          </Text>
-          <Text className="font-thin mt-1 text-sm">
-            Please share your thoughts and help us improve.
-          </Text>
-        </View>
+    <StableSafeAreaView className={cn("flex flex-1", className)}>
+      <ApplicationHeader
+        title={t("screens.sendFeedback")}
+        titleVariant="large"
+        reverse
+        shortcuts={[
+          {
+            key: "user-preferences",
+            icon: ArrowLeft,
+            onPress: () => router.back(),
+          },
+        ]}
+      />
+      <StableKeyboardAwareScrollView>
+        <View className={cn("flex flex-col my-4 gap-2 mx-4", className)}>
+          {/* Header Section */}
+          <View className="mx-auto ">
+            <Icon as={MailCheck} size={24} />
+          </View>
+          <View>
+            <Text className="font-extrabold text-base">
+              We'd love your feedback!
+            </Text>
+            <Text className="font-thin mt-2 text-sm">
+              Please share your thoughts and help us improve.
+            </Text>
+          </View>
 
-        <FormBuilder structure={feedbackFormStructure} />
+          <FormBuilder structure={feedbackFormStructure} />
 
-        <Button
-          disabled={isSendFeedbackPending}
-          className="w-full"
-          onPress={handleSubmit}
-        >
-          <Text>{isSendFeedbackPending ? "Sending..." : "Send"}</Text>
-        </Button>
-      </View>
-    </StableKeyboardAwareScrollView>
+          <Button
+            disabled={isSendFeedbackPending}
+            className="w-full"
+            onPress={handleSubmit}
+          >
+            <Text>{isSendFeedbackPending ? "Sending..." : "Send"}</Text>
+          </Button>
+        </View>
+      </StableKeyboardAwareScrollView>
+    </StableSafeAreaView>
   );
 };

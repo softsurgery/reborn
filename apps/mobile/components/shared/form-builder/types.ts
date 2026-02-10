@@ -1,5 +1,3 @@
-// import { CheckedState } from "@radix-ui/react-checkbox";
-
 export interface FormStructure {
   title: string;
   description?: string;
@@ -63,7 +61,6 @@ export interface TextareaFieldProps {
   value?: string;
   onChangeText?: (text: string) => void;
   editable?: boolean;
-  cols?: number;
   rows?: number;
 }
 

@@ -14,7 +14,7 @@ const findById = async (id: string): Promise<ResponseUserDto> => {
 const updateCurrent = async (
   updateClientDto: UpdateUserDto,
 ): Promise<ResponseUserDto> => {
-  const response = await axios.put(`/admin/user`, updateClientDto);
+  const response = await axios.put(`/admin/user/current`, updateClientDto);
   return response.data;
 };
 

@@ -10,7 +10,7 @@ import {
   TextareaFieldProps,
   TextFieldProps,
 } from "~/components/shared/form-builder/types";
-import { UserStore } from "~/hooks/stores/useClientStore";
+import { UserStore } from "~/hooks/stores/useUserStore";
 import { useUploadMutation } from "~/hooks/content/useUploadMutation";
 import { Gender } from "~/types";
 

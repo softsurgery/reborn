@@ -6,6 +6,13 @@
     "explore": "Explore",
     "chat": "Chat",
     "balance": "Balance",
+    "userPreferences": "User Preferences",
+    "reportBug": "Report a Bug",
+    "faqs": "FAQs",
+    "sendFeedback": "Send Feedback",
+    "experience": "Experience",
+    "education": "Education",
+    "settings": "Settings",
     "menu": "Menu"
   },
   "auth": {

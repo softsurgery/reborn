@@ -14,6 +14,7 @@ import { useTranslation } from "react-i18next";
 import { useColorScheme } from "nativewind";
 import { NAV_THEME } from "~/lib/theme";
 import { useRTL } from "~/hooks/useRTL";
+import { Pressable } from "react-native";
 
 export default function TabLayout() {
   const { colorScheme } = useColorScheme();
@@ -32,13 +33,12 @@ export default function TabLayout() {
   const VibratingTabButton = (props: any) => {
     const { onPress, children } = props;
     return (
-      <Button
-        variant="none"
-        className="flex-1 items-center justify-center mt-2"
+      <Pressable
+        className="flex flex-col justify-center items-center mt-2 gap-1"
         onPress={withHaptic(onPress)}
       >
         {children}
-      </Button>
+      </Pressable>
     );
   };
 
@@ -135,7 +135,6 @@ export default function TabLayout() {
             tabBarLabelStyle: {
               fontFamily: "Poppins-SemiBold",
               fontSize: 9,
-              marginTop: 4,
             },
           }}
         />

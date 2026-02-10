@@ -10,8 +10,6 @@ import {
   Settings,
   User,
 } from "lucide-react-native";
-import { PlanInfo } from "./Plan";
-import { GoPremium } from "./GoPremium";
 import { Separator } from "../ui/separator";
 import { MenuItem } from "./MenuItem";
 import { useAuthPersistStore } from "~/hooks/stores/useAuthPersistStore";
@@ -43,8 +41,9 @@ export const Account = ({ className }: AccountProps) => {
   };
 
   const menus = {
-    "app-settings": {
-      title: "App Settings",
+    appSettings: {
+      key: "app-settings",
+      title: undefined,
       submenus: [
         {
           title: "Account",
@@ -52,14 +51,15 @@ export const Account = ({ className }: AccountProps) => {
           onPress: () => router.navigate("/main/account/managment", {}),
         },
         {
-          title: "User Preferences",
+          title: "Settings",
           icon: Settings,
-          onPress: () => router.navigate("/main/account/user-preferences", {}),
+          onPress: () => router.navigate("/main/settings", {}),
         },
         { title: "Notifications", icon: Bell, onPress: () => {} },
       ],
     },
     support: {
+      key: "support",
       title: "Support",
       submenus: [
         {
@@ -81,10 +81,10 @@ export const Account = ({ className }: AccountProps) => {
         },
       ],
     },
-    "account-actions": {
-      title: "Account Actions",
+    actions: {
+      key: "actions",
+      title: "Actions",
       submenus: [
-        { title: "Switch Account", icon: LogOut, onPress: signout },
         {
           title: "Try Anything",
           icon: FlaskConical,
@@ -114,23 +114,26 @@ export const Account = ({ className }: AccountProps) => {
         ]}
       />
 
-      <PlanInfo className="my-2" />
-      <GoPremium className="my-3" />
-
-      <StableScrollView className="flex flex-col gap-5">
+      <StableScrollView className="flex flex-col gap-6 px-2 py-4">
         {Object.values(menus).map((section) => (
-          <View key={section.title}>
-            <Text variant={"h3"}>{section.title}</Text>
-            <View className="flex flex-col mt-2">
+          <View key={section.key}>
+            {section.title ? (
+              <Text variant={"h3"} className="mb-5 px-1">
+                {section.title}
+              </Text>
+            ) : null}
+            <View className="flex flex-col bg-card rounded-xl overflow-hidden border border-border/50 mb-4">
               {section.submenus.map((item, index) => (
-                <View key={item.title}>
+                <React.Fragment key={item.title}>
                   <MenuItem
                     title={item.title}
                     icon={item.icon}
                     onPress={item.onPress}
                   />
-                  {index < section.submenus.length - 1 && <Separator />}
-                </View>
+                  {index < section.submenus.length - 1 && (
+                    <Separator className="mx-4" />
+                  )}
+                </React.Fragment>
               ))}
             </View>
           </View>

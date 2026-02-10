@@ -16,7 +16,7 @@ import {
 import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
 import { Button } from "~/components/ui/button";
 import { useQueryClient } from "@tanstack/react-query";
-import { ClientStore } from "~/hooks/stores/useClientStore";
+import { UserStore } from "~/hooks/stores/useUserStore";
 import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
 import { showToastable } from "react-native-toastable";
 import { Mail, UserPlus } from "lucide-react-native";
@@ -27,7 +27,7 @@ import { Icon } from "~/components/ui/icon";
 
 interface ProfileManagmentCardProps {
   className?: string;
-  clientStore: ClientStore;
+  clientStore: UserStore;
 }
 
 export const ProfileManagmentCard = ({
@@ -89,12 +89,12 @@ export const ProfileManagmentCard = ({
 
   const identity = React.useMemo(
     () => identifyUser(clientStore?.response),
-    [clientStore?.response]
+    [clientStore?.response],
   );
 
   const fallback = React.useMemo(
     () => identifyUserAvatar(clientStore?.response),
-    [clientStore?.response]
+    [clientStore?.response],
   );
 
   return (
@@ -120,7 +120,7 @@ export const ProfileManagmentCard = ({
         </View>
       </CardHeader>
       <CardContent className="w-full">
-        <Text variant={"small"}>{clientStore?.response?.profile?.bio}</Text>
+        <Text variant={"small"}>{clientStore?.response?.bio}</Text>
       </CardContent>
       {!isCurrentUser && (
         <CardFooter>

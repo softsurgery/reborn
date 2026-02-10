@@ -6,6 +6,13 @@
     "explore": "الاستكشاف",
     "chat": "الدردشة",
     "balance": "الرصيد",
+    "userPreferences": "تفضيلات المستخدم",
+    "reportBug": "الإبلاغ عن خطأ",
+    "faqs": "الأسئلة الشائعة",
+    "sendFeedback": "إرسال الملاحظات",
+    "experience": "الخبرة",
+    "education": "التعليم",
+    "settings": "الإعدادات",
     "menu": "القائمة"
   },
   "auth": {

@@ -9,7 +9,7 @@ export const useRegions = (enabled?: boolean) => {
     refetch: refetchRegions,
   } = useQuery({
     queryKey: ["regions"],
-    queryFn: () => api._public.region.findAll(),
+    queryFn: () => api.refImpl.findAllRegions(),
     enabled,
   });
 
