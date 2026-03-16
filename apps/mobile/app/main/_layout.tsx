@@ -2,15 +2,16 @@ import React from "react";
 import { Stack } from "expo-router";
 import { NAV_THEME } from "~/lib/theme";
 import { useColorScheme } from "nativewind";
+import { useCheckHealth } from "~/hooks/content/useCheckHealth";
+import { useAuthPersistStore } from "~/hooks/stores/useAuthPersistStore";
 
 export default function MainLayout() {
+  const authPersistStore = useAuthPersistStore();
   const { colorScheme } = useColorScheme();
-
   const isDarkColorScheme = colorScheme === "dark";
-
-  const [scenes, setScenes] = React.useState<{
-    [key: string]: any;
-  }>({});
+  useCheckHealth({
+    enabled: authPersistStore.isAuthenticated,
+  });
 
   return (
     <Stack>
