@@ -119,12 +119,8 @@ export const Explore = ({ className }: ExploreProps) => {
             tabBarStyle: { backgroundColor: "transparent" },
           }}
         >
-          <Tab.Screen
-            name="Recent"
-            options={{
-              tabBarLabel: "Recent",
-            }}
-            component={() => (
+          <Tab.Screen name="Recent" options={{ tabBarLabel: "Recent" }}>
+            {() => (
               <ExploreCommon
                 className="p-2"
                 search={debouncedSearchTerm}
@@ -132,14 +128,10 @@ export const Explore = ({ className }: ExploreProps) => {
                 setShowHeader={handleHeaderVisibility}
               />
             )}
-          />
+          </Tab.Screen>
 
-          <Tab.Screen
-            name="Followings"
-            options={{
-              tabBarLabel: "Followings",
-            }}
-            component={() => (
+          <Tab.Screen name="Followings" options={{ tabBarLabel: "Followings" }}>
+            {() => (
               <ExploreFollowing
                 className="p-2"
                 search={debouncedSearchTerm}
@@ -147,7 +139,7 @@ export const Explore = ({ className }: ExploreProps) => {
                 setShowHeader={handleHeaderVisibility}
               />
             )}
-          />
+          </Tab.Screen>
         </Tab.Navigator>
       </View>
       <JobFilters
