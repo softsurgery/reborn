@@ -6,6 +6,10 @@ import { RefreshControl, View } from "react-native";
 import { Text } from "~/components/ui/text";
 import { useInfiniteSavedJobs } from "~/hooks/content/job/useInfiniteSavedJobs";
 import { JobCard } from "../../jobs/JobCard";
+import { StableSafeAreaView } from "~/components/shared/StableSafeAreaView";
+import { ApplicationHeader } from "~/components/shared/AppHeader";
+import { ArrowLeft } from "lucide-react-native";
+import { router } from "expo-router";
 
 interface SavedListProps {
   className?: string;
@@ -30,7 +34,7 @@ export const SavedList = ({ className, search, searching }: SavedListProps) => {
     ({ item }: { item: ResponseJobSaveDto }) => {
       if (item.job) return <JobCard className="mt-4" job={item.job} />;
     },
-    []
+    [],
   );
 
   const [dragging, setDragging] = React.useState(false);
@@ -39,55 +43,68 @@ export const SavedList = ({ className, search, searching }: SavedListProps) => {
   //   variant === "incoming" ? IncomingRequestSkeleton : OutgoingRequestSkeleton;
 
   return (
-    <LegendList
-      className={cn("flex-1", className)}
-      data={isPending ? [] : savedJobs}
-      renderItem={renderItem}
-      keyExtractor={(item) => item.id.toString()}
-      showsVerticalScrollIndicator={false}
-      recycleItems={true}
-      maintainVisibleContentPosition
-      onScrollBeginDrag={() => setDragging(true)}
-      onScrollEndDrag={() => setDragging(false)}
-      refreshControl={
-        <RefreshControl
-          refreshing={isRefetching}
-          onRefresh={refetchSavedJobs}
-          tintColor="transparent"
-          colors={["transparent"]}
-        />
-      }
-      onEndReached={() => {
-        if (hasNextPage && !isFetchingNextPage) {
-          fetchNextPage();
+    <StableSafeAreaView className={cn("flex-1", className)}>
+      <ApplicationHeader
+        title="Saved"
+        titleVariant="large"
+        reverse
+        shortcuts={[
+          {
+            icon: ArrowLeft,
+            onPress: () => router.back(),
+          },
+        ]}
+      />
+      <LegendList
+        className={cn("flex-1", className)}
+        data={isPending ? [] : savedJobs}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id.toString()}
+        showsVerticalScrollIndicator={false}
+        recycleItems={true}
+        maintainVisibleContentPosition
+        onScrollBeginDrag={() => setDragging(true)}
+        onScrollEndDrag={() => setDragging(false)}
+        refreshControl={
+          <RefreshControl
+            refreshing={isRefetching}
+            onRefresh={refetchSavedJobs}
+            tintColor="transparent"
+            colors={["transparent"]}
+          />
         }
-      }}
-      onEndReachedThreshold={0.5}
-      ListHeaderComponent={isPending ? null : <View />}
-      ListEmptyComponent={
-        !isPending ? (
-          <View className="p-6 items-center">
-            <Text className="text-muted-foreground">
-              You haven't saved any jobs yet
-            </Text>
-          </View>
-        ) : null
-      }
-      ListFooterComponent={
-        <View className="items-center w-full">
-          {isPending ? (
-            <View className="w-full">
-              {[...Array(3)].map(
-                (_, idx) =>
-                  // <SkeletonComponent key={idx} className="mt-4" />
-                  null
-              )}
+        onEndReached={() => {
+          if (hasNextPage && !isFetchingNextPage) {
+            fetchNextPage();
+          }
+        }}
+        onEndReachedThreshold={0.5}
+        ListHeaderComponent={isPending ? null : <View />}
+        ListEmptyComponent={
+          !isPending ? (
+            <View className="p-6 items-center">
+              <Text className="text-muted-foreground">
+                You haven't saved any jobs yet
+              </Text>
             </View>
-          ) : hasNextPage ? null : (
-            <View className="flex flex-row items-center justify-center gap-2 p-6"></View>
-          )}
-        </View>
-      }
-    />
+          ) : null
+        }
+        ListFooterComponent={
+          <View className="items-center w-full">
+            {isPending ? (
+              <View className="w-full">
+                {[...Array(3)].map(
+                  (_, idx) =>
+                    // <SkeletonComponent key={idx} className="mt-4" />
+                    null,
+                )}
+              </View>
+            ) : hasNextPage ? null : (
+              <View className="flex flex-row items-center justify-center gap-2 p-6"></View>
+            )}
+          </View>
+        }
+      />
+    </StableSafeAreaView>
   );
 };

@@ -1,11 +1,14 @@
 import React from "react";
 import { View } from "react-native";
 import { cn } from "~/lib/utils";
-import { ArrowDown, ArrowUp, LucideIcon } from "lucide-react-native";
+import { ArrowDown, ArrowLeft, ArrowUp, LucideIcon } from "lucide-react-native";
 import { StablePressable } from "~/components/shared/StablePressable";
 import { Text } from "~/components/ui/text";
 import { RequestsList } from "./RequestList";
 import { Icon } from "~/components/ui/icon";
+import { StableSafeAreaView } from "~/components/shared/StableSafeAreaView";
+import { router } from "expo-router";
+import { ApplicationHeader } from "~/components/shared/AppHeader";
 
 type TabType = "incoming" | "outgoing";
 
@@ -29,7 +32,7 @@ export const Requests = ({
       setTab(newTab);
       onTabChange?.(newTab);
     },
-    [onTabChange]
+    [onTabChange],
   );
 
   // Memoized tab button renderer
@@ -40,14 +43,14 @@ export const Requests = ({
         onPress={() => handleTabChange(tabKey)}
         className={cn(
           "h-12 flex-1 flex items-center justify-center",
-          tab === tabKey ? "border-b-2 border-b-primary" : ""
+          tab === tabKey ? "border-b-2 border-b-primary" : "",
         )}
       >
         <View className="flex flex-row items-center gap-2">
           <Text
             className={cn(
               "font-medium",
-              tab === tabKey ? "text-primary" : "text-muted-foreground"
+              tab === tabKey ? "text-primary" : "text-muted-foreground",
             )}
           >
             {label}
@@ -57,16 +60,27 @@ export const Requests = ({
             size={20}
             className={cn(
               "font-medium",
-              tab === tabKey ? "text-primary" : "text-muted-foreground"
+              tab === tabKey ? "text-primary" : "text-muted-foreground",
             )}
           />
         </View>
       </StablePressable>
     ),
-    [tab, handleTabChange]
+    [tab, handleTabChange],
   );
   return (
-    <View className={cn("flex flex-1", className)}>
+    <StableSafeAreaView className={cn("flex-1", className)}>
+      <ApplicationHeader
+        title={"Requests"}
+        titleVariant="large"
+        reverse
+        shortcuts={[
+          {
+            icon: ArrowLeft,
+            onPress: () => router.back(),
+          },
+        ]}
+      />
       <View className="flex flex-row border-b border-border">
         {renderTabButton("incoming", "Incoming", ArrowDown)}
         {renderTabButton("outgoing", "Outgoing", ArrowUp)}
@@ -78,6 +92,6 @@ export const Requests = ({
           variant={tab as "incoming" | "outgoing"}
         />
       </View>
-    </View>
+    </StableSafeAreaView>
   );
 };

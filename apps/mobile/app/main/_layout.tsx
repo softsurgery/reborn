@@ -193,16 +193,16 @@ export default function MainLayout() {
       <Stack.Screen
         name="my-space/requests"
         options={{
-          title: "",
-          headerTitle: "Requests",
+          title: "Requests",
+          headerShown: false,
           animation: "slide_from_right",
         }}
       />
       <Stack.Screen
         name="my-space/saved"
         options={{
-          title: "",
-          headerTitle: "Saved",
+          title: "saved",
+          headerShown: false,
           animation: "slide_from_right",
         }}
       />
