@@ -60,15 +60,15 @@ export const ExploreCommon = ({
 
   const renderItem = React.useCallback(
     ({ item }: { item: ResponseJobDto }) => (
-      <JobCard job={item} className="mb-4" />
+      <JobCard job={item} className="my-2" />
     ),
-    []
+    [],
   );
 
   const [dragging, setDragging] = React.useState(false);
   const { value: debouncedDragging, loading: isDragging } = useDebounce(
     dragging,
-    1000
+    1000,
   );
 
   // Track scroll direction
