@@ -4,24 +4,20 @@ import { useQueryClient } from "@tanstack/react-query";
 import { router } from "expo-router";
 import { ArrowLeft, ChevronRight, LogOut, Trash2 } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
-
 import { cn } from "~/lib/utils";
 import { useAuthPersistStore } from "~/hooks/stores/useAuthPersistStore";
 import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
 import { identifyUser } from "~/lib/user.utils";
-
 import { ApplicationHeader } from "../shared/AppHeader";
 import { StableSafeAreaView } from "../shared/StableSafeAreaView";
 import { StableScrollView } from "../shared/StableScrollView";
 import { ThemeToggle } from "../ThemeToggle";
 import { LanguageSwitcher } from "../user-preferences/LanguageSwitcher";
-
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Icon } from "../ui/icon";
 import { Separator } from "../ui/separator";
 import { Text } from "../ui/text";
-
 import { createSettingRow, SettingRow } from "./SettingsRow";
 import type { SettingRowConfig } from "./SettingsRow";
 
@@ -78,17 +74,7 @@ export const SettingsPortal = ({ className }: SettingsPortalProps) => {
       rows: [
         createSettingRow({
           className: "p-1 px-4",
-          Component: () => (
-            <View className="flex flex-col justify-between gap-4">
-              <View>
-                <Text className="font-semibold text-base">Language</Text>
-                <Text className="text-xs text-muted-foreground">
-                  Set your preferred language
-                </Text>
-              </View>
-              <LanguageSwitcher />
-            </View>
-          ),
+          Component: () => <LanguageSwitcher />,
         }),
         createSettingRow({
           title: "Appearance",
