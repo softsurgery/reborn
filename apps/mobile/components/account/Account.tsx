@@ -46,7 +46,7 @@ export const Account = ({ className }: AccountProps) => {
       title: undefined,
       submenus: [
         {
-          title: "Account",
+          title: "Profile",
           icon: User,
           onPress: () => router.navigate("/main/account/managment", {}),
         },
@@ -55,7 +55,6 @@ export const Account = ({ className }: AccountProps) => {
           icon: Settings,
           onPress: () => router.navigate("/main/settings", {}),
         },
-        { title: "Notifications", icon: Bell, onPress: () => {} },
       ],
     },
     support: {
