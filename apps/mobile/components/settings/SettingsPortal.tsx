@@ -74,7 +74,19 @@ export const SettingsPortal = ({ className }: SettingsPortalProps) => {
       rows: [
         createSettingRow({
           className: "p-1 px-4",
-          Component: () => <LanguageSwitcher />,
+          Component: () => (
+            <View
+              className={cn("flex flex-col justify-between gap-4", className)}
+            >
+              <View>
+                <Text className="font-semibold text-base">Language</Text>
+                <Text className="text-xs text-muted-foreground">
+                  Set your preferred language
+                </Text>
+              </View>
+              <LanguageSwitcher />
+            </View>
+          ),
         }),
         createSettingRow({
           title: "Appearance",

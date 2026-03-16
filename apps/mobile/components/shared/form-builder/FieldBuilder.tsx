@@ -2,9 +2,9 @@ import React from "react";
 import { View, TouchableOpacity } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { Field, FieldVariant } from "~/components/shared/form-builder/types";
-import Select from "../Select";
+import Select from "./Select";
 import { Checkbox } from "~/components/ui/checkbox";
-import { DatePicker } from "~/components/ui/date-picker";
+import { DatePicker } from "./DatePicker2";
 import { Textarea } from "~/components/ui/textarea";
 import { Input } from "~/components/ui/input";
 import StarRating from "react-native-star-rating-widget";
@@ -86,8 +86,8 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
         <DatePicker
           {...field?.props}
           className={cn(field?.error && "border border-red-500 rounded-md")}
-          date={field?.props?.value}
-          onChange={(date) => field?.props?.onDateChange?.(date)}
+          value={field?.props?.value}
+          onDateChange={(date) => field?.props?.onDateChange?.(date)}
           disabled={field?.props?.editable}
         />
       );

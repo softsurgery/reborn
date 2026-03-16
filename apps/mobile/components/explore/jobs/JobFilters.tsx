@@ -4,7 +4,7 @@ import { Button } from "../../ui/button";
 import { Keyboard, View } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Checkbox } from "~/components/ui/checkbox";
-import Select from "~/components/shared/Select";
+import Select from "~/components/shared/form-builder/Select";
 import { Text } from "~/components/ui/text";
 import {
   Accordion,
