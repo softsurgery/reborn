@@ -1,20 +1,24 @@
-import React from "react";
-import { RefreshControl, View } from "react-native";
-import { Text } from "../ui/text";
 import { LegendList } from "@legendapp/list";
-import { cn } from "~/lib/utils";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { api } from "~/api";
-import { ResponseNotificationDto } from "~/types/notifications";
-import { NotificationEntry } from "./NotificationEntry";
-import { Loader } from "../shared/Loader";
-import { ApplicationHeader } from "../shared/AppHeader";
-import { ArrowLeft } from "lucide-react-native";
 import { router } from "expo-router";
-import { StableScrollView } from "../shared/StableScrollView";
+import { ArrowLeft } from "lucide-react-native";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { ActivityIndicator, RefreshControl, View } from "react-native";
+import { api } from "~/api";
+import { cn } from "~/lib/utils";
+import { ResponseNotificationDto } from "~/types/notifications";
+import { ApplicationHeader } from "../shared/AppHeader";
 import { StableSafeAreaView } from "../shared/StableSafeAreaView";
+import { Text } from "../ui/text";
+import { NotificationEntry } from "./NotificationEntry";
 
-export const NotificationsPortal = () => {
+interface NotificationPortalProps {
+  className?: string;
+}
+
+export const NotificationsPortal = ({ className }: NotificationPortalProps) => {
+  const { t } = useTranslation("common");
   const {
     data,
     fetchNextPage,
@@ -45,33 +49,31 @@ export const NotificationsPortal = () => {
   const renderItem = React.useCallback(
     ({ item }: { item: ResponseNotificationDto }) => {
       return (
-        <NotificationEntry
-          className="flex flex-col gap-4 py-2"
-          key={item.id}
-          notification={item}
-        />
+        <NotificationEntry className="" key={item.id} notification={item} />
       );
     },
-    []
+    [],
   );
   return (
-    <StableSafeAreaView className={cn("flex-1 bg-card")}>
+    <StableSafeAreaView className={cn("flex flex-1 bg-card", className)}>
       <ApplicationHeader
-        title={"Notifications"}
+        className="border-b border-border pb-2"
+        title={t("screens.notifications")}
         titleVariant="large"
         reverse
         shortcuts={[
           {
             key: "back",
             icon: ArrowLeft,
-            onPress: () => router.back(),
+            onPress: () => {
+              router.back();
+            },
           },
         ]}
-        className="border-b border-border pb-2 bg-transparent"
       />
-      <StableScrollView className="bg-background px-2 pt-4">
+      <View className="flex-1 bg-background">
         <LegendList
-          className={cn("flex-1")}
+          className={cn("flex-1 py-4")}
           data={notifications}
           renderItem={renderItem}
           keyExtractor={(item) => item.id.toString()}
@@ -93,25 +95,29 @@ export const NotificationsPortal = () => {
           }}
           onEndReachedThreshold={0.5}
           ListHeaderComponent={
-            <Loader
-              isPending={isNotificationsPending || isFetchingNextPage}
-              size="small"
-              className="flex items-center h-fit"
-            />
+            isNotificationsPending || isFetchingNextPage ? (
+              <ActivityIndicator
+                size="small"
+                className="flex items-center h-fit"
+              />
+            ) : null
           }
           ListEmptyComponent={
             !isPending ? (
               <View className="p-6 items-center">
                 <Text className="text-muted-foreground">
-                  No conversations available
+                  No Notification available
                 </Text>
               </View>
             ) : null
           }
           ListFooterComponent={
-            <View className="items-center mb-8">
+            <View className="items-center">
               {isPending ? (
-                <Loader />
+                <ActivityIndicator
+                  size="small"
+                  className="flex items-center h-fit"
+                />
               ) : hasNextPage ? null : (
                 <View className="flex flex-row items-center justify-center gap-2 p-6">
                   <Text variant={"p"} className="text-muted-foreground">
@@ -122,7 +128,7 @@ export const NotificationsPortal = () => {
             </View>
           }
         />
-      </StableScrollView>
+      </View>
     </StableSafeAreaView>
   );
 };

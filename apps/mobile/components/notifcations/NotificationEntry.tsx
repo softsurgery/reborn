@@ -1,15 +1,11 @@
-import {
-  NotificationType,
-  ResponseNotificationDto,
-} from "~/types/notifications";
-import { Text } from "../ui/text";
 import { useTranslation } from "react-i18next";
-import { timeAgo } from "~/lib/dates.utils";
+import { Image, View } from "react-native";
 import { cn } from "~/lib/utils";
+import { ResponseNotificationDto } from "~/types/notifications";
 import { HTMLText } from "../shared/HTMLText";
-import { router } from "expo-router";
 import { StablePressable } from "../shared/StablePressable";
-import { useRTL } from "~/hooks/useRTL";
+import { Text } from "../ui/text";
+import { timeAgo } from "~/lib/dates.utils";
 
 interface NotificationEntryProps {
   className?: string;
@@ -21,43 +17,33 @@ export const NotificationEntry = ({
   notification,
 }: NotificationEntryProps) => {
   const { t } = useTranslation("notifications");
-  const isRTL = useRTL();
   const onPress = () => {
     switch (notification.type) {
-      case NotificationType.NEW_JOB_REQUEST:
-        router.push({
-          pathname: "/main/my-space/requests",
-        });
-        break;
-      case NotificationType.JOB_REQUEST_APPROVED:
-        router.push({
-          pathname: "/main/explore/job-details",
-          params: { id: notification.payload.id },
-        });
-        break;
-      case NotificationType.JOB_REQUEST_REJECTED:
-        router.push({
-          pathname: "/main/explore/job-details",
-          params: { id: notification.payload.id },
-        });
-        break;
     }
   };
   return (
     <StablePressable
-      className={cn("flex flex-col px-2 py-1", className)}
+      className={cn("flex flex-row items-center gap-2 px-2 py-1", className)}
       onPress={onPress}
     >
-      <HTMLText variant={"large"}>{t(`titles.${notification.type}`)}</HTMLText>
-      <HTMLText variant="muted" className="-mt-2 text-right">
-        {t(
-          `descriptions.${notification.type}`,
-          notification.payload
-        ).toString()}
-      </HTMLText>
-      <Text variant={"muted"} className="ml-auto -mt-4">
-        {timeAgo(notification.createdAt)}
-      </Text>
+      <Image
+        className="w-16 h-16 rounded-full"
+        source={require("~/assets/images/icon.png")}
+      />
+      <View className="flex flex-col gap-2 px-2 py-1 flex-1">
+        <HTMLText variant={"large"}>
+          {t(`titles.${notification.type}`)}
+        </HTMLText>
+        <HTMLText variant="muted" className="-mt-2">
+          {t(
+            `descriptions.${notification.type}`,
+            notification.payload,
+          ).toString()}
+        </HTMLText>
+        <Text variant={"muted"} className="ml-auto">
+          {timeAgo(notification.createdAt)}
+        </Text>
+      </View>
     </StablePressable>
   );
 };
