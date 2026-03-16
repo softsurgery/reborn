@@ -1,6 +1,6 @@
 import React from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Save } from "lucide-react-native";
+import { ArrowLeft, Save } from "lucide-react-native";
 import { Loader } from "~/components/shared/Loader";
 import { Button } from "~/components/ui/button";
 import { useUserStore } from "~/hooks/stores/useUserStore";
@@ -25,8 +25,18 @@ import { StableKeyboardAwareScrollView } from "../shared/StableKeyboardAwareScro
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Icon } from "../ui/icon";
 import { router } from "expo-router";
+import { ApplicationHeader } from "../shared/AppHeader";
+import { cn } from "~/lib/utils";
+import { StableSafeAreaView } from "../shared/StableSafeAreaView";
+import { View } from "react-native";
+import { useKeyboardVisible } from "~/hooks/useKeyboardVisible";
 
-export const UpdateProfile = () => {
+interface UpdateProfileProps {
+  className?: string;
+}
+
+export const UpdateProfile = ({ className }: UpdateProfileProps) => {
+  const isKeyboardVisible = useKeyboardVisible();
   const queryClient = useQueryClient();
   const { currentUser, isCurrentUserPending } = useCurrentUser();
 
@@ -132,19 +142,35 @@ export const UpdateProfile = () => {
   if (isCurrentUserPending) return <Loader isPending={true} />;
 
   return (
-    <StableKeyboardAwareScrollView
-      className="flex flex-col flex-1 gap-6 mx-2 mb-10"
-      ref={scrollRef}
-    >
-      <FormBuilder structure={updateProfileStructure} ref={formRef} />
-      <Button
-        onPress={handleUpdate}
-        className="flex flex-row gap-2"
-        disabled={isUpdateProfilePending || isUploadPending}
-      >
-        <Icon as={Save} size={24} />
-        <Text>Update Profile</Text>
-      </Button>
-    </StableKeyboardAwareScrollView>
+    <StableSafeAreaView className={cn("flex-1", className)}>
+      <ApplicationHeader
+        className="border-b border-border pb-2 bg-transparent"
+        title={"Update Profile"}
+        titleVariant="large"
+        reverse
+        shortcuts={[
+          {
+            key: "back",
+            icon: ArrowLeft,
+            onPress: () => router.back(),
+          },
+        ]}
+      />
+      <StableKeyboardAwareScrollView className="flex-1 bg-background ">
+        <FormBuilder structure={updateProfileStructure} className="mt-4 px-2" />
+      </StableKeyboardAwareScrollView>
+      {!isKeyboardVisible && (
+        <View className="py-6 border-t border-border">
+          <Button
+            size="sm"
+            className="mx-6 mb-4 rounded-full"
+            onPress={handleUpdate}
+            disabled={isUpdateProfilePending}
+          >
+            <Text>Update Profile</Text>
+          </Button>
+        </View>
+      )}
+    </StableSafeAreaView>
   );
 };
