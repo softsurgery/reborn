@@ -1,39 +1,35 @@
-import React from "react";
-import {
-  View,
-  KeyboardAvoidingView,
-  Platform,
-  FlatList,
-  Text,
-  ActivityIndicator,
-} from "react-native";
-import { ImageBackground } from "expo-image";
 import {
   differenceInCalendarDays,
   format,
   isToday,
   isYesterday,
 } from "date-fns";
+import { ImageBackground } from "expo-image";
+import React from "react";
+import {
+  ActivityIndicator,
+  FlatList,
+  KeyboardAvoidingView,
+  Platform,
+  Text,
+  View,
+} from "react-native";
 import { io } from "socket.io-client";
-
 import { useQuery } from "@tanstack/react-query";
-
+import { StableSafeAreaView } from "../shared/StableSafeAreaView";
+import { ChatBubble } from "./conversation/ChatBubble";
 import { ChatHeaderLeft } from "./conversation/ChatHeaderLeft";
 import { ChatHeaderRight } from "./conversation/ChatHeaderRight";
-import { ChatBubble } from "./conversation/ChatBubble";
-import { StableSafeAreaView } from "../shared/StableSafeAreaView";
-
 import { api } from "~/api";
-import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
-import { useServerImage } from "~/hooks/content/useServerImage";
-import { usePreferencePersistStore } from "~/hooks/stores/usePreferencePersistStore";
-import { useAuthPersistStore } from "~/hooks/stores/useAuthPersistStore";
-import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
-
+import { useDebounce } from "~/hooks/useDebounce";
 import { ResponseMessageDto } from "~/types";
 import { ConversationInput } from "./conversation/ConversationInput";
-import { Loader } from "../shared/Loader";
-import { useDebounce } from "~/hooks/useDebounce";
+import { useAudioPlayer } from "expo-audio";
+import { useAuthPersistStore } from "~/hooks/stores/useAuthPersistStore";
+import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
+import { usePreferencePersistStore } from "~/hooks/stores/usePreferencePersistStore";
+import { useServerImages } from "~/hooks/content/useServerImages";
+import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
 
 interface ConversationProps {
   id: number;
@@ -46,6 +42,10 @@ type FlatListItem =
   | { type: "message"; message: ResponseMessageDto };
 
 export const Conversation = ({ id }: ConversationProps) => {
+  // const soundPlayer = useAudioPlayer(
+  //   require("~/assets/sounds/receive-message.wav"),
+  // );
+
   const authPersistStore = useAuthPersistStore();
   const preferencePersistStore = usePreferencePersistStore();
   const { currentUser } = useCurrentUser();
@@ -57,6 +57,7 @@ export const Conversation = ({ id }: ConversationProps) => {
   const [input, setInput] = React.useState("");
   const [isInitialMessagesLoading, setIsInitialMessagesLoading] =
     React.useState(true);
+  const [page, setPage] = React.useState(1);
   const { value: debouncedIsInitialMessagesLoading, loading: isLoading } =
     useDebounce(isInitialMessagesLoading, 1000);
 
@@ -72,12 +73,28 @@ export const Conversation = ({ id }: ConversationProps) => {
     );
   }, [conversation, currentUser]);
 
-  const { jsx: profilePicture } = useServerImage({
-    id: user?.profile?.pictureId,
-    fallback: identifyUserAvatar(user),
+  const { jsxArray: profilePictures } = useServerImages({
+    ids: [user?.pictureId],
+    fallbacks: [identifyUserAvatar(user)],
+    wrapperClassName: "rounded-full border border-border",
     size: { width: 40, height: 40 },
-    enabled: !!user?.profile?.pictureId,
+    enabled: !!user?.pictureId,
   });
+
+  // Play sound function
+  const playSound = React.useCallback(
+    async () => {
+      try {
+        // await soundPlayer.play();
+        console.log("✅ Sound played");
+      } catch (error) {
+        console.error("❌ Error playing sound:", error);
+      }
+    },
+    [
+      // soundPlayer
+    ],
+  );
 
   // -----------------------------
   // Message grouping by day
@@ -128,13 +145,13 @@ export const Conversation = ({ id }: ConversationProps) => {
   // Load messages
   // -----------------------------
   const loadMessages = React.useCallback(
-    (before?: string | Date) => {
+    (pageNum: number) => {
       if (!socket) return;
       setLoadingMore(true);
       socket.emit("getConversationMessages", {
         conversationId: id,
         limit: 20,
-        before: before instanceof Date ? before.toISOString() : before,
+        page: pageNum.toString(),
       });
     },
     [socket, id],
@@ -155,13 +172,15 @@ export const Conversation = ({ id }: ConversationProps) => {
     s.on("connect", () => {
       console.log("✅ Connected to chat server");
       s.emit("joinConversation", { conversationId: id });
-      loadMessages();
+      setPage(1);
+      loadMessages(1);
     });
 
     s.on("conversationMessages", (newMessages: ResponseMessageDto[]) => {
       if (newMessages.length === 0) setHasMore(false);
       else {
         setMessages((prev) => [...prev, ...newMessages]);
+        playSound();
       }
       setLoadingMore(false);
       setIsInitialMessagesLoading(false);
@@ -169,6 +188,7 @@ export const Conversation = ({ id }: ConversationProps) => {
 
     s.on("message", (message: ResponseMessageDto) => {
       setMessages((prev) => [message, ...prev]);
+      playSound();
     });
 
     s.on("error", (err: any) => console.log("❌ Socket error:", err));
@@ -182,10 +202,11 @@ export const Conversation = ({ id }: ConversationProps) => {
   // -----------------------------
   // Send message
   // -----------------------------
-  const sendMessage = () => {
+  const sendMessage = async () => {
     if (!input.trim() || !socket) return;
     socket.emit("message", { conversationId: id, content: input.trim() });
     setInput("");
+    await playSound();
   };
 
   // -----------------------------
@@ -193,15 +214,19 @@ export const Conversation = ({ id }: ConversationProps) => {
   // -----------------------------
   const handleLoadMore = () => {
     if (loadingMore || !hasMore || messages.length === 0) return;
-    const oldest = messages[messages.length - 1];
-    loadMessages(oldest.createdAt);
+    const nextPage = page + 1;
+    setPage(nextPage);
+    console.log("⏳ Loading messages - page:", nextPage);
+
+    loadMessages(nextPage);
   };
 
   return (
-    <StableSafeAreaView className="flex-1">
+    <StableSafeAreaView className="flex-1 bg-card">
       <KeyboardAvoidingView
         className="flex-1"
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
       >
         <ImageBackground
           source={
@@ -213,26 +238,27 @@ export const Conversation = ({ id }: ConversationProps) => {
           resizeMode="cover"
         >
           {/* Header */}
-          <View className="flex flex-row bg-background justify-between items-center">
+          <View className="flex flex-row bg-card justify-between items-center">
             <ChatHeaderLeft
-              profilePicture={profilePicture}
+              id={user?.id as string}
+              profilePicture={profilePictures[0]}
               identifier={identifyUser(user)}
               lastSeen={format(new Date(), "hh:mm a")}
             />
-            <ChatHeaderRight user={user} />
+            <ChatHeaderRight conversationId={id} />
           </View>
 
           {/* Messages */}
           {isConversationLoading || debouncedIsInitialMessagesLoading ? (
             <View className="flex-1 justify-center items-center">
-              <Loader />
+              <ActivityIndicator />
               <Text className="text-foreground font-bold">
                 Loading conversation...
               </Text>
             </View>
           ) : (
             <FlatList
-              className="flex-1 bg-gree-500"
+              className="flex-1 py-4"
               inverted
               keyboardShouldPersistTaps="handled"
               data={flattenedMessages}
@@ -245,7 +271,7 @@ export const Conversation = ({ id }: ConversationProps) => {
                 if (item.type === "header") {
                   return (
                     <View className="w-fit items-center py-2 my-1 mx-auto">
-                      <Text className="text-xs text-foreground">
+                      <Text className="text-sm font-bold text-foreground">
                         {item.date}
                       </Text>
                     </View>
@@ -261,11 +287,6 @@ export const Conversation = ({ id }: ConversationProps) => {
               }}
               onEndReached={handleLoadMore}
               onEndReachedThreshold={0.2}
-              contentContainerStyle={{
-                marginTop:
-                  100 + Math.min(25 * (input.match(/\n/g)?.length ?? 0), 100),
-                marginBottom: 12,
-              }}
               ListFooterComponent={
                 loadingMore ? (
                   <View className="py-2">

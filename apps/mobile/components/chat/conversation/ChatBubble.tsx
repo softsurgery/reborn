@@ -7,10 +7,10 @@ import {
   GestureHandlerRootView,
 } from "react-native-gesture-handler";
 import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withSpring,
   runOnJS,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
 } from "react-native-reanimated";
 
 import { StablePressable } from "~/components/shared/StablePressable";
@@ -66,7 +66,7 @@ export const ChatBubble = ({
           className={cn(
             "max-w-[80%] mx-2 rounded-lg mt-2",
             right
-              ? "self-end rounded-bl-xl rounded-br-none bg-muted"
+              ? "self-end rounded-bl-xl rounded-br-none bg-primary"
               : "self-start rounded-br-xl rounded-bl-none bg-secondary",
           )}
         >

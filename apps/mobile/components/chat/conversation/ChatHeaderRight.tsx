@@ -1,27 +1,30 @@
-import React from "react";
 import { router } from "expo-router";
-import { EllipsisIcon } from "lucide-react-native";
+import { EllipsisVertical } from "lucide-react-native";
 import { StablePressable } from "~/components/shared/StablePressable";
 import { Icon } from "~/components/ui/icon";
 import { cn } from "~/lib/utils";
 
 interface ChatHeaderRightProps {
   className?: string;
-  id: string;
+  conversationId: number;
 }
 
-export const ChatHeaderRight = ({ className, id }: ChatHeaderRightProps) => {
+export const ChatHeaderRight = ({
+  className,
+  conversationId,
+}: ChatHeaderRightProps) => {
   return (
     <StablePressable
-      className={cn("mx-2", className)}
-      onPress={() =>
+      className={cn("mx-2 p-2", className)}
+      onPress={() => {
         router.push({
           pathname: "/main/chat/conversation-details",
-          params: { id },
-        })
-      }
+          params: { id: String(conversationId) },
+        });
+      }}
+      onPressClassname="bg-secondary"
     >
-      <Icon as={EllipsisIcon} size={28} />
+      <Icon as={EllipsisVertical} size={24} />
     </StablePressable>
   );
 };

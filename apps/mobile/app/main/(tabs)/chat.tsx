@@ -1,5 +1,5 @@
-import { Chat } from "~/components/chat/Chat";
+import { ChatPortal } from "~/components/chat/ChatPortal";
 
 export default function Screen() {
-  return <Chat />;
+  return <ChatPortal />;
 }

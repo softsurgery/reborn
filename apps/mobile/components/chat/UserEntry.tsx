@@ -1,12 +1,12 @@
+import { MessageCircleMoreIcon } from "lucide-react-native";
 import React from "react";
 import { View } from "react-native";
 import { Text } from "~/components/ui/text";
 import { cn } from "~/lib/utils";
-import { MessageCircleMoreIcon } from "lucide-react-native";
-import { useServerImage } from "~/hooks/content/useServerImage";
-import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
-import { Icon } from "../ui/icon";
 import { ResponseUserDto } from "~/types";
+import { Icon } from "../ui/icon";
+import { useServerImages } from "~/hooks/content/useServerImages";
+import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
 
 interface UserCardProps {
   className?: string;
@@ -25,11 +25,12 @@ export const UserEntry = ({
   seen,
   isPending,
 }: UserCardProps) => {
-  const { jsx: profilePicture } = useServerImage({
-    id: user?.pictureId,
-    fallback: identifyUserAvatar(user),
+  const { jsxArray: profilePictures } = useServerImages({
+    ids: [user?.pictureId],
+    fallbacks: [identifyUserAvatar(user)],
     size: { width: 60, height: 60 },
   });
+
   return (
     <View
       className={cn(
@@ -38,7 +39,7 @@ export const UserEntry = ({
       )}
     >
       <View className="flex flex-row gap-2 items-center">
-        {profilePicture}
+        {profilePictures[0]}
         <View className="flex flex-col justify-between items-start">
           <Text className="text-lg font-semibold">{identifyUser(user)}</Text>
           <View className="flex flex-row gap-2 items-center">
