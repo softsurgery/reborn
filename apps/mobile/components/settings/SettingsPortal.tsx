@@ -97,6 +97,34 @@ export const SettingsPortal = ({ className }: SettingsPortalProps) => {
       ],
     },
     {
+      key: "support",
+      title: "Support",
+      description: "Report issues or send us your feedback.",
+      rows: [
+        createSettingRow({
+          title: "Report a Bug",
+          description: "Found an issue? Let us know.",
+          rightIcon: ChevronRight,
+          className: "p-1 px-4",
+          onPress: () => router.push("/main/account/support/report-bug"),
+        }),
+        createSettingRow({
+          title: "Send Feedback",
+          description: "Have suggestions? We want to hear them.",
+          rightIcon: ChevronRight,
+          className: "p-1 px-4",
+          onPress: () => router.push("/main/account/support/send-feedback"),
+        }),
+        createSettingRow({
+          title: "Frequently Asked Questions",
+          description: "Find answers to common questions",
+          rightIcon: ChevronRight,
+          className: "p-1 px-4",
+          onPress: () => router.push("/main/account/support/faqs"),
+        }),
+      ],
+    },
+    {
       key: "info",
       title: "Info & Legal",
       description: "Learn more about Reborn and our policies.",
