@@ -1,9 +1,8 @@
 import React from "react";
 import { useMutation } from "@tanstack/react-query";
 import { api } from "~/api";
-import { useSendFeedbackStore } from "~/hooks/stores/useFeedbackManager";
 import { View } from "react-native";
-import { ArrowLeft, MailCheck } from "lucide-react-native";
+import { ArrowLeft } from "lucide-react-native";
 import { Text } from "~/components/ui/text";
 import { createFeedbackSchema } from "~/types/validations/system-reports.validation";
 import { Button } from "~/components/ui/button";
@@ -12,11 +11,12 @@ import { useSendFeedbackFormStructure } from "./useSendFeedbackFormStructure";
 import { cn } from "~/lib/utils";
 import { showToastable } from "react-native-toastable";
 import { StableKeyboardAwareScrollView } from "~/components/shared/StableKeyboardAwareScrollView";
-import { Icon } from "~/components/ui/icon";
 import { router } from "expo-router";
 import { StableSafeAreaView } from "~/components/shared/StableSafeAreaView";
 import { useTranslation } from "react-i18next";
 import { ApplicationHeader } from "~/components/shared/AppHeader";
+import { useKeyboardVisible } from "~/hooks/useKeyboardVisible";
+import { useSendFeedbackStore } from "~/hooks/stores/useFeedbackManager";
 
 interface SendFeedbackPortalProps {
   className?: string;
@@ -24,6 +24,8 @@ interface SendFeedbackPortalProps {
 
 export const SendFeedbackPortal = ({ className }: SendFeedbackPortalProps) => {
   const { t } = useTranslation("common");
+  const isKeyboardVisible = useKeyboardVisible();
+
   React.useEffect(() => {
     return () => {
       sendFeedbackStore.reset();
@@ -64,45 +66,41 @@ export const SendFeedbackPortal = ({ className }: SendFeedbackPortalProps) => {
   };
 
   return (
-    <StableSafeAreaView className={cn("flex flex-1", className)}>
+    <StableSafeAreaView className={cn("flex-1 bg-card", className)}>
       <ApplicationHeader
+        className="border-b border-border pb-2"
         title={t("screens.sendFeedback")}
         titleVariant="large"
         reverse
         shortcuts={[
           {
-            key: "user-preferences",
+            key: "back",
             icon: ArrowLeft,
             onPress: () => router.back(),
           },
         ]}
       />
-      <StableKeyboardAwareScrollView>
-        <View className={cn("flex flex-col my-4 gap-2 mx-4", className)}>
-          {/* Header Section */}
-          <View className="mx-auto ">
-            <Icon as={MailCheck} size={24} />
-          </View>
-          <View>
-            <Text className="font-extrabold text-base">
-              We'd love your feedback!
-            </Text>
-            <Text className="font-thin mt-2 text-sm">
-              Please share your thoughts and help us improve.
-            </Text>
-          </View>
-
-          <FormBuilder structure={feedbackFormStructure} />
-
+      <StableKeyboardAwareScrollView className="flex-1 bg-background">
+        <View className="p-4">
+          <Text className="text-sm text-muted-foreground leading-relaxed">
+            Have suggestions or ideas to make Instinct better? We&apos;d love to
+            hear them!
+          </Text>
+        </View>
+        <FormBuilder structure={feedbackFormStructure} className="px-2" />
+      </StableKeyboardAwareScrollView>
+      {!isKeyboardVisible && (
+        <View className="py-6 border-t border-border">
           <Button
+            size={"sm"}
+            className="mx-6 mb-4 rounded-full"
             disabled={isSendFeedbackPending}
-            className="w-full"
             onPress={handleSubmit}
           >
-            <Text>{isSendFeedbackPending ? "Sending..." : "Send"}</Text>
+            <Text>Send Feedback</Text>
           </Button>
         </View>
-      </StableKeyboardAwareScrollView>
+      )}
     </StableSafeAreaView>
   );
 };
