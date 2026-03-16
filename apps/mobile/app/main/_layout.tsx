@@ -104,13 +104,7 @@ export default function MainLayout() {
           headerShown: false,
         }}
       />
-      <Stack.Screen
-        name="account/delete-experience"
-        options={{
-          title: "Delete Experiences",
-          headerShown: false,
-        }}
-      />
+
       <Stack.Screen
         name="account/create-education"
         options={{
@@ -129,13 +123,6 @@ export default function MainLayout() {
         name="account/update-educations"
         options={{
           title: "Educations",
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="account/delete-education"
-        options={{
-          title: "Delete Educations",
           headerShown: false,
         }}
       />
