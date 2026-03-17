@@ -1,5 +1,5 @@
 import React from "react";
-import { Bell, Settings, User } from "lucide-react-native";
+import { Bell, FlaskConical, Settings, User } from "lucide-react-native";
 import { ApplicationHeader } from "../shared/AppHeader";
 import { router } from "expo-router";
 import { StableSafeAreaView } from "../shared/StableSafeAreaView";
@@ -45,6 +45,15 @@ export const Account = ({ className }: AccountProps) => {
                   },
                   badgeText: newCount > 0 ? `${newCount}` : undefined,
                 },
+                ...(process.env.NODE_ENV === "development"
+                  ? [
+                      {
+                        key: "flask",
+                        icon: FlaskConical,
+                        onPress: () => router.push("/main/test"),
+                      },
+                    ]
+                  : []),
               ]}
             />
           </StableSafeAreaView>
