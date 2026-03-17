@@ -7,34 +7,18 @@ import { cn } from "~/lib/utils";
 
 interface SkeletonBlockProps {
   className?: string;
-  uploads: string[];
+  uploads?: string[];
 }
 
 export const JobDetailsSkeleton = ({
   className,
   uploads,
 }: SkeletonBlockProps) => {
+  const safeUploads = uploads ?? [];
   return (
     <StableSafeAreaView className={cn("flex-1", className)}>
       {/* Header */}
-      <View className="bg-card px-6 py-5 border-b border-border">
-        <View className="flex-row items-start justify-between mb-2">
-          <View className="flex-1 pr-4">
-            <Skeleton className="h-5 w-full mb-1" />
-            <View className="flex flex-row gap-2">
-              <Skeleton className="h-4 w-16" />
-              <Skeleton className="h-4 w-20" />
-            </View>
-          </View>
-          <Skeleton className="w-6 h-6 rounded-full" />
-        </View>
-
-        <View className="flex-row items-center gap-5">
-          <Skeleton className="h-4 w-16" />
-          <Skeleton className="h-4 w-20" />
-          <Skeleton className="h-4 w-20" />
-        </View>
-      </View>
+      <View className="h-40 bg-card px-6 py-5 border-b border-border"></View>
 
       {/* Client Info */}
       <View className="px-6 py-4 border-t border-border">
@@ -56,13 +40,13 @@ export const JobDetailsSkeleton = ({
       </View>
 
       <View className="flex-1 px-6 pb-5 mt-4">
+        <Separator className="my-2" />
         {/*  About project + Project scope */}
         <View className="flex flex-col justify-between mt-6">
           {/* About project */}
           <View>
             <Skeleton className="h-5 w-40 mb-3" />
             <Skeleton className="h-4 w-full mb-2" />
-            <Skeleton className="h-4 w-3/4" />
             <Separator className="my-4" />
           </View>
           {/* Project scope */}
@@ -73,6 +57,8 @@ export const JobDetailsSkeleton = ({
             <Skeleton className="h-4 w-16" />
           </View>
         </View>
+
+        <Separator className="my-4" />
         {/* tags */}
         <View className="flex flex-col justify-between mb-4">
           <Skeleton className="h-5 w-20 mb-3" />
@@ -84,9 +70,10 @@ export const JobDetailsSkeleton = ({
             <Skeleton className="h-5 w-12 rounded-full" />
           </View>
         </View>
+        <Separator className="my-4" />
 
         {/* Images */}
-        {uploads && uploads.length > 0 ? (
+        {safeUploads.length > 0 ? (
           <React.Fragment>
             <Skeleton className="h-5 w-24 mb-3" />
             <View className="flex flex-wrap flex-row justify-start items-center gap-x-[5%] mb-5">
@@ -100,8 +87,9 @@ export const JobDetailsSkeleton = ({
       </View>
 
       {/* Apply button */}
-      <View className="px-6 py-5 bg-card border-t border-border">
-        <Skeleton className="h-12 w-full rounded-lg mb-2" />
+      <View className="flex flex-row gap-2 px-6 py-5 bg-card border-t border-border">
+        <Skeleton className="h-8 w-1/2 rounded-lg mb-2" />
+        <Skeleton className="h-8 rounded-lg mb-2" />
       </View>
     </StableSafeAreaView>
   );

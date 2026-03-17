@@ -176,7 +176,12 @@ export const JobDetails = () => {
   const isPending =
     isJobPending || isJobRequestedPending || isJobMetadataPending;
 
-  if (isPending) return <JobDetailsSkeleton uploads={uploads as string[]} />;
+if (isPending)
+  return (
+    <JobDetailsSkeleton
+      uploads={Array.isArray(uploads) ? (uploads as string[]) : []}
+    />
+  );
 
   if (!id) {
     return (
