@@ -175,7 +175,7 @@ export const DatePicker = ({
             <Text className="text-xs">{displayText}</Text>
           </View>
           <Animated.View style={chevronStyle}>
-            <Icon as={ChevronDown} size={16} color={"gray"} />
+            <Icon as={ChevronDown} size={18} />
           </Animated.View>
         </View>
       </Button>
