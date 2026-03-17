@@ -9,7 +9,7 @@ const Label = React.forwardRef<
 >(
   (
     { className, onPress, onLongPress, onPressIn, onPressOut, ...props },
-    ref
+    ref,
   ) => {
     const isRTL = useRTL();
     return (
@@ -23,15 +23,15 @@ const Label = React.forwardRef<
         <LabelPrimitive.Text
           ref={ref}
           className={cn(
-            "font-poppins text-sm text-foreground native:text-base font-medium leading-none web:peer-disabled:cursor-not-allowed web:peer-disabled:opacity-70",
+            "font-poppins text-xs text-foreground font-medium leading-none web:peer-disabled:cursor-not-allowed web:peer-disabled:opacity-70",
             isRTL ? "text-right" : "text-left",
-            className
+            className,
           )}
           {...props}
         />
       </LabelPrimitive.Root>
     );
-  }
+  },
 );
 Label.displayName = LabelPrimitive.Root.displayName;
 
