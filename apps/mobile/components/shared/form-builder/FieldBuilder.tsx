@@ -12,6 +12,7 @@ import { PictureUploader } from "../PictureUploader";
 import { Text } from "~/components/ui/text";
 import { cn } from "~/lib/utils";
 import { Switch } from "~/components/ui/switch";
+import { GalleryPicturePicker } from "./GalleryPictureUploader";
 
 interface FieldBuilderProps {
   field?: Field<any>;
@@ -179,6 +180,17 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
           image={field?.props?.image}
           onFileChange={field?.props?.onFileChange}
           onUpload={field?.props?.onUpload}
+          className={field?.className}
+          editable={field?.props?.editable}
+        />
+      );
+    case "gallery":
+      return (
+        <GalleryPicturePicker
+          {...field?.props}
+          images={field?.props?.images}
+          maxImages={field?.props?.maxImages}
+          onChange={field?.props?.onChange}
           className={field?.className}
           editable={field?.props?.editable}
         />

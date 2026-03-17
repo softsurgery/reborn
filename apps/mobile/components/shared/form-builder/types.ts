@@ -1,3 +1,5 @@
+import { GalleryItem } from "./GalleryPictureUploader";
+
 export interface FormStructure {
   title: string;
   description?: string;
@@ -49,6 +51,7 @@ export enum FieldVariant {
   SWITCH = "switch",
   RATING = "rating",
   PICTURE = "picture",
+  GALLERY = "gallery",
   CUSTOM = "custom",
 }
 
@@ -121,6 +124,13 @@ export interface PictureFieldProps {
   editable?: boolean;
   onFileChange?: (e: string) => void;
   onUpload?: (file: File, onProgress: (percent: number) => void) => void;
+}
+
+export interface GalleryFieldProps {
+  images: GalleryItem[];
+  maxImages?: number;
+  onChange: (images: GalleryItem[]) => void;
+  editable?: boolean;
 }
 
 export interface RadioFieldProps {
