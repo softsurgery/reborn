@@ -101,7 +101,7 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
               field?.props?.onValueChange?.(checked)
             }
           />
-          <Text>{field.label}</Text>
+          <Text className="text-sm font-base">{field.props?.label}</Text>
         </View>
       );
     case "password":

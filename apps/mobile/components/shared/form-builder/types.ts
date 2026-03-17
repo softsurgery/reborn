@@ -22,7 +22,8 @@ export interface Field<T = any> {
   id: string;
   label: string;
   className?: string;
-  containerClassName?: string;
+  fieldClassName?: string;
+  wrapperClassName?: string;
   variant: FieldVariant;
   required?: boolean;
   description?: string;
@@ -132,8 +133,8 @@ export interface RadioFieldProps {
 export interface CheckboxFieldProps {
   checked?: boolean;
   onCheckedChange?: (checked: boolean) => void;
+  label?: string;
   editable?: boolean;
-  options: SelectOption[];
 }
 
 export interface SwitchFieldProps {
