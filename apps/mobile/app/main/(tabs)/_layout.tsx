@@ -1,9 +1,9 @@
 import { Tabs } from "expo-router";
 import * as Haptics from "expo-haptics";
 import {
+  Home,
   Menu,
   MessageCircle,
-  Plus,
   Telescope,
   Wallet,
 } from "lucide-react-native";
@@ -56,7 +56,7 @@ export default function TabLayout() {
       iconSize: 34,
     },
     {
-      name: "add_job",
+      name: "home",
       customButton: (props: any) => {
         const { onPress } = props;
         return (
@@ -65,7 +65,7 @@ export default function TabLayout() {
             className="w-16 h-16 -top-4 rounded-full flex items-center justify-center shadow-lg mx-auto"
             onPress={withHaptic(onPress)}
           >
-            <Icon as={Plus} size={32} className="text-white" />
+            <Icon as={Home} size={32} className="text-white" />
           </Button>
         );
       },
@@ -121,8 +121,8 @@ export default function TabLayout() {
                           ? NAV_THEME.dark.colors.primary
                           : NAV_THEME.light.colors.primary
                         : isDarkColorScheme
-                        ? NAV_THEME.dark.colors.text
-                        : NAV_THEME.light.colors.text
+                          ? NAV_THEME.dark.colors.text
+                          : NAV_THEME.light.colors.text
                     }
                   />
                 )
