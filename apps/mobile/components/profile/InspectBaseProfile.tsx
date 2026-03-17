@@ -24,11 +24,8 @@ import {
   Pen,
   Plus,
   UserPlus,
-  Bookmark,
-  Eye,
-  Inbox,
-  Star,
   Edit,
+  ArrowLeft,
 } from "lucide-react-native";
 import { Separator } from "../ui/separator";
 import { StableScrollView } from "../shared/StableScrollView";
@@ -38,6 +35,9 @@ import { Button } from "../ui/button";
 import { SeeMoreText } from "../shared/SeeMoreText";
 import { format } from "date-fns";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { StableSafeAreaView } from "../shared/StableSafeAreaView";
+import { ApplicationHeader } from "../shared/AppHeader";
+import { useTranslation } from "react-i18next";
 
 interface ProfileSection<T = unknown> {
   key: string;
@@ -87,52 +87,6 @@ const AboutTab = ({ user }: { user: any }) => (
   </ScrollView>
 );
 
-const SpaceTab = () => (
-  <View className="flex flex-col gap-3 mt-4">
-    <View className="flex flex-row flex-wrap justify-between gap-3">
-      {[
-        {
-          title: "Requests",
-          icon: Inbox,
-          description: "View your requests",
-          onPress: () => router.push("/main/my-space/requests"),
-        },
-        {
-          title: "Saved",
-          icon: Bookmark,
-          description: "View saved jobs",
-          onPress: () => router.push("/main/my-space/saved"),
-        },
-        {
-          title: "Reviews",
-          icon: Star,
-          description: "View your reviews",
-          onPress: () => {},
-        },
-        {
-          title: "Viewed",
-          icon: Eye,
-          description: "Recently viewed",
-          onPress: () => {},
-        },
-      ].map((card) => (
-        <StablePressable
-          key={card.title}
-          className="w-[48%] flex-col p-3 bg-card border border-border rounded-xl"
-          onPressClassname="bg-muted"
-          onPress={card.onPress}
-        >
-          <Icon as={card.icon} size={22} className="text-foreground mb-2" />
-          <Text className="font-semibold">{card.title}</Text>
-          <Text className="text-xs text-muted-foreground mt-0.5">
-            {card.description}
-          </Text>
-        </StablePressable>
-      ))}
-    </View>
-  </View>
-);
-
 const ExperienceTab = ({
   profileSections,
   renderSection,
@@ -143,7 +97,12 @@ const ExperienceTab = ({
   <StableScrollView className="flex-1 bg-background">
     <View className="flex flex-col gap-4 pb-8">
       {profileSections
-        .filter((s) => s.key === "experience" || s.key === "education")
+        .filter(
+          (s) =>
+            s.key === "experience" ||
+            s.key === "education" ||
+            s.key === "skills",
+        )
         .map(renderSection)}
     </View>
   </StableScrollView>
@@ -158,9 +117,7 @@ const SkillsSnippetsTab = ({
 }) => (
   <StableScrollView className="flex-1 bg-background">
     <View className="flex flex-col gap-4 pb-8">
-      {profileSections
-        .filter((s) => s.key === "snippets" || s.key === "skills")
-        .map(renderSection)}
+      {profileSections.filter((s) => s.key === "snippets").map(renderSection)}
     </View>
   </StableScrollView>
 );
@@ -172,6 +129,8 @@ export const InspectBaseProfile = ({
   customContent,
   overrideContent = true,
 }: InspectBaseProfileProps) => {
+  const { t } = useTranslation("common");
+
   const queryClient = useQueryClient();
   const storeRef = React.useRef(createUserStore());
   const userStore = storeRef?.current?.();
@@ -344,7 +303,7 @@ export const InspectBaseProfile = ({
     <View key={section.key}>
       <View className={cn("pt-x bg-card border border-border")}>
         <View className="flex flex-row items-center justify-between bg-primary/10">
-          <View className="px-4">
+          <View className="p-4">
             <Text variant="h4">{section.title}</Text>
           </View>
           {section.editable && (
@@ -407,6 +366,7 @@ export const InspectBaseProfile = ({
   return (
     <StableScrollView className={cn("flex-1 bg-background", className)}>
       {/* Cover */}
+      {/* Cover with overlaid header */}
       <View className="relative w-full h-48 bg-card">
         {coverExtra}
         <Image
@@ -414,8 +374,27 @@ export const InspectBaseProfile = ({
           className="w-full h-full"
           resizeMode="cover"
         />
-      </View>
 
+        {/* Header overlaid on cover only when viewing ANOTHER user's profile */}
+        {currentUser?.id !== user?.id ? (
+          <StableSafeAreaView
+            className={cn("absolute left-0 right-0 bg-transparent")}
+          >
+            <ApplicationHeader
+              title={t("screens.profile")}
+              titleVariant="large"
+              reverse
+              shortcuts={[
+                {
+                  key: "back",
+                  icon: ArrowLeft,
+                  onPress: () => router.back(),
+                },
+              ]}
+            />
+          </StableSafeAreaView>
+        ) : null}
+      </View>
       {/* Header */}
       <View className="flex-row items-center px-5 -mt-12">
         <View className="z-10">{profilePicture}</View>
@@ -438,21 +417,23 @@ export const InspectBaseProfile = ({
             />
           </View>
         </View>
-        <View>
-          <Icon
-            as={Edit}
-            size={24}
-            onPress={() => router.push("/main/account/update-profile")}
-          />
-        </View>
+        {currentUser?.id === user?.id && (
+          <View>
+            <Icon
+              as={Edit}
+              size={24}
+              onPress={() => router.push("/main/account/update-profile")}
+            />
+          </View>
+        )}
       </View>
 
       {/* Bio + Sections */}
       <View className="flex flex-col gap-2 flex-1 mt-2">
         {/* Follow buttons */}
-        <View className="flex flex-row w-full justify-between gap-2">
-          {currentUser?.id !== user?.id ? (
-            <React.Fragment>
+        {currentUser?.id !== user?.id ? (
+          <View className="flex flex-row w-full justify-between gap-2">
+            <View className="flex flex-row flex-1 gap-2 px-2 mt-2">
               <Button
                 size="sm"
                 onPress={() => (isFollowing ? unfollowUser() : followUser())}
@@ -472,70 +453,59 @@ export const InspectBaseProfile = ({
                 <Icon as={Mail} size={20} />
                 <Text>Send Message</Text>
               </Button>
-            </React.Fragment>
-          ) : null}
-        </View>
+            </View>
+          </View>
+        ) : null}
 
         {/* Profile Content */}
-        {overrideContent && customContent ? (
-          customContent
-        ) : currentUser?.id === user?.id ? (
-          <View className="flex-1 mt-4" style={{ minHeight: 400 }}>
-            <Tab.Navigator
-              screenOptions={{
-                tabBarScrollEnabled: false,
-                tabBarLabelStyle: {
-                  fontSize: 12,
-                  fontWeight: "600",
-                  textTransform: "none",
-                },
-                tabBarIndicatorStyle: { backgroundColor: "#9B2C2C" },
-                tabBarStyle: { backgroundColor: "transparent" },
+        {overrideContent && customContent ? customContent : null}
+        <View className="flex-1 mt-4" style={{ minHeight: 400 }}>
+          <Tab.Navigator
+            screenOptions={{
+              tabBarScrollEnabled: false,
+              tabBarLabelStyle: {
+                fontSize: 12,
+                fontWeight: "600",
+                textTransform: "none",
+              },
+              tabBarIndicatorStyle: { backgroundColor: "#9B2C2C" },
+              tabBarStyle: { backgroundColor: "transparent" },
+            }}
+          >
+            <Tab.Screen
+              name="about"
+              options={{
+                tabBarLabel: "About",
               }}
-            >
-              <Tab.Screen
-                name="About"
-                component={() => <AboutTab user={user} />}
-              />
-              <Tab.Screen
-                name="my-space"
-                options={{
-                  tabBarLabel: "My Space",
-                }}
-                component={() => <SpaceTab />}
-              />
+              component={() => <AboutTab user={user} />}
+            />
 
-              <Tab.Screen
-                name="experience"
-                options={{
-                  tabBarLabel: "Career",
-                }}
-                component={() => (
-                  <ExperienceTab
-                    profileSections={profileSections}
-                    renderSection={renderSection}
-                  />
-                )}
-              />
-              <Tab.Screen
-                name="skills-snippets"
-                options={{
-                  tabBarLabel: "Tags",
-                }}
-                component={() => (
-                  <SkillsSnippetsTab
-                    profileSections={profileSections}
-                    renderSection={renderSection}
-                  />
-                )}
-              />
-            </Tab.Navigator>
-          </View>
-        ) : (
-          <View className="flex flex-col gap-4 mt-4">
-            {profileSections.map(renderSection)}
-          </View>
-        )}
+            <Tab.Screen
+              name="experience"
+              options={{
+                tabBarLabel: "Career",
+              }}
+              component={() => (
+                <ExperienceTab
+                  profileSections={profileSections}
+                  renderSection={renderSection}
+                />
+              )}
+            />
+            <Tab.Screen
+              name="gallary"
+              options={{
+                tabBarLabel: "Gallary",
+              }}
+              component={() => (
+                <SkillsSnippetsTab
+                  profileSections={profileSections}
+                  renderSection={renderSection}
+                />
+              )}
+            />
+          </Tab.Navigator>
+        </View>
         {!overrideContent && customContent ? customContent : null}
       </View>
     </StableScrollView>
