@@ -13,7 +13,6 @@ import {
 } from "@tanstack/react-query";
 import { api } from "~/api";
 import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
-import { StableKeyboardAwareScrollView } from "../../../shared/StableKeyboardAwareScrollView";
 import { cn } from "~/lib/utils";
 import { JobDetailsSkeleton } from "./JobDetailsSkeleton";
 import { ServerErrorResponse } from "~/types";

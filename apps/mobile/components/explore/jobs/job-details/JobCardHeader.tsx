@@ -41,7 +41,7 @@ export const JobCardHeader = ({
     <View
       className={cn("bg-muted px-6 pb-5 border-b border-border", className)}
     >
-      <View className="flex flex-col items-center mb-4">
+      <View className="flex flex-col items-center">
         <ImageCarouselWithModal
           uploads={uploads}
           imageQueries={imageQueries}
@@ -49,6 +49,7 @@ export const JobCardHeader = ({
           autoPlayInterval={3000}
         />
       </View>
+
       <View className="flex-row items-center justify-between mt-3">
         <View className="flex-1 pr-4">
           <Text className="text-lg font-bold text-foreground mb-1">
