@@ -148,6 +148,7 @@ export default function MainLayout() {
       <Stack.Screen
         name="explore/new-job"
         options={{
+          headerShown: false,
           title: "New Job",
         }}
       />
@@ -182,14 +183,6 @@ export default function MainLayout() {
       />
 
       {/* My Space */}
-      <Stack.Screen
-        name="my-space/index"
-        options={{
-          title: "",
-          headerShown: false,
-          animation: "slide_from_right",
-        }}
-      />
       <Stack.Screen
         name="my-space/requests"
         options={{
