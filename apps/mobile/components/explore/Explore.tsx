@@ -1,19 +1,13 @@
 import React from "react";
 import { View } from "react-native";
-import Animated, {
-  useAnimatedStyle,
-  withTiming,
-  useSharedValue,
-} from "react-native-reanimated";
+import Animated from "react-native-reanimated";
 import { useDebounce } from "~/hooks/useDebounce";
 import { ExploreCommon } from "./ExploreCommon";
-import { Text } from "../ui/text";
 import { ExploreFollowing } from "./ExploreFollowing";
 import { cn } from "~/lib/utils";
-import { StablePressable } from "../shared/StablePressable";
 import { StableSafeAreaView } from "../shared/StableSafeAreaView";
 import { ApplicationHeader } from "../shared/AppHeader";
-import { ArrowDownNarrowWide, Bell, Search, User } from "lucide-react-native";
+import { ArrowDownNarrowWide, Bell, Search } from "lucide-react-native";
 import { useNotificationContext } from "~/contexts/NotificationContext";
 import { router } from "expo-router";
 import { useTranslation } from "react-i18next";
@@ -21,6 +15,7 @@ import { JobFilters } from "./jobs/JobFilters";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { useColorScheme } from "nativewind";
 import { THEME } from "~/lib/theme";
+import { useScrollableElement } from "~/hooks/useScrollableElement";
 
 interface ExploreProps {
   className: string;
@@ -37,30 +32,10 @@ export const Explore = ({ className }: ExploreProps) => {
   const { value: debouncedSearchTerm, loading: searching } =
     useDebounce<string>(search, 1000);
 
-  // Use shared values for better performance
-  const showHeader = useSharedValue(true);
-
-  // Memoized header visibility handler
-  const handleHeaderVisibility = React.useCallback(
-    (visible: boolean) => {
-      showHeader.value = visible;
-    },
-    [showHeader],
-  );
-
-  const animatedHeaderStyle = useAnimatedStyle(() => ({
-    transform: [
-      {
-        translateY: withTiming(showHeader.value ? 0 : -40, {
-          duration: 250,
-        }),
-      },
-    ],
-    opacity: withTiming(showHeader.value ? 1 : 0, { duration: 250 }),
-    height: withTiming(showHeader.value ? 40 : 0, {
-      duration: 250,
-    }),
-  }));
+  const { animatedHeaderStyle, handleScroll } = useScrollableElement({
+    duration: 250,
+    deltaThreshold: 40,
+  });
 
   const Tab = createMaterialTopTabNavigator();
 
@@ -80,10 +55,6 @@ export const Explore = ({ className }: ExploreProps) => {
               onPress: () => {
                 setOpenJobFilters(true);
               },
-            },
-            {
-              icon: User,
-              onPress: () => router.push("/main/my-space"),
             },
             {
               icon: Bell,
@@ -125,7 +96,7 @@ export const Explore = ({ className }: ExploreProps) => {
                 className="p-2"
                 search={debouncedSearchTerm}
                 searching={searching}
-                setShowHeader={handleHeaderVisibility}
+                handleScroll={handleScroll}
               />
             )}
           </Tab.Screen>
@@ -136,7 +107,7 @@ export const Explore = ({ className }: ExploreProps) => {
                 className="p-2"
                 search={debouncedSearchTerm}
                 searching={searching}
-                setShowHeader={handleHeaderVisibility}
+                handleScroll={handleScroll}
               />
             )}
           </Tab.Screen>

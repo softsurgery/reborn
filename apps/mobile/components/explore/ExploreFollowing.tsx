@@ -21,14 +21,14 @@ interface ExploreFollowingProps {
   className?: string;
   search: string;
   searching: boolean;
-  setShowHeader: (show: boolean) => void;
+  handleScroll: (e: NativeSyntheticEvent<NativeScrollEvent>) => void;
 }
 
 export const ExploreFollowing = ({
   className,
   search,
   searching,
-  setShowHeader,
+  handleScroll,
 }: ExploreFollowingProps) => {
   const {
     data,
@@ -71,24 +71,6 @@ export const ExploreFollowing = ({
     dragging,
     1000,
   );
-
-  // Track scroll direction
-  const lastOffsetY = React.useRef(0);
-
-  const handleScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
-    const currentOffsetY = e.nativeEvent.contentOffset.y;
-
-    const delta = currentOffsetY - lastOffsetY.current;
-    if (currentOffsetY <= 0) {
-      setShowHeader(true);
-    } else if (delta < -10) {
-      setShowHeader(true); // scrolling up
-    } else if (delta > 0) {
-      setShowHeader(false); // scrolling down
-    }
-
-    lastOffsetY.current = currentOffsetY;
-  };
 
   return (
     <LegendList
