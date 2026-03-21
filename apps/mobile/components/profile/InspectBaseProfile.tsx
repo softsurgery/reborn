@@ -300,8 +300,8 @@ export const InspectBaseProfile = ({
   //  SECTION RENDERER
   // ---------------------------------------------------------------
   const renderSection = (section: ProfileSection) => (
-    <View key={section.key}>
-      <View className={cn("pt-x bg-card border border-border")}>
+    <View className="flex flex-col flex-1" key={section.key}>
+      <View className={cn("flex flex-1 pt-x bg-card border border-border")}>
         <View className="flex flex-row items-center justify-between bg-primary/10">
           <View className="p-4">
             <Text variant="h4">{section.title}</Text>
@@ -364,7 +364,7 @@ export const InspectBaseProfile = ({
   //  UI LAYOUT
   // ---------------------------------------------------------------
   return (
-    <StableScrollView className={cn("flex-1 bg-background", className)}>
+    <View className={cn("flex-1 bg-background", className)}>
       {/* Cover */}
       {/* Cover with overlaid header */}
       <View className="relative w-full h-48 bg-card">
@@ -396,12 +396,12 @@ export const InspectBaseProfile = ({
         ) : null}
       </View>
       {/* Header */}
-      <View className="flex-row items-center px-5 -mt-12">
+      <View className="flex-row items-center px-4 -mt-12">
         <View className="z-10">{profilePicture}</View>
 
-        <View className="flex-1 mt-16">
-          <View className="flex-col items-start justify-between mx-2">
-            <View>
+        <View className="flex flex-row flex-1 mt-16">
+          <View className="flex flex-col flex-1 items-start justify-between px-4 gap-2">
+            <View className="flex flex-row items-center gap-2">
               <Text className="text-xl font-semibold text-foreground">
                 {identity}
               </Text>
@@ -413,53 +413,51 @@ export const InspectBaseProfile = ({
             </View>
             <ProfileStat
               clientStore={userStore}
-              className="flex flex-row gap-4 mt-4"
+              className="flex flex-row"
             />
           </View>
+          {currentUser?.id === user?.id && (
+            <StablePressable>
+              <Icon
+                as={Edit}
+                size={24}
+                onPress={() => router.push("/main/account/update-profile")}
+              />
+            </StablePressable>
+          )}
         </View>
-        {currentUser?.id === user?.id && (
-          <View>
-            <Icon
-              as={Edit}
-              size={24}
-              onPress={() => router.push("/main/account/update-profile")}
-            />
-          </View>
-        )}
       </View>
 
       {/* Bio + Sections */}
-      <View className="flex flex-col gap-2 flex-1 mt-2">
+      <View className="flex flex-col flex-1">
         {/* Follow buttons */}
         {currentUser?.id !== user?.id ? (
-          <View className="flex flex-row w-full justify-between gap-2">
-            <View className="flex flex-row flex-1 gap-2 px-2 mt-2">
-              <Button
-                size="sm"
-                onPress={() => (isFollowing ? unfollowUser() : followUser())}
-                variant={isFollowing ? "outline" : "default"}
-                className="flex flex-row flex-1 gap-2"
-                disabled={isFollowPending || isUnfollowPending}
-              >
-                {!isFollowing && <Icon as={UserPlus} size={20} />}
-                <Text>{isFollowing ? "Following" : "Follow"}</Text>
-              </Button>
+          <View className="flex flex-row px-4 my-4 gap-4">
+            <Button
+              size="sm"
+              onPress={() => (isFollowing ? unfollowUser() : followUser())}
+              variant={isFollowing ? "outline" : "default"}
+              className="flex flex-row flex-1 gap-2"
+              disabled={isFollowPending || isUnfollowPending}
+            >
+              {!isFollowing && <Icon as={UserPlus} size={20} />}
+              <Text>{isFollowing ? "Following" : "Follow"}</Text>
+            </Button>
 
-              <Button
-                size="sm"
-                className="flex flex-row flex-1 gap-2"
-                variant="outline"
-              >
-                <Icon as={Mail} size={20} />
-                <Text>Send Message</Text>
-              </Button>
-            </View>
+            <Button
+              size="sm"
+              className="flex flex-row flex-1 gap-2"
+              variant="outline"
+            >
+              <Icon as={Mail} size={20} />
+              <Text>Send Message</Text>
+            </Button>
           </View>
         ) : null}
 
+        <View>{overrideContent && customContent ? customContent : null}</View>
         {/* Profile Content */}
-        {overrideContent && customContent ? customContent : null}
-        <View className="flex-1 mt-4" style={{ minHeight: 400 }}>
+        <View className="flex flex-1" style={{ minHeight: 400 }}>
           <Tab.Navigator
             screenOptions={{
               tabBarScrollEnabled: false,
@@ -471,6 +469,11 @@ export const InspectBaseProfile = ({
               tabBarIndicatorStyle: { backgroundColor: "#9B2C2C" },
               tabBarStyle: { backgroundColor: "transparent" },
             }}
+            commonOptions={{
+              sceneStyle: {
+                flex: 1,
+              },
+            }}
           >
             <Tab.Screen
               name="about"
@@ -481,7 +484,7 @@ export const InspectBaseProfile = ({
             />
 
             <Tab.Screen
-              name="experience"
+              name="career"
               options={{
                 tabBarLabel: "Career",
               }}
@@ -493,9 +496,9 @@ export const InspectBaseProfile = ({
               )}
             />
             <Tab.Screen
-              name="gallary"
+              name="gallery"
               options={{
-                tabBarLabel: "Gallary",
+                tabBarLabel: "Gallery",
               }}
               component={() => (
                 <SkillsSnippetsTab
@@ -506,8 +509,8 @@ export const InspectBaseProfile = ({
             />
           </Tab.Navigator>
         </View>
-        {!overrideContent && customContent ? customContent : null}
+        <View>{!overrideContent && customContent ? customContent : null}</View>
       </View>
-    </StableScrollView>
+    </View>
   );
 };
