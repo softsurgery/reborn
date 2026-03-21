@@ -15,6 +15,9 @@ import { CreateJobDto, ServerErrorResponse } from "~/types";
 import { showToastable } from "react-native-toastable";
 import { cn } from "~/lib/utils";
 import { router } from "expo-router";
+import { StableSafeAreaView } from "~/components/shared/StableSafeAreaView";
+import { ApplicationHeader } from "~/components/shared/AppHeader";
+import { ArrowLeft } from "lucide-react-native";
 
 interface JobCreateFormProps {
   className?: string;
@@ -28,20 +31,21 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
   const { isFetchJobTagsPending, jobTags } = useJobTags();
   const { jobCategories, isFetchJobCategoriesPending } = useJobCategories();
 
-  const { jobCreateFormStructure } = useCreateJobFormStructure({
-    jobStore,
-    currencies,
-    jobTags: mapToSelectOptions({
-      data: isFetchJobTagsPending ? [] : jobTags,
-      labelKey: "label",
-      valueKey: "id",
-    }),
-    jobCategories: mapToSelectOptions({
-      data: isFetchJobCategoriesPending ? [] : jobCategories,
-      labelKey: "label",
-      valueKey: "id",
-    }),
-  });
+  const { jobCreateFormStructure, jobImagePickerStructure } =
+    useCreateJobFormStructure({
+      jobStore,
+      currencies,
+      jobTags: mapToSelectOptions({
+        data: isFetchJobTagsPending ? [] : jobTags,
+        labelKey: "label",
+        valueKey: "id",
+      }),
+      jobCategories: mapToSelectOptions({
+        data: isFetchJobCategoriesPending ? [] : jobCategories,
+        labelKey: "label",
+        valueKey: "id",
+      }),
+    });
 
   const { mutate: createJob, isPending: isCreationPending } = useMutation({
     mutationFn: (job: CreateJobDto) => api.job.create(job),
@@ -70,18 +74,57 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
   }, []);
 
   return (
-    <View className={cn("flex-1 mx-2", className)}>
-      <Stepper
-        steps={[
-          <FormBuilder structure={jobCreateFormStructure} className="py-2" />,
-        ]}
-        closingAction={{
-          label: "Publish",
-          onPress: () => {
-            createJob(jobStore.createDto);
+    <StableSafeAreaView className="flex-1 bg-card">
+      <ApplicationHeader
+        className="border-b border-border pb-2"
+        title={"New Job"}
+        reverse
+        titleVariant="large"
+        shortcuts={[
+          {
+            key: "back",
+            icon: ArrowLeft,
+            onPress: () => {
+              router.back();
+            },
           },
-        }}
+        ]}
       />
-    </View>
+      <View className={cn("flex-1 px-2 bg-background", className)}>
+        <Stepper
+          classNames={{
+            controlsWrapper: "pb-8",
+          }}
+          steps={[
+            {
+              title: "Define the job",
+              description: "Start by providing the basic details of the job.",
+              component: (
+                <FormBuilder
+                  structure={jobCreateFormStructure}
+                  className="py-2"
+                />
+              ),
+            },
+            {
+              title: "Add Images",
+              description: "Upload images related to the job.",
+              component: (
+                <FormBuilder
+                  structure={jobImagePickerStructure}
+                  className="py-2"
+                />
+              ),
+            },
+          ]}
+          closingAction={{
+            label: "Publish",
+            onPress: () => {
+              createJob(jobStore.createDto);
+            },
+          }}
+        />
+      </View>
+    </StableSafeAreaView>
   );
 };

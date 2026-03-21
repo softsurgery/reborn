@@ -1,4 +1,5 @@
 import {
+  ArrowLeft,
   CheckCircle,
   Clock,
   FileText,
@@ -13,8 +14,9 @@ import { cn } from "~/lib/utils";
 import { ResponseJobDto, ResponseJobMetadataDto } from "~/types";
 import React from "react";
 import { UseQueryResult } from "@tanstack/react-query";
-
-import { ImageCarouselWithModal } from "~/components/shared/ImageCarouselWithModal";
+import { ImageCarouselWithModal } from "~/components/shared/image-carousel/ImageCarouselWithModal";
+import { Icon } from "~/components/ui/icon";
+import { router } from "expo-router";
 
 interface JobCardHeaderProps {
   className?: string;
@@ -48,6 +50,12 @@ export const JobCardHeader = ({
             imageQueries={imageQueries}
             autoPlay={true}
             autoPlayInterval={3000}
+            extraActions={[
+              {
+                icon: <Icon as={ArrowLeft} size={24} color="white" />,
+                onPress: () => router.back(),
+              },
+            ]}
           />
         </View>
       )}

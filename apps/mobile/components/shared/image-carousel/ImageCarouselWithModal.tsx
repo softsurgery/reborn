@@ -18,8 +18,8 @@ import { UseQueryResult } from "@tanstack/react-query";
 import { ImageCarouselModal } from "./ImageCarouselModal";
 import { useImageCarouselModal } from "~/hooks/useImageCarouselModal";
 import { cn } from "~/lib/utils";
-import { StablePressable } from "./StablePressable";
-import { Icon } from "../ui/icon";
+import { StablePressable } from "../StablePressable";
+import { Icon } from "../../ui/icon";
 import { Expand } from "lucide-react-native";
 
 interface ImageCarouselWithModalProps {
@@ -30,6 +30,10 @@ interface ImageCarouselWithModalProps {
   autoPlay?: boolean;
   autoPlayInterval?: number;
   heightScale?: number;
+  extraActions?: {
+    icon: React.ReactNode;
+    onPress: () => void;
+  }[];
 }
 
 export const ImageCarouselWithModal = ({
@@ -40,6 +44,7 @@ export const ImageCarouselWithModal = ({
   autoPlay = true,
   autoPlayInterval = 3000,
   heightScale = 0.4,
+  extraActions,
 }: ImageCarouselWithModalProps) => {
   const ref = React.useRef<ICarouselInstance>(null);
   const progress = useSharedValue<number>(0);
@@ -100,6 +105,17 @@ export const ImageCarouselWithModal = ({
           >
             <Icon as={Expand} size={22} color="white" />
           </StablePressable>
+          <View className="absolute top-3 left-3 z-10 flex flex-row gap-2">
+            {extraActions?.map((action, index) => (
+              <StablePressable
+                key={index}
+                className="bg-black/50 p-2 rounded-full"
+                onPress={action.onPress}
+              >
+                {action.icon}
+              </StablePressable>
+            ))}
+          </View>
 
           <Animated.View
             style={[
