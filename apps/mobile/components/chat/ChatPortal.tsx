@@ -5,7 +5,7 @@ import { LegendList } from "@legendapp/list";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { router } from "expo-router";
-import { ArrowLeft, Search, X } from "lucide-react-native";
+import { Bell, Search, X } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import { RefreshControl, View } from "react-native";
 import { api } from "~/api";
@@ -18,6 +18,7 @@ import { Input } from "../ui/input";
 import { Text } from "../ui/text";
 import { UserEntry } from "./UserEntry";
 import { Icon } from "../ui/icon";
+import { useNotificationContext } from "~/contexts/NotificationContext";
 
 interface ChatPortalProps {
   className?: string;
@@ -27,6 +28,7 @@ export const ChatPortal = ({ className }: ChatPortalProps) => {
   const { t } = useTranslation("common");
   const [searchQuery, setSearchQuery] = React.useState("");
   const { value: debouncedSearchQuery } = useDebounce(searchQuery, 500);
+  const { newCount, resetCount } = useNotificationContext();
 
   const { currentUser } = useCurrentUser();
 
@@ -93,27 +95,20 @@ export const ChatPortal = ({ className }: ChatPortalProps) => {
   );
 
   const [dragging, setDragging] = React.useState(false);
-  const { value: debouncedDragging, loading: isDragging } = useDebounce(
-    dragging,
-    1000,
-  );
 
   return (
-    <StableSafeAreaView
-      className={cn("flex flex-1 flex-col bg-card", className)}
-    >
+    <StableSafeAreaView className={cn("flex flex-1 flex-col", className)}>
       <ApplicationHeader
-        className="border-b border-border pb-2"
         title={t("screens.messages")}
-        titleVariant="large"
-        reverse
+        titleVariant="h1"
         shortcuts={[
           {
-            key: "back",
-            icon: ArrowLeft,
+            icon: Bell,
             onPress: () => {
-              router.back();
+              router.push("/main/notifications");
+              resetCount();
             },
+            badgeText: newCount > 0 ? `${newCount}` : undefined,
           },
         ]}
       />
