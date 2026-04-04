@@ -1,4 +1,5 @@
 import {
+  CheckboxFieldProps,
   DateFieldProps,
   Field,
   FieldVariant,
@@ -6,7 +7,6 @@ import {
   PictureFieldProps,
   SelectFieldProps,
   SelectOption,
-  SwitchFieldProps,
   TextareaFieldProps,
   TextFieldProps,
 } from "~/components/shared/form-builder/types";
@@ -183,14 +183,15 @@ export const useUpdateProfileFormStructure = ({
   };
 
   //visibility
-  const isPrivateField: Field<SwitchFieldProps> = {
+  const isPrivateField: Field<CheckboxFieldProps> = {
     id: "is-public",
-    label: "Profile Visibility",
-    variant: FieldVariant.SWITCH,
+    label: "Private Profile",
+    variant: FieldVariant.CHECKBOX,
     disabled: false,
     description: "Check to make your profile private",
     error: store.errors?.isPrivate?.[0],
     props: {
+      label: "Do not show my profile to others",
       checked: store.updateDto?.isPrivate,
       onCheckedChange: (value) => {
         store.setNested("updateDto.isPrivate", value);

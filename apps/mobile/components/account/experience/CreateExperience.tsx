@@ -64,9 +64,9 @@ export const CreateExperience = ({ className }: CreateExperienceProps) => {
   };
 
   return (
-    <StableSafeAreaView className={cn("flex-1", className)}>
+    <StableSafeAreaView className={cn("flex-1 bg-card", className)}>
       <ApplicationHeader
-        className="border-b border-border pb-2 bg-transparent"
+        className="border-b border-border pb-2"
         title={t("screens.experience")}
         titleVariant="large"
         reverse

@@ -1,16 +1,38 @@
 import React from "react";
-import { api } from "~/api";
 import { useQuery } from "@tanstack/react-query";
+import { api } from "~/api";
 
-export const useJobCategories = (enabled?: boolean) => {
+interface useJobCategoriesProps {
+  enabled?: boolean;
+}
+
+export const useJobCategories = (
+  { enabled }: useJobCategoriesProps = { enabled: true },
+) => {
   const {
-    data: jobCategoriesResp,
+    data: jobCategoryRefTypeResp,
+    isPending: isJobCategoriesRefTypePending,
+  } = useQuery({
+    queryKey: ["job-category-ref-type"],
+    queryFn: async () => {
+      return api.referenceTypes.refType.findById("job-category");
+    },
+    enabled,
+  });
+
+  const {
     isFetching: isFetchJobCategoriesPending,
+    data: jobCategoriesResp,
     refetch: refetchJobCategories,
   } = useQuery({
     queryKey: ["job-categories"],
-    queryFn: () => api.jobCategory.findAll(),
-    enabled,
+    queryFn: async () => {
+      if (!jobCategoryRefTypeResp) return [];
+      return api.referenceTypes.refParam.findAll({
+        filter: `refTypeId||$eq||${jobCategoryRefTypeResp?.id}`,
+      });
+    },
+    enabled: enabled && !!jobCategoryRefTypeResp,
   });
 
   const jobCategories = React.useMemo(() => {
@@ -20,7 +42,8 @@ export const useJobCategories = (enabled?: boolean) => {
 
   return {
     jobCategories,
-    isFetchJobCategoriesPending,
+    isJobCategoriesPending:
+      isJobCategoriesRefTypePending || isFetchJobCategoriesPending,
     refetchJobCategories,
   };
 };

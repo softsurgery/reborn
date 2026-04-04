@@ -75,8 +75,8 @@ export const IncomingRequestEntry = ({
   return (
     <View
       className={cn(
-        "flex flex-col bg-card border border-border rounded-xl overflow-hidden shadow-sm",
-        className
+        "flex flex-col bg-background border border-border rounded-xl overflow-hidden shadow-sm",
+        className,
       )}
     >
       {/* Header */}
@@ -91,7 +91,7 @@ export const IncomingRequestEntry = ({
           <View
             className={cn(
               "flex flex-row items-center gap-1.5 self-start px-2.5 py-1 rounded-full",
-              currentStatus.bgColor
+              currentStatus.bgColor,
             )}
           >
             <Icon
@@ -197,7 +197,7 @@ const IncomingPendingActionBlock = ({
       <View
         className={cn(
           "flex flex-row items-center justify-center mb-4 px-3 gap-2",
-          className
+          className,
         )}
       >
         <Button
@@ -302,13 +302,12 @@ const IncomingPendingActionBlock = ({
 
 const IncomingApprovedActionBlock = ({
   className,
-  request,
 }: IncomingRequestEntryProps) => {
   return (
     <View
       className={cn(
         "flex flex-row items-center justify-center mb-4 px-3 gap-2",
-        className
+        className,
       )}
     >
       <Button

@@ -28,20 +28,16 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
 
   const jobStore = useJobStore();
   const { currencies } = useCurrencies();
-  const { isFetchJobTagsPending, jobTags } = useJobTags();
-  const { jobCategories, isFetchJobCategoriesPending } = useJobCategories();
+  // const { isJobTagsPending, jobTags } = useJobTags();
+  const { jobCategories, isJobCategoriesPending } = useJobCategories();
 
   const { jobCreateFormStructure, jobImagePickerStructure } =
     useCreateJobFormStructure({
       jobStore,
       currencies,
-      jobTags: mapToSelectOptions({
-        data: isFetchJobTagsPending ? [] : jobTags,
-        labelKey: "label",
-        valueKey: "id",
-      }),
+      jobTags: [],
       jobCategories: mapToSelectOptions({
-        data: isFetchJobCategoriesPending ? [] : jobCategories,
+        data: jobCategories,
         labelKey: "label",
         valueKey: "id",
       }),

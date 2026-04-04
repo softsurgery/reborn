@@ -23,7 +23,6 @@ import { useServerImage } from "~/hooks/content/useServerImage";
 import { identifyUserAvatar } from "~/lib/user.utils";
 import { StableKeyboardAwareScrollView } from "../shared/StableKeyboardAwareScrollView";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { Icon } from "../ui/icon";
 import { router } from "expo-router";
 import { ApplicationHeader } from "../shared/AppHeader";
 import { cn } from "~/lib/utils";
@@ -47,7 +46,7 @@ export const UpdateProfile = ({ className }: UpdateProfileProps) => {
   });
 
   const userStore = useUserStore();
-  const { regions, isFetchRegionsPending } = useRegions();
+  const { regions, isRegionsPending } = useRegions();
 
   const { uploadFiles: uploadPicture, isUploadPending } = useUploadMutation({
     onSuccess: (response: Upload[]) => {
@@ -61,7 +60,7 @@ export const UpdateProfile = ({ className }: UpdateProfileProps) => {
   const { updateProfileStructure } = useUpdateProfileFormStructure({
     store: userStore,
     regions: mapToSelectOptions({
-      data: isFetchRegionsPending ? [] : regions,
+      data: isRegionsPending ? [] : regions,
       labelKey: "label",
       valueKey: "id",
     }),
@@ -142,9 +141,9 @@ export const UpdateProfile = ({ className }: UpdateProfileProps) => {
   if (isCurrentUserPending) return <Loader isPending={true} />;
 
   return (
-    <StableSafeAreaView className={cn("flex-1", className)}>
+    <StableSafeAreaView className={cn("flex-1 bg-card", className)}>
       <ApplicationHeader
-        className="border-b border-border pb-2 bg-transparent"
+        className="border-b border-border pb-2"
         title={"Update Profile"}
         titleVariant="large"
         reverse

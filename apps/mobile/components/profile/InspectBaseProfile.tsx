@@ -1,6 +1,6 @@
 import React from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { router, useNavigation } from "expo-router";
+import { router } from "expo-router";
 import { Image, ScrollView, View } from "react-native";
 import { showToastable } from "react-native-toastable";
 import { api } from "~/api";
@@ -311,10 +311,16 @@ export const InspectBaseProfile = ({
               <StablePressable
                 className="p-2"
                 onPress={() => {
-                  if (section.key === "experience") {
-                    router.push("/main/account/create-experience");
-                  } else {
-                    router.push("/main/account/create-education");
+                  switch (section.key) {
+                    case "experience":
+                      router.push("/main/account/create-experience");
+                      break;
+                    case "education":
+                      router.push("/main/account/create-education");
+                      break;
+                    case "skills":
+                      router.push("/main/account/create-skill");
+                      break;
                   }
                 }}
                 onPressClassname="bg-primary/25 rounded-full"
@@ -324,10 +330,16 @@ export const InspectBaseProfile = ({
               <StablePressable
                 className="p-2"
                 onPress={() => {
-                  if (section.key === "experience") {
-                    router.push("/main/account/update-experiences");
-                  } else {
-                    router.push("/main/account/update-educations");
+                  switch (section.key) {
+                    case "experience":
+                      router.push("/main/account/update-experiences");
+                      break;
+                    case "education":
+                      router.push("/main/account/update-educations");
+                      break;
+                    case "skills":
+                      router.push("/main/account/update-skills");
+                      break;
                   }
                 }}
                 onPressClassname="bg-primary/25 rounded-full"
@@ -411,10 +423,7 @@ export const InspectBaseProfile = ({
                 </Text>
               )}
             </View>
-            <ProfileStat
-              clientStore={userStore}
-              className="flex flex-row"
-            />
+            <ProfileStat clientStore={userStore} className="flex flex-row" />
           </View>
           {currentUser?.id === user?.id && (
             <StablePressable>

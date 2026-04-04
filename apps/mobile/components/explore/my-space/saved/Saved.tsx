@@ -9,8 +9,8 @@ interface SavedProps {
 
 export const Saved = ({ className }: SavedProps) => {
   return (
-    <View className={cn("flex flex-1", className)}>
-      <View className="flex-1 mx-4">
+    <View className={cn("flex flex-1 bg-background", className)}>
+      <View className="flex-1">
         <SavedList search="" searching={false} />
       </View>
     </View>

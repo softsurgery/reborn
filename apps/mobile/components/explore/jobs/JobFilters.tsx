@@ -37,8 +37,6 @@ export const JobFilters = ({
     Internship: false,
   });
 
-  const { jobCategories } = useJobCategories();
-
   const handleOpenChange = (open: boolean) => {
     onOpenChange?.(open);
     Keyboard.dismiss();
@@ -106,7 +104,7 @@ export const JobFilters = ({
                 </View>
               </AccordionTrigger>
               <AccordionContent>
-                <Select
+                {/* <Select
                   title="Select a category to filter with"
                   value={category}
                   onSelect={(itemValue) => setCategory(itemValue)}
@@ -114,7 +112,7 @@ export const JobFilters = ({
                     label: category.label,
                     value: category.id.toString(),
                   }))}
-                />
+                /> */}
               </AccordionContent>
             </AccordionItem>
 

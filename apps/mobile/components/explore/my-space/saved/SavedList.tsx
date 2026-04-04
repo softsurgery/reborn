@@ -46,6 +46,7 @@ export const SavedList = ({ className, search, searching }: SavedListProps) => {
     <StableSafeAreaView className={cn("flex-1", className)}>
       <ApplicationHeader
         title="Saved"
+        className="border-b border-border pb-2"
         titleVariant="large"
         reverse
         shortcuts={[

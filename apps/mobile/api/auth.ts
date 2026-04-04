@@ -14,11 +14,11 @@ const saveToken = (access_token: string, refresh_token: string) => {
 };
 
 const signIn = async (
-  requestClientSignInDto: RequestClientSignInDto
+  requestClientSignInDto: RequestClientSignInDto,
 ): Promise<ResponseClientSigninDto> => {
   const response = await axios.post(
     "/client-auth/sign-in",
-    requestClientSignInDto
+    requestClientSignInDto,
   );
   saveToken(response.data.access_token, response.data.refresh_token);
   return response.data;
@@ -27,7 +27,7 @@ const signIn = async (
 const signUp = async (requestClientSignUpDto: RequestClientSignUpDto) => {
   const response = await axios.post(
     "/client-auth/sign-up",
-    requestClientSignUpDto
+    requestClientSignUpDto,
   );
   return response.data;
 };

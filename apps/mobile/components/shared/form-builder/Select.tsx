@@ -8,11 +8,13 @@ import { Icon } from "~/components/ui/icon";
 import { Input } from "~/components/ui/input";
 import { Text } from "~/components/ui/text";
 import * as Haptics from "expo-haptics";
-import { Check, ChevronDown, Search } from "lucide-react-native";
+import { Check, ChevronDown, Search, X } from "lucide-react-native";
 import React from "react";
 import { Keyboard, ScrollView, TouchableOpacity, View } from "react-native";
 import type { SelectOption } from "~/components/shared/form-builder/types";
 import { cn } from "~/lib/utils";
+import { StablePressable } from "../StablePressable";
+import { Separator } from "~/components/ui/separator";
 
 interface SelectProps {
   className?: string;
@@ -91,21 +93,30 @@ export default function Select({
       </DialogTrigger>
 
       <DialogContent
-        className={cn("w-[90vw] p-0 py-4 px-2", classNames?.content)}
+        className={cn(
+          "w-[90vw] max-h-[50vh] p-0 pt-4 px-2",
+          classNames?.content,
+        )}
       >
         <DialogTitle>
-          <View className="flex flex-col w-full px-2">
-            <Text className="text-lg font-semibold text-foreground">
-              {title || "Select Option"}
-            </Text>
-
-            {description && (
-              <Text className="text-muted-foreground text-sm">
-                {description}
+          <View className="flex flex-row justify-between items-start w-full">
+            <View className="flex flex-col px-2">
+              <Text className="text-lg font-semibold text-foreground">
+                {title || "Select Option"}
               </Text>
-            )}
+
+              {description && (
+                <Text className="text-muted-foreground text-sm">
+                  {description}
+                </Text>
+              )}
+            </View>
+            <StablePressable onPress={() => setVisible(false)} className="px-2">
+              <Icon as={X} size={24} />
+            </StablePressable>
           </View>
         </DialogTitle>
+        <Separator className="" />
         {searchable && (
           <View className="mb-3 relative">
             <Icon

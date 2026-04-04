@@ -1,11 +1,11 @@
 import React from "react";
+import { cn } from "~/lib/utils";
 import { ResponseJobRequestDto } from "~/types";
 import { IncomingRequestEntry } from "./IncomingRequest";
 import { IncomingRequestSkeleton } from "./IncomingRequestSkeleton";
 import { OutgoingRequestEntry } from "./OutgoingRequest";
 import { OutgoingRequestSkeleton } from "./OutgoingRequestSkeleton";
 import { LegendList } from "@legendapp/list";
-import { cn } from "~/lib/utils";
 import { RefreshControl, View } from "react-native";
 import { Text } from "~/components/ui/text";
 import { useRequestSystem } from "~/hooks/content/job/useInfiniteJobRequests";
@@ -54,7 +54,7 @@ export const RequestsList = ({
           refetchRequests={refetchRequests}
         />
       ),
-    [variant]
+    [variant],
   );
 
   const [dragging, setDragging] = React.useState(false);

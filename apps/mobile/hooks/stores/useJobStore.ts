@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { GalleryItem } from "~/components/shared/form-builder/GalleryPictureUploader";
 import { setDeepValue } from "~/lib/object.lib";
 import { CreateJobDto, ResponseJobDto, UpdateJobDto } from "~/types";
 
@@ -10,6 +11,7 @@ interface JobStoreData {
   createDtoErrors: Record<string, string[]>;
   updateDtoErrors: Record<string, string[]>;
   searchHistory: ResponseJobDto[];
+  pictures: GalleryItem[];
 }
 
 export interface JobStore extends JobStoreData {
@@ -40,6 +42,7 @@ const initialState: JobStoreData = {
     difficulty: undefined,
     uploads: [],
   },
+  pictures: [],
   createDtoErrors: {},
   updateDtoErrors: {},
   searchHistory: [],
@@ -62,7 +65,7 @@ export const useJobStore = create<JobStore>()(
           const updatedRoot = setDeepValue(
             { ...state[rootKey as keyof JobStoreData] },
             nestedPath,
-            value
+            value,
           );
           return {
             ...state,
@@ -89,6 +92,6 @@ export const useJobStore = create<JobStore>()(
     {
       name: "job-store", // key in localStorage
       partialize: (state) => ({ searchHistory: state.searchHistory }), // only persist searchHistory
-    }
-  )
+    },
+  ),
 );

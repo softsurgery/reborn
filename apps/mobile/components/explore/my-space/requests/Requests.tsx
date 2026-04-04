@@ -1,7 +1,7 @@
 import React from "react";
 import { View } from "react-native";
 import { cn } from "~/lib/utils";
-import { ArrowDown, ArrowLeft, ArrowUp, LucideIcon } from "lucide-react-native";
+import { ArrowLeft, LucideIcon } from "lucide-react-native";
 import { StablePressable } from "~/components/shared/StablePressable";
 import { Text } from "~/components/ui/text";
 import { RequestsList } from "./RequestList";
@@ -9,6 +9,7 @@ import { Icon } from "~/components/ui/icon";
 import { StableSafeAreaView } from "~/components/shared/StableSafeAreaView";
 import { router } from "expo-router";
 import { ApplicationHeader } from "~/components/shared/AppHeader";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
 type TabType = "incoming" | "outgoing";
 
@@ -18,13 +19,14 @@ interface RequestsProps {
   onTabChange?: (tab: TabType) => void;
 }
 
+const Tab = createMaterialTopTabNavigator();
+
 export const Requests = ({
   className,
   initialTab = "incoming",
   onTabChange,
 }: RequestsProps) => {
   const [tab, setTab] = React.useState<TabType>(initialTab);
-  const [search, setSearch] = React.useState("");
 
   // Memoized tab change handler
   const handleTabChange = React.useCallback(
@@ -69,8 +71,9 @@ export const Requests = ({
     [tab, handleTabChange],
   );
   return (
-    <StableSafeAreaView className={cn("flex-1", className)}>
+    <StableSafeAreaView className={cn("flex-1 bg-card", className)}>
       <ApplicationHeader
+        className="border-b border-border pb-2"
         title={"Requests"}
         titleVariant="large"
         reverse
@@ -81,16 +84,43 @@ export const Requests = ({
           },
         ]}
       />
-      <View className="flex flex-row border-b border-border">
-        {renderTabButton("incoming", "Incoming", ArrowDown)}
-        {renderTabButton("outgoing", "Outgoing", ArrowUp)}
-      </View>
-      <View className="flex-1 mx-4">
-        <RequestsList
-          search=""
-          searching={false}
-          variant={tab as "incoming" | "outgoing"}
-        />
+      <View className="flex flex-1" style={{ minHeight: 400 }}>
+        <Tab.Navigator
+          screenOptions={{
+            tabBarScrollEnabled: false,
+            tabBarLabelStyle: {
+              fontSize: 12,
+              fontWeight: "600",
+              textTransform: "none",
+            },
+            tabBarIndicatorStyle: { backgroundColor: "#9B2C2C" },
+            tabBarStyle: { backgroundColor: "transparent" },
+          }}
+          commonOptions={{
+            sceneStyle: {
+              flex: 1,
+            },
+          }}
+        >
+          <Tab.Screen
+            name="incoming"
+            options={{
+              tabBarLabel: "Incoming",
+            }}
+            component={() => (
+              <RequestsList search="" searching={false} variant={"incoming"} />
+            )}
+          />
+          <Tab.Screen
+            name="outgoing"
+            options={{
+              tabBarLabel: "Outgoing",
+            }}
+            component={() => (
+              <RequestsList search="" searching={false} variant={"outgoing"} />
+            )}
+          />
+        </Tab.Navigator>
       </View>
     </StableSafeAreaView>
   );

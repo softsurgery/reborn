@@ -24,7 +24,7 @@ interface ExploreProps {
 export const Explore = ({ className }: ExploreProps) => {
   const { colorScheme } = useColorScheme();
   const { t } = useTranslation("common");
-  const [search, setSearch] = React.useState("");
+  const [search] = React.useState("");
   const [openJobFilters, setOpenJobFilters] = React.useState(false);
 
   const { newCount, resetCount } = useNotificationContext();

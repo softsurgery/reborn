@@ -1,8 +1,10 @@
 import React from "react";
+import { GalleryItem } from "~/components/shared/form-builder/GalleryPictureUploader";
 import {
   Field,
   FieldVariant,
   FormStructure,
+  GalleryFieldProps,
   NumberFieldProps,
   SelectFieldProps,
   SelectOption,
@@ -27,7 +29,7 @@ export const useCreateJobFormStructure = ({
 }: JobCreateFormStructureProps) => {
   const selectedCurrency = React.useMemo(() => {
     return currencies.find(
-      (currency) => currency.id === jobStore.createDto.currencyId
+      (currency) => currency.id === jobStore.createDto.currencyId,
     );
   }, [currencies, jobStore.createDto.currencyId]);
 
@@ -166,7 +168,41 @@ export const useCreateJobFormStructure = ({
     ],
   };
 
+  //Step 3 : Pictures ******************************************************************************************* */
+
+  const pictureField: Field<GalleryFieldProps> = {
+    id: "pictures",
+    label: "Job Images",
+    variant: FieldVariant.GALLERY,
+    description: "Add images related to the job.",
+    props: {
+      images: jobStore.pictures,
+      maxImages: 6,
+      onChange: (pictures: GalleryItem[]) =>
+        jobStore.setNested("pictures", pictures),
+      editable: true,
+    },
+  };
+
+  const jobImagePickerStructure: FormStructure = {
+    title: "Add Images",
+    description: "Upload images related to the job.",
+    orientation: "horizontal",
+    fieldsets: [
+      {
+        title: "Job Images",
+        rows: [
+          {
+            id: 1,
+            fields: [pictureField],
+          },
+        ],
+      },
+    ],
+  };
+
   return {
     jobCreateFormStructure,
+    jobImagePickerStructure,
   };
 };

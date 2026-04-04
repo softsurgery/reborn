@@ -7,7 +7,6 @@ import { upload } from "./upload";
 import { _public } from "./public";
 import { job } from "./job";
 import { store } from "./store";
-import { jobCategory } from "./job-category";
 import { jobTag } from "./job-tag";
 import { jobRequest } from "./job-request";
 import { chat } from "./chat";
@@ -16,7 +15,7 @@ import { jobView } from "./job-view";
 import { notifications } from "./notifications";
 import { education } from "./education";
 import { experience } from "./experience";
-import { refImpl } from "./ref-impl";
+import { referenceTypes } from "./reference-types";
 
 export const api = {
   auth,
@@ -27,7 +26,6 @@ export const api = {
   follow,
   upload,
   job,
-  jobCategory,
   jobRequest,
   jobSave,
   jobView,
@@ -37,5 +35,5 @@ export const api = {
   notifications,
   education,
   experience,
-  refImpl,
+  referenceTypes,
 };
