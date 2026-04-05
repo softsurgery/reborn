@@ -2069,6 +2069,14 @@
   resolved "https://registry.yarnpkg.com/@react-native-masked-view/masked-view/-/masked-view-0.3.2.tgz#7064533a573e3539ec912f59c1f457371bf49dd9"
   integrity sha512-XwuQoW7/GEgWRMovOQtX3A4PrXhyaZm0lVUiY8qJDvdngjLms9Cpdck6SmGAUNqQwcj2EadHC1HwL0bEyoa/SQ==
 
+"@react-native-ohos/react-native-keyboard-aware-scroll-view@^0.10.0":
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/@react-native-ohos/react-native-keyboard-aware-scroll-view/-/react-native-keyboard-aware-scroll-view-0.10.0.tgz#1b5810703ddddcf9efb54c4a2602bdc12d30f49c"
+  integrity sha512-zKec0LYdNaFM9e/oWlnxzE2xiYHWJFbGKml/ecMOwTR0z/V0h2VwZQid3Yg49L7Z6YDHQYQTaH+GRwFjf7DVJw==
+  dependencies:
+    prop-types "^15.6.2"
+    react-native-iphone-x-helper "^1.0.3"
+
 "@react-native-reusables/cli@^0.5.4":
   version "0.5.4"
   resolved "https://registry.yarnpkg.com/@react-native-reusables/cli/-/cli-0.5.4.tgz#bb3fdb091241d75a288ec4ca009864408d691b6b"
@@ -6853,14 +6861,6 @@ react-native-is-edge-to-edge@^1.1.6, react-native-is-edge-to-edge@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/react-native-is-edge-to-edge/-/react-native-is-edge-to-edge-1.2.1.tgz#64e10851abd9d176cbf2b40562f751622bde3358"
   integrity sha512-FLbPWl/MyYQWz+KwqOZsSyj2JmLKglHatd3xLZWskXOpRaio4LfEDEz8E/A6uD8QoTHW6Aobw1jbEwK7KMgR7Q==
-
-react-native-keyboard-aware-scroll-view@^0.9.5:
-  version "0.9.5"
-  resolved "https://registry.yarnpkg.com/react-native-keyboard-aware-scroll-view/-/react-native-keyboard-aware-scroll-view-0.9.5.tgz#e2e9665d320c188e6b1f22f151b94eb358bf9b71"
-  integrity sha512-XwfRn+T/qBH9WjTWIBiJD2hPWg0yJvtaEw6RtPCa5/PYHabzBaWxYBOl0usXN/368BL1XktnZPh8C2lmTpOREA==
-  dependencies:
-    prop-types "^15.6.2"
-    react-native-iphone-x-helper "^1.0.3"
 
 react-native-localize@^3.5.4:
   version "3.5.4"
