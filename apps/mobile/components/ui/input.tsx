@@ -10,7 +10,7 @@ const Input = React.forwardRef<TextInput, TextInputProps>(
       <TextInput
         ref={ref}
         className={cn(
-          "dark:bg-input/30 border-input bg-background text-foreground flex h-8 w-full min-w-0 flex-row items-center rounded-md border px-3 text-xs leading-5 shadow-sm shadow-black/5",
+          "dark:bg-input/30 border-input bg-background text-foreground flex h-9 w-full min-w-0 flex-row items-center rounded-md border px-3 text-sm leading-5 shadow-sm shadow-black/5",
           props.editable === false &&
             cn(
               "opacity-50",
@@ -24,7 +24,7 @@ const Input = React.forwardRef<TextInput, TextInputProps>(
               "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
               "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
             ),
-            native: "placeholder:text-muted-foreground/50 placeholder:text-xs",
+            native: "placeholder:text-muted-foreground/50 placeholder:text-sm",
           }),
           "font-poppins",
           isRTL ? "text-right" : "text-left",
