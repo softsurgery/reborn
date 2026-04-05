@@ -1,7 +1,7 @@
 import React from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { router } from "expo-router";
-import { Image, ScrollView, View } from "react-native";
+import { Image, View } from "react-native";
 import { showToastable } from "react-native-toastable";
 import { api } from "~/api";
 import { useFollowSystem } from "~/hooks/content/useFollowSystem";
@@ -19,16 +19,7 @@ import {
 import { Text } from "../ui/text";
 import { StablePressable } from "../shared/StablePressable";
 import { Icon } from "../ui/icon";
-import {
-  Mail,
-  Pen,
-  Plus,
-  UserPlus,
-  Edit,
-  ArrowLeft,
-} from "lucide-react-native";
-import { Separator } from "../ui/separator";
-import { StableScrollView } from "../shared/StableScrollView";
+import { Mail, UserPlus, Edit, ArrowLeft } from "lucide-react-native";
 import { cn } from "~/lib/utils";
 import { ProfileStat } from "../explore/users/ProfileStat";
 import { Button } from "../ui/button";
@@ -38,14 +29,12 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import { StableSafeAreaView } from "../shared/StableSafeAreaView";
 import { ApplicationHeader } from "../shared/AppHeader";
 import { useTranslation } from "react-i18next";
-
-interface ProfileSection<T = unknown> {
-  key: string;
-  title: string;
-  data: T[];
-  editable: boolean;
-  renderItem: (item: any) => React.ReactNode;
-}
+import { useExperiences } from "~/hooks/content/user/useExperiences";
+import { useEducations } from "~/hooks/content/user/useEducations";
+import { ProfileSection } from "./sections/profile-section";
+import { AboutTab } from "./sections/AboutTab";
+import { ExperienceTab } from "./sections/ExperienceTab";
+import { SnippetsTab } from "./sections/SnippetTab";
 
 interface InspectBaseProfileProps {
   className?: string;
@@ -56,71 +45,6 @@ interface InspectBaseProfileProps {
 }
 
 const Tab = createMaterialTopTabNavigator();
-
-const AboutTab = ({ user }: { user: any }) => (
-  <ScrollView className="flex-1 bg-background">
-    <View className="flex flex-col gap-4 pb-8">
-      {/* Bio Section */}
-      {user?.bio ? (
-        <View className="bg-card border border-border overflow-hidden">
-          <View className="p-4 bg-primary/10">
-            <Text variant="h4">About</Text>
-          </View>
-          <Separator />
-          <View className="p-4">
-            <SeeMoreText
-              textClassname="text-sm leading-6 text-foreground"
-              numberOfLines={4}
-            >
-              {user.bio}
-            </SeeMoreText>
-          </View>
-        </View>
-      ) : (
-        <View className="bg-card border border-border p-4">
-          <Text className="text-sm text-muted-foreground italic text-center">
-            No bio added yet
-          </Text>
-        </View>
-      )}
-    </View>
-  </ScrollView>
-);
-
-const ExperienceTab = ({
-  profileSections,
-  renderSection,
-}: {
-  profileSections: ProfileSection[];
-  renderSection: (section: ProfileSection) => React.ReactNode;
-}) => (
-  <StableScrollView className="flex-1 bg-background">
-    <View className="flex flex-col gap-4 pb-8">
-      {profileSections
-        .filter(
-          (s) =>
-            s.key === "experience" ||
-            s.key === "education" ||
-            s.key === "skills",
-        )
-        .map(renderSection)}
-    </View>
-  </StableScrollView>
-);
-
-const SkillsSnippetsTab = ({
-  profileSections,
-  renderSection,
-}: {
-  profileSections: ProfileSection[];
-  renderSection: (section: ProfileSection) => React.ReactNode;
-}) => (
-  <StableScrollView className="flex-1 bg-background">
-    <View className="flex flex-col gap-4 pb-8">
-      {profileSections.filter((s) => s.key === "snippets").map(renderSection)}
-    </View>
-  </StableScrollView>
-);
 
 export const InspectBaseProfile = ({
   className,
@@ -135,7 +59,9 @@ export const InspectBaseProfile = ({
   const storeRef = React.useRef(createUserStore());
   const userStore = storeRef?.current?.();
 
-  const { user } = useIdentifiedUser({ id });
+  const { user } = useIdentifiedUser({
+    id,
+  });
   const { currentUser } = useCurrentUser();
 
   const identity = React.useMemo(() => identifyUser(user), [user]);
@@ -221,6 +147,22 @@ export const InspectBaseProfile = ({
       userStore?.set("responseFollowCountsDto", followDataCount);
   }, [followDataCount]);
 
+  // experience side-effects
+  const { experiences, isExperiencesPending, refetchExperiences } =
+    useExperiences({ id, enabled: !!user });
+  React.useEffect(() => {
+    if (experiences) userStore?.set("experiences", experiences);
+  }, [experiences]);
+
+  // education side-effects
+  const { educations, isEducationsPending, refetchEducations } = useEducations({
+    id,
+    enabled: !!user,
+  });
+  React.useEffect(() => {
+    if (educations) userStore?.set("educations", educations);
+  }, [educations]);
+
   React.useEffect(() => {
     return () => {
       userStore?.reset();
@@ -228,14 +170,11 @@ export const InspectBaseProfile = ({
     };
   }, []);
 
-  // ---------------------------------------------------------------
-  //  PROFILE SECTIONS CONFIG
-  // ---------------------------------------------------------------
   const profileSections: ProfileSection[] = [
     {
       key: "experience",
       title: "Experience",
-      data: user?.experiences || [],
+      data: userStore?.experiences || [],
       editable: currentUser?.id === user?.id,
       renderItem: (experience: ResponseExperienceDto) => (
         <View className="flex flex-col mb-4 mt-2">
@@ -256,11 +195,15 @@ export const InspectBaseProfile = ({
     {
       key: "education",
       title: "Education",
-      data: user?.educations || [],
+      data: userStore?.educations || [],
       editable: currentUser?.id === user?.id,
       renderItem: (education: ResponseEducationDto) => (
-        <View className="flex flex-col mb-4 gap-4">
+        <View className="flex flex-col mb-4 gap-2">
           <Text className="font-semibold">{education.title}</Text>
+          <Text className="text-xs text-muted-foreground my-1">
+            {format(new Date(education.startDate!), "MMM yyyy")} —{" "}
+            {format(new Date(education.endDate!), "MMM yyyy")}
+          </Text>
           <Text className="text-sm text-muted-foreground">
             {education.institution}
           </Text>
@@ -295,82 +238,6 @@ export const InspectBaseProfile = ({
       ),
     },
   ];
-
-  // ---------------------------------------------------------------
-  //  SECTION RENDERER
-  // ---------------------------------------------------------------
-  const renderSection = (section: ProfileSection) => (
-    <View className="flex flex-col flex-1" key={section.key}>
-      <View className={cn("flex flex-1 pt-x bg-card border border-border")}>
-        <View className="flex flex-row items-center justify-between bg-primary/10">
-          <View className="p-4">
-            <Text variant="h4">{section.title}</Text>
-          </View>
-          {section.editable && (
-            <View className="flex flex-row gap-1 items-center p-2">
-              <StablePressable
-                className="p-2"
-                onPress={() => {
-                  switch (section.key) {
-                    case "experience":
-                      router.push("/main/account/create-experience");
-                      break;
-                    case "education":
-                      router.push("/main/account/create-education");
-                      break;
-                    case "skills":
-                      router.push("/main/account/create-skill");
-                      break;
-                  }
-                }}
-                onPressClassname="bg-primary/25 rounded-full"
-              >
-                <Icon as={Plus} size={20} className="text-muted-foreground" />
-              </StablePressable>
-              <StablePressable
-                className="p-2"
-                onPress={() => {
-                  switch (section.key) {
-                    case "experience":
-                      router.push("/main/account/update-experiences");
-                      break;
-                    case "education":
-                      router.push("/main/account/update-educations");
-                      break;
-                    case "skills":
-                      router.push("/main/account/update-skills");
-                      break;
-                  }
-                }}
-                onPressClassname="bg-primary/25 rounded-full"
-              >
-                <Icon as={Pen} size={18} className="text-muted-foreground" />
-              </StablePressable>
-            </View>
-          )}
-        </View>
-      </View>
-
-      <Separator />
-
-      <View className="p-4">
-        {section.data?.length === 0 ? (
-          <View key={section.key}>
-            <Text className="text-sm text-muted-foreground italic text-center my-4">
-              No {section.title} added yet
-            </Text>
-          </View>
-        ) : (
-          <View className="flex flex-col gap-4">
-            {Array.isArray(section.data) &&
-              section.data.map((item, idx) => (
-                <View key={idx}>{section.renderItem(item)}</View>
-              ))}
-          </View>
-        )}
-      </View>
-    </View>
-  );
 
   // ---------------------------------------------------------------
   //  UI LAYOUT
@@ -413,7 +280,7 @@ export const InspectBaseProfile = ({
 
         <View className="flex flex-row flex-1 mt-16">
           <View className="flex flex-col flex-1 items-start justify-between px-4 gap-2">
-            <View className="flex flex-row items-center gap-2">
+            <View className="flex flex-col items-start">
               <Text className="text-xl font-semibold text-foreground">
                 {identity}
               </Text>
@@ -489,33 +356,26 @@ export const InspectBaseProfile = ({
               options={{
                 tabBarLabel: "About",
               }}
-              component={() => <AboutTab user={user} />}
-            />
+            >
+              {() => <AboutTab user={user} />}
+            </Tab.Screen>
 
             <Tab.Screen
               name="career"
               options={{
                 tabBarLabel: "Career",
               }}
-              component={() => (
-                <ExperienceTab
-                  profileSections={profileSections}
-                  renderSection={renderSection}
-                />
-              )}
-            />
+            >
+              {() => <ExperienceTab profileSections={profileSections} />}
+            </Tab.Screen>
             <Tab.Screen
               name="gallery"
               options={{
                 tabBarLabel: "Gallery",
               }}
-              component={() => (
-                <SkillsSnippetsTab
-                  profileSections={profileSections}
-                  renderSection={renderSection}
-                />
-              )}
-            />
+            >
+              {() => <SnippetsTab profileSections={profileSections} />}
+            </Tab.Screen>
           </Tab.Navigator>
         </View>
         <View>{!overrideContent && customContent ? customContent : null}</View>

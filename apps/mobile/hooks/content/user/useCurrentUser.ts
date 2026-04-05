@@ -2,14 +2,18 @@ import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { api } from "~/api";
 
-export const useCurrentUser = () => {
+interface useCurrentUserProps {
+  join?: string[];
+}
+
+export const useCurrentUser = ({ join = [] }: useCurrentUserProps = {}) => {
   const {
     data: currentUserResp,
     isPending: isCurrentUserPending,
     refetch: refetchCurrentUser,
   } = useQuery({
-    queryKey: ["current-user"],
-    queryFn: () => api.client.findCurrent(),
+    queryKey: ["current-user", join],
+    queryFn: () => api.client.findCurrent(join),
   });
 
   const currentUser = React.useMemo(() => {

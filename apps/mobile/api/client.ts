@@ -1,13 +1,20 @@
 import { ResponseUserDto, UpdateUserDto } from "~/types";
 import axios from "./axios";
 
-const findCurrent = async (): Promise<ResponseUserDto> => {
-  const response = await axios.get<ResponseUserDto>(`/admin/user/current`);
+const findCurrent = async (join: string[] = []): Promise<ResponseUserDto> => {
+  const response = await axios.get<ResponseUserDto>(`/admin/user/current`, {
+    params: { join: join.join(",") },
+  });
   return response.data;
 };
 
-const findById = async (id: string): Promise<ResponseUserDto> => {
-  const response = await axios.get<ResponseUserDto>(`/admin/user/${id}`);
+const findById = async (
+  id: string,
+  join: string[] = [],
+): Promise<ResponseUserDto> => {
+  const response = await axios.get<ResponseUserDto>(`/admin/user/${id}`, {
+    params: { join: join.join(",") },
+  });
   return response.data;
 };
 
