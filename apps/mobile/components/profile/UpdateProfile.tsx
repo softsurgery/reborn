@@ -96,6 +96,9 @@ export const UpdateProfile = ({ className }: UpdateProfileProps) => {
         queryClient.invalidateQueries({
           queryKey: ["current-user"],
         });
+        queryClient.invalidateQueries({
+          queryKey: ["user", currentUser?.id],
+        });
         showToastable({
           message: "Profile Updated Successfully",
           status: "success",

@@ -16,6 +16,7 @@ import { api } from "~/api";
 import { useTranslation } from "react-i18next";
 import { createEducationSchema } from "~/types/validations/education.validation";
 import { View } from "react-native";
+import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
 
 interface CreateEducationProps {
   className?: string;
@@ -23,6 +24,7 @@ interface CreateEducationProps {
 
 export const CreateEducation = ({ className }: CreateEducationProps) => {
   const { t } = useTranslation("common");
+  const { currentUser } = useCurrentUser();
   const userStore = useUserStore();
   const queryClient = useQueryClient();
 
@@ -31,8 +33,8 @@ export const CreateEducation = ({ className }: CreateEducationProps) => {
   });
 
   const { mutate: createEducation } = useMutation({
-    mutationFn: (data: { id: string; education: CreateEducationDto }) =>
-      api.education.create(data.id, data.education),
+    mutationFn: (data: { education: CreateEducationDto }) =>
+      api.education.createCurrent(data.education),
     onSuccess: () => {
       showToastable({
         message: "Education created successfully",
@@ -40,6 +42,9 @@ export const CreateEducation = ({ className }: CreateEducationProps) => {
       });
       queryClient.invalidateQueries({
         queryKey: ["educations", userStore.response?.id],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["user", currentUser?.id],
       });
       router.back();
     },
@@ -53,14 +58,12 @@ export const CreateEducation = ({ className }: CreateEducationProps) => {
     const result = createEducationSchema.safeParse(data);
     if (!result.success) {
       userStore.set("educationErrors", result.error.flatten().fieldErrors);
-    } else {
-      if (userStore.response?.id) {
-        createEducation({
-          id: userStore.response?.id!,
-          education: data,
-        });
-      }
     }
+    createEducation({
+      education: data,
+    });
+
+    console.log(userStore.response);
   };
 
   return (

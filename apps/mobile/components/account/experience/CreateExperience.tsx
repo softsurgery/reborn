@@ -16,6 +16,7 @@ import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 import { showToastable } from "react-native-toastable";
 import { useCreateExperienceFormStructure } from "./useCreateExperienceFormStructure";
+import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
 
 interface CreateExperienceProps {
   className?: string;
@@ -23,6 +24,7 @@ interface CreateExperienceProps {
 
 export const CreateExperience = ({ className }: CreateExperienceProps) => {
   const { t } = useTranslation("common");
+  const { currentUser } = useCurrentUser();
   const userStore = useUserStore();
   const queryClient = useQueryClient();
 
@@ -31,8 +33,8 @@ export const CreateExperience = ({ className }: CreateExperienceProps) => {
   });
 
   const { mutate: createExperience } = useMutation({
-    mutationFn: (data: { id: string; experience: CreateExperienceDto }) =>
-      api.experience.create(data.id, data.experience),
+    mutationFn: (data: { experience: CreateExperienceDto }) =>
+      api.experience.createCurrent(data.experience),
     onSuccess: () => {
       showToastable({
         message: "Experience created successfully",
@@ -41,9 +43,13 @@ export const CreateExperience = ({ className }: CreateExperienceProps) => {
       queryClient.invalidateQueries({
         queryKey: ["experiences", userStore.response?.id],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["user", currentUser?.id],
+      });
       router.back();
     },
     onError: (error: ServerErrorResponse) => {
+      console.log(error);
       showToastable({ message: error.response?.data?.message });
     },
   });
@@ -51,16 +57,13 @@ export const CreateExperience = ({ className }: CreateExperienceProps) => {
   const handleCreateSubmit = () => {
     const data = userStore.createExperienceDto;
     const result = createExperienceSchema.safeParse(data);
+    console.log(result);
     if (!result.success) {
       userStore.set("experienceErrors", result.error.flatten().fieldErrors);
-    } else {
-      if (userStore.response?.id) {
-        createExperience({
-          id: userStore.response?.id!,
-          experience: data,
-        });
-      }
     }
+    createExperience({
+      experience: data,
+    });
   };
 
   return (
