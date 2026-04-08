@@ -1,9 +1,7 @@
 import React from "react";
 import { View } from "react-native";
 import { Text } from "~/components/ui/text";
-import { Button } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
-import { router } from "expo-router";
 import Logo from "~/assets/images/reborn.svg";
 import { Dimensions } from "react-native";
 import { useSharedValue } from "react-native-reanimated";
@@ -14,9 +12,12 @@ import Carousel, {
 import { StableSafeAreaView } from "../shared/StableSafeAreaView";
 import { useColorScheme } from "nativewind";
 import { THEME } from "~/lib/theme";
+import { SSOButtons } from "./SSOButtons";
+import { Image } from "expo-image";
 
 const data = [...new Array(3).keys()];
 const width = Dimensions.get("window").width;
+const eWidth = width * 0.8;
 
 interface OnBoardingProps {
   className?: string;
@@ -40,7 +41,11 @@ export default function OnBoarding({ className }: OnBoardingProps) {
     >
       <View className="flex-1 flex flex-col justify-between">
         <View className="flex flex-row gap-2 px-4 items-center mt-5">
-          <Logo width={40} height={40} />
+          {/* <Logo width={40} height={40} /> */}
+          <Image
+            source={require("~/assets/images/reborn.png")}
+            style={{ width: 60, height: 60 }}
+          />
           <Text className="text-[22px] font-bold italic">REBORN</Text>
         </View>
 
@@ -48,12 +53,15 @@ export default function OnBoarding({ className }: OnBoardingProps) {
           <Carousel
             width={width}
             ref={ref}
-            style={{ width, height: width }}
+            style={{ width: width, height: eWidth }}
             data={data}
             onProgressChange={progress}
             renderItem={({ index }) => (
               <View className="justify-center items-center">
-                <Logo width={320} height={320} />
+                <Image
+                  source={require("~/assets/images/reborn.png")}
+                  style={{ width: eWidth, height: eWidth }}
+                />
               </View>
             )}
             autoPlayInterval={3000}
@@ -76,24 +84,11 @@ export default function OnBoarding({ className }: OnBoardingProps) {
         </View>
 
         <View className="flex flex-row gap-2 mt-5 px-4">
-          <Button
-            className="flex-1"
-            variant="outline"
-            onPress={() => router.navigate("/auth/sign-in")}
-          >
-            <Text className="text-3xl tracking-wider font-bold">
-              {"Get Started".toUpperCase()}
-            </Text>
-          </Button>
-          <Button
-            className="flex-1"
-            variant="outline"
-            onPress={() => router.navigate("/auth/sign-in")}
-          >
-            <Text className="text-3xl tracking-wider font-bold">
-              {"Get Started".toUpperCase()}
-            </Text>
-          </Button>
+          <SSOButtons
+            className="mx-4 mb-4 flex-1"
+            isSignInPending={false}
+            classic
+          />
         </View>
       </View>
     </StableSafeAreaView>
