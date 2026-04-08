@@ -44,7 +44,7 @@ export default function TabLayout() {
 
   const tabsConfig = [
     {
-      name: "index",
+      name: "explore",
       title: t("screens.explore"),
       icon: Telescope,
       iconSize: 34,
@@ -56,7 +56,7 @@ export default function TabLayout() {
       iconSize: 34,
     },
     {
-      name: "home",
+      name: "index",
       customButton: (props: any) => {
         const { onPress } = props;
         return (
