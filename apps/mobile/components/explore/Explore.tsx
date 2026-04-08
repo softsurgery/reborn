@@ -18,7 +18,7 @@ import { THEME } from "~/lib/theme";
 import { useScrollableElement } from "~/hooks/useScrollableElement";
 
 interface ExploreProps {
-  className: string;
+  className?: string;
 }
 
 export const Explore = ({ className }: ExploreProps) => {
