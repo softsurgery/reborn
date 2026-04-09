@@ -8,7 +8,7 @@ export const SnippetsTab = ({
 }: {
   profileSections: ProfileSection[];
 }) => (
-  <StableScrollView className="flex-1 bg-background">
+  <StableScrollView className="flex-1">
     <View className="flex flex-col gap-4 pb-8">
       {profileSections.filter((s) => s.key === "snippets").map(RenderSection)}
     </View>

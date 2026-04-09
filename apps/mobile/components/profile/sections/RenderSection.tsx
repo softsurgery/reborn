@@ -10,9 +10,9 @@ import { Separator } from "~/components/ui/separator";
 
 export const RenderSection = (section: ProfileSection) => {
   return (
-    <View className="flex flex-col flex-1" key={section.key}>
-      <View className={cn("flex flex-1 pt-x bg-card border border-border")}>
-        <View className="flex flex-row items-center justify-between bg-primary/10">
+    <View className="flex flex-col flex-1 bg-background" key={section.key}>
+      <View className={cn("flex flex-1")}>
+        <View className="flex flex-row items-center justify-between">
           <View className="p-4">
             <Text variant="h4">{section.title}</Text>
           </View>
@@ -59,11 +59,10 @@ export const RenderSection = (section: ProfileSection) => {
             </View>
           )}
         </View>
+        <Separator />
       </View>
 
-      <Separator />
-
-      <View className="p-4">
+      <View className="p-4 border border-b flex-1 bg-background">
         {section.data?.length === 0 ? (
           <View key={section.key}>
             <Text className="text-sm text-muted-foreground italic text-center my-4">

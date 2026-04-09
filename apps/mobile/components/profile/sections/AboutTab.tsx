@@ -9,8 +9,8 @@ export const AboutTab = ({ user }: { user: any }) => (
     <View className="flex flex-col gap-4 pb-8">
       {/* Bio Section */}
       {user?.bio ? (
-        <View className="bg-card border border-border overflow-hidden">
-          <View className="p-4 bg-primary/10">
+        <View className="border-b overflow-hidden">
+          <View className="p-4 bg-transparent">
             <Text variant="h4">About</Text>
           </View>
           <Separator />
@@ -24,7 +24,7 @@ export const AboutTab = ({ user }: { user: any }) => (
           </View>
         </View>
       ) : (
-        <View className="bg-card border border-border p-4">
+        <View className="p-4">
           <Text className="text-sm text-muted-foreground italic text-center">
             No bio added yet
           </Text>
