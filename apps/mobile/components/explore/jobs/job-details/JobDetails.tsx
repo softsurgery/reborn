@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import { Text } from "~/components/ui/text";
 import { Button } from "~/components/ui/button";
-import { CopyX, CopyPlus } from "lucide-react-native";
+import { CopyX, CopyPlus, ArrowLeft } from "lucide-react-native";
 import { showToastable } from "react-native-toastable";
 import {
   useQuery,
@@ -36,9 +36,12 @@ import { JobCardHeader } from "./JobCardHeader";
 import { JobClientInformation } from "./JobClientInformation";
 import { JobDetailsBody } from "./JobDetailsBody";
 import { StableScrollView } from "~/components/shared/StableScrollView";
+import { ApplicationHeader } from "@/components/shared/AppHeader";
+import { useTranslation } from "react-i18next";
 
 export const JobDetails = () => {
   const queryClient = useQueryClient();
+  const { t } = useTranslation("common");
 
   const { currentUser } = useCurrentUser();
   const { id, uploads: rawUploads } = useLocalSearchParams();
@@ -111,7 +114,7 @@ export const JobDetails = () => {
   );
 
   const { jsx: profilePicture } = useServerImage({
-    id: job?.postedBy?.profile?.pictureId,
+    id: job?.postedBy?.pictureId,
     fallback: identifyUserAvatar(job?.postedBy),
     size: { width: 40, height: 40 },
   });
@@ -176,12 +179,12 @@ export const JobDetails = () => {
   const isPending =
     isJobPending || isJobRequestedPending || isJobMetadataPending;
 
-if (isPending)
-  return (
-    <JobDetailsSkeleton
-      uploads={Array.isArray(uploads) ? (uploads as string[]) : []}
-    />
-  );
+  if (isPending)
+    return (
+      <JobDetailsSkeleton
+        uploads={Array.isArray(uploads) ? (uploads as string[]) : []}
+      />
+    );
 
   if (!id) {
     return (
@@ -194,139 +197,157 @@ if (isPending)
     );
   }
   return (
-    <StableSafeAreaView className="flex-1">
-      {/* Header */}
-      <JobCardHeader
-        job={job}
-        metadata={jobMetadata}
-        handleSave={handleSave}
-        isJobSaved={!!isJobSaved}
-        isSavePending={isSavePending || isUnsavePending}
-        uploads={uploads as string[]}
-        imageQueries={imageQueries}
-      />
-
-      <StableScrollView className={cn("flex-1 px-6")}>
-        {/* Client Info */}
-        <JobClientInformation
-          className="mt-4"
+    <StableSafeAreaView className="flex-1 bg-card">
+      {/* <ApplicationHeader
+        className="border-b border-border pb-2"
+        title={t("screens.job_details")}
+        titleVariant="large"
+        reverse
+        shortcuts={[
+          {
+            key: "back",
+            icon: ArrowLeft,
+            onPress: () => router.back(),
+          },
+        ]}
+      /> */}
+      <View className="flex-1">
+        {/* Header */}
+        <JobCardHeader
           job={job}
-          profilePicture={profilePicture}
+          metadata={jobMetadata}
+          handleSave={handleSave}
+          isJobSaved={!!isJobSaved}
+          isSavePending={isSavePending || isUnsavePending}
+          uploads={uploads as string[]}
+          imageQueries={imageQueries}
         />
-        <JobDetailsBody className="mb-4" job={job} />
-      </StableScrollView>
 
-      {/* Apply Button */}
-      <View className="px-6 py-5 bg-card border-t border-border">
-        <View
-          className={cn(isJobRequested && "flex flex-row items-center gap-2")}
-        >
-          {isJobRequested ? (
-            <Button
-              className="w-[49%] rounded-lg"
-              size="sm"
-              onPress={() =>
-                router.navigate({
-                  pathname: "/main/my-space/requests",
-                  params: { variant: "outgoing" },
-                })
-              }
-            >
-              <Text ellipsizeMode="tail" numberOfLines={1}>
-                View Requests
-              </Text>
-            </Button>
-          ) : null}
-          <View className={cn(isJobRequested && "w-[49%]")}>
-            <Dialog
-              open={requestDialogOpen}
-              onOpenChange={(value) => setRequestDialogOpen(value)}
-            >
-              <DialogTrigger asChild>
-                {job?.postedBy.id !== currentUser?.id ? (
-                  <Button
-                    className="rounded-lg"
-                    size="sm"
-                    disabled={
-                      isJobRequestedPending ||
-                      isCancelRequestPending ||
-                      isSendRequestPending
-                    }
-                    variant={isJobRequested ? "outline" : "default"}
-                  >
-                    <Text numberOfLines={1} ellipsizeMode="tail">
-                      {isJobRequested
-                        ? "Cancel Application"
-                        : "Apply for this job"}
-                    </Text>
-                  </Button>
-                ) : (
-                  <Button disabled={true} className="w-full py-3 rounded-lg">
-                    <Text className="text-base font-semibold">
-                      You cannot apply for your own job
-                    </Text>
-                  </Button>
-                )}
-              </DialogTrigger>
-              <DialogContent className="w-[90vw]">
-                <DialogHeader>
-                  <DialogTitle>
-                    <View className="flex flex-row items-center gap-2">
-                      <Icon as={isJobRequested ? CopyX : CopyPlus} size={24} />
-                      <Text variant={"large"}>
+        <StableScrollView className={cn("flex-1 px-6")}>
+          {/* Client Info */}
+          <JobClientInformation
+            className="mt-4"
+            job={job}
+            profilePicture={profilePicture}
+          />
+          <JobDetailsBody className="mb-4" job={job} />
+        </StableScrollView>
+
+        {/* Apply Button */}
+        <View className="px-6 py-5 bg-card border-t border-border">
+          <View
+            className={cn(isJobRequested && "flex flex-row items-center gap-2")}
+          >
+            {isJobRequested ? (
+              <Button
+                className="w-[49%] rounded-lg"
+                size="sm"
+                onPress={() =>
+                  router.navigate({
+                    pathname: "/main/my-space/requests",
+                    params: { variant: "outgoing" },
+                  })
+                }
+              >
+                <Text ellipsizeMode="tail" numberOfLines={1}>
+                  View Requests
+                </Text>
+              </Button>
+            ) : null}
+            <View className={cn(isJobRequested && "w-[49%]")}>
+              <Dialog
+                open={requestDialogOpen}
+                onOpenChange={(value) => setRequestDialogOpen(value)}
+              >
+                <DialogTrigger asChild>
+                  {job?.postedBy.id !== currentUser?.id ? (
+                    <Button
+                      className="rounded-lg"
+                      size="sm"
+                      disabled={
+                        isJobRequestedPending ||
+                        isCancelRequestPending ||
+                        isSendRequestPending
+                      }
+                      variant={isJobRequested ? "outline" : "default"}
+                    >
+                      <Text numberOfLines={1} ellipsizeMode="tail">
                         {isJobRequested
                           ? "Cancel Application"
-                          : "Confirm Application"}
+                          : "Apply for this job"}
                       </Text>
-                    </View>
-                  </DialogTitle>
-                  <DialogDescription>
-                    <View>
-                      <Text>
-                        {isJobRequested
-                          ? "Are you sure you want to cancel your application? The client will no longer see you as a candidate."
-                          : "Are you sure you want to apply for this job? The client will be notified, and you'll be able to chat after the application is approved."}
+                    </Button>
+                  ) : (
+                    <Button disabled={true} className="w-full py-3 rounded-lg">
+                      <Text className="text-base font-semibold">
+                        You cannot apply for your own job
                       </Text>
-                      <View className="flex flex-row items-center gap-2 mt-4">
-                        <Button
-                          onPress={handleApply}
-                          className="w-1/2"
-                          size="sm"
-                          disabled={
-                            isJobRequestedPending ||
-                            isCancelRequestPending ||
-                            isSendRequestPending
-                          }
-                        >
-                          <Text className="text-base font-semibold">
-                            Confirm
-                          </Text>
-                        </Button>
-                        <Button
-                          className="w-1/2"
-                          size="sm"
-                          variant={"outline"}
-                          onPress={() => setRequestDialogOpen(false)}
-                        >
-                          <Text>Cancel</Text>
-                        </Button>
+                    </Button>
+                  )}
+                </DialogTrigger>
+                <DialogContent className="w-[90vw]">
+                  <DialogHeader>
+                    <DialogTitle>
+                      <View className="flex flex-row items-center gap-2">
+                        <Icon
+                          as={isJobRequested ? CopyX : CopyPlus}
+                          size={24}
+                        />
+                        <Text variant={"large"}>
+                          {isJobRequested
+                            ? "Cancel Application"
+                            : "Confirm Application"}
+                        </Text>
                       </View>
-                    </View>
-                  </DialogDescription>
-                </DialogHeader>
-              </DialogContent>
-            </Dialog>
+                    </DialogTitle>
+                    <DialogDescription>
+                      <View>
+                        <Text>
+                          {isJobRequested
+                            ? "Are you sure you want to cancel your application? The client will no longer see you as a candidate."
+                            : "Are you sure you want to apply for this job? The client will be notified, and you'll be able to chat after the application is approved."}
+                        </Text>
+                        <View className="flex flex-row items-center gap-2 mt-4">
+                          <Button
+                            onPress={handleApply}
+                            className="w-1/2"
+                            size="sm"
+                            disabled={
+                              isJobRequestedPending ||
+                              isCancelRequestPending ||
+                              isSendRequestPending
+                            }
+                          >
+                            <Text className="text-base font-semibold">
+                              Confirm
+                            </Text>
+                          </Button>
+                          <Button
+                            className="w-1/2"
+                            size="sm"
+                            variant={"outline"}
+                            onPress={() => setRequestDialogOpen(false)}
+                          >
+                            <Text>Cancel</Text>
+                          </Button>
+                        </View>
+                      </View>
+                    </DialogDescription>
+                  </DialogHeader>
+                </DialogContent>
+              </Dialog>
+            </View>
           </View>
-        </View>
 
-        <View className="flex flex-row items-baseline gap-2 justify-center mt-2">
-          <Text className="text-xs text-muted-foreground text-center">
-            You'll be able to chat with{" "}
-            <Text className="text-xs font-medium">
-              {identifyUser(job?.postedBy)}
-            </Text>{" "}
-            before starting work
-          </Text>
+          <View className="flex flex-row items-baseline gap-2 justify-center mt-2">
+            <Text className="text-xs text-muted-foreground text-center">
+              You'll be able to chat with{" "}
+              <Text className="text-xs font-medium">
+                {identifyUser(job?.postedBy)}
+              </Text>{" "}
+              before starting work
+            </Text>
+          </View>
         </View>
       </View>
     </StableSafeAreaView>
