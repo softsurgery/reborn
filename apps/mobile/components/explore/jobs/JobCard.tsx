@@ -33,7 +33,7 @@ export const JobCard = ({ className, job }: JobCardProps) => {
 
   const orderedUploads = React.useMemo(
     () => job.uploads?.sort((a, b) => a.order - b.order),
-    [job.uploads]
+    [job.uploads],
   );
 
   const { data: thumbnail, isPending: isThumbnailPending } = useQuery({
@@ -76,7 +76,7 @@ export const JobCard = ({ className, job }: JobCardProps) => {
       }}
       className={cn(
         "px-4 w-full py-4 gap-2 border-2 border-border rounded-lg",
-        className
+        className,
       )}
       activeOpacity={0.7}
     >
@@ -120,7 +120,7 @@ export const JobCard = ({ className, job }: JobCardProps) => {
         </View>
       </View>
 
-      <View className="flex-row flex-wrap gap-1 mt-2">
+      {/* <View className="flex-row flex-wrap gap-1 mt-2">
         {job?.tags && job?.tags?.length > 0
           ? job?.tags.map((tag) => (
               <Badge variant={"secondary"} key={tag.id}>
@@ -128,7 +128,7 @@ export const JobCard = ({ className, job }: JobCardProps) => {
               </Badge>
             ))
           : null}
-      </View>
+      </View> */}
 
       <View className="flex flex-row justify-between">
         <View className="flex flex-row gap-2">
