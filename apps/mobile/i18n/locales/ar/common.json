@@ -1,6 +1,5 @@
 {
   "app_name": "Reborn",
-  "language": "اللغة",
   "select_language": "خصص تجربةك باختيار لغتك",
   "screens": {
     "explore": "الاستكشاف",
@@ -17,9 +16,17 @@
     "messages": "الرسائل",
     "myspace": "مساحتي",
     "profile": "الملف الشخصي",
+    "job_details": "تفاصيل الوظيفة",
     "menu": "القائمة"
   },
   "auth": {
     "welcome": "مرحبا"
+  },
+  "language": {
+    "select": {
+      "title": "اختر اللغة",
+      "description": "اختر اللغة التي تريد استخدامها في التطبيق",
+      "placeholder": "اختر اللغة"
+    }
   }
 }

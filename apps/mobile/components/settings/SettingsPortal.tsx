@@ -76,15 +76,19 @@ export const SettingsPortal = ({ className }: SettingsPortalProps) => {
           className: "p-1 px-4",
           Component: () => (
             <View
-              className={cn("flex flex-col justify-between gap-4", className)}
+              className={cn("flex flex-row justify-between gap-4", className)}
             >
-              <View>
+              <View className="flex-1">
                 <Text className="font-semibold text-base">Language</Text>
                 <Text className="text-xs text-muted-foreground">
                   Set your preferred language
                 </Text>
               </View>
-              <LanguageSwitcher />
+              <LanguageSwitcher
+                classNames={{
+                  trigger: "flex-1",
+                }}
+              />
             </View>
           ),
         }),
