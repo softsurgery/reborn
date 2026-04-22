@@ -3,7 +3,6 @@ import { View } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import { Text } from "~/components/ui/text";
 import { Button } from "~/components/ui/button";
-import { CopyX, CopyPlus, ArrowLeft } from "lucide-react-native";
 import { showToastable } from "react-native-toastable";
 import {
   useQuery,
@@ -17,27 +16,20 @@ import { cn } from "~/lib/utils";
 import { JobDetailsSkeleton } from "./JobDetailsSkeleton";
 import { ServerErrorResponse } from "~/types";
 import { StableSafeAreaView } from "~/components/shared/StableSafeAreaView";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "~/components/ui/dialog";
 import { useServerImage } from "~/hooks/content/useServerImage";
 import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
 import { useIsJobSaved } from "~/hooks/content/job/useIsJobSaved";
 import { useJobSaveActions } from "~/hooks/content/job/useJobSaveActions";
 import { useIsJobViewed } from "~/hooks/content/job/useIsJobViewed";
 import { useJobViewActions } from "~/hooks/content/job/useJobViewActions";
-import { Icon } from "~/components/ui/icon";
 import { JobCardHeader } from "./JobCardHeader";
 import { JobClientInformation } from "./JobClientInformation";
 import { JobDetailsBody } from "./JobDetailsBody";
 import { StableScrollView } from "~/components/shared/StableScrollView";
-import { ApplicationHeader } from "@/components/shared/AppHeader";
 import { useTranslation } from "react-i18next";
+import { type ActionSheetRef } from "react-native-actions-sheet";
+import { ApplyJobActionSheet } from "./ApplyJobActionSheet";
+import { CancelApplicationActionSheet } from "./CancelApplicationActionSheet";
 
 export const JobDetails = () => {
   const queryClient = useQueryClient();
@@ -62,7 +54,8 @@ export const JobDetails = () => {
   );
 
   //application
-  const [requestDialogOpen, setRequestDialogOpen] = React.useState(false);
+  const applySheetRef = React.useRef<ActionSheetRef>(null);
+  const cancelSheetRef = React.useRef<ActionSheetRef>(null);
 
   const {
     data: isJobRequested,
@@ -127,7 +120,6 @@ export const JobDetails = () => {
     onSuccess: () => {
       refetchJobRequested();
       refetchJobMetadata();
-      setRequestDialogOpen(false);
     },
     onError: (error: ServerErrorResponse) => {
       showToastable({
@@ -143,7 +135,6 @@ export const JobDetails = () => {
       onSuccess: () => {
         refetchJobRequested();
         refetchJobMetadata();
-        setRequestDialogOpen(false);
       },
       onError: (error: ServerErrorResponse) => {
         showToastable({
@@ -163,11 +154,6 @@ export const JobDetails = () => {
         }))
       : [],
   });
-
-  const handleApply = () => {
-    if (!isJobRequested) sendRequest();
-    else cancelRequest();
-  };
 
   const handleSave = (e: any) => {
     e.stopPropagation();
@@ -198,19 +184,6 @@ export const JobDetails = () => {
   }
   return (
     <StableSafeAreaView className="flex-1 bg-card">
-      {/* <ApplicationHeader
-        className="border-b border-border pb-2"
-        title={t("screens.job_details")}
-        titleVariant="large"
-        reverse
-        shortcuts={[
-          {
-            key: "back",
-            icon: ArrowLeft,
-            onPress: () => router.back(),
-          },
-        ]}
-      /> */}
       <View className="flex-1">
         {/* Header */}
         <JobCardHeader
@@ -255,88 +228,50 @@ export const JobDetails = () => {
               </Button>
             ) : null}
             <View className={cn(isJobRequested && "w-[49%]")}>
-              <Dialog
-                open={requestDialogOpen}
-                onOpenChange={(value) => setRequestDialogOpen(value)}
-              >
-                <DialogTrigger asChild>
-                  {job?.postedBy.id !== currentUser?.id ? (
-                    <Button
-                      className="rounded-lg"
-                      size="sm"
-                      disabled={
-                        isJobRequestedPending ||
-                        isCancelRequestPending ||
-                        isSendRequestPending
-                      }
-                      variant={isJobRequested ? "outline" : "default"}
-                    >
-                      <Text numberOfLines={1} ellipsizeMode="tail">
-                        {isJobRequested
-                          ? "Cancel Application"
-                          : "Apply for this job"}
-                      </Text>
-                    </Button>
-                  ) : (
-                    <Button disabled={true} className="w-full py-3 rounded-lg">
-                      <Text className="text-base font-semibold">
-                        You cannot apply for your own job
-                      </Text>
-                    </Button>
-                  )}
-                </DialogTrigger>
-                <DialogContent className="w-[90vw]">
-                  <DialogHeader>
-                    <DialogTitle>
-                      <View className="flex flex-row items-center gap-2">
-                        <Icon
-                          as={isJobRequested ? CopyX : CopyPlus}
-                          size={24}
-                        />
-                        <Text variant={"large"}>
-                          {isJobRequested
-                            ? "Cancel Application"
-                            : "Confirm Application"}
-                        </Text>
-                      </View>
-                    </DialogTitle>
-                    <DialogDescription>
-                      <View>
-                        <Text>
-                          {isJobRequested
-                            ? "Are you sure you want to cancel your application? The client will no longer see you as a candidate."
-                            : "Are you sure you want to apply for this job? The client will be notified, and you'll be able to chat after the application is approved."}
-                        </Text>
-                        <View className="flex flex-row items-center gap-2 mt-4">
-                          <Button
-                            onPress={handleApply}
-                            className="w-1/2"
-                            size="sm"
-                            disabled={
-                              isJobRequestedPending ||
-                              isCancelRequestPending ||
-                              isSendRequestPending
-                            }
-                          >
-                            <Text className="text-base font-semibold">
-                              Confirm
-                            </Text>
-                          </Button>
-                          <Button
-                            className="w-1/2"
-                            size="sm"
-                            variant={"outline"}
-                            onPress={() => setRequestDialogOpen(false)}
-                          >
-                            <Text>Cancel</Text>
-                          </Button>
-                        </View>
-                      </View>
-                    </DialogDescription>
-                  </DialogHeader>
-                </DialogContent>
-              </Dialog>
+              {job?.postedBy.id !== currentUser?.id ? (
+                <Button
+                  className="rounded-lg"
+                  size="sm"
+                  onPress={() => {
+                    if (isJobRequested) {
+                      cancelSheetRef.current?.show();
+                    } else {
+                      applySheetRef.current?.show();
+                    }
+                  }}
+                  disabled={
+                    isJobRequestedPending ||
+                    isCancelRequestPending ||
+                    isSendRequestPending
+                  }
+                  variant={isJobRequested ? "outline" : "default"}
+                >
+                  <Text numberOfLines={1} ellipsizeMode="tail">
+                    {isJobRequested
+                      ? "Cancel Application"
+                      : "Apply for this job"}
+                  </Text>
+                </Button>
+              ) : (
+                <Button disabled={true} className="w-full py-3 rounded-lg">
+                  <Text className="text-base font-semibold">
+                    You cannot apply for your own job
+                  </Text>
+                </Button>
+              )}
             </View>
+
+            <ApplyJobActionSheet
+              ref={applySheetRef}
+              onConfirm={() => sendRequest()}
+              isPending={isSendRequestPending}
+            />
+
+            <CancelApplicationActionSheet
+              ref={cancelSheetRef}
+              onConfirm={() => cancelRequest()}
+              isPending={isCancelRequestPending}
+            />
           </View>
 
           <View className="flex flex-row items-baseline gap-2 justify-center mt-2">
