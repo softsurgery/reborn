@@ -1,4 +1,4 @@
-import { ResponseUserDto, UpdateUserDto } from "~/types";
+import { ResponseUserDto, UpdateUserCoverDto, UpdateUserDto } from "~/types";
 import axios from "./axios";
 
 const findCurrent = async (join: string[] = []): Promise<ResponseUserDto> => {
@@ -25,8 +25,16 @@ const updateCurrent = async (
   return response.data;
 };
 
+const updateCover = async (
+  updateUserCoverDto: UpdateUserCoverDto,
+): Promise<ResponseUserDto> => {
+  const response = await axios.put(`/admin/user/cover`, updateUserCoverDto);
+  return response.data;
+};
+
 export const client = {
   findCurrent,
   findById,
+  updateCover,
   updateCurrent,
 };

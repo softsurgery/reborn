@@ -42,6 +42,8 @@ export interface ResponseUserDto extends ResponseAbstractUsertDto {
   picture?: Upload;
   region?: ResponseRefParamDto;
   regionId?: number;
+  coverId?: number;
+  cover?: Upload;
   experiences?: ResponseExperienceDto[];
   educations?: ResponseEducationDto[];
 }
@@ -181,3 +183,7 @@ export interface CreateEducationDto {
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface UpdateEducationDto extends Partial<CreateEducationDto> {}
+
+export interface UpdateUserCoverDto {
+  coverId?: number;
+}
