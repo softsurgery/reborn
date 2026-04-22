@@ -5,6 +5,8 @@ import {
   FieldVariant,
   FormStructure,
   GalleryFieldProps,
+  MapPinFieldProps,
+  MultiSelectFieldProps,
   NumberFieldProps,
   SelectFieldProps,
   SelectOption,
@@ -149,8 +151,48 @@ export const useCreateJobFormStructure = ({
     },
   };
 
+  const jobTagsField: Field<MultiSelectFieldProps> = {
+    id: "tags",
+    label: "Tags",
+    variant: FieldVariant.MULTISELECT,
+    required: false,
+    placeholder: "Select relevant tags",
+    description: "Add tags to help freelancers find your job.",
+    error: jobStore.createDtoErrors?.tagIds?.[0],
+    props: {
+      options: jobTags,
+      value: jobStore.createDto.tagIds?.map(String),
+      onSelect: (value) => {
+        jobStore.setNested("createDto.tagIds", value.map(Number));
+        jobStore.setNested("createDtoErrors.tagIds", []);
+      },
+      searchable: true,
+    },
+  };
+
+  const locationField: Field<MapPinFieldProps> = {
+    id: "location",
+    label: "Job Location",
+    variant: FieldVariant.MAPPIN,
+    required: false,
+    description: "Specify the job location (optional).",
+    error: jobStore.createDtoErrors?.location?.[0],
+    props: {
+      latitude: jobStore.location?.latitude,
+      longitude: jobStore.location?.longitude,
+      locationName: jobStore.createDto.location,
+      onLocationChange: (location) => {
+        jobStore.setNested("createDto.location", location.name);
+        jobStore.setNested("location.latitude", location.latitude);
+        jobStore.setNested("location.longitude", location.longitude);
+        jobStore.setNested("createDtoErrors.location", []);
+      },
+      editable: true,
+    },
+  };
+
   const jobCreateFormStructure: FormStructure = {
-    title: "Create New Job",
+    title: "Define The Job",
     description: "Basic information for creating a new job.",
     orientation: "horizontal",
     fieldsets: [
@@ -160,9 +202,24 @@ export const useCreateJobFormStructure = ({
           { id: 1, fields: [titleField] },
           { id: 2, fields: [descriptionField] },
           { id: 3, fields: [priceField] },
+          { id: 4, fields: [locationField] },
+        ],
+      },
+    ],
+  };
+
+  const jobDetailsFormStructure: FormStructure = {
+    title: "Add Job Details",
+    description: "Enrich the job listing with more specific information.",
+    orientation: "horizontal",
+    fieldsets: [
+      {
+        title: "Job Details",
+        rows: [
           { id: 4, fields: [jobCategoryField] },
           { id: 5, fields: [jobStyleField] },
           { id: 6, fields: [jobDifficultyField] },
+          { id: 7, fields: [jobTagsField] },
         ],
       },
     ],
@@ -203,6 +260,7 @@ export const useCreateJobFormStructure = ({
 
   return {
     jobCreateFormStructure,
+    jobDetailsFormStructure,
     jobImagePickerStructure,
   };
 };

@@ -1,14 +1,13 @@
 import React from "react";
 import { View } from "react-native";
 import { FormBuilder } from "~/components/shared/form-builder/FormBuilder";
-import { useCreateJobFormStructure } from "./forms/useCreateJobFormStructure";
+import { useCreateJobFormStructure } from "./useCreateJobFormStructure";
 import { useJobStore } from "~/hooks/stores/useJobStore";
 import { useCurrencies } from "~/hooks/content/useCurrencies";
 import { mapToSelectOptions } from "~/components/shared/form-builder/utils/mapToSelectOptions";
 import { useJobTags } from "~/hooks/content/job/useJobTags";
 import { useJobCategories } from "~/hooks/content/job/useJobCategories";
 import { Stepper } from "~/components/shared/Stepper";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { api } from "~/api";
 import { useMutation } from "@tanstack/react-query";
 import { CreateJobDto, ServerErrorResponse } from "~/types";
@@ -18,56 +17,63 @@ import { router } from "expo-router";
 import { StableSafeAreaView } from "~/components/shared/StableSafeAreaView";
 import { ApplicationHeader } from "~/components/shared/AppHeader";
 import { ArrowLeft } from "lucide-react-native";
+import { Loader } from "@/components/shared/Loader";
+import { useLiveGeolocation } from "@/hooks/useLiveGeolocation";
+import { toast } from "sonner-native";
 
 interface JobCreateFormProps {
   className?: string;
 }
 
 export const JobCreateForm = ({ className }: JobCreateFormProps) => {
-  const scrollRef = React.useRef<KeyboardAwareScrollView>(null);
-
+  const {} = useLiveGeolocation();
   const jobStore = useJobStore();
   const { currencies } = useCurrencies();
-  // const { isJobTagsPending, jobTags } = useJobTags();
+  const { jobTags, isJobTagsPending } = useJobTags();
   const { jobCategories, isJobCategoriesPending } = useJobCategories();
 
-  const { jobCreateFormStructure, jobImagePickerStructure } =
-    useCreateJobFormStructure({
-      jobStore,
-      currencies,
-      jobTags: [],
-      jobCategories: mapToSelectOptions({
-        data: jobCategories,
-        labelKey: "label",
-        valueKey: "id",
-      }),
-    });
+  const {
+    jobCreateFormStructure,
+    jobDetailsFormStructure,
+    jobImagePickerStructure,
+  } = useCreateJobFormStructure({
+    jobStore,
+    currencies,
+    jobTags: mapToSelectOptions({
+      data: jobTags,
+      labelKey: "label",
+      valueKey: "id",
+    }),
+    jobCategories: mapToSelectOptions({
+      data: jobCategories,
+      labelKey: "label",
+      valueKey: "id",
+    }),
+  });
 
   const { mutate: createJob, isPending: isCreationPending } = useMutation({
     mutationFn: (job: CreateJobDto) => api.job.create(job),
     onSuccess: () => {
       jobStore.reset();
-      showToastable({
-        message: "Job created successfully",
-        status: "success",
-      });
+      toast.success("Job created successfully");
       router.push("/main/(tabs)");
     },
     onError: (error: ServerErrorResponse) => {
-      showToastable({
-        message: `Failed to create job: ${error.response?.data.message}`,
-        status: "danger",
-      });
+      toast.error(`Failed to create job: ${error.response?.data.message}`);
     },
   });
 
   React.useEffect(() => {
     //hardcoded tunisian value
-    jobStore.setNested("createDto.currencyId", "TND");
+
+    // jobStore.setNested("createDto.currencyId", "TND");
+
     return () => {
       jobStore.reset();
     };
   }, []);
+
+  if (isJobTagsPending || isJobCategoriesPending) return <Loader />;
 
   return (
     <StableSafeAreaView className="flex-1 bg-card">
@@ -98,6 +104,17 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
               component: (
                 <FormBuilder
                   structure={jobCreateFormStructure}
+                  className="py-2"
+                />
+              ),
+            },
+            {
+              title: "Add Details",
+              description:
+                "Enrich the job listing with more specific information.",
+              component: (
+                <FormBuilder
+                  structure={jobDetailsFormStructure}
                   className="py-2"
                 />
               ),
