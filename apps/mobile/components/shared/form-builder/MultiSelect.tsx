@@ -100,7 +100,7 @@ export default function MultiSelect({
     <>
       <Pressable
         className={cn(
-          "min-h-9 w-full flex-row flex-wrap items-center rounded-md border border-input dark:bg-input/30 px-2 py-2",
+          "min-h-9 w-full flex-row flex-wrap items-center rounded-md border border-input dark:bg-input/30 px-3 py-2",
           disabled && "opacity-50 pointer-events-none",
           classNames?.trigger,
         )}
@@ -109,7 +109,9 @@ export default function MultiSelect({
         }}
       >
         {selectedLabels.length === 0 ? (
-          <Text className="text-sm">{placeholder || "Select options"}</Text>
+          <Text className="text-sm text-muted-foreground/50 leading-5">
+            {placeholder || "Select options"}
+          </Text>
         ) : (
           <View className="flex-1 flex-row flex-wrap gap-2 pr-8">
             {selectedLabels.map((label) => (
@@ -117,14 +119,14 @@ export default function MultiSelect({
                 key={label}
                 className="rounded-full bg-primary/25 px-3 py-0.5"
               >
-                <Text className="text-sm">{label}</Text>
+                <Text className="text-sm text-foreground">{label}</Text>
               </View>
             ))}
           </View>
         )}
 
-        <View className="absolute right-2 text-muted-foreground">
-          <Icon as={ChevronDown} size={16} color={"gray"} />
+        <View className="absolute right-3 text-muted-foreground">
+          <Icon as={ChevronDown} size={18} color={"gray"} />
         </View>
       </Pressable>
       <ActionSheet
