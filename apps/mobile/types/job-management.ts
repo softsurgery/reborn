@@ -1,5 +1,6 @@
+import { ResponseRefParamDto } from "./reference-types";
 import { Upload } from "./upload";
-import { ResponseClientDto } from "./user-management";
+import { ResponseUserDto } from "./user-management";
 import { DatabaseEntity } from "./utils";
 
 export interface ResponseJobDto extends DatabaseEntity {
@@ -7,20 +8,23 @@ export interface ResponseJobDto extends DatabaseEntity {
   title: string;
   description: string;
   price: number;
-  postedBy: ResponseClientDto;
+  postedBy: ResponseUserDto;
   postedById: string;
   tags: ResponseJobTagDto[];
   categoryId: number;
   style: JobStyle;
   difficulty: JobDifficulty;
   uploads: ResponseJobUploadDto[];
+  currencyId: number;
+  currency: ResponseRefParamDto;
 }
 export interface CreateJobDto {
   title: string;
   description: string;
+  location?: string;
   price: number;
   tagIds: number[];
-  currencyId?: string;
+  currencyId?: number;
   categoryId?: number;
   style?: JobStyle;
   difficulty?: JobDifficulty;
@@ -98,7 +102,7 @@ export interface ResponseJobRequestDto extends DatabaseEntity {
   jobId: string;
   job?: ResponseJobDto;
   userId: string;
-  user?: ResponseClientDto;
+  user?: ResponseUserDto;
   status: JobRequestStatus;
 }
 
@@ -113,7 +117,7 @@ export interface ResponseJobSaveDto extends DatabaseEntity {
   jobId: string;
   job?: ResponseJobDto;
   userId: string;
-  user?: ResponseClientDto;
+  user?: ResponseUserDto;
 }
 
 export interface CreateJobSaveDto {
@@ -125,7 +129,7 @@ export interface ResponseJobViewDto extends DatabaseEntity {
   jobId: string;
   job?: ResponseJobDto;
   userId: string;
-  user?: ResponseClientDto;
+  user?: ResponseUserDto;
 }
 
 export interface CreateJobViewDto {

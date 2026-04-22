@@ -40,6 +40,7 @@ export enum FieldVariant {
   TEXT = "text",
   EMAIL = "email",
   TEL = "tel",
+  MAPPIN = "map-pin",
   NUMBER = "number",
   PASSWORD = "password",
   DATE = "date",
@@ -87,6 +88,18 @@ export interface NumberFieldProps {
   editable?: boolean;
 }
 
+export interface MapPinFieldProps {
+  latitude?: number;
+  longitude?: number;
+  locationName?: string;
+  onLocationChange?: (location: {
+    latitude: number;
+    longitude: number;
+    name: string;
+  }) => void;
+  editable?: boolean;
+}
+
 export interface PasswordFieldProps {
   value?: string;
   onChangeText?: (text: string) => void;
@@ -116,6 +129,7 @@ export interface MultiSelectFieldProps {
   onSelect?: (value: string[]) => void;
   options?: SelectOption[];
   editable?: boolean;
+  searchable?: boolean;
   max?: number;
 }
 

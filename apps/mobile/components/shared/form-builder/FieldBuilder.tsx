@@ -14,6 +14,7 @@ import { cn } from "~/lib/utils";
 import { Switch } from "~/components/ui/switch";
 import { GalleryPicturePicker } from "./GalleryPictureUploader";
 import MultiSelect from "./MultiSelect";
+import MapPinField from "./MapPinField";
 
 interface FieldBuilderProps {
   field?: Field<any>;
@@ -219,6 +220,19 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
           checked={field?.props?.checked}
           onCheckedChange={field?.props?.onCheckedChange}
           disabled={field?.props?.disabled}
+        />
+      );
+    case "map-pin":
+      return (
+        <MapPinField
+          {...field?.props}
+          className={cn(field?.className, field?.error && "border-red-500")}
+          placeholder={field?.placeholder}
+          latitude={field?.props?.latitude}
+          longitude={field?.props?.longitude}
+          locationName={field?.props?.locationName}
+          onLocationChange={field?.props?.onLocationChange}
+          editable={field?.props?.editable}
         />
       );
     default:

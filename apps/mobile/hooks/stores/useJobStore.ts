@@ -8,6 +8,10 @@ interface JobStoreData {
   response?: ResponseJobDto;
   createDto: CreateJobDto;
   updateDto: UpdateJobDto;
+  location: {
+    latitude: number;
+    longitude: number;
+  };
   createDtoErrors: Record<string, string[]>;
   updateDtoErrors: Record<string, string[]>;
   searchHistory: ResponseJobDto[];
@@ -25,12 +29,17 @@ const initialState: JobStoreData = {
   createDto: {
     title: "",
     description: "",
+    location: "",
     price: 0,
     tagIds: [],
     categoryId: undefined,
     style: undefined,
     difficulty: undefined,
     uploads: [],
+  },
+  location: {
+    latitude: 0,
+    longitude: 0,
   },
   updateDto: {
     title: "",
