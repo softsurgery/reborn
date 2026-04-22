@@ -8,11 +8,12 @@ import { DatePicker } from "./DatePicker2";
 import { Textarea } from "~/components/ui/textarea";
 import { Input } from "~/components/ui/input";
 import StarRating from "react-native-star-rating-widget";
-import { PictureUploader } from "../PictureUploader";
+import { PictureUploader } from "./PictureUploader";
 import { Text } from "~/components/ui/text";
 import { cn } from "~/lib/utils";
 import { Switch } from "~/components/ui/switch";
 import { GalleryPicturePicker } from "./GalleryPictureUploader";
+import MultiSelect from "./MultiSelect";
 
 interface FieldBuilderProps {
   field?: Field<any>;
@@ -80,6 +81,21 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
           onSelect={(value) => field?.props?.onSelect?.(value)}
           disabled={field?.props?.other}
           options={field?.props?.options}
+        />
+      );
+    case "multi-select":
+      return (
+        <MultiSelect
+          {...field?.props}
+          classNames={{ trigger: cn(field?.error && "border-red-500") }}
+          title={field.label}
+          description={field.description}
+          placeholder={field?.placeholder}
+          value={field?.props?.value || []}
+          onSelect={(value) => field?.props?.onSelect?.(value)}
+          disabled={field?.props?.other}
+          options={field?.props?.options}
+          max={field?.props?.max || Infinity}
         />
       );
     case "date":

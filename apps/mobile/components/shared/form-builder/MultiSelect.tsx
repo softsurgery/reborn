@@ -16,38 +16,41 @@ import { cn } from "~/lib/utils";
 import ActionSheet, { type ActionSheetRef } from "react-native-actions-sheet";
 import { useColorScheme } from "nativewind";
 import { THEME } from "@/lib/theme";
+import { toast } from "sonner-native";
 
-interface SelectProps {
+interface MultiSelectProps {
   classNames?: {
-    trigger?: string;
-    content?: string;
+    trigger: string;
+    content: string;
   };
   title?: string;
   description?: string;
   placeholder?: string;
 
-  value?: string;
-  onSelect?: (value: string) => void;
+  value?: string[];
+  onSelect?: (value: string[]) => void;
   disabled?: boolean;
 
   options?: SelectOption[];
   searchable?: boolean;
+  max: number;
 }
 
-export default function Select({
+export default function MultiSelect({
   classNames,
 
   title,
   description,
   placeholder,
 
-  value,
+  value = [],
   onSelect,
   disabled,
 
   options = [],
   searchable = false,
-}: SelectProps) {
+  max = Infinity,
+}: MultiSelectProps) {
   const { colorScheme } = useColorScheme();
   const isDarkColorScheme = colorScheme === "dark";
   const sheetRef = React.useRef<ActionSheetRef>(null);
@@ -56,13 +59,36 @@ export default function Select({
   const filtered = options.filter((o) =>
     o.label.toLowerCase().includes(search.toLowerCase()),
   );
-  const selectedOption = options.find((o) => o.value === value);
 
-  const handleSelect = async (v: string) => {
+  // Sort: selected items first, then unselected
+  const sorted = [...filtered].sort((a, b) => {
+    const aSelected = value.includes(a.value);
+    const bSelected = value.includes(b.value);
+    if (aSelected && !bSelected) return -1;
+    if (!aSelected && bSelected) return 1;
+    return 0;
+  });
+
+  const selectedLabels = options
+    .filter((o) => value.includes(o.value))
+    .map((o) => o.label);
+
+  const handleToggle = async (v: string) => {
     await Haptics.selectionAsync();
-    onSelect?.(v);
-    sheetRef.current?.hide();
-    setSearch("");
+
+    let next: string[];
+
+    if (value.includes(v)) {
+      next = value.filter((item) => item !== v);
+    } else {
+      if (value.length >= max) {
+        toast.warning(`You can only select up to ${max} options.`);
+        return;
+      }
+      next = [...value, v];
+    }
+
+    onSelect?.(next);
   };
 
   const handleClose = () => {
@@ -74,24 +100,31 @@ export default function Select({
     <>
       <Pressable
         className={cn(
+          "min-h-9 w-full flex-row flex-wrap items-center rounded-md border border-input dark:bg-input/30 px-2 py-2",
           disabled && "opacity-50 pointer-events-none",
-          "flex justify-center",
           classNames?.trigger,
         )}
         onPress={() => {
           if (!disabled) sheetRef.current?.show();
         }}
       >
-        <Input
-          pointerEvents="none"
-          editable={false}
-          value={selectedOption?.label || ""}
-          justify-center
-          placeholder={placeholder || "Select an option"}
-          className={cn("block opacity-100")}
-        />
-        <View className="absolute right-3 text-muted-foreground">
-          <Icon as={ChevronDown} size={18} color={"gray"} />
+        {selectedLabels.length === 0 ? (
+          <Text className="text-sm">{placeholder || "Select options"}</Text>
+        ) : (
+          <View className="flex-1 flex-row flex-wrap gap-2 pr-8">
+            {selectedLabels.map((label) => (
+              <View
+                key={label}
+                className="rounded-full bg-primary/25 px-3 py-0.5"
+              >
+                <Text className="text-sm">{label}</Text>
+              </View>
+            ))}
+          </View>
+        )}
+
+        <View className="absolute right-2 text-muted-foreground">
+          <Icon as={ChevronDown} size={16} color={"gray"} />
         </View>
       </Pressable>
       <ActionSheet
@@ -113,12 +146,18 @@ export default function Select({
       >
         <View className="mb-4">
           <Text className="text-lg font-semibold text-foreground">
-            {title || "Select Option"}
+            {title || "Select Options"}
           </Text>
 
           {description && (
             <Text className="mt-1 text-sm text-muted-foreground">
               {description}
+            </Text>
+          )}
+
+          {value.length > 0 && (
+            <Text className="mt-1 text-sm text-primary">
+              {value.length} selected
             </Text>
           )}
         </View>
@@ -145,15 +184,15 @@ export default function Select({
           showsVerticalScrollIndicator={false}
           style={{ maxHeight: 400 }}
         >
-          {filtered.length === 0 ? (
+          {sorted.length === 0 ? (
             <View className="py-8 items-center">
               <Text className="text-sm text-muted-foreground">
                 {search ? "No options found" : "No options available"}
               </Text>
             </View>
           ) : (
-            filtered.map((option, index) => {
-              const isSelected = option.value === value;
+            sorted.map((option, index) => {
+              const isSelected = value.includes(option.value);
 
               return (
                 <TouchableOpacity
@@ -161,11 +200,11 @@ export default function Select({
                   activeOpacity={0.8}
                   onPress={() => {
                     Keyboard.dismiss();
-                    handleSelect(option.value);
+                    handleToggle(option.value);
                   }}
                   className={cn(
                     "flex-row items-center justify-between rounded-xl px-4 py-3",
-                    index !== filtered.length - 1 && "mb-1",
+                    index !== sorted.length - 1 && "mb-1",
                     isSelected && "bg-primary/10",
                   )}
                 >
