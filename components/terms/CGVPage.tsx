@@ -50,11 +50,6 @@ export default function CGVPage() {
               <span className="meta-label">Articles</span>
               <span className="meta-value">12 sections</span>
             </div>
-            <div className="meta-divider" />
-            <div className="header-meta-item">
-              <span className="meta-label">Disponible sur</span>
-              <span className="meta-value">App Store · Google Play</span>
-            </div>
           </div>
         </div>
       </header>
