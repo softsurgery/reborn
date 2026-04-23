@@ -2,10 +2,30 @@ import Image from "next/image";
 import Link from "next/link";
 
 const footerLinks = {
-  Product: ["Features", "Pricing", "Security", "Blog"],
-  Company: ["About Us", "Careers", "Contact", "Press"],
-  Resources: ["Help Center", "Community", "Documentation", "API"],
-  Legal: ["Privacy", "Terms", "Cookies", "Compliance"],
+  Product: [
+    { label: "Features", href: "#" },
+    { label: "Pricing", href: "#" },
+    { label: "Security", href: "#" },
+    { label: "Blog", href: "#" },
+  ],
+  Company: [
+    { label: "About Us", href: "#" },
+    { label: "Careers", href: "#" },
+    { label: "Contact", href: "#" },
+    { label: "Press", href: "#" },
+  ],
+  Resources: [
+    { label: "Help Center", href: "#" },
+    { label: "Community", href: "#" },
+    { label: "Documentation", href: "#" },
+    { label: "API", href: "#" },
+  ],
+  Legal: [
+    { label: "Privacy", href: "#" },
+    { label: "Terms", href: "/terms" },
+    { label: "Cookies", href: "#" },
+    { label: "Compliance", href: "#" },
+  ],
 };
 
 export default function Footer() {
@@ -32,12 +52,12 @@ export default function Footer() {
               </h3>
               <ul className="space-y-2">
                 {links.map((link) => (
-                  <li key={link}>
+                  <li key={link.label}>
                     <Link
-                      href="#"
+                      href={link.href}
                       className="text-sm text-primary-foreground/70 hover:text-primary-foreground transition-colors"
                     >
-                      {link}
+                      {link.label}
                     </Link>
                   </li>
                 ))}
