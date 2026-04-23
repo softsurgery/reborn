@@ -43,3 +43,9 @@ export interface CreateRefParamDto<T = object> {
 export interface UpdateRefParamDto<T = object> extends Partial<
   CreateRefParamDto<T>
 > {}
+
+export interface CurrencyPayload {
+  code: string;
+  symbol: string;
+  digitsAfterComma: number;
+}
