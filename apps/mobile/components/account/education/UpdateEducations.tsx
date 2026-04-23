@@ -21,8 +21,8 @@ import {
   FileText,
 } from "lucide-react-native";
 import { View } from "react-native";
-import { showToastable } from "react-native-toastable";
 import { DeleteEducationDialog } from "./DeleteEducationDialog";
+import { toast } from "sonner-native";
 
 interface UpdateEducationsProps {
   className?: string;
@@ -47,16 +47,15 @@ export const UpdateEducations = ({ className }: UpdateEducationsProps) => {
   const { mutate: deleteEducation, isPending: isDeletePending } = useMutation({
     mutationFn: (id: number) => api.education.remove(id),
     onSuccess: () => {
-      showToastable({
-        message: "Education deleted successfully",
-        status: "success",
-      });
+      toast.success("Education deleted successfully");
       queryClient.invalidateQueries({
         queryKey: ["educations", userStore.response?.id],
       });
     },
     onError: (error: ServerErrorResponse) => {
-      showToastable({ message: error.response?.data?.message });
+      toast.error(
+        error.response?.data?.message || "Failed to delete education",
+      );
     },
   });
 

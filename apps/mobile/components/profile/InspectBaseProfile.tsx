@@ -2,7 +2,6 @@ import React from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { router } from "expo-router";
 import { Image, Pressable, View } from "react-native";
-import { showToastable } from "react-native-toastable";
 import { api } from "~/api";
 import { useFollowSystem } from "~/hooks/content/useFollowSystem";
 import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
@@ -132,7 +131,7 @@ export const InspectBaseProfile = ({
         refetchIsFollowing();
       },
       onError: (err: ServerErrorResponse) => {
-        showToastable({ message: err.response?.data.message });
+        toast.error(err.response?.data.message || "Failed to follow user");
       },
     },
     unfollow: {
@@ -145,7 +144,7 @@ export const InspectBaseProfile = ({
         refetchIsFollowing();
       },
       onError: (err: ServerErrorResponse) => {
-        showToastable({ message: err.response?.data.message });
+        toast.error(err.response?.data.message || "Failed to unfollow user");
       },
     },
   });

@@ -13,9 +13,9 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { router } from "expo-router";
 import { ArrowLeft } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
-import { showToastable } from "react-native-toastable";
 import { useUpdateExperienceFormStructure } from "./useUpdateExperienceFormStructure";
 import { View } from "react-native";
+import { toast } from "sonner-native";
 
 interface UpdateExperienceProps {
   className?: string;
@@ -34,17 +34,16 @@ export const UpdateExperience = ({ className }: UpdateExperienceProps) => {
     mutationFn: (data: { id: number; experience: UpdateExperienceDto }) =>
       api.experience.update(data.id, data.experience),
     onSuccess: () => {
-      showToastable({
-        message: "Experience updated successfully",
-        status: "success",
-      });
+      toast.success("Experience updated successfully");
       queryClient.invalidateQueries({
         queryKey: ["experiences", userStore.response?.id],
       });
       router.back();
     },
     onError: (error: ServerErrorResponse) => {
-      showToastable({ message: error.response?.data?.message });
+      toast.error(
+        error.response?.data?.message || "Failed to update experience",
+      );
     },
   });
 

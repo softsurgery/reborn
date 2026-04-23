@@ -11,12 +11,12 @@ import { router } from "expo-router";
 import { ArrowLeft } from "lucide-react-native";
 import { useCreateEducationFormStructure } from "./useCreateEducationFormStructure";
 import { CreateEducationDto, ServerErrorResponse } from "~/types";
-import { showToastable } from "react-native-toastable";
 import { api } from "~/api";
 import { useTranslation } from "react-i18next";
 import { createEducationSchema } from "~/types/validations/education.validation";
 import { View } from "react-native";
 import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
+import { toast } from "sonner-native";
 
 interface CreateEducationProps {
   className?: string;
@@ -36,10 +36,7 @@ export const CreateEducation = ({ className }: CreateEducationProps) => {
     mutationFn: (data: { education: CreateEducationDto }) =>
       api.education.createCurrent(data.education),
     onSuccess: () => {
-      showToastable({
-        message: "Education created successfully",
-        status: "success",
-      });
+      toast.success("Education created successfully");
       queryClient.invalidateQueries({
         queryKey: ["educations", userStore.response?.id],
       });
@@ -49,7 +46,7 @@ export const CreateEducation = ({ className }: CreateEducationProps) => {
       router.back();
     },
     onError: (error: ServerErrorResponse) => {
-      showToastable({ message: error.response?.data?.message });
+      toast.error(error.message || "Failed to create education");
     },
   });
 
@@ -62,8 +59,6 @@ export const CreateEducation = ({ className }: CreateEducationProps) => {
     createEducation({
       education: data,
     });
-
-    console.log(userStore.response);
   };
 
   return (

@@ -11,10 +11,10 @@ import { cn } from "~/lib/utils";
 import { useNotifications } from "~/hooks/content/notifications/useNotification";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { NotificationContext } from "~/contexts/NotificationContext";
-import Toastable from "react-native-toastable";
 import { StatusBar } from "expo-status-bar";
 import { PortalHost } from "@rn-primitives/portal";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { Toaster } from "sonner-native";
 
 export { ErrorBoundary } from "expo-router";
 
@@ -54,7 +54,6 @@ export default function RootLayout() {
             value={{ newCount, notifications, resetCount }}
           >
             <View className={cn("flex-1 light dark:dark")}>
-              <Toastable position="top" />
               <StatusBar
                 style={isDarkColorScheme ? "light" : "dark"}
                 translucent
@@ -83,6 +82,14 @@ export default function RootLayout() {
                       ? NAV_THEME.dark.colors.text
                       : NAV_THEME.light.colors.text,
                   },
+                }}
+              />
+              <Toaster
+                duration={1000}
+                style={{
+                  backgroundColor: isDarkColorScheme
+                    ? NAV_THEME.dark.colors.card
+                    : NAV_THEME.light.colors.card,
                 }}
               />
               <PortalHost />

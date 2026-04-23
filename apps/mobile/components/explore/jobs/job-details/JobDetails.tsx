@@ -3,7 +3,6 @@ import { View } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import { Text } from "~/components/ui/text";
 import { Button } from "~/components/ui/button";
-import { showToastable } from "react-native-toastable";
 import {
   useQuery,
   useQueries,
@@ -30,6 +29,7 @@ import { useTranslation } from "react-i18next";
 import { type ActionSheetRef } from "react-native-actions-sheet";
 import { ApplyJobActionSheet } from "./ApplyJobActionSheet";
 import { CancelApplicationActionSheet } from "./CancelApplicationActionSheet";
+import { toast } from "sonner-native";
 
 export const JobDetails = () => {
   const queryClient = useQueryClient();
@@ -122,10 +122,7 @@ export const JobDetails = () => {
       refetchJobMetadata();
     },
     onError: (error: ServerErrorResponse) => {
-      showToastable({
-        message: error.response?.data.message,
-        status: "danger",
-      });
+      toast.error(error.response?.data.message || "Failed to send request");
     },
   });
 
@@ -137,10 +134,7 @@ export const JobDetails = () => {
         refetchJobMetadata();
       },
       onError: (error: ServerErrorResponse) => {
-        showToastable({
-          message: error.response?.data.message,
-          status: "danger",
-        });
+        toast.error(error.response?.data.message || "Failed to cancel request");
       },
     });
 

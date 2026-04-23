@@ -3,7 +3,6 @@ import { View } from "react-native";
 import { useQueryClient } from "@tanstack/react-query";
 import { MapPin, Star, UserPlus } from "lucide-react-native";
 import { router } from "expo-router";
-import { showToastable } from "react-native-toastable";
 import { StablePressable } from "~/components/shared/StablePressable";
 import { Button } from "~/components/ui/button";
 import { Text } from "~/components/ui/text";
@@ -15,6 +14,7 @@ import { cn } from "~/lib/utils";
 import { ResponseUserDto, ServerErrorResponse } from "~/types";
 import { useServerImage } from "~/hooks/content/useServerImage";
 import { Icon } from "~/components/ui/icon";
+import { toast } from "sonner-native";
 
 interface UserEntryProps {
   className?: string;
@@ -52,7 +52,7 @@ export const UserEntry = ({
         });
       },
       onError: (err: ServerErrorResponse) => {
-        showToastable({ message: err.response?.data.message });
+        toast.error(err.response?.data.message || "Failed to follow user");
       },
     },
     unfollow: {
@@ -66,7 +66,7 @@ export const UserEntry = ({
         });
       },
       onError: (err: ServerErrorResponse) => {
-        showToastable({ message: err.response?.data.message });
+        toast.error(err.response?.data.message || "Failed to unfollow user");
       },
     },
     use: ["is-following"],

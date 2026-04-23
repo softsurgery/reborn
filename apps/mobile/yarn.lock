@@ -7104,11 +7104,6 @@ react-native-tab-view@^4.3.0:
   dependencies:
     use-latest-callback "^0.2.4"
 
-react-native-toastable@^0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/react-native-toastable/-/react-native-toastable-0.5.0.tgz#58a09b24bdad3f06a61f8173ce11e616ec3bd32e"
-  integrity sha512-WF1fkNJQfdiaoV94dtVHZhsRINcjDHdQgMCtNHI2FcGsc85YOpWzziUODggawfeTS4NCg4e7nnYHVNHpSHvE/g==
-
 react-native-vector-icons@^10.2.0:
   version "10.3.0"
   resolved "https://registry.yarnpkg.com/react-native-vector-icons/-/react-native-vector-icons-10.3.0.tgz#de440f2627a2ed1079ce3b99d5b9d4f86894df28"

@@ -14,7 +14,8 @@ import { router } from "expo-router";
 import { ArrowLeft } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import { View } from "react-native";
-import { showToastable } from "react-native-toastable";
+import { toast } from "sonner-native";
+
 import { useCreateExperienceFormStructure } from "./useCreateExperienceFormStructure";
 import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
 
@@ -31,15 +32,11 @@ export const CreateExperience = ({ className }: CreateExperienceProps) => {
   const { structure } = useCreateExperienceFormStructure({
     store: userStore,
   });
-
   const { mutate: createExperience } = useMutation({
     mutationFn: (data: { experience: CreateExperienceDto }) =>
       api.experience.createCurrent(data.experience),
     onSuccess: () => {
-      showToastable({
-        message: "Experience created successfully",
-        status: "success",
-      });
+      toast.success("Experience created successfully");
       queryClient.invalidateQueries({
         queryKey: ["experiences", userStore.response?.id],
       });
@@ -49,8 +46,9 @@ export const CreateExperience = ({ className }: CreateExperienceProps) => {
       router.back();
     },
     onError: (error: ServerErrorResponse) => {
-      console.log(error);
-      showToastable({ message: error.response?.data?.message });
+      toast.error(
+        error.response?.data?.message || "Failed to create experience",
+      );
     },
   });
 

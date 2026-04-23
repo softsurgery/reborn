@@ -9,7 +9,6 @@ import { ServerErrorResponse } from "~/types";
 import { Text } from "~/components/ui/text";
 import { FormBuilder } from "~/components/shared/form-builder/FormBuilder";
 import { useUpdateProfileFormStructure } from "./useUpdateProfileFormStructure";
-import { showToastable } from "react-native-toastable";
 import { useRegions } from "~/hooks/content/useRegions";
 import { mapToSelectOptions } from "~/components/shared/form-builder/utils/mapToSelectOptions";
 import {
@@ -22,13 +21,13 @@ import { Upload } from "~/types/upload";
 import { useServerImage } from "~/hooks/content/useServerImage";
 import { identifyUserAvatar } from "~/lib/user.utils";
 import { StableKeyboardAwareScrollView } from "../shared/StableKeyboardAwareScrollView";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { router } from "expo-router";
 import { ApplicationHeader } from "../shared/AppHeader";
 import { cn } from "~/lib/utils";
 import { StableSafeAreaView } from "../shared/StableSafeAreaView";
 import { View } from "react-native";
 import { useKeyboardVisible } from "~/hooks/useKeyboardVisible";
+import { toast } from "sonner-native";
 
 interface UpdateProfileProps {
   className?: string;
@@ -99,21 +98,18 @@ export const UpdateProfile = ({ className }: UpdateProfileProps) => {
         queryClient.invalidateQueries({
           queryKey: ["user", currentUser?.id],
         });
-        showToastable({
-          message: "Profile Updated Successfully",
-          status: "success",
+        toast.success("Profile Updated Successfully", {
+          description: "Your profile has been successfully updated.",
         });
         router.back();
       },
       onError: (error: ServerErrorResponse) => {
-        showToastable({
-          message: error.response?.data?.message,
-          status: "danger",
-        });
+        toast.error(
+          error.response?.data?.message || "Failed to update profile",
+        );
       },
     });
 
-  const scrollRef = React.useRef<KeyboardAwareScrollView>(null);
   const formRef = React.useRef<{
     scrollToError: (id: string, scrollRef?: any) => void;
   }>(null);
@@ -133,7 +129,7 @@ export const UpdateProfile = ({ className }: UpdateProfileProps) => {
 
       const firstErrorKey = Object.keys(errors)[0];
       if (firstErrorKey) {
-        formRef.current?.scrollToError(firstErrorKey, scrollRef);
+        formRef.current?.scrollToError(firstErrorKey);
       }
       return;
     }

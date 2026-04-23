@@ -18,12 +18,12 @@ import { Button } from "~/components/ui/button";
 import { useQueryClient } from "@tanstack/react-query";
 import { UserStore } from "~/hooks/stores/useUserStore";
 import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
-import { showToastable } from "react-native-toastable";
 import { Mail, UserPlus } from "lucide-react-native";
 import { ServerErrorResponse } from "~/types";
 import { ProfileStat } from "./ProfileStat";
 import { useFollowSystem } from "~/hooks/content/useFollowSystem";
 import { Icon } from "~/components/ui/icon";
+import { toast } from "sonner-native";
 
 interface ProfileManagmentCardProps {
   className?: string;
@@ -60,7 +60,7 @@ export const ProfileManagmentCard = ({
         refetchIsFollowing();
       },
       onError: (err: ServerErrorResponse) => {
-        showToastable({ message: err.response?.data.message });
+        toast.error(err.response?.data.message || "Failed to follow user");
       },
     },
     unfollow: {
@@ -73,7 +73,7 @@ export const ProfileManagmentCard = ({
         refetchIsFollowing();
       },
       onError: (err: ServerErrorResponse) => {
-        showToastable({ message: err.response?.data.message });
+        toast.error(err.response?.data.message || "Failed to unfollow user");
       },
     },
   });

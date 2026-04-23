@@ -8,11 +8,11 @@ import { Button } from "../ui/button";
 import { cn } from "~/lib/utils";
 import { useMutation } from "@tanstack/react-query";
 import { api } from "~/api";
-import { showToastable } from "react-native-toastable";
 import { requestSignUpDtoSchema } from "~/types/validations/auth.validation";
 import { StableKeyboardAwareScrollView } from "../shared/StableKeyboardAwareScrollView";
 import { ServerErrorResponse } from "~/types";
 import { router } from "expo-router";
+import { toast } from "sonner-native";
 
 interface SignUpCarryOnLayoutProps {
   className?: string;
@@ -27,16 +27,10 @@ export const SignUpCarryOnLayout = ({
     mutationFn: async () => api.auth.signUp(authStore.signUpRequest),
     onSuccess: () => {
       router.push("/auth/sign-in");
-      showToastable({
-        message: "Now you can sign in with your new account",
-        status: "success",
-      });
+      toast.success("Now you can sign in with your new account");
     },
     onError: (error: ServerErrorResponse) => {
-      showToastable({
-        message: error.response?.data.message,
-        status: "danger",
-      });
+      toast.error(error.response?.data.message || "Failed to sign up");
     },
   });
 
