@@ -20,6 +20,7 @@ import { THEME } from "@/lib/theme";
 interface SelectProps {
   classNames?: {
     trigger?: string;
+    input?: string;
     content?: string;
   };
   title?: string;
@@ -61,7 +62,6 @@ export default function Select({
   const handleSelect = async (v: string) => {
     await Haptics.selectionAsync();
     onSelect?.(v);
-    sheetRef.current?.hide();
     setSearch("");
   };
 
@@ -88,7 +88,7 @@ export default function Select({
           value={selectedOption?.label || ""}
           justify-center
           placeholder={placeholder || "Select an option"}
-          className={cn("block opacity-100")}
+          className={cn("block opacity-100", classNames?.input)}
         />
         <View className="absolute right-3 text-muted-foreground">
           <Icon as={ChevronDown} size={18} color={"gray"} />
