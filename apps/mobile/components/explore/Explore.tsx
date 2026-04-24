@@ -11,7 +11,7 @@ import { ArrowDownNarrowWide, Bell, Search } from "lucide-react-native";
 import { useNotificationContext } from "~/contexts/NotificationContext";
 import { router } from "expo-router";
 import { useTranslation } from "react-i18next";
-import { JobFilters } from "./jobs/JobFilters";
+import { JobFilters } from "../jobs/JobFilters";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { useColorScheme } from "nativewind";
 import { THEME } from "~/lib/theme";

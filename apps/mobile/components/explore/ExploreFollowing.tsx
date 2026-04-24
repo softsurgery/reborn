@@ -3,7 +3,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import React from "react";
 import { api } from "~/api";
 import { ResponseJobDto } from "~/types";
-import { JobCard } from "./jobs/JobCard";
+import { JobCard } from "../jobs/JobCard";
 import {
   NativeScrollEvent,
   NativeSyntheticEvent,
@@ -11,7 +11,7 @@ import {
   View,
 } from "react-native";
 import { Text } from "../ui/text";
-import { JobCardSkeleton } from "./jobs/JobCardSkeleton";
+import { JobCardSkeleton } from "../jobs/JobCardSkeleton";
 import { PackageOpenIcon, User } from "lucide-react-native";
 import { useDebounce } from "~/hooks/useDebounce";
 import { cn } from "~/lib/utils";

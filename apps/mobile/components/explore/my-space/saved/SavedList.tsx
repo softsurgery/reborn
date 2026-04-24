@@ -5,7 +5,7 @@ import { cn } from "~/lib/utils";
 import { RefreshControl, View } from "react-native";
 import { Text } from "~/components/ui/text";
 import { useInfiniteSavedJobs } from "~/hooks/content/job/useInfiniteSavedJobs";
-import { JobCard } from "../../jobs/JobCard";
+import { JobCard } from "../../../jobs/JobCard";
 import { StableSafeAreaView } from "~/components/shared/StableSafeAreaView";
 import { ApplicationHeader } from "~/components/shared/AppHeader";
 import { ArrowLeft } from "lucide-react-native";

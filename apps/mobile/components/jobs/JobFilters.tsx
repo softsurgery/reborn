@@ -1,6 +1,6 @@
 import React from "react";
-import { Dialog, DialogContent } from "../../ui/dialog";
-import { Button } from "../../ui/button";
+import { Dialog, DialogContent } from "../ui/dialog";
+import { Button } from "../ui/button";
 import { Keyboard, View } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Checkbox } from "~/components/ui/checkbox";
