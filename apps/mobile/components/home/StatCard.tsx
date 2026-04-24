@@ -9,15 +9,20 @@ interface StatCardProps {
   loading: boolean;
 }
 
-export const StatCard = ({ title, value, subtitle, loading }: StatCardProps) => {
+export const StatCard = ({
+  title,
+  value,
+  subtitle,
+  loading,
+}: StatCardProps) => {
   return (
     <View className="flex-1 rounded-xl border border-border bg-card p-3">
       <Text className="text-xs text-muted-foreground">{title}</Text>
-      {loading ? (
-        <Skeleton className="h-7 w-12 mt-1" />
-      ) : (
-        <Text className="text-2xl font-semibold mt-1">{value}</Text>
-      )}
+
+      <Text className="text-2xl font-semibold mt-1">
+        {loading ? "-" : value}
+      </Text>
+
       <Text className="text-xs text-muted-foreground mt-1">{subtitle}</Text>
     </View>
   );

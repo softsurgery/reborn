@@ -2,10 +2,9 @@ import React from "react";
 import { router } from "expo-router";
 import { useQuery } from "@tanstack/react-query";
 import { Bell, Clock3, Compass, Plus } from "lucide-react-native";
-import { NativeScrollEvent, NativeSyntheticEvent, View } from "react-native";
+import { RefreshControl, ScrollView, View } from "react-native";
 import { api } from "~/api";
 import { StableSafeAreaView } from "~/components/shared/StableSafeAreaView";
-import { StableScrollView } from "~/components/shared/StableScrollView";
 import { ApplicationHeader } from "~/components/shared/AppHeader";
 import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/icon";
@@ -18,11 +17,7 @@ import { identifyUser } from "~/lib/user.utils";
 import { cn } from "~/lib/utils";
 import { JobRequestStatus, ResponseJobRequestDto } from "~/types";
 import { QuickActions } from "./QuickActions";
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from "react-native-reanimated";
+import Animated from "react-native-reanimated";
 import { StatCard } from "./StatCard";
 import { useScrollableElement } from "~/hooks/useScrollableElement";
 
@@ -34,7 +29,11 @@ export const Home = ({ className }: HomeProps) => {
   const { currentUser, isCurrentUserPending } = useCurrentUser();
   const { newCount, resetCount } = useNotificationContext();
 
-  const { data: jobsResp, isPending: isJobsPending } = useQuery({
+  const {
+    data: jobsResp,
+    isPending: isJobsPending,
+    refetch: refetchJobs,
+  } = useQuery({
     queryKey: ["home-jobs"],
     queryFn: () =>
       api.job.findPaginated({
@@ -44,7 +43,11 @@ export const Home = ({ className }: HomeProps) => {
       }),
   });
 
-  const { data: incomingResp, isPending: isIncomingPending } = useQuery({
+  const {
+    data: incomingResp,
+    isPending: isIncomingPending,
+    refetch: refetchIncoming,
+  } = useQuery({
     queryKey: ["home-job-requests", "incoming"],
     queryFn: () =>
       api.jobRequest.findPaginatedIncoming({
@@ -54,7 +57,11 @@ export const Home = ({ className }: HomeProps) => {
       }),
   });
 
-  const { data: outgoingResp, isPending: isOutgoingPending } = useQuery({
+  const {
+    data: outgoingResp,
+    isPending: isOutgoingPending,
+    refetch: refetchOutgoing,
+  } = useQuery({
     queryKey: ["home-job-requests", "outgoing"],
     queryFn: () =>
       api.jobRequest.findPaginated({
@@ -101,9 +108,6 @@ export const Home = ({ className }: HomeProps) => {
       .slice(0, 4);
   }, [incomingResp?.data, outgoingResp?.data]);
 
-  const activityLoading = isIncomingPending || isOutgoingPending;
-  const statsLoading = isJobsPending || isIncomingPending || isOutgoingPending;
-
   const getStatusStyles = (status: ResponseJobRequestDto["status"]) => {
     if (status === JobRequestStatus.Approved) {
       return "bg-primary/10 text-primary";
@@ -118,6 +122,14 @@ export const Home = ({ className }: HomeProps) => {
     duration: 250,
     deltaThreshold: 40,
   });
+
+  const isRefreshing = isJobsPending || isIncomingPending || isOutgoingPending;
+
+  const handleRefresh = () => {
+    refetchJobs();
+    refetchIncoming();
+    refetchOutgoing();
+  };
 
   return (
     <StableSafeAreaView className={cn("flex-1 mx-2", className)}>
@@ -140,20 +152,25 @@ export const Home = ({ className }: HomeProps) => {
         className="flex flex-row flex-1 border-b border-border"
         style={{ minHeight: 500 }}
       >
-        <StableScrollView
+        <ScrollView
           className="flex-1 px-2"
           onScroll={handleScroll}
           scrollEventThrottle={16}
+          showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl
+              refreshing={isRefreshing}
+              onRefresh={handleRefresh}
+            />
+          }
         >
           <View className="rounded-2xl border border-border bg-card p-4 mt-3">
             <Text className="text-sm text-muted-foreground">Welcome back</Text>
-            {isCurrentUserPending ? (
-              <Skeleton className="h-7 w-56 mt-1" />
-            ) : (
-              <Text className="text-2xl font-semibold">
-                {identifyUser(currentUser)}
-              </Text>
-            )}
+
+            <Text className="text-2xl font-semibold">
+              {isCurrentUserPending ? "-" : identifyUser(currentUser)}
+            </Text>
+
             <Text className="text-sm text-muted-foreground mt-2">
               Keep your momentum today with new opportunities and responses.
             </Text>
@@ -184,19 +201,19 @@ export const Home = ({ className }: HomeProps) => {
               title="My Jobs"
               value={myJobsCount}
               subtitle="Active posts"
-              loading={statsLoading}
+              loading={isJobsPending}
             />
             <StatCard
               title="Incoming"
               value={incomingCount}
               subtitle="Requests received"
-              loading={statsLoading}
+              loading={isIncomingPending}
             />
             <StatCard
               title="Pending"
               value={outgoingPendingCount}
               subtitle="Awaiting approval"
-              loading={statsLoading}
+              loading={isOutgoingPending}
             />
           </View>
 
@@ -220,7 +237,7 @@ export const Home = ({ className }: HomeProps) => {
             </View>
 
             <View className="mt-2">
-              {activityLoading ? (
+              {isJobsPending || isIncomingPending || isOutgoingPending ? (
                 <View className="gap-3 mt-2">
                   <Skeleton className="h-16 w-full rounded-lg" />
                   <Skeleton className="h-16 w-full rounded-lg" />
@@ -268,7 +285,7 @@ export const Home = ({ className }: HomeProps) => {
               )}
             </View>
           </View>
-        </StableScrollView>
+        </ScrollView>
       </View>
     </StableSafeAreaView>
   );
