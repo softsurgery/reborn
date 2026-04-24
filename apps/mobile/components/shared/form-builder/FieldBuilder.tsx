@@ -50,8 +50,13 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
             editable={field?.props?.editable}
             keyboardType="number-pad"
             placeholder={field.placeholder}
-            value={field?.props?.value}
-            onChangeText={(text) => field?.props?.onChangeText?.(Number(text))}
+            value={field?.props?.value?.toString()}
+            onChangeText={(text) => {
+              const cleaned = text.replace(/[^0-9]/g, "");
+              field?.props?.onChangeText?.(
+                cleaned ? Number(cleaned) : undefined,
+              );
+            }}
             className={cn("rounded-md", field?.error && "border-red-500")}
           />
         </View>
@@ -74,7 +79,10 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
       return (
         <Select
           {...field?.props}
-          className={cn(field?.error && "border-red-500")}
+          className={cn(field?.className)}
+          classNames={{
+            input: cn(field?.error && "border-red-500"),
+          }}
           title={field.label}
           description={field.description}
           placeholder={field?.placeholder}

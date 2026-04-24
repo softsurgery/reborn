@@ -23,7 +23,7 @@ const Label = React.forwardRef<
         <LabelPrimitive.Text
           ref={ref}
           className={cn(
-            "font-poppins text-xs text-foreground font-medium leading-none web:peer-disabled:cursor-not-allowed web:peer-disabled:opacity-70",
+            "font-poppins text-sm text-foreground font-medium leading-none web:peer-disabled:cursor-not-allowed web:peer-disabled:opacity-70",
             isRTL ? "text-right" : "text-left",
             className,
           )}

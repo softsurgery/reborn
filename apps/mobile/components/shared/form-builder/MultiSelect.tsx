@@ -169,7 +169,7 @@ export default function MultiSelect({
             <Icon
               as={Search}
               size={18}
-              className="absolute left-3 top-3 z-10 text-muted-foreground"
+              className="absolute left-3 top-2 z-10 text-muted-foreground"
             />
             <Input
               value={search}

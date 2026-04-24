@@ -94,7 +94,7 @@ export const FormBuilder = React.forwardRef(
                           )}
 
                           {/* Field */}
-                          <FieldBuilder field={field} />
+                          {!field.pending && <FieldBuilder field={field} />}
 
                           {/* Description & Error */}
                           <View className="pt-1">
@@ -106,7 +106,7 @@ export const FormBuilder = React.forwardRef(
                                   ) ? (
                                     <Text
                                       className={cn(
-                                        "text-xs text-gray-500 dark:text-gray-400",
+                                        "text-sm text-gray-500 dark:text-gray-400",
                                       )}
                                     >
                                       {field.description}
@@ -115,7 +115,7 @@ export const FormBuilder = React.forwardRef(
                               </View>
                             )}
                             {field?.error ? (
-                              <Text className="text-xs font-medium text-red-500">
+                              <Text className="text-sm font-medium text-red-500">
                                 {field?.error}
                               </Text>
                             ) : null}
