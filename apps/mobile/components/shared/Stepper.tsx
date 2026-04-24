@@ -13,7 +13,12 @@ interface StepperProps {
     wrapper?: string;
     controlsWrapper?: string;
   };
-  steps: { title?: string; description?: string; component: React.ReactNode }[];
+  steps: {
+    title?: string;
+    description?: string;
+    component: React.ReactNode;
+    validation: boolean | (() => boolean);
+  }[];
   initialStep?: number;
   forwaredAdditionalActions?: Record<number, () => void>;
   backwordAdditionalActions?: Record<number, () => void>;
@@ -34,9 +39,24 @@ export const Stepper = ({
   const isKeyboardVisible = useKeyboardVisible();
   const [currentStep, setCurrentStep] = React.useState(initialStep);
 
+  const runValidation = React.useCallback(
+    (stepIndex: number) => {
+      const validation = steps[stepIndex]?.validation;
+
+      return typeof validation === "function" ? validation() : validation;
+    },
+    [steps],
+  );
+
   const nextStep = () => {
+    const isValid = runValidation(currentStep);
+
+    // 🚫 block navigation if invalid
+    if (!isValid) return;
+
     if (currentStep < steps.length - 1) {
       setCurrentStep((prev) => prev + 1);
+
       if (forwaredAdditionalActions[currentStep]) {
         forwaredAdditionalActions[currentStep]();
       }
@@ -46,11 +66,14 @@ export const Stepper = ({
   const prevStep = () => {
     if (currentStep > 0) {
       setCurrentStep((prev) => prev - 1);
+
       if (backwordAdditionalActions[currentStep]) {
         backwordAdditionalActions[currentStep]();
       }
     }
   };
+
+  const isLastStep = currentStep === steps.length - 1;
 
   return (
     <React.Fragment>
@@ -62,12 +85,14 @@ export const Stepper = ({
               {steps[currentStep].title}
             </Text>
           )}
+
           {steps[currentStep].description && (
             <Text className="text-sm text-muted-foreground">
               {steps[currentStep].description}
             </Text>
           )}
         </View>
+
         {steps[currentStep].component}
       </StableKeyboardAwareScrollView>
 
@@ -79,6 +104,7 @@ export const Stepper = ({
             classNames?.controlsWrapper,
           )}
         >
+          {/* Previous */}
           <Button
             disabled={currentStep === 0}
             onPress={prevStep}
@@ -89,7 +115,8 @@ export const Stepper = ({
             <Text className="font-semibold">Previous</Text>
           </Button>
 
-          {currentStep === steps.length - 1 && closingAction ? (
+          {/* Next / Finish */}
+          {isLastStep && closingAction ? (
             <Button
               size="sm"
               onPress={closingAction.onPress}
