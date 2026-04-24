@@ -17,11 +17,12 @@ export interface ResponseJobDto extends DatabaseEntity {
   uploads: ResponseJobUploadDto[];
   currencyId: number;
   currency: ResponseRefParamDto;
+  longitude: number;
+  latitude: number;
 }
 export interface CreateJobDto {
   title: string;
   description: string;
-  location?: string;
   price: number;
   tagIds: number[];
   currencyId?: number;
@@ -29,6 +30,8 @@ export interface CreateJobDto {
   style?: JobStyle;
   difficulty?: JobDifficulty;
   uploads?: { uploadId: number }[];
+  longitude?: number;
+  latitude?: number;
 }
 
 export interface UpdateJobDto extends Partial<CreateJobDto> {

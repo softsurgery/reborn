@@ -14,11 +14,16 @@ import {
   TextFieldProps,
 } from "~/components/shared/form-builder/types";
 import { JobStore } from "~/hooks/stores/useJobStore";
-import { JobDifficulty, JobStyle, ResponseCurrencyDto } from "~/types";
+import {
+  CurrencyPayload,
+  JobDifficulty,
+  JobStyle,
+  ResponseRefParamDto,
+} from "~/types";
 
 interface JobCreateFormStructureProps {
   jobStore: JobStore;
-  currencies: ResponseCurrencyDto[];
+  currencies: ResponseRefParamDto<CurrencyPayload>[];
   jobTags: SelectOption[];
   jobCategories: SelectOption[];
 }
@@ -82,7 +87,8 @@ export const useCreateJobFormStructure = ({
       value: jobStore.createDto?.price || undefined,
       onChangeText: (value) => {
         if (
-          value == Number(value.toFixed(selectedCurrency?.digitsAfterComma))
+          value ==
+          Number(value.toFixed(selectedCurrency?.extras?.digitsAfterComma))
         ) {
           jobStore.setNested("createDto.price", Number(value));
           jobStore.setNested("createDtoErrors.price", []);
@@ -178,15 +184,15 @@ export const useCreateJobFormStructure = ({
     description: "Specify the job location (optional).",
     error: jobStore.createDtoErrors?.location?.[0],
     props: {
-      latitude: jobStore.location?.latitude,
-      longitude: jobStore.location?.longitude,
-      locationName: jobStore.createDto.location,
+      latitude: jobStore.createDto?.latitude,
+      longitude: jobStore.createDto?.longitude,
       onLocationChange: (location) => {
-        jobStore.setNested("createDto.location", location.name);
-        jobStore.setNested("location.latitude", location.latitude);
-        jobStore.setNested("location.longitude", location.longitude);
+        console.log("Stored latitude:", jobStore.createDto.latitude, "longitude:", jobStore.createDto.longitude);
+        jobStore.setNested("createDto.latitude", location.latitude);
+        jobStore.setNested("createDto.longitude", location.longitude);
         jobStore.setNested("createDtoErrors.location", []);
       },
+
       editable: true,
     },
   };

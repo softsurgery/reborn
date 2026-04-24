@@ -97,6 +97,12 @@ export default function MapPinField({
 
     const placeName = await reverseGeocode(lat, lng);
     setName(placeName);
+
+    onLocationChange?.({
+      latitude: lat,
+      longitude: lng,
+      name: placeName,
+    });
   };
 
   const handleConfirm = async () => {
