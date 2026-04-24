@@ -20,6 +20,13 @@ const create = async (
   return response.data;
 };
 
+const createCurrent = async (
+  education: CreateExperienceDto,
+): Promise<ResponseExperienceDto> => {
+  const response = await axios.post(`/experience/current`, education);
+  return response.data;
+};
+
 const update = async (
   id: number,
   experience: UpdateExperienceDto,
@@ -39,4 +46,5 @@ export const experience = {
   create,
   update,
   remove,
+  createCurrent,
 };

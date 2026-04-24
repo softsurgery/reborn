@@ -1,13 +1,20 @@
-import { ResponseUserDto, UpdateUserDto } from "~/types";
+import { ResponseUserDto, UpdateUserCoverDto, UpdateUserDto } from "~/types";
 import axios from "./axios";
 
-const findCurrent = async (): Promise<ResponseUserDto> => {
-  const response = await axios.get<ResponseUserDto>(`/admin/user/current`);
+const findCurrent = async (join: string[] = []): Promise<ResponseUserDto> => {
+  const response = await axios.get<ResponseUserDto>(`/admin/user/current`, {
+    params: { join: join.join(",") },
+  });
   return response.data;
 };
 
-const findById = async (id: string): Promise<ResponseUserDto> => {
-  const response = await axios.get<ResponseUserDto>(`/admin/user/${id}`);
+const findById = async (
+  id: string,
+  join: string[] = [],
+): Promise<ResponseUserDto> => {
+  const response = await axios.get<ResponseUserDto>(`/admin/user/${id}`, {
+    params: { join: join.join(",") },
+  });
   return response.data;
 };
 
@@ -18,8 +25,16 @@ const updateCurrent = async (
   return response.data;
 };
 
+const updateCover = async (
+  updateUserCoverDto: UpdateUserCoverDto,
+): Promise<ResponseUserDto> => {
+  const response = await axios.put(`/admin/user/cover`, updateUserCoverDto);
+  return response.data;
+};
+
 export const client = {
   findCurrent,
   findById,
+  updateCover,
   updateCurrent,
 };

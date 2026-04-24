@@ -2,15 +2,31 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "~/api";
 
-export const useRegions = (enabled?: boolean) => {
+interface useRegionsProps {
+  enabled?: boolean;
+}
+
+export const useRegions = (
+  { enabled }: useRegionsProps = { enabled: true },
+) => {
+  const { data: regionRefTypeResp, isPending: isRegionRefTypePending } =
+    useQuery({
+      queryKey: ["region-ref-type"],
+      queryFn: () => api.referenceTypes.refType.findById("region"),
+      enabled,
+    });
+
   const {
     isFetching: isFetchRegionsPending,
     data: regionsResp,
     refetch: refetchRegions,
   } = useQuery({
     queryKey: ["regions"],
-    queryFn: () => api.refImpl.findAllRegions(),
-    enabled,
+    queryFn: () =>
+      api.referenceTypes.refParam.findAll({
+        filter: `refTypeId||$eq||${regionRefTypeResp?.id}`,
+      }),
+    enabled: enabled && !!regionRefTypeResp,
   });
 
   const regions = React.useMemo(() => {
@@ -20,7 +36,7 @@ export const useRegions = (enabled?: boolean) => {
 
   return {
     regions,
-    isFetchRegionsPending,
+    isRegionsPending: isRegionRefTypePending || isFetchRegionsPending,
     refetchRegions,
   };
 };

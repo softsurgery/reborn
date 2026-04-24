@@ -2,16 +2,19 @@ import React from "react";
 import { View, TouchableOpacity } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { Field, FieldVariant } from "~/components/shared/form-builder/types";
-import Select from "../Select";
+import Select from "./Select";
 import { Checkbox } from "~/components/ui/checkbox";
-import { DatePicker } from "~/components/ui/date-picker";
+import { DatePicker } from "./DatePicker2";
 import { Textarea } from "~/components/ui/textarea";
 import { Input } from "~/components/ui/input";
 import StarRating from "react-native-star-rating-widget";
-import { PictureUploader } from "../PictureUploader";
+import { PictureUploader } from "./PictureUploader";
 import { Text } from "~/components/ui/text";
 import { cn } from "~/lib/utils";
 import { Switch } from "~/components/ui/switch";
+import { GalleryPicturePicker } from "./GalleryPictureUploader";
+import MultiSelect from "./MultiSelect";
+import MapPinField from "./MapPinField";
 
 interface FieldBuilderProps {
   field?: Field<any>;
@@ -47,8 +50,13 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
             editable={field?.props?.editable}
             keyboardType="number-pad"
             placeholder={field.placeholder}
-            value={field?.props?.value}
-            onChangeText={(text) => field?.props?.onChangeText?.(Number(text))}
+            value={field?.props?.value?.toString()}
+            onChangeText={(text) => {
+              const cleaned = text.replace(/[^0-9]/g, "");
+              field?.props?.onChangeText?.(
+                cleaned ? Number(cleaned) : undefined,
+              );
+            }}
             className={cn("rounded-md", field?.error && "border-red-500")}
           />
         </View>
@@ -71,7 +79,10 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
       return (
         <Select
           {...field?.props}
-          className={cn(field?.error && "border-red-500")}
+          className={cn(field?.className)}
+          classNames={{
+            input: cn(field?.error && "border-red-500"),
+          }}
           title={field.label}
           description={field.description}
           placeholder={field?.placeholder}
@@ -81,13 +92,28 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
           options={field?.props?.options}
         />
       );
+    case "multi-select":
+      return (
+        <MultiSelect
+          {...field?.props}
+          classNames={{ trigger: cn(field?.error && "border-red-500") }}
+          title={field.label}
+          description={field.description}
+          placeholder={field?.placeholder}
+          value={field?.props?.value || []}
+          onSelect={(value) => field?.props?.onSelect?.(value)}
+          disabled={field?.props?.other}
+          options={field?.props?.options}
+          max={field?.props?.max || Infinity}
+        />
+      );
     case "date":
       return (
         <DatePicker
           {...field?.props}
           className={cn(field?.error && "border border-red-500 rounded-md")}
-          date={field?.props?.value}
-          onChange={(date) => field?.props?.onDateChange?.(date)}
+          value={field?.props?.value}
+          onDateChange={(date) => field?.props?.onDateChange?.(date)}
           disabled={field?.props?.editable}
         />
       );
@@ -101,7 +127,7 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
               field?.props?.onValueChange?.(checked)
             }
           />
-          <Text>{field.label}</Text>
+          <Text className="text-sm font-base">{field.props?.label}</Text>
         </View>
       );
     case "password":
@@ -183,6 +209,17 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
           editable={field?.props?.editable}
         />
       );
+    case "gallery":
+      return (
+        <GalleryPicturePicker
+          {...field?.props}
+          images={field?.props?.images}
+          maxImages={field?.props?.maxImages}
+          onChange={field?.props?.onChange}
+          className={field?.className}
+          editable={field?.props?.editable}
+        />
+      );
     case "switch":
       return (
         <Switch
@@ -191,6 +228,19 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
           checked={field?.props?.checked}
           onCheckedChange={field?.props?.onCheckedChange}
           disabled={field?.props?.disabled}
+        />
+      );
+    case "map-pin":
+      return (
+        <MapPinField
+          {...field?.props}
+          className={cn(field?.className, field?.error && "border-red-500")}
+          placeholder={field?.placeholder}
+          latitude={field?.props?.latitude}
+          longitude={field?.props?.longitude}
+          locationName={field?.props?.locationName}
+          onLocationChange={field?.props?.onLocationChange}
+          editable={field?.props?.editable}
         />
       );
     default:

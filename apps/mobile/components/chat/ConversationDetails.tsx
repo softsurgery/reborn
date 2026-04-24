@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import React from "react";
 import {
   View,
   Text,
@@ -8,6 +8,7 @@ import {
   useColorScheme,
 } from "react-native";
 import { LegendList } from "@legendapp/list";
+import { useQuery } from "@tanstack/react-query";
 import {
   User,
   Bell,
@@ -26,20 +27,20 @@ import {
   MoreVertical,
 } from "lucide-react-native";
 import { Icon } from "~/components/ui/icon";
-import { Toggle } from "~/components/ui/toggle";
+
 import { cn } from "~/lib/utils";
-import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
-import { useServerImage } from "~/hooks/content/useServerImage";
 import { router } from "expo-router";
-import axios from "api/axios";
-import { message as messageApi } from "api/chat/message";
-import { storageManager } from "~/lib/storage-manager";
-import { MediaViewerModal } from "~/components/chat/conversation/media-viewer-modal";
-import { SoundSettingsModal } from "~/components/chat/conversation/sound-settings-modal";
-import { useIdentifiedUser } from "~/hooks/content/user/useIdentifiedUser";
+import axios from "~/api/axios";
+import { api } from "~/api";
+import { message as messageApi } from "~/api/chat/message";
+import { ResponseMessageDto } from "~/types";
 import { StableSafeAreaView } from "../shared/StableSafeAreaView";
 import { ApplicationHeader } from "../shared/AppHeader";
 import { StableScrollView } from "../shared/StableScrollView";
+import { Switch } from "../ui/switch";
+import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
+import { useServerImages } from "~/hooks/content/useServerImages";
+import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
 
 // --------------------------------------
 // SettingItem Component
@@ -105,7 +106,10 @@ const SettingItem = ({
       </View>
       <View className="flex-row items-center">
         {toggleValue !== undefined ? (
-          <Toggle pressed={toggleValue} onPressedChange={onToggle} />
+          <Switch
+            checked={toggleValue}
+            onCheckedChange={(checked) => onToggle?.(checked)}
+          />
         ) : (
           <>
             {value && (
@@ -127,7 +131,7 @@ const SettingItem = ({
 // Message Result Item Component
 // --------------------------------------
 interface MessageResultItemProps {
-  message: any;
+  message: ResponseMessageDto;
   searchQuery: string;
   onPress: () => void;
 }
@@ -140,7 +144,8 @@ const MessageResultItem = ({
     if (!text || !query.trim())
       return <Text className="text-foreground">{text || ""}</Text>;
 
-    const parts = text.split(new RegExp(`(${query})`, "gi"));
+    const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const parts = text.split(new RegExp(`(${escapedQuery})`, "gi"));
     return (
       <Text className="text-foreground">
         {parts.map((part, index) =>
@@ -156,7 +161,7 @@ const MessageResultItem = ({
     );
   };
 
-  const senderName = message.sender?.profile?.firstName || "Utilisateur";
+  const senderName = identifyUser(message.user);
   const content = message.content || "";
 
   return (
@@ -203,128 +208,130 @@ export const ConversationDetails = ({ id }: ConversationDetailsProps) => {
   const colorScheme = useColorScheme();
   const iconColor = colorScheme === "dark" ? "#FFFFFF" : "#000000";
   const mutedIconColor = colorScheme === "dark" ? "#A1A1AA" : "#71717A";
+  const conversationId = Number(id);
+  const { currentUser } = useCurrentUser();
 
-  const { user } = useIdentifiedUser({
-    id,
+  const { data: conversation } = useQuery({
+    queryKey: ["conversation", conversationId],
+    queryFn: () => api.chat.conversation.findById(conversationId),
+    enabled: Number.isFinite(conversationId) && conversationId > 0,
   });
-  const identification = identifyUser(user);
-  const [isSearching, setIsSearching] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState<any[]>([]);
-  const [loadingSearch, setLoadingSearch] = useState(false);
-  const searchInputRef = useRef<TextInput>(null);
 
-  const { jsx: profilePicture } = useServerImage({
-    id: user?.pictureId,
-    fallback: identifyUserAvatar(user),
+  const user = React.useMemo(() => {
+    if (!conversation || !currentUser) return null;
+    return conversation.participants.find(
+      (participant) => participant.id !== currentUser.id,
+    );
+  }, [conversation, currentUser]);
+
+  const identification = identifyUser(user);
+
+  const [isSearching, setIsSearching] = React.useState(false);
+  const [searchQuery, setSearchQuery] = React.useState("");
+  const [searchResults, setSearchResults] = React.useState<
+    ResponseMessageDto[]
+  >([]);
+  const [loadingSearch, setLoadingSearch] = React.useState(false);
+  const searchInputRef = React.useRef<TextInput>(null);
+
+  const { jsxArray: profilePictures } = useServerImages({
+    ids: [user?.pictureId],
+    fallbacks: [identifyUserAvatar(user)],
     size: { width: 90, height: 90 },
     enabled: !!user,
   });
+  const profilePicture = profilePictures[0];
 
-  const [modalVisible, setModalVisible] = useState(false);
-  const [nickname, setNickname] = useState(identification);
+  const [nickname, setNickname] = React.useState(identification);
+  const [messages, setMessages] = React.useState<ResponseMessageDto[]>([]);
+  const [autoSavePhotos, setAutoSavePhotos] = React.useState(false);
 
-  const [messages, setMessages] = useState<any[]>([]);
-  const typingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  React.useEffect(() => {
+    setNickname(identification);
+  }, [identification]);
 
-  const [soundSettingsVisible, setSoundSettingsVisible] = useState(false);
-  const [mediaViewerVisible, setMediaViewerVisible] = useState(false);
-  const [autoSavePhotos, setAutoSavePhotos] = useState(false);
-
-  useEffect(() => {
-    const loadSettings = async () => {
-      const settings = await storageManager.loadSettings();
-      setAutoSavePhotos(settings.autoSavePhotos);
-    };
-
-    loadSettings();
-  }, []);
-
-  const handleAutoSavePhotosToggle = async (value: boolean) => {
-    setAutoSavePhotos(value);
-    await storageManager.updateAutoSavePhotos(value);
-  };
-
-  useEffect(() => {
+  React.useEffect(() => {
     const fetchMessages = async () => {
       try {
-        const response = await messageApi.findPaginatedConversationMessages(0, {
-          page: "1",
-          limit: "100",
-          sort: "DESC",
-        });
-        // On vérifie si response est Paginated ou directement un tableau (fallback)
-        const data = Array.isArray(response)
-          ? response
-          : (response as any).data;
-        console.log("[ Messages chargés avec succès, nombre:", data?.length);
-        setMessages(data || []);
-      } catch (error: any) {
-        console.log(" Erreur lors du chargement des messages :", error.message);
-        if (error.response) {
-          console.log("[Données d'erreur API:", error.response.data);
+        if (!Number.isFinite(conversationId) || conversationId <= 0) {
+          setMessages([]);
+          return;
         }
+
+        const response = await messageApi.findPaginatedConversationMessages(
+          conversationId,
+          {
+            page: "1",
+            limit: "100",
+            sort: "DESC",
+          },
+        );
+        setMessages(response.data || []);
+      } catch {
+        setMessages([]);
       }
     };
+
     fetchMessages();
-  }, [id]); // Ajouter id comme dépendance pour recharger si l'ID change
+  }, [conversationId]);
 
-  // Fonction de recherche sur messages réels
-  const handleSearch = (query: string) => {
-    if (!query.trim()) {
-      setSearchResults([]);
-      return;
-    }
-    setLoadingSearch(true);
+  const handleSearch = React.useCallback(
+    (query: string) => {
+      if (!query.trim()) {
+        setSearchResults([]);
+        return;
+      }
+      setLoadingSearch(true);
 
-    const results = messages
-      .filter((msg) => msg.content?.toLowerCase().includes(query.toLowerCase()))
-      .sort(
-        (a, b) =>
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-      );
+      const results = messages
+        .filter((msg) =>
+          msg.content?.toLowerCase().includes(query.toLowerCase()),
+        )
+        .sort(
+          (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+        );
 
-    setSearchResults(results);
-    setLoadingSearch(false);
-  };
+      setSearchResults(results);
+      setLoadingSearch(false);
+    },
+    [messages],
+  );
 
-  // Recherche optimisée avec debounce
-  useEffect(() => {
+  React.useEffect(() => {
     const timeoutId = setTimeout(() => {
       if (isSearching) handleSearch(searchQuery);
     }, 300);
 
     return () => clearTimeout(timeoutId);
-  }, [searchQuery, isSearching, messages]);
+  }, [searchQuery, isSearching, handleSearch]);
 
-  // Naviguer vers le message sélectionné
-  const handleResultPress = (message: any) => {
+  const handleResultPress = (message: ResponseMessageDto) => {
     setIsSearching(false);
     setSearchQuery("");
     Alert.alert(
-      "Naviguer",
-      `Aller au message: ${message.content.substring(0, 50)}...`,
+      "Navigate",
+      `Go to message: ${message.content.substring(0, 50)}...`,
     );
   };
 
-  // Supprimer la conversation
   const handleDeleteConversation = () => {
     Alert.alert(
-      "Supprimer la discussion",
-      "Êtes-vous sûr de vouloir supprimer cette discussion ?",
+      "Delete conversation",
+      "Are you sure you want to delete this conversation?",
       [
-        { text: "Annuler", style: "cancel" },
+        { text: "Cancel", style: "cancel" },
         {
-          text: "Supprimer",
+          text: "Delete",
           style: "destructive",
           onPress: async () => {
             try {
-              await axios.delete(`/conversation/${id}`); // Utiliser id au lieu de user?.id pour cohérence
-              Alert.alert("Succès", "La conversation a été supprimée.");
+              await axios.delete(`/conversation/${conversationId}`);
+              Alert.alert("Success", "Conversation deleted.");
               router.back();
             } catch (error) {
               console.error("Erreur lors de la suppression :", error);
-              Alert.alert("Erreur", "Impossible de supprimer la conversation.");
+              Alert.alert("Error", "Unable to delete conversation.");
             }
           },
         },
@@ -348,7 +355,6 @@ export const ConversationDetails = ({ id }: ConversationDetailsProps) => {
           reverse
           className="border-b border-border pb-2 bg-transparent"
         />
-        {/* Header de recherche */}
         <View className="pt-12 px-4 pb-3 border-b border-border bg-background">
           <View className="flex-row items-center">
             <TouchableOpacity
@@ -366,7 +372,7 @@ export const ConversationDetails = ({ id }: ConversationDetailsProps) => {
               <TextInput
                 ref={searchInputRef}
                 className="flex-1 text-foreground ml-3 text-base"
-                placeholder="Rechercher dans la conversation"
+                placeholder="Search in conversation"
                 placeholderTextColor={mutedIconColor}
                 value={searchQuery}
                 autoFocus
@@ -385,11 +391,10 @@ export const ConversationDetails = ({ id }: ConversationDetailsProps) => {
           </View>
         </View>
 
-        {/* Résultats */}
         <LegendList
           data={searchResults}
-          keyExtractor={(item: { id: any }) => item.id}
-          renderItem={({ item }: { item: any }) => (
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }: { item: ResponseMessageDto }) => (
             <MessageResultItem
               message={item}
               searchQuery={searchQuery}
@@ -400,8 +405,8 @@ export const ConversationDetails = ({ id }: ConversationDetailsProps) => {
             <View className="px-4 py-3 border-b border-border">
               <Text className="text-muted-foreground text-sm">
                 {loadingSearch
-                  ? "Recherche..."
-                  : `${searchResults.length} résultat${
+                  ? "Searching..."
+                  : `${searchResults.length} result${
                       searchResults.length !== 1 ? "s" : ""
                     }`}
               </Text>
@@ -410,22 +415,20 @@ export const ConversationDetails = ({ id }: ConversationDetailsProps) => {
           ListEmptyComponent={() => (
             <View className="flex-1 items-center justify-center py-20">
               {loadingSearch ? (
-                <Text className="text-muted-foreground">
-                  Recherche en cours...
-                </Text>
+                <Text className="text-muted-foreground">Searching...</Text>
               ) : searchQuery ? (
                 <>
                   <Icon as={Search} size={60} color={mutedIconColor} />
                   <Text className="text-muted-foreground text-lg mt-4 font-medium">
-                    Aucun résultat pour "{searchQuery}"
+                    {`No results for "${searchQuery}"`}
                   </Text>
                   <Text className="text-muted-foreground text-center mt-2 px-10">
-                    Vérifiez l'orthographe ou essayez d'autres mots-clés
+                    {"Check spelling or try different keywords"}
                   </Text>
                 </>
               ) : (
                 <Text className="text-muted-foreground">
-                  Entrez un mot-clé pour rechercher dans la conversation
+                  Enter a keyword to search in this conversation
                 </Text>
               )}
             </View>
@@ -452,8 +455,7 @@ export const ConversationDetails = ({ id }: ConversationDetailsProps) => {
         className="border-b border-border pb-2 bg-card"
       />
       <StableScrollView className="bg-background">
-        {/* Header Profile */}
-        <View className="items-center pt-8 pb-6">
+        <View className="items-center m-4 p-4 bg-card rounded-lg">
           <View className="relative">
             {profilePicture}
             <View className="absolute bottom-0 right-0 w-6 h-6 bg-green-500 border-2 border-background rounded-full" />
@@ -464,107 +466,119 @@ export const ConversationDetails = ({ id }: ConversationDetailsProps) => {
           <View className="flex-row items-center bg-muted px-3 py-1 rounded-full mt-2">
             <Icon as={ShieldCheck} size={14} color={mutedIconColor} />
             <Text className="text-muted-foreground text-xs ml-1 font-medium">
-              Chiffrée de bout en bout
+              End-to-end encrypted
             </Text>
           </View>
         </View>
 
-        {/* Main Actions */}
         <View className="flex-row justify-center gap-8 mb-4">
           <View className="items-center">
-            <TouchableOpacity className="w-12 h-12 bg-zinc-800 rounded-full items-center justify-center mb-1">
-              <Icon as={User} size={24} color="white" />
+            <TouchableOpacity className="w-12 h-12 bg-muted rounded-full items-center justify-center mb-1">
+              <Icon as={User} size={24} color={iconColor} />
             </TouchableOpacity>
-            <Text className="text-zinc-400 text-xs">Profil</Text>
+            <Text className="text-muted-foreground text-xs">Profile</Text>
           </View>
           <View className="items-center">
-            <TouchableOpacity className="w-12 h-12 bg-zinc-800 rounded-full items-center justify-center mb-1">
-              <Icon as={Bell} size={24} color="white" />
+            <TouchableOpacity className="w-12 h-12 bg-muted rounded-full items-center justify-center mb-1">
+              <Icon as={Bell} size={24} color={iconColor} />
             </TouchableOpacity>
-            <Text className="text-zinc-400 text-xs">Mettre en sourdine</Text>
+            <Text className="text-muted-foreground text-xs">Mute</Text>
           </View>
         </View>
 
-        {/* Personnalisation */}
         <View className="px-4 pt-6 pb-2">
           <Text className="text-primary text-xs font-semibold uppercase tracking-wider">
-            Personnalisation
+            Customization
           </Text>
         </View>
         <View className="bg-card mx-3 rounded-2xl">
           <SettingItem
             icon={Type}
-            label="Pseudos"
+            label="Nicknames"
             value={nickname}
-            onPress={() => setModalVisible(true)}
+            onPress={() =>
+              Alert.prompt(
+                "Nickname",
+                "Set a local nickname for this conversation",
+                [
+                  { text: "Cancel", style: "cancel" },
+                  {
+                    text: "Save",
+                    onPress: (value?: string) => {
+                      const nextNickname = value?.trim();
+                      if (nextNickname) setNickname(nextNickname);
+                    },
+                  },
+                ],
+                "plain-text",
+                nickname,
+              )
+            }
           />
         </View>
 
-        {/* Autres Actions */}
         <View className="px-4 pt-6 pb-2">
           <Text className="text-primary text-xs font-semibold uppercase tracking-wider">
-            Autres actions
+            Other actions
           </Text>
         </View>
         <View className="bg-card mx-3 rounded-2xl overflow-hidden">
           <View className="h-[0.5px] bg-zinc-800 ml-14" />
           <SettingItem
             icon={ImageIcon}
-            label="Voir les contenus multimédias, les fichiers et les liens"
-            onPress={() => setMediaViewerVisible(true)}
+            label="View media, files, and links"
+            onPress={() =>
+              Alert.alert(
+                "Coming soon",
+                "Media viewer will be added in a dedicated screen.",
+              )
+            }
           />
           <View className="h-[0.5px] bg-zinc-800 ml-14" />
           <SettingItem
             icon={Download}
-            label="Enregistrer automatiquement les photos"
+            label="Save photos automatically"
             toggleValue={autoSavePhotos}
-            onToggle={handleAutoSavePhotosToggle}
+            onToggle={setAutoSavePhotos}
             showChevron={false}
           />
           <SettingItem
             icon={Search}
-            label="Rechercher dans la conversation"
+            label="Search in conversation"
             onPress={() => setIsSearching(true)}
           />
           <View className="h-[0.5px] bg-zinc-800 ml-14" />
           <SettingItem
             icon={Bell}
-            label="Sons et notifications"
-            onPress={() => setSoundSettingsVisible(true)}
+            label="Sounds and notifications"
+            onPress={() =>
+              Alert.alert(
+                "Sounds and notifications",
+                "Detailed settings coming soon.",
+              )
+            }
           />
         </View>
 
-        {/* Confidentialité et assistance */}
         <View className="px-4 pt-6 pb-2">
           <Text className="text-primary text-xs font-semibold uppercase tracking-wider">
-            Confidentialité et assistance
+            Privacy and support
           </Text>
         </View>
 
         <View className="bg-card mx-3 rounded-2xl mb-12">
-          <SettingItem icon={Slash} label="Restreindre" />
+          <SettingItem icon={Slash} label="Restrict" />
           <View className="h-[0.5px] bg-zinc-800 ml-14" />
-          <SettingItem icon={Ban} label="Bloquer" />
+          <SettingItem icon={Ban} label="Block" />
           <View className="h-[0.5px] bg-zinc-800 ml-14" />
-          <SettingItem icon={AlertTriangle} label="Signaler" />
+          <SettingItem icon={AlertTriangle} label="Report" />
           <SettingItem
             icon={Trash2}
-            label="Supprimer la discussion"
+            label="Delete conversation"
             destructive
             onPress={handleDeleteConversation}
           />
         </View>
-        {/* Modal MediaViewerModal */}
-        <MediaViewerModal
-          visible={mediaViewerVisible}
-          onClose={() => setMediaViewerVisible(false)}
-          messages={messages}
-        />
-
-        <SoundSettingsModal
-          visible={soundSettingsVisible}
-          onClose={() => setSoundSettingsVisible(false)}
-        />
       </StableScrollView>
     </StableSafeAreaView>
   );

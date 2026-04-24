@@ -1,16 +1,36 @@
 import React from "react";
-import { api } from "~/api";
 import { useQuery } from "@tanstack/react-query";
+import { api } from "~/api";
 
-export const useJobTags = (enabled?: boolean) => {
+interface useJobTagsProps {
+  enabled?: boolean;
+}
+
+export const useJobTags = (
+  { enabled }: useJobTagsProps = { enabled: true },
+) => {
+  const { data: jobTagsRefTypeResp, isPending: isJobTagsRefTypePending } =
+    useQuery({
+      queryKey: ["job-tag-ref-type"],
+      queryFn: async () => {
+        return api.referenceTypes.refType.findById("job-tag");
+      },
+      enabled,
+    });
+
   const {
     isFetching: isFetchJobTagsPending,
     data: jobTagsResp,
     refetch: refetchJobTags,
   } = useQuery({
     queryKey: ["job-tags"],
-    queryFn: () => api.jobTag.findAll(),
-    enabled,
+    queryFn: async () => {
+      if (!jobTagsRefTypeResp) return [];
+      return api.referenceTypes.refParam.findAll({
+        filter: `refTypeId||$eq||${jobTagsRefTypeResp?.id}`,
+      });
+    },
+    enabled: enabled && !!jobTagsRefTypeResp,
   });
 
   const jobTags = React.useMemo(() => {
@@ -20,7 +40,7 @@ export const useJobTags = (enabled?: boolean) => {
 
   return {
     jobTags,
-    isFetchJobTagsPending,
+    isJobTagsPending: isJobTagsRefTypePending || isFetchJobTagsPending,
     refetchJobTags,
   };
 };

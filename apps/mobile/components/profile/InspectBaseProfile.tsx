@@ -1,8 +1,7 @@
 import React from "react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { router, useNavigation } from "expo-router";
-import { Image, View } from "react-native";
-import { showToastable } from "react-native-toastable";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { router } from "expo-router";
+import { Image, Pressable, View } from "react-native";
 import { api } from "~/api";
 import { useFollowSystem } from "~/hooks/content/useFollowSystem";
 import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
@@ -14,28 +13,37 @@ import {
   ResponseEducationDto,
   ResponseExperienceDto,
   ServerErrorResponse,
+  UpdateUserCoverDto,
   UpdateUserDto,
 } from "~/types";
 import { Text } from "../ui/text";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { StablePressable } from "../shared/StablePressable";
 import { Icon } from "../ui/icon";
-import { Mail, Pen, Plus, UserPlus } from "lucide-react-native";
-import { Separator } from "../ui/separator";
-import { StableScrollView } from "../shared/StableScrollView";
+import { Mail, UserPlus, Edit, ArrowLeft } from "lucide-react-native";
 import { cn } from "~/lib/utils";
 import { ProfileStat } from "../explore/users/ProfileStat";
 import { Button } from "../ui/button";
 import { SeeMoreText } from "../shared/SeeMoreText";
 import { format } from "date-fns";
-
-interface ProfileSection<T = unknown> {
-  key: string;
-  title: string;
-  data: T[];
-  editable: boolean;
-  renderItem: (item: any) => React.ReactNode;
-}
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { StableSafeAreaView } from "../shared/StableSafeAreaView";
+import { ApplicationHeader } from "../shared/AppHeader";
+import { useTranslation } from "react-i18next";
+import { useExperiences } from "~/hooks/content/user/useExperiences";
+import { useEducations } from "~/hooks/content/user/useEducations";
+import { ProfileSection } from "./sections/profile-section";
+import { AboutTab } from "./sections/AboutTab";
+import { ExperienceTab } from "./sections/ExperienceTab";
+import { SnippetsTab } from "./sections/SnippetTab";
+import { ProfilePhotoPreview } from "../shared/ProfilePhotoPreview";
+import { useServerImages } from "@/hooks/content/useServerImages";
+import { Skeleton } from "../ui/skeleton";
+import * as ImagePicker from "expo-image-picker";
+import { useUploadMutation } from "@/hooks/content/useUploadMutation";
+import { Upload } from "@/types/upload";
+import { toast } from "sonner-native";
+import { Loader } from "../shared/Loader";
+import { BaseProfileSkeleton } from "./BaseProfileSkeleton";
 
 interface InspectBaseProfileProps {
   className?: string;
@@ -45,6 +53,8 @@ interface InspectBaseProfileProps {
   overrideContent?: boolean;
 }
 
+const Tab = createMaterialTopTabNavigator();
+
 export const InspectBaseProfile = ({
   className,
   id,
@@ -52,21 +62,34 @@ export const InspectBaseProfile = ({
   customContent,
   overrideContent = true,
 }: InspectBaseProfileProps) => {
+  const { t } = useTranslation("common");
+
   const queryClient = useQueryClient();
   const storeRef = React.useRef(createUserStore());
   const userStore = storeRef?.current?.();
 
-  const { user } = useIdentifiedUser({ id });
-  const { currentUser } = useCurrentUser();
+  const { user } = useIdentifiedUser({
+    id,
+  });
+  const { currentUser, refetchCurrentUser } = useCurrentUser();
 
   const identity = React.useMemo(() => identifyUser(user), [user]);
   const fallback = React.useMemo(() => identifyUserAvatar(user), [user]);
-  const { jsx: profilePicture } = useServerImage({
+
+  const { jsx: profilePicture, upload: uploadProfilePicture } = useServerImage({
     id: user?.pictureId,
     fallback,
     wrapperClassName:
       "border border-border bg-background rounded-full shadow-md",
     size: { width: 100, height: 100 },
+  });
+
+  const { uploads: coverUploads, isPending: isCoverPending } = useServerImages({
+    ids: [user?.coverId],
+    fallbacks: [""],
+    wrapperClassName: "",
+    size: { width: 100, height: 100 },
+    enabled: !!user && !!user.coverId,
   });
 
   const hasSeededRef = React.useRef(false);
@@ -108,7 +131,7 @@ export const InspectBaseProfile = ({
         refetchIsFollowing();
       },
       onError: (err: ServerErrorResponse) => {
-        showToastable({ message: err.response?.data.message });
+        toast.error(err.response?.data.message || "Failed to follow user");
       },
     },
     unfollow: {
@@ -121,10 +144,72 @@ export const InspectBaseProfile = ({
         refetchIsFollowing();
       },
       onError: (err: ServerErrorResponse) => {
-        showToastable({ message: err.response?.data.message });
+        toast.error(err.response?.data.message || "Failed to unfollow user");
       },
     },
   });
+
+  const { uploadFiles: uploadCover, isUploadPending: isCoverUploadPending } =
+    useUploadMutation({
+      onSuccess: (response: Upload[]) => {
+        const coverId = response?.[0]?.id;
+        if (coverId) {
+          updateUserCover({ coverId: coverId });
+        }
+      },
+      onError: (error: ServerErrorResponse) => {
+        toast.error(
+          error.response?.data?.message || "Failed to upload image",
+          {},
+        );
+      },
+    });
+
+  const { mutate: updateUserCover, isPending: isUpdateCoverPending } =
+    useMutation({
+      mutationFn: (coverDto: UpdateUserCoverDto) =>
+        api.client.updateCover(coverDto),
+      onSuccess: () => {
+        toast.success("Cover updated successfully", {
+          description: "Your cover has been successfully updated.",
+        });
+        userStore.reset();
+        queryClient.invalidateQueries({ queryKey: ["user", currentUser?.id] });
+        queryClient.invalidateQueries({ queryKey: ["current-user"] });
+        queryClient.invalidateQueries({
+          queryKey: ["server-image", currentUser?.coverId],
+        });
+        refetchCurrentUser();
+      },
+      onError: (error: ServerErrorResponse) => {
+        toast.error(
+          error.response?.data?.message || "Failed to update cover",
+          {},
+        );
+      },
+    });
+
+  const handleCoverPress = async () => {
+    if (currentUser?.id !== id) return; // Prevent others from updating
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ["images"],
+      allowsEditing: true,
+      aspect: [16, 9],
+      quality: 0.8,
+    });
+    if (!result.canceled) {
+      const asset = result.assets[0];
+      const fileLike = {
+        uri: asset.uri,
+        name: asset.uri.split("/").pop() || "cover.jpg",
+        type: asset.type || "image/jpeg",
+      } as unknown as File;
+      uploadCover({ files: [fileLike] });
+    }
+  };
+
+  const coverSource = coverUploads?.[0];
 
   React.useEffect(() => {
     userStore?.set("followers", followers);
@@ -142,6 +227,22 @@ export const InspectBaseProfile = ({
       userStore?.set("responseFollowCountsDto", followDataCount);
   }, [followDataCount]);
 
+  // experience side-effects
+  const { experiences, isExperiencesPending, refetchExperiences } =
+    useExperiences({ id, enabled: !!user });
+  React.useEffect(() => {
+    if (experiences) userStore?.set("experiences", experiences);
+  }, [experiences]);
+
+  // education side-effects
+  const { educations, isEducationsPending, refetchEducations } = useEducations({
+    id,
+    enabled: !!user,
+  });
+  React.useEffect(() => {
+    if (educations) userStore?.set("educations", educations);
+  }, [educations]);
+
   React.useEffect(() => {
     return () => {
       userStore?.reset();
@@ -149,27 +250,24 @@ export const InspectBaseProfile = ({
     };
   }, []);
 
-  // ---------------------------------------------------------------
-  //  PROFILE SECTIONS CONFIG
-  // ---------------------------------------------------------------
   const profileSections: ProfileSection[] = [
     {
       key: "experience",
       title: "Experience",
-      data: user?.experiences as unknown[],
+      data: userStore?.experiences || [],
       editable: currentUser?.id === user?.id,
       renderItem: (experience: ResponseExperienceDto) => (
-        <View className="flex flex-col mb-4">
+        <View className="flex flex-col mb-4 mt-2">
           <Text className="font-semibold">{experience.title}</Text>
           <Text className="text-sm text-muted-foreground font-bold">
             {experience.company}
           </Text>
           <Text className="text-xs text-muted-foreground my-1">
-            {format(new Date(experience.startDate), "MMM yyyy")} —{" "}
-            {format(new Date(experience.endDate), "MMM yyyy")}
+            {format(new Date(experience.startDate!), "MMM yyyy")} —{" "}
+            {format(new Date(experience.endDate!), "MMM yyyy")}
           </Text>
           <SeeMoreText textClassname="text-sm" numberOfLines={2}>
-            {experience.description}
+            {experience.description || "No description provided."}
           </SeeMoreText>
         </View>
       ),
@@ -177,35 +275,33 @@ export const InspectBaseProfile = ({
     {
       key: "education",
       title: "Education",
-      data: user?.educations || [],
+      data: userStore?.educations || [],
       editable: currentUser?.id === user?.id,
-      renderItem: (edu: ResponseEducationDto) => (
-        <View className="flex flex-col mb-4">
-          <Text className="font-semibold">{edu.title}</Text>
-          <Text className="text-sm text-muted-foreground">
-            {edu.institution}
-          </Text>
+      renderItem: (education: ResponseEducationDto) => (
+        <View className="flex flex-col mb-4 gap-2">
+          <Text className="font-semibold">{education.title}</Text>
           <Text className="text-xs text-muted-foreground my-1">
-            {format(new Date(edu.startDate), "MMM yyyy")} —{" "}
-            {edu.endDate
-              ? format(new Date(edu.endDate), "MMM yyyy")
-              : "Present"}
+            {format(new Date(education.startDate!), "MMM yyyy")} —{" "}
+            {format(new Date(education.endDate!), "MMM yyyy")}
+          </Text>
+          <Text className="text-sm text-muted-foreground">
+            {education.institution}
           </Text>
           <SeeMoreText textClassname="text-sm" numberOfLines={2}>
-            {edu.description}
+            {education.description || "No description provided."}
           </SeeMoreText>
         </View>
       ),
     },
-    // {
-    //   key: "skills",
-    //   title: "Skills",
-    //   data: user?.skills || [],
-    //   editable: currentUser?.id === user?.id,
-    //   renderItem: (skill: Skill) => (
-    //     <Text className="text-sm font-bold">{skill.name}</Text>
-    //   ),
-    // },
+    {
+      key: "skills",
+      title: "Skills",
+      data: [],
+      editable: currentUser?.id === user?.id,
+      renderItem: (skill) => (
+        <Text className="text-sm font-bold">{skill.name}</Text>
+      ),
+    },
     {
       key: "snippets",
       title: "Snippets",
@@ -223,157 +319,187 @@ export const InspectBaseProfile = ({
     },
   ];
 
-  // ---------------------------------------------------------------
-  //  SECTION RENDERER
-  // ---------------------------------------------------------------
-  const renderSection = (section: ProfileSection) => (
-    <Card key={section.key} className="m-0">
-      <CardHeader className="flex flex-row items-center justify-between -my-2">
-        <CardTitle>
-          <Text variant="h4">{section.title}</Text>
-        </CardTitle>
-
-        {section.editable && (
-          <View className="flex flex-row gap-1 items-center -mx-2">
-            <StablePressable
-              className="p-2"
-              onPress={() => {
-                if (section.key === "experience") {
-                  router.push("/main/account/create-experience");
-                } else {
-                  router.push("/main/account/create-education");
-                }
-              }}
-              onPressClassname="bg-primary/25 rounded-full"
-            >
-              <Icon as={Plus} size={20} className="text-muted-foreground" />
-            </StablePressable>
-            <StablePressable
-              className="p-2"
-              onPress={() => {
-                if (section.key === "experience") {
-                  router.push("/main/account/update-experiences");
-                } else {
-                  router.push("/main/account/update-educations");
-                }
-              }}
-              onPressClassname="bg-primary/25 rounded-full"
-            >
-              <Icon as={Pen} size={18} className="text-muted-foreground" />
-            </StablePressable>
-          </View>
-        )}
-      </CardHeader>
-
-      <Separator />
-
-      <CardContent className="flex flex-col gap-7 mt-4">
-        {Array.isArray(section.data) && section.data?.length > 0 ? (
-          section.data.map((item, idx) => (
-            <View key={idx}>{section.renderItem(item)}</View>
-          ))
-        ) : (
-          <Text className="text-sm text-muted-foreground italic">
-            No {section.title.toLowerCase()} yet.
-          </Text>
-        )}
-      </CardContent>
-    </Card>
-  );
+  const isInitialLoading =
+    isCoverPending ||
+    isUpdateCoverPending ||
+    isExperiencesPending ||
+    isEducationsPending ||
+    isFollowPending;
 
   // ---------------------------------------------------------------
   //  UI LAYOUT
   // ---------------------------------------------------------------
   return (
-    <StableScrollView className={cn("flex-1 bg-background", className)}>
-      {/* Cover */}
-      <View className="relative w-full h-48 bg-card">
-        {coverExtra}
-        <Image
-          source={require("~/assets/images/partial-react-logo.png")}
-          className="w-full h-full"
-          resizeMode="cover"
-        />
-      </View>
+    <View className={cn("flex-1 bg-background", className)}>
+      {isInitialLoading ? (
+        <BaseProfileSkeleton className={className} />
+      ) : (
+        <>
+          {/* Cover */}
+          {!isCoverPending ? (
+            <Pressable
+              className="active:opacity-70 relative w-full h-48 overflow-hidden"
+              onPress={handleCoverPress}
+              disabled={
+                currentUser?.id !== id ||
+                isCoverUploadPending ||
+                isUpdateCoverPending
+              }
+            >
+              <Image
+                source={
+                  coverSource
+                    ? { uri: coverSource }
+                    : require("@/assets/images/partial-react-logo.png")
+                }
+                className="w-full h-full opacity-70"
+                resizeMode="cover"
+              />
+            </Pressable>
+          ) : (
+            <Skeleton className="w-full h-48" />
+          )}
+          {coverExtra}
+          {(isCoverUploadPending || isUpdateCoverPending) && (
+            <View className="absolute inset-0 bg-black/40 flex items-center justify-center z-50">
+              <Loader isPending={true} size="large" />
+            </View>
+          )}
 
-      {/* Header */}
-      <View className="flex-row items-center px-5 -mt-12">
-        <View className="z-10">{profilePicture}</View>
+          {/* Header overlaid on cover only when viewing ANOTHER user's profile */}
+          {currentUser?.id !== user?.id ? (
+            <StableSafeAreaView
+              className={cn("absolute left-0 right-0 bg-transparent")}
+            >
+              <ApplicationHeader
+                title={t("screens.profile")}
+                titleVariant="large"
+                reverse
+                shortcuts={[
+                  {
+                    key: "back",
+                    icon: ArrowLeft,
+                    onPress: () => router.back(),
+                  },
+                ]}
+              />
+            </StableSafeAreaView>
+          ) : null}
+          {/* Header */}
+          <View className="flex-row items-center px-4 -mt-12">
+            <ProfilePhotoPreview source={uploadProfilePicture}>
+              <View>{profilePicture}</View>
+            </ProfilePhotoPreview>
 
-        <View className="flex-1 mt-16">
-          <View className="flex-col items-start justify-between mx-2">
-            <View>
-              <Text className="text-xl font-semibold text-foreground">
-                {identity}
-              </Text>
-              {id && (
-                <Text className="text-sm text-muted-foreground">
-                  @{user?.username}
-                </Text>
+            <View className="flex flex-row flex-1 mt-16">
+              <View className="flex flex-col flex-1 items-start justify-between px-4 gap-2">
+                <View className="flex flex-col items-start">
+                  <Text className="text-xl font-semibold text-foreground">
+                    {identity}
+                  </Text>
+                  {id && (
+                    <Text className="text-sm text-muted-foreground">
+                      @{user?.username}
+                    </Text>
+                  )}
+                </View>
+                <ProfileStat
+                  clientStore={userStore}
+                  className="flex flex-row"
+                />
+              </View>
+              {currentUser?.id === user?.id && (
+                <StablePressable>
+                  <Icon
+                    as={Edit}
+                    size={24}
+                    onPress={() => router.push("/main/account/update-profile")}
+                  />
+                </StablePressable>
               )}
             </View>
+          </View>
 
-            {userStore ? (
-              <ProfileStat
-                clientStore={userStore}
-                className="flex flex-row gap-4 mt-4"
-              />
+          {/* Bio + Sections */}
+          <View className="flex flex-col flex-1">
+            {/* Follow buttons */}
+            {currentUser?.id !== user?.id ? (
+              <View className="flex flex-row px-4 my-4 gap-4">
+                <Button
+                  size="sm"
+                  onPress={() => (isFollowing ? unfollowUser() : followUser())}
+                  variant={isFollowing ? "outline" : "default"}
+                  className="flex flex-row flex-1 gap-2"
+                  disabled={isFollowPending || isUnfollowPending}
+                >
+                  {!isFollowing && <Icon as={UserPlus} size={20} />}
+                  <Text>{isFollowing ? "Following" : "Follow"}</Text>
+                </Button>
+
+                <Button
+                  size="sm"
+                  className="flex flex-row flex-1 gap-2"
+                  variant="outline"
+                >
+                  <Icon as={Mail} size={20} />
+                  <Text>Send Message</Text>
+                </Button>
+              </View>
             ) : null}
+
+            <View>
+              {overrideContent && customContent ? customContent : null}
+            </View>
+            {/* Profile Content */}
+            <View className="flex flex-1" style={{ minHeight: 400 }}>
+              <Tab.Navigator
+                screenOptions={{
+                  tabBarScrollEnabled: false,
+                  tabBarLabelStyle: {
+                    fontSize: 12,
+                    fontWeight: "600",
+                    textTransform: "none",
+                  },
+                  tabBarIndicatorStyle: { backgroundColor: "#9B2C2C" },
+                  tabBarStyle: { backgroundColor: "transparent" },
+                }}
+                commonOptions={{
+                  sceneStyle: {
+                    flex: 1,
+                  },
+                }}
+              >
+                <Tab.Screen
+                  name="about"
+                  options={{
+                    tabBarLabel: "About",
+                  }}
+                >
+                  {() => <AboutTab user={user} />}
+                </Tab.Screen>
+
+                <Tab.Screen
+                  name="career"
+                  options={{
+                    tabBarLabel: "Career",
+                  }}
+                >
+                  {() => <ExperienceTab profileSections={profileSections} />}
+                </Tab.Screen>
+                <Tab.Screen
+                  name="gallery"
+                  options={{
+                    tabBarLabel: "Gallery",
+                  }}
+                >
+                  {() => <SnippetsTab profileSections={profileSections} />}
+                </Tab.Screen>
+              </Tab.Navigator>
+            </View>
+            {/* <View>{!overrideContent && customContent ? customContent : null}</View> */}
           </View>
-        </View>
-      </View>
-
-      {/* Bio + Sections */}
-      <View className="flex flex-col gap-4 flex-1 px-4 mt-6 pb-10">
-        <Text className="italic text-xs">{user?.bio}</Text>
-
-        {/* Follow buttons */}
-        <View className="flex flex-row w-full justify-between gap-2">
-          {currentUser?.id !== user?.id ? (
-            <React.Fragment>
-              <Button
-                size="sm"
-                onPress={() => (isFollowing ? unfollowUser() : followUser())}
-                variant={isFollowing ? "outline" : "default"}
-                className="flex flex-row flex-1 gap-2"
-                disabled={isFollowPending || isUnfollowPending}
-              >
-                {!isFollowing && <Icon as={UserPlus} size={20} />}
-                <Text>{isFollowing ? "Following" : "Follow"}</Text>
-              </Button>
-
-              <Button
-                size="sm"
-                className="flex flex-row flex-1 gap-2"
-                variant="outline"
-              >
-                <Icon as={Mail} size={20} />
-                <Text>Send Message</Text>
-              </Button>
-            </React.Fragment>
-          ) : (
-            <React.Fragment>
-              <Button
-                size="sm"
-                onPress={() => router.push("/main/account/update-profile")}
-                className="flex flex-row flex-1 gap-2"
-              >
-                <Text className="bold">Update Your Profile</Text>
-              </Button>
-            </React.Fragment>
-          )}
-        </View>
-
-        {/* Render all abstracted profile sections */}
-        {overrideContent && customContent ? (
-          customContent
-        ) : (
-          <View className="flex flex-col gap-4">
-            {profileSections.map(renderSection)}
-          </View>
-        )}
-        {!overrideContent && customContent ? customContent : null}
-      </View>
-    </StableScrollView>
+        </>
+      )}
+    </View>
   );
 };

@@ -1,22 +1,23 @@
 import React from "react";
 import { useMutation } from "@tanstack/react-query";
-import { ArrowLeft, BugIcon } from "lucide-react-native";
+import { ArrowLeft } from "lucide-react-native";
 import { api } from "~/api";
 import { Button } from "~/components/ui/button";
 import { Text } from "~/components/ui/text";
-import { useReportBugStore } from "~/hooks/stores/useReportBugStore";
 import { View } from "react-native";
 import { useBugReportFormStructure } from "./useBugReportFormStructure";
 import { FormBuilder } from "~/components/shared/form-builder/FormBuilder";
-import { createBugSchema } from "~/types/validations/system-reports.validation";
 import { cn } from "~/lib/utils";
-import { showToastable } from "react-native-toastable";
 import { StableKeyboardAwareScrollView } from "~/components/shared/StableKeyboardAwareScrollView";
-import { Icon } from "~/components/ui/icon";
 import { router } from "expo-router";
 import { StableSafeAreaView } from "~/components/shared/StableSafeAreaView";
 import { ApplicationHeader } from "~/components/shared/AppHeader";
 import { useTranslation } from "react-i18next";
+import { useReportBugStore } from "~/hooks/stores/useReportBugStore";
+import { useKeyboardVisible } from "~/hooks/useKeyboardVisible";
+import { createBugSchema } from "~/types/validations/system-reports.validation";
+import { toast } from "sonner-native";
+import { ServerErrorResponse } from "@/types";
 
 interface BugReportPortalProps {
   className?: string;
@@ -24,6 +25,7 @@ interface BugReportPortalProps {
 
 export const BugReportPortal = ({ className }: BugReportPortalProps) => {
   const { t } = useTranslation("common");
+  const isKeyboardVisible = useKeyboardVisible();
 
   React.useEffect(() => {
     return () => {
@@ -37,17 +39,15 @@ export const BugReportPortal = ({ className }: BugReportPortalProps) => {
   const { mutate: reportBug, isPending: isReportBugPending } = useMutation({
     mutationFn: async () => api.bug.create(bugStore.createDto),
     onSuccess: () => {
-      showToastable({
-        message: "Bug reported successfully",
-        status: "success",
+      toast.success("Bug reported successfully", {
+        description: "Your bug report has been successfully submitted.",
       });
       router.back();
       bugStore.reset();
     },
-    onError: (error) => {
-      showToastable({
-        message: "oops! Failed to submit bug report",
-        status: "danger",
+    onError: (error: ServerErrorResponse) => {
+      toast.error("Oops! Failed to submit bug report", {
+        description: error.response?.data?.message || "Please try again later.",
       });
     },
   });
@@ -62,43 +62,41 @@ export const BugReportPortal = ({ className }: BugReportPortalProps) => {
   };
 
   return (
-    <StableSafeAreaView className={cn("flex flex-1", className)}>
+    <StableSafeAreaView className={cn("flex-1 bg-card", className)}>
       <ApplicationHeader
+        className="border-b border-border pb-2"
         title={t("screens.reportBug")}
         titleVariant="large"
         reverse
         shortcuts={[
           {
-            key: "user-preferences",
+            key: "back",
             icon: ArrowLeft,
             onPress: () => router.back(),
           },
         ]}
       />
-      <StableKeyboardAwareScrollView>
-        <View className={cn("flex flex-col mx-4 my-4 gap-2", className)}>
-          {/* Header Section */}
-          <View className="mx-auto">
-            <Icon as={BugIcon} />
-          </View>
-          <View>
-            <Text className="font-extrabold">
-              Help us improve by reporting any issues you encounter.
-            </Text>
-            <Text className="font-thin mt-2">
-              Please provide as much detail as possible
-            </Text>
-          </View>
-          <FormBuilder structure={bugFormStructure} />
+      <StableKeyboardAwareScrollView className="flex-1 bg-background">
+        <View className="p-4">
+          <Text className="text-sm text-muted-foreground leading-relaxed">
+            Encountered a bug? Let us know the details, and we&apos;ll work on
+            fixing it as soon as possible!
+          </Text>
+        </View>
+        <FormBuilder structure={bugFormStructure} className="px-2" />
+      </StableKeyboardAwareScrollView>
+      {!isKeyboardVisible && (
+        <View className="py-6 border-t border-border">
           <Button
+            size={"sm"}
+            className="mx-6 mb-4 rounded-full"
             disabled={isReportBugPending}
-            className="w-full"
             onPress={handleSubmit}
           >
-            <Text>{isReportBugPending ? "Submitting..." : "Submit Bug"}</Text>
+            <Text>Submit Bug</Text>
           </Button>
         </View>
-      </StableKeyboardAwareScrollView>
+      )}
     </StableSafeAreaView>
   );
 };

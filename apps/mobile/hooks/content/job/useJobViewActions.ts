@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { showToastable } from "react-native-toastable";
+import { toast } from "sonner-native";
 import { api } from "~/api";
 import { ServerErrorResponse } from "~/types";
 
@@ -13,9 +13,8 @@ export const useJobViewActions = ({
   onError,
 }: useJobSaveActionsProps) => {
   const defaultOnError = (error: ServerErrorResponse) => {
-    showToastable({
-      message: error.response?.data.message,
-      status: "danger",
+    toast.error("Oops! Failed to perform action", {
+      description: error.response?.data?.message || "Please try again later.",
     });
   };
 

@@ -27,7 +27,7 @@ export const ProfileStat = ({ className, clientStore }: ProfileStatProps) => {
   return (
     <View
       className={cn(
-        "flex flex-row flex-1 w-full items-center justify-between",
+        "flex flex-row w-full items-center justify-between",
         className,
       )}
     >

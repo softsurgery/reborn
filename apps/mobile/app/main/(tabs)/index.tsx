@@ -1,5 +1,5 @@
-import { Explore } from "~/components/explore/Explore";
+import { Home } from "~/components/home/Home";
 
 export default function Screen() {
-  return <Explore />;
+  return <Home />;
 }

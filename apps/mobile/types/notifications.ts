@@ -1,4 +1,4 @@
-import { ResponseClientDto } from "./user-management";
+import { ResponseUserDto } from "./user-management";
 import { DatabaseEntity } from "./utils";
 
 export enum NotificationType {
@@ -14,6 +14,6 @@ export interface ResponseNotificationDto extends DatabaseEntity {
   id: string;
   type: NotificationType;
   userId?: string;
-  user: ResponseClientDto;
+  user: ResponseUserDto;
   payload?: any;
 }

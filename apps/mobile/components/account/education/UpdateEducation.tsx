@@ -12,10 +12,10 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { router } from "expo-router";
 import { ArrowLeft } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
-import { showToastable } from "react-native-toastable";
 import { useUpdateEducationFormStructure } from "./useUpdateEducationFormStructure";
 import { updateEducationSchema } from "~/types/validations/education.validation";
 import { View } from "react-native";
+import { toast } from "sonner-native";
 
 interface UpdateEducationProps {
   className?: string;
@@ -34,17 +34,14 @@ export const UpdateEducation = ({ className }: UpdateEducationProps) => {
     mutationFn: (data: { id: number; education: UpdateEducationDto }) =>
       api.education.update(data.id, data.education),
     onSuccess: () => {
-      showToastable({
-        message: "Education updated successfully",
-        status: "success",
-      });
+      toast.success("Education updated successfully");
       queryClient.invalidateQueries({
         queryKey: ["educations", userStore.response?.id],
       });
       router.back();
     },
     onError: (error: ServerErrorResponse) => {
-      showToastable({ message: error.response?.data?.message });
+      toast.error(error.message || "Failed to update education");
     },
   });
 
@@ -64,9 +61,9 @@ export const UpdateEducation = ({ className }: UpdateEducationProps) => {
   };
 
   return (
-    <StableSafeAreaView className={cn("flex-1", className)}>
+    <StableSafeAreaView className={cn("flex-1 bg-card", className)}>
       <ApplicationHeader
-        className="border-b border-border pb-2 bg-transparent"
+        className="border-b border-border pb-2"
         title={t("screens.education")}
         titleVariant="large"
         reverse

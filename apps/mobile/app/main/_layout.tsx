@@ -2,15 +2,16 @@ import React from "react";
 import { Stack } from "expo-router";
 import { NAV_THEME } from "~/lib/theme";
 import { useColorScheme } from "nativewind";
+import { useCheckHealth } from "~/hooks/content/useCheckHealth";
+import { useAuthPersistStore } from "~/hooks/stores/useAuthPersistStore";
 
 export default function MainLayout() {
+  const authPersistStore = useAuthPersistStore();
   const { colorScheme } = useColorScheme();
-
   const isDarkColorScheme = colorScheme === "dark";
-
-  const [scenes, setScenes] = React.useState<{
-    [key: string]: any;
-  }>({});
+  useCheckHealth({
+    enabled: authPersistStore.isAuthenticated,
+  });
 
   return (
     <Stack>
@@ -103,13 +104,7 @@ export default function MainLayout() {
           headerShown: false,
         }}
       />
-      <Stack.Screen
-        name="account/delete-experience"
-        options={{
-          title: "Delete Experiences",
-          headerShown: false,
-        }}
-      />
+
       <Stack.Screen
         name="account/create-education"
         options={{
@@ -128,13 +123,6 @@ export default function MainLayout() {
         name="account/update-educations"
         options={{
           title: "Educations",
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="account/delete-education"
-        options={{
-          title: "Delete Educations",
           headerShown: false,
         }}
       />
@@ -160,6 +148,7 @@ export default function MainLayout() {
       <Stack.Screen
         name="explore/new-job"
         options={{
+          headerShown: false,
           title: "New Job",
         }}
       />
@@ -195,26 +184,18 @@ export default function MainLayout() {
 
       {/* My Space */}
       <Stack.Screen
-        name="my-space/index"
-        options={{
-          title: "",
-          headerShown: false,
-          animation: "slide_from_right",
-        }}
-      />
-      <Stack.Screen
         name="my-space/requests"
         options={{
-          title: "",
-          headerTitle: "Requests",
+          title: "Requests",
+          headerShown: false,
           animation: "slide_from_right",
         }}
       />
       <Stack.Screen
         name="my-space/saved"
         options={{
-          title: "",
-          headerTitle: "Saved",
+          title: "saved",
+          headerShown: false,
           animation: "slide_from_right",
         }}
       />

@@ -1,4 +1,4 @@
-import { JobCreateForm } from "~/components/explore/jobs/JobCreateForm";
+import { JobCreateForm } from "@/components/jobs/forms/JobCreateForm";
 
 export default function Screen() {
   return <JobCreateForm />;

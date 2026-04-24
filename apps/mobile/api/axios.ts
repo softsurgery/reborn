@@ -1,7 +1,12 @@
+import { delay } from "@/lib/time.utils";
 import _axios from "axios";
+import { router } from "expo-router";
 import { useAuthPersistStore } from "~/hooks/stores/useAuthPersistStore";
 
 const BASE_URL = process.env.EXPO_PUBLIC_API_BASE_URL;
+const GLOBAL_DELAY = process.env.EXPO_PUBLIC_GLOBAL_DELAY
+  ? parseInt(process.env.EXPO_PUBLIC_GLOBAL_DELAY)
+  : 0;
 
 const axios = _axios.create({
   baseURL: BASE_URL,
@@ -13,18 +18,25 @@ const axios = _axios.create({
 
 // Request interceptor
 axios.interceptors.request.use(
-  function (config) {
+  async function (config) {
+    await delay(GLOBAL_DELAY);
     const authStore = useAuthPersistStore.getState();
 
     if (authStore.accessToken) {
       config.headers["Authorization"] = `Bearer ${authStore.accessToken}`;
     }
 
+    // Send client timezone so the server can resolve time-sensitive queries
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    if (timezone) {
+      config.headers["x-timezone"] = timezone;
+    }
+
     return config;
   },
   function (err) {
     return Promise.reject(err);
-  }
+  },
 );
 
 axios.interceptors.response.use(
@@ -39,29 +51,33 @@ axios.interceptors.response.use(
       !originalRequest._retry
     ) {
       originalRequest._retry = true;
-
       if (authStore.refreshToken) {
         try {
-          const response = await _axios.post(`${BASE_URL}/auth/refresh-token`, {
-            refresh_token: authStore.refreshToken,
-          });
+          const response = await _axios.post(
+            `${BASE_URL}/client-auth/refresh-token`,
+            {
+              refresh_token: authStore.refreshToken,
+            },
+          );
 
-          const newAccessToken = response.data.access_token;
-          useAuthPersistStore.getState().setAccessToken(newAccessToken);
-          originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
+          const { access_token, refresh_token } = response.data;
+          authStore.setAccessToken(access_token);
+          if (refresh_token) {
+            authStore.setRefreshToken(refresh_token);
+          }
+          originalRequest.headers["Authorization"] = `Bearer ${access_token}`;
 
           return axios(originalRequest);
         } catch (err) {
-          authStore.logout?.();
+          authStore.logout();
+          router.push("/");
           return Promise.reject(err);
         }
-      } else {
-        authStore.logout?.();
       }
     }
 
     return Promise.reject(error);
-  }
+  },
 );
 
 export default axios;

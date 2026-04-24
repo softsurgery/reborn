@@ -4,11 +4,11 @@
     "slug": "reborn-mobile-app-v-2",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "assets/images/reborn.svg",
+    "icon": "assets/images/reborn.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "assets/images/reborn.svg",
+      "image": "assets/images/reborn.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

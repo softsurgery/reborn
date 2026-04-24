@@ -1,12 +1,11 @@
 import React from "react";
-import { View } from "react-native";
-import { cn } from "~/lib/utils";
-import { FormStructure } from "~/components/shared/form-builder/types";
-import { getItemWidth } from "./utils/item-width";
+import { Text, View } from "react-native";
 import { FieldBuilder } from "./FieldBuilder";
+import { FieldVariant, FormStructure } from "./types";
+import { getItemWidth } from "./utils/item-width";
+import { cn } from "~/lib/utils";
 import { Separator } from "~/components/ui/separator";
 import { Label } from "~/components/ui/label";
-import { Text } from "~/components/ui/text";
 
 interface FormBuilderProps {
   className?: string;
@@ -77,16 +76,16 @@ export const FormBuilder = React.forwardRef(
                             fieldRefs.current[field.id] = r;
                           }}
                           className={cn(
-                            "flex flex-col py-2",
+                            "flex flex-col p-2",
                             structure.orientation === "vertical"
                               ? "w-full"
                               : getItemWidth(fieldCount),
-                            field.containerClassName,
+                            field.fieldClassName,
                           )}
                         >
                           {/* Label */}
                           {field.variant !== "check" && (
-                            <Label className="text-xs font-poppins mb-1">
+                            <Label className="font-semibold mb-1">
                               {field.label}{" "}
                               {field.required && (
                                 <Text className="text-red-500">*</Text>
@@ -95,28 +94,31 @@ export const FormBuilder = React.forwardRef(
                           )}
 
                           {/* Field */}
-                          <FieldBuilder field={field} />
+                          {!field.pending && <FieldBuilder field={field} />}
 
                           {/* Description & Error */}
                           <View className="pt-1">
                             {field.description && (
                               <View className="flex flex-col justify-between">
-                                {!field?.error && (
-                                  <Text
-                                    className={cn(
-                                      "text-xs text-gray-500 dark:text-gray-400",
-                                    )}
-                                  >
-                                    {field.description}
-                                  </Text>
-                                )}
-                                {field?.error && (
-                                  <Text className="text-xs font-medium text-red-500">
-                                    {field?.error}
-                                  </Text>
-                                )}
+                                {!field?.error &&
+                                  (![FieldVariant.CHECKBOX].includes(
+                                    field.variant,
+                                  ) ? (
+                                    <Text
+                                      className={cn(
+                                        "text-sm text-gray-500 dark:text-gray-400",
+                                      )}
+                                    >
+                                      {field.description}
+                                    </Text>
+                                  ) : null)}
                               </View>
                             )}
+                            {field?.error ? (
+                              <Text className="text-sm font-medium text-red-500">
+                                {field?.error}
+                              </Text>
+                            ) : null}
                           </View>
                         </View>
                       );

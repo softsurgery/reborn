@@ -11,7 +11,6 @@ import { Button } from "../ui/button";
 import { ArrowRight } from "lucide-react-native";
 import DividerWithText from "../ui/divider-with-text";
 import { requestSignInDtoSchema } from "~/types/validations/auth.validation";
-import { showToastable } from "react-native-toastable";
 import { ServerErrorResponse } from "~/types";
 import { StableKeyboardAwareScrollView } from "../shared/StableKeyboardAwareScrollView";
 import { Icon } from "../ui/icon";
@@ -19,6 +18,7 @@ import { router } from "expo-router";
 import { SSOButtons } from "./SSOButtons";
 import { StableSafeAreaView } from "../shared/StableSafeAreaView";
 import { useTranslation } from "react-i18next";
+import { toast } from "sonner-native";
 
 interface SignInLayoutProps {
   className?: string;
@@ -31,13 +31,11 @@ export const SignInLayout = ({ className }: SignInLayoutProps) => {
   const { mutate: SignIn, isPending: isSignInPending } = useMutation({
     mutationFn: async () => api.auth.signIn(authStore.signInRequest),
     onSuccess: () => {
+      toast.success("Welcome back!");
       router.replace("/");
     },
     onError: (error: ServerErrorResponse) => {
-      showToastable({
-        message: error.response?.data.message,
-        status: "danger",
-      });
+      toast.error(error.response?.data.message || "Failed to sign in");
     },
   });
 

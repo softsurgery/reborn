@@ -11,11 +11,12 @@ import { router } from "expo-router";
 import { ArrowLeft } from "lucide-react-native";
 import { useCreateEducationFormStructure } from "./useCreateEducationFormStructure";
 import { CreateEducationDto, ServerErrorResponse } from "~/types";
-import { showToastable } from "react-native-toastable";
 import { api } from "~/api";
 import { useTranslation } from "react-i18next";
 import { createEducationSchema } from "~/types/validations/education.validation";
 import { View } from "react-native";
+import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
+import { toast } from "sonner-native";
 
 interface CreateEducationProps {
   className?: string;
@@ -23,6 +24,7 @@ interface CreateEducationProps {
 
 export const CreateEducation = ({ className }: CreateEducationProps) => {
   const { t } = useTranslation("common");
+  const { currentUser } = useCurrentUser();
   const userStore = useUserStore();
   const queryClient = useQueryClient();
 
@@ -31,20 +33,20 @@ export const CreateEducation = ({ className }: CreateEducationProps) => {
   });
 
   const { mutate: createEducation } = useMutation({
-    mutationFn: (data: { id: string; education: CreateEducationDto }) =>
-      api.education.create(data.id, data.education),
+    mutationFn: (data: { education: CreateEducationDto }) =>
+      api.education.createCurrent(data.education),
     onSuccess: () => {
-      showToastable({
-        message: "Education created successfully",
-        status: "success",
-      });
+      toast.success("Education created successfully");
       queryClient.invalidateQueries({
         queryKey: ["educations", userStore.response?.id],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["user", currentUser?.id],
       });
       router.back();
     },
     onError: (error: ServerErrorResponse) => {
-      showToastable({ message: error.response?.data?.message });
+      toast.error(error.message || "Failed to create education");
     },
   });
 
@@ -53,20 +55,16 @@ export const CreateEducation = ({ className }: CreateEducationProps) => {
     const result = createEducationSchema.safeParse(data);
     if (!result.success) {
       userStore.set("educationErrors", result.error.flatten().fieldErrors);
-    } else {
-      if (userStore.response?.id) {
-        createEducation({
-          id: userStore.response?.id!,
-          education: data,
-        });
-      }
     }
+    createEducation({
+      education: data,
+    });
   };
 
   return (
-    <StableSafeAreaView className={cn("flex-1", className)}>
+    <StableSafeAreaView className={cn("flex-1 bg-card", className)}>
       <ApplicationHeader
-        className="border-b border-border pb-2 bg-transparent"
+        className="border-b border-border pb-2"
         title={t("screens.education")}
         titleVariant="large"
         reverse

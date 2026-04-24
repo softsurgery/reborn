@@ -131,10 +131,6 @@ export const Balance = ({ className }: BalanceProps) => {
         title={t("screens.balance")}
         shortcuts={[
           {
-            icon: User,
-            onPress: () => router.push("/main/my-space"),
-          },
-          {
             icon: Bell,
             onPress: () => {
               router.push("/main/notifications");
@@ -259,7 +255,7 @@ export const Balance = ({ className }: BalanceProps) => {
                   "font-semibold text-sm",
                   item.type === "earning" && "text-green-600",
                   item.type === "withdrawal" && "text-red-600",
-                  item.type === "fee" && "text-muted-foreground"
+                  item.type === "fee" && "text-muted-foreground",
                 )}
               >
                 {item.type === "earning" ? "+" : ""}

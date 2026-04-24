@@ -14,8 +14,10 @@ import { router } from "expo-router";
 import { ArrowLeft } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import { View } from "react-native";
-import { showToastable } from "react-native-toastable";
+import { toast } from "sonner-native";
+
 import { useCreateExperienceFormStructure } from "./useCreateExperienceFormStructure";
+import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
 
 interface CreateExperienceProps {
   className?: string;
@@ -23,50 +25,49 @@ interface CreateExperienceProps {
 
 export const CreateExperience = ({ className }: CreateExperienceProps) => {
   const { t } = useTranslation("common");
+  const { currentUser } = useCurrentUser();
   const userStore = useUserStore();
   const queryClient = useQueryClient();
 
   const { structure } = useCreateExperienceFormStructure({
     store: userStore,
   });
-
   const { mutate: createExperience } = useMutation({
-    mutationFn: (data: { id: string; experience: CreateExperienceDto }) =>
-      api.experience.create(data.id, data.experience),
+    mutationFn: (data: { experience: CreateExperienceDto }) =>
+      api.experience.createCurrent(data.experience),
     onSuccess: () => {
-      showToastable({
-        message: "Experience created successfully",
-        status: "success",
-      });
+      toast.success("Experience created successfully");
       queryClient.invalidateQueries({
         queryKey: ["experiences", userStore.response?.id],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["user", currentUser?.id],
       });
       router.back();
     },
     onError: (error: ServerErrorResponse) => {
-      showToastable({ message: error.response?.data?.message });
+      toast.error(
+        error.response?.data?.message || "Failed to create experience",
+      );
     },
   });
 
   const handleCreateSubmit = () => {
     const data = userStore.createExperienceDto;
     const result = createExperienceSchema.safeParse(data);
+    console.log(result);
     if (!result.success) {
       userStore.set("experienceErrors", result.error.flatten().fieldErrors);
-    } else {
-      if (userStore.response?.id) {
-        createExperience({
-          id: userStore.response?.id!,
-          experience: data,
-        });
-      }
     }
+    createExperience({
+      experience: data,
+    });
   };
 
   return (
-    <StableSafeAreaView className={cn("flex-1", className)}>
+    <StableSafeAreaView className={cn("flex-1 bg-card", className)}>
       <ApplicationHeader
-        className="border-b border-border pb-2 bg-transparent"
+        className="border-b border-border pb-2"
         title={t("screens.experience")}
         titleVariant="large"
         reverse

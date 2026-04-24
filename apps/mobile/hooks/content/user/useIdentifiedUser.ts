@@ -4,16 +4,20 @@ import { api } from "~/api";
 
 interface useIdentifiedUserProps {
   id: string;
+  join?: string[];
 }
 
-export const useIdentifiedUser = ({ id }: useIdentifiedUserProps) => {
+export const useIdentifiedUser = ({
+  id,
+  join = [],
+}: useIdentifiedUserProps) => {
   const {
     data: userResp,
     isPending: isUserPending,
     refetch: refetchUser,
   } = useQuery({
-    queryKey: ["user", id],
-    queryFn: () => api.client.findById(id),
+    queryKey: ["user", id, join],
+    queryFn: () => api.client.findById(id, join),
   });
 
   const user = React.useMemo(() => {

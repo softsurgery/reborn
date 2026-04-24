@@ -1,6 +1,6 @@
 import React from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Save } from "lucide-react-native";
+import { ArrowLeft, Save } from "lucide-react-native";
 import { Loader } from "~/components/shared/Loader";
 import { Button } from "~/components/ui/button";
 import { useUserStore } from "~/hooks/stores/useUserStore";
@@ -9,7 +9,6 @@ import { ServerErrorResponse } from "~/types";
 import { Text } from "~/components/ui/text";
 import { FormBuilder } from "~/components/shared/form-builder/FormBuilder";
 import { useUpdateProfileFormStructure } from "./useUpdateProfileFormStructure";
-import { showToastable } from "react-native-toastable";
 import { useRegions } from "~/hooks/content/useRegions";
 import { mapToSelectOptions } from "~/components/shared/form-builder/utils/mapToSelectOptions";
 import {
@@ -22,11 +21,20 @@ import { Upload } from "~/types/upload";
 import { useServerImage } from "~/hooks/content/useServerImage";
 import { identifyUserAvatar } from "~/lib/user.utils";
 import { StableKeyboardAwareScrollView } from "../shared/StableKeyboardAwareScrollView";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { Icon } from "../ui/icon";
 import { router } from "expo-router";
+import { ApplicationHeader } from "../shared/AppHeader";
+import { cn } from "~/lib/utils";
+import { StableSafeAreaView } from "../shared/StableSafeAreaView";
+import { View } from "react-native";
+import { useKeyboardVisible } from "~/hooks/useKeyboardVisible";
+import { toast } from "sonner-native";
 
-export const UpdateProfile = () => {
+interface UpdateProfileProps {
+  className?: string;
+}
+
+export const UpdateProfile = ({ className }: UpdateProfileProps) => {
+  const isKeyboardVisible = useKeyboardVisible();
   const queryClient = useQueryClient();
   const { currentUser, isCurrentUserPending } = useCurrentUser();
 
@@ -37,7 +45,7 @@ export const UpdateProfile = () => {
   });
 
   const userStore = useUserStore();
-  const { regions, isFetchRegionsPending } = useRegions();
+  const { regions, isRegionsPending } = useRegions();
 
   const { uploadFiles: uploadPicture, isUploadPending } = useUploadMutation({
     onSuccess: (response: Upload[]) => {
@@ -51,7 +59,7 @@ export const UpdateProfile = () => {
   const { updateProfileStructure } = useUpdateProfileFormStructure({
     store: userStore,
     regions: mapToSelectOptions({
-      data: isFetchRegionsPending ? [] : regions,
+      data: isRegionsPending ? [] : regions,
       labelKey: "label",
       valueKey: "id",
     }),
@@ -87,21 +95,21 @@ export const UpdateProfile = () => {
         queryClient.invalidateQueries({
           queryKey: ["current-user"],
         });
-        showToastable({
-          message: "Profile Updated Successfully",
-          status: "success",
+        queryClient.invalidateQueries({
+          queryKey: ["user", currentUser?.id],
+        });
+        toast.success("Profile Updated Successfully", {
+          description: "Your profile has been successfully updated.",
         });
         router.back();
       },
       onError: (error: ServerErrorResponse) => {
-        showToastable({
-          message: error.response?.data?.message,
-          status: "danger",
-        });
+        toast.error(
+          error.response?.data?.message || "Failed to update profile",
+        );
       },
     });
 
-  const scrollRef = React.useRef<KeyboardAwareScrollView>(null);
   const formRef = React.useRef<{
     scrollToError: (id: string, scrollRef?: any) => void;
   }>(null);
@@ -121,7 +129,7 @@ export const UpdateProfile = () => {
 
       const firstErrorKey = Object.keys(errors)[0];
       if (firstErrorKey) {
-        formRef.current?.scrollToError(firstErrorKey, scrollRef);
+        formRef.current?.scrollToError(firstErrorKey);
       }
       return;
     }
@@ -132,19 +140,35 @@ export const UpdateProfile = () => {
   if (isCurrentUserPending) return <Loader isPending={true} />;
 
   return (
-    <StableKeyboardAwareScrollView
-      className="flex flex-col flex-1 gap-6 mx-2 mb-10"
-      ref={scrollRef}
-    >
-      <FormBuilder structure={updateProfileStructure} ref={formRef} />
-      <Button
-        onPress={handleUpdate}
-        className="flex flex-row gap-2"
-        disabled={isUpdateProfilePending || isUploadPending}
-      >
-        <Icon as={Save} size={24} />
-        <Text>Update Profile</Text>
-      </Button>
-    </StableKeyboardAwareScrollView>
+    <StableSafeAreaView className={cn("flex-1 bg-card", className)}>
+      <ApplicationHeader
+        className="border-b border-border pb-2"
+        title={"Update Profile"}
+        titleVariant="large"
+        reverse
+        shortcuts={[
+          {
+            key: "back",
+            icon: ArrowLeft,
+            onPress: () => router.back(),
+          },
+        ]}
+      />
+      <StableKeyboardAwareScrollView className="flex-1 bg-background ">
+        <FormBuilder structure={updateProfileStructure} className="mt-4 px-2" />
+      </StableKeyboardAwareScrollView>
+      {!isKeyboardVisible && (
+        <View className="py-6 border-t border-border">
+          <Button
+            size="sm"
+            className="mx-6 mb-4 rounded-full"
+            onPress={handleUpdate}
+            disabled={isUpdateProfilePending}
+          >
+            <Text>Update Profile</Text>
+          </Button>
+        </View>
+      )}
+    </StableSafeAreaView>
   );
 };

@@ -1,6 +1,5 @@
 {
   "app_name": "Reborn",
-  "language": "Langue",
   "select_language": "Personnalisez votre expérience en sélectionnant votre langue",
   "screens": {
     "explore": "Explorer",
@@ -13,9 +12,21 @@
     "experience": "Expérience",
     "education": "Éducation",
     "settings": "Paramètres",
+    "notifications": "Notifications",
+    "messages": "Messages",
+    "myspace": "Mon Espace",
+    "profile": "Profile",
+    "job_details": "Détails du Job",
     "menu": "Menu"
   },
   "auth": {
     "welcome": "Bienvenue"
+  },
+  "language": {
+    "select": {
+      "title": "Sélectionnez la langue",
+      "description": "Sélectionnez la langue que vous souhaitez utiliser dans l'application",
+      "placeholder": "Sélectionnez la langue"
+    }
   }
 }

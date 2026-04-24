@@ -3,9 +3,22 @@ import { View } from "react-native";
 import { Button } from "../ui/button";
 import { Text } from "../ui/text";
 import { StableKeyboardAwareScrollView } from "./StableKeyboardAwareScrollView";
+import { useKeyboardVisible } from "~/hooks/useKeyboardVisible";
+import { cn } from "~/lib/utils";
+import { Icon } from "../ui/icon";
+import { ArrowLeft, ArrowRight } from "lucide-react-native";
 
 interface StepperProps {
-  steps: React.ReactNode[];
+  classNames?: {
+    wrapper?: string;
+    controlsWrapper?: string;
+  };
+  steps: {
+    title?: string;
+    description?: string;
+    component: React.ReactNode;
+    validation: boolean | (() => boolean);
+  }[];
   initialStep?: number;
   forwaredAdditionalActions?: Record<number, () => void>;
   backwordAdditionalActions?: Record<number, () => void>;
@@ -16,17 +29,34 @@ interface StepperProps {
 }
 
 export const Stepper = ({
+  classNames,
   steps,
   initialStep = 0,
   forwaredAdditionalActions = {},
   backwordAdditionalActions = {},
   closingAction,
 }: StepperProps) => {
+  const isKeyboardVisible = useKeyboardVisible();
   const [currentStep, setCurrentStep] = React.useState(initialStep);
 
+  const runValidation = React.useCallback(
+    (stepIndex: number) => {
+      const validation = steps[stepIndex]?.validation;
+
+      return typeof validation === "function" ? validation() : validation;
+    },
+    [steps],
+  );
+
   const nextStep = () => {
+    const isValid = runValidation(currentStep);
+
+    // 🚫 block navigation if invalid
+    if (!isValid) return;
+
     if (currentStep < steps.length - 1) {
       setCurrentStep((prev) => prev + 1);
+
       if (forwaredAdditionalActions[currentStep]) {
         forwaredAdditionalActions[currentStep]();
       }
@@ -36,45 +66,72 @@ export const Stepper = ({
   const prevStep = () => {
     if (currentStep > 0) {
       setCurrentStep((prev) => prev - 1);
+
       if (backwordAdditionalActions[currentStep]) {
         backwordAdditionalActions[currentStep]();
       }
     }
   };
 
+  const isLastStep = currentStep === steps.length - 1;
+
   return (
     <React.Fragment>
       {/* Step Content */}
       <StableKeyboardAwareScrollView className="flex-1">
-        {steps[currentStep]}
+        <View className="px-2 py-4">
+          {steps[currentStep].title && (
+            <Text className="text-lg font-semibold">
+              {steps[currentStep].title}
+            </Text>
+          )}
+
+          {steps[currentStep].description && (
+            <Text className="text-sm text-muted-foreground">
+              {steps[currentStep].description}
+            </Text>
+          )}
+        </View>
+
+        {steps[currentStep].component}
       </StableKeyboardAwareScrollView>
 
       {/* Controls */}
-      <View className="flex-row justify-between px-2 py-4 bg-muted border-t border-border">
-        <Button
-          disabled={currentStep === 0}
-          onPress={prevStep}
-          variant="outline"
-          className="px-4 py-2 rounded-xl"
+      {!isKeyboardVisible && (
+        <View
+          className={cn(
+            "flex-row justify-between px-2 py-4 bg-muted border-t border-border",
+            classNames?.controlsWrapper,
+          )}
         >
-          <Text className="font-semibold">Previous</Text>
-        </Button>
-
-        {currentStep === steps.length - 1 && closingAction ? (
+          {/* Previous */}
           <Button
-            onPress={closingAction.onPress}
-            className="px-4 py-2 rounded-xl bg-green-600"
+            disabled={currentStep === 0}
+            onPress={prevStep}
+            variant="outline"
+            className="px-4 py-2 rounded-xl"
           >
-            <Text className="font-semibold text-white">
-              {closingAction.label}
-            </Text>
+            <Icon as={ArrowLeft} size={20} />
+            <Text className="font-semibold">Previous</Text>
           </Button>
-        ) : (
-          <Button onPress={nextStep} className="px-4 py-2 rounded-xl">
-            <Text className="font-semibold">Next</Text>
-          </Button>
-        )}
-      </View>
+
+          {/* Next / Finish */}
+          {isLastStep && closingAction ? (
+            <Button
+              size="sm"
+              onPress={closingAction.onPress}
+              className="rounded-xl bg-green-600"
+            >
+              <Text className="font-semibold">{closingAction.label}</Text>
+            </Button>
+          ) : (
+            <Button size="sm" onPress={nextStep} className="rounded-xl">
+              <Text className="font-semibold">Next</Text>
+              <Icon as={ArrowRight} size={20} />
+            </Button>
+          )}
+        </View>
+      )}
     </React.Fragment>
   );
 };

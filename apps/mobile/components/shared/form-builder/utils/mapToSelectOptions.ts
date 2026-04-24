@@ -15,7 +15,8 @@ export const mapToSelectOptions = ({
   labelKeyTransformer = (label: string) => label,
   valueKeyTransformer = (value: string) => value,
 }: mapToSelectOptionsProps): SelectOption[] => {
-  return data.map((item: any) => ({
+  if (!data) return [];
+  return data?.map((item: any) => ({
     label: labelKeyTransformer?.(item?.[labelKey]),
     value: valueKeyTransformer?.(item?.[valueKey]).toString(),
   }));

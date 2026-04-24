@@ -1,7 +1,7 @@
 import { DatabaseEntity } from "./utils";
 
 export interface ResponseRefTypeDto<T = object> extends DatabaseEntity {
-  id: number;
+  id: string;
   label: string;
   description: string;
   refParams: ResponseRefParamDto[];
@@ -43,3 +43,9 @@ export interface CreateRefParamDto<T = object> {
 export interface UpdateRefParamDto<T = object> extends Partial<
   CreateRefParamDto<T>
 > {}
+
+export interface CurrencyPayload {
+  code: string;
+  symbol: string;
+  digitsAfterComma: number;
+}
