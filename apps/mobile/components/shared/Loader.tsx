@@ -41,7 +41,7 @@ export const Loader: React.FC<LoaderProps> = ({
             width: size === "small" ? 100 : size === "large" ? 200 : size,
             height: size === "small" ? 100 : size === "large" ? 200 : size,
           }}
-          source={require("~/assets/sandy-loading.json")}
+          source={require("~/assets/material-wave.json")}
         />
       )}
     </Animated.View>
