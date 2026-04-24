@@ -16,29 +16,24 @@ import Animated, {
 import { cn } from "~/lib/utils";
 import { Text } from "~/components/ui/text";
 import { Icon } from "@/components/ui/icon";
+import { ImageFile } from "./types";
 
 const GRID_COLUMNS = 3;
 const GAP = 10;
 
 const SPRING_CONFIG = { damping: 20, stiffness: 200, mass: 0.8 };
 
-export interface GalleryItem {
-  id: string;
-  uri: string;
-  name: string;
-  type: string;
-}
-
 interface GalleryPicturePickerProps {
   className?: string;
-  images: GalleryItem[];
-  onChange: (images: GalleryItem[]) => void;
+  images: ImageFile[];
+  onChange: (images: ImageFile[]) => void;
+  onUpload?: (file: File, onProgress: (percent: number) => void) => void;
   maxImages?: number;
 }
 
 // ── Draggable image tile ──────────────────────────────────────────────
 interface DraggableTileProps {
-  item: GalleryItem;
+  item: ImageFile;
   index: number;
   itemSize: number;
   onRemove: (id: string) => void;
@@ -213,6 +208,7 @@ const EmptyState = ({ onPress, maxImages }: EmptyStateProps) => (
 export const GalleryPicturePicker = ({
   images,
   onChange,
+  onUpload,
   maxImages = 9,
   className,
 }: GalleryPicturePickerProps) => {
@@ -238,14 +234,30 @@ export const GalleryPicturePicker = ({
     });
 
     if (!result.canceled && result.assets.length > 0) {
-      const newImages: GalleryItem[] = result.assets.map((asset) => ({
+      const newImages: ImageFile[] = result.assets.map((asset) => ({
         id: Math.random().toString(36).substring(2, 11),
         uri: asset.uri,
         name: asset.uri.split("/").pop() || "photo.jpg",
         type: asset.type || "image/jpeg",
+        progress: 0,
       }));
 
       onChange([...images, ...newImages].slice(0, maxImages));
+      newImages.forEach((img) => {
+        const file = {
+          uri: img.uri,
+          name: img.name,
+          type: img.type,
+        } as unknown as File;
+
+        onUpload?.(file, (percent) => {
+          runOnJS(onChange)(
+            images.map((image) =>
+              image.id === img.id ? { ...image, progress: percent } : image,
+            ),
+          );
+        });
+      });
     }
   };
 
@@ -339,13 +351,17 @@ export const GalleryPicturePicker = ({
       {hasImages ? (
         <View
           ref={containerRef}
-          className="flex-row flex-wrap"
+          className={"flex-row flex-wrap"}
           style={{ gap: GAP, paddingHorizontal: containerPadding }}
         >
           {images.map((item, index) => (
             <Animated.View
               key={item.id}
-              style={{ width: itemSize * 0.9, height: itemSize * 1.25 }}
+              style={{
+                width: itemSize * 0.9,
+                height: itemSize * 1.25,
+                opacity: item.progress < 100 ? 0.6 : 1,
+              }}
               layout={LinearTransition.springify()
                 .damping(20)
                 .stiffness(200)

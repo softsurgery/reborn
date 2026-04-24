@@ -1,5 +1,3 @@
-import { GalleryItem } from "./GalleryPictureUploader";
-
 export interface FormStructure {
   title: string;
   description?: string;
@@ -150,10 +148,19 @@ export interface PictureFieldProps {
   onUpload?: (file: File, onProgress: (percent: number) => void) => void;
 }
 
+export interface ImageFile {
+  id: string;
+  uri: string;
+  name: string;
+  type: string;
+  progress: number;
+}
+
 export interface GalleryFieldProps {
-  images: GalleryItem[];
+  images: ImageFile[];
   maxImages?: number;
-  onChange: (images: GalleryItem[]) => void;
+  onChange: (images: ImageFile[]) => void;
+  onUpload?: (file: File, onProgress: (percent: number) => void) => void;
   editable?: boolean;
 }
 
