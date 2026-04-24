@@ -31,6 +31,7 @@ export interface Field<T = any> {
   description?: string;
   placeholder?: string;
   hidden?: boolean;
+  pending?: boolean;
   error?: string;
   disabled?: boolean;
   props?: T;
