@@ -11,7 +11,7 @@ import { identifyUser } from "~/lib/user.utils";
 import { ApplicationHeader } from "../shared/AppHeader";
 import { StableSafeAreaView } from "../shared/StableSafeAreaView";
 import { StableScrollView } from "../shared/StableScrollView";
-import { ThemeToggle } from "../ThemeToggle";
+import { ThemeToggle } from "../shared/ThemeToggle";
 import { LanguageSwitcher } from "../user-preferences/LanguageSwitcher";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
@@ -20,6 +20,7 @@ import { Separator } from "../ui/separator";
 import { Text } from "../ui/text";
 import { createSettingRow, SettingRow } from "./SettingsRow";
 import type { SettingRowConfig } from "./SettingsRow";
+import { ThemeSwitcher } from "../shared/ThemeSwitcher";
 
 interface SettingsPortalProps {
   className?: string;
@@ -93,10 +94,24 @@ export const SettingsPortal = ({ className }: SettingsPortalProps) => {
           ),
         }),
         createSettingRow({
-          title: "Appearance",
-          description: "Switch between light and dark mode",
-          rightComponent: <ThemeToggle className="mx-0" />,
           className: "p-1 px-4",
+          Component: () => (
+            <View
+              className={cn("flex flex-row justify-between gap-4", className)}
+            >
+              <View className="flex-1">
+                <Text className="font-semibold text-base">Theme</Text>
+                <Text className="text-xs text-muted-foreground">
+                  Set your preferred theme
+                </Text>
+              </View>
+              <ThemeSwitcher
+                classNames={{
+                  trigger: "flex-1 ",
+                }}
+              />
+            </View>
+          ),
         }),
       ],
     },

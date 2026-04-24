@@ -3,9 +3,9 @@ import { View } from "react-native";
 import { usePreferencePersistStore } from "~/hooks/stores/usePreferencePersistStore";
 import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
 import { cn } from "~/lib/utils";
-import { StablePressable } from "./shared/StablePressable";
+import { StablePressable } from "./StablePressable";
 import { useColorScheme } from "nativewind";
-import { Icon } from "./ui/icon";
+import { Icon } from "../ui/icon";
 import { MoonStar, Sun } from "lucide-react-native";
 
 interface ThemeToggleProps {
