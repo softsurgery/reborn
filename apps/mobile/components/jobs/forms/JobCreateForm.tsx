@@ -19,13 +19,23 @@ import { ArrowLeft } from "lucide-react-native";
 import { Loader } from "@/components/shared/Loader";
 import { useLiveGeolocation } from "@/hooks/useLiveGeolocation";
 import { toast } from "sonner-native";
+import {
+  defineJobValidationSchemas,
+  detailedJobValidationSchemas,
+  imagesJobValidationSchemas,
+} from "@/types/validations/job.validation";
 
 interface JobCreateFormProps {
   className?: string;
 }
 
 export const JobCreateForm = ({ className }: JobCreateFormProps) => {
-  const {} = useLiveGeolocation();
+  const {
+    latitude,
+    longitude,
+    locationName,
+    isPending: isLocationPending,
+  } = useLiveGeolocation();
   const jobStore = useJobStore();
   const { currencies } = useCurrencies();
   const { jobTags, isJobTagsPending } = useJobTags();
@@ -63,16 +73,24 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
   });
 
   React.useEffect(() => {
-    //hardcoded tunisian value
-
     // jobStore.setNested("createDto.currencyId", "TND");
+    jobStore.setNested("createDto.latitude", latitude);
+    jobStore.setNested("createDto.longitude", longitude);
+    jobStore.set("locationName", locationName);
 
     return () => {
       jobStore.reset();
     };
-  }, []);
+  }, [latitude, longitude, locationName]);
 
-  if (isJobTagsPending || isJobCategoriesPending) return <Loader />;
+  const handleSubmit = () => {
+    const result = imagesJobValidationSchemas.safeParse(jobStore.createDto);
+    if (!result.success) {
+      jobStore.set("createDtoErrors", result.error.flatten().fieldErrors);
+      return;
+    }
+    createJob(jobStore.createDto);
+  };
 
   return (
     <StableSafeAreaView className="flex-1 bg-card">
@@ -92,50 +110,81 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
         ]}
       />
       <View className={cn("flex-1 px-2 bg-background", className)}>
-        <Stepper
-          classNames={{
-            controlsWrapper: "pb-8",
-          }}
-          steps={[
-            {
-              title: "Define the job",
-              description: "Start by providing the basic details of the job.",
-              component: (
-                <FormBuilder
-                  structure={jobCreateFormStructure}
-                  className="py-2"
-                />
-              ),
-            },
-            {
-              title: "Add Details",
-              description:
-                "Enrich the job listing with more specific information.",
-              component: (
-                <FormBuilder
-                  structure={jobDetailsFormStructure}
-                  className="py-2"
-                />
-              ),
-            },
-            {
-              title: "Add Images",
-              description: "Upload images related to the job.",
-              component: (
-                <FormBuilder
-                  structure={jobImagePickerStructure}
-                  className="py-2"
-                />
-              ),
-            },
-          ]}
-          closingAction={{
-            label: "Publish",
-            onPress: () => {
-              createJob(jobStore.createDto);
-            },
-          }}
-        />
+        {isJobTagsPending || isJobCategoriesPending || isLocationPending ? (
+          <Loader className="flex flex-1 justify-center items-center" />
+        ) : (
+          <Stepper
+            classNames={{
+              controlsWrapper: "pb-8",
+            }}
+            steps={[
+              {
+                title: "Define the job",
+                description: "Start by providing the basic details of the job.",
+                component: (
+                  <FormBuilder
+                    structure={jobCreateFormStructure}
+                    className="py-2"
+                  />
+                ),
+                validation: () => {
+                  const result = defineJobValidationSchemas.safeParse(
+                    jobStore.createDto,
+                  );
+                  if (!result.success) {
+                    jobStore.set(
+                      "createDtoErrors",
+                      result.error.flatten().fieldErrors,
+                    );
+                    return false;
+                  }
+                  return true;
+                },
+              },
+              {
+                title: "Add Details",
+                description:
+                  "Enrich the job listing with more specific information.",
+                component: (
+                  <FormBuilder
+                    structure={jobDetailsFormStructure}
+                    className="py-2"
+                  />
+                ),
+                validation: () => {
+                  const result = detailedJobValidationSchemas.safeParse(
+                    jobStore.createDto,
+                  );
+                  if (!result.success) {
+                    jobStore.set(
+                      "createDtoErrors",
+                      result.error.flatten().fieldErrors,
+                    );
+                    return false;
+                  }
+                  return true;
+                },
+              },
+              {
+                title: "Add Images",
+                description: "Upload images related to the job.",
+                component: (
+                  <FormBuilder
+                    structure={jobImagePickerStructure}
+                    className="py-2"
+                  />
+                ),
+                validation: true,
+              },
+            ]}
+            closingAction={{
+              label: "Publish",
+              onPress: () => {
+                handleSubmit();
+              },
+            }}
+          />
+        )}
       </View>
     </StableSafeAreaView>
   );

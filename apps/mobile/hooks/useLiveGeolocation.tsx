@@ -1,26 +1,28 @@
 import React from "react";
 import * as Location from "expo-location";
-import { useJobStore } from "./stores/useJobStore";
 
 interface useLiveGeolocationOptions {
   enabled?: boolean; // reserved for future use
 }
-
 const getLocationName = async (latitude: number, longitude: number) => {
   try {
-    const res = await fetch(
-      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${process.env.GOOGLE_MAPS_API_KEY}`,
-    );
+    const [place] = await Location.reverseGeocodeAsync({
+      latitude,
+      longitude,
+    });
 
-    const data = await res.json();
+    if (!place) return "Unknown location";
 
-    if (data.results.length > 0) {
-      return data.results[0].formatted_address;
+    const city = place.city || place.region;
+    const country = place.country;
+
+    if (city && country) {
+      return `${city}, ${country}`;
     }
 
-    return "Unknown location";
+    return country || city || "Unknown location";
   } catch (err) {
-    console.warn("Geocoding error:", err);
+    console.warn("Reverse geocode error:", err);
     return "Unknown location";
   }
 };
@@ -30,7 +32,10 @@ export function useLiveGeolocation(
     enabled: true,
   },
 ) {
-  const jobStore = useJobStore();
+  const [locationName, setLocationName] = React.useState<string>("");
+  const [latitude, setLatitude] = React.useState<number>(0);
+  const [longitude, setLongitude] = React.useState<number>(0);
+  const [isPending, setIsPending] = React.useState<boolean>(true);
 
   const initializeSocket = React.useCallback(async () => {
     const { status } = await Location.requestForegroundPermissionsAsync();
@@ -62,9 +67,10 @@ export function useLiveGeolocation(
           }
         }
 
-        jobStore.setNested("location.latitude", latitude);
-        jobStore.setNested("location.longitude", longitude);
-        jobStore.setNested("createDto.location", location);
+        setLatitude(latitude);
+        setLongitude(longitude);
+        setLocationName(location || "Unknown location");
+        setIsPending(false);
       },
     );
 
@@ -87,5 +93,5 @@ export function useLiveGeolocation(
     };
   }, [enabled, initializeSocket]);
 
-  return {};
+  return { locationName, latitude, longitude, isPending };
 }

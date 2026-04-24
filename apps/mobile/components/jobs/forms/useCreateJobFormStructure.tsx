@@ -84,15 +84,10 @@ export const useCreateJobFormStructure = ({
     description: "Set the budget for this job.",
     error: jobStore.createDtoErrors?.price?.[0],
     props: {
-      value: jobStore.createDto?.price || undefined,
+      value: jobStore.createDto?.price,
       onChangeText: (value) => {
-        if (
-          value ==
-          Number(value.toFixed(selectedCurrency?.extras?.digitsAfterComma))
-        ) {
-          jobStore.setNested("createDto.price", Number(value));
-          jobStore.setNested("createDtoErrors.price", []);
-        }
+        jobStore.setNested("createDto.price", value);
+        jobStore.setNested("createDtoErrors.price", []);
       },
     },
   };
@@ -184,12 +179,13 @@ export const useCreateJobFormStructure = ({
     description: "Specify the job location (optional).",
     error: jobStore.createDtoErrors?.location?.[0],
     props: {
+      locationName: jobStore.locationName,
       latitude: jobStore.createDto?.latitude,
       longitude: jobStore.createDto?.longitude,
       onLocationChange: (location) => {
-        console.log("Stored latitude:", jobStore.createDto.latitude, "longitude:", jobStore.createDto.longitude);
         jobStore.setNested("createDto.latitude", location.latitude);
         jobStore.setNested("createDto.longitude", location.longitude);
+        jobStore.set("locationName", location.name);
         jobStore.setNested("createDtoErrors.location", []);
       },
 
@@ -237,10 +233,11 @@ export const useCreateJobFormStructure = ({
     id: "pictures",
     label: "Job Images",
     variant: FieldVariant.GALLERY,
+    error: jobStore.createDtoErrors?.uploads?.[0],
     description: "Add images related to the job.",
     props: {
       images: jobStore.pictures,
-      maxImages: 6,
+      maxImages: 9,
       onChange: (pictures: GalleryItem[]) =>
         jobStore.setNested("pictures", pictures),
       editable: true,

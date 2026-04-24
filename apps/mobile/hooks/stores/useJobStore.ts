@@ -1,101 +1,78 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
-import { GalleryItem } from "~/components/shared/form-builder/GalleryPictureUploader";
-import { setDeepValue } from "~/lib/object.lib";
+import { createJSONStorage, persist } from "zustand/middleware";
+import { createBaseSlice, BaseActions } from "./useBaseStore";
 import { CreateJobDto, ResponseJobDto, UpdateJobDto } from "~/types";
+import { GalleryItem } from "~/components/shared/form-builder/GalleryPictureUploader";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface JobStoreData {
   response?: ResponseJobDto;
   createDto: CreateJobDto;
   updateDto: UpdateJobDto;
-
   createDtoErrors: Record<string, string[]>;
   updateDtoErrors: Record<string, string[]>;
   searchHistory: ResponseJobDto[];
   pictures: GalleryItem[];
+  locationName?: string;
 }
 
-export interface JobStore extends JobStoreData {
-  set: <K extends keyof JobStoreData>(name: K, value: JobStoreData[K]) => void;
-  setNested: <T>(path: string, value: T) => void;
+export interface JobStore extends JobStoreData, BaseActions<JobStoreData> {
   addJobToSearchHistory: (job: ResponseJobDto) => void;
-  reset: () => void;
 }
 
 const initialState: JobStoreData = {
   createDto: {
     title: "",
     description: "",
-    price: 0,
+    price: undefined,
     tagIds: [],
     categoryId: undefined,
     style: undefined,
     difficulty: undefined,
     uploads: [],
-    latitude: 0,
-    longitude: 0,
+    latitude: undefined,
+    longitude: undefined,
   },
-
   updateDto: {
     title: "",
     description: "",
-    price: 0,
+    price: undefined,
     tagIds: [],
     categoryId: undefined,
     style: undefined,
     difficulty: undefined,
     uploads: [],
+    latitude: undefined,
+    longitude: undefined,
   },
-  pictures: [],
   createDtoErrors: {},
   updateDtoErrors: {},
   searchHistory: [],
+  pictures: [],
+  locationName: "",
 };
 
 export const useJobStore = create<JobStore>()(
   persist(
-    (set, get) => ({
-      ...initialState,
-      set: (name, value) => {
-        set((state) => ({
-          ...state,
-          [name]: value,
-        }));
-      },
-      setNested: (path, value) => {
-        const [rootKey, ...restPath] = path.split(".");
-        const nestedPath = restPath.join(".");
-        set((state) => {
-          const updatedRoot = setDeepValue(
-            { ...state[rootKey as keyof JobStoreData] },
-            nestedPath,
-            value,
-          );
-          return {
-            ...state,
-            [rootKey]: updatedRoot,
-          };
-        });
-      },
+    (set, get, api) => ({
+      ...createBaseSlice<JobStoreData>(initialState)(set, get, api),
+
       addJobToSearchHistory: (job) => {
-        set((state) => {
-          if (state.searchHistory.find((item) => item.id === job.id)) {
-            return state;
-          }
-          const updatedSearchHistory = [...state.searchHistory, job];
-          return {
-            ...state,
-            searchHistory: updatedSearchHistory,
-          };
+        const history = get().searchHistory;
+
+        if (history.some((j) => j.id === job.id)) return;
+
+        set({
+          searchHistory: [job, ...history].slice(0, 20),
         });
-      },
-      reset: () => {
-        set({ ...initialState });
       },
     }),
     {
-      name: "job-store", // key in localStorage
-      partialize: (state) => ({ searchHistory: state.searchHistory }), // only persist searchHistory
+      name: "job-store",
+      storage: createJSONStorage(() => AsyncStorage),
+      partialize: (state) => ({
+        searchHistory: state.searchHistory,
+      }),
     },
   ),
 );

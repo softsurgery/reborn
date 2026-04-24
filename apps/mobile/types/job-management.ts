@@ -23,7 +23,7 @@ export interface ResponseJobDto extends DatabaseEntity {
 export interface CreateJobDto {
   title: string;
   description: string;
-  price: number;
+  price?: number;
   tagIds: number[];
   currencyId?: number;
   categoryId?: number;
