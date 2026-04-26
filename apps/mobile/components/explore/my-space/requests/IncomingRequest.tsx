@@ -43,7 +43,7 @@ export const IncomingRequestEntry = ({
   refetchRequests,
 }: IncomingRequestEntryProps) => {
   const { jsx: profilePictureBlock } = useServerImage({
-    id: request.user?.profile?.pictureId!,
+    id: request.user?.pictureId!,
     fallback: identifyUserAvatar(request.user),
     size: { width: 60, height: 60 },
   });

@@ -41,7 +41,7 @@ export const OutgoingRequestEntry = ({
   refetchRequests,
 }: OutgoingRequestEntryProps) => {
   const { jsx: profilePictureBlock } = useServerImage({
-    id: request.job?.postedBy?.profile?.pictureId!,
+    id: request.job?.postedBy?.pictureId!,
     fallback: identifyUserAvatar(request.job?.postedBy),
     size: { width: 60, height: 60 },
   });
