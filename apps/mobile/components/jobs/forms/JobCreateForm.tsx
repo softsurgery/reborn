@@ -24,6 +24,8 @@ import {
   detailedJobValidationSchemas,
   imagesJobValidationSchemas,
 } from "@/types/validations/job.validation";
+import { useUploadMutation } from "@/hooks/content/useUploadMutation";
+import { Upload } from "@/types/upload";
 
 interface JobCreateFormProps {
   className?: string;
@@ -37,6 +39,20 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
     isPending: isLocationPending,
   } = useLiveGeolocation();
   const jobStore = useJobStore();
+
+  const { uploadFiles: uploadPicture, isUploadPending } = useUploadMutation({
+    onSuccess: (response: Upload[], variables: { files: File[] }) => {
+      const uri = (variables.files[0] as any)?.uri as string | undefined;
+      if (uri) {
+        jobStore.setImageProgress(uri, 100);
+      }
+      jobStore.appendUploadId("create", { uploadId: response?.[0]?.id });
+    },
+    onError: (error: any) => {
+      toast.error(error.message);
+    },
+  });
+
   const { currencies } = useCurrencies();
   const { jobTags, isJobTagsPending } = useJobTags();
   const { jobCategories, isJobCategoriesPending } = useJobCategories();
@@ -58,6 +74,7 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
       labelKey: "label",
       valueKey: "id",
     }),
+    uploadPicture,
   });
 
   const { mutate: createJob, isPending: isCreationPending } = useMutation({
@@ -182,6 +199,7 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
               onPress: () => {
                 handleSubmit();
               },
+              disabled: isUploadPending,
             }}
           />
         )}

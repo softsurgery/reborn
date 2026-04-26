@@ -1,10 +1,11 @@
+import { useUploadMutation } from "@/hooks/content/useUploadMutation";
 import React from "react";
-import { GalleryItem } from "~/components/shared/form-builder/GalleryPictureUploader";
 import {
   Field,
   FieldVariant,
   FormStructure,
   GalleryFieldProps,
+  ImageFile,
   MapPinFieldProps,
   MultiSelectFieldProps,
   NumberFieldProps,
@@ -26,6 +27,7 @@ interface JobCreateFormStructureProps {
   currencies: ResponseRefParamDto<CurrencyPayload>[];
   jobTags: SelectOption[];
   jobCategories: SelectOption[];
+  uploadPicture: ReturnType<typeof useUploadMutation>["uploadFiles"];
 }
 
 export const useCreateJobFormStructure = ({
@@ -33,6 +35,7 @@ export const useCreateJobFormStructure = ({
   currencies,
   jobTags,
   jobCategories,
+  uploadPicture,
 }: JobCreateFormStructureProps) => {
   const selectedCurrency = React.useMemo(() => {
     return currencies.find(
@@ -236,11 +239,20 @@ export const useCreateJobFormStructure = ({
     error: jobStore.createDtoErrors?.uploads?.[0],
     description: "Add images related to the job.",
     props: {
-      images: jobStore.pictures,
+      images: jobStore.images,
       maxImages: 9,
-      onChange: (pictures: GalleryItem[]) =>
-        jobStore.setNested("pictures", pictures),
+      onChange: (images: ImageFile[]) =>
+        jobStore.updateImages("create", images),
       editable: true,
+      onUpload: async (file) => {
+        const uri = (file as any).uri as string;
+        uploadPicture({
+          files: [file],
+          onProgress: (percent: number) => {
+            jobStore.setImageProgress(uri, percent);
+          },
+        });
+      },
     },
   };
 
