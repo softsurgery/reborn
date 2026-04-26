@@ -25,6 +25,7 @@ interface StepperProps {
   closingAction?: {
     label: string;
     onPress: () => void;
+    disabled?: boolean;
   };
 }
 
@@ -120,6 +121,7 @@ export const Stepper = ({
             <Button
               size="sm"
               onPress={closingAction.onPress}
+              disabled={closingAction.disabled}
               className="rounded-xl bg-green-600"
             >
               <Text className="font-semibold">{closingAction.label}</Text>
