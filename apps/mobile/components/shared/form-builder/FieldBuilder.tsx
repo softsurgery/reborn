@@ -12,7 +12,7 @@ import { PictureUploader } from "./PictureUploader";
 import { Text } from "~/components/ui/text";
 import { cn } from "~/lib/utils";
 import { Switch } from "~/components/ui/switch";
-import { GalleryPicturePicker } from "./GalleryPictureUploader";
+import { GalleryPicturePicker } from "./GalleryPictureUploader/GalleryPictureUploader";
 import MultiSelect from "./MultiSelect";
 import MapPinField from "./MapPinField";
 
