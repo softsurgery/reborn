@@ -3,11 +3,14 @@ import { Upload } from "./upload";
 import { ResponseUserDto } from "./user-management";
 import { DatabaseEntity } from "./utils";
 
+
 export interface ResponseJobDto extends DatabaseEntity {
   id: string;
+  status: string;
   title: string;
   description: string;
   price: number;
+  pricingType: JobPricingType;
   postedBy: ResponseUserDto;
   postedById: string;
   tags: ResponseJobTagDto[];
@@ -24,6 +27,7 @@ export interface CreateJobDto {
   title: string;
   description: string;
   price?: number;
+  pricingType?: JobPricingType;
   tagIds: number[];
   currencyId?: number;
   categoryId?: number;
@@ -98,6 +102,11 @@ export enum JobRequestStatus {
   Pending = "pending",
   Approved = "approved",
   Rejected = "rejected",
+}
+
+export enum JobPricingType {
+  FIXED = 'fixed',
+  HOURLY = 'hourly',
 }
 
 export interface ResponseJobRequestDto extends DatabaseEntity {
