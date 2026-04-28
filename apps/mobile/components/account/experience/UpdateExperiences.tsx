@@ -1,3 +1,4 @@
+import React from "react";
 import { api } from "~/api";
 import { ApplicationHeader } from "~/components/shared/AppHeader";
 import { Tappable } from "~/components/shared/Tappable";
@@ -13,6 +14,7 @@ import { ResponseExperienceDto, ServerErrorResponse } from "~/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { router } from "expo-router";
+import { type ActionSheetRef } from "react-native-actions-sheet";
 import {
   ArrowLeft,
   Briefcase,
@@ -21,8 +23,8 @@ import {
   FileText,
 } from "lucide-react-native";
 import { View } from "react-native";
-import { DeleteExperienceDialog } from "./DeleteExperienceDialog";
 import { toast } from "sonner-native";
+import { DeleteExperienceActionSheet } from "./DeleteExperienceActionSheet";
 
 interface UpdateExperiencesProps {
   className?: string;
@@ -31,6 +33,10 @@ interface UpdateExperiencesProps {
 export const UpdateExperiences = ({ className }: UpdateExperiencesProps) => {
   const userStore = useUserStore();
   const queryClient = useQueryClient();
+  const deleteSheetRef = React.useRef<ActionSheetRef>(null);
+  const [selectedExperienceId, setSelectedExperienceId] = React.useState<
+    number | null
+  >(null);
 
   const onUpdateExperiencePress = (exp: ResponseExperienceDto) => {
     userStore.set("responseExperience", exp);
@@ -47,10 +53,12 @@ export const UpdateExperiences = ({ className }: UpdateExperiencesProps) => {
   const { mutate: deleteExperience, isPending: isDeletePending } = useMutation({
     mutationFn: (id: number) => api.experience.remove(id),
     onSuccess: () => {
-      toast.success("Experience deleted successfully");
       queryClient.invalidateQueries({
         queryKey: ["experiences", userStore.response?.id],
       });
+      toast.success("Experience deleted successfully");
+      deleteSheetRef.current?.hide();
+      setSelectedExperienceId(null);
     },
     onError: (error: ServerErrorResponse) => {
       toast.error(
@@ -58,6 +66,25 @@ export const UpdateExperiences = ({ className }: UpdateExperiencesProps) => {
       );
     },
   });
+
+  const onDeleteExperiencePress = (experienceId: number) => {
+    setSelectedExperienceId(experienceId);
+    deleteSheetRef.current?.show();
+  };
+
+  const onCloseDeleteExperienceSheet = () => {
+    deleteSheetRef.current?.hide();
+    setSelectedExperienceId(null);
+  };
+
+  const onConfirmDeleteExperience = () => {
+    if (!selectedExperienceId) {
+      toast.error("No experience selected");
+      return;
+    }
+
+    deleteExperience(selectedExperienceId);
+  };
 
   return (
     <StableSafeAreaView className={cn("flex-1 bg-card", className)}>
@@ -163,21 +190,16 @@ export const UpdateExperiences = ({ className }: UpdateExperiencesProps) => {
                       >
                         Edit experience
                       </Tappable>
-                      <DeleteExperienceDialog
-                        handleDelete={() => deleteExperience(exp.id)}
-                        loading={isDeletePending}
-                        trigger={
-                          <Tappable
-                            className="p-4 flex flex-row"
-                            classNames={{
-                              content: "font-semibold text-sm",
-                              pressable: "bg-destructive/50",
-                            }}
-                          >
-                            Delete experience
-                          </Tappable>
-                        }
-                      />
+                      <Tappable
+                        className="p-4 flex flex-row"
+                        classNames={{
+                          content: "font-semibold text-sm",
+                          pressable: "bg-destructive/50",
+                        }}
+                        onPress={() => onDeleteExperiencePress(exp.id)}
+                      >
+                        Delete experience
+                      </Tappable>
                     </View>
                   </View>
                 );
@@ -208,6 +230,12 @@ export const UpdateExperiences = ({ className }: UpdateExperiencesProps) => {
           )}
         </View>
       </StableScrollView>
+      <DeleteExperienceActionSheet
+        ref={deleteSheetRef}
+        onConfirm={onConfirmDeleteExperience}
+        onClose={onCloseDeleteExperienceSheet}
+        isPending={isDeletePending}
+      />
     </StableSafeAreaView>
   );
 };

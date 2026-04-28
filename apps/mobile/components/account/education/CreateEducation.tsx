@@ -77,7 +77,7 @@ export const CreateEducation = ({ className }: CreateEducationProps) => {
         ]}
       />
       <StableKeyboardAwareScrollView className="flex-1 bg-background">
-        <FormBuilder structure={structure} className="mb-6" />
+        <FormBuilder structure={structure} className="mt-4 px-2" />
       </StableKeyboardAwareScrollView>
 
       <View className="py-6 border-t border-border">
