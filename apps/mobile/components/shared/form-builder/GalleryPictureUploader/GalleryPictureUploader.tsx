@@ -107,6 +107,13 @@ export const GalleryPictureUploader = ({
     }
   };
 
+  const removeImage = (id: string) => {
+    const filtered = imagesRef.current.filter((i) => i.id !== id);
+
+    imagesRef.current = filtered;
+    onChange(filtered);
+  };
+
   return (
     <View className={cn("my-2", className)}>
       {/* Header */}
@@ -152,7 +159,13 @@ export const GalleryPictureUploader = ({
                 );
               }
 
-              return <DraggableTile item={item} size={itemSize} />;
+              return (
+                <DraggableTile
+                  item={item}
+                  size={itemSize}
+                  onRemove={() => removeImage(item.id)}
+                />
+              );
             }}
           />
         </View>
