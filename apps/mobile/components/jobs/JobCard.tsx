@@ -10,7 +10,6 @@ import { Image } from "expo-image";
 import { Skeleton } from "../ui/skeleton";
 import { timeAgo } from "~/lib/dates.utils";
 import { Text } from "../ui/text";
-import { Badge } from "~/components/ui/badge";
 import { useJobSaveActions } from "~/hooks/content/job/useJobSaveActions";
 import { useIsJobSaved } from "~/hooks/content/job/useIsJobSaved";
 
@@ -119,16 +118,6 @@ export const JobCard = ({ className, job }: JobCardProps) => {
           </Text>
         </View>
       </View>
-
-      {/* <View className="flex-row flex-wrap gap-1 mt-2">
-        {job?.tags && job?.tags?.length > 0
-          ? job?.tags.map((tag) => (
-              <Badge variant={"secondary"} key={tag.id}>
-                <Text className="text-xs font-medium">{tag.label}</Text>
-              </Badge>
-            ))
-          : null}
-      </View> */}
 
       <View className="flex flex-row justify-between">
         <View className="flex flex-row gap-2">
