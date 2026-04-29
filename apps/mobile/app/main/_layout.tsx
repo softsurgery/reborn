@@ -244,6 +244,30 @@ export default function MainLayout() {
           animationDuration: 200,
         }}
       />
+      <Stack.Screen
+        name="account/privacy-security"
+        options={{
+          title: "Privacy & Security",
+          headerShown: false,
+          animation: "slide_from_right",
+        }}
+      />
+      <Stack.Screen
+        name="account/change-email"
+        options={{
+          title: "Change Email",
+          headerShown: false,
+          animation: "slide_from_right",
+        }}
+      />
+      <Stack.Screen
+        name="account/change-password"
+        options={{
+          title: "Change Password",
+          headerShown: false,
+          animation: "slide_from_right",
+        }}
+      />
       {/* Test */}
       <Stack.Screen
         name="test"

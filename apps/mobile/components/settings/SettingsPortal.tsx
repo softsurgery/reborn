@@ -11,7 +11,6 @@ import { identifyUser } from "~/lib/user.utils";
 import { ApplicationHeader } from "../shared/AppHeader";
 import { StableSafeAreaView } from "../shared/StableSafeAreaView";
 import { StableScrollView } from "../shared/StableScrollView";
-import { ThemeToggle } from "../shared/ThemeToggle";
 import { LanguageSwitcher } from "../user-preferences/LanguageSwitcher";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
@@ -59,12 +58,9 @@ export const SettingsPortal = ({ className }: SettingsPortalProps) => {
         createSettingRow({
           title: "Privacy & Security",
           description: "Set your preferred privacy and security options",
+          rightIcon: ChevronRight,
           className: "p-1 px-4",
-          rightComponent: (
-            <Badge variant="outline">
-              <Text className="text-xs font-medium">Soon</Text>
-            </Badge>
-          ),
+          onPress: () => router.push("/main/account/privacy-security"),
         }),
       ],
     },

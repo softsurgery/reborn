@@ -2,9 +2,9 @@ import { Tabs } from "expo-router";
 import * as Haptics from "expo-haptics";
 import {
   Home,
-  Menu,
   MessageCircle,
   Telescope,
+  User,
   Wallet,
 } from "lucide-react-native";
 import React from "react";
@@ -80,7 +80,7 @@ export default function TabLayout() {
     {
       name: "menu",
       title: t("screens.menu"),
-      icon: Menu,
+      icon: User,
       iconSize: 34,
     },
   ];
