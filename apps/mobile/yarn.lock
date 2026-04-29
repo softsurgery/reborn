@@ -7002,6 +7002,11 @@ react-native-gesture-handler@~2.28.0:
     hoist-non-react-statics "^3.3.0"
     invariant "^2.2.4"
 
+react-native-haptic-feedback@>=2.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-haptic-feedback/-/react-native-haptic-feedback-3.0.0.tgz#a1e144c491885e65917cafb0c17d4ad2891ecc7e"
+  integrity sha512-yxBQFHhXU8S0xupGtzDRToGw5yMWezUdLzxtlx2Oi9YpjPwprWZWCw8foPt0S2t84B0ZikzZYyOHiMSXIelUxg==
+
 react-native-image-viewing@^0.2.2:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/react-native-image-viewing/-/react-native-image-viewing-0.2.2.tgz#fb26e57d7d3d9ce4559a3af3d244387c0367242b"
@@ -7072,6 +7077,13 @@ react-native-scroll-into-view@^2.0.2:
   integrity sha512-oTS2d0AjR8/ppH6YsD3MCj9vlf9+v+JUuLQcMx20IWu3NEMWheNNV13D6HmcJVdmM8WXpAXrTTDwymkD2I2EZg==
   dependencies:
     prop-types ">=15.6.1"
+
+react-native-sortables@^1.9.4:
+  version "1.9.4"
+  resolved "https://registry.yarnpkg.com/react-native-sortables/-/react-native-sortables-1.9.4.tgz#c013ecb69457ba4b139f67f03ee2782437a450d7"
+  integrity sha512-a6hxT+gl14HA5Sm8UiLXJqF8KMEQVa+mUJd75OnzoVsmrxUDtjAatlMdV0kI9qTQDT/ZSFLPRmdUhOR762IA4g==
+  optionalDependencies:
+    react-native-haptic-feedback ">=2.0.0"
 
 react-native-star-rating-widget@^1.9.2:
   version "1.9.2"

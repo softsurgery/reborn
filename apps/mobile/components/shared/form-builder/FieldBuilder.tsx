@@ -12,9 +12,9 @@ import { PictureUploader } from "./PictureUploader";
 import { Text } from "~/components/ui/text";
 import { cn } from "~/lib/utils";
 import { Switch } from "~/components/ui/switch";
-import { GalleryPicturePicker } from "./GalleryPictureUploader/GalleryPictureUploader";
 import MultiSelect from "./MultiSelect";
 import MapPinField from "./MapPinField";
+import { GalleryPictureUploader } from "./GalleryPictureUploader/GalleryPictureUploader";
 
 interface FieldBuilderProps {
   field?: Field<any>;
@@ -211,12 +211,14 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
       );
     case "gallery":
       return (
-        <GalleryPicturePicker
+        <GalleryPictureUploader
           {...field?.props}
-          images={field?.props?.images}
-          maxImages={field?.props?.maxImages}
-          onChange={field?.props?.onChange}
           className={field?.className}
+          images={field?.props?.images}
+          onChange={field?.props?.onChange}
+          onUpload={field?.props?.onUpload}
+          cols={field?.props?.cols}
+          rows={field?.props?.rows}
           editable={field?.props?.editable}
         />
       );

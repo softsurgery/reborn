@@ -13,8 +13,8 @@ export const AddTile = ({ itemSize, onPress, remaining }: AddTileProps) => {
   return (
     <Pressable
       onPress={onPress}
-      style={{ width: itemSize * 0.9, height: itemSize * 1.25 }}
-      className="rounded-2xl mx-2 border-2 border-dashed border-muted-foreground/40 items-center justify-center gap-1 bg-muted/30"
+      style={{ width: itemSize, height: itemSize }}
+      className="rounded-2xl border-2 border-dashed border-muted-foreground/40 items-center justify-center gap-1 bg-muted/30"
     >
       <View className="bg-muted rounded-full p-2.5">
         <Icon as={Plus} size={22} className="text-muted-foreground" />
