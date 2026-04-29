@@ -1,13 +1,14 @@
 import React from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { router } from "expo-router";
-import { Image, Pressable, View } from "react-native";
+import { Image, Pressable, ScrollView, View } from "react-native";
+import type { ImageSourcePropType } from "react-native";
+import { type ActionSheetRef } from "react-native-actions-sheet";
 import { api } from "~/api";
 import { useFollowSystem } from "~/hooks/content/useFollowSystem";
 import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
 import { useIdentifiedUser } from "~/hooks/content/user/useIdentifiedUser";
 import { useServerImage } from "~/hooks/content/useServerImage";
-import { createUserStore } from "~/hooks/stores/useUserStore";
 import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
 import {
   ResponseEducationDto,
@@ -21,6 +22,7 @@ import { StablePressable } from "../shared/StablePressable";
 import { Icon } from "../ui/icon";
 import { Mail, UserPlus, Edit, ArrowLeft } from "lucide-react-native";
 import { cn } from "~/lib/utils";
+import { useUserStore } from "~/hooks/stores/useUserStore";
 import { ProfileStat } from "../explore/users/ProfileStat";
 import { Button } from "../ui/button";
 import { SeeMoreText } from "../shared/SeeMoreText";
@@ -44,6 +46,8 @@ import { Upload } from "@/types/upload";
 import { toast } from "sonner-native";
 import { Loader } from "../shared/Loader";
 import { BaseProfileSkeleton } from "./BaseProfileSkeleton";
+import { ProfileCoverActionSheet } from "./ProfileCoverActionSheet";
+import { RefreshControl } from "react-native-gesture-handler";
 
 interface InspectBaseProfileProps {
   className?: string;
@@ -65,13 +69,17 @@ export const InspectBaseProfile = ({
   const { t } = useTranslation("common");
 
   const queryClient = useQueryClient();
-  const storeRef = React.useRef(createUserStore());
-  const userStore = storeRef?.current?.();
+  const coverSheetRef = React.useRef<ActionSheetRef>(null);
+  const [isRefreshing, setIsRefreshing] = React.useState(false);
+  const userStore = useUserStore();
+  const [draftCoverUri, setDraftCoverUri] = React.useState<string | null>(null);
+  const [draftCoverFile, setDraftCoverFile] = React.useState<File | null>(null);
 
-  const { user } = useIdentifiedUser({
+  const { user, refetchUser } = useIdentifiedUser({
     id,
   });
   const { currentUser, refetchCurrentUser } = useCurrentUser();
+  const isOwner = currentUser?.id === id;
 
   const identity = React.useMemo(() => identifyUser(user), [user]);
   const fallback = React.useMemo(() => identifyUserAvatar(user), [user]);
@@ -179,6 +187,8 @@ export const InspectBaseProfile = ({
         queryClient.invalidateQueries({
           queryKey: ["server-image", currentUser?.coverId],
         });
+        setDraftCoverUri(null);
+        setDraftCoverFile(null);
         refetchCurrentUser();
       },
       onError: (error: ServerErrorResponse) => {
@@ -189,7 +199,7 @@ export const InspectBaseProfile = ({
       },
     });
 
-  const handleCoverPress = async () => {
+  const handlePickCover = async () => {
     if (currentUser?.id !== id) return; // Prevent others from updating
 
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -198,6 +208,7 @@ export const InspectBaseProfile = ({
       aspect: [16, 9],
       quality: 0.8,
     });
+
     if (!result.canceled) {
       const asset = result.assets[0];
       const fileLike = {
@@ -205,11 +216,63 @@ export const InspectBaseProfile = ({
         name: asset.uri.split("/").pop() || "cover.jpg",
         type: asset.type || "image/jpeg",
       } as unknown as File;
-      uploadCover({ files: [fileLike] });
+
+      setDraftCoverUri(asset.uri);
+      setDraftCoverFile(fileLike);
     }
   };
 
+  const handleCoverPress = () => {
+    setDraftCoverUri(null);
+    setDraftCoverFile(null);
+    coverSheetRef.current?.show();
+  };
+
+  const handleCloseCoverSheet = () => {
+    coverSheetRef.current?.hide();
+    setDraftCoverUri(null);
+    setDraftCoverFile(null);
+  };
+
+  const handleConfirmCover = () => {
+    if (!(currentUser?.id === id)) {
+      toast.error("Only the profile owner can update this cover");
+      return;
+    }
+
+    if (!draftCoverFile) {
+      toast.error("Please choose an image first");
+      return;
+    }
+
+    uploadCover({ files: [draftCoverFile] });
+    coverSheetRef.current?.hide();
+  };
+
   const coverSource = coverUploads?.[0];
+
+  const coverImageSource = React.useMemo<
+    ImageSourcePropType | undefined
+  >(() => {
+    switch (typeof coverSource) {
+      case "string":
+        return { uri: coverSource };
+      case "number":
+        return coverSource;
+      case "object": {
+        if (!coverSource || !("uri" in coverSource)) return undefined;
+        const uri = String(coverSource.uri ?? "");
+        return uri ? { uri } : undefined;
+      }
+      default:
+        return undefined;
+    }
+  }, [coverSource]);
+
+  const coverPreviewSource = React.useMemo<ImageSourcePropType | undefined>(
+    () => (draftCoverUri ? { uri: draftCoverUri } : coverImageSource),
+    [draftCoverUri, coverImageSource],
+  );
 
   React.useEffect(() => {
     userStore?.set("followers", followers);
@@ -246,7 +309,6 @@ export const InspectBaseProfile = ({
   React.useEffect(() => {
     return () => {
       userStore?.reset();
-      if (!__DEV__) storeRef.current = null as any;
     };
   }, []);
 
@@ -319,6 +381,17 @@ export const InspectBaseProfile = ({
     },
   ];
 
+  const onRefresh = async () => {
+    setIsRefreshing(true);
+    await Promise.allSettled([
+      refetchUser(),
+      refetchCurrentUser(),
+      refetchExperiences(),
+      refetchEducations(),
+    ]);
+    setIsRefreshing(false);
+  };
+
   const isInitialLoading =
     isCoverPending ||
     isUpdateCoverPending ||
@@ -330,26 +403,27 @@ export const InspectBaseProfile = ({
   //  UI LAYOUT
   // ---------------------------------------------------------------
   return (
-    <View className={cn("flex-1 bg-background", className)}>
+    <ScrollView
+      className={cn("flex-1 bg-background h-full", className)}
+      showsVerticalScrollIndicator={false}
+      refreshControl={
+        <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
+      }
+    >
       {isInitialLoading ? (
         <BaseProfileSkeleton className={className} />
       ) : (
-        <>
+        <React.Fragment>
           {/* Cover */}
           {!isCoverPending ? (
             <Pressable
               className="active:opacity-70 relative w-full h-48 overflow-hidden"
               onPress={handleCoverPress}
-              disabled={
-                currentUser?.id !== id ||
-                isCoverUploadPending ||
-                isUpdateCoverPending
-              }
             >
               <Image
                 source={
-                  coverSource
-                    ? { uri: coverSource }
+                  coverImageSource
+                    ? coverImageSource
                     : require("@/assets/images/partial-react-logo.png")
                 }
                 className="w-full h-full opacity-70"
@@ -360,6 +434,15 @@ export const InspectBaseProfile = ({
             <Skeleton className="w-full h-48" />
           )}
           {coverExtra}
+          <ProfileCoverActionSheet
+            ref={coverSheetRef}
+            coverPreviewSource={coverPreviewSource}
+            onPickImage={handlePickCover}
+            onConfirm={handleConfirmCover}
+            onClose={handleCloseCoverSheet}
+            canConfirm={!!draftCoverFile}
+            isPending={isCoverUploadPending || isUpdateCoverPending}
+          />
           {(isCoverUploadPending || isUpdateCoverPending) && (
             <View className="absolute inset-0 bg-black/40 flex items-center justify-center z-50">
               <Loader isPending={true} size="large" />
@@ -498,8 +581,8 @@ export const InspectBaseProfile = ({
             </View>
             {/* <View>{!overrideContent && customContent ? customContent : null}</View> */}
           </View>
-        </>
+        </React.Fragment>
       )}
-    </View>
+    </ScrollView>
   );
 };
