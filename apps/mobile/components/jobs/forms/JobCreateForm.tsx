@@ -41,14 +41,13 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
   const jobStore = useJobStore();
 
   const { uploadFiles: uploadPicture, isUploadPending } = useUploadMutation({
-    onSuccess: (response: Upload[], variables: { files: File[] }) => {
+    onSuccess: (response: Upload[], variables) => {
       const uri = (variables.files[0] as any)?.uri as string | undefined;
       if (uri) {
-        jobStore.setImageProgress(uri, 100);
+        jobStore.setServerImage(uri, response[0].id, 100);
       }
-      jobStore.appendUploadId("create", { uploadId: response?.[0]?.id });
     },
-    onError: (error: any) => {
+    onError: (error) => {
       toast.error(error.message);
     },
   });
@@ -94,20 +93,33 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
     jobStore.setNested("createDto.latitude", latitude);
     jobStore.setNested("createDto.longitude", longitude);
     jobStore.set("locationName", locationName);
-
-    return () => {
-      jobStore.reset();
-    };
   }, [latitude, longitude, locationName]);
 
   const handleSubmit = () => {
-    const result = imagesJobValidationSchemas.safeParse(jobStore.createDto);
+    const uploads = jobStore.images
+      .filter((img) => img.serverId)
+      .map((img) => ({
+        uploadId: img.serverId as number,
+      }));
+
+    const data = {
+      ...jobStore.createDto,
+      uploads,
+    };
+    const result = imagesJobValidationSchemas.safeParse(data);
     if (!result.success) {
       jobStore.set("createDtoErrors", result.error.flatten().fieldErrors);
       return;
     }
-    createJob(jobStore.createDto);
+
+    createJob(data);
   };
+
+  React.useEffect(() => {
+    return () => {
+      jobStore.reset();
+    };
+  }, []);
 
   return (
     <StableSafeAreaView className="flex-1 bg-card">

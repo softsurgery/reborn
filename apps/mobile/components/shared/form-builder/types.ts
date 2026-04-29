@@ -149,7 +149,8 @@ export interface PictureFieldProps {
 }
 
 export interface ImageFile {
-  id: string;
+  id: number | string;
+  serverId?: number;
   uri: string;
   name: string;
   type: string;
@@ -158,9 +159,10 @@ export interface ImageFile {
 
 export interface GalleryFieldProps {
   images: ImageFile[];
-  maxImages?: number;
   onChange: (images: ImageFile[]) => void;
   onUpload?: (file: File, onProgress: (percent: number) => void) => void;
+  cols?: number;
+  rows?: number;
   editable?: boolean;
 }
 

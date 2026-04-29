@@ -95,6 +95,27 @@ export const useCreateJobFormStructure = ({
     },
   };
 
+  const pricingTypeField: Field<SelectFieldProps> = {
+    id: "pricingType",
+    label: "Pricing Type",
+    variant: FieldVariant.SELECT,
+    required: true,
+    placeholder: "Select pricing type",
+    description: "Choose how you want to be charged for this job.",
+    error: jobStore.createDtoErrors?.pricingType?.[0],
+    props: {
+      options: [
+        { label: "Fixed Price", value: "fixed" },
+        { label: "Hourly Rate", value: "hourly" },
+      ],
+      value: jobStore.createDto?.pricingType,
+      onSelect: (value) => {
+        jobStore.setNested("createDto.pricingType", value);
+        jobStore.setNested("createDtoErrors.pricingType", []);
+      },
+    },
+  };
+
   const jobCategoryField: Field<SelectFieldProps> = {
     id: "category",
     label: "Category",
@@ -207,7 +228,8 @@ export const useCreateJobFormStructure = ({
           { id: 1, fields: [titleField] },
           { id: 2, fields: [descriptionField] },
           { id: 3, fields: [priceField] },
-          { id: 4, fields: [locationField] },
+          { id: 4, fields: [pricingTypeField] },
+          { id: 5, fields: [locationField] },
         ],
       },
     ],
@@ -240,16 +262,18 @@ export const useCreateJobFormStructure = ({
     description: "Add images related to the job.",
     props: {
       images: jobStore.images,
-      maxImages: 9,
-      onChange: (images: ImageFile[]) =>
-        jobStore.updateImages("create", images),
+      onChange: (images: ImageFile[]) => {
+        jobStore.set("images", images);
+        jobStore.setNested("createDtoErrors.uploads", []);
+      },
+      cols: 3,
+      rows: 3,
       editable: true,
-      onUpload: async (file) => {
-        const uri = (file as any).uri as string;
+      onUpload: async (file, onProgress) => {
         uploadPicture({
           files: [file],
-          onProgress: (percent: number) => {
-            jobStore.setImageProgress(uri, percent);
+          onProgress: (p) => {
+            onProgress(p);
           },
         });
       },

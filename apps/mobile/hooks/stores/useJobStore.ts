@@ -8,22 +8,21 @@ import { ImageFile } from "@/components/shared/form-builder/types";
 interface JobStoreData {
   response?: ResponseJobDto;
   createDto: CreateJobDto;
-  updateDto: UpdateJobDto;
+  updateDto?: UpdateJobDto;
   createDtoErrors: Record<string, string[]>;
   updateDtoErrors: Record<string, string[]>;
-  searchHistory: ResponseJobDto[];
+
   images: ImageFile[];
   locationName?: string;
+
+  uploads: { id?: number; file: File; progress: number }[];
+
+  searchHistory: ResponseJobDto[];
 }
 
 export interface JobStore extends JobStoreData, BaseActions<JobStoreData> {
   addJobToSearchHistory: (job: ResponseJobDto) => void;
-  setImageProgress: (uri: string, progress: number) => void;
-  appendUploadId: (
-    dto: "create" | "update",
-    upload: { id?: number; uploadId: number },
-  ) => void;
-  updateImages: (dto: "create" | "update", newImages: ImageFile[]) => void;
+  setServerImage: (uri: string, serverId: number, progress: number) => void;
 }
 
 const initialState: JobStoreData = {
@@ -31,6 +30,7 @@ const initialState: JobStoreData = {
     title: "",
     description: "",
     price: undefined,
+    pricingType: undefined,
     tagIds: [],
     categoryId: undefined,
     style: undefined,
@@ -39,23 +39,14 @@ const initialState: JobStoreData = {
     latitude: undefined,
     longitude: undefined,
   },
-  updateDto: {
-    title: "",
-    description: "",
-    price: undefined,
-    tagIds: [],
-    categoryId: undefined,
-    style: undefined,
-    difficulty: undefined,
-    uploads: [],
-    latitude: undefined,
-    longitude: undefined,
-  },
+
   createDtoErrors: {},
   updateDtoErrors: {},
   searchHistory: [],
   images: [],
   locationName: "",
+
+  uploads: [],
 };
 
 export const useJobStore = create<JobStore>()(
@@ -73,58 +64,20 @@ export const useJobStore = create<JobStore>()(
         });
       },
 
-      setImageProgress: (uri, progress) => {
+      setImageProgressById: (id: number, progress: number) => {
         set((state) => ({
-          ...state,
-          images: state.images.map((image) =>
-            image.uri === uri ? { ...image, progress } : image,
+          images: state.images.map((img) =>
+            img.id === id ? { ...img, progress } : img,
           ),
         }));
       },
 
-      appendUploadId: (dto, upload) => {
+      setServerImage: (uri: string, serverId: number, progress: number) => {
         set((state) => ({
-          ...state,
-          [`${dto}Dto`]: {
-            ...state[`${dto}Dto`],
-            uploads: [...(state[`${dto}Dto`].uploads ?? []), upload],
-          },
+          images: state.images.map((img) =>
+            img.uri === uri ? { ...img, serverId, progress } : img,
+          ),
         }));
-      },
-
-      updateImages: (dto: "create" | "update", newImages: ImageFile[]) => {
-        set((state) => {
-          const oldImages = state.images;
-          const oldUploads = state[`${dto}Dto`].uploads ?? [];
-
-          const uploadMap = new Map<
-            string,
-            { id?: number; uploadId: number }
-          >();
-          oldImages.forEach((img, idx) => {
-            const upload = oldUploads[idx];
-            if (upload?.uploadId) uploadMap.set(img.id, upload);
-          });
-
-          const newUploads = newImages
-            .map((img) => {
-              const existingUpload = uploadMap.get(img.id);
-              if (existingUpload) {
-                return existingUpload;
-              }
-              return undefined;
-            })
-            .filter(Boolean) as { id?: number; uploadId: number }[];
-
-          return {
-            ...state,
-            images: newImages,
-            [`${dto}Dto`]: {
-              ...state[`${dto}Dto`],
-              uploads: newUploads,
-            },
-          };
-        });
       },
     }),
     {
