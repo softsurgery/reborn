@@ -15,14 +15,13 @@ import { Switch } from "~/components/ui/switch";
 import MultiSelect from "./MultiSelect";
 import MapPinField from "./MapPinField";
 import { GalleryPictureUploader } from "./GalleryPictureUploader/GalleryPictureUploader";
+import { PasswordField } from "./PasswordField";
 
 interface FieldBuilderProps {
   field?: Field<any>;
 }
 
 export const FieldBuilder = ({ field }: FieldBuilderProps) => {
-  const [showPassword, setShowPassword] = React.useState(false);
-
   switch (field?.variant) {
     case "text":
     case "tel":
@@ -132,43 +131,17 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
       );
     case "password":
       return (
-        <View className="w-full" style={{ position: "relative" }}>
-          <Input
-            {...field?.props}
-            className={cn(field?.error && "border-red-500")}
-            style={{
-              flex: 1,
-              padding: 10,
-              paddingRight: 40,
-            }}
-            placeholder={field?.props?.placeholder || "••••••••"}
-            secureTextEntry={!showPassword}
-            value={field?.props?.value?.toString() || ""}
-            onChangeText={(text) => field?.props?.onChangeText?.(text)}
-            editable={field?.props?.editable}
-            autoComplete="off"
-            autoCorrect={false}
-            spellCheck={false}
-            textContentType="none"
-          />
-
-          <TouchableOpacity
-            onPress={() => setShowPassword(!showPassword)}
-            style={{
-              position: "absolute",
-              right: 10,
-              top: 7,
-              padding: 4,
-            }}
-            disabled={!field?.props?.editable}
-          >
-            <Feather
-              name={showPassword ? "eye-off" : "eye"}
-              size={20}
-              color="gray"
-            />
-          </TouchableOpacity>
-        </View>
+        <PasswordField
+          {...field.props}
+          className={cn(
+            field?.className,
+            field?.error && "border border-red-500",
+          )}
+          placeholder={field?.placeholder}
+          value={field?.props?.value?.toString() || ""}
+          onChangeText={(text) => field?.props?.onChangeText?.(text)}
+          editable={field?.props?.editable}
+        />
       );
     case "textarea":
       return (
