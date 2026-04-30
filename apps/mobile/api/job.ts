@@ -51,10 +51,10 @@ const findFollowedPaginated = async ({
   if (join) params.join = join;
 
   const response = await axios.get<Paginated<ResponseJobDto>>(
-    `/job/list-followed`,
+    `/current-job/list-followed`,
     {
       params,
-    }
+    },
   );
 
   return response.data;
@@ -71,10 +71,10 @@ const findById = async (id: string): Promise<ResponseJobDto> => {
 };
 
 const findMetadataById = async (
-  id: string
+  id: string,
 ): Promise<ResponseJobMetadataDto> => {
   const response = await axios.get<ResponseJobMetadataDto>(
-    `/job/${id}/metadata`
+    `/job/${id}/metadata`,
   );
   return response.data;
 };
@@ -86,9 +86,11 @@ const create = async (createJobDto: CreateJobDto): Promise<CreateJobDto> => {
 
 export const job = {
   findPaginated,
-  findFollowedPaginated,
   findMetadataById,
   findAll,
   findById,
   create,
+  current: {
+    findFollowedPaginated,
+  },
 };

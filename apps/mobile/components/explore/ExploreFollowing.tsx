@@ -42,7 +42,7 @@ export const ExploreFollowing = ({
     queryKey: ["jobs-followed", search],
     initialPageParam: 1,
     queryFn: ({ pageParam = 1 }) =>
-      api.job.findFollowedPaginated({
+      api.job.current.findFollowedPaginated({
         page: String(pageParam),
         limit: "5",
         join: "uploads",
