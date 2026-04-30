@@ -15,6 +15,8 @@ import { JobCardSkeleton } from "../jobs/JobCardSkeleton";
 import { cn } from "~/lib/utils";
 import { useDebounce } from "~/hooks/useDebounce";
 import { NAV_THEME } from "~/lib/theme";
+import { useInfiniteJobs } from "@/hooks/content/job/useInfiniteJobs";
+import { Loader } from "../shared/Loader";
 
 interface ExploreCommonProps {
   className?: string;
@@ -30,31 +32,19 @@ export const ExploreCommon = ({
   handleScroll,
 }: ExploreCommonProps) => {
   const {
-    data,
+    jobs,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    refetch,
+    isJobsPending,
     isRefetching,
-    isPending: isJobsPending,
-  } = useInfiniteQuery({
-    queryKey: ["jobs", search],
-    initialPageParam: 1,
-    queryFn: ({ pageParam = 1 }) =>
-      api.job.findPaginated({
-        page: String(pageParam),
-        limit: "5",
-        join: "uploads",
-        filter: search ? `title||$cont||${search}` : undefined,
-        sort: "createdAt,desc",
-      }),
-    getNextPageParam: (lastPage) =>
-      lastPage.meta.hasNextPage ? lastPage.meta.page + 1 : undefined,
+    refetch,
+  } = useInfiniteJobs({
+    search,
+    join: ["uploads"],
+    sortKey: "createdAt",
+    sortOrder: "desc",
   });
-
-  const jobs = React.useMemo(() => {
-    return data?.pages.flatMap((page) => page.data) ?? [];
-  }, [data]);
 
   const isPending = isJobsPending || isFetchingNextPage || searching;
 
@@ -63,12 +53,6 @@ export const ExploreCommon = ({
       <JobCard job={item} className="my-2" />
     ),
     [],
-  );
-
-  const [dragging, setDragging] = React.useState(false);
-  const { value: debouncedDragging, loading: isDragging } = useDebounce(
-    dragging,
-    1000,
   );
 
   return (
@@ -81,8 +65,6 @@ export const ExploreCommon = ({
       recycleItems={true}
       maintainVisibleContentPosition
       onScroll={handleScroll}
-      onScrollBeginDrag={() => setDragging(true)}
-      onScrollEndDrag={() => setDragging(false)}
       refreshControl={
         <RefreshControl
           refreshing={isRefetching}
@@ -96,26 +78,22 @@ export const ExploreCommon = ({
           fetchNextPage();
         }
       }}
-      onEndReachedThreshold={0.5}
       ListEmptyComponent={
         !isPending ? (
           <View className="p-6 items-center">
             <Text className="text-muted-foreground">No jobs available</Text>
           </View>
-        ) : null
+        ) : (
+          <Loader />
+        )
       }
       ListFooterComponent={
         <View className="items-center">
           {isPending ? (
-            <>
-              <JobCardSkeleton />
-              <JobCardSkeleton />
-            </>
+            <JobCardSkeleton />
           ) : hasNextPage ? null : (
             <View className="flex flex-row items-center justify-center gap-2 p-6">
-              <Text className="text-muted-foreground text-lg font-thin">
-                No more jobs
-              </Text>
+              <Text className="text-muted-foreground">No more jobs</Text>
             </View>
           )}
         </View>

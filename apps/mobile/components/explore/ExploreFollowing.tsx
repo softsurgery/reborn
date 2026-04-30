@@ -16,6 +16,8 @@ import { PackageOpenIcon, User } from "lucide-react-native";
 import { useDebounce } from "~/hooks/useDebounce";
 import { cn } from "~/lib/utils";
 import { NAV_THEME } from "~/lib/theme";
+import { useInfiniteJobs } from "@/hooks/content/job/useInfiniteJobs";
+import { Loader } from "../shared/Loader";
 
 interface ExploreFollowingProps {
   className?: string;
@@ -31,31 +33,20 @@ export const ExploreFollowing = ({
   handleScroll,
 }: ExploreFollowingProps) => {
   const {
-    data,
+    jobs,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    refetch,
+    isJobsPending,
     isRefetching,
-    isPending: isJobsPending,
-  } = useInfiniteQuery({
-    queryKey: ["jobs-followed", search],
-    initialPageParam: 1,
-    queryFn: ({ pageParam = 1 }) =>
-      api.job.current.findFollowedPaginated({
-        page: String(pageParam),
-        limit: "5",
-        join: "uploads",
-        filter: search ? `title||$cont||${search}` : undefined,
-        sort: "createdAt,desc",
-      }),
-    getNextPageParam: (lastPage) =>
-      lastPage.meta.hasNextPage ? lastPage.meta.page + 1 : undefined,
+    refetch,
+  } = useInfiniteJobs({
+    search,
+    join: ["uploads"],
+    sortKey: "createdAt",
+    follow: true,
+    sortOrder: "desc",
   });
-
-  const jobs = React.useMemo(() => {
-    return data?.pages.flatMap((page) => page.data) ?? [];
-  }, [data]);
 
   const isPending = isJobsPending || isFetchingNextPage || searching;
 
@@ -64,12 +55,6 @@ export const ExploreFollowing = ({
       <JobCard job={item} className="my-2" />
     ),
     [],
-  );
-
-  const [dragging, setDragging] = React.useState(false);
-  const { value: debouncedDragging, loading: isDragging } = useDebounce(
-    dragging,
-    1000,
   );
 
   return (
@@ -82,8 +67,6 @@ export const ExploreFollowing = ({
       recycleItems={true}
       maintainVisibleContentPosition
       onScroll={handleScroll}
-      onScrollBeginDrag={() => setDragging(true)}
-      onScrollEndDrag={() => setDragging(false)}
       refreshControl={
         <RefreshControl
           refreshing={isRefetching}
@@ -97,27 +80,22 @@ export const ExploreFollowing = ({
           fetchNextPage();
         }
       }}
-      onEndReachedThreshold={0.5}
       ListEmptyComponent={
         !isPending ? (
-          <View className="p-8 items-center">
+          <View className="p-6 items-center">
             <Text className="text-muted-foreground">No jobs available</Text>
           </View>
-        ) : null
+        ) : (
+          <Loader />
+        )
       }
       ListFooterComponent={
-        <View className="items-center pb-5">
+        <View className="items-center">
           {isPending ? (
-            <>
-              <JobCardSkeleton />
-              <JobCardSkeleton />
-            </>
+            <JobCardSkeleton />
           ) : hasNextPage ? null : (
             <View className="flex flex-row items-center justify-center gap-2 p-6">
-              <Text className="text-muted-foreground text-lg">
-                No more jobs
-              </Text>
-              <PackageOpenIcon size={24} color="gray" />
+              <Text className="text-muted-foreground">No more jobs</Text>
             </View>
           )}
         </View>
