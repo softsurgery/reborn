@@ -48,12 +48,12 @@ export const JobClientInformation = ({
                   4.9 (127 reviews)
                 </Text>
               </View>
-              {job?.postedBy.profile?.region ? (
+              {job?.postedBy?.region ? (
                 <View className="flex-row items-center gap-1">
                   <MapPin size={12} color="#6366f1" />
                   <Text className="text-xs text-muted-foreground">
-                    {JSON.stringify(job.postedBy.profile.region)}
-                    {job.postedBy.profile.region.label}
+                    {JSON.stringify(job.postedBy.region)}
+                    {job.postedBy.region.label}
                   </Text>
                 </View>
               ) : null}
