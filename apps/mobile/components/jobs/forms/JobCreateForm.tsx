@@ -9,7 +9,7 @@ import { useJobTags } from "~/hooks/content/job/useJobTags";
 import { useJobCategories } from "~/hooks/content/job/useJobCategories";
 import { Stepper } from "~/components/shared/Stepper";
 import { api } from "~/api";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CreateJobDto, ServerErrorResponse } from "~/types";
 import { cn } from "~/lib/utils";
 import { router } from "expo-router";
@@ -32,6 +32,7 @@ interface JobCreateFormProps {
 }
 
 export const JobCreateForm = ({ className }: JobCreateFormProps) => {
+  const queryClient = useQueryClient();
   const {
     latitude,
     longitude,
@@ -79,6 +80,7 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
   const { mutate: createJob, isPending: isCreationPending } = useMutation({
     mutationFn: (job: CreateJobDto) => api.job.create(job),
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["jobs"] });
       jobStore.reset();
       toast.success("Job created successfully");
       router.push("/main/(tabs)");
