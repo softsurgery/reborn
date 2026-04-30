@@ -1,14 +1,12 @@
-import { StableScrollView } from "~/components/shared/StableScrollView";
-import { ProfileSection } from "./profile-section";
-import { View } from "react-native";
-import { RenderSection } from "./RenderSection";
+import { ScrollView, View } from "react-native";
+import { ProfileSection, RenderSection } from "./RenderSection";
 
 export const ExperienceTab = ({
   profileSections,
 }: {
   profileSections: ProfileSection[];
 }) => (
-  <StableScrollView className="flex-1">
+  <ScrollView className="flex-1 bg-background">
     <View className="flex flex-col gap-4 pb-8">
       {profileSections
         .filter(
@@ -19,5 +17,5 @@ export const ExperienceTab = ({
         )
         .map(RenderSection)}
     </View>
-  </StableScrollView>
+  </ScrollView>
 );

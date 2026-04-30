@@ -13,6 +13,7 @@ import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
 import {
   ResponseEducationDto,
   ResponseExperienceDto,
+  ResponseRefParamDto,
   ServerErrorResponse,
   UpdateUserCoverDto,
   UpdateUserDto,
@@ -33,7 +34,6 @@ import { ApplicationHeader } from "../shared/AppHeader";
 import { useTranslation } from "react-i18next";
 import { useExperiences } from "~/hooks/content/user/useExperiences";
 import { useEducations } from "~/hooks/content/user/useEducations";
-import { ProfileSection } from "./sections/profile-section";
 import { AboutTab } from "./sections/AboutTab";
 import { ExperienceTab } from "./sections/ExperienceTab";
 import { SnippetsTab } from "./sections/SnippetTab";
@@ -48,6 +48,7 @@ import { Loader } from "../shared/Loader";
 import { BaseProfileSkeleton } from "./BaseProfileSkeleton";
 import { ProfileCoverActionSheet } from "./ProfileCoverActionSheet";
 import { RefreshControl } from "react-native-gesture-handler";
+import { ProfileSection } from "./sections/RenderSection";
 
 interface InspectBaseProfileProps {
   className?: string;
@@ -359,8 +360,8 @@ export const InspectBaseProfile = ({
       title: "Skills",
       data: [],
       editable: currentUser?.id === user?.id,
-      renderItem: (skill) => (
-        <Text className="text-sm font-bold">{skill.name}</Text>
+      renderItem: (skill: ResponseRefParamDto) => (
+        <Text className="text-sm font-bold">{skill.label}</Text>
       ),
     },
     {
@@ -369,7 +370,7 @@ export const InspectBaseProfile = ({
       // data: user?.profile?.snippets as unknown[],
       data: [],
       editable: currentUser?.id === user?.id,
-      renderItem: (snippet) => (
+      renderItem: (snippet: any) => (
         <View className="flex flex-col">
           <Text className="font-semibold">{snippet.title}</Text>
           <Text className="text-sm text-muted-foreground">

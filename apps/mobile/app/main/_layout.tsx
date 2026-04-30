@@ -36,7 +36,7 @@ export default function MainLayout() {
       />
       {/* Account */}
       <Stack.Screen
-        name="account/managment"
+        name="account/inspect-profile"
         options={{
           title: "My Profile",
           headerShown: false,
@@ -195,6 +195,14 @@ export default function MainLayout() {
         name="my-space/saved"
         options={{
           title: "saved",
+          headerShown: false,
+          animation: "slide_from_right",
+        }}
+      />
+      <Stack.Screen
+        name="my-space/jobs"
+        options={{
+          title: "My Jobs",
           headerShown: false,
           animation: "slide_from_right",
         }}

@@ -1,11 +1,10 @@
-import { View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { SeeMoreText } from "~/components/shared/SeeMoreText";
-import { StableScrollView } from "~/components/shared/StableScrollView";
 import { Separator } from "~/components/ui/separator";
 import { Text } from "~/components/ui/text";
 
 export const AboutTab = ({ user }: { user: any }) => (
-  <StableScrollView className="flex-1 bg-background">
+  <ScrollView className="flex-1 bg-background">
     <View className="flex flex-col gap-4 pb-8">
       {/* Bio Section */}
       {user?.bio ? (
@@ -31,5 +30,5 @@ export const AboutTab = ({ user }: { user: any }) => (
         </View>
       )}
     </View>
-  </StableScrollView>
+  </ScrollView>
 );

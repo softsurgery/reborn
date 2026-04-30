@@ -1,5 +1,4 @@
 import { View } from "react-native";
-import { ProfileSection } from "./profile-section";
 import { Text } from "~/components/ui/text";
 import { StablePressable } from "~/components/shared/StablePressable";
 import { cn } from "~/lib/utils";
@@ -7,6 +6,14 @@ import { router } from "expo-router";
 import { Icon } from "~/components/ui/icon";
 import { Pen, Plus } from "lucide-react-native";
 import { Separator } from "~/components/ui/separator";
+
+export interface ProfileSection<T = unknown> {
+  key: string;
+  title: string;
+  data: T[];
+  editable: boolean;
+  renderItem: (item: any) => React.ReactNode;
+}
 
 export const RenderSection = (section: ProfileSection) => {
   return (
@@ -42,7 +49,9 @@ export const RenderSection = (section: ProfileSection) => {
                 onPress={() => {
                   switch (section.key) {
                     case "experience":
-                      router.push("/main/account/update-experiences");
+                      router.push({
+                        pathname: "/main/account/update-experiences",
+                      });
                       break;
                     case "education":
                       router.push("/main/account/update-educations");
@@ -62,7 +71,7 @@ export const RenderSection = (section: ProfileSection) => {
         <Separator />
       </View>
 
-      <View className="p-4 border border-b flex-1 bg-background">
+      <View className="p-4 border-b border-border flex-1 bg-background">
         {section.data?.length === 0 ? (
           <View key={section.key}>
             <Text className="text-sm text-muted-foreground italic text-center my-4">

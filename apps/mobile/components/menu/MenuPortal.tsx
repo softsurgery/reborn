@@ -8,13 +8,13 @@ import { useNotificationContext } from "~/contexts/NotificationContext";
 import { useTranslation } from "react-i18next";
 import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
 import { View } from "react-native";
-import { InspectBaseProfile } from "../profile/InspectBaseProfile";
+import { InspectBaseProfile } from "../profile/BaseProfile";
 
-interface AccountProps {
+interface MenuPortalProps {
   className?: string;
 }
 
-export const Account = ({ className }: AccountProps) => {
+export const MenuPortal = ({ className }: MenuPortalProps) => {
   const { t } = useTranslation("common");
   const { currentUser } = useCurrentUser();
 
