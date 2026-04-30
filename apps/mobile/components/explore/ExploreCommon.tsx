@@ -1,7 +1,5 @@
 import { LegendList } from "@legendapp/list";
-import { useInfiniteQuery } from "@tanstack/react-query";
 import React from "react";
-import { api } from "~/api";
 import { ResponseJobDto } from "~/types";
 import { JobCard } from "../jobs/JobCard";
 import {
@@ -13,10 +11,9 @@ import {
 import { Text } from "../ui/text";
 import { JobCardSkeleton } from "../jobs/JobCardSkeleton";
 import { cn } from "~/lib/utils";
-import { useDebounce } from "~/hooks/useDebounce";
 import { NAV_THEME } from "~/lib/theme";
 import { useInfiniteJobs } from "@/hooks/content/job/useInfiniteJobs";
-import { Loader } from "../shared/Loader";
+import { NotFound } from "../shared/NotFound";
 
 interface ExploreCommonProps {
   className?: string;
@@ -62,7 +59,6 @@ export const ExploreCommon = ({
       renderItem={renderItem}
       keyExtractor={(item) => item.id}
       showsVerticalScrollIndicator={false}
-      recycleItems={true}
       maintainVisibleContentPosition
       onScroll={handleScroll}
       refreshControl={
@@ -80,11 +76,9 @@ export const ExploreCommon = ({
       }}
       ListEmptyComponent={
         !isPending ? (
-          <View className="p-6 items-center">
-            <Text className="text-muted-foreground">No jobs available</Text>
-          </View>
+          <NotFound className="flex-1 justify-center items-center" />
         ) : (
-          <Loader />
+          <JobCardSkeleton />
         )
       }
       ListFooterComponent={
@@ -92,7 +86,7 @@ export const ExploreCommon = ({
           {isPending ? (
             <JobCardSkeleton />
           ) : hasNextPage ? null : (
-            <View className="flex flex-row items-center justify-center gap-2 p-6">
+            <View className="flex flex-row items-center justify-center gap-2 pb-8">
               <Text className="text-muted-foreground">No more jobs</Text>
             </View>
           )}

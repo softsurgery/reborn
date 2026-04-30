@@ -1,5 +1,12 @@
 import { router } from "expo-router";
-import { Bookmark, ChevronRight, Eye, Inbox, Star } from "lucide-react-native";
+import {
+  Bookmark,
+  BriefcaseBusiness,
+  ChevronRight,
+  Eye,
+  Inbox,
+  Star,
+} from "lucide-react-native";
 import { View } from "react-native";
 import { cn } from "~/lib/utils";
 import { StablePressable } from "~/components/shared/StablePressable";
@@ -15,13 +22,19 @@ interface QuickActionsProps {
 export const QuickActions = ({ className }: QuickActionsProps) => {
   const portalItems = [
     {
+      title: "My jobs",
+      icon: BriefcaseBusiness,
+      description: "Preview your posted jobs",
+      onPress: () => router.push("/main/my-space/jobs"),
+    },
+    {
       title: "Requests",
       icon: Inbox,
       description: "Manage incoming and outgoing requests",
       onPress: () => router.push("/main/my-space/requests"),
     },
     {
-      title: "Saved",
+      title: "Saved jobs",
       icon: Bookmark,
       description: "Keep track of jobs you bookmarked",
       onPress: () => router.push("/main/my-space/saved"),

@@ -54,6 +54,7 @@ export const Home = ({ className }: HomeProps) => {
         page: "1",
         limit: "20",
         sort: "createdAt,DESC",
+        join: "job",
       }),
   });
 
@@ -68,6 +69,7 @@ export const Home = ({ className }: HomeProps) => {
         page: "1",
         limit: "20",
         sort: "createdAt,DESC",
+        join: "job",
       }),
   });
 
@@ -91,7 +93,7 @@ export const Home = ({ className }: HomeProps) => {
       id: `in-${request.id}`,
       type: "Incoming" as const,
       status: request.status,
-      title: request.job?.title ?? "Untitled job",
+      title: request.job?.title,
       createdAt: new Date(request.createdAt).getTime(),
     }));
 
@@ -99,7 +101,7 @@ export const Home = ({ className }: HomeProps) => {
       id: `out-${request.id}`,
       type: "Outgoing" as const,
       status: request.status,
-      title: request.job?.title ?? "Untitled job",
+      title: request.job?.title,
       createdAt: new Date(request.createdAt).getTime(),
     }));
 
@@ -248,9 +250,7 @@ export const Home = ({ className }: HomeProps) => {
                   <React.Fragment key={item.id}>
                     <View className="py-3">
                       <View className="flex-row items-center justify-between gap-2">
-                        <Text className="font-medium flex-1" numberOfLines={1}>
-                          {item.title}
-                        </Text>
+                        <Text className="font-medium flex-1">{item.title}</Text>
                         <View
                           className={cn(
                             "rounded-full px-2 py-0.5",

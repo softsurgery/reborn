@@ -5,13 +5,20 @@ import Animated, {
   useAnimatedStyle,
   withTiming,
 } from "react-native-reanimated";
+import { Text } from "@/components/ui/text";
+import { View } from "react-native";
 
 interface NotFoundProps {
   size?: "small" | "large" | number;
   className?: string;
+  message?: string;
 }
 
-export const NotFound = ({ size = "large", className }: NotFoundProps) => {
+export const NotFound = ({
+  size = "large",
+  className,
+  message = "No results found",
+}: NotFoundProps) => {
   const height = useSharedValue(1);
   const opacity = useSharedValue(1);
 
@@ -27,16 +34,19 @@ export const NotFound = ({ size = "large", className }: NotFoundProps) => {
   }));
 
   return (
-    <Animated.View style={animatedStyle} className={className}>
-      <LottieView
-        autoPlay
-        loop
-        style={{
-          width: size === "small" ? 100 : size === "large" ? 200 : size,
-          height: size === "small" ? 100 : size === "large" ? 200 : size,
-        }}
-        source={require("~/assets/not-found.json")}
-      />
-    </Animated.View>
+    <View className={className}>
+      <Animated.View style={animatedStyle}>
+        <LottieView
+          autoPlay
+          loop
+          style={{
+            width: size === "small" ? 100 : size === "large" ? 200 : size,
+            height: size === "small" ? 100 : size === "large" ? 200 : size,
+          }}
+          source={require("~/assets/not-found.json")}
+        />
+      </Animated.View>
+      <Text className="mt-4">{message}</Text>
+    </View>
   );
 };
