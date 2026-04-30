@@ -7,6 +7,7 @@ import { useKeyboardVisible } from "~/hooks/useKeyboardVisible";
 import { cn } from "~/lib/utils";
 import { Icon } from "../ui/icon";
 import { ArrowLeft, ArrowRight } from "lucide-react-native";
+import { type VariantProps } from "class-variance-authority";
 
 interface StepperProps {
   classNames?: {
@@ -22,11 +23,15 @@ interface StepperProps {
   initialStep?: number;
   forwaredAdditionalActions?: Record<number, () => void>;
   backwordAdditionalActions?: Record<number, () => void>;
-  closingAction?: {
+  closingActions?: {
+    id?: string | number;
     label: string;
+    className?: string;
+    variant?: VariantProps<typeof Button>["variant"];
     onPress: () => void;
     disabled?: boolean;
-  };
+  }[];
+  pending?: boolean;
 }
 
 export const Stepper = ({
@@ -35,7 +40,8 @@ export const Stepper = ({
   initialStep = 0,
   forwaredAdditionalActions = {},
   backwordAdditionalActions = {},
-  closingAction,
+  closingActions = [],
+  pending = false,
 }: StepperProps) => {
   const isKeyboardVisible = useKeyboardVisible();
   const [currentStep, setCurrentStep] = React.useState(initialStep);
@@ -101,33 +107,53 @@ export const Stepper = ({
       {!isKeyboardVisible && (
         <View
           className={cn(
-            "flex-row justify-between px-2 py-4 bg-muted border-t border-border",
+            "flex-row p-4 bg-muted border-t border-border",
+            currentStep === 0 ? "justify-end" : "justify-between",
             classNames?.controlsWrapper,
           )}
         >
           {/* Previous */}
           <Button
-            disabled={currentStep === 0}
+            size="sm"
+            disabled={pending}
             onPress={prevStep}
             variant="outline"
-            className="px-4 py-2 rounded-xl"
+            className={cn(
+              "px-4 py-2 rounded-xl",
+              currentStep === 0 ? "hidden" : "block",
+            )}
           >
             <Icon as={ArrowLeft} size={20} />
             <Text className="font-semibold">Previous</Text>
           </Button>
 
           {/* Next / Finish */}
-          {isLastStep && closingAction ? (
+
+          {isLastStep && closingActions.length > 0 ? (
+            <View className="flex-row gap-2">
+              {closingActions.map((closingAction) => (
+                <Button
+                  key={closingAction.id}
+                  size="sm"
+                  variant={closingAction.variant}
+                  onPress={closingAction.onPress}
+                  disabled={closingAction.disabled || pending}
+                  className={cn(
+                    "px-4 py-2 rounded-xl",
+                    closingAction.className,
+                  )}
+                >
+                  <Text className="font-semibold">{closingAction.label}</Text>
+                </Button>
+              ))}
+            </View>
+          ) : (
             <Button
               size="sm"
-              onPress={closingAction.onPress}
-              disabled={closingAction.disabled}
-              className="rounded-xl bg-green-600"
+              onPress={nextStep}
+              className={cn("px-4 py-2 rounded-xl")}
+              disabled={pending}
             >
-              <Text className="font-semibold">{closingAction.label}</Text>
-            </Button>
-          ) : (
-            <Button size="sm" onPress={nextStep} className="rounded-xl">
               <Text className="font-semibold">Next</Text>
               <Icon as={ArrowRight} size={20} />
             </Button>

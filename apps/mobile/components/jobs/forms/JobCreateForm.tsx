@@ -208,13 +208,27 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
                 validation: true,
               },
             ]}
-            closingAction={{
-              label: "Publish",
-              onPress: () => {
-                handleSubmit();
+            closingActions={[
+              {
+                id: "save-draft",
+                label: "Save Draft",
+                variant: "outline",
+                onPress: () => {
+                  handleSubmit();
+                },
+                disabled: isUploadPending,
               },
-              disabled: isUploadPending,
-            }}
+              {
+                id: "publish",
+                label: "Publish",
+                className: "bg-green-600",
+                onPress: () => {
+                  handleSubmit();
+                },
+                disabled: isUploadPending,
+              },
+            ]}
+            pending={isCreationPending || isUploadPending}
           />
         )}
       </View>
