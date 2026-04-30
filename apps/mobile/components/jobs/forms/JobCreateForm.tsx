@@ -5,8 +5,8 @@ import { useCreateJobFormStructure } from "./useCreateJobFormStructure";
 import { useJobStore } from "~/hooks/stores/useJobStore";
 import { useCurrencies } from "~/hooks/content/useCurrencies";
 import { mapToSelectOptions } from "~/components/shared/form-builder/utils/mapToSelectOptions";
-import { useJobTags } from "~/hooks/content/job/useJobTags";
-import { useJobCategories } from "~/hooks/content/job/useJobCategories";
+import { useJobTags } from "@/hooks/content/reference-types/useJobTags";
+import { useJobCategories } from "@/hooks/content/reference-types/useJobCategories";
 import { Stepper } from "~/components/shared/Stepper";
 import { api } from "~/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -97,7 +97,7 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
     jobStore.set("locationName", locationName);
   }, [latitude, longitude, locationName]);
 
-  const handleSubmit = () => {
+  const handleSubmit = (status: "Draft" | "Posted") => {
     const uploads = jobStore.images
       .filter((img) => img.serverId)
       .map((img) => ({
@@ -106,6 +106,7 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
 
     const data = {
       ...jobStore.createDto,
+      status,
       uploads,
     };
     const result = imagesJobValidationSchemas.safeParse(data);
@@ -214,7 +215,7 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
                 label: "Save Draft",
                 variant: "outline",
                 onPress: () => {
-                  handleSubmit();
+                  handleSubmit("Draft");
                 },
                 disabled: isUploadPending,
               },
@@ -223,7 +224,7 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
                 label: "Publish",
                 className: "bg-green-600",
                 onPress: () => {
-                  handleSubmit();
+                  handleSubmit("Posted");
                 },
                 disabled: isUploadPending,
               },

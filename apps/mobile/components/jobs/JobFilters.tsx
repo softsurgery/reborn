@@ -12,7 +12,7 @@ import {
   AccordionContent,
   AccordionTrigger,
 } from "~/components/ui/accordion";
-import { useJobCategories } from "~/hooks/content/job/useJobCategories";
+import { useJobCategories } from "@/hooks/content/reference-types/useJobCategories";
 import { cn } from "~/lib/utils";
 
 interface JobFiltersProps {

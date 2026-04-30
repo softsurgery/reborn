@@ -247,9 +247,17 @@ export const JobDetails = () => {
                   </Text>
                 </Button>
               ) : (
-                <Button disabled={true} className="w-full py-3 rounded-lg">
+                <Button
+                  className="w-full rounded-lg"
+                  onPress={() => {
+                    router.push({
+                      pathname: "/main/my-space/manage-job",
+                      params: { id },
+                    });
+                  }}
+                >
                   <Text className="text-base font-semibold">
-                    You cannot apply for your own job
+                    Manage This Job
                   </Text>
                 </Button>
               )}

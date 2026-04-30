@@ -29,6 +29,7 @@ const initialState: JobStoreData = {
   createDto: {
     title: "",
     description: "",
+    status: "Draft",
     price: undefined,
     pricingType: undefined,
     tagIds: [],
