@@ -12,12 +12,12 @@ interface LoaderProps {
   className?: string;
 }
 
-export const Loader: React.FC<LoaderProps> = ({
+export const Loader = ({
   isPending = true,
   size = "large",
   className,
-}) => {
-  const height = useSharedValue(isPending ? 1 : 0); // 1 = visible, 0 = hidden
+}: LoaderProps) => {
+  const height = useSharedValue(isPending ? 1 : 0);
   const opacity = useSharedValue(isPending ? 1 : 0);
 
   React.useEffect(() => {
@@ -27,7 +27,7 @@ export const Loader: React.FC<LoaderProps> = ({
 
   const animatedStyle = useAnimatedStyle(() => ({
     opacity: opacity.value,
-    height: height.value * (size === "small" ? 100 : 200), // dynamically adjust
+    height: height.value * (size === "small" ? 100 : 200),
     overflow: "hidden",
   }));
 
