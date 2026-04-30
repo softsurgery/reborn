@@ -1,5 +1,5 @@
 import React from "react";
-import { View, TouchableOpacity, Dimensions } from "react-native";
+import { View, Dimensions } from "react-native";
 import Carousel, {
   ICarouselInstance,
   Pagination,
@@ -13,20 +13,18 @@ import Animated, {
 import { Image } from "expo-image";
 import { useColorScheme } from "nativewind";
 import { THEME } from "~/lib/theme";
-import { Text } from "~/components/ui/text";
 import { UseQueryResult } from "@tanstack/react-query";
-import { ImageCarouselModal } from "./ImageCarouselModal";
-import { useImageCarouselModal } from "~/hooks/useImageCarouselModal";
 import { cn } from "~/lib/utils";
 import { StablePressable } from "../StablePressable";
 import { Icon } from "../../ui/icon";
 import { Expand } from "lucide-react-native";
+import { Loader } from "../Loader";
+import { PhotoPreview } from "../PhotoPreview";
 
-interface ImageCarouselWithModalProps {
+interface ImageCarouselProps {
   uploads: string[];
   imageQueries: UseQueryResult<string, Error>[];
   className?: string;
-  title?: string;
   autoPlay?: boolean;
   autoPlayInterval?: number;
   heightScale?: number;
@@ -36,22 +34,20 @@ interface ImageCarouselWithModalProps {
   }[];
 }
 
-export const ImageCarouselWithModal = ({
+export const ImageCarousel = ({
   uploads,
   imageQueries,
   className,
-  title,
-  autoPlay = true,
+  autoPlay,
   autoPlayInterval = 3000,
   heightScale = 0.4,
   extraActions,
-}: ImageCarouselWithModalProps) => {
+}: ImageCarouselProps) => {
+  const [currentIndex, setCurrentIndex] = React.useState(0);
+
   const ref = React.useRef<ICarouselInstance>(null);
   const progress = useSharedValue<number>(0);
   const { colorScheme } = useColorScheme();
-
-  const { isVisible, currentIndex, setCurrentIndex, open, close } =
-    useImageCarouselModal();
 
   const screenWidth = Dimensions.get("window").width;
   const screenHeight = Dimensions.get("window").height;
@@ -82,22 +78,12 @@ export const ImageCarouselWithModal = ({
     });
   };
 
-  const handleImagePress = () => {
-    setCurrentIndex(Math.round(progress.value));
-    open();
-  };
-
-  const imageUrls = React.useMemo(() => {
-    return imageQueries.filter((q) => q.data).map((q) => q.data as string);
-  }, [imageQueries]);
-
   return (
-    <>
-      <TouchableOpacity
-        onPress={handleImagePress}
-        activeOpacity={0.9}
-        className={cn(className)}
-      >
+    <PhotoPreview
+      source={imageQueries.map((q) => q.data as string)}
+      index={currentIndex}
+    >
+      <View className={cn(className)}>
         <View className="relative w-full items-center overflow-hidden">
           <StablePressable
             className="absolute top-3 right-3 z-10 bg-black/50 p-2 rounded-full"
@@ -105,6 +91,7 @@ export const ImageCarouselWithModal = ({
           >
             <Icon as={Expand} size={22} color="white" />
           </StablePressable>
+
           <View className="absolute top-3 left-3 z-10 flex flex-row gap-2">
             {extraActions?.map((action, index) => (
               <StablePressable
@@ -132,6 +119,7 @@ export const ImageCarouselWithModal = ({
               height={expandedHeight}
               data={uploads}
               onProgressChange={progress}
+              onSnapToItem={(index) => setCurrentIndex(index)}
               autoPlay={autoPlay}
               autoPlayInterval={autoPlayInterval}
               renderItem={({ index }) => {
@@ -140,7 +128,7 @@ export const ImageCarouselWithModal = ({
                 if (!query?.data) {
                   return (
                     <View className="flex-1 justify-center items-center">
-                      <Text>Loading...</Text>
+                      <Loader />
                     </View>
                   );
                 }
@@ -172,15 +160,7 @@ export const ImageCarouselWithModal = ({
             />
           </View>
         </View>
-      </TouchableOpacity>
-
-      <ImageCarouselModal
-        visible={isVisible}
-        images={imageUrls}
-        initialIndex={currentIndex}
-        onClose={close}
-        title={title}
-      />
-    </>
+      </View>
+    </PhotoPreview>
   );
 };

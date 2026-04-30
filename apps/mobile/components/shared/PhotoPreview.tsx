@@ -4,18 +4,22 @@ import { View, type ImageURISource } from "react-native";
 import ImageView from "react-native-image-viewing";
 import { StablePressable } from "@/components/shared/StablePressable";
 import { cn } from "@/lib/utils";
+import { Text } from "../ui/text";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-interface ProfilePhotoPreviewV2Props {
-  source?: ImageProps["source"] | null;
+interface PhotoPreviewProps {
   className?: string;
   children: React.ReactNode;
+  source?: ImageProps["source"] | null;
+  index?: number;
 }
 
-export const ProfilePhotoPreview = ({
-  source,
+export const PhotoPreview = ({
   className,
   children,
-}: ProfilePhotoPreviewV2Props) => {
+  source,
+  index = 0,
+}: PhotoPreviewProps) => {
   type ViewerImage = ImageURISource | number;
 
   const images = React.useMemo<ViewerImage[]>(() => {
@@ -63,7 +67,7 @@ export const ProfilePhotoPreview = ({
 
   const trigger = hasImageSource ? (
     <StablePressable
-      className={cn("overflow-hidden rounded-full", className)}
+      className={cn("overflow-hidden ", className)}
       onPress={openPreview}
       onPressClassname="opacity-90"
     >
@@ -76,13 +80,17 @@ export const ProfilePhotoPreview = ({
   return (
     <>
       {trigger}
-
       {hasImageSource ? (
         <ImageView
           images={images}
-          imageIndex={0}
+          imageIndex={index}
           visible={isVisible}
           onRequestClose={closePreview}
+          FooterComponent={() => (
+            <SafeAreaView>
+              <Text>Hello</Text>
+            </SafeAreaView>
+          )}
         />
       ) : null}
     </>

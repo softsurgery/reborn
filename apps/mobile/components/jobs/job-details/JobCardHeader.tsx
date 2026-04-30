@@ -1,3 +1,4 @@
+import React from "react";
 import {
   ArrowLeft,
   CheckCircle,
@@ -12,32 +13,31 @@ import { Text } from "~/components/ui/text";
 import { timeAgo } from "~/lib/dates.utils";
 import { cn } from "~/lib/utils";
 import { ResponseJobDto, ResponseJobMetadataDto } from "~/types";
-import React from "react";
 import { UseQueryResult } from "@tanstack/react-query";
-import { ImageCarouselWithModal } from "~/components/shared/image-carousel/ImageCarouselWithModal";
+import { ImageCarousel } from "~/components/shared/image-carousel/ImageCarouselWithModal";
 import { Icon } from "~/components/ui/icon";
 import { router } from "expo-router";
 
 interface JobCardHeaderProps {
   className?: string;
   job: ResponseJobDto | null;
-  handleSave: (e: any) => void;
   isSavePending: boolean;
   isJobSaved: boolean;
   metadata: ResponseJobMetadataDto | null;
   uploads: string[];
   imageQueries: UseQueryResult<string, Error>[];
+  handleSave: (e: any) => void;
 }
 
 export const JobCardHeader = ({
   className,
   job,
   metadata,
-  handleSave,
   isSavePending,
   isJobSaved,
   uploads,
   imageQueries,
+  handleSave,
 }: JobCardHeaderProps) => {
   return (
     <View
@@ -45,11 +45,10 @@ export const JobCardHeader = ({
     >
       {imageQueries.length > 0 && (
         <View className="flex flex-col items-center">
-          <ImageCarouselWithModal
+          <ImageCarousel
             uploads={uploads}
             imageQueries={imageQueries}
-            autoPlay={true}
-            autoPlayInterval={3000}
+            autoPlay={false}
             extraActions={[
               {
                 icon: <Icon as={ArrowLeft} size={24} color="white" />,

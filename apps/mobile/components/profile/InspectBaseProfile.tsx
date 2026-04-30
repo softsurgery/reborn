@@ -37,7 +37,7 @@ import { ProfileSection } from "./sections/profile-section";
 import { AboutTab } from "./sections/AboutTab";
 import { ExperienceTab } from "./sections/ExperienceTab";
 import { SnippetsTab } from "./sections/SnippetTab";
-import { ProfilePhotoPreview } from "../shared/ProfilePhotoPreview";
+import { PhotoPreview } from "../shared/PhotoPreview";
 import { useServerImages } from "@/hooks/content/useServerImages";
 import { Skeleton } from "../ui/skeleton";
 import * as ImagePicker from "expo-image-picker";
@@ -79,7 +79,6 @@ export const InspectBaseProfile = ({
     id,
   });
   const { currentUser, refetchCurrentUser } = useCurrentUser();
-  const isOwner = currentUser?.id === id;
 
   const identity = React.useMemo(() => identifyUser(user), [user]);
   const fallback = React.useMemo(() => identifyUserAvatar(user), [user]);
@@ -470,9 +469,12 @@ export const InspectBaseProfile = ({
           ) : null}
           {/* Header */}
           <View className="flex-row items-center px-4 -mt-12">
-            <ProfilePhotoPreview source={uploadProfilePicture}>
+            <PhotoPreview
+              source={uploadProfilePicture}
+              className="rounded-full"
+            >
               <View>{profilePicture}</View>
-            </ProfilePhotoPreview>
+            </PhotoPreview>
 
             <View className="flex flex-row flex-1 mt-16">
               <View className="flex flex-col flex-1 items-start justify-between px-4 gap-2">
