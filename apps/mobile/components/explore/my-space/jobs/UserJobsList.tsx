@@ -48,7 +48,7 @@ export const UserJobsList = ({
   const isPending = isJobsPending || isFetchingNextPage || searching;
 
   const renderItem = React.useCallback(({ item }: { item: ResponseJobDto }) => {
-    return <JobCard job={item} className="my-2" isOwner />;
+    return <JobCard job={item} className="my-4" isOwner />;
   }, []);
 
   return (
@@ -87,6 +87,13 @@ export const UserJobsList = ({
               fetchNextPage();
             }
           }}
+          ListFooterComponent={
+            isFetchingNextPage ? (
+              <View className="py-4">
+                <Loader />
+              </View>
+            ) : null
+          }
           ListEmptyComponent={
             !isPending ? (
               <NotFound

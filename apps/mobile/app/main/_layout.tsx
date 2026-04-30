@@ -34,7 +34,7 @@ export default function MainLayout() {
           animationDuration: 200,
         }}
       />
-      {/* Account */}
+      {/* Account *********************************************************************************************************************/}
       <Stack.Screen
         name="account/inspect-profile"
         options={{
@@ -127,7 +127,7 @@ export default function MainLayout() {
         }}
       />
 
-      {/* Chat */}
+      {/* Chat *********************************************************************************************************************/}
       <Stack.Screen
         name="chat/conversation"
         options={{
@@ -144,7 +144,7 @@ export default function MainLayout() {
         }}
       />
 
-      {/* Explore */}
+      {/* Explore *********************************************************************************************************************/}
       <Stack.Screen
         name="explore/new-job"
         options={{
@@ -182,7 +182,7 @@ export default function MainLayout() {
         }}
       />
 
-      {/* My Space */}
+      {/* My Space *********************************************************************************************************************/}
       <Stack.Screen
         name="my-space/requests"
         options={{
@@ -207,7 +207,17 @@ export default function MainLayout() {
           animation: "slide_from_right",
         }}
       />
-      {/* Notifications */}
+
+      <Stack.Screen
+        name="my-space/manage-job"
+        options={{
+          title: "Manage Job",
+          headerShown: false,
+          animation: "slide_from_right",
+        }}
+      />
+
+      {/* Notifications *********************************************************************************************************************/}
       <Stack.Screen
         name="notifications"
         options={{

@@ -47,7 +47,7 @@ export const ExploreCommon = ({
 
   const renderItem = React.useCallback(
     ({ item }: { item: ResponseJobDto }) => (
-      <JobCard job={item} className="my-2" />
+      <JobCard job={item} className="my-4" />
     ),
     [],
   );
