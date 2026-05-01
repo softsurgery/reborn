@@ -48,7 +48,7 @@ export const ExploreFollowing = ({
 
   const renderItem = React.useCallback(
     ({ item }: { item: ResponseJobDto }) => (
-      <JobCard job={item} className="my-4" />
+      <JobCard job={item} className="my-2" />
     ),
     [],
   );

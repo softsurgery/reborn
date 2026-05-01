@@ -1,7 +1,7 @@
-import { JobManagementPortal } from "@/components/jobs/job-management/JobManagementPortal";
+import { JobManagementInstance } from "@/components/jobs/job-management/JobManagementInstance";
 import { useLocalSearchParams } from "expo-router";
 
 export default function Screen() {
   const { id } = useLocalSearchParams();
-  return <JobManagementPortal id={id as string} />;
+  return <JobManagementInstance id={id as string} />;
 }

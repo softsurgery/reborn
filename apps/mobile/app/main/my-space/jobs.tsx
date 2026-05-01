@@ -1,4 +1,4 @@
-import { UserJobsList } from "@/components/explore/my-space/jobs/UserJobsList";
+import { UserJobsList } from "@/components/home/my-space/UserJobsList";
 
 export default function Screen() {
   return <UserJobsList />;

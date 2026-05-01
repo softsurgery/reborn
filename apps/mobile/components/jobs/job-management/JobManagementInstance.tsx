@@ -1,18 +1,18 @@
 import { StableSafeAreaView } from "@/components/shared/StableSafeAreaView";
-import { Text } from "~/components/ui/text";
+import { Text } from "@/components/ui/text";
 
-interface JobManagementPortalProps {
+interface JobManagementInstanceProps {
   id: string;
   className?: string;
 }
 
-export const JobManagementPortal = ({
+export const JobManagementInstance = ({
   id,
   className,
-}: JobManagementPortalProps) => {
+}: JobManagementInstanceProps) => {
   return (
     <StableSafeAreaView className={className}>
-      <Text>Job Management Portal {id}</Text>
+      <Text>Job Management Instance for Job ID: {id}</Text>
     </StableSafeAreaView>
   );
 };

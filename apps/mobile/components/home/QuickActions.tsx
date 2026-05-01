@@ -65,10 +65,9 @@ export const QuickActions = ({ className }: QuickActionsProps) => {
             <View key={item.title}>
               <StablePressable
                 className={cn(
-                  "w-full py-3 rounded-none",
+                  "w-full py-3 rounded-none active:bg-muted/40",
                   isDisabled && "opacity-60",
                 )}
-                onPressClassname="bg-muted/40"
                 onPress={isDisabled ? undefined : item.onPress}
                 disabled={isDisabled}
               >
