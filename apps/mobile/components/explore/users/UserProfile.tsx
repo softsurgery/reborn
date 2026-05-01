@@ -87,8 +87,7 @@ export const UserProfile = ({ className }: UserProfileProps) => {
           {cards.map((card) => (
             <StablePressable
               key={card.title}
-              className="border-b-2 border-border bg-muted"
-              onPressClassname="bg-secondary"
+              className="border-b-2 border-border bg-muted active:bg-secondary"
               onPress={() => card.onPress()}
             >
               <View className="flex flex-row justify-between items-center p-4">

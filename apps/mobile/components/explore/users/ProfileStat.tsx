@@ -34,10 +34,7 @@ export const ProfileStat = ({ className, clientStore }: ProfileStatProps) => {
       {/* Services */}
       <Dialog>
         <DialogTrigger asChild>
-          <StablePressable
-            className="flex flex-col items-center"
-            onPressClassname="opacity-70"
-          >
+          <StablePressable className="flex flex-col items-center active:opacity-70">
             <Text variant={"large"}>-</Text>
             <Text variant={"muted"}>Services</Text>
           </StablePressable>
@@ -53,10 +50,7 @@ export const ProfileStat = ({ className, clientStore }: ProfileStatProps) => {
       {/* Following */}
       <Dialog open={openFollowing} onOpenChange={setOpenFollowing}>
         <DialogTrigger asChild disabled={clientStore.followings.length === 0}>
-          <StablePressable
-            className="flex flex-col items-center"
-            onPressClassname="opacity-70"
-          >
+          <StablePressable className="flex flex-col items-center active:opacity-70">
             <Text variant={"large"}>
               {clientStore?.responseFollowCountsDto?.following}
             </Text>
@@ -81,10 +75,7 @@ export const ProfileStat = ({ className, clientStore }: ProfileStatProps) => {
       {/* Followers */}
       <Dialog open={openFollowers} onOpenChange={setOpenFollowers}>
         <DialogTrigger asChild disabled={clientStore.followers.length === 0}>
-          <StablePressable
-            className="flex flex-col items-center"
-            onPressClassname="opacity-70"
-          >
+          <StablePressable className="flex flex-col items-center active:opacity-70">
             <Text variant={"large"}>
               {clientStore?.responseFollowCountsDto?.followers}
             </Text>

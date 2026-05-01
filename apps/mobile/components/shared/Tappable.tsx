@@ -27,10 +27,10 @@ export const Tappable = ({
     <StablePressable
       className={cn(
         "flex flex-row items-center justify-between py-4 px-2",
+        `active:${classNames?.pressable}`,
         className,
       )}
       onPress={onPress}
-      onPressClassname={classNames?.pressable}
     >
       <Text className={cn("text-sm", classNames?.content)}>{children}</Text>
       <Icon as={ChevronRight} size={20} color={"gray"} />

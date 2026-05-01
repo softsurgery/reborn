@@ -71,8 +71,7 @@ export const ChatBubble = ({
           )}
         >
           <StablePressable
-            className="p-2"
-            onPressClassname="bg-muted/50"
+            className="p-2 active:bg-muted/50"
             onPress={() => console.log("Pressed")}
           >
             <Text className="font-semibold pb-0.5">{message}</Text>

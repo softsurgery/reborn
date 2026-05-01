@@ -19,13 +19,13 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
 
   return (
     <StablePressable
+      className={cn("active:bg-none", className)}
       onPress={() => {
         toggleTheme();
         setColorScheme(theme);
         setAndroidNavigationBar(theme);
         toggleColorScheme();
       }}
-      onPressClassname="bg-none"
     >
       <View className={cn("mx-2", className)}>
         {isDarkMode ? (

@@ -26,7 +26,7 @@ export const RenderSection = (section: ProfileSection) => {
           {section.editable && (
             <View className="flex flex-row gap-1 items-center p-2">
               <StablePressable
-                className="p-2"
+                className="p-2 rounded-full active:bg-primary/25"
                 onPress={() => {
                   switch (section.key) {
                     case "experience":
@@ -40,12 +40,11 @@ export const RenderSection = (section: ProfileSection) => {
                       break;
                   }
                 }}
-                onPressClassname="bg-primary/25 rounded-full"
               >
                 <Icon as={Plus} size={20} className="text-muted-foreground" />
               </StablePressable>
               <StablePressable
-                className="p-2"
+                className="p-2 rounded-full active:bg-primary/25"
                 onPress={() => {
                   switch (section.key) {
                     case "experience":
@@ -61,7 +60,6 @@ export const RenderSection = (section: ProfileSection) => {
                       break;
                   }
                 }}
-                onPressClassname="bg-primary/25 rounded-full"
               >
                 <Icon as={Pen} size={18} className="text-muted-foreground" />
               </StablePressable>

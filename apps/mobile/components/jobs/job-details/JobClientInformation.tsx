@@ -37,14 +37,13 @@ export const JobClientInformation = ({
 
   return (
     <StablePressable
-      className={cn("bg-card p-4", className)}
+      className={cn("bg-card p-4 active:bg-muted/40", className)}
       onPress={() =>
         router.navigate({
           pathname: "/main/explore/inspect-profile",
           params: { id: job?.postedBy.id },
         })
       }
-      onPressClassname="bg-muted/40"
     >
       <View className="flex-row items-center justify-between mb-3">
         <Text variant="h4">Client information</Text>

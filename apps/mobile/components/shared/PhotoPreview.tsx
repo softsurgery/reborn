@@ -67,9 +67,8 @@ export const PhotoPreview = ({
 
   const trigger = hasImageSource ? (
     <StablePressable
-      className={cn("overflow-hidden ", className)}
+      className={cn("overflow-hidden", className)}
       onPress={openPreview}
-      onPressClassname="opacity-90"
     >
       {children}
     </StablePressable>

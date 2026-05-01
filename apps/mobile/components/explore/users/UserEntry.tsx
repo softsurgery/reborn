@@ -80,7 +80,7 @@ export const UserEntry = ({
 
   return (
     <StablePressable
-      className={cn("p-2", className)}
+      className={cn("p-2 active:bg-secondary/10", className)}
       onPress={() => {
         router.push({
           pathname: "/main/explore/inspect-profile",
@@ -88,7 +88,6 @@ export const UserEntry = ({
         });
         closeDialog?.();
       }}
-      onPressClassname="bg-secondary/10"
     >
       <View className="flex-row items-center justify-between">
         <View className="flex flex-row justify-between items-center gap-3">
