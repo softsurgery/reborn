@@ -18,6 +18,7 @@ interface UseServerImageProps {
   className?: string;
   wrapperClassName?: string;
   fallbackClassName?: string;
+  rounded?: boolean;
   enabled?: boolean;
 }
 
@@ -28,6 +29,7 @@ export const useServerImage = ({
   className,
   wrapperClassName,
   fallbackClassName,
+  rounded = true,
   enabled = true,
 }: UseServerImageProps) => {
   const { data: uploadResp, isPending: isUploadPending } = useQuery({
@@ -46,7 +48,8 @@ export const useServerImage = ({
           style={{
             width: size?.width ? size.width * 1.05 : undefined,
             height: size?.height ? size.height * 1.05 : undefined,
-            borderRadius: size?.width ? (size.width * 1.05) / 2 : undefined,
+            borderRadius:
+              rounded && size?.width ? (size.width * 1.05) / 2 : undefined,
           }}
         >
           <Image
@@ -57,7 +60,7 @@ export const useServerImage = ({
             style={{
               width: size?.width || "auto",
               height: size?.height || "auto",
-              borderRadius: size?.width ? size.width / 2 : undefined,
+              borderRadius: rounded && size?.width ? size.width / 2 : undefined,
             }}
           />
         </View>
@@ -69,7 +72,7 @@ export const useServerImage = ({
         <Skeleton
           style={{
             ...size,
-            borderRadius: size?.width ? size.width / 2 : undefined,
+            borderRadius: rounded && size?.width ? size.width / 2 : undefined,
           }}
         />
       );
@@ -86,7 +89,8 @@ export const useServerImage = ({
           style={{
             width: size?.width ? size.width * 1.05 : undefined,
             height: size?.height ? size.height * 1.05 : undefined,
-            borderRadius: size?.width ? (size.width * 1.05) / 2 : undefined,
+            borderRadius:
+              rounded && size?.width ? (size.width * 1.05) / 2 : undefined,
           }}
         >
           <Image
@@ -95,7 +99,7 @@ export const useServerImage = ({
             style={{
               width: size?.width || "auto",
               height: size?.height || "auto",
-              borderRadius: size?.width ? size.width / 2 : undefined,
+              borderRadius: rounded && size?.width ? size.width / 2 : undefined,
             }}
           />
         </View>
@@ -110,7 +114,7 @@ export const useServerImage = ({
           style={{
             width: size?.width || "auto",
             height: size?.height || "auto",
-            borderRadius: size?.width ? size.width / 2 : undefined,
+            borderRadius: rounded && size?.width ? size.width / 2 : undefined,
           }}
         >
           <AvatarImage />
@@ -129,7 +133,10 @@ export const useServerImage = ({
     // 6️⃣ Default → Skeleton
     return (
       <Skeleton
-        style={{ ...size, borderRadius: size?.width ? size.width / 2 : "auto" }}
+        style={{
+          ...size,
+          borderRadius: rounded && size?.width ? size.width / 2 : "auto",
+        }}
       />
     );
   }, [upload, isUploadPending, fallback, size]);
