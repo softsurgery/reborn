@@ -144,7 +144,7 @@ export const ImageCarousel = ({
             />
           </Animated.View>
 
-          <View className="mt-4">
+          <View className="absolute bottom-3 z-10 flex-row items-center justify-center w-full">
             <Pagination.Basic
               progress={progress}
               data={uploads}
