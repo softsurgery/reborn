@@ -1,11 +1,12 @@
 import React from "react";
-import { Calendar } from "lucide-react-native";
+import { Clock4, Layers, TrendingUp, Wallet } from "lucide-react-native";
 import { View } from "react-native";
-import { Badge } from "~/components/ui/badge";
-import { Separator } from "~/components/ui/separator";
+import { Icon } from "~/components/ui/icon";
 import { Text } from "~/components/ui/text";
 import { cn } from "~/lib/utils";
 import { ResponseJobDto } from "~/types";
+import { SeeMoreText } from "@/components/shared/SeeMoreText";
+import { Badge } from "@/components/ui/badge";
 
 interface JobDetailsBodyProps {
   className?: string;
@@ -13,57 +14,86 @@ interface JobDetailsBodyProps {
 }
 
 export const JobDetailsBody = ({ className, job }: JobDetailsBodyProps) => {
+  const pricingTypeLabel = React.useMemo(() => {
+    switch (job?.pricingType) {
+      case "hourly":
+        return "Hourly";
+      case "fixed":
+        return "Fixed";
+      case undefined:
+      case null:
+        return "—";
+      default:
+        return String(job?.pricingType);
+    }
+  }, [job?.pricingType]);
+
   return (
-    <View className={cn(className)}>
-      <Separator className="my-4" />
-      <View className="flex flex-col gap-4">
-        {/* About Project */}
-        <View>
-          <Text className="text-lg font-semibold text-foreground mb-2">
-            About this project
-          </Text>
-          <Text className="text-card-foreground leading-6 text-sm">
-            {job?.description}
-          </Text>
-        </View>
-        {/* Project Scope */}
-        <View>
-          <Text className="text-lg font-semibold text-foreground mb-2">
-            Project scope
-          </Text>
-          <View className="flex flex-col gap-1">
-            <View className="flex-row items-center gap-2">
-              <Calendar size={12} color="#6366f1" />
-              <Text className="text-xs text-muted-foreground">3-6 months</Text>
-            </View>
-            <Text className="text-xs text-muted-foreground">
-              {job?.difficulty}
+    <View className={cn("mt-4", className)}>
+      {/* About */}
+      <View className="bg-card px-4 pt-4 pb-8">
+        <Text variant="h4" className="mb-2">
+          About
+        </Text>
+        <Text className="text-base font-semibold text-foreground">
+          <SeeMoreText
+            children={job?.description ?? "No description"}
+            numberOfLines={4}
+          />
+        </Text>
+      </View>
+
+      {/* Details */}
+      <View className="bg-card px-4 pb-4">
+        <View className="flex-row flex-wrap">
+          {/* Item */}
+          <View className="w-1/2 flex-row items-center gap-2 mb-3">
+            <Icon as={Layers} size={18} />
+            <Text className="text-sm font-medium text-card-foreground">
+              {job?.category?.label ?? "—"}
             </Text>
-            <Text className="text-xs text-muted-foreground">{job?.style}</Text>
+          </View>
+
+          {/* Item */}
+          <View className="w-1/2 flex-row items-center gap-2 mb-3">
+            <Icon as={TrendingUp} size={18} />
+            <Text className="text-sm font-medium text-card-foreground">
+              {job?.difficulty ?? "—"}
+            </Text>
+          </View>
+
+          {/* Item */}
+          <View className="w-1/2 flex-row items-center gap-2 mb-3">
+            <Icon as={Clock4} size={18} />
+            <Text className="text-sm font-medium text-card-foreground">
+              {job?.style ?? "—"}
+            </Text>
+          </View>
+
+          {/* Item */}
+          <View className="w-1/2 flex-row items-center gap-2 mb-3">
+            <Icon as={Wallet} size={18} />
+            <Text className="text-sm font-medium text-card-foreground">
+              {pricingTypeLabel}
+            </Text>
           </View>
         </View>
       </View>
-      <Separator className="my-4" />
-      {/* details */}
-      <View className="flex flex-row gap-4">
-        {/* Skills */}
-        <View>
-          <Text className="text-lg font-semibold text-foreground mb-2">
-            Tags
-          </Text>
-          <View className="flex-row flex-wrap gap-1 mt-2 w-full">
-            {job?.tags && job?.tags?.length > 0 ? (
-              job?.tags.map((tag) => (
-                <Badge variant={"secondary"} key={tag.id}>
-                  <Text className="text-xs font-medium">{tag.label}</Text>
-                </Badge>
-              ))
-            ) : (
-              <Text className="text-xs font-semibold mx-auto opacity-70">
-                No tags found
-              </Text>
-            )}
-          </View>
+
+      {/* Tags */}
+      <View className="bg-card px-4 pb-4">
+        <View className="flex-row flex-wrap gap-2 mt-2">
+          {job?.tags?.length ? (
+            job.tags.map((tag) => (
+              <Badge key={tag.id}>
+                <Text className="text-xs text-muted-foreground">
+                  {tag.label}
+                </Text>
+              </Badge>
+            ))
+          ) : (
+            <Text className="text-xs text-muted-foreground">No tags</Text>
+          )}
         </View>
       </View>
     </View>

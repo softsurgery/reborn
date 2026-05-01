@@ -25,7 +25,6 @@ import { JobCardHeader } from "./JobCardHeader";
 import { JobClientInformation } from "./JobClientInformation";
 import { JobDetailsBody } from "./JobDetailsBody";
 import { StableScrollView } from "~/components/shared/StableScrollView";
-import { useTranslation } from "react-i18next";
 import { type ActionSheetRef } from "react-native-actions-sheet";
 import { ApplyJobActionSheet } from "./ApplyJobActionSheet";
 import { CancelApplicationActionSheet } from "./CancelApplicationActionSheet";
@@ -33,12 +32,16 @@ import { toast } from "sonner-native";
 
 export const JobDetails = () => {
   const queryClient = useQueryClient();
-  const { t } = useTranslation("common");
 
   const { currentUser } = useCurrentUser();
   const { id, uploads: rawUploads } = useLocalSearchParams();
 
-  const { data: jobResp, isPending: isJobPending } = useQuery({
+  const {
+    data: jobResp,
+    isPending: isJobPending,
+    isError: isJobError,
+    refetch: refetchJob,
+  } = useQuery({
     queryKey: ["job", id],
     queryFn: () => api.job.findById(id as string),
     enabled: !!id,
@@ -46,12 +49,17 @@ export const JobDetails = () => {
 
   const job = React.useMemo(() => jobResp ?? null, [jobResp]);
 
-  const uploads = React.useMemo(
-    () =>
-      (rawUploads && JSON.parse(rawUploads as string)) ||
-      job?.uploads.map((upload) => upload.uploadId),
-    [rawUploads, job?.uploads],
-  );
+  const uploads = React.useMemo<string[]>(() => {
+    if (typeof rawUploads === "string") {
+      try {
+        const parsed = JSON.parse(rawUploads);
+        if (Array.isArray(parsed)) return parsed.map(String);
+      } catch {
+        // ignore bad param
+      }
+    }
+    return job?.uploads?.map((upload) => String(upload.uploadId)) ?? [];
+  }, [rawUploads, job?.uploads]);
 
   //application
   const applySheetRef = React.useRef<ActionSheetRef>(null);
@@ -68,7 +76,7 @@ export const JobDetails = () => {
   });
 
   //view & save
-  const { isJobSaved, isSavedPending } = useIsJobSaved(id as string);
+  const { isJobSaved } = useIsJobSaved(id as string);
   const { isJobViewed, isViewedPending } = useIsJobViewed(id as string);
 
   const { saveJob, isSavePending, unsaveJob, isUnsavePending } =
@@ -80,7 +88,7 @@ export const JobDetails = () => {
       },
     });
 
-  const { viewJob, isViewPending } = useJobViewActions({
+  const { viewJob } = useJobViewActions({
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["is-job-viewed", id as string],
@@ -92,13 +100,10 @@ export const JobDetails = () => {
     if (!isViewedPending && !isJobViewed && id) viewJob(id as string);
   }, [isViewedPending, isJobViewed, id]);
 
-  const {
-    data: jobMetadataResp,
-    isPending: isJobMetadataPending,
-    refetch: refetchJobMetadata,
-  } = useQuery({
+  const { data: jobMetadataResp, refetch: refetchJobMetadata } = useQuery({
     queryKey: ["job-metadata", id],
     queryFn: () => api.job.findMetadataById(id as string),
+    enabled: !!id,
   });
 
   const jobMetadata = React.useMemo(
@@ -149,22 +154,39 @@ export const JobDetails = () => {
       : [],
   });
 
-  const handleSave = (e: any) => {
-    e.stopPropagation();
+  const handleSave = () => {
     if (isSavePending || isUnsavePending) return;
     if (isJobSaved) unsaveJob(id as string);
     else saveJob(id as string);
   };
 
-  const isPending =
-    isJobPending || isJobRequestedPending || isJobMetadataPending;
+  const isPending = isJobPending || isJobRequestedPending;
 
-  if (isPending)
+  if (isJobError)
     return (
-      <JobDetailsSkeleton
-        uploads={Array.isArray(uploads) ? (uploads as string[]) : []}
-      />
+      <View className="flex-1 justify-center items-center bg-background px-6">
+        <Text className="text-lg font-semibold text-foreground text-center">
+          Couldn't load job details
+        </Text>
+        <Text className="text-sm text-muted-foreground text-center mt-2">
+          Please check your connection and try again.
+        </Text>
+        <View className="flex-row gap-2 mt-5 w-full">
+          <Button
+            variant="outline"
+            className="flex-1"
+            onPress={() => router.back()}
+          >
+            <Text>Go Back</Text>
+          </Button>
+          <Button className="flex-1" onPress={() => refetchJob()}>
+            <Text>Retry</Text>
+          </Button>
+        </View>
+      </View>
     );
+
+  if (isPending) return <JobDetailsSkeleton uploads={uploads} />;
 
   if (!id) {
     return (
@@ -177,7 +199,7 @@ export const JobDetails = () => {
     );
   }
   return (
-    <StableSafeAreaView className="flex-1 bg-card">
+    <StableSafeAreaView className="flex-1 bg-background">
       <View className="flex-1">
         {/* Header */}
         <JobCardHeader
@@ -190,101 +212,98 @@ export const JobDetails = () => {
           imageQueries={imageQueries}
         />
 
-        <StableScrollView className={cn("flex-1 px-6")}>
+        <StableScrollView className={cn("flex-1")}>
           {/* Client Info */}
           <JobClientInformation
-            className="mt-4"
             job={job}
+            metadata={jobMetadata}
             profilePicture={profilePicture}
           />
-          <JobDetailsBody className="mb-4" job={job} />
+          <JobDetailsBody job={job} />
         </StableScrollView>
 
         {/* Apply Button */}
-        <View className="px-6 py-5 bg-card border-t border-border">
-          <View
-            className={cn(isJobRequested && "flex flex-row items-center gap-2")}
-          >
-            {isJobRequested ? (
+        <View className="px-6 py-5 pb-8 bg-card border-t border-border">
+          {job?.postedBy.id !== currentUser?.id ? (
+            <View className="flex-row items-center gap-2">
+              {isJobRequested ? (
+                <Button
+                  className="flex-1 rounded-lg"
+                  size="sm"
+                  variant="outline"
+                  onPress={() =>
+                    router.navigate({
+                      pathname: "/main/my-space/requests",
+                      params: { variant: "outgoing" },
+                    })
+                  }
+                >
+                  <Text ellipsizeMode="tail" numberOfLines={1}>
+                    View Requests
+                  </Text>
+                </Button>
+              ) : null}
+
               <Button
-                className="w-[49%] rounded-lg"
+                className={cn(
+                  "rounded-lg",
+                  isJobRequested ? "flex-1" : "w-full",
+                )}
                 size="sm"
-                onPress={() =>
-                  router.navigate({
-                    pathname: "/main/my-space/requests",
-                    params: { variant: "outgoing" },
-                  })
+                onPress={() => {
+                  if (isJobRequested) cancelSheetRef.current?.show();
+                  else applySheetRef.current?.show();
+                }}
+                disabled={
+                  isJobRequestedPending ||
+                  isCancelRequestPending ||
+                  isSendRequestPending
                 }
+                variant={isJobRequested ? "destructive" : "default"}
               >
-                <Text ellipsizeMode="tail" numberOfLines={1}>
-                  View Requests
+                <Text numberOfLines={1} ellipsizeMode="tail">
+                  {isJobRequested ? "Cancel Application" : "Apply for this job"}
                 </Text>
               </Button>
-            ) : null}
-            <View className={cn(isJobRequested && "w-[49%]")}>
-              {job?.postedBy.id !== currentUser?.id ? (
-                <Button
-                  className="rounded-lg"
-                  size="sm"
-                  onPress={() => {
-                    if (isJobRequested) {
-                      cancelSheetRef.current?.show();
-                    } else {
-                      applySheetRef.current?.show();
-                    }
-                  }}
-                  disabled={
-                    isJobRequestedPending ||
-                    isCancelRequestPending ||
-                    isSendRequestPending
-                  }
-                  variant={isJobRequested ? "outline" : "default"}
-                >
-                  <Text numberOfLines={1} ellipsizeMode="tail">
-                    {isJobRequested
-                      ? "Cancel Application"
-                      : "Apply for this job"}
-                  </Text>
-                </Button>
-              ) : (
-                <Button
-                  className="w-full rounded-lg"
-                  onPress={() => {
-                    router.push({
-                      pathname: "/main/my-space/manage-job",
-                      params: { id },
-                    });
-                  }}
-                >
-                  <Text className="text-base font-semibold">
-                    Manage This Job
-                  </Text>
-                </Button>
-              )}
             </View>
+          ) : (
+            <Button
+              className="w-full rounded-lg"
+              size="sm"
+              onPress={() => {
+                router.push({
+                  pathname: "/main/my-space/manage-job",
+                  params: { id },
+                });
+              }}
+            >
+              <Text className="text-base font-semibold">Manage This Job</Text>
+            </Button>
+          )}
 
-            <ApplyJobActionSheet
-              ref={applySheetRef}
-              onConfirm={() => sendRequest()}
-              isPending={isSendRequestPending}
-            />
+          <ApplyJobActionSheet
+            ref={applySheetRef}
+            onConfirm={() => sendRequest()}
+            isPending={isSendRequestPending}
+          />
 
-            <CancelApplicationActionSheet
-              ref={cancelSheetRef}
-              onConfirm={() => cancelRequest()}
-              isPending={isCancelRequestPending}
-            />
-          </View>
+          <CancelApplicationActionSheet
+            ref={cancelSheetRef}
+            onConfirm={() => cancelRequest()}
+            isPending={isCancelRequestPending}
+          />
 
-          <View className="flex flex-row items-baseline gap-2 justify-center mt-2">
-            <Text className="text-xs text-muted-foreground text-center">
-              You'll be able to chat with{" "}
-              <Text className="text-xs font-medium">
-                {identifyUser(job?.postedBy)}
-              </Text>{" "}
-              before starting work
-            </Text>
-          </View>
+          {job?.postedBy.id !== currentUser?.id ? (
+            <View className="mt-2">
+              <Text variant="muted" className="text-center">
+                You'll be able to chat with{" "}
+                <Text className="font-semibold text-foreground">
+                  {identifyUser(job?.postedBy)}
+                </Text>{" "}
+                before starting work
+              </Text>
+            </View>
+          ) : null}
         </View>
       </View>
     </StableSafeAreaView>
