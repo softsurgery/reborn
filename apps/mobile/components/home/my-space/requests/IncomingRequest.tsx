@@ -107,8 +107,7 @@ export const IncomingRequestEntry = ({
 
         {/* Candidate Profile */}
         <StablePressable
-          className="w-16 h-16 rounded-full overflow-hidden border-2 border-border"
-          onPressClassname="opacity-70"
+          className="w-16 h-16 rounded-full overflow-hidden border-2 border-border active:opacity-70"
           onPress={() => {
             router.push({
               pathname: "/main/explore/inspect-profile",

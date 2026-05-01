@@ -1,20 +1,21 @@
 import React from "react";
 import { LegendList } from "@legendapp/list";
 import { RefreshControl, View } from "react-native";
-import { ArrowLeft } from "lucide-react-native";
+import { ArrowLeft, Search } from "lucide-react-native";
 import { router } from "expo-router";
 import { ResponseJobDto } from "~/types";
 import { cn } from "~/lib/utils";
-import { Text } from "~/components/ui/text";
 import { ApplicationHeader } from "~/components/shared/AppHeader";
 import { StableSafeAreaView } from "~/components/shared/StableSafeAreaView";
-import { JobCard } from "~/components/jobs/JobCard";
 import { useInfiniteJobs } from "@/hooks/content/job/useInfiniteJobs";
 import { useCurrentUser } from "@/hooks/content/user/useCurrentUser";
 import { NAV_THEME } from "@/lib/theme";
 import { Loader } from "@/components/shared/Loader";
 import { JobCardSkeleton } from "@/components/jobs/JobCardSkeleton";
 import { NotFound } from "@/components/shared/NotFound";
+import { JobManagementCard } from "@/components/jobs/job-management/JobManagmentCard";
+import { Icon } from "@/components/ui/icon";
+import { Input } from "@/components/ui/input";
 
 interface UserJobsListProps {
   className?: string;
@@ -48,7 +49,7 @@ export const UserJobsList = ({
   const isPending = isJobsPending || isFetchingNextPage || searching;
 
   const renderItem = React.useCallback(({ item }: { item: ResponseJobDto }) => {
-    return <JobCard job={item} className="my-4" isOwner />;
+    return <JobManagementCard job={item} />;
   }, []);
 
   return (
@@ -66,6 +67,20 @@ export const UserJobsList = ({
         ]}
       />
       <View className="flex-1 bg-background px-4">
+        <View className="relative my-3">
+          <Icon
+            as={Search}
+            size={18}
+            className="absolute left-3 top-2 z-10 text-muted-foreground"
+          />
+          <Input
+            value={search}
+            onChangeText={setSearch}
+            placeholder="Search..."
+            className="pl-10"
+            autoFocus
+          />
+        </View>
         <LegendList
           className={cn("flex-1", className)}
           data={jobs}
