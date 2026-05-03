@@ -1,6 +1,6 @@
 import React from "react";
 import { LegendList } from "@legendapp/list";
-import { RefreshControl, View } from "react-native";
+import { RefreshControl, ScrollView, View } from "react-native";
 import { ArrowLeft, Search } from "lucide-react-native";
 import { router } from "expo-router";
 import { ResponseJobDto } from "~/types";
@@ -11,7 +11,6 @@ import { useInfiniteJobs } from "@/hooks/content/job/useInfiniteJobs";
 import { useCurrentUser } from "@/hooks/content/user/useCurrentUser";
 import { NAV_THEME } from "@/lib/theme";
 import { Loader } from "@/components/shared/Loader";
-import { JobCardSkeleton } from "@/components/jobs/JobCardSkeleton";
 import { NotFound } from "@/components/shared/NotFound";
 import { JobManagementCard } from "@/components/jobs/job-management/JobManagmentCard";
 import { Icon } from "@/components/ui/icon";
@@ -66,8 +65,18 @@ export const UserJobsList = ({
           },
         ]}
       />
-      <View className="flex-1 bg-background px-4">
-        <View className="relative my-3">
+      <ScrollView
+        className="flex-1 bg-background px-4"
+        refreshControl={
+          <RefreshControl
+            refreshing={isRefetching}
+            onRefresh={refetch}
+            tintColor={NAV_THEME.light.colors.primary}
+            colors={[NAV_THEME.light.colors.primary]}
+          />
+        }
+      >
+        <View className="relative my-6">
           <Icon
             as={Search}
             size={18}
@@ -77,10 +86,11 @@ export const UserJobsList = ({
             value={search}
             onChangeText={setSearch}
             placeholder="Search..."
-            className="pl-10"
+            className="pl-10 rounded-full"
             autoFocus
           />
         </View>
+
         <LegendList
           className={cn("flex-1", className)}
           data={jobs}
@@ -89,14 +99,7 @@ export const UserJobsList = ({
           showsVerticalScrollIndicator={false}
           recycleItems={true}
           maintainVisibleContentPosition
-          refreshControl={
-            <RefreshControl
-              refreshing={isRefetching}
-              onRefresh={refetch}
-              tintColor={NAV_THEME.light.colors.primary}
-              colors={[NAV_THEME.light.colors.primary]}
-            />
-          }
+          bounces={false}
           onEndReached={() => {
             if (hasNextPage && !isFetchingNextPage) {
               fetchNextPage();
@@ -116,11 +119,11 @@ export const UserJobsList = ({
                 message="You do not have any job posted"
               />
             ) : (
-              <JobCardSkeleton />
+              <Loader className="flex-1 justify-center items-center" />
             )
           }
         />
-      </View>
+      </ScrollView>
     </StableSafeAreaView>
   );
 };

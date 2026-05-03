@@ -4,11 +4,7 @@ import ActionSheet, { ActionSheetRef } from "react-native-actions-sheet";
 import * as Haptics from "expo-haptics";
 import { Keyboard, Pressable, View } from "react-native";
 import { cn } from "@/lib/utils";
-import {
-  Ellipsis,
-  EllipsisVertical,
-  type LucideIcon,
-} from "lucide-react-native";
+import { Ellipsis, type LucideIcon } from "lucide-react-native";
 import { Icon } from "../ui/icon";
 import { THEME } from "@/lib/theme";
 import { Text } from "../ui/text";
@@ -46,7 +42,7 @@ export const ThreeDotsActionSheet = ({
     <>
       <Pressable
         className={cn(
-          "flex justify-center active:opacity-75",
+          "flex justify-center rounded-full p-1 active:bg-card",
           disabled && "opacity-50 pointer-events-none",
         )}
         onPress={() => {
@@ -75,12 +71,12 @@ export const ThreeDotsActionSheet = ({
           paddingBottom: 32,
         }}
       >
-        <View className="gap-2">
+        <View className="flex flex-col gap-3 mt-4">
           {options.map((option) => (
             <Button
               key={option.label}
               disabled={option.disabled}
-              variant={option.variant || "ghost"}
+              variant={"link"}
               onPress={async () => {
                 if (option.disabled) return;
                 await Haptics.selectionAsync();
@@ -88,24 +84,40 @@ export const ThreeDotsActionSheet = ({
                 sheetRef.current?.hide();
               }}
               className={cn(
-                "flex flex-row items-center gap-3 rounded-2xl px-2 py-1",
+                "flex flex-row items-center gap-2 rounded-2xl px-2",
                 option.disabled && "opacity-50",
               )}
             >
               <View
                 className={cn(
-                  "h-10 w-10 items-center justify-center rounded-full",
+                  "h-10 w-10 items-center justify-center rounded-full bg-card",
                 )}
               >
                 {option.icon ? (
-                  <Icon as={option.icon} size={18} />
+                  <Icon
+                    as={option.icon}
+                    size={20}
+                    className={cn(
+                      option.variant === "destructive"
+                        ? "text-destructive"
+                        : "text-foreground",
+                    )}
+                  />
                 ) : (
-                  <Icon as={Ellipsis} size={18} color={"gray"} />
+                  <Icon as={Ellipsis} size={20} className="text-foreground" />
                 )}
               </View>
 
               <View className="flex-1">
-                <Text className={cn("text-base font-medium")}>
+                <Text
+                  variant={"large"}
+                  className={cn(
+                    "text-md font-medium",
+                    option.variant === "destructive"
+                      ? "text-destructive"
+                      : "text-foreground",
+                  )}
+                >
                   {option.label}
                 </Text>
               </View>
