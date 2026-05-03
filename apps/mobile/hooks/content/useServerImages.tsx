@@ -15,7 +15,7 @@ import { Text } from "~/components/ui/text";
 interface UseServerImagesProps {
   ids: (number | undefined)[];
   fallbacks?: (string | React.ReactNode | ImageSource | undefined)[];
-  size: { width: number; height: number };
+  size?: { width: number; height: number };
   wrapperClassName?: string;
   fallbackClassName?: string;
   className?: string;
@@ -25,7 +25,7 @@ interface UseServerImagesProps {
 export const useServerImages = ({
   ids,
   fallbacks = [],
-  size,
+  size = { width: 50, height: 50 },
   className,
   wrapperClassName,
   fallbackClassName,
