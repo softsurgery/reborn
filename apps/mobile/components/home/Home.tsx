@@ -155,7 +155,7 @@ export const Home = ({ className }: HomeProps) => {
         style={{ minHeight: 500 }}
       >
         <ScrollView
-          className="flex-1 px-2"
+          className="flex-1 px-2 "
           onScroll={handleScroll}
           scrollEventThrottle={16}
           showsVerticalScrollIndicator={false}
@@ -181,7 +181,7 @@ export const Home = ({ className }: HomeProps) => {
               <Button
                 className="flex-1"
                 size="sm"
-                onPress={() => router.push("/main/explore/new-job")}
+                onPress={() => router.push("/main/my-space/new-job")}
               >
                 <Icon as={Plus} size={16} className="text-primary-foreground" />
                 <Text>Post Job</Text>

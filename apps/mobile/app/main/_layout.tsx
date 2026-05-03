@@ -145,13 +145,7 @@ export default function MainLayout() {
       />
 
       {/* Explore *********************************************************************************************************************/}
-      <Stack.Screen
-        name="explore/new-job"
-        options={{
-          headerShown: false,
-          title: "New Job",
-        }}
-      />
+
       <Stack.Screen
         name="explore/job-search"
         options={{
@@ -207,7 +201,21 @@ export default function MainLayout() {
           animation: "slide_from_right",
         }}
       />
-
+      <Stack.Screen
+        name="my-space/new-job"
+        options={{
+          headerShown: false,
+          title: "New Job",
+        }}
+      />
+      <Stack.Screen
+        name="my-space/update-job"
+        options={{
+          title: "Update Job",
+          headerShown: false,
+          animation: "slide_from_right",
+        }}
+      />
       <Stack.Screen
         name="my-space/manage-job"
         options={{

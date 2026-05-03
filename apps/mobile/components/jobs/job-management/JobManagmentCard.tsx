@@ -80,9 +80,14 @@ export const JobManagementCard = ({
               },
             },
             {
-              label: "Edit",
+              label: "Edit Job",
               icon: PencilLine,
-              onPress: () => {},
+              onPress: () => {
+                router.push({
+                  pathname: "/main/my-space/update-job",
+                  params: { id: job.id },
+                });
+              },
             },
             {
               label: primaryActionLabel,

@@ -67,6 +67,7 @@ export const UserJobsList = ({
       />
       <ScrollView
         className="flex-1 bg-background px-4"
+        showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl
             refreshing={isRefetching}
@@ -93,6 +94,7 @@ export const UserJobsList = ({
 
         <LegendList
           className={cn("flex-1", className)}
+          style={{ paddingBottom: 20 }}
           data={jobs}
           renderItem={renderItem}
           keyExtractor={(item) => item.id}

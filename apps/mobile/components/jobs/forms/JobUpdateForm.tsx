@@ -10,7 +10,7 @@ import { useJobCategories } from "@/hooks/content/reference-types/useJobCategori
 import { Stepper } from "~/components/shared/Stepper";
 import { api } from "~/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { CreateJobDto, ServerErrorResponse } from "~/types";
+import { CreateJobDto, ServerErrorResponse, UpdateJobDto } from "~/types";
 import { cn } from "~/lib/utils";
 import { router } from "expo-router";
 import { StableSafeAreaView } from "~/components/shared/StableSafeAreaView";
@@ -26,12 +26,16 @@ import {
 } from "@/types/validations/job.validation";
 import { useUploadMutation } from "@/hooks/content/useUploadMutation";
 import { Upload } from "@/types/upload";
+import { useJob } from "@/hooks/content/job/useJob";
+import { useUpdateJobFormStructure } from "./useUpdateJobFormStructure";
+import { useServerImages } from "@/hooks/content/useServerImages";
 
-interface JobCreateFormProps {
+interface JobUpdateFormProps {
   className?: string;
+  id: string;
 }
 
-export const JobCreateForm = ({ className }: JobCreateFormProps) => {
+export const JobUpdateForm = ({ className, id }: JobUpdateFormProps) => {
   const queryClient = useQueryClient();
   const {
     latitude,
@@ -40,6 +44,32 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
     isPending: isLocationPending,
   } = useLiveGeolocation();
   const jobStore = useJobStore();
+
+  const { job, isJobPending, refetchJob } = useJob({
+    id,
+  });
+
+  const { uploads, isPending: isUploadsPending } = useServerImages({
+    ids: job?.uploads?.map((upload) => upload.id) || [],
+  });
+
+  React.useEffect(() => {
+    if (job) {
+      jobStore.set("updateDto", {
+        title: job.title,
+        description: job.description,
+        price: job.price,
+        pricingType: job.pricingType,
+        latitude: job.latitude,
+        longitude: job.longitude,
+
+        categoryId: job.categoryId,
+        difficulty: job.difficulty,
+        style: job.style,
+        tagIds: job.tags?.map((tag) => tag.id) || [],
+      });
+    }
+  }, [job]);
 
   const { uploadFiles: uploadPicture, isUploadPending } = useUploadMutation({
     onSuccess: (response: Upload[], variables) => {
@@ -61,7 +91,7 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
     jobCreateFormStructure,
     jobDetailsFormStructure,
     jobImagePickerStructure,
-  } = useCreateJobFormStructure({
+  } = useUpdateJobFormStructure({
     jobStore,
     currencies,
     jobTags: mapToSelectOptions({
@@ -77,16 +107,16 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
     uploadPicture,
   });
 
-  const { mutate: createJob, isPending: isCreationPending } = useMutation({
-    mutationFn: (job: CreateJobDto) => api.job.save(job),
+  const { mutate: updateJob, isPending: isUpdatePending } = useMutation({
+    mutationFn: (job: UpdateJobDto) => api.job.update(id, job),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["jobs"] });
       jobStore.reset();
-      toast.success("Job created successfully");
+      toast.success("Job updated successfully");
       router.push("/main/(tabs)");
     },
     onError: (error: ServerErrorResponse) => {
-      toast.error(`Failed to create job: ${error.response?.data.message}`);
+      toast.error(`Failed to update job: ${error.response?.data.message}`);
     },
   });
 
@@ -97,7 +127,7 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
     jobStore.set("locationName", locationName);
   }, [latitude, longitude, locationName]);
 
-  const handleSubmit = (status: "Draft" | "Posted") => {
+  const handleSubmit = () => {
     const uploads = jobStore.images
       .filter((img) => img.serverId)
       .map((img) => ({
@@ -105,17 +135,16 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
       }));
 
     const data = {
-      ...jobStore.createDto,
-      status,
+      ...jobStore.updateDto,
       uploads,
     };
     const result = imagesJobValidationSchemas.safeParse(data);
     if (!result.success) {
-      jobStore.set("createDtoErrors", result.error.flatten().fieldErrors);
+      jobStore.set("updateDtoErrors", result.error.flatten().fieldErrors);
       return;
     }
 
-    createJob(data);
+    updateJob(data);
   };
 
   React.useEffect(() => {
@@ -128,7 +157,7 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
     <StableSafeAreaView className="flex-1 bg-card">
       <ApplicationHeader
         className="border-b border-border pb-2"
-        title={"New Job"}
+        title={"Update Job"}
         reverse
         titleVariant="large"
         shortcuts={[
@@ -161,11 +190,11 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
                 ),
                 validation: () => {
                   const result = defineJobValidationSchemas.safeParse(
-                    jobStore.createDto,
+                    jobStore.updateDto,
                   );
                   if (!result.success) {
                     jobStore.set(
-                      "createDtoErrors",
+                      "updateDtoErrors",
                       result.error.flatten().fieldErrors,
                     );
                     return false;
@@ -185,11 +214,11 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
                 ),
                 validation: () => {
                   const result = detailedJobValidationSchemas.safeParse(
-                    jobStore.createDto,
+                    jobStore.updateDto,
                   );
                   if (!result.success) {
                     jobStore.set(
-                      "createDtoErrors",
+                      "updateDtoErrors",
                       result.error.flatten().fieldErrors,
                     );
                     return false;
@@ -211,25 +240,16 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
             ]}
             closingActions={[
               {
-                id: "save-draft",
-                label: "Save Draft",
-                variant: "outline",
+                id: "update",
+                label: "Update",
+                variant: "default",
                 onPress: () => {
-                  handleSubmit("Draft");
-                },
-                disabled: isUploadPending,
-              },
-              {
-                id: "publish",
-                label: "Publish",
-                className: "bg-green-600",
-                onPress: () => {
-                  handleSubmit("Posted");
+                  handleSubmit();
                 },
                 disabled: isUploadPending,
               },
             ]}
-            pending={isCreationPending || isUploadPending}
+            pending={isUpdatePending || isUploadPending}
           />
         )}
       </View>

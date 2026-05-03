@@ -5,6 +5,7 @@ import {
   QueryParams,
   ResponseJobDto,
   ResponseJobMetadataDto,
+  UpdateJobDto,
 } from "~/types";
 
 const findPaginated = async ({
@@ -93,8 +94,15 @@ const findAll = async (): Promise<ResponseJobDto[]> => {
   return response.data;
 };
 
-const findById = async (id: string): Promise<ResponseJobDto> => {
-  const response = await axios.get<ResponseJobDto>(`/job/${id}`);
+const findById = async (
+  id?: string,
+  join?: string,
+): Promise<ResponseJobDto> => {
+  const response = await axios.get<ResponseJobDto>(`/job/${id}`, {
+    params: {
+      join,
+    },
+  });
   return response.data;
 };
 
@@ -107,8 +115,16 @@ const findMetadataById = async (
   return response.data;
 };
 
-const create = async (createJobDto: CreateJobDto): Promise<CreateJobDto> => {
+const save = async (createJobDto: CreateJobDto): Promise<CreateJobDto> => {
   const response = await axios.post("/job", createJobDto);
+  return response.data;
+};
+
+const update = async (
+  id: string,
+  updateJobDto: UpdateJobDto,
+): Promise<CreateJobDto> => {
+  const response = await axios.put(`/job/${id}`, updateJobDto);
   return response.data;
 };
 
@@ -117,7 +133,8 @@ export const job = {
   findMetadataById,
   findAll,
   findById,
-  create,
+  save,
+  update,
   current: {
     findPaginated: findCurrentPaginated,
     findFollowedPaginated,
