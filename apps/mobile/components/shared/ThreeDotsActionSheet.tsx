@@ -71,7 +71,7 @@ export const ThreeDotsActionSheet = ({
           paddingBottom: 32,
         }}
       >
-        <View className="flex flex-col gap-3 mt-4">
+        <View className="flex flex-col gap-2.5">
           {options.map((option) => (
             <Button
               key={option.label}
