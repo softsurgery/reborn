@@ -175,7 +175,7 @@ export default function MultiSelect({
               value={search}
               onChangeText={setSearch}
               placeholder="Search..."
-              className="pl-10"
+              className="pl-10 rounded-full"
               autoFocus
             />
           </View>
