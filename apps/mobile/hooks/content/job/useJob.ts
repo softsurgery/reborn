@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 
 interface useJobProps {
   id?: string;
-  join?: string;
+  join?: string[];
   enabled?: boolean;
 }
 
@@ -15,7 +15,7 @@ export const useJob = ({ id, join, enabled = true }: useJobProps) => {
     refetch: refetchJob,
   } = useQuery({
     queryKey: ["job", id, join],
-    queryFn: () => api.job.findById(id, join),
+    queryFn: () => api.job.findById(id, join?.join(",")),
     enabled: !!id && enabled,
   });
 
