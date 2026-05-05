@@ -75,12 +75,13 @@ export const GalleryPictureUploader = ({
     });
 
     if (!result.canceled && result.assets.length > 0) {
-      const newImages: ImageFile[] = result.assets.map((asset) => ({
+      const newImages: ImageFile[] = result.assets.map((asset, order) => ({
         id: Math.random().toString(36).substring(2, 11),
         uri: asset.uri,
         name: asset.uri.split("/").pop() || "photo.jpg",
         type: asset.type || "image/jpeg",
         progress: 0,
+        order,
       }));
 
       const updated = [...images, ...newImages].slice(0, maxImages);

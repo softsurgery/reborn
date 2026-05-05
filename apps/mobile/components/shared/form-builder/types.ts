@@ -155,6 +155,7 @@ export interface ImageFile {
   name: string;
   type: string;
   progress: number;
+  order?: number;
 }
 
 export interface GalleryFieldProps {
