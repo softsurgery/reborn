@@ -176,6 +176,15 @@ export default function MainLayout() {
         }}
       />
 
+      <Stack.Screen
+        name="connections"
+        options={{
+          title: "",
+          headerShown: false,
+          animation: "slide_from_right",
+        }}
+      />
+
       {/* My Space *********************************************************************************************************************/}
       <Stack.Screen
         name="my-space/requests"

@@ -19,7 +19,8 @@ import { toast } from "sonner-native";
 interface UserEntryProps {
   className?: string;
   user: ResponseUserDto;
-  userStore: UserStore;
+  userStore?: UserStore;
+  profileId?: string;
   closeDialog?: () => void;
 }
 
@@ -27,10 +28,13 @@ export const UserEntry = ({
   className,
   user,
   userStore,
+  profileId,
   closeDialog,
 }: UserEntryProps) => {
   const { currentUser } = useCurrentUser();
   const queryClient = useQueryClient();
+
+  const invalidateOwnerId = profileId ?? userStore?.response?.id;
 
   const {
     isFollowing,
@@ -44,12 +48,14 @@ export const UserEntry = ({
     follow: {
       onSuccess: () => {
         refetchIsFollowing();
-        queryClient.invalidateQueries({
-          queryKey: ["follow-data-count", userStore?.response?.id],
-        });
-        queryClient.invalidateQueries({
-          queryKey: ["followings", userStore?.response?.id],
-        });
+        if (invalidateOwnerId) {
+          queryClient.invalidateQueries({
+            queryKey: ["follow-data-count", invalidateOwnerId],
+          });
+          queryClient.invalidateQueries({
+            queryKey: ["followings", invalidateOwnerId],
+          });
+        }
       },
       onError: (err: ServerErrorResponse) => {
         toast.error(err.response?.data.message || "Failed to follow user");
@@ -58,12 +64,14 @@ export const UserEntry = ({
     unfollow: {
       onSuccess: () => {
         refetchIsFollowing();
-        queryClient.invalidateQueries({
-          queryKey: ["follow-data-count", userStore?.response?.id],
-        });
-        queryClient.invalidateQueries({
-          queryKey: ["followers", userStore?.response?.id],
-        });
+        if (invalidateOwnerId) {
+          queryClient.invalidateQueries({
+            queryKey: ["follow-data-count", invalidateOwnerId],
+          });
+          queryClient.invalidateQueries({
+            queryKey: ["followers", invalidateOwnerId],
+          });
+        }
       },
       onError: (err: ServerErrorResponse) => {
         toast.error(err.response?.data.message || "Failed to unfollow user");
