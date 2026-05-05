@@ -15,6 +15,7 @@ import { useIsJobSaved } from "~/hooks/content/job/useIsJobSaved";
 import { Button } from "../ui/button";
 import { Icon } from "../ui/icon";
 import { Badge } from "../ui/badge";
+import { useServerImage } from "@/hooks/content/useServerImage";
 
 interface JobCardProps {
   className?: string;
@@ -39,16 +40,14 @@ export const JobCard = ({ className, job, isOwner }: JobCardProps) => {
     [job.uploads],
   );
 
-  const { data: thumbnail, isPending: isThumbnailPending } = useQuery({
-    queryKey: ["job-thumbnail", orderedUploads?.[0]?.uploadId],
-    queryFn: () => api.upload.getUploadById(orderedUploads?.[0]?.uploadId),
+  const { jsx: thumbnail } = useServerImage({
+    id: orderedUploads?.[0]?.uploadId,
+    fallback: "IMAGE",
+    wrapperClassName: "border border-border bg-muted rounded-lg",
+    size: { width: 50, height: 50 },
+    rounded: false,
     enabled: !!orderedUploads?.[0]?.uploadId,
   });
-
-  const imageSource =
-    thumbnail && !isThumbnailPending
-      ? { uri: thumbnail }
-      : require("~/assets/images/icon.png");
 
   React.useEffect(() => {
     return () => {
@@ -83,22 +82,11 @@ export const JobCard = ({ className, job, isOwner }: JobCardProps) => {
       )}
       activeOpacity={0.7}
     >
-      {!imageSource ? (
+      {!thumbnail ? (
         <Skeleton className="w-full h-[200px]" />
       ) : (
         <View>
-          <Image
-            recyclingKey={job.id.toString()}
-            source={imageSource}
-            style={{
-              width: "100%",
-              height: 200,
-              marginVertical: 2,
-            }}
-            placeholder={require("~/assets/images/icon.png")}
-            contentFit="cover"
-            transition={300}
-          />
+          {thumbnail}
           {isOwner && (
             <Badge className="absolute top-4 right-4">
               <Text className="text-base">{job.status}</Text>

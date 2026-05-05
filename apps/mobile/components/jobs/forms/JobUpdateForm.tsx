@@ -29,6 +29,7 @@ import { Upload } from "@/types/upload";
 import { useJob } from "@/hooks/content/job/useJob";
 import { useUpdateJobFormStructure } from "./useUpdateJobFormStructure";
 import { useServerImages } from "@/hooks/content/useServerImages";
+import { ImageFile } from "~/components/shared/form-builder/types";
 
 interface JobUpdateFormProps {
   className?: string;
@@ -47,11 +48,34 @@ export const JobUpdateForm = ({ className, id }: JobUpdateFormProps) => {
 
   const { job, isJobPending, refetchJob } = useJob({
     id,
+    join: ["uploads", "uploads.upload"],
   });
 
   const { uploads, isPending: isUploadsPending } = useServerImages({
-    ids: job?.uploads?.map((upload) => upload.id) || [],
+    ids: job?.uploads?.map((upload) => upload.upload.id) || [],
+    enabled: !!job?.uploads,
   });
+
+  React.useEffect(() => {
+    if (job && uploads && uploads.length > 0 && job.uploads.length > 0) {
+      console.log(JSON.stringify(job, null, 2));
+      const imageFiles: ImageFile[] = job.uploads
+        .sort((a, b) => b.order - a.order)
+        .map((jobUpload, index) => {
+          const uri = uploads[index];
+          return {
+            id: jobUpload.id,
+            serverId: jobUpload.upload.id,
+            uri: uri as string,
+            name: jobUpload.upload.slug,
+            type: "image/jpeg",
+            progress: 100,
+            order: jobUpload.order,
+          };
+        });
+      jobStore.set("images", imageFiles);
+    }
+  }, [job]);
 
   React.useEffect(() => {
     if (job) {
@@ -131,6 +155,7 @@ export const JobUpdateForm = ({ className, id }: JobUpdateFormProps) => {
     const uploads = jobStore.images
       .filter((img) => img.serverId)
       .map((img) => ({
+        id: typeof img.id === "number" ? img.id : undefined,
         uploadId: img.serverId as number,
       }));
 

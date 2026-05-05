@@ -48,7 +48,7 @@ export interface CreateJobDto {
 }
 
 export interface UpdateJobDto extends Partial<CreateJobDto> {
-  uploads?: { id: number; uploadId: number }[];
+  uploads?: { id: number; uploadId: number; order: number }[];
 }
 
 export interface ResponseJobMetadataDto {

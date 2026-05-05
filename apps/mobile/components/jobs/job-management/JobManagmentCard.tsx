@@ -27,7 +27,7 @@ export const JobManagementCard = ({
   job,
 }: JobManagementCardProps) => {
   const { jsx: cover } = useServerImage({
-    id: job.uploads?.[0]?.uploadId,
+    id: job.uploads.sort((a, b) => a.order - b.order)[0]?.uploadId,
     fallback: "IMAGE",
     wrapperClassName: "border border-border bg-muted rounded-lg",
     size: { width: 50, height: 50 },
