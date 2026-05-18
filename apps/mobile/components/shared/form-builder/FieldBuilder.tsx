@@ -16,6 +16,7 @@ import MultiSelect from "./MultiSelect";
 import MapPinField from "./MapPinField";
 import { GalleryPictureUploader } from "./GalleryPictureUploader/GalleryPictureUploader";
 import { PasswordField } from "./PasswordField";
+import { TimePicker } from "./TimePicker";
 
 interface FieldBuilderProps {
   field?: Field<any>;
@@ -37,7 +38,7 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
             placeholder={field.placeholder}
             value={field?.props?.value?.toString() || ""}
             onChangeText={(text) => field?.props?.onChangeText?.(text)}
-            className={cn("rounded-md", field?.error && "border-red-500")}
+            className={cn(field.className, field?.error && "border-red-500")}
           />
         </View>
       );
@@ -56,7 +57,7 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
                 cleaned ? Number(cleaned) : undefined,
               );
             }}
-            className={cn("rounded-md", field?.error && "border-red-500")}
+            className={cn(field.className, field?.error && "border-red-500")}
           />
         </View>
       );
@@ -69,8 +70,7 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
           placeholder={field.placeholder}
           value={field?.props?.value?.toString() || ""}
           onChangeText={(text) => field?.props?.onChangeText?.(text)}
-          className={cn("rounded-md", field?.error && "border-red-500")}
-          style={field?.error ? { borderColor: "red" } : {}}
+          className={cn(field.className, field?.error && "border-red-500")}
           {...field.props?.other}
         />
       );
@@ -78,7 +78,6 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
       return (
         <Select
           {...field?.props}
-          className={cn(field?.className)}
           classNames={{
             input: cn(field?.error && "border-red-500"),
           }}
@@ -95,7 +94,9 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
       return (
         <MultiSelect
           {...field?.props}
-          classNames={{ trigger: cn(field?.error && "border-red-500") }}
+          classNames={{
+            trigger: cn(field.className, field?.error && "border-red-500"),
+          }}
           title={field.label}
           description={field.description}
           placeholder={field?.placeholder}
@@ -110,23 +111,43 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
       return (
         <DatePicker
           {...field?.props}
-          className={cn(field?.error && "border border-red-500 rounded-md")}
+          className={cn(
+            field.className,
+            field?.error && "border border-red-500 rounded-md",
+          )}
           value={field?.props?.value}
           onDateChange={(date) => field?.props?.onDateChange?.(date)}
           disabled={field?.props?.editable}
         />
       );
+    case "time":
+      return (
+        <TimePicker
+          {...field?.props}
+          className={cn(
+            field.className,
+            field?.error && "border border-red-500 rounded-md",
+          )}
+          value={field?.props?.value}
+          onTimeChange={(time) => field?.props?.onTimeChange?.(time)}
+          disabled={field?.props?.editable}
+        />
+      );
     case "checkbox":
       return (
-        <View className="flex-row items-center gap-2">
+        <View className="flex-row items-center gap-2 -mt-2">
           <Checkbox
             {...field?.props}
-            checked={!!field?.props?.value}
-            onCheckedChange={(checked) =>
-              field?.props?.onValueChange?.(checked)
-            }
+            disabled={field?.props?.editable === false}
+            checked={field?.props?.checked}
+            onCheckedChange={(checked) => {
+              field?.props?.onCheckedChange?.(checked);
+            }}
+            classNames={{
+              root: cn(field?.className, field?.error && "border-red-500"),
+            }}
           />
-          <Text className="text-sm font-base">{field.props?.label}</Text>
+          <Text className="text-sm">{field.description}</Text>
         </View>
       );
     case "password":
@@ -148,8 +169,8 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
         <View className="flex flex-col gap-2 w-full">
           <Textarea
             {...field?.props}
-            className={cn("h-32", field?.error && "border-red-500")}
-            editable={field?.props?.other}
+            className={cn(field.className, field?.error && "border-red-500")}
+            editable={field?.props?.editable}
             placeholder={field.placeholder}
             value={field?.props?.value?.toString() || ""}
             onChangeText={field?.props?.onChangeText}

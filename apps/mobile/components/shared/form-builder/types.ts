@@ -43,6 +43,7 @@ export enum FieldVariant {
   NUMBER = "number",
   PASSWORD = "password",
   DATE = "date",
+  TIME = "time",
   SELECT = "select",
   MULTISELECT = "multi-select",
   CHECKBOX = "checkbox",
@@ -108,6 +109,12 @@ export interface PasswordFieldProps {
 export interface DateFieldProps {
   value?: Date;
   onDateChange?: (date: Date) => void;
+  editable?: boolean;
+}
+
+export interface TimeFieldProps {
+  value?: Date;
+  onTimeChange?: (time: Date) => void;
   editable?: boolean;
 }
 
