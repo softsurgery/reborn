@@ -1,12 +1,11 @@
 import React from "react";
 import { cn } from "~/lib/utils";
-import { View, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity, Image } from "react-native";
 import { Heart, Clock, Wallet, Pen, Settings2 } from "lucide-react-native";
 import { router } from "expo-router";
 import { ResponseJobDto } from "~/types";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { api } from "~/api";
-import { Image } from "expo-image";
+
 import { Skeleton } from "../ui/skeleton";
 import { timeAgo } from "~/lib/dates.utils";
 import { Text } from "../ui/text";
@@ -40,13 +39,13 @@ export const JobCard = ({ className, job, isOwner }: JobCardProps) => {
     [job.uploads],
   );
 
-  const { jsx: thumbnail } = useServerImage({
-    id: orderedUploads?.[0]?.uploadId,
+  const coverId = orderedUploads?.[0]?.uploadId;
+
+  const { upload, isUploadPending } = useServerImage({
+    id: coverId,
     fallback: "IMAGE",
     wrapperClassName: "border border-border bg-muted rounded-lg",
-    size: { width: 50, height: 50 },
-    rounded: false,
-    enabled: !!orderedUploads?.[0]?.uploadId,
+    enabled: !!coverId,
   });
 
   React.useEffect(() => {
@@ -82,11 +81,15 @@ export const JobCard = ({ className, job, isOwner }: JobCardProps) => {
       )}
       activeOpacity={0.7}
     >
-      {!thumbnail ? (
+      {coverId && isUploadPending ? (
         <Skeleton className="w-full h-[200px]" />
       ) : (
         <View>
-          {thumbnail}
+          {coverId && upload ? (
+            <Image source={{ uri: upload }} className="w-full h-[200px]" />
+          ) : (
+            <View className="w-full h-[200px] bg-muted"></View>
+          )}
           {isOwner && (
             <Badge className="absolute top-4 right-4">
               <Text className="text-base">{job.status}</Text>
