@@ -17,11 +17,12 @@ import ActionSheet, { type ActionSheetRef } from "react-native-actions-sheet";
 import { useColorScheme } from "nativewind";
 import { THEME } from "@/lib/theme";
 import { toast } from "sonner-native";
+import { useColorPalette } from "@/hooks/useColorPalette";
 
 interface MultiSelectProps {
   classNames?: {
-    trigger: string;
-    content: string;
+    trigger?: string;
+    content?: string;
   };
   title?: string;
   description?: string;
@@ -33,7 +34,7 @@ interface MultiSelectProps {
 
   options?: SelectOption[];
   searchable?: boolean;
-  max: number;
+  max?: number;
 }
 
 export default function MultiSelect({
@@ -51,8 +52,7 @@ export default function MultiSelect({
   searchable = false,
   max = Infinity,
 }: MultiSelectProps) {
-  const { colorScheme } = useColorScheme();
-  const isDarkColorScheme = colorScheme === "dark";
+  const { palette } = useColorPalette();
   const sheetRef = React.useRef<ActionSheetRef>(null);
   const [search, setSearch] = React.useState("");
 
@@ -100,7 +100,7 @@ export default function MultiSelect({
     <>
       <Pressable
         className={cn(
-          "min-h-9 w-full flex-row flex-wrap items-center rounded-md border border-input dark:bg-input/30 px-3 py-2",
+          "min-h-9 w-full flex-row flex-wrap items-center rounded-md border border-input dark:bg-input/30 px-2 py-2",
           disabled && "opacity-50 pointer-events-none",
           classNames?.trigger,
         )}
@@ -119,7 +119,7 @@ export default function MultiSelect({
                 key={label}
                 className="rounded-full bg-primary/25 px-3 py-0.5"
               >
-                <Text className="text-sm text-foreground">{label}</Text>
+                <Text className="text-sm">{label}</Text>
               </View>
             ))}
           </View>
@@ -136,9 +136,7 @@ export default function MultiSelect({
         defaultOverlayOpacity={0.45}
         onClose={handleClose}
         containerStyle={{
-          backgroundColor: isDarkColorScheme
-            ? THEME.dark.background
-            : THEME.light.background,
+          backgroundColor: palette.background,
           borderTopLeftRadius: 24,
           borderTopRightRadius: 24,
           paddingHorizontal: 16,
