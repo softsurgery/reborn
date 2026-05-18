@@ -13,7 +13,7 @@ import { cn } from "~/lib/utils";
 
 interface UseServerImageProps {
   id?: number;
-  size?: { width: number; height: number };
+  size?: { width?: number; height?: number };
   fallback?: string | React.ReactNode;
   className?: string;
   wrapperClassName?: string;
@@ -46,10 +46,10 @@ export const useServerImage = ({
         <View
           className={cn(wrapperClassName, "flex items-center justify-center")}
           style={{
-            width: size?.width ? size.width * 1.05 : undefined,
-            height: size?.height ? size.height * 1.05 : undefined,
+            width: size?.width ? size.width * 1.05 : "100%",
+            height: size?.height ? size.height * 1.05 : "100%",
             borderRadius:
-              rounded && size?.width ? (size.width * 1.05) / 2 : undefined,
+              rounded && size?.width ? (size.width * 1.05) / 2 : "auto",
           }}
         >
           <Image
@@ -60,7 +60,7 @@ export const useServerImage = ({
             style={{
               width: size?.width || "auto",
               height: size?.height || "auto",
-              borderRadius: rounded && size?.width ? size.width / 2 : undefined,
+              borderRadius: rounded && size?.width ? size.width / 2 : "auto",
             }}
           />
         </View>
@@ -72,7 +72,7 @@ export const useServerImage = ({
         <Skeleton
           style={{
             ...size,
-            borderRadius: rounded && size?.width ? size.width / 2 : undefined,
+            borderRadius: rounded && size?.width ? size.width / 2 : "auto",
           }}
         />
       );
@@ -87,10 +87,10 @@ export const useServerImage = ({
         <View
           className={cn(wrapperClassName, "flex items-center justify-center")}
           style={{
-            width: size?.width ? size.width * 1.05 : undefined,
-            height: size?.height ? size.height * 1.05 : undefined,
+            width: size?.width ? size.width * 1.05 : "100%",
+            height: size?.height ? size.height * 1.05 : "100%",
             borderRadius:
-              rounded && size?.width ? (size.width * 1.05) / 2 : undefined,
+              rounded && size?.width ? (size.width * 1.05) / 2 : "auto",
           }}
         >
           <Image
@@ -99,7 +99,7 @@ export const useServerImage = ({
             style={{
               width: size?.width || "auto",
               height: size?.height || "auto",
-              borderRadius: rounded && size?.width ? size.width / 2 : undefined,
+              borderRadius: rounded && size?.width ? size.width / 2 : "auto",
             }}
           />
         </View>
@@ -112,9 +112,9 @@ export const useServerImage = ({
         <Avatar
           className={cn(className)}
           style={{
-            width: size?.width || "auto",
-            height: size?.height || "auto",
-            borderRadius: rounded && size?.width ? size.width / 2 : undefined,
+            width: size?.width || "100%",
+            height: size?.height || "100%",
+            borderRadius: rounded && size?.width ? size.width / 2 : "auto",
           }}
         >
           <AvatarImage />
