@@ -1,5 +1,5 @@
-import React from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import React from "react";
 import { api } from "~/api";
 import { QueryParams } from "~/types";
 

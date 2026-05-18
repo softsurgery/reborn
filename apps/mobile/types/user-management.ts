@@ -1,4 +1,3 @@
-import { ResponseRegionDto } from "./content";
 import { ResponseRefParamDto } from "./reference-types";
 import { Upload } from "./upload";
 import { DatabaseEntity } from "./utils/database-entity";

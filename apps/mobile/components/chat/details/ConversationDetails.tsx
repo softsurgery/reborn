@@ -6,130 +6,38 @@ import {
   Alert,
   TextInput,
   useColorScheme,
+  Pressable,
 } from "react-native";
 import { LegendList } from "@legendapp/list";
 import { useQuery } from "@tanstack/react-query";
 import {
-  User,
   Bell,
   Type,
   Image as ImageIcon,
   Download,
   Search,
-  ChevronRight,
-  ShieldCheck,
   Slash,
   Ban,
   AlertTriangle,
   Trash2,
   X,
   ArrowLeft,
-  MoreVertical,
 } from "lucide-react-native";
 import { Icon } from "~/components/ui/icon";
 
-import { cn } from "~/lib/utils";
 import { router } from "expo-router";
 import axios from "~/api/axios";
 import { api } from "~/api";
 import { message as messageApi } from "~/api/chat/message";
 import { ResponseMessageDto } from "~/types";
-import { StableSafeAreaView } from "../shared/StableSafeAreaView";
-import { ApplicationHeader } from "../shared/AppHeader";
-import { StableScrollView } from "../shared/StableScrollView";
-import { Switch } from "../ui/switch";
-import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
-import { useServerImages } from "~/hooks/content/useServerImages";
-import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
+import { StableSafeAreaView } from "../../shared/StableSafeAreaView";
+import { ApplicationHeader } from "../../shared/AppHeader";
+import { useServerImages } from "@/hooks/content/useServerImages";
+import { ScrollView } from "react-native-gesture-handler";
+import { ConversationDetailsRow } from "./ConversationDetailsRow";
+import { identifyUser, identifyUserAvatar } from "@/lib/user.utils";
+import { useCurrentUser } from "@/hooks/content/user/useCurrentUser";
 
-// --------------------------------------
-// SettingItem Component
-// --------------------------------------
-interface SettingItemProps {
-  icon: any;
-  label: string;
-  value?: string;
-  showChevron?: boolean;
-  destructive?: boolean;
-  onPress?: () => void;
-  description?: string;
-  toggleValue?: boolean;
-  onToggle?: (value: boolean) => void;
-}
-
-const SettingItem = ({
-  icon,
-  label,
-  value,
-  showChevron = true,
-  destructive,
-  onPress,
-  description,
-  toggleValue,
-  onToggle,
-}: SettingItemProps) => {
-  const colorScheme = useColorScheme();
-  const iconColor = colorScheme === "dark" ? "#FFFFFF" : "#000000";
-  const destructiveColor = colorScheme === "dark" ? "#FF6B6B" : "#DC2626";
-
-  return (
-    <TouchableOpacity
-      onPress={onPress}
-      className="flex-row items-center px-4 py-3 active:bg-muted/50"
-    >
-      <View
-        className={cn(
-          "w-10 items-center",
-          destructive ? "text-destructive" : "text-foreground",
-        )}
-      >
-        <Icon
-          as={icon}
-          size={22}
-          color={destructive ? destructiveColor : iconColor}
-        />
-      </View>
-      <View className="flex-1 ml-2">
-        <Text
-          className={cn(
-            "text-[17px]",
-            destructive ? "text-destructive" : "text-foreground",
-          )}
-        >
-          {label}
-        </Text>
-        {description && (
-          <Text className="text-muted-foreground text-sm mt-0.5">
-            {description}
-          </Text>
-        )}
-      </View>
-      <View className="flex-row items-center">
-        {toggleValue !== undefined ? (
-          <Switch
-            checked={toggleValue}
-            onCheckedChange={(checked) => onToggle?.(checked)}
-          />
-        ) : (
-          <>
-            {value && (
-              <Text className="text-muted-foreground text-[17px] mr-2">
-                {value}
-              </Text>
-            )}
-            {showChevron && (
-              <Icon as={ChevronRight} size={20} color={iconColor} />
-            )}
-          </>
-        )}
-      </View>
-    </TouchableOpacity>
-  );
-};
-
-// --------------------------------------
-// Message Result Item Component
-// --------------------------------------
 interface MessageResultItemProps {
   message: ResponseMessageDto;
   searchQuery: string;
@@ -213,15 +121,19 @@ export const ConversationDetails = ({ id }: ConversationDetailsProps) => {
 
   const { data: conversation } = useQuery({
     queryKey: ["conversation", conversationId],
-    queryFn: () => api.chat.conversation.findById(conversationId),
+    queryFn: () =>
+      api.chat.conversation.findById(
+        conversationId,
+        ["participants", "participants.user", "lastMessage"].join(","),
+      ),
     enabled: Number.isFinite(conversationId) && conversationId > 0,
   });
 
   const user = React.useMemo(() => {
     if (!conversation || !currentUser) return null;
     return conversation.participants.find(
-      (participant) => participant.id !== currentUser.id,
-    );
+      (participant) => participant.userId !== currentUser.id,
+    )?.user;
   }, [conversation, currentUser]);
 
   const identification = identifyUser(user);
@@ -237,7 +149,7 @@ export const ConversationDetails = ({ id }: ConversationDetailsProps) => {
   const { jsxArray: profilePictures } = useServerImages({
     ids: [user?.pictureId],
     fallbacks: [identifyUserAvatar(user)],
-    size: { width: 90, height: 90 },
+    size: { width: 150, height: 150 },
     enabled: !!user,
   });
   const profilePicture = profilePictures[0];
@@ -353,22 +265,22 @@ export const ConversationDetails = ({ id }: ConversationDetailsProps) => {
             },
           ]}
           reverse
-          className="border-b border-border pb-2 bg-transparent"
+          classNames={{ wrapper: "border-b border-border pb-2 bg-transparent" }}
         />
-        <View className="pt-12 px-4 pb-3 border-b border-border bg-background">
-          <View className="flex-row items-center">
+        <View className="pt-12 px-3 pb-3 border-b border-border bg-background">
+          <View className="flex-row items-center gap-2">
             <TouchableOpacity
               onPress={() => {
                 setIsSearching(false);
                 setSearchQuery("");
                 setSearchResults([]);
               }}
-              className="p-2 mr-2"
+              className="p-2 rounded-full"
             >
-              <Icon as={ArrowLeft} size={24} color={iconColor} />
+              <Icon as={ArrowLeft} size={22} color={iconColor} />
             </TouchableOpacity>
-            <View className="flex-1 flex-row items-center bg-muted rounded-lg px-4 py-2">
-              <Icon as={Search} size={20} color={mutedIconColor} />
+            <View className="flex-1 flex-row items-center bg-muted rounded-full px-4 py-2.5">
+              <Icon as={Search} size={18} color={mutedIconColor} />
               <TextInput
                 ref={searchInputRef}
                 className="flex-1 text-foreground ml-3 text-base"
@@ -380,14 +292,14 @@ export const ConversationDetails = ({ id }: ConversationDetailsProps) => {
                 onChangeText={setSearchQuery}
               />
               {searchQuery.length > 0 && (
-                <TouchableOpacity onPress={() => setSearchQuery("")}>
-                  <Icon as={X} size={20} color={mutedIconColor} />
+                <TouchableOpacity
+                  onPress={() => setSearchQuery("")}
+                  className="p-1"
+                >
+                  <Icon as={X} size={18} color={mutedIconColor} />
                 </TouchableOpacity>
               )}
             </View>
-            <TouchableOpacity className="p-2 ml-2">
-              <Icon as={MoreVertical} size={24} color={iconColor} />
-            </TouchableOpacity>
           </View>
         </View>
 
@@ -439,11 +351,11 @@ export const ConversationDetails = ({ id }: ConversationDetailsProps) => {
     );
   }
 
-  // ------------------- MODE NORMAL -------------------
   return (
     <StableSafeAreaView className="flex-1 bg-card">
       <ApplicationHeader
-        title=""
+        title="Conversation details"
+        titleVariant="large"
         shortcuts={[
           {
             key: "back",
@@ -452,47 +364,35 @@ export const ConversationDetails = ({ id }: ConversationDetailsProps) => {
           },
         ]}
         reverse
-        className="border-b border-border pb-2 bg-card"
+        classNames={{ wrapper: "border-b border-border pb-2 bg-card" }}
       />
-      <StableScrollView className="bg-background">
-        <View className="items-center m-4 p-4 bg-card rounded-lg">
+      <ScrollView
+        className="bg-background"
+        showsVerticalScrollIndicator={false}
+      >
+        <Pressable
+          className="flex flex-col items-center gap-4 m-4 pt-4 px-4 rounded-xl"
+          onPress={() => {
+            router.push({
+              pathname: "/main/account/inspect-profile",
+              params: { id: user?.id },
+            });
+          }}
+        >
           <View className="relative">
             {profilePicture}
-            <View className="absolute bottom-0 right-0 w-6 h-6 bg-green-500 border-2 border-background rounded-full" />
+            <View className="absolute bottom-0 right-0 w-10 h-10 bg-green-500 border-2 border-card rounded-full" />
           </View>
-          <Text className="text-foreground text-2xl font-bold mt-4">
-            {nickname}
-          </Text>
-          <View className="flex-row items-center bg-muted px-3 py-1 rounded-full mt-2">
-            <Icon as={ShieldCheck} size={14} color={mutedIconColor} />
-            <Text className="text-muted-foreground text-xs ml-1 font-medium">
-              End-to-end encrypted
-            </Text>
-          </View>
-        </View>
-
-        <View className="flex-row justify-center gap-8 mb-4">
-          <View className="items-center">
-            <TouchableOpacity className="w-12 h-12 bg-muted rounded-full items-center justify-center mb-1">
-              <Icon as={User} size={24} color={iconColor} />
-            </TouchableOpacity>
-            <Text className="text-muted-foreground text-xs">Profile</Text>
-          </View>
-          <View className="items-center">
-            <TouchableOpacity className="w-12 h-12 bg-muted rounded-full items-center justify-center mb-1">
-              <Icon as={Bell} size={24} color={iconColor} />
-            </TouchableOpacity>
-            <Text className="text-muted-foreground text-xs">Mute</Text>
-          </View>
-        </View>
+          <Text className="text-foreground text-xl font-bold">{nickname}</Text>
+        </Pressable>
 
         <View className="px-4 pt-6 pb-2">
-          <Text className="text-primary text-xs font-semibold uppercase tracking-wider">
+          <Text className="text-primary text-sm font-semibold uppercase tracking-wider">
             Customization
           </Text>
         </View>
-        <View className="bg-card mx-3 rounded-2xl">
-          <SettingItem
+        <View className="bg-card mx-4 rounded-2xl overflow-hidden">
+          <ConversationDetailsRow
             icon={Type}
             label="Nicknames"
             value={nickname}
@@ -518,13 +418,12 @@ export const ConversationDetails = ({ id }: ConversationDetailsProps) => {
         </View>
 
         <View className="px-4 pt-6 pb-2">
-          <Text className="text-primary text-xs font-semibold uppercase tracking-wider">
+          <Text className="text-primary text-sm font-semibold uppercase tracking-wider">
             Other actions
           </Text>
         </View>
-        <View className="bg-card mx-3 rounded-2xl overflow-hidden">
-          <View className="h-[0.5px] bg-zinc-800 ml-14" />
-          <SettingItem
+        <View className="bg-card mx-4 rounded-2xl overflow-hidden">
+          <ConversationDetailsRow
             icon={ImageIcon}
             label="View media, files, and links"
             onPress={() =>
@@ -534,21 +433,21 @@ export const ConversationDetails = ({ id }: ConversationDetailsProps) => {
               )
             }
           />
-          <View className="h-[0.5px] bg-zinc-800 ml-14" />
-          <SettingItem
+          <View className="h-[0.5px] bg-border ml-16" />
+          <ConversationDetailsRow
             icon={Download}
             label="Save photos automatically"
             toggleValue={autoSavePhotos}
             onToggle={setAutoSavePhotos}
             showChevron={false}
           />
-          <SettingItem
+          <ConversationDetailsRow
             icon={Search}
             label="Search in conversation"
             onPress={() => setIsSearching(true)}
           />
-          <View className="h-[0.5px] bg-zinc-800 ml-14" />
-          <SettingItem
+          <View className="h-[0.5px] bg-border ml-16" />
+          <ConversationDetailsRow
             icon={Bell}
             label="Sounds and notifications"
             onPress={() =>
@@ -561,25 +460,26 @@ export const ConversationDetails = ({ id }: ConversationDetailsProps) => {
         </View>
 
         <View className="px-4 pt-6 pb-2">
-          <Text className="text-primary text-xs font-semibold uppercase tracking-wider">
+          <Text className="text-primary text-sm font-semibold uppercase tracking-wider">
             Privacy and support
           </Text>
         </View>
 
-        <View className="bg-card mx-3 rounded-2xl mb-12">
-          <SettingItem icon={Slash} label="Restrict" />
-          <View className="h-[0.5px] bg-zinc-800 ml-14" />
-          <SettingItem icon={Ban} label="Block" />
-          <View className="h-[0.5px] bg-zinc-800 ml-14" />
-          <SettingItem icon={AlertTriangle} label="Report" />
-          <SettingItem
+        <View className="bg-card mx-4 rounded-2xl mb-12 overflow-hidden">
+          <ConversationDetailsRow icon={Slash} label="Restrict" />
+          <View className="h-[0.5px] bg-border ml-16" />
+          <ConversationDetailsRow icon={Ban} label="Block" />
+          <View className="h-[0.5px] bg-border ml-16" />
+          <ConversationDetailsRow icon={AlertTriangle} label="Report" />
+          <View className="h-[0.5px] bg-border ml-16" />
+          <ConversationDetailsRow
             icon={Trash2}
             label="Delete conversation"
             destructive
             onPress={handleDeleteConversation}
           />
         </View>
-      </StableScrollView>
+      </ScrollView>
     </StableSafeAreaView>
   );
 };

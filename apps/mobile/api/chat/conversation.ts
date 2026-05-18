@@ -1,4 +1,9 @@
-import { Paginated, QueryParams, ResponseConversationDto } from "~/types";
+import {
+  CreateConversationDto,
+  Paginated,
+  QueryParams,
+  ResponseConversationDto,
+} from "~/types";
 import axios from "../axios";
 
 const findPaginatedUserConversations = async ({
@@ -20,18 +25,36 @@ const findPaginatedUserConversations = async ({
   if (join) params.join = join;
 
   const response = await axios.get<Paginated<ResponseConversationDto>>(
-    `/conversation/list`,
+    `/current-conversation/list`,
     {
       params,
-    }
+    },
   );
 
   return response.data;
 };
 
-const findById = async (id: number): Promise<ResponseConversationDto> => {
+const findById = async (
+  id: number,
+  join?: string,
+): Promise<ResponseConversationDto> => {
   const response = await axios.get<ResponseConversationDto>(
-    `/conversation/${id}`
+    `/current-conversation/${id}`,
+    {
+      params: {
+        join,
+      },
+    },
+  );
+  return response.data;
+};
+
+const createConversation = async (
+  createConversation: CreateConversationDto,
+): Promise<ResponseConversationDto> => {
+  const response = await axios.post<ResponseConversationDto>(
+    `/current-conversation`,
+    createConversation,
   );
   return response.data;
 };
@@ -39,4 +62,5 @@ const findById = async (id: number): Promise<ResponseConversationDto> => {
 export const conversation = {
   findPaginatedUserConversations,
   findById,
+  createConversation,
 };
