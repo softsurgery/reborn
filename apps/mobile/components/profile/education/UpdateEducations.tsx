@@ -1,30 +1,27 @@
-import { api } from "~/api";
-import { ApplicationHeader } from "~/components/shared/AppHeader";
-import { Tappable } from "~/components/shared/Tappable";
-import { StablePressable } from "~/components/shared/StablePressable";
-import { StableSafeAreaView } from "~/components/shared/StableSafeAreaView";
-import { StableScrollView } from "~/components/shared/StableScrollView";
-import { Icon } from "~/components/ui/icon";
-import { Text } from "~/components/ui/text";
-import { getExperienceYears } from "~/lib/dates.utils";
-import { cn } from "~/lib/utils";
-import { useUserStore } from "~/hooks/stores/useUserStore";
-import { ResponseEducationDto, ServerErrorResponse } from "~/types";
+import React from "react";
+import { api } from "@/api";
+import { ApplicationHeader } from "@/components/shared/AppHeader";
+import { Tappable } from "@/components/shared/Tappable";
+import { StablePressable } from "@/components/shared/StablePressable";
+import { StableSafeAreaView } from "@/components/shared/StableSafeAreaView";
+import { Icon } from "@/components/ui/icon";
+import { Text } from "@/components/ui/text";
+import { cn } from "@/lib/utils";
+import { ResponseEducationDto, ServerErrorResponse } from "@/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { format } from "date-fns";
 import { router } from "expo-router";
 import {
   ArrowLeft,
   GraduationCap,
   Building2,
-  Calendar,
   FileText,
 } from "lucide-react-native";
 import { View } from "react-native";
 import { toast } from "sonner-native";
-import React from "react";
-import { type ActionSheetRef } from "react-native-actions-sheet";
 import { DeleteEducationActionSheet } from "./DeleteEducationActionSheet";
+import { ActionSheetRef } from "react-native-actions-sheet";
+import { useUserStore } from "@/hooks/stores/useUserStore";
+import { StableScrollView } from "@/components/shared/StableScrollView";
 
 interface UpdateEducationsProps {
   className?: string;
@@ -43,7 +40,7 @@ export const UpdateEducations = ({ className }: UpdateEducationsProps) => {
     userStore.set("updateEducationDto", {
       title: edu.title,
       institution: edu.institution,
-      startDate: new Date(edu.startDate),
+      startDate: new Date(edu.startDate!) || undefined,
       endDate: edu.endDate ? new Date(edu.endDate) : null,
       description: edu.description,
     });
@@ -53,17 +50,18 @@ export const UpdateEducations = ({ className }: UpdateEducationsProps) => {
   const { mutate: deleteEducation, isPending: isDeletePending } = useMutation({
     mutationFn: (id: number) => api.education.remove(id),
     onSuccess: () => {
-      toast.success("Education deleted successfully");
+      toast.success("Education deleted successfully", {
+        description: "Your education has been successfully deleted.",
+      });
       queryClient.invalidateQueries({
         queryKey: ["educations", userStore.response?.id],
       });
       deleteSheetRef.current?.hide();
       setSelectedEducationId(null);
     },
+
     onError: (error: ServerErrorResponse) => {
-      toast.error(
-        error.response?.data?.message || "Failed to delete education",
-      );
+      toast.error(error.response?.data?.message || "An error occurred", {});
     },
   });
 
@@ -87,9 +85,9 @@ export const UpdateEducations = ({ className }: UpdateEducationsProps) => {
   };
 
   return (
-    <StableSafeAreaView className={cn("flex-1 bg-card", className)}>
+    <StableSafeAreaView className={cn("flex flex-1", className)}>
       <ApplicationHeader
-        className="border-b border-border pb-2"
+        classNames={{ wrapper: "border-b border-border pb-2 bg-transparent" }}
         title="Educations"
         titleVariant="large"
         reverse
@@ -113,23 +111,6 @@ export const UpdateEducations = ({ className }: UpdateEducationsProps) => {
                     key={edu.id}
                     className="bg-card border border-border overflow-hidden shadow-sm"
                   >
-                    {/* Header with index badge */}
-                    <View className="flex flex-row items-center justify-between px-4 pt-4 pb-3 border-b border-border">
-                      <View className="flex flex-row items-center gap-2">
-                        <View className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                          <Icon as={GraduationCap} size={16} />
-                        </View>
-                        <Text className="text-base font-semibold">
-                          Education {index + 1}
-                        </Text>
-                      </View>
-                      {edu.endDate === null && (
-                        <View className="bg-green-500/20 px-2.5 py-1 rounded-full">
-                          <Text className="text-xs font-medium">Current</Text>
-                        </View>
-                      )}
-                    </View>
-
                     {/* Content */}
                     <View className="px-4 py-4 gap-3.5">
                       {/* Degree/Title */}
@@ -148,23 +129,6 @@ export const UpdateEducations = ({ className }: UpdateEducationsProps) => {
                         <Text className="text-base text-muted-foreground flex-1">
                           {edu.institution}
                         </Text>
-                      </View>
-
-                      {/* Duration */}
-                      <View className="flex flex-row items-center gap-3">
-                        <Icon as={Calendar} size={18} />
-                        <View>
-                          <Text className="text-sm text-foreground font-medium">
-                            {format(new Date(edu.startDate), "MMM yyyy")} -{" "}
-                            {edu.endDate
-                              ? format(new Date(edu.endDate), "MMM yyyy")
-                              : "Present"}
-                          </Text>
-                          <Text className="text-xs text-muted-foreground">
-                            {getExperienceYears(edu.startDate, edu.endDate)}{" "}
-                            years
-                          </Text>
-                        </View>
                       </View>
 
                       {/* Description */}
@@ -190,7 +154,6 @@ export const UpdateEducations = ({ className }: UpdateEducationsProps) => {
                       >
                         Edit education
                       </Tappable>
-
                       <Tappable
                         className="p-4 flex flex-row"
                         classNames={{
@@ -209,7 +172,7 @@ export const UpdateEducations = ({ className }: UpdateEducationsProps) => {
           ) : (
             <View className="flex-1 items-center justify-center py-12">
               <View className="w-16 h-16 rounded-full bg-muted flex items-center justify-center mb-4">
-                <GraduationCap size={32} className="text-muted-foreground" />
+                <Icon as={GraduationCap} size={32} />
               </View>
               <Text className="text-lg font-semibold mb-2">
                 No Education Yet
@@ -217,17 +180,13 @@ export const UpdateEducations = ({ className }: UpdateEducationsProps) => {
               <Text className="text-sm text-muted-foreground text-center">
                 Add your education to showcase your academic background
               </Text>
+              <StablePressable
+                className="text-center mt-4 underline font-medium w-fit mx-auto rounded-lg"
+                onPress={() => router.push("/main/account/create-education")}
+              >
+                <Text className="text-sm underline p-2">New Education?</Text>
+              </StablePressable>
             </View>
-          )}
-
-          {/* Add Education Button */}
-          {userStore.educations && userStore.educations.length >= 0 && (
-            <StablePressable
-              className="text-center mt-4 underline font-medium w-fit mx-auto rounded-lg"
-              onPress={() => router.push("/main/account/create-education")}
-            >
-              <Text className="text-sm underline p-2">New Education?</Text>
-            </StablePressable>
           )}
         </View>
       </StableScrollView>

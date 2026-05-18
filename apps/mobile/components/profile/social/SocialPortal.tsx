@@ -31,14 +31,16 @@ export const SocialPortal = ({ className, profileId }: SocialPortalProps) => {
   return (
     <StableSafeAreaView className={cn("flex-1 bg-card", className)}>
       <ApplicationHeader
-        className="border-b border-border pb-2"
-        title="Connections"
+        classNames={{ wrapper: "border-b border-border pb-2" }}
+        title="Followings/Followers"
         titleVariant="large"
         reverse
-        shortcuts={[{ icon: ArrowLeft, onPress: () => router.back() }]}
+        shortcuts={[
+          { key: "back", icon: ArrowLeft, onPress: () => router.back() },
+        ]}
       />
 
-      <View className="flex-1 bg-background" style={{ minHeight: 500 }}>
+      <View className="flex-1 bg-background">
         <Tab.Navigator
           initialRouteName={initialTab}
           screenOptions={{

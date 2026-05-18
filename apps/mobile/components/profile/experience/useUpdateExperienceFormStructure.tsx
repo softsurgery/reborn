@@ -1,12 +1,15 @@
 import {
+  CheckboxFieldProps,
   DateFieldProps,
   Field,
   FieldVariant,
   FormStructure,
+  SelectFieldProps,
   TextareaFieldProps,
   TextFieldProps,
-} from "~/components/shared/form-builder/types";
-import { UserStore } from "~/hooks/stores/useUserStore";
+} from "@/components/shared/form-builder/types";
+import { UserStore } from "@/hooks/stores/useUserStore";
+import { LocationTypes, WorkTypes } from "@/types";
 
 interface UseUpdateExperienceFormStructureProps {
   store: UserStore;
@@ -68,6 +71,64 @@ export const useUpdateExperienceFormStructure = ({
     },
   };
 
+  const location: Field<TextFieldProps> = {
+    id: "location",
+    label: "Location",
+    variant: FieldVariant.TEXT,
+    required: false,
+    placeholder: "Enter the location of your job (e.g., New York, NY)",
+    description: "The location where you worked for this position.",
+    error: store.experienceErrors?.location?.[0],
+    hidden: store.updateExperienceDto?.locationType === LocationTypes.REMOTE,
+    props: {
+      value: store.updateExperienceDto?.location,
+      onChangeText: (value) => {
+        store.setNested("updateExperienceDto.location", value);
+        store.setNested("experienceErrors.location", []);
+      },
+    },
+  };
+
+  const workType: Field<SelectFieldProps> = {
+    id: "workType",
+    label: "Work Type",
+    variant: FieldVariant.SELECT,
+    required: true,
+    description: "The type of work arrangement for this position.",
+    error: store.experienceErrors?.workType?.[0],
+    props: {
+      value: store.updateExperienceDto?.workType,
+      onSelect: (value) => {
+        store.setNested("updateExperienceDto.workType", value);
+        store.setNested("experienceErrors.workType", []);
+      },
+      options: Object.values(WorkTypes).map((type) => ({
+        label: type,
+        value: type,
+      })),
+    },
+  };
+
+  const locationType: Field<SelectFieldProps> = {
+    id: "locationType",
+    label: "Location Type",
+    variant: FieldVariant.SELECT,
+    required: true,
+    description: "The location arrangement for this position.",
+    error: store.experienceErrors?.locationType?.[0],
+    props: {
+      value: store.updateExperienceDto?.locationType,
+      onSelect: (value) => {
+        store.setNested("updateExperienceDto.locationType", value);
+        store.setNested("experienceErrors.locationType", []);
+      },
+      options: Object.values(LocationTypes).map((type) => ({
+        label: type,
+        value: type,
+      })),
+    },
+  };
+
   const startDate: Field<DateFieldProps> = {
     id: "startDate",
     label: "Start Date",
@@ -89,6 +150,23 @@ export const useUpdateExperienceFormStructure = ({
     },
   };
 
+  const stillWorkHereField: Field<CheckboxFieldProps> = {
+    id: "stillWorkHere",
+    label: "",
+    variant: FieldVariant.CHECKBOX,
+    required: false,
+    description:
+      "Currently work here? If checked, the end date will be set to 'Present'",
+    props: {
+      checked: store.present,
+      onCheckedChange: (value) => {
+        store.set("present", value);
+        store.setNested("updateExperienceDto.endDate", null);
+        store.setNested("experienceErrors.endDate", []);
+      },
+    },
+  };
+
   const endDate: Field<DateFieldProps> = {
     id: "endDate",
     label: "End Date",
@@ -97,6 +175,7 @@ export const useUpdateExperienceFormStructure = ({
     description:
       "The date you ended this position. Leave blank if it's your current role.",
     error: store.experienceErrors?.endDate?.[0],
+    hidden: store.present,
     props: {
       value: store.updateExperienceDto?.endDate
         ? new Date(store.updateExperienceDto.endDate)
@@ -131,7 +210,15 @@ export const useUpdateExperienceFormStructure = ({
           },
           {
             id: 4,
-            fields: [startDate, endDate],
+            fields: [location],
+          },
+          {
+            id: 5,
+            fields: [workType, locationType],
+          },
+          {
+            id: 6,
+            fields: [startDate, stillWorkHereField, endDate],
           },
         ],
       },

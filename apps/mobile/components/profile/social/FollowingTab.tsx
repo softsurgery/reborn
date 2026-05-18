@@ -1,6 +1,5 @@
 import { UserEntry } from "@/components/explore/users/UserEntry";
 import { Loader } from "@/components/shared/Loader";
-import { StableScrollView } from "@/components/shared/StableScrollView";
 import { Text } from "@/components/ui/text";
 import { useFollowSystem } from "@/hooks/content/useFollowSystem";
 import { ScrollView, View } from "react-native";

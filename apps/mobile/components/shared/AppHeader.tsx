@@ -10,7 +10,6 @@ import React from "react";
 import { hslToHex } from "@/lib/theme";
 import { useColorPalette } from "@/hooks/useColorPalette";
 
-
 type Shortcut =
   | {
       key: string;

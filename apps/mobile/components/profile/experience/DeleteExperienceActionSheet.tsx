@@ -8,7 +8,7 @@ import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/icon";
 import { Trash2 } from "lucide-react-native";
 
-interface DeleteExperienceActionSheetProps {
+interface DeletExperienceActionSheetProps {
   onConfirm: () => void;
   onClose: () => void;
   isPending: boolean;
@@ -16,7 +16,7 @@ interface DeleteExperienceActionSheetProps {
 
 export const DeleteExperienceActionSheet = React.forwardRef<
   ActionSheetRef,
-  DeleteExperienceActionSheetProps
+  DeletExperienceActionSheetProps
 >(({ onConfirm, onClose, isPending }, ref) => {
   const { colorScheme } = useColorScheme();
   const isDarkColorScheme = colorScheme === "dark";
