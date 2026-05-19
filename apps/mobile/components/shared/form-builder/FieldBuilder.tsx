@@ -170,7 +170,7 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
           <Textarea
             {...field?.props}
             className={cn(field.className, field?.error && "border-red-500")}
-            editable={field?.props?.editable}
+            editable={field?.props?.other}
             placeholder={field.placeholder}
             value={field?.props?.value?.toString() || ""}
             onChangeText={field?.props?.onChangeText}
