@@ -1,9 +1,7 @@
 import React from "react";
 import type { ImageProps } from "expo-image";
-import { View, type ImageURISource } from "react-native";
+import { TouchableOpacity, View, type ImageURISource } from "react-native";
 import ImageView from "react-native-image-viewing";
-
-import { StablePressable } from "@/components/shared/StablePressable";
 import { cn } from "@/lib/utils";
 
 interface PhotoPreviewProps {
@@ -11,7 +9,8 @@ interface PhotoPreviewProps {
   children: React.ReactNode;
   source?: ImageProps["source"] | null;
   index?: number;
-
+  color?: string;
+  presentationStyle?: "fullScreen" | "overFullScreen" | "pageSheet";
   footer?: (helpers: {
     close: () => void;
     open: () => void;
@@ -22,6 +21,8 @@ export const PhotoPreview = ({
   className,
   children,
   source,
+  color = "rgba(0, 0, 0, 0.8)",
+  presentationStyle = "overFullScreen",
   footer,
   index = 0,
 }: PhotoPreviewProps) => {
@@ -80,12 +81,9 @@ export const PhotoPreview = ({
   }, []);
 
   const trigger = hasImageSource ? (
-    <StablePressable
-      className={cn("overflow-hidden", className)}
-      onPress={openPreview}
-    >
+    <TouchableOpacity className={cn("z-10", className)} onPress={openPreview}>
       {children}
-    </StablePressable>
+    </TouchableOpacity>
   ) : (
     <View className={cn(className)}>{children}</View>
   );
@@ -100,6 +98,8 @@ export const PhotoPreview = ({
           imageIndex={index}
           visible={isVisible}
           onRequestClose={closePreview}
+          backgroundColor={color}
+          presentationStyle={presentationStyle}
           FooterComponent={() => (
             <>
               {footer?.({
