@@ -30,7 +30,7 @@ export const JobManagementInstance = ({
   return (
     <StableSafeAreaView className={cn("flex flex-1 bg-card", className)}>
       <ApplicationHeader
-        className="border-b border-border pb-2"
+        classNames={{ wrapper: "border-b border-border pb-2" }}
         title={`${job?.title.slice(0, 30)}...` || "Job Management"}
         titleVariant="large"
         reverse

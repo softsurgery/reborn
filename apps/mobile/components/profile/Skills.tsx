@@ -23,7 +23,7 @@ export const Skills = ({ className }: SkillsProps) => {
   return (
     <StableSafeAreaView className={cn("flex-1", className)}>
       <ApplicationHeader
-        className="border-b border-border pb-2 bg-transparent"
+        classNames={{ wrapper: "border-b border-border pb-2 bg-transparent" }}
         title="Industries"
         titleVariant="large"
         reverse

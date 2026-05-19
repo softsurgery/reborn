@@ -154,9 +154,10 @@ export const JobUpdateForm = ({ className, id }: JobUpdateFormProps) => {
   const handleSubmit = () => {
     const uploads = jobStore.images
       .filter((img) => img.serverId)
-      .map((img) => ({
-        id: typeof img.id === "number" ? img.id : undefined,
+      .map((img, index) => ({
+        id: img.id as number,
         uploadId: img.serverId as number,
+        order: img.order || index,
       }));
 
     const data = {
@@ -181,7 +182,7 @@ export const JobUpdateForm = ({ className, id }: JobUpdateFormProps) => {
   return (
     <StableSafeAreaView className="flex-1 bg-card">
       <ApplicationHeader
-        className="border-b border-border pb-2"
+        classNames={{ wrapper: "border-b border-border pb-2" }}
         title={"Update Job"}
         reverse
         titleVariant="large"

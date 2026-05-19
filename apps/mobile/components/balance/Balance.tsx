@@ -131,6 +131,7 @@ export const Balance = ({ className }: BalanceProps) => {
         title={t("screens.balance")}
         shortcuts={[
           {
+            key: "notifications",
             icon: Bell,
             onPress: () => {
               router.push("/main/notifications");

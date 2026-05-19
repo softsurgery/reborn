@@ -127,7 +127,7 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
   return (
     <StableSafeAreaView className="flex-1 bg-card">
       <ApplicationHeader
-        className="border-b border-border pb-2"
+        classNames={{ wrapper: "border-b border-border pb-2" }}
         title={"New Job"}
         reverse
         titleVariant="large"
