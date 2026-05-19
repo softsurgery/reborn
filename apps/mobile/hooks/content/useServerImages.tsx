@@ -1,4 +1,4 @@
-import { cn } from "~/lib/utils";
+import { cn } from "@/lib/utils";
 import { useQueries } from "@tanstack/react-query";
 import { Image, ImageSource } from "expo-image";
 import React from "react";
@@ -15,7 +15,7 @@ import { Text } from "~/components/ui/text";
 interface UseServerImagesProps {
   ids: (number | undefined)[];
   fallbacks?: (string | React.ReactNode | ImageSource | undefined)[];
-  size?: { width: number; height: number };
+  size: { width: number; height: number };
   wrapperClassName?: string;
   fallbackClassName?: string;
   className?: string;
@@ -25,7 +25,7 @@ interface UseServerImagesProps {
 export const useServerImages = ({
   ids,
   fallbacks = [],
-  size = { width: 50, height: 50 },
+  size,
   className,
   wrapperClassName,
   fallbackClassName,
@@ -180,5 +180,10 @@ export const useServerImages = ({
     fallbackClassName,
   ]);
 
-  return { uploads, isPending, jsxArray };
+  return {
+    uploads,
+    isPending,
+    jsxArray,
+    refetch: () => queries.forEach((q) => q.refetch()),
+  };
 };
