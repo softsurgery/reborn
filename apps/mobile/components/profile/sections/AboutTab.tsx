@@ -1,14 +1,33 @@
-import { ScrollView, View } from "react-native";
+import { cn } from "@/lib/utils";
+import { ResponseUserDto } from "@/types";
+import { RefreshControl, ScrollView, View } from "react-native";
 import { SeeMoreText } from "~/components/shared/SeeMoreText";
 import { Separator } from "~/components/ui/separator";
 import { Text } from "~/components/ui/text";
 
-export const AboutTab = ({ user }: { user: any }) => (
-  <ScrollView className="flex-1 bg-background">
+interface AboutTabProps {
+  className?: string;
+  user: ResponseUserDto;
+  onRefresh?: () => void;
+  refreshing?: boolean;
+}
+
+export const AboutTab = ({
+  className,
+  user,
+  refreshing,
+  onRefresh,
+}: AboutTabProps) => (
+  <ScrollView
+    className={cn(className)}
+    refreshControl={
+      <RefreshControl refreshing={!!refreshing} onRefresh={onRefresh} />
+    }
+  >
     <View className="flex flex-col gap-4 pb-8">
       {/* Bio Section */}
       {user?.bio ? (
-        <View className="border-b overflow-hidden">
+        <View className="overflow-hidden">
           <View className="p-4 bg-transparent">
             <Text variant="h4">About</Text>
           </View>

@@ -1,11 +1,9 @@
-import { View } from "react-native";
+import { Pressable, View } from "react-native";
 import { Text } from "~/components/ui/text";
-import { StablePressable } from "~/components/shared/StablePressable";
 import { cn } from "~/lib/utils";
 import { router } from "expo-router";
 import { Icon } from "~/components/ui/icon";
 import { Pen, Plus } from "lucide-react-native";
-import { Separator } from "~/components/ui/separator";
 
 export interface ProfileSection<T = unknown> {
   key: string;
@@ -25,7 +23,7 @@ export const RenderSection = (section: ProfileSection) => {
           </View>
           {section.editable && (
             <View className="flex flex-row gap-1 items-center p-2">
-              <StablePressable
+              <Pressable
                 className="p-2 rounded-full active:bg-primary/25"
                 onPress={() => {
                   switch (section.key) {
@@ -42,8 +40,8 @@ export const RenderSection = (section: ProfileSection) => {
                 }}
               >
                 <Icon as={Plus} size={20} className="text-muted-foreground" />
-              </StablePressable>
-              <StablePressable
+              </Pressable>
+              <Pressable
                 className="p-2 rounded-full active:bg-primary/25"
                 onPress={() => {
                   switch (section.key) {
@@ -62,14 +60,13 @@ export const RenderSection = (section: ProfileSection) => {
                 }}
               >
                 <Icon as={Pen} size={18} className="text-muted-foreground" />
-              </StablePressable>
+              </Pressable>
             </View>
           )}
         </View>
-        <Separator />
       </View>
 
-      <View className="p-4 border-b border-border flex-1 bg-background">
+      <View className="p-4 flex-1 bg-background">
         {section.data?.length === 0 ? (
           <View key={section.key}>
             <Text className="text-sm text-muted-foreground italic text-center my-4">
