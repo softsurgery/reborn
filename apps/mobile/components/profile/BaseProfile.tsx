@@ -240,7 +240,7 @@ export const InspectBaseProfile = ({
         return uri ? { uri } : undefined;
       }
       default:
-        return undefined;
+        return require("~/assets/images/partial-react-logo.png");
     }
   }, [coverSource]);
 
@@ -348,14 +348,6 @@ export const InspectBaseProfile = ({
     isCoverPending ||
     isProfilePicturePending;
 
-  console.log(
-    "isUserPending " + isUserPending,
-    "isExperiencesPending " + isExperiencesPending,
-    "isEducationsPending " + isEducationsPending,
-    "isCoverPending " + isCoverPending,
-    "isProfilePicturePending " + isProfilePicturePending,
-  );
-
   if (refreshing || !user) {
     return <BaseProfileSkeleton className={className} />;
   }
@@ -365,17 +357,16 @@ export const InspectBaseProfile = ({
       <View>
         {coverExtra}
         <PhotoPreview
-          className="active:opacity-70 relative w-full h-48 overflow-hidden"
+          className="active:opacity-70 relative w-full h-48 overflow-hidden bg-muted items-center justify-center"
           source={coverPreviewSource}
+          onPress={handlePickCover}
           footer={() => {
             if (currentUser?.id !== id) return null;
 
             return (
               <Pressable
-                className="flex flex-row gap-2 items-center px-4 py-2 m-4 mb-12 mx-auto border border-border rounded-full active:bg-muted"
-                onPress={() => {
-                  handlePickCover();
-                }}
+                className="flex flex-row gap-2 items-center px-4 py-2 m-4 mx-auto border border-border rounded-full active:bg-muted"
+                onPress={handlePickCover}
               >
                 <Icon as={Pencil} color="white" />
                 <Text className="text-white">Change Cover</Text>
@@ -394,9 +385,9 @@ export const InspectBaseProfile = ({
             <Loader isPending={true} size="large" />
           </View>
         )}
-        <View className="flex-row items-center px-4 -mt-12">
+        <View className="flex-row items-center px-4 -mt-12 z-10">
           <PhotoPreview source={uploadProfilePicture} className="rounded-full">
-            <View>{profilePicture}</View>
+            {profilePicture}
           </PhotoPreview>
 
           <View className="flex flex-row flex-1 mt-16">
@@ -424,40 +415,39 @@ export const InspectBaseProfile = ({
             )}
           </View>
         </View>
+      </View>
+      <ProfileStat
+        clientStore={userStore}
+        className="flex flex-row w-[70vw] mx-auto my-4"
+      />
 
-        <ProfileStat
-          clientStore={userStore}
-          className="flex flex-row w-[70vw] mx-auto my-4"
-        />
+      {/* Bio + Sections */}
+      <View className="flex flex-col">
+        {/* Follow buttons */}
+        {currentUser?.id !== user?.id ? (
+          <View className="flex flex-row px-4 my-4 gap-4">
+            <Button
+              size="sm"
+              onPress={() => (isFollowing ? unfollowUser() : followUser())}
+              variant={isFollowing ? "outline" : "default"}
+              className="flex flex-row flex-1 gap-2"
+              disabled={isFollowPending || isUnfollowPending}
+            >
+              {!isFollowing && <Icon as={UserPlus} size={20} />}
+              <Text>{isFollowing ? "Following" : "Follow"}</Text>
+            </Button>
 
-        {/* Bio + Sections */}
-        <View className="flex flex-col flex-1">
-          {/* Follow buttons */}
-          {currentUser?.id !== user?.id ? (
-            <View className="flex flex-row px-4 my-4 gap-4">
-              <Button
-                size="sm"
-                onPress={() => (isFollowing ? unfollowUser() : followUser())}
-                variant={isFollowing ? "outline" : "default"}
-                className="flex flex-row flex-1 gap-2"
-                disabled={isFollowPending || isUnfollowPending}
-              >
-                {!isFollowing && <Icon as={UserPlus} size={20} />}
-                <Text>{isFollowing ? "Following" : "Follow"}</Text>
-              </Button>
-
-              <Button
-                size="sm"
-                className="flex flex-row flex-1 gap-2"
-                variant="outline"
-              >
-                <Icon as={Mail} size={20} />
-                <Text>Send Message</Text>
-              </Button>
-            </View>
-          ) : null}
-          <View>{overrideContent && customContent ? customContent : null}</View>
-        </View>
+            <Button
+              size="sm"
+              className="flex flex-row flex-1 gap-2"
+              variant="outline"
+            >
+              <Icon as={Mail} size={20} />
+              <Text>Send Message</Text>
+            </Button>
+          </View>
+        ) : null}
+        <View>{overrideContent && customContent ? customContent : null}</View>
       </View>
 
       {/* Profile Content */}
