@@ -1,4 +1,9 @@
-import { ResponseUserDto, UpdateUserCoverDto, UpdateUserDto } from "~/types";
+import {
+  QueryParams,
+  ResponseUserDto,
+  UpdateUserCoverDto,
+  UpdateUserDto,
+} from "~/types";
 import axios from "./axios";
 
 const findCurrent = async (join: string[] = []): Promise<ResponseUserDto> => {
@@ -10,14 +15,39 @@ const findCurrent = async (join: string[] = []): Promise<ResponseUserDto> => {
 
 const findById = async (
   id: string,
-  join: string[] = [],
+  query?: Pick<QueryParams, "join">,
 ): Promise<ResponseUserDto> => {
   const response = await axios.get<ResponseUserDto>(`/admin/user/${id}`, {
-    params: { join: join.join(",") },
+    params: query,
   });
   return response.data;
 };
 
+const findByUsername = async (
+  username: string,
+  query?: Pick<QueryParams, "join">,
+): Promise<ResponseUserDto> => {
+  const response = await axios.get<ResponseUserDto>(
+    `/admin/user/username/${username}`,
+    {
+      params: query,
+    },
+  );
+  return response.data;
+};
+
+const findByEmail = async (
+  email: string,
+  query?: Pick<QueryParams, "join">,
+): Promise<ResponseUserDto> => {
+  const response = await axios.get<ResponseUserDto>(
+    `/admin/user/email/${email}`,
+    {
+      params: query,
+    },
+  );
+  return response.data;
+};
 const updateCurrent = async (
   updateClientDto: UpdateUserDto,
 ): Promise<ResponseUserDto> => {
@@ -35,6 +65,8 @@ const updateCover = async (
 export const client = {
   findCurrent,
   findById,
+  findByUsername,
+  findByEmail,
   updateCover,
   updateCurrent,
 };
