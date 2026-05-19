@@ -15,7 +15,7 @@ import { Text } from "~/components/ui/text";
 interface UseServerImagesProps {
   ids: (number | undefined)[];
   fallbacks?: (string | React.ReactNode | ImageSource | undefined)[];
-  size: { width: number; height: number };
+  size?: { width?: number; height?: number };
   wrapperClassName?: string;
   fallbackClassName?: string;
   className?: string;
@@ -73,18 +73,16 @@ export const useServerImages = ({
             key={index}
             className={cn(wrapperClassName, "flex items-center justify-center")}
             style={{
-              width: size.width * 1.05,
-              height: size.height * 1.05,
-              borderRadius: size.width / 2,
+              width: size?.width ? size.width * 1.05 : "100%",
+              height: size?.height ? size.height * 1.05 : "100%",
             }}
           >
             <Image
               className={cn(className)}
               source={upload}
               style={{
-                width: size.width,
-                height: size.height,
-                borderRadius: size.width / 2,
+                width: size?.width,
+                height: size?.height,
               }}
               contentFit="cover"
             />
@@ -97,9 +95,8 @@ export const useServerImages = ({
           <Skeleton
             key={index}
             style={{
-              width: size.width,
-              height: size.height,
-              borderRadius: size.width / 2,
+              width: size?.width,
+              height: size?.height,
             }}
           />
         );
@@ -115,18 +112,17 @@ export const useServerImages = ({
             key={index}
             className={cn(wrapperClassName, "flex items-center justify-center")}
             style={{
-              width: size.width * 1.05,
-              height: size.height * 1.05,
-              borderRadius: size.width / 2,
+              width: size?.width ? size.width * 1.05 : "100%",
+              height: size?.height ? size.height * 1.05 : "100%",
+              borderRadius: size?.width ? size.width / 2 : 0,
             }}
           >
             <Image
               source={fallback as ImageSource}
               className={cn(className)}
               style={{
-                width: size.width,
-                height: size.height,
-                borderRadius: size.width / 2,
+                width: size?.width,
+                height: size?.height,
               }}
               contentFit="cover"
             />
@@ -140,9 +136,8 @@ export const useServerImages = ({
             key={index}
             className={cn(className)}
             style={{
-              width: size.width,
-              height: size.height,
-              borderRadius: size.width / 2,
+              width: size?.width,
+              height: size?.height,
             }}
           >
             <AvatarImage />
@@ -163,9 +158,8 @@ export const useServerImages = ({
         <Skeleton
           key={index}
           style={{
-            width: size.width,
-            height: size.height,
-            borderRadius: size.width / 2,
+            width: size?.width,
+            height: size?.height,
           }}
         />
       );
