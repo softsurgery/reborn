@@ -1,6 +1,6 @@
+import { SignupLayout } from "@/components/auth/SignUpLayout";
 import React from "react";
-import { SignUpLayout } from "~/components/auth/SignUpLayout";
 
 export default function Screen() {
-  return <SignUpLayout />;
+  return <SignupLayout />;
 }
