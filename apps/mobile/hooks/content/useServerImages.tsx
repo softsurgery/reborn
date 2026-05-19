@@ -94,6 +94,7 @@ export const useServerImages = ({
         return (
           <Skeleton
             key={index}
+            className={cn(className)}
             style={{
               width: size?.width,
               height: size?.height,
@@ -114,7 +115,6 @@ export const useServerImages = ({
             style={{
               width: size?.width ? size.width * 1.05 : "100%",
               height: size?.height ? size.height * 1.05 : "100%",
-              borderRadius: size?.width ? size.width / 2 : 0,
             }}
           >
             <Image
@@ -156,6 +156,7 @@ export const useServerImages = ({
 
       return (
         <Skeleton
+          className={cn(className)}
           key={index}
           style={{
             width: size?.width,

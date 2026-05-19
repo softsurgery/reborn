@@ -66,6 +66,7 @@ export const useServerImage = ({
     if (isUploadPending && id) {
       return (
         <Skeleton
+          className={cn(className)}
           style={{
             ...size,
           }}
@@ -87,8 +88,8 @@ export const useServerImage = ({
           }}
         >
           <Image
-            alt={typeof fallback === "string" ? fallback : ""}
             className={cn(className)}
+            alt={typeof fallback === "string" ? fallback : ""}
             style={{
               width: size?.width || "auto",
               height: size?.height || "auto",
@@ -124,6 +125,7 @@ export const useServerImage = ({
     // 6️⃣ Default → Skeleton
     return (
       <Skeleton
+        className={cn(className)}
         style={{
           ...size,
         }}
