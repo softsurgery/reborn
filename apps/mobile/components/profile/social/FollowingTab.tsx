@@ -1,4 +1,4 @@
-import { UserEntry } from "@/components/explore/users/UserEntry";
+import { UserEntry } from "@/components/profile/social/UserEntry";
 import { Loader } from "@/components/shared/Loader";
 import { Text } from "@/components/ui/text";
 import { useFollowSystem } from "@/hooks/content/useFollowSystem";

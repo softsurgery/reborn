@@ -10,23 +10,20 @@ import { THEME } from "~/lib/theme";
 import { cn } from "~/lib/utils";
 import { FollowingTab } from "./FollowingTab";
 import { FollowersTab } from "./FollowersTab";
+import { useColorPalette } from "@/hooks/useColorPalette";
 
 const Tab = createMaterialTopTabNavigator();
 
 interface SocialPortalProps {
   className?: string;
-  profileId?: string;
 }
 
-export const SocialPortal = ({ className, profileId }: SocialPortalProps) => {
-  const { colorScheme } = useColorScheme();
+export const SocialPortal = ({ className }: SocialPortalProps) => {
+  const { palette } = useColorPalette();
   const { id, tab } = useLocalSearchParams();
 
   const initialTab =
     tab === "followers" || tab === "following" ? tab : "following";
-
-  const indicatorColor =
-    colorScheme === "dark" ? THEME.dark.primary : THEME.light.primary;
 
   return (
     <StableSafeAreaView className={cn("flex-1 bg-card", className)}>
@@ -51,7 +48,7 @@ export const SocialPortal = ({ className, profileId }: SocialPortalProps) => {
               textTransform: "none",
             },
             tabBarIndicatorStyle: {
-              backgroundColor: indicatorColor,
+              backgroundColor: palette?.primary,
             },
             tabBarStyle: { backgroundColor: "transparent" },
           }}

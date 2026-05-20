@@ -22,7 +22,7 @@ import { Icon } from "../ui/icon";
 import { Mail, UserPlus, Edit, Pencil } from "lucide-react-native";
 import { cn } from "~/lib/utils";
 import { useUserStore } from "~/hooks/stores/useUserStore";
-import { ProfileStat } from "../explore/users/ProfileStat";
+import { SocialStat } from "./social/SocialStat";
 import { Button } from "../ui/button";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { useTranslation } from "react-i18next";
@@ -254,16 +254,19 @@ export const InspectBaseProfile = ({
     userStore?.set("followings", followings);
   }, [followers, followings]);
 
-  const { data: followDataCount } = useQuery({
-    queryKey: ["follow-data-count", user?.id],
+  const {
+    data: socialStat,
+    isPending: isSocialStatPending,
+    refetch: refetchSocialStat,
+  } = useQuery({
+    queryKey: ["social-data", user?.id],
     queryFn: () => api.follow.findDataCount(user?.id!),
     enabled: !!user?.id,
   });
 
   React.useEffect(() => {
-    if (followDataCount)
-      userStore?.set("responseFollowCountsDto", followDataCount);
-  }, [followDataCount]);
+    if (socialStat) userStore?.set("responseFollowCountsDto", socialStat);
+  }, [socialStat]);
 
   // experience side-effects
   const { experiences, isExperiencesPending, refetchExperiences } =
@@ -335,6 +338,7 @@ export const InspectBaseProfile = ({
   const onRefresh = async () => {
     await Promise.allSettled([
       refetchUser(),
+      refetchSocialStat(),
       refetchCurrentUser(),
       refetchExperiences(),
       refetchEducations(),
@@ -343,6 +347,7 @@ export const InspectBaseProfile = ({
 
   const refreshing =
     isUserPending ||
+    isSocialStatPending ||
     isExperiencesPending ||
     isEducationsPending ||
     isCoverPending ||
@@ -416,10 +421,8 @@ export const InspectBaseProfile = ({
           </View>
         </View>
       </View>
-      <ProfileStat
-        clientStore={userStore}
-        className="flex flex-row w-[70vw] mx-auto my-4"
-      />
+
+      <SocialStat className="flex flex-row w-[70vw] mx-auto my-4" />
 
       {/* Bio + Sections */}
       <View className="flex flex-col">

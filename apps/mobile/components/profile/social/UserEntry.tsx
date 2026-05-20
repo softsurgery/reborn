@@ -83,7 +83,8 @@ export const UserEntry = ({
   const { jsx: profilePicture } = useServerImage({
     id: user?.pictureId,
     fallback: identifyUserAvatar(user),
-    size: { width: 40, height: 40 },
+    size: { width: 50, height: 50 },
+    className: "rounded-full",
   });
 
   return (
