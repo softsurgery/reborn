@@ -84,14 +84,13 @@ export const FormBuilder = React.forwardRef(
                           )}
                         >
                           {/* Label */}
-                          {field.variant !== "check" && (
-                            <Label className="font-semibold mb-1">
-                              {field.label}{" "}
-                              {field.required && (
-                                <Text className="text-red-500">*</Text>
-                              )}
-                            </Label>
-                          )}
+
+                          <Label className="font-semibold mb-1">
+                            {field.label}{" "}
+                            {field.required && (
+                              <Text className="text-red-500">*</Text>
+                            )}
+                          </Label>
 
                           {/* Field */}
                           {!field.pending && <FieldBuilder field={field} />}

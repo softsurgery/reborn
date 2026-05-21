@@ -1,6 +1,5 @@
 import React from "react";
-import { View, TouchableOpacity } from "react-native";
-import { Feather } from "@expo/vector-icons";
+import { View } from "react-native";
 import { Field, FieldVariant } from "~/components/shared/form-builder/types";
 import Select from "./Select";
 import { Checkbox } from "~/components/ui/checkbox";
@@ -135,7 +134,7 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
       );
     case "checkbox":
       return (
-        <View className="flex-row items-center gap-2 -mt-2">
+        <View className="flex-row items-center gap-2 mt-2">
           <Checkbox
             {...field?.props}
             disabled={field?.props?.editable === false}
