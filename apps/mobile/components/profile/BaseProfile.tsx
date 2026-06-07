@@ -44,6 +44,8 @@ import { useColorPalette } from "@/hooks/useColorPalette";
 import { CareerTab } from "./sections/CareerTab";
 import { ExperienceInstance } from "./experience/ExperienceInstance";
 import { EducationInstance } from "./education/EducationInstance";
+import { Skeleton } from "../ui/skeleton";
+import { ProfileStat } from "./ProfileStat";
 
 interface InspectBaseProfileProps {
   className?: string;
@@ -77,18 +79,20 @@ export const InspectBaseProfile = ({
   const identity = React.useMemo(() => identifyUser(user), [user]);
   const fallback = React.useMemo(() => identifyUserAvatar(user), [user]);
 
+  //profile picture side-effect
   const {
-    jsx: profilePicture,
-    upload: uploadProfilePicture,
-    isUploadPending: isProfilePicturePending,
-  } = useServerImage({
-    id: user?.pictureId,
-    fallback,
-    wrapperClassName:
-      "border border-border bg-background rounded-full shadow-md",
+    uploads: profileUploads,
+    jsxArray: profilePictures,
+    isPending: isProfilePicturePending,
+  } = useServerImages({
+    ids: [user?.pictureId],
+    fallbacks: [fallback],
     className: "rounded-full",
+    wrapperClassName: "border border-border bg-background rounded-full",
     size: { width: 100, height: 100 },
+    enabled: !!user && !!user.pictureId,
   });
+  const profilePictureSource = profileUploads?.[0];
 
   const { uploads: coverUploads, isPending: isCoverPending } = useServerImages({
     ids: [user?.coverId],
@@ -350,8 +354,7 @@ export const InspectBaseProfile = ({
     isSocialStatPending ||
     isExperiencesPending ||
     isEducationsPending ||
-    isCoverPending ||
-    isProfilePicturePending;
+    isCoverPending;
 
   if (refreshing || !user) {
     return <BaseProfileSkeleton className={className} />;
@@ -390,33 +393,52 @@ export const InspectBaseProfile = ({
             <Loader isPending={true} size="large" />
           </View>
         )}
-        <View className="flex-row items-center px-4 -mt-12 z-10">
-          <PhotoPreview source={uploadProfilePicture} className="rounded-full">
-            {profilePicture}
-          </PhotoPreview>
+        <View className="flex-col items-start px-4 -mt-12 z-10">
+          <View className="flex-row w-full items-end justify-between">
+            {isProfilePicturePending ? (
+              <Skeleton className="h-[100px] w-[100px] rounded-full" />
+            ) : (
+              <PhotoPreview source={profilePictureSource}>
+                {profilePictures[0]}
+              </PhotoPreview>
+            )}
+            {currentUser?.id === id && <ProfileStat />}
+          </View>
 
-          <View className="flex flex-row flex-1 mt-16">
-            <View className="flex flex-col flex-1 items-start justify-between px-4 gap-2">
-              <View className="flex flex-col items-start">
-                <Text className="text-xl font-semibold text-foreground">
-                  {identity}
-                </Text>
-                {id && (
+          {/* Identity */}
+          <View className="mt-3">
+            <Text className="text-2xl font-bold text-foreground">
+              {identity}
+            </Text>
+            {id && (
+              <View className="flex-col items-start justify-between gap-2">
+                <View className="flex flex-row items-center gap-2">
                   <Text className="text-sm text-muted-foreground">
                     @{user?.username}
                   </Text>
-                )}
+                  {!!user?.email &&
+                    !user?.emailVerified &&
+                    currentUser?.id === id && (
+                      <Text className="text-xs text-yellow-600 font-bold">
+                        (Unverified Email)
+                      </Text>
+                    )}
+                </View>
+                {currentUser?.id === id &&
+                  user?.email &&
+                  !user.emailVerified && (
+                    <Pressable
+                      // onPress={() => sendVerifyEmail()}
+                      // disabled={isSendVerifyEmailPending}
+                      className="flex-row items-center gap-1.5 rounded-xl border border-border px-3.5 py-2 active:opacity-80 bg-yellow-700"
+                    >
+                      <Icon as={Mail} size={16} color={"white"} />
+                      <Text className="text-md font-semibold text-white">
+                        Verify email
+                      </Text>
+                    </Pressable>
+                  )}
               </View>
-            </View>
-            {currentUser?.id === user?.id && (
-              <Pressable>
-                <Icon
-                  className="active:text-primary"
-                  as={Edit}
-                  size={24}
-                  onPress={() => router.push("/main/account/update-profile")}
-                />
-              </Pressable>
             )}
           </View>
         </View>
