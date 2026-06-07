@@ -1,6 +1,7 @@
+import { Image } from "@/components/ui/image";
 import { cn } from "@/lib/utils";
 import { useQueries } from "@tanstack/react-query";
-import { Image, ImageSource } from "expo-image";
+import { ImageSource } from "expo-image";
 import React from "react";
 import { View } from "react-native";
 import { api } from "~/api";
@@ -16,9 +17,9 @@ interface UseServerImagesProps {
   ids: (number | undefined)[];
   fallbacks?: (string | React.ReactNode | ImageSource | undefined)[];
   size?: { width?: number; height?: number };
+  className?: string;
   wrapperClassName?: string;
   fallbackClassName?: string;
-  className?: string;
   enabled?: boolean;
 }
 
