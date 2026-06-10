@@ -32,7 +32,15 @@ const signUp = async (requestClientSignUpDto: RequestClientSignUpDto) => {
   return response.data;
 };
 
+const sendVerifyEmail = async (email?: string) => {
+  const response = await axios.post("/client-auth/send-verify-email", {
+    email,
+  });
+  return response.data;
+};
+
 export const auth = {
   signIn,
   signUp,
+  sendVerifyEmail,
 };

@@ -79,6 +79,22 @@ export const InspectBaseProfile = ({
   const identity = React.useMemo(() => identifyUser(user), [user]);
   const fallback = React.useMemo(() => identifyUserAvatar(user), [user]);
 
+  const { mutate: sendVerifyEmail, isPending: isSendVerifyEmailPending } =
+    useMutation({
+      mutationFn: () => api.auth.sendVerifyEmail(user?.email),
+      onSuccess: () => {
+        toast.success("Email sent successfully", {
+          description: "Check your email for verification link.",
+        });
+      },
+      onError: (error: ServerErrorResponse) => {
+        toast.error(
+          error.response?.data?.message || "Failed to update cover",
+          {},
+        );
+      },
+    });
+
   //profile picture side-effect
   const {
     uploads: profileUploads,
@@ -428,8 +444,8 @@ export const InspectBaseProfile = ({
                   user?.email &&
                   !user.emailVerified && (
                     <Pressable
-                      // onPress={() => sendVerifyEmail()}
-                      // disabled={isSendVerifyEmailPending}
+                      onPress={() => sendVerifyEmail()}
+                      disabled={isSendVerifyEmailPending}
                       className="flex-row items-center gap-1.5 rounded-xl border border-border px-3.5 py-2 active:opacity-80 bg-yellow-700"
                     >
                       <Icon as={Mail} size={16} color={"white"} />

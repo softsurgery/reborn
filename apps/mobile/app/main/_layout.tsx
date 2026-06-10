@@ -36,6 +36,15 @@ export default function MainLayout() {
       />
       {/* Account *********************************************************************************************************************/}
       <Stack.Screen
+        name="account/mail-success"
+        options={{
+          title: "",
+          headerShown: false,
+          animation: "fade_from_bottom",
+          animationDuration: 200,
+        }}
+      />
+      <Stack.Screen
         name="account/inspect-profile"
         options={{
           title: "My Profile",
@@ -231,6 +240,15 @@ export default function MainLayout() {
           title: "Manage Job",
           headerShown: false,
           animation: "slide_from_right",
+        }}
+      />
+
+      <Stack.Screen
+        name="explore/job-filters"
+        options={{
+          title: "Job Filters",
+          headerShown: false,
+          animation: "slide_from_bottom",
         }}
       />
 
