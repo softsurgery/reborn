@@ -1,19 +1,18 @@
 import React from "react";
 import { cn } from "~/lib/utils";
 import { useMutation } from "@tanstack/react-query";
-import { Image, Platform, View } from "react-native";
+import { View } from "react-native";
 import { api } from "~/api";
 import { useAuthStore } from "~/hooks/stores/useAuthStore";
 import { Text } from "../ui/text";
 import { FormBuilder } from "../shared/form-builder/FormBuilder";
 import { useSignInFormStructure } from "./useSignInFormStructure";
 import { Button } from "../ui/button";
-import { ArrowLeft, ArrowRight } from "lucide-react-native";
+import { ArrowLeft } from "lucide-react-native";
 import DividerWithText from "../ui/divider-with-text";
 import { requestSignInDtoSchema } from "~/types/validations/auth.validation";
 import { ServerErrorResponse } from "~/types";
 import { StableKeyboardAwareScrollView } from "../shared/StableKeyboardAwareScrollView";
-import { Icon } from "../ui/icon";
 import { router } from "expo-router";
 import { SSOButtons } from "./SSOButtons";
 import { StableSafeAreaView } from "../shared/StableSafeAreaView";
@@ -91,20 +90,20 @@ export const SignInLayout = ({ className }: SignInLayoutProps) => {
               </Text>
             </View>
 
-            <View className="flex flex-col gap-2 px-2 w-fit">
+            <View className="flex flex-col gap-2 px-2">
               <FormBuilder structure={signInFormStructure} />
 
-              <Text className="text-sm font-bold ml-auto my-1">
-                Forget Password ?
-              </Text>
+              <Text className="font-bold ml-auto my-1">Forget Password ?</Text>
 
               <Button
                 disabled={isSignInPending}
-                className="flex flex-row justify-center gap-2 my-1"
+                size="lg"
+                className="relative flex flex-row items-center justify-center rounded-xl h-14"
                 onPress={onSignInPress}
               >
-                <Text className="font-bold">Continue with E-mail</Text>
-                <Icon as={ArrowRight} size={24} className="text-white" />
+                <Text className="text-lg font-bold text-primary-foreground">
+                  Continue with E-mail
+                </Text>
               </Button>
 
               <DividerWithText text="OR" />

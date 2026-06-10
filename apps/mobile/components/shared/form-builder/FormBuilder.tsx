@@ -1,11 +1,12 @@
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import { Text } from "@/components/ui/text";
+import { cn } from "@/lib/utils";
 import React from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { FieldBuilder } from "./FieldBuilder";
 import { FieldVariant, FormStructure } from "./types";
 import { getItemWidth } from "./utils/item-width";
-import { cn } from "~/lib/utils";
-import { Separator } from "~/components/ui/separator";
-import { Label } from "~/components/ui/label";
 
 interface FormBuilderProps {
   className?: string;
@@ -76,7 +77,7 @@ export const FormBuilder = React.forwardRef(
                             fieldRefs.current[field.id] = r;
                           }}
                           className={cn(
-                            "flex flex-col p-2",
+                            "flex flex-col py-2",
                             structure.orientation === "vertical"
                               ? "w-full"
                               : getItemWidth(fieldCount),
@@ -84,16 +85,17 @@ export const FormBuilder = React.forwardRef(
                           )}
                         >
                           {/* Label */}
-
-                          <Label className="font-semibold mb-1">
-                            {field.label}{" "}
-                            {field.required && (
-                              <Text className="text-red-500">*</Text>
-                            )}
-                          </Label>
+                          {field.variant !== "check" && (
+                            <Label className="text-sm font-semibold mb-1 w-full">
+                              {field.label}{" "}
+                              {field.required && (
+                                <Text className="text-red-500">*</Text>
+                              )}
+                            </Label>
+                          )}
 
                           {/* Field */}
-                          {!field.pending && <FieldBuilder field={field} />}
+                          <FieldBuilder field={field} />
 
                           {/* Description & Error */}
                           <View className="pt-1">
@@ -103,18 +105,14 @@ export const FormBuilder = React.forwardRef(
                                   (![FieldVariant.CHECKBOX].includes(
                                     field.variant,
                                   ) ? (
-                                    <Text
-                                      className={cn(
-                                        "text-sm text-gray-500 dark:text-gray-400",
-                                      )}
-                                    >
+                                    <Text className={cn("text-sm opacity-70")}>
                                       {field.description}
                                     </Text>
                                   ) : null)}
                               </View>
                             )}
                             {field?.error ? (
-                              <Text className="text-sm font-medium text-red-500">
+                              <Text className="text-sm font-medium text-destructive">
                                 {field?.error}
                               </Text>
                             ) : null}

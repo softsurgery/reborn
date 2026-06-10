@@ -165,17 +165,15 @@ export default function MapPinField({
       <Button
         disabled={!editable}
         variant="outline"
-        className={cn("w-full h-9 p-0 px-2", className)}
+        className={cn("w-full h-12 rounded-xl p-0 px-2.5", className)}
         onPress={toggle}
       >
         <View className="flex flex-row items-center justify-between w-full">
           <View className="flex flex-row items-center gap-2">
-            <Icon as={Pin} size={16} color={"gray"} />
-            <Text className="text-sm">
-              {name || placeholder || "Select a location"}
-            </Text>
+            <Icon as={Pin} size={18} color={"gray"} />
+            <Text>{name || placeholder || "Select a location"}</Text>
           </View>
-          <Icon as={ChevronDown} size={16} color={"gray"} />
+          <Icon as={ChevronDown} size={18} color={"gray"} />
         </View>
       </Button>
 

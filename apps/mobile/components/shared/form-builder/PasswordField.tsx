@@ -37,12 +37,12 @@ export const PasswordField = ({ className, ...props }: PasswordFieldProps) => {
         style={{
           position: "absolute",
           right: 10,
-          top: 4,
+          top: 8,
           padding: 4,
         }}
         disabled={!props?.editable}
       >
-        <Icon as={showPassword ? EyeOff : Eye} size={20} color="gray" />
+        <Icon as={showPassword ? EyeOff : Eye} size={24} color="gray" />
       </TouchableOpacity>
     </View>
   );
