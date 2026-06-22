@@ -33,7 +33,7 @@ const UserPreferencesPortal = ({ className }: UserPreferencesPortalProps) => {
       <StableScrollView className="p-4">
         <DarkModePreferenceCard className="my-2" />
         <Separator />
-        <LanguageSwitcher className="my-2" />
+        <LanguageSwitcher />
       </StableScrollView>
     </StableSafeAreaView>
   );

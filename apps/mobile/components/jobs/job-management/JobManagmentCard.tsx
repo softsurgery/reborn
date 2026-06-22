@@ -2,7 +2,7 @@ import { ThreeDotsActionSheet } from "@/components/shared/ThreeDotsActionSheet";
 import { Text } from "@/components/ui/text";
 import { useServerImage } from "@/hooks/content/useServerImage";
 import { cn } from "@/lib/utils";
-import { ResponseJobDto } from "@/types";
+import { JobEvents, JobStatus, ResponseJobDto } from "@/types";
 import { View } from "react-native";
 import {
   ExternalLink,
@@ -14,8 +14,9 @@ import {
   Trash2,
 } from "lucide-react-native";
 import { router } from "expo-router";
-import { Button } from "@/components/ui/button";
-import { Icon } from "@/components/ui/icon";
+import { Badge } from "@/components/ui/badge";
+import { useNextWorkflowJob } from "@/hooks/content/job/workflow/useNextWorkflowJob";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface JobManagementCardProps {
   className?: string;
@@ -26,20 +27,38 @@ export const JobManagementCard = ({
   className,
   job,
 }: JobManagementCardProps) => {
+  const queryClient = useQueryClient();
   const { jsx: cover } = useServerImage({
     id: job.uploads.sort((a, b) => a.order - b.order)[0]?.uploadId,
-    fallback: "IMAGE",
-    wrapperClassName: "border border-border bg-muted rounded-lg",
-    size: { width: 50, height: 50 },
-    rounded: false,
+    fallback: "No Image",
+    className: "rounded-lg",
+    wrapperClassName: "border border-border bg-muted rounded-full",
+    size: { width: 80, height: 80 },
   });
 
   const primaryActionLabel = job.status === "Posted" ? "Unpublish" : "Publish";
 
+  const { nextJobWorkflow, isNextJobWorkflowPending } = useNextWorkflowJob({
+    id: job.id,
+    onSuccess: (updatedJob) => {
+      queryClient.invalidateQueries({ queryKey: ["my-jobs"] });
+    },
+    onError: (error) => {
+      // Handle error
+      console.error("Error updating job:", error);
+    },
+  });
+
   return (
-    <View className={cn("flex flex-col gap-4 px-2 py-2", className)}>
+    <View className={cn("flex flex-col gap-2 px-2 py-2", className)}>
       <View className="flex flex-row items-center justify-between gap-6 rounded-xl ">
-        {cover}
+        <View className="flex-col gap-2">
+          {cover}
+          <Badge className="self-center text-xs bg-primary">
+            <Text>{job.status}</Text>
+          </Badge>
+        </View>
+
         <View className="flex-1 flex-row items-start gap-3">
           <View className="flex-1 gap-3">
             <View className="gap-1">
@@ -92,7 +111,13 @@ export const JobManagementCard = ({
             {
               label: primaryActionLabel,
               icon: Send,
-              onPress: () => {},
+              onPress: () => {
+                if (job.status === JobStatus.DRAFT) {
+                  nextJobWorkflow(JobEvents.POST);
+                } else if (job.status === JobStatus.POSTED) {
+                  nextJobWorkflow(JobEvents.UNPUBLISH);
+                }
+              },
             },
             {
               label: "View Requests",
@@ -114,7 +139,7 @@ export const JobManagementCard = ({
         />
       </View>
       {/* Actions */}
-      <View className="flex-row items-center gap-2">
+      {/* <View className="flex-row items-center gap-2">
         <Button
           size="sm"
           variant="default"
@@ -133,7 +158,7 @@ export const JobManagementCard = ({
           <Icon as={ExternalLink} />
           <Text variant="large">Share</Text>
         </Button>
-      </View>
+      </View> */}
     </View>
   );
 };

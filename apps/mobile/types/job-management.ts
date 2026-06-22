@@ -2,11 +2,42 @@ import { ResponseRefParamDto } from "./reference-types";
 import { Upload } from "./upload";
 import { ResponseUserDto } from "./user-management";
 import { DatabaseEntity } from "./utils";
+import { ResponseWorkflowDto } from "./utils/workflow";
+
+export enum JobEvents {
+  POST = "Post",
+  UNPUBLISH = "Unpublish",
+  CHOOSE_CANDIDATE = "Choose Candidate",
+  REFUSE_CANDIDATE = "Refuse Candidate",
+  ACCEPT_CANDIDATE = "Accept Candidate",
+  START = "Start",
+  FINISH = "Finish",
+  WORKER_REVIEW = "Worker Review",
+  CLIENT_REVIEW = "Client Review",
+  MARK_SUCCESSFUL = "Mark Successful",
+  HOLD = "Hold",
+  STOP_HOLD = "Stop Hold",
+  MARK_FAILED = "Mark Failed",
+}
+
+export enum JobStatus {
+  DRAFT = "Draft",
+  POSTED = "Posted",
+  CANDIDATE_PENDING = "Candidate Pending",
+  NOT_STARTED = "Not Started",
+  PENDING = "Pending",
+  FINISHED = "Finished",
+  ON_HOLD = "On Hold",
+  REVIEWED_BY_WORKER = "Reviewed By Worker",
+  REVIEWED_BY_WORKER_AND_CLIENT = "Reviewed By Worker & Client",
+  FAILED = "Failed",
+  SUCCESSFUL = "Successfull",
+}
 
 // Job *************************************************************
 export interface ResponseJobDto extends DatabaseEntity {
   id: string;
-  status: string;
+  status: JobStatus;
   title: string;
   description: string;
 
@@ -49,6 +80,10 @@ export interface CreateJobDto {
 
 export interface UpdateJobDto extends Partial<CreateJobDto> {
   uploads?: { id: number; uploadId: number; order: number }[];
+}
+
+export interface ResponseJobWorkflowDto extends ResponseWorkflowDto {
+  job: ResponseJobDto;
 }
 
 export interface ResponseJobMetadataDto {

@@ -14,6 +14,7 @@ import { cn } from "~/lib/utils";
 import { NAV_THEME } from "~/lib/theme";
 import { useInfiniteJobs } from "@/hooks/content/job/useInfiniteJobs";
 import { NotFound } from "../shared/NotFound";
+import { useExploreFilterStore } from "@/hooks/stores/userExploreFilterStore";
 
 interface ExploreCommonProps {
   className?: string;
@@ -28,6 +29,16 @@ export const ExploreCommon = ({
   searching,
   handleScroll,
 }: ExploreCommonProps) => {
+  const exploreFilterStore = useExploreFilterStore();
+
+  const filter = React.useMemo(() => {
+    let arr = exploreFilterStore.getFilterExpression();
+    // if (userId) {
+    //   filter.push(`postedById||$eq||${userId}`);
+    // }
+    return arr.join(";");
+  }, [exploreFilterStore.filters]);
+
   const {
     jobs,
     fetchNextPage,
@@ -41,6 +52,7 @@ export const ExploreCommon = ({
     join: ["uploads"],
     sortKey: "createdAt",
     sortOrder: "desc",
+    filter,
   });
 
   const isPending = isJobsPending || isFetchingNextPage || searching;

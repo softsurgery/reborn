@@ -11,7 +11,6 @@ import { ArrowDownNarrowWide, Bell, Search } from "lucide-react-native";
 import { useNotificationContext } from "~/contexts/NotificationContext";
 import { router } from "expo-router";
 import { useTranslation } from "react-i18next";
-import { JobFilters } from "../jobs/JobFilters";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { useScrollableElement } from "~/hooks/useScrollableElement";
 import { useColorPalette } from "@/hooks/useColorPalette";
@@ -24,7 +23,6 @@ export const Explore = ({ className }: ExploreProps) => {
   const { palette } = useColorPalette();
   const { t } = useTranslation("common");
   const [search] = React.useState("");
-  const [openJobFilters, setOpenJobFilters] = React.useState(false);
 
   const { newCount, resetCount } = useNotificationContext();
 
@@ -53,9 +51,7 @@ export const Explore = ({ className }: ExploreProps) => {
             {
               key: "filters",
               icon: ArrowDownNarrowWide,
-              onPress: () => {
-                setOpenJobFilters(true);
-              },
+              onPress: () => router.push("/main/explore/job-filters"),
             },
             {
               key: "notifications",
@@ -112,11 +108,6 @@ export const Explore = ({ className }: ExploreProps) => {
           </Tab.Screen>
         </Tab.Navigator>
       </View>
-      <JobFilters
-        className="min-h-[70vh] min-w-[90vw]"
-        open={openJobFilters}
-        onOpenChange={setOpenJobFilters}
-      />
     </StableSafeAreaView>
   );
 };

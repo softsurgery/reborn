@@ -15,6 +15,8 @@ import { NotFound } from "@/components/shared/NotFound";
 import { JobManagementCard } from "@/components/jobs/job-management/JobManagmentCard";
 import { Icon } from "@/components/ui/icon";
 import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Text } from "@/components/ui/text";
 
 interface UserJobsListProps {
   className?: string;
@@ -25,6 +27,11 @@ export const UserJobsList = ({
   className,
   searching = false,
 }: UserJobsListProps) => {
+  const filters = [
+    { label: "Draft", value: "draft" },
+    { label: "Published", value: "published" },
+    { label: "In Progress", value: "in_progress" },
+  ];
   const { currentUser } = useCurrentUser();
   const [search, setSearch] = React.useState("");
 
@@ -40,8 +47,8 @@ export const UserJobsList = ({
     search,
     join: ["uploads"],
     sortKey: "createdAt",
-    userId: currentUser?.id,
     sortOrder: "desc",
+    filter: `postedById||$eq||${currentUser?.id}`,
     enabled: !!currentUser,
   });
 
@@ -78,7 +85,7 @@ export const UserJobsList = ({
           />
         }
       >
-        <View className="relative my-6">
+        <View className="relative mt-6">
           <Icon
             as={Search}
             size={18}
@@ -92,10 +99,16 @@ export const UserJobsList = ({
             autoFocus
           />
         </View>
-
+        <View className="flex flex-row flex-wrap gap-2 mt-4">
+          {filters.map((filter) => (
+            <Badge key={filter.value} className="px-3 py-1">
+              <Text>{filter.label}</Text>
+            </Badge>
+          ))}
+        </View>
         <LegendList
           className={cn("flex-1", className)}
-          style={{ paddingBottom: 20 }}
+          style={{ paddingVertical: 10 }}
           data={jobs}
           renderItem={renderItem}
           keyExtractor={(item) => item.id}

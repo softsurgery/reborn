@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Dimensions } from "react-native";
+import { View, Dimensions, Pressable } from "react-native";
 import Carousel, {
   ICarouselInstance,
   Pagination,
@@ -15,7 +15,6 @@ import { useColorScheme } from "nativewind";
 import { THEME } from "~/lib/theme";
 import { UseQueryResult } from "@tanstack/react-query";
 import { cn } from "~/lib/utils";
-import { StablePressable } from "../StablePressable";
 import { Icon } from "../../ui/icon";
 import { Expand } from "lucide-react-native";
 import { Loader } from "../Loader";
@@ -85,22 +84,25 @@ export const ImageCarousel = ({
     >
       <View className={cn(className)}>
         <View className="relative w-full items-center overflow-hidden">
-          <StablePressable
-            className="absolute top-3 right-3 z-10 bg-black/50 p-2 rounded-full"
-            onPress={resize}
-          >
-            <Icon as={Expand} size={22} color="white" />
-          </StablePressable>
+          <Pressable className="absolute top-3 right-3 z-10 bg-black/50 p-2 rounded-full ">
+            <Icon
+              className="active:opacity-70"
+              as={Expand}
+              size={22}
+              color="white"
+              onPress={resize}
+            />
+          </Pressable>
 
           <View className="absolute top-3 left-3 z-10 flex flex-row gap-2">
             {extraActions?.map((action, index) => (
-              <StablePressable
+              <Pressable
                 key={index}
                 className="bg-black/50 p-2 rounded-full"
                 onPress={action.onPress}
               >
                 {action.icon}
-              </StablePressable>
+              </Pressable>
             ))}
           </View>
 

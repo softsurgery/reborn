@@ -140,6 +140,7 @@ export const Home = ({ className }: HomeProps) => {
           title="Home"
           shortcuts={[
             {
+              key: "notifications",
               icon: Bell,
               onPress: () => {
                 router.push("/main/notifications");

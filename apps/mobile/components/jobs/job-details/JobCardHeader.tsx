@@ -7,7 +7,7 @@ import {
   FileText,
   Heart,
 } from "lucide-react-native";
-import { TouchableOpacity, View } from "react-native";
+import { Pressable, TouchableOpacity, View } from "react-native";
 import { StablePressable } from "~/components/shared/StablePressable";
 import { Text } from "~/components/ui/text";
 import { timeAgo } from "~/lib/dates.utils";
@@ -17,6 +17,7 @@ import { UseQueryResult } from "@tanstack/react-query";
 import { ImageCarousel } from "~/components/shared/image-carousel/ImageCarouselWithModal";
 import { Icon } from "~/components/ui/icon";
 import { router } from "expo-router";
+import { Separator } from "@/components/ui/separator";
 
 interface JobCardHeaderProps {
   className?: string;
@@ -97,12 +98,12 @@ export const JobCardHeader = ({
         <View className="flex-row items-start justify-between gap-3 mt-6">
           <View className="flex-row items-start flex-1">
             {imageQueries.length === 0 ? (
-              <StablePressable
-                className="p-2 -ml-2 mr-1 rounded-full"
+              <Pressable
+                className="p-2 -ml-2 mr-1 rounded-full active:bg-muted/40"
                 onPress={() => router.back()}
               >
                 <Icon as={ArrowLeft} size={22} />
-              </StablePressable>
+              </Pressable>
             ) : null}
 
             <View className="flex-1">
@@ -130,38 +131,49 @@ export const JobCardHeader = ({
             />
           </StablePressable>
         </View>
-
-        <View className="flex flex-row flex-wrap items-center justify-between gap-2 mt-4">
+        <View className="flex-row flex-wrap mt-2">
           {/* proposals */}
-          <TouchableOpacity className="flex-row items-center gap-1">
-            <Icon as={FileText} size={18} color={"purple"} />
-            <Text className="text-xs text-muted-foreground">
-              {requestCountLabel}
-            </Text>
-          </TouchableOpacity>
+          <View className="w-1/2 pt-2">
+            <TouchableOpacity className="flex-row items-center gap-1">
+              <Icon as={FileText} size={18} color={"purple"} />
+              <Text className="text-sm text-muted-foreground">
+                {requestCountLabel}
+              </Text>
+            </TouchableOpacity>
+          </View>
           {/* verified payment */}
-          <TouchableOpacity className="flex-row items-center gap-1">
-            <Icon
-              as={CheckCircle}
-              size={18}
-              color={metadata?.paymentVerified ? "emerald" : "gray"}
-            />
-            <Text className="text-xs text-muted-foreground">
-              {paymentLabel}
-            </Text>
-          </TouchableOpacity>
-          {/* created at and price */}
-          <TouchableOpacity className="flex-row items-center gap-1">
-            <Icon as={Clock} size={16} className="text-muted-foreground" />
-            <Text className="text-xs text-muted-foreground">
-              {timeAgo(job?.createdAt || new Date())}
-            </Text>
-          </TouchableOpacity>
+          <View className="w-1/2 pt-2 items-end">
+            <TouchableOpacity className="flex-row items-center gap-1">
+              <Icon
+                as={CheckCircle}
+                size={18}
+                color={metadata?.paymentVerified ? "emerald" : "gray"}
+              />
+              <Text className="text-sm text-muted-foreground">
+                {paymentLabel}
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* created at */}
+          <View className="w-1/2 pt-2 items-start">
+            <TouchableOpacity className="flex-row items-center gap-1">
+              <Icon as={Clock} size={18} className="text-muted-foreground" />
+              <Text className="text-sm text-muted-foreground">
+                {timeAgo(job?.createdAt || new Date())}
+              </Text>
+            </TouchableOpacity>
+          </View>
+
           {/* price */}
-          <TouchableOpacity className="flex-row items-center gap-1">
-            <Icon as={DollarSign} size={16} color={"green"} />
-            <Text className="text-xs text-muted-foreground">{priceLabel}</Text>
-          </TouchableOpacity>
+          <View className="w-1/2 pt-2 items-end">
+            <TouchableOpacity className="flex-row items-center gap-1">
+              <Icon as={DollarSign} size={18} color={"green"} />
+              <Text className="text-sm text-muted-foreground">
+                {priceLabel}
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </View>

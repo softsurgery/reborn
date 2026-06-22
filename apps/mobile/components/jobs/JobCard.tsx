@@ -110,7 +110,7 @@ export const JobCard = ({ className, job, isOwner }: JobCardProps) => {
               : `${job.description.slice(0, 100)}... `}
             {job.description.length > 100 && (
               <Text
-                className="text-green-500 underline"
+                className="text-green-500 underline text-sm"
                 onPress={() => setShowFullDesc(!showFullDesc)}
               >
                 {showFullDesc ? "Show less" : "Show more"}

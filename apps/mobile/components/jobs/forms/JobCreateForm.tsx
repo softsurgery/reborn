@@ -156,7 +156,7 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
                 component: (
                   <FormBuilder
                     structure={jobCreateFormStructure}
-                    className="py-2"
+                    className="p-4"
                   />
                 ),
                 validation: () => {
@@ -180,7 +180,7 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
                 component: (
                   <FormBuilder
                     structure={jobDetailsFormStructure}
-                    className="py-2"
+                    className="p-4"
                   />
                 ),
                 validation: () => {
@@ -203,7 +203,7 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
                 component: (
                   <FormBuilder
                     structure={jobImagePickerStructure}
-                    className="py-2"
+                    className="p-4"
                   />
                 ),
                 validation: true,

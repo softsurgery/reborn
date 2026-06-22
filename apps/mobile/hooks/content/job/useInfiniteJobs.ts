@@ -8,8 +8,8 @@ interface useInfiniteJobsProps {
   limit?: number;
   sortKey?: string;
   sortOrder?: "asc" | "desc";
-  userId?: string;
-  follow?: boolean;
+  filter?: string;
+  followings?: boolean;
   enabled?: boolean;
 }
 
@@ -20,28 +20,20 @@ export const useInfiniteJobs = (
     sortOrder = "desc",
     search = "",
     join = [],
-    userId,
-    follow = false,
+    filter = "",
+    followings = false,
     enabled = true,
   }: useInfiniteJobsProps = {
     limit: 20,
+    search: "",
     sortKey: "createdAt",
     sortOrder: "desc",
-    search: "",
     join: [],
-    userId: undefined,
-    follow: false,
+    filter: "",
+    followings: false,
     enabled: true,
   },
 ) => {
-  const filter = React.useMemo(() => {
-    let filter = [];
-    if (userId) {
-      filter.push(`postedById||$eq||${userId}`);
-    }
-    return filter.join(";");
-  }, [search, userId]);
-
   const {
     data,
     fetchNextPage,
@@ -51,7 +43,7 @@ export const useInfiniteJobs = (
     isRefetching,
     isPending: isJobsPending,
   } = useInfiniteQuery({
-    queryKey: ["jobs", search, userId, follow],
+    queryKey: ["my-jobs", search, filter],
     initialPageParam: 1,
     queryFn: async ({ pageParam = 1 }) => {
       const query = {
@@ -62,7 +54,7 @@ export const useInfiniteJobs = (
         filter,
         sort: `${sortKey},${sortOrder}`,
       };
-      return follow
+      return followings
         ? api.job.current.findFollowedPaginated(query)
         : api.job.findPaginated(query);
     },

@@ -40,7 +40,7 @@ export const ExploreFollowing = ({
     search,
     join: ["uploads"],
     sortKey: "createdAt",
-    follow: true,
+    followings: true,
     sortOrder: "desc",
   });
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { View } from "react-native";
-import { router, useLocalSearchParams } from "expo-router";
+import { router } from "expo-router";
 import { Text } from "~/components/ui/text";
 import { Button } from "~/components/ui/button";
 import {
@@ -30,12 +30,20 @@ import { ApplyJobActionSheet } from "./ApplyJobActionSheet";
 import { CancelApplicationActionSheet } from "./CancelApplicationActionSheet";
 import { toast } from "sonner-native";
 
-export const JobDetails = () => {
+interface JobDetailsProps {
+  className?: string;
+  id: string;
+}
+
+export const JobDetails = ({ className, id }: JobDetailsProps) => {
+  const { currentUser } = useCurrentUser();
+
   const queryClient = useQueryClient();
 
-  const { currentUser } = useCurrentUser();
-  const { id, uploads: rawUploads } = useLocalSearchParams();
+  const applySheetRef = React.useRef<ActionSheetRef>(null);
+  const cancelSheetRef = React.useRef<ActionSheetRef>(null);
 
+  // load data & metadata *******************************************************************************************************
   const {
     data: jobResp,
     isPending: isJobPending,
@@ -43,62 +51,12 @@ export const JobDetails = () => {
     refetch: refetchJob,
   } = useQuery({
     queryKey: ["job", id],
-    queryFn: () => api.job.findById(id as string),
+    queryFn: () =>
+      api.job.findById(id as string, ["uploads", "postedBy"].join(",")),
     enabled: !!id,
   });
 
   const job = React.useMemo(() => jobResp ?? null, [jobResp]);
-
-  const uploads = React.useMemo<string[]>(() => {
-    if (typeof rawUploads === "string") {
-      try {
-        const parsed = JSON.parse(rawUploads);
-        if (Array.isArray(parsed)) return parsed.map(String);
-      } catch {
-        // ignore bad param
-      }
-    }
-    return job?.uploads?.map((upload) => String(upload.uploadId)) ?? [];
-  }, [rawUploads, job?.uploads]);
-
-  //application
-  const applySheetRef = React.useRef<ActionSheetRef>(null);
-  const cancelSheetRef = React.useRef<ActionSheetRef>(null);
-
-  const {
-    data: isJobRequested,
-    isPending: isJobRequestedPending,
-    refetch: refetchJobRequested,
-  } = useQuery({
-    queryKey: ["job-request", id],
-    queryFn: () => api.jobRequest.findRequested(id as string),
-    enabled: !!id,
-  });
-
-  //view & save
-  const { isJobSaved } = useIsJobSaved(id as string);
-  const { isJobViewed, isViewedPending } = useIsJobViewed(id as string);
-
-  const { saveJob, isSavePending, unsaveJob, isUnsavePending } =
-    useJobSaveActions({
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: ["is-job-saved", id as string],
-        });
-      },
-    });
-
-  const { viewJob } = useJobViewActions({
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["is-job-viewed", id as string],
-      });
-    },
-  });
-
-  React.useEffect(() => {
-    if (!isViewedPending && !isJobViewed && id) viewJob(id as string);
-  }, [isViewedPending, isJobViewed, id]);
 
   const { data: jobMetadataResp, refetch: refetchJobMetadata } = useQuery({
     queryKey: ["job-metadata", id],
@@ -113,8 +71,34 @@ export const JobDetails = () => {
 
   const { jsx: profilePicture } = useServerImage({
     id: job?.postedBy?.pictureId,
+    className: "rounded-full",
     fallback: identifyUserAvatar(job?.postedBy),
     size: { width: 40, height: 40 },
+  });
+
+  // Fetch each image individually
+  const imageQueries = useQueries({
+    queries: Array.isArray(job?.uploads)
+      ? job.uploads?.map((upload) => ({
+          queryKey: ["upload", upload.uploadId],
+          queryFn: () => api.upload.getUploadById(Number(upload.uploadId)),
+          enabled: !!upload.uploadId,
+        }))
+      : [],
+  });
+
+  const areImageComplete = imageQueries.every((query) => !query.isPending);
+
+  // job request *******************************************************************************************************
+
+  const {
+    data: isJobRequested,
+    isPending: isJobRequestedPending,
+    refetch: refetchJobRequested,
+  } = useQuery({
+    queryKey: ["job-request", id],
+    queryFn: () => api.jobRequest.findRequested(id as string),
+    enabled: !!id,
   });
 
   const { mutate: sendRequest, isPending: isSendRequestPending } = useMutation({
@@ -143,16 +127,31 @@ export const JobDetails = () => {
       },
     });
 
-  // Fetch each image individually
-  const imageQueries = useQueries({
-    queries: Array.isArray(uploads)
-      ? uploads.map((uploadId) => ({
-          queryKey: ["upload", uploadId],
-          queryFn: () => api.upload.getUploadById(Number(uploadId)),
-          enabled: !!uploadId,
-        }))
-      : [],
+  // job save  *******************************************************************************************************
+
+  const { isJobSaved, isSavedPending } = useIsJobSaved(id as string);
+  const { isJobViewed, isViewedPending } = useIsJobViewed(id as string);
+
+  const { saveJob, isSavePending, unsaveJob, isUnsavePending } =
+    useJobSaveActions({
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: ["is-job-saved", id as string],
+        });
+      },
+    });
+
+  const { viewJob, isViewPending } = useJobViewActions({
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["is-job-viewed", id as string],
+      });
+    },
   });
+
+  React.useEffect(() => {
+    if (!isViewedPending && !isJobViewed && id) viewJob(id as string);
+  }, [isViewedPending, isJobViewed, id]);
 
   const handleSave = () => {
     if (isSavePending || isUnsavePending) return;
@@ -160,33 +159,14 @@ export const JobDetails = () => {
     else saveJob(id as string);
   };
 
-  const isPending = isJobPending || isJobRequestedPending;
+  const isPending = isJobPending || isJobRequestedPending || !areImageComplete;
 
-  if (isJobError)
+  if (isPending)
     return (
-      <View className="flex-1 justify-center items-center bg-background px-6">
-        <Text className="text-lg font-semibold text-foreground text-center">
-          Couldn't load job details
-        </Text>
-        <Text className="text-sm text-muted-foreground text-center mt-2">
-          Please check your connection and try again.
-        </Text>
-        <View className="flex-row gap-2 mt-5 w-full">
-          <Button
-            variant="outline"
-            className="flex-1"
-            onPress={() => router.back()}
-          >
-            <Text>Go Back</Text>
-          </Button>
-          <Button className="flex-1" onPress={() => refetchJob()}>
-            <Text>Retry</Text>
-          </Button>
-        </View>
-      </View>
+      <JobDetailsSkeleton
+        uploads={job?.uploads?.map((upload) => String(upload.uploadId)) ?? []}
+      />
     );
-
-  if (isPending) return <JobDetailsSkeleton uploads={uploads} />;
 
   if (!id) {
     return (
@@ -208,7 +188,7 @@ export const JobDetails = () => {
           handleSave={handleSave}
           isJobSaved={!!isJobSaved}
           isSavePending={isSavePending || isUnsavePending}
-          uploads={uploads as string[]}
+          uploads={job?.uploads?.map((upload) => String(upload.uploadId)) ?? []}
           imageQueries={imageQueries}
         />
 
