@@ -119,7 +119,7 @@ export default function TabLayout() {
             className="w-16 h-16 -top-4 rounded-full flex items-center justify-center shadow-lg mx-auto"
             onPress={withHaptic(onPress)}
           >
-            <Icon as={Home} size={32} className="text-white" />
+            <Icon as={Home} size={32} color="white" />
           </Button>
         );
       },

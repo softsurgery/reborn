@@ -3,7 +3,6 @@ import React from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { type Socket } from "socket.io-client";
 import { ResponseMessageDto } from "@/types";
-import { useAudioPlayer } from "expo-audio";
 import {
   differenceInCalendarDays,
   format,
