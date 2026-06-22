@@ -1,27 +1,34 @@
-import { Tabs } from "expo-router";
+import { Tabs, useSegments } from "expo-router";
 import * as Haptics from "expo-haptics";
 import {
   Home,
+  LucideIcon,
   MessageCircle,
   Telescope,
   User,
   Wallet,
 } from "lucide-react-native";
-import React from "react";
 import { Button } from "~/components/ui/button";
-import { Icon } from "~/components/ui/icon";
 import { useTranslation } from "react-i18next";
-import { useColorScheme } from "nativewind";
-import { NAV_THEME } from "~/lib/theme";
 import { useRTL } from "~/hooks/useRTL";
-import { Pressable } from "react-native";
+import { Pressable, View } from "react-native";
+import { useColorPalette } from "@/hooks/useColorPalette";
+import Animated, {
+  interpolate,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from "react-native-reanimated";
+import React from "react";
+import { Icon } from "@/components/ui/icon";
 
 export default function TabLayout() {
-  const { colorScheme } = useColorScheme();
+  const { palette } = useColorPalette();
+  const segments = useSegments();
+  const currentRoute = segments[segments.length - 1];
+
   const isRTL = useRTL();
   const { t } = useTranslation("common");
-
-  const isDarkColorScheme = colorScheme === "dark";
 
   const withHaptic = (onPress: Function) => {
     return async () => {
@@ -30,14 +37,61 @@ export default function TabLayout() {
     };
   };
 
-  const VibratingTabButton = (props: any) => {
-    const { onPress, children } = props;
+  const VibratingTabButton = ({
+    accessibilityState,
+    children,
+    onPress,
+  }: any) => {
+    const focused = accessibilityState?.selected;
+    const scale = useSharedValue(focused ? 1 : 0);
+
+    React.useEffect(() => {
+      scale.value = withSpring(focused ? 1 : 0, {
+        damping: 15,
+        stiffness: 140,
+      });
+    }, [focused]);
+
+    const animatedStyle = useAnimatedStyle(() => ({
+      transform: [
+        {
+          scale: interpolate(scale.value, [0, 1], [1, 1.08]),
+        },
+      ],
+    }));
+
+    const indicatorStyle = useAnimatedStyle(() => ({
+      opacity: scale.value,
+      transform: [
+        {
+          scaleX: withSpring(focused ? 1 : 0.4),
+        },
+      ],
+    }));
+
+    const handlePress = async () => {
+      await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+      onPress?.();
+    };
+
     return (
-      <Pressable
-        className="flex flex-col justify-center items-center mt-2 gap-1"
-        onPress={withHaptic(onPress)}
-      >
-        {children}
+      <Pressable onPress={handlePress} className="mt-2">
+        <Animated.View
+          style={animatedStyle}
+          className="items-center justify-center gap-1"
+        >
+          {children}
+
+          <Animated.View
+            style={indicatorStyle}
+            className="mt-1 h-1 w-8 rounded-full"
+          >
+            <View
+              style={{ backgroundColor: palette.primary }}
+              className="h-full w-full rounded-full"
+            />
+          </Animated.View>
+        </Animated.View>
       </Pressable>
     );
   };
@@ -85,57 +139,54 @@ export default function TabLayout() {
     },
   ];
 
+  const orderedTabs = isRTL ? [...tabsConfig].reverse() : tabsConfig;
+
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarStyle: {
-          backgroundColor: isDarkColorScheme
-            ? NAV_THEME.dark.colors.card
-            : NAV_THEME.light.colors.card,
-          borderColor: "transparent",
-          height: "9%",
-        },
         sceneStyle: {
           flex: 1,
-          backgroundColor: isDarkColorScheme
-            ? NAV_THEME.dark.colors.background
-            : NAV_THEME.light.colors.background,
+          backgroundColor: "transparent",
+        },
+        tabBarShowLabel: true,
+        tabBarActiveTintColor: palette.primary,
+        tabBarInactiveTintColor: palette.foreground,
+        tabBarStyle: {
+          borderTopEndRadius: 28,
+          borderTopStartRadius: 28,
+          paddingTop: 10,
+          paddingInline: 10,
+          backgroundColor: palette.card,
+          borderColor: palette.border,
+          borderTopWidth: 0,
+          height: "9%",
+        },
+        tabBarLabelStyle: {
+          fontSize: 11,
+          fontWeight: "700",
         },
       }}
     >
-      {(isRTL ? tabsConfig.reverse() : tabsConfig).map((tab) => (
+      {orderedTabs.map((tab) => (
         <Tabs.Screen
           key={tab.name}
           name={tab.name}
           options={{
             title: tab.title,
+            tabBarButton: tab.customButton
+              ? tab.customButton
+              : (props) => <VibratingTabButton {...props} />,
             tabBarIcon: tab.icon
-              ? ({ focused }) => (
+              ? ({ color, focused }) => (
                   <Icon
-                    as={tab.icon}
-                    size={tab.iconSize}
-                    color={
-                      focused
-                        ? isDarkColorScheme
-                          ? NAV_THEME.dark.colors.primary
-                          : NAV_THEME.light.colors.primary
-                        : isDarkColorScheme
-                          ? NAV_THEME.dark.colors.text
-                          : NAV_THEME.light.colors.text
-                    }
+                    as={tab.icon as LucideIcon}
+                    size={focused ? 28 : 24}
+                    color={color}
                   />
                 )
               : undefined,
-            tabBarButton: tab.customButton || VibratingTabButton,
-            tabBarLabel: tab.hideLabel ? () => null : undefined,
-            tabBarActiveTintColor: isDarkColorScheme
-              ? NAV_THEME.dark.colors.primary
-              : NAV_THEME.light.colors.primary,
-            tabBarLabelStyle: {
-              fontFamily: "Poppins-SemiBold",
-              fontSize: 9,
-            },
+            ...(tab.hideLabel ? { tabBarLabel: () => null } : {}),
           }}
         />
       ))}

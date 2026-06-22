@@ -7,7 +7,6 @@ import { ActivityIndicator, Platform } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
 import { usePreferencePersistStore } from "~/hooks/stores/usePreferencePersistStore";
 import { useTranslation } from "react-i18next";
-import * as NavigationBar from "expo-navigation-bar";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -15,10 +14,6 @@ export default function ScreenRedirect() {
   const { i18n } = useTranslation();
   const { setColorScheme } = useColorScheme();
   const preferencePersistStore = usePreferencePersistStore();
-  const isDarkMode = React.useMemo(
-    () => preferencePersistStore.theme === "dark",
-    [preferencePersistStore.theme]
-  );
 
   const [fontsLoaded] = Font.useFonts({
     "Poppins-Black": require("../assets/fonts/Poppins/Poppins-Black.ttf"),
@@ -42,31 +37,21 @@ export default function ScreenRedirect() {
   });
 
   React.useEffect(() => {
-    if (fontsLoaded && preferencePersistStore.isReady) {
-      // Set system color scheme
-      setColorScheme(preferencePersistStore.theme);
-      i18n.changeLanguage(preferencePersistStore.language);
-
+    if (preferencePersistStore.isReady) {
       // Set Android navigation bar
-      setAndroidNavigationBar(isDarkMode ? "light" : "dark");
-
-      // Apply web background if on web
-      if (Platform.OS === "web") {
-        document.documentElement.classList.add("bg-background");
-      }
 
       SplashScreen.hideAsync();
-      if (Platform.OS === "android") {
-        NavigationBar.setVisibilityAsync("hidden");
-        NavigationBar.setBehaviorAsync("overlay-swipe");
-      }
-      router.replace("/main");
-    }
-  }, [
-    fontsLoaded,
-    preferencePersistStore.theme,
-    preferencePersistStore.isReady,
-  ]);
 
-  return <ActivityIndicator size="large" />;
+      setTimeout(() => {
+        // Set system color scheme
+        setColorScheme(preferencePersistStore.theme);
+        if (Platform.OS === "android")
+          setAndroidNavigationBar(preferencePersistStore.theme);
+        i18n.changeLanguage(preferencePersistStore.language);
+        router.replace("/main");
+      }, 100);
+    }
+  }, [preferencePersistStore.theme, preferencePersistStore.isReady]);
+
+  return <ActivityIndicator className="flex-1" size="large" />;
 }

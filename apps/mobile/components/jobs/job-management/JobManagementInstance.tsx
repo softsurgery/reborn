@@ -4,7 +4,7 @@ import { Loader } from "@/components/shared/Loader";
 import { StableSafeAreaView } from "@/components/shared/StableSafeAreaView";
 import { Text } from "@/components/ui/text";
 import { cn } from "@/lib/utils";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { createMaterialTopTabNavigator } from "expo-router/js-top-tabs";
 import { useQuery } from "@tanstack/react-query";
 import { router } from "expo-router";
 import { ArrowLeft } from "lucide-react-native";

@@ -24,7 +24,7 @@ import { cn } from "~/lib/utils";
 import { useUserStore } from "~/hooks/stores/useUserStore";
 import { SocialStat } from "./social/SocialStat";
 import { Button } from "../ui/button";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { createMaterialTopTabNavigator } from "expo-router/js-top-tabs";
 import { useTranslation } from "react-i18next";
 import { useExperiences } from "~/hooks/content/user/useExperiences";
 import { useEducations } from "~/hooks/content/user/useEducations";
