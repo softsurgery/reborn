@@ -8,7 +8,7 @@ import { Text } from "../ui/text";
 import { FormBuilder } from "../shared/form-builder/FormBuilder";
 import { useSignInFormStructure } from "./useSignInFormStructure";
 import { Button } from "../ui/button";
-import { ArrowLeft } from "lucide-react-native";
+import { ChevronLeft } from "lucide-react-native";
 import DividerWithText from "../ui/divider-with-text";
 import { requestSignInDtoSchema } from "~/types/validations/auth.validation";
 import { ServerErrorResponse } from "~/types";
@@ -66,7 +66,7 @@ export const SignInLayout = ({ className }: SignInLayoutProps) => {
         shortcuts={[
           {
             key: "back",
-            icon: ArrowLeft,
+            icon: ChevronLeft,
             onPress: () => {
               router.back();
             },

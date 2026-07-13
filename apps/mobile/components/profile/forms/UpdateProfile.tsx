@@ -1,6 +1,6 @@
 import React from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { ArrowLeft, Save } from "lucide-react-native";
+import { ChevronLeft, Save } from "lucide-react-native";
 import { Loader } from "~/components/shared/Loader";
 import { Button } from "~/components/ui/button";
 import { useUserStore } from "~/hooks/stores/useUserStore";
@@ -149,7 +149,7 @@ export const UpdateProfile = ({ className }: UpdateProfileProps) => {
         shortcuts={[
           {
             key: "back",
-            icon: ArrowLeft,
+            icon: ChevronLeft,
             onPress: () => router.back(),
           },
         ]}

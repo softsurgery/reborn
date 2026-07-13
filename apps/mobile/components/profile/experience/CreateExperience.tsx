@@ -10,7 +10,7 @@ import { CreateExperienceDto, ServerErrorResponse } from "@/types";
 import { createExperienceSchema } from "@/types/validations/experience.validation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { router } from "expo-router";
-import { ArrowLeft } from "lucide-react-native";
+import { ChevronLeft } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 import { useKeyboardVisible } from "@/hooks/useKeyboardVisible";
@@ -82,7 +82,7 @@ export const CreateExperience = ({ className }: CreateExperienceProps) => {
         shortcuts={[
           {
             key: "back",
-            icon: ArrowLeft,
+            icon: ChevronLeft,
             onPress: () => router.back(),
           },
         ]}

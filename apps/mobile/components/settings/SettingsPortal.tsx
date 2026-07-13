@@ -2,7 +2,7 @@ import React from "react";
 import { Alert, View } from "react-native";
 import { useQueryClient } from "@tanstack/react-query";
 import { router } from "expo-router";
-import { ArrowLeft, ChevronRight, LogOut, Trash2 } from "lucide-react-native";
+import { ChevronLeft, ChevronRight, LogOut, Trash2 } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import { cn } from "~/lib/utils";
 import { useAuthPersistStore } from "~/hooks/stores/useAuthPersistStore";

@@ -2,7 +2,7 @@ import React from "react";
 import { useDebounce } from "@/hooks/useDebounce";
 import { LegendList } from "@legendapp/list";
 import { router, useFocusEffect } from "expo-router";
-import { ArrowLeft, Search } from "lucide-react-native";
+import { ChevronLeft, Search } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import { Pressable, RefreshControl, View } from "react-native";
 import { cn } from "~/lib/utils";
@@ -88,7 +88,7 @@ export const ChatPortal = ({ className }: ChatPortalProps) => {
         shortcuts={[
           {
             key: "back",
-            icon: ArrowLeft,
+            icon: ChevronLeft,
             onPress: () => {
               router.back();
             },

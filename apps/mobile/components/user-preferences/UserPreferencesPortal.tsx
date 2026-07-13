@@ -4,7 +4,7 @@ import { DarkModePreferenceCard } from "./DarkModePreferenceCard";
 import { useTranslation } from "react-i18next";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { Separator } from "../ui/separator";
-import { ArrowLeft, View } from "lucide-react-native";
+import { ChevronLeft, View } from "lucide-react-native";
 import { ApplicationHeader } from "../shared/AppHeader";
 import { router } from "expo-router";
 import { StableSafeAreaView } from "../shared/StableSafeAreaView";
@@ -25,7 +25,7 @@ const UserPreferencesPortal = ({ className }: UserPreferencesPortalProps) => {
         shortcuts={[
           {
             key: "user-preferences",
-            icon: ArrowLeft,
+            icon: ChevronLeft,
             onPress: () => router.back(),
           },
         ]}

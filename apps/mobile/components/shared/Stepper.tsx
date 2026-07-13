@@ -6,7 +6,7 @@ import { StableKeyboardAwareScrollView } from "./StableKeyboardAwareScrollView";
 import { useKeyboardVisible } from "~/hooks/useKeyboardVisible";
 import { cn } from "~/lib/utils";
 import { Icon } from "../ui/icon";
-import { ArrowLeft, ArrowRight } from "lucide-react-native";
+import { ChevronLeft, ArrowRight } from "lucide-react-native";
 import { type VariantProps } from "class-variance-authority";
 
 interface StepperProps {
@@ -123,7 +123,7 @@ export const Stepper = ({
               currentStep === 0 ? "hidden" : "block",
             )}
           >
-            <Icon as={ArrowLeft} size={20} />
+            <Icon as={ChevronLeft} size={20} />
             <Text className="font-semibold">Previous</Text>
           </Button>
 

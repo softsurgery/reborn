@@ -11,7 +11,7 @@ import { ServerErrorResponse, UpdateExperienceDto } from "@/types";
 import { updateExperienceSchema } from "@/types/validations/experience.validation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { router } from "expo-router";
-import { ArrowLeft } from "lucide-react-native";
+import { ChevronLeft } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import { useUpdateExperienceFormStructure } from "./useUpdateExperienceFormStructure";
 import { View } from "react-native";
@@ -82,7 +82,7 @@ export const UpdateExperience = ({ className }: UpdateExperienceProps) => {
         shortcuts={[
           {
             key: "back",
-            icon: ArrowLeft,
+            icon: ChevronLeft,
             onPress: () => router.back(),
           },
         ]}

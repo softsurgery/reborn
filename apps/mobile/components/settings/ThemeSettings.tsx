@@ -1,6 +1,6 @@
 import React from "react";
 import { View } from "react-native";
-import { ArrowLeft } from "lucide-react-native";
+import { ChevronLeft } from "lucide-react-native";
 import { Text } from "~/components/ui/text";
 import { cn } from "~/lib/utils";
 import { StableKeyboardAwareScrollView } from "~/components/shared/StableKeyboardAwareScrollView";

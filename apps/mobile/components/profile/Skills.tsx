@@ -2,7 +2,7 @@ import React from "react";
 import { cn } from "~/lib/utils";
 import { StableSafeAreaView } from "../shared/StableSafeAreaView";
 import { ApplicationHeader } from "../shared/AppHeader";
-import { ArrowLeft, Loader2, Save } from "lucide-react-native";
+import { ChevronLeft, Loader2, Save } from "lucide-react-native";
 import { router } from "expo-router";
 import { View } from "react-native";
 import { Text } from "../ui/text";
@@ -30,7 +30,7 @@ export const Skills = ({ className }: SkillsProps) => {
         shortcuts={[
           {
             key: "back",
-            icon: ArrowLeft,
+            icon: ChevronLeft,
             onPress: () => router.back(),
           },
         ]}

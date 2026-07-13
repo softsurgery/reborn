@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  ArrowLeft,
+  ChevronLeft,
   CheckCircle,
   Clock,
   DollarSign,
@@ -88,7 +88,7 @@ export const JobCardHeader = ({
           heightScale={0.3}
           extraActions={[
             {
-              icon: <Icon as={ArrowLeft} size={24} color="white" />,
+              icon: <Icon as={ChevronLeft} size={24} color="white" />,
               onPress: () => router.back(),
             },
           ]}
@@ -102,7 +102,7 @@ export const JobCardHeader = ({
                 className="p-2 -ml-2 mr-1 rounded-full active:bg-muted/40"
                 onPress={() => router.back()}
               >
-                <Icon as={ArrowLeft} size={22} />
+                <Icon as={ChevronLeft} size={22} />
               </Pressable>
             ) : null}
 

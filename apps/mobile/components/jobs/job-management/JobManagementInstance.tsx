@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { createMaterialTopTabNavigator } from "expo-router/js-top-tabs";
 import { useQuery } from "@tanstack/react-query";
 import { router } from "expo-router";
-import { ArrowLeft } from "lucide-react-native";
+import { ChevronLeft } from "lucide-react-native";
 import { ScrollView } from "react-native";
 
 interface JobManagementInstanceProps {
@@ -36,7 +36,7 @@ export const JobManagementInstance = ({
         shortcuts={[
           {
             key: "back",
-            icon: ArrowLeft,
+            icon: ChevronLeft,
             onPress: () => router.back(),
           },
         ]}

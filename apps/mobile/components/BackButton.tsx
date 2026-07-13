@@ -1,4 +1,4 @@
-import { ArrowLeft } from "lucide-react-native";
+import { ChevronLeft } from "lucide-react-native";
 import { cn } from "~/lib/utils";
 import { Icon } from "./ui/icon";
 import { router } from "expo-router";
@@ -15,7 +15,7 @@ export const BackButton = ({ className, size = 24 }: BackButtonProps) => {
       className={cn("flex flex-row items-center justify-center", className)}
       onPress={() => router.back()}
     >
-      <Icon as={ArrowLeft} size={size} />
+      <Icon as={ChevronLeft} size={size} />
     </StablePressable>
   );
 };

@@ -11,7 +11,7 @@ import { ResponseEducationDto, ServerErrorResponse } from "@/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { router } from "expo-router";
 import {
-  ArrowLeft,
+  ChevronLeft,
   GraduationCap,
   Building2,
   FileText,
@@ -94,7 +94,7 @@ export const UpdateEducations = ({ className }: UpdateEducationsProps) => {
         shortcuts={[
           {
             key: "back",
-            icon: ArrowLeft,
+            icon: ChevronLeft,
             onPress: () => {
               router.back();
             },

@@ -8,7 +8,7 @@ import { useInfiniteSavedJobs } from "~/hooks/content/job/useInfiniteSavedJobs";
 import { JobCard } from "../../../jobs/JobCard";
 import { StableSafeAreaView } from "~/components/shared/StableSafeAreaView";
 import { ApplicationHeader } from "~/components/shared/AppHeader";
-import { ArrowLeft } from "lucide-react-native";
+import { ChevronLeft } from "lucide-react-native";
 import { router } from "expo-router";
 
 interface SavedListProps {
@@ -52,7 +52,7 @@ export const SavedList = ({ className, search, searching }: SavedListProps) => {
         shortcuts={[
           {
             key: "back",
-            icon: ArrowLeft,
+            icon: ChevronLeft,
             onPress: () => router.back(),
           },
         ]}

@@ -4,7 +4,7 @@ import { Text } from "../../ui/text";
 import { StablePressable } from "~/components/shared/StablePressable";
 import { router, useNavigation } from "expo-router";
 import { NavigationProps } from "~/types/app.routes";
-import { ArrowLeft } from "lucide-react-native";
+import { ChevronLeft } from "lucide-react-native";
 import { Icon } from "~/components/ui/icon";
 
 interface ChatHeaderLeftProps {
@@ -30,7 +30,7 @@ export const ChatHeaderLeft = ({
         onPress={() => navigation.goBack()}
         onPressClassname="bg-muted"
       >
-        <Icon as={ArrowLeft} size={24} />
+        <Icon as={ChevronLeft} size={24} />
       </StablePressable>
 
       <StablePressable

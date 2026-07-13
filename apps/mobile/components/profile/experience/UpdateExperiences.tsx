@@ -13,7 +13,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { router } from "expo-router";
 import {
-  ArrowLeft,
+  ChevronLeft,
   Briefcase,
   Building2,
   Calendar,
@@ -100,7 +100,7 @@ export const UpdateExperiences = ({ className }: UpdateExperiencesProps) => {
         shortcuts={[
           {
             key: "back",
-            icon: ArrowLeft,
+            icon: ChevronLeft,
             onPress: () => {
               router.back();
             },

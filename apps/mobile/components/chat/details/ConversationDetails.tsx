@@ -21,7 +21,7 @@ import {
   AlertTriangle,
   Trash2,
   X,
-  ArrowLeft,
+  ChevronLeft,
 } from "lucide-react-native";
 import { Icon } from "~/components/ui/icon";
 
@@ -260,7 +260,7 @@ export const ConversationDetails = ({ id }: ConversationDetailsProps) => {
           shortcuts={[
             {
               key: "back",
-              icon: ArrowLeft,
+              icon: ChevronLeft,
               onPress: () => router.back(),
             },
           ]}
@@ -277,7 +277,7 @@ export const ConversationDetails = ({ id }: ConversationDetailsProps) => {
               }}
               className="p-2 rounded-full"
             >
-              <Icon as={ArrowLeft} size={22} color={iconColor} />
+              <Icon as={ChevronLeft} size={22} color={iconColor} />
             </TouchableOpacity>
             <View className="flex-1 flex-row items-center bg-muted rounded-full px-4 py-2.5">
               <Icon as={Search} size={18} color={mutedIconColor} />
@@ -359,7 +359,7 @@ export const ConversationDetails = ({ id }: ConversationDetailsProps) => {
         shortcuts={[
           {
             key: "back",
-            icon: ArrowLeft,
+            icon: ChevronLeft,
             onPress: () => router.back(),
           },
         ]}

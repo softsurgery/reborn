@@ -7,7 +7,7 @@ import { Text } from "@/components/ui/text";
 import { cn } from "@/lib/utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { router } from "expo-router";
-import { ArrowLeft } from "lucide-react-native";
+import { ChevronLeft } from "lucide-react-native";
 import { useCreateEducationFormStructure } from "./useCreateEducationFormStructure";
 import { CreateEducationDto, ServerErrorResponse } from "@/types";
 import { api } from "@/api";
@@ -74,7 +74,7 @@ export const CreateEducation = ({ className }: CreateEducationProps) => {
         shortcuts={[
           {
             key: "back",
-            icon: ArrowLeft,
+            icon: ChevronLeft,
             onPress: () => router.back(),
           },
         ]}

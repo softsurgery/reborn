@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 import { ServerErrorResponse, UpdateEducationDto } from "@/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { router } from "expo-router";
-import { ArrowLeft } from "lucide-react-native";
+import { ChevronLeft } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import { useUpdateEducationFormStructure } from "./useUpdateEducationFormStructure";
 import { updateEducationSchema } from "@/types/validations/education.validation";
@@ -74,7 +74,7 @@ export const UpdateEducation = ({ className }: UpdateEducationProps) => {
         shortcuts={[
           {
             key: "back",
-            icon: ArrowLeft,
+            icon: ChevronLeft,
             onPress: () => router.back(),
           },
         ]}

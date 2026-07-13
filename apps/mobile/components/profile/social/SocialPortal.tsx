@@ -1,7 +1,7 @@
 import { View } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import { createMaterialTopTabNavigator } from "expo-router/js-top-tabs";
-import { ArrowLeft } from "lucide-react-native";
+import { ChevronLeft } from "lucide-react-native";
 import { ApplicationHeader } from "~/components/shared/AppHeader";
 import { StableSafeAreaView } from "~/components/shared/StableSafeAreaView";
 import { cn } from "~/lib/utils";
@@ -30,7 +30,7 @@ export const SocialPortal = ({ className }: SocialPortalProps) => {
         titleVariant="large"
         reverse
         shortcuts={[
-          { key: "back", icon: ArrowLeft, onPress: () => router.back() },
+          { key: "back", icon: ChevronLeft, onPress: () => router.back() },
         ]}
       />
 

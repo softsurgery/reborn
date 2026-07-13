@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { router } from "expo-router";
 import {
   AlertCircle,
-  ArrowLeft,
+  ChevronLeft,
   CheckCircle2,
   Clock,
 } from "lucide-react-native";
@@ -137,7 +137,7 @@ export const ChangeEmailPortal = ({ className }: ChangeEmailPortalProps) => {
         shortcuts={[
           {
             key: "back",
-            icon: ArrowLeft,
+            icon: ChevronLeft,
             onPress: () => router.back(),
           },
         ]}

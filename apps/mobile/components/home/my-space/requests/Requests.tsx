@@ -1,7 +1,7 @@
 import React from "react";
 import { View } from "react-native";
 import { cn } from "~/lib/utils";
-import { ArrowLeft, LucideIcon } from "lucide-react-native";
+import { ChevronLeft, LucideIcon } from "lucide-react-native";
 import { StablePressable } from "~/components/shared/StablePressable";
 import { Text } from "~/components/ui/text";
 import { RequestsList } from "./RequestList";
@@ -80,7 +80,7 @@ export const Requests = ({
         shortcuts={[
           {
             key: "back",
-            icon: ArrowLeft,
+            icon: ChevronLeft,
             onPress: () => router.back(),
           },
         ]}

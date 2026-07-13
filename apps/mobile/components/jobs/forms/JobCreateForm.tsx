@@ -15,7 +15,7 @@ import { cn } from "~/lib/utils";
 import { router } from "expo-router";
 import { StableSafeAreaView } from "~/components/shared/StableSafeAreaView";
 import { ApplicationHeader } from "~/components/shared/AppHeader";
-import { ArrowLeft } from "lucide-react-native";
+import { ChevronLeft } from "lucide-react-native";
 import { Loader } from "@/components/shared/Loader";
 import { useLiveGeolocation } from "@/hooks/useLiveGeolocation";
 import { toast } from "sonner-native";
@@ -134,7 +134,7 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
         shortcuts={[
           {
             key: "back",
-            icon: ArrowLeft,
+            icon: ChevronLeft,
             onPress: () => {
               router.back();
             },

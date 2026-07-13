@@ -1,7 +1,7 @@
 import React from "react";
 import { View } from "react-native";
 import { router } from "expo-router";
-import { ArrowLeft, Lock } from "lucide-react-native";
+import { ChevronLeft, Lock } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import { cn } from "~/lib/utils";
 import { ApplicationHeader } from "~/components/shared/AppHeader";
@@ -38,7 +38,7 @@ export const ChangePassword = ({ className }: ChangePasswordProps) => {
         shortcuts={[
           {
             key: "back",
-            icon: ArrowLeft,
+            icon: ChevronLeft,
             onPress: () => router.back(),
           },
         ]}

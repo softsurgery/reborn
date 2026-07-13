@@ -2,7 +2,7 @@ import React from "react";
 import { View } from "react-native";
 import { router } from "expo-router";
 import {
-  ArrowLeft,
+  ChevronLeft,
   ChevronRight,
   Download,
   Eye,
@@ -118,7 +118,7 @@ export const PrivacySecurityPortal = ({
         shortcuts={[
           {
             key: "back",
-            icon: ArrowLeft,
+            icon: ChevronLeft,
             onPress: () => router.back(),
           },
         ]}

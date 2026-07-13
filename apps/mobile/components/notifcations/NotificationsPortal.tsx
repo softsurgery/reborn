@@ -1,7 +1,7 @@
 import { LegendList } from "@legendapp/list";
 import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import { router } from "expo-router";
-import { ArrowLeft } from "lucide-react-native";
+import { ChevronLeft } from "lucide-react-native";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { RefreshControl, View } from "react-native";
@@ -70,7 +70,7 @@ export const NotificationsPortal = ({ className }: NotificationPortalProps) => {
         shortcuts={[
           {
             key: "back",
-            icon: ArrowLeft,
+            icon: ChevronLeft,
             onPress: () => {
               router.back();
             },

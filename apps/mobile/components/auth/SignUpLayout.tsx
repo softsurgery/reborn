@@ -4,7 +4,7 @@ import { View } from "react-native";
 import { FormBuilder } from "../shared/form-builder/FormBuilder";
 import { StableSafeAreaView } from "../shared/StableSafeAreaView";
 import { ApplicationHeader } from "../shared/AppHeader";
-import { ArrowLeft } from "lucide-react-native";
+import { ChevronLeft } from "lucide-react-native";
 import { Stepper } from "../shared/Stepper";
 import React from "react";
 import { ServerErrorResponse, Upload } from "@/types";
@@ -88,7 +88,7 @@ export const SignupLayout = ({ className }: SignupLayoutProps) => {
         shortcuts={[
           {
             key: "back",
-            icon: ArrowLeft,
+            icon: ChevronLeft,
             onPress: () => {
               router.back();
             },

@@ -2,7 +2,7 @@ import React from "react";
 import { View } from "react-native";
 import { Text } from "~/components/ui/text";
 import { cn } from "~/lib/utils";
-import { ArrowLeft } from "lucide-react-native";
+import { ChevronLeft } from "lucide-react-native";
 import { router } from "expo-router";
 import { useKeyboardVisible } from "@/hooks/useKeyboardVisible";
 import { useExploreFilterStore } from "@/hooks/stores/userExploreFilterStore";
@@ -76,7 +76,7 @@ export const JobFiltersPortal = ({ className }: JobFiltersProps) => {
         shortcuts={[
           {
             key: "back",
-            icon: ArrowLeft,
+            icon: ChevronLeft,
             onPress: () => {
               exploreFilterStore.reset();
               router.back();
