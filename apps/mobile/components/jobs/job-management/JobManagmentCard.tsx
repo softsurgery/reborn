@@ -1,9 +1,10 @@
+import React from "react";
 import { ThreeDotsActionSheet } from "@/components/shared/ThreeDotsActionSheet";
 import { Text } from "@/components/ui/text";
 import { useServerImage } from "@/hooks/content/useServerImage";
 import { cn } from "@/lib/utils";
 import { JobEvents, JobStatus, ResponseJobDto } from "@/types";
-import { View } from "react-native";
+import { View, TouchableOpacity } from "react-native";
 import {
   ExternalLink,
   FileText,
@@ -12,153 +13,261 @@ import {
   Send,
   Telescope,
   Trash2,
+  Clock,
+  Wallet,
+  Settings2,
 } from "lucide-react-native";
 import { router } from "expo-router";
 import { Badge } from "@/components/ui/badge";
 import { useNextWorkflowJob } from "@/hooks/content/job/workflow/useNextWorkflowJob";
 import { useQueryClient } from "@tanstack/react-query";
+import { timeAgo } from "@/lib/dates.utils";
+import { Button } from "@/components/ui/button";
+import { Icon } from "@/components/ui/icon";
 
 interface JobManagementCardProps {
   className?: string;
   job: ResponseJobDto;
 }
 
+const getStatusStyle = (status: JobStatus | string) => {
+  switch (status) {
+    case JobStatus.POSTED:
+      return {
+        badge: "bg-green-500",
+        text: "text-white font-bold",
+      };
+    case JobStatus.DRAFT:
+      return {
+        badge: "bg-yellow-500",
+        text: "text-white font-bold",
+      };
+    case JobStatus.FINISHED:
+    case JobStatus.SUCCESSFUL:
+      return {
+        badge: "bg-blue-500/15 border border-blue-500/30",
+        text: "text-blue-600 dark:text-blue-400 font-medium",
+      };
+    case JobStatus.FAILED:
+      return {
+        badge: "bg-red-500 border border-red-500/30",
+        text: "text-red-600 dark:text-red-400 font-medium",
+      };
+    default:
+      return {
+        badge: "bg-primary/15 border border-primary/30",
+        text: "text-primary font-medium",
+      };
+  }
+};
+
 export const JobManagementCard = ({
   className,
   job,
 }: JobManagementCardProps) => {
   const queryClient = useQueryClient();
+  const orderedUploads = React.useMemo(
+    () => job.uploads?.sort((a, b) => a.order - b.order),
+    [job.uploads],
+  );
+
   const { jsx: cover } = useServerImage({
-    id: job.uploads.sort((a, b) => a.order - b.order)[0]?.uploadId,
+    id: orderedUploads?.[0]?.uploadId,
     fallback: "No Image",
-    className: "rounded-lg",
-    wrapperClassName: "border border-border bg-muted rounded-full",
-    size: { width: 80, height: 80 },
+    className: "rounded-xl",
+    wrapperClassName: "border border-border bg-muted overflow-hidden",
+    size: { width: 76, height: 76 },
   });
 
-  const primaryActionLabel = job.status === "Posted" ? "Unpublish" : "Publish";
+  const primaryActionLabel =
+    job.status === JobStatus.POSTED ? "Unpublish" : "Publish";
+  const statusStyle = getStatusStyle(job.status);
 
   const { nextJobWorkflow, isNextJobWorkflowPending } = useNextWorkflowJob({
     id: job.id,
-    onSuccess: (updatedJob) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["my-jobs"] });
     },
     onError: (error) => {
-      // Handle error
       console.error("Error updating job:", error);
     },
   });
 
-  return (
-    <View className={cn("flex flex-col gap-2 px-2 py-2", className)}>
-      <View className="flex flex-row items-center justify-between gap-6 rounded-xl ">
-        <View className="flex-col gap-2">
-          {cover}
-          <Badge className="self-center text-xs bg-primary">
-            <Text>{job.status}</Text>
-          </Badge>
-        </View>
+  const navigateToManage = () => {
+    router.push({
+      pathname: "/main/my-space/manage-job",
+      params: { id: job.id },
+    });
+  };
 
-        <View className="flex-1 flex-row items-start gap-3">
-          <View className="flex-1 gap-3">
-            <View className="gap-1">
-              {/* Title & Description */}
-              <View className="flex-1 gap-1">
-                <Text className="text-base font-semibold text-foreground">
-                  {job.title}
-                </Text>
-                <Text className="text-sm text-muted-foreground line-clamp-3">
-                  {job.description || "No description available"}
-                </Text>
-              </View>
+  return (
+    <TouchableOpacity
+      activeOpacity={0.75}
+      onPress={navigateToManage}
+      className={cn(
+        "flex flex-col gap-3.5 bg-card border border-border rounded-2xl p-4 shadow-xs",
+        className,
+      )}
+    >
+      <View className="flex flex-row items-start justify-between gap-3.5">
+        <View className="flex-shrink-0">{cover}</View>
+
+        <View className="flex-1 flex-col gap-1.5 justify-between min-h-[76px]">
+          <View className="flex flex-row items-center justify-between gap-2">
+            <Badge
+              className={cn("px-2.5 py-0.5 rounded-full", statusStyle.badge)}
+            >
+              <Text className={cn("text-xs", statusStyle.text)}>
+                {job.status}
+              </Text>
+            </Badge>
+
+            <View className="flex flex-row items-center gap-1">
+              <Clock size={12} color="#9ca3af" />
+              <Text className="text-xs text-muted-foreground">
+                {timeAgo(job?.createdAt || new Date())}
+              </Text>
             </View>
+          </View>
+
+          <View className="gap-0.5">
+            <Text
+              className="text-base font-semibold text-foreground line-clamp-1"
+              numberOfLines={1}
+            >
+              {job.title || "Untitled Job"}
+            </Text>
+
+            <Text
+              className="text-xs text-muted-foreground line-clamp-2"
+              numberOfLines={2}
+            >
+              {job.description || "No description provided"}
+            </Text>
+          </View>
+
+          <View className="flex flex-row items-center gap-1.5 mt-0.5">
+            <Wallet size={13} color="#9ca3af" />
+            <Text className="text-xs font-semibold text-primary">
+              {job?.price ? `${job.price.toFixed(2)} TND` : "Price negotiable"}
+            </Text>
           </View>
         </View>
 
-        <ThreeDotsActionSheet
-          size={30}
-          options={[
-            {
-              label: "View Job",
-              icon: Telescope,
-              onPress: () => {
-                router.push({
-                  pathname: "/main/explore/job-details",
-                  params: { id: job.id },
-                });
+        <View className="self-start -mr-1 -mt-1">
+          <ThreeDotsActionSheet
+            size={24}
+            options={[
+              {
+                label: "View Job",
+                icon: Telescope,
+                onPress: () => {
+                  router.push({
+                    pathname: "/main/explore/job-details",
+                    params: { id: job.id },
+                  });
+                },
               },
-            },
-            {
-              label: "Manage Job",
-              icon: Folder,
-              onPress: () => {
-                router.push({
-                  pathname: "/main/my-space/manage-job",
-                  params: { id: job.id },
-                });
+              {
+                label: "Manage Job",
+                icon: Folder,
+                onPress: navigateToManage,
               },
-            },
-            {
-              label: "Edit Job",
-              icon: PencilLine,
-              onPress: () => {
-                router.push({
-                  pathname: "/main/my-space/update-job",
-                  params: { id: job.id },
-                });
+              {
+                label: "Edit Job",
+                icon: PencilLine,
+                onPress: () => {
+                  router.push({
+                    pathname: "/main/my-space/update-job",
+                    params: { id: job.id },
+                  });
+                },
               },
-            },
-            {
-              label: primaryActionLabel,
-              icon: Send,
-              onPress: () => {
-                if (job.status === JobStatus.DRAFT) {
-                  nextJobWorkflow(JobEvents.POST);
-                } else if (job.status === JobStatus.POSTED) {
-                  nextJobWorkflow(JobEvents.UNPUBLISH);
-                }
+              {
+                label: primaryActionLabel,
+                icon: Send,
+                onPress: () => {
+                  if (job.status === JobStatus.DRAFT) {
+                    nextJobWorkflow(JobEvents.POST);
+                  } else if (job.status === JobStatus.POSTED) {
+                    nextJobWorkflow(JobEvents.UNPUBLISH);
+                  }
+                },
               },
-            },
-            {
-              label: "View Requests",
-              icon: FileText,
-              onPress: () => {},
-            },
-            {
-              label: "Share Job",
-              icon: ExternalLink,
-              onPress: () => {},
-            },
-            {
-              label: "Delete",
-              icon: Trash2,
-              variant: "destructive",
-              onPress: () => {},
-            },
-          ]}
-        />
+              {
+                label: "View Requests",
+                icon: FileText,
+                onPress: () => {},
+              },
+              {
+                label: "Share Job",
+                icon: ExternalLink,
+                onPress: () => {},
+              },
+              {
+                label: "Delete",
+                icon: Trash2,
+                variant: "destructive",
+                onPress: () => {},
+              },
+            ]}
+          />
+        </View>
       </View>
-      {/* Actions */}
-      {/* <View className="flex-row items-center gap-2">
+
+      <View className="flex flex-row items-center gap-2 pt-4 border-t border-border">
         <Button
           size="sm"
           variant="default"
-          className="flex-1 rounded-full"
+          className="flex-1 rounded-xl h-9 flex-row items-center justify-center gap-1.5"
+          onPress={navigateToManage}
+        >
+          <Icon as={Settings2} size={15} className="text-primary-foreground" />
+          <Text className="text-xs font-semibold text-primary-foreground">
+            Manage
+          </Text>
+        </Button>
+
+        <Button
+          size="sm"
+          variant="outline"
+          className="flex-1 rounded-xl h-9 flex-row items-center justify-center gap-1.5 border-border"
           onPress={() => {
             router.push({
-              pathname: "/main/my-space/manage-job",
+              pathname: "/main/my-space/update-job",
               params: { id: job.id },
             });
           }}
         >
-          <Icon as={Folder} />
-          <Text variant="large">Manage</Text>
+          <Icon as={PencilLine} size={15} className="text-foreground" />
+          <Text className="text-xs font-medium text-foreground">Edit</Text>
         </Button>
-        <Button size="sm" variant="outline" className="flex-1 rounded-full">
-          <Icon as={ExternalLink} />
-          <Text variant="large">Share</Text>
+
+        <Button
+          size="sm"
+          variant="outline"
+          className="rounded-xl h-9 px-3 flex-row items-center justify-center border-border"
+          disabled={isNextJobWorkflowPending}
+          onPress={() => {
+            if (job.status === JobStatus.DRAFT) {
+              nextJobWorkflow(JobEvents.POST);
+            } else if (job.status === JobStatus.POSTED) {
+              nextJobWorkflow(JobEvents.UNPUBLISH);
+            } else {
+              router.push({
+                pathname: "/main/explore/job-details",
+                params: { id: job.id },
+              });
+            }
+          }}
+        >
+          <Icon
+            as={job.status === JobStatus.DRAFT ? Send : Telescope}
+            size={15}
+            className="text-foreground"
+          />
         </Button>
-      </View> */}
-    </View>
+      </View>
+    </TouchableOpacity>
   );
 };

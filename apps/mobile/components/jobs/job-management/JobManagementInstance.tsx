@@ -2,7 +2,6 @@ import { api } from "@/api";
 import { ApplicationHeader } from "@/components/shared/AppHeader";
 import { Loader } from "@/components/shared/Loader";
 import { StableSafeAreaView } from "@/components/shared/StableSafeAreaView";
-import { Text } from "@/components/ui/text";
 import { cn } from "@/lib/utils";
 import { createMaterialTopTabNavigator } from "expo-router/js-top-tabs";
 import { useQuery } from "@tanstack/react-query";
