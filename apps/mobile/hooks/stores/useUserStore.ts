@@ -29,6 +29,8 @@ interface UserData {
   createEducationDto: CreateEducationDto;
   updateEducationDto: UpdateEducationDto;
 
+  present: boolean;
+
   responseFollowCountsDto: ResponseFollowCountsDto;
   followers: ResponseFollowDto[];
   followings: ResponseFollowDto[];
@@ -66,6 +68,7 @@ const initialState: UserData = {
     endDate: new Date(),
     description: "",
   },
+  present: false,
   createEducationDto: {
     title: "",
     institution: "",

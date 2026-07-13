@@ -1,6 +1,6 @@
 import { View } from "react-native";
 import { Text } from "../ui/text";
-import { Skeleton } from "../ui/skeleton";
+
 
 interface StatCardProps {
   title: string;

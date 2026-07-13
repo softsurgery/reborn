@@ -4,7 +4,10 @@ import { api } from "~/api";
 interface useUploadMutationProps {
   temporary?: boolean;
   onProgress?: (percent: number) => void;
-  onSuccess?: (response: any) => void;
+  onSuccess?: (
+    response: any,
+    variables: { files: File[]; onProgress?: (percent: number) => void },
+  ) => void;
   onError?: (error: any) => void;
 }
 

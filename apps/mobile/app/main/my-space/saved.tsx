@@ -1,4 +1,4 @@
-import { Saved } from "~/components/explore/my-space/saved/Saved";
+import { Saved } from "@/components/home/my-space/saved/Saved";
 
 export default function Screen() {
   return <Saved />;

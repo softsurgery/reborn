@@ -2,11 +2,11 @@ import React from "react";
 import { Stack, useRootNavigationState } from "expo-router";
 import * as Notifications from "expo-notifications";
 import { useColorScheme } from "nativewind";
-import { ThemeProvider } from "@react-navigation/native";
+import { ThemeProvider } from "expo-router/react-navigation";
 import { NAV_THEME } from "~/lib/theme";
 import "~/global.css";
 import "../i18n";
-import { View } from "react-native";
+import { Platform, View } from "react-native";
 import { cn } from "~/lib/utils";
 import { useNotifications } from "~/hooks/content/notifications/useNotification";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -15,6 +15,7 @@ import { StatusBar } from "expo-status-bar";
 import { PortalHost } from "@rn-primitives/portal";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Toaster } from "sonner-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export { ErrorBoundary } from "expo-router";
 
@@ -32,6 +33,7 @@ const queryClient = new QueryClient();
 
 export default function RootLayout() {
   const { colorScheme } = useColorScheme();
+  const insets = useSafeAreaInsets();
   const { newCount, notifications, resetCount } = useNotifications();
   const [ready, setReady] = React.useState(false);
 
@@ -53,11 +55,13 @@ export default function RootLayout() {
           <NotificationContext.Provider
             value={{ newCount, notifications, resetCount }}
           >
-            <View className={cn("flex-1 light dark:dark")}>
-              <StatusBar
-                style={isDarkColorScheme ? "light" : "dark"}
-                translucent
-              />
+            <View
+              className={cn("flex-1 light dark:dark bg-background")}
+              style={{
+                paddingBottom: Platform.OS === "ios" ? 0 : insets.bottom,
+              }}
+            >
+              <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
               <Stack
                 screenOptions={{
                   headerShown: false,

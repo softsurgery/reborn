@@ -13,11 +13,12 @@ import { cn } from "~/lib/utils";
 
 interface UseServerImageProps {
   id?: number;
-  size?: { width: number; height: number };
+  size?: { width?: number; height?: number };
   fallback?: string | React.ReactNode;
   className?: string;
   wrapperClassName?: string;
   fallbackClassName?: string;
+  rounded?: boolean;
   enabled?: boolean;
 }
 
@@ -30,7 +31,7 @@ export const useServerImage = ({
   fallbackClassName,
   enabled = true,
 }: UseServerImageProps) => {
-  const { data: uploadResp, isPending: isUploadPending } = useQuery({
+  const { data: uploadResp, isLoading: isUploadPending } = useQuery({
     queryKey: ["server-image", id],
     queryFn: async () => api.upload.getUploadById(id!),
     enabled: !!id && enabled,
@@ -44,9 +45,8 @@ export const useServerImage = ({
         <View
           className={cn(wrapperClassName, "flex items-center justify-center")}
           style={{
-            width: size?.width ? size.width * 1.05 : undefined,
-            height: size?.height ? size.height * 1.05 : undefined,
-            borderRadius: size?.width ? (size.width * 1.05) / 2 : undefined,
+            width: size?.width ? size.width * 1.05 : "100%",
+            height: size?.height ? size.height * 1.05 : "100%",
           }}
         >
           <Image
@@ -57,7 +57,6 @@ export const useServerImage = ({
             style={{
               width: size?.width || "auto",
               height: size?.height || "auto",
-              borderRadius: size?.width ? size.width / 2 : undefined,
             }}
           />
         </View>
@@ -67,9 +66,9 @@ export const useServerImage = ({
     if (isUploadPending && id) {
       return (
         <Skeleton
+          className={cn(className)}
           style={{
             ...size,
-            borderRadius: size?.width ? size.width / 2 : undefined,
           }}
         />
       );
@@ -84,18 +83,16 @@ export const useServerImage = ({
         <View
           className={cn(wrapperClassName, "flex items-center justify-center")}
           style={{
-            width: size?.width ? size.width * 1.05 : undefined,
-            height: size?.height ? size.height * 1.05 : undefined,
-            borderRadius: size?.width ? (size.width * 1.05) / 2 : undefined,
+            width: size?.width ? size.width * 1.05 : "100%",
+            height: size?.height ? size.height * 1.05 : "100%",
           }}
         >
           <Image
-            alt={typeof fallback === "string" ? fallback : ""}
             className={cn(className)}
+            alt={typeof fallback === "string" ? fallback : ""}
             style={{
               width: size?.width || "auto",
               height: size?.height || "auto",
-              borderRadius: size?.width ? size.width / 2 : undefined,
             }}
           />
         </View>
@@ -108,9 +105,8 @@ export const useServerImage = ({
         <Avatar
           className={cn(className)}
           style={{
-            width: size?.width || "auto",
-            height: size?.height || "auto",
-            borderRadius: size?.width ? size.width / 2 : undefined,
+            width: size?.width || "100%",
+            height: size?.height || "100%",
           }}
         >
           <AvatarImage />
@@ -129,7 +125,10 @@ export const useServerImage = ({
     // 6️⃣ Default → Skeleton
     return (
       <Skeleton
-        style={{ ...size, borderRadius: size?.width ? size.width / 2 : "auto" }}
+        className={cn(className)}
+        style={{
+          ...size,
+        }}
       />
     );
   }, [upload, isUploadPending, fallback, size]);

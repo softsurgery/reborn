@@ -1,5 +1,3 @@
-import { GalleryItem } from "./GalleryPictureUploader";
-
 export interface FormStructure {
   title: string;
   description?: string;
@@ -45,6 +43,7 @@ export enum FieldVariant {
   NUMBER = "number",
   PASSWORD = "password",
   DATE = "date",
+  TIME = "time",
   SELECT = "select",
   MULTISELECT = "multi-select",
   CHECKBOX = "checkbox",
@@ -113,6 +112,12 @@ export interface DateFieldProps {
   editable?: boolean;
 }
 
+export interface TimeFieldProps {
+  value?: Date;
+  onTimeChange?: (time: Date) => void;
+  editable?: boolean;
+}
+
 export interface SelectOption {
   label: string;
   value: string;
@@ -150,10 +155,22 @@ export interface PictureFieldProps {
   onUpload?: (file: File, onProgress: (percent: number) => void) => void;
 }
 
+export interface ImageFile {
+  id: number | string;
+  serverId?: number;
+  uri: string;
+  name: string;
+  type: string;
+  progress: number;
+  order?: number;
+}
+
 export interface GalleryFieldProps {
-  images: GalleryItem[];
-  maxImages?: number;
-  onChange: (images: GalleryItem[]) => void;
+  images: ImageFile[];
+  onChange: (images: ImageFile[]) => void;
+  onUpload?: (file: File, onProgress: (percent: number) => void) => void;
+  cols?: number;
+  rows?: number;
   editable?: boolean;
 }
 

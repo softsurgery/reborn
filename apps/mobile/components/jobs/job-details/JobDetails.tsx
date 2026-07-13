@@ -1,6 +1,6 @@
 import React from "react";
 import { View } from "react-native";
-import { router, useLocalSearchParams } from "expo-router";
+import { router } from "expo-router";
 import { Text } from "~/components/ui/text";
 import { Button } from "~/components/ui/button";
 import {
@@ -25,80 +25,43 @@ import { JobCardHeader } from "./JobCardHeader";
 import { JobClientInformation } from "./JobClientInformation";
 import { JobDetailsBody } from "./JobDetailsBody";
 import { StableScrollView } from "~/components/shared/StableScrollView";
-import { useTranslation } from "react-i18next";
 import { type ActionSheetRef } from "react-native-actions-sheet";
 import { ApplyJobActionSheet } from "./ApplyJobActionSheet";
 import { CancelApplicationActionSheet } from "./CancelApplicationActionSheet";
 import { toast } from "sonner-native";
 
-export const JobDetails = () => {
-  const queryClient = useQueryClient();
-  const { t } = useTranslation("common");
+interface JobDetailsProps {
+  className?: string;
+  id: string;
+}
 
+export const JobDetails = ({ className, id }: JobDetailsProps) => {
   const { currentUser } = useCurrentUser();
-  const { id, uploads: rawUploads } = useLocalSearchParams();
 
-  const { data: jobResp, isPending: isJobPending } = useQuery({
+  const queryClient = useQueryClient();
+
+  const applySheetRef = React.useRef<ActionSheetRef>(null);
+  const cancelSheetRef = React.useRef<ActionSheetRef>(null);
+
+  // load data & metadata *******************************************************************************************************
+  const {
+    data: jobResp,
+    isPending: isJobPending,
+    isError: isJobError,
+    refetch: refetchJob,
+  } = useQuery({
     queryKey: ["job", id],
-    queryFn: () => api.job.findById(id as string),
+    queryFn: () =>
+      api.job.findById(id as string, ["uploads", "postedBy"].join(",")),
     enabled: !!id,
   });
 
   const job = React.useMemo(() => jobResp ?? null, [jobResp]);
 
-  const uploads = React.useMemo(
-    () =>
-      (rawUploads && JSON.parse(rawUploads as string)) ||
-      job?.uploads.map((upload) => upload.uploadId),
-    [rawUploads, job?.uploads],
-  );
-
-  //application
-  const applySheetRef = React.useRef<ActionSheetRef>(null);
-  const cancelSheetRef = React.useRef<ActionSheetRef>(null);
-
-  const {
-    data: isJobRequested,
-    isPending: isJobRequestedPending,
-    refetch: refetchJobRequested,
-  } = useQuery({
-    queryKey: ["job-request", id],
-    queryFn: () => api.jobRequest.findRequested(id as string),
-    enabled: !!id,
-  });
-
-  //view & save
-  const { isJobSaved, isSavedPending } = useIsJobSaved(id as string);
-  const { isJobViewed, isViewedPending } = useIsJobViewed(id as string);
-
-  const { saveJob, isSavePending, unsaveJob, isUnsavePending } =
-    useJobSaveActions({
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: ["is-job-saved", id as string],
-        });
-      },
-    });
-
-  const { viewJob, isViewPending } = useJobViewActions({
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["is-job-viewed", id as string],
-      });
-    },
-  });
-
-  React.useEffect(() => {
-    if (!isViewedPending && !isJobViewed && id) viewJob(id as string);
-  }, [isViewedPending, isJobViewed, id]);
-
-  const {
-    data: jobMetadataResp,
-    isPending: isJobMetadataPending,
-    refetch: refetchJobMetadata,
-  } = useQuery({
+  const { data: jobMetadataResp, refetch: refetchJobMetadata } = useQuery({
     queryKey: ["job-metadata", id],
     queryFn: () => api.job.findMetadataById(id as string),
+    enabled: !!id,
   });
 
   const jobMetadata = React.useMemo(
@@ -108,8 +71,34 @@ export const JobDetails = () => {
 
   const { jsx: profilePicture } = useServerImage({
     id: job?.postedBy?.pictureId,
+    className: "rounded-full",
     fallback: identifyUserAvatar(job?.postedBy),
     size: { width: 40, height: 40 },
+  });
+
+  // Fetch each image individually
+  const imageQueries = useQueries({
+    queries: Array.isArray(job?.uploads)
+      ? job.uploads?.map((upload) => ({
+          queryKey: ["upload", upload.uploadId],
+          queryFn: () => api.upload.getUploadById(Number(upload.uploadId)),
+          enabled: !!upload.uploadId,
+        }))
+      : [],
+  });
+
+  const areImageComplete = imageQueries.every((query) => !query.isPending);
+
+  // job request *******************************************************************************************************
+
+  const {
+    data: isJobRequested,
+    isPending: isJobRequestedPending,
+    refetch: refetchJobRequested,
+  } = useQuery({
+    queryKey: ["job-request", id],
+    queryFn: () => api.jobRequest.findRequested(id as string),
+    enabled: !!id,
   });
 
   const { mutate: sendRequest, isPending: isSendRequestPending } = useMutation({
@@ -138,31 +127,44 @@ export const JobDetails = () => {
       },
     });
 
-  // Fetch each image individually
-  const imageQueries = useQueries({
-    queries: Array.isArray(uploads)
-      ? uploads.map((uploadId) => ({
-          queryKey: ["upload", uploadId],
-          queryFn: () => api.upload.getUploadById(Number(uploadId)),
-          enabled: !!uploadId,
-        }))
-      : [],
+  // job save  *******************************************************************************************************
+
+  const { isJobSaved, isSavedPending } = useIsJobSaved(id as string);
+  const { isJobViewed, isViewedPending } = useIsJobViewed(id as string);
+
+  const { saveJob, isSavePending, unsaveJob, isUnsavePending } =
+    useJobSaveActions({
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: ["is-job-saved", id as string],
+        });
+      },
+    });
+
+  const { viewJob, isViewPending } = useJobViewActions({
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["is-job-viewed", id as string],
+      });
+    },
   });
 
-  const handleSave = (e: any) => {
-    e.stopPropagation();
+  React.useEffect(() => {
+    if (!isViewedPending && !isJobViewed && id) viewJob(id as string);
+  }, [isViewedPending, isJobViewed, id]);
+
+  const handleSave = () => {
     if (isSavePending || isUnsavePending) return;
     if (isJobSaved) unsaveJob(id as string);
     else saveJob(id as string);
   };
 
-  const isPending =
-    isJobPending || isJobRequestedPending || isJobMetadataPending;
+  const isPending = isJobPending || isJobRequestedPending || !areImageComplete;
 
   if (isPending)
     return (
       <JobDetailsSkeleton
-        uploads={Array.isArray(uploads) ? (uploads as string[]) : []}
+        uploads={job?.uploads?.map((upload) => String(upload.uploadId)) ?? []}
       />
     );
 
@@ -177,7 +179,7 @@ export const JobDetails = () => {
     );
   }
   return (
-    <StableSafeAreaView className="flex-1 bg-card">
+    <StableSafeAreaView className="flex-1 bg-background">
       <View className="flex-1">
         {/* Header */}
         <JobCardHeader
@@ -186,97 +188,102 @@ export const JobDetails = () => {
           handleSave={handleSave}
           isJobSaved={!!isJobSaved}
           isSavePending={isSavePending || isUnsavePending}
-          uploads={uploads as string[]}
+          uploads={job?.uploads?.map((upload) => String(upload.uploadId)) ?? []}
           imageQueries={imageQueries}
         />
 
-        <StableScrollView className={cn("flex-1 px-6")}>
+        <StableScrollView className={cn("flex-1")}>
           {/* Client Info */}
           <JobClientInformation
-            className="mt-4"
             job={job}
+            metadata={jobMetadata}
             profilePicture={profilePicture}
           />
-          <JobDetailsBody className="mb-4" job={job} />
+          <JobDetailsBody job={job} />
         </StableScrollView>
 
         {/* Apply Button */}
-        <View className="px-6 py-5 bg-card border-t border-border">
-          <View
-            className={cn(isJobRequested && "flex flex-row items-center gap-2")}
-          >
-            {isJobRequested ? (
+        <View className="px-6 py-5 pb-8 bg-card border-t border-border">
+          {job?.postedBy.id !== currentUser?.id ? (
+            <View className="flex-row items-center gap-2">
+              {isJobRequested ? (
+                <Button
+                  className="flex-1 rounded-lg"
+                  size="sm"
+                  variant="outline"
+                  onPress={() =>
+                    router.navigate({
+                      pathname: "/main/my-space/requests",
+                      params: { variant: "outgoing" },
+                    })
+                  }
+                >
+                  <Text ellipsizeMode="tail" numberOfLines={1}>
+                    View Requests
+                  </Text>
+                </Button>
+              ) : null}
+
               <Button
-                className="w-[49%] rounded-lg"
+                className={cn(
+                  "rounded-lg",
+                  isJobRequested ? "flex-1" : "w-full",
+                )}
                 size="sm"
-                onPress={() =>
-                  router.navigate({
-                    pathname: "/main/my-space/requests",
-                    params: { variant: "outgoing" },
-                  })
+                onPress={() => {
+                  if (isJobRequested) cancelSheetRef.current?.show();
+                  else applySheetRef.current?.show();
+                }}
+                disabled={
+                  isJobRequestedPending ||
+                  isCancelRequestPending ||
+                  isSendRequestPending
                 }
+                variant={isJobRequested ? "destructive" : "default"}
               >
-                <Text ellipsizeMode="tail" numberOfLines={1}>
-                  View Requests
+                <Text numberOfLines={1} ellipsizeMode="tail">
+                  {isJobRequested ? "Cancel Application" : "Apply for this job"}
                 </Text>
               </Button>
-            ) : null}
-            <View className={cn(isJobRequested && "w-[49%]")}>
-              {job?.postedBy.id !== currentUser?.id ? (
-                <Button
-                  className="rounded-lg"
-                  size="sm"
-                  onPress={() => {
-                    if (isJobRequested) {
-                      cancelSheetRef.current?.show();
-                    } else {
-                      applySheetRef.current?.show();
-                    }
-                  }}
-                  disabled={
-                    isJobRequestedPending ||
-                    isCancelRequestPending ||
-                    isSendRequestPending
-                  }
-                  variant={isJobRequested ? "outline" : "default"}
-                >
-                  <Text numberOfLines={1} ellipsizeMode="tail">
-                    {isJobRequested
-                      ? "Cancel Application"
-                      : "Apply for this job"}
-                  </Text>
-                </Button>
-              ) : (
-                <Button disabled={true} className="w-full py-3 rounded-lg">
-                  <Text className="text-base font-semibold">
-                    You cannot apply for your own job
-                  </Text>
-                </Button>
-              )}
             </View>
+          ) : (
+            <Button
+              className="w-full rounded-lg"
+              size="sm"
+              onPress={() => {
+                router.push({
+                  pathname: "/main/my-space/manage-job",
+                  params: { id },
+                });
+              }}
+            >
+              <Text className="text-base font-semibold">Manage This Job</Text>
+            </Button>
+          )}
 
-            <ApplyJobActionSheet
-              ref={applySheetRef}
-              onConfirm={() => sendRequest()}
-              isPending={isSendRequestPending}
-            />
+          <ApplyJobActionSheet
+            ref={applySheetRef}
+            onConfirm={() => sendRequest()}
+            isPending={isSendRequestPending}
+          />
 
-            <CancelApplicationActionSheet
-              ref={cancelSheetRef}
-              onConfirm={() => cancelRequest()}
-              isPending={isCancelRequestPending}
-            />
-          </View>
+          <CancelApplicationActionSheet
+            ref={cancelSheetRef}
+            onConfirm={() => cancelRequest()}
+            isPending={isCancelRequestPending}
+          />
 
-          <View className="flex flex-row items-baseline gap-2 justify-center mt-2">
-            <Text className="text-xs text-muted-foreground text-center">
-              You'll be able to chat with{" "}
-              <Text className="text-xs font-medium">
-                {identifyUser(job?.postedBy)}
-              </Text>{" "}
-              before starting work
-            </Text>
-          </View>
+          {job?.postedBy.id !== currentUser?.id ? (
+            <View className="mt-2">
+              <Text variant="muted" className="text-center">
+                You'll be able to chat with{" "}
+                <Text className="font-semibold text-foreground">
+                  {identifyUser(job?.postedBy)}
+                </Text>{" "}
+                before starting work
+              </Text>
+            </View>
+          ) : null}
         </View>
       </View>
     </StableSafeAreaView>

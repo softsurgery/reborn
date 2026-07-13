@@ -1,5 +1,5 @@
-import { Account } from "~/components/account/Account";
+import { MenuPortal } from "@/components/menu/MenuPortal";
 
 export default function Screen() {
-  return <Account />;
+  return <MenuPortal />;
 }

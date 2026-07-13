@@ -1,4 +1,4 @@
-import { UpdateEducation } from "~/components/account/education/UpdateEducation";
+import { UpdateEducation } from "@/components/profile/education/UpdateEducation";
 
 export default function Screen() {
   return <UpdateEducation />;

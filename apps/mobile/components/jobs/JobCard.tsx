@@ -1,25 +1,28 @@
 import React from "react";
 import { cn } from "~/lib/utils";
-import { View, TouchableOpacity } from "react-native";
-import { Heart, Clock, Wallet } from "lucide-react-native";
+import { View, TouchableOpacity, Image } from "react-native";
+import { Heart, Clock, Wallet, Pen, Settings2 } from "lucide-react-native";
 import { router } from "expo-router";
 import { ResponseJobDto } from "~/types";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { api } from "~/api";
-import { Image } from "expo-image";
+
 import { Skeleton } from "../ui/skeleton";
 import { timeAgo } from "~/lib/dates.utils";
 import { Text } from "../ui/text";
-import { Badge } from "~/components/ui/badge";
 import { useJobSaveActions } from "~/hooks/content/job/useJobSaveActions";
 import { useIsJobSaved } from "~/hooks/content/job/useIsJobSaved";
+import { Button } from "../ui/button";
+import { Icon } from "../ui/icon";
+import { Badge } from "../ui/badge";
+import { useServerImage } from "@/hooks/content/useServerImage";
 
 interface JobCardProps {
   className?: string;
   job: ResponseJobDto;
+  isOwner?: boolean;
 }
 
-export const JobCard = ({ className, job }: JobCardProps) => {
+export const JobCard = ({ className, job, isOwner }: JobCardProps) => {
   const queryClient = useQueryClient();
   const [showFullDesc, setShowFullDesc] = React.useState(false);
 
@@ -36,16 +39,14 @@ export const JobCard = ({ className, job }: JobCardProps) => {
     [job.uploads],
   );
 
-  const { data: thumbnail, isPending: isThumbnailPending } = useQuery({
-    queryKey: ["job-thumbnail", orderedUploads?.[0]?.uploadId],
-    queryFn: () => api.upload.getUploadById(orderedUploads?.[0]?.uploadId),
-    enabled: !!orderedUploads?.[0]?.uploadId,
-  });
+  const coverId = orderedUploads?.[0]?.uploadId;
 
-  const imageSource =
-    thumbnail && !isThumbnailPending
-      ? { uri: thumbnail }
-      : require("~/assets/images/icon.png");
+  const { upload, isUploadPending } = useServerImage({
+    id: coverId,
+    fallback: "IMAGE",
+    wrapperClassName: "border border-border bg-muted rounded-lg",
+    enabled: !!coverId,
+  });
 
   React.useEffect(() => {
     return () => {
@@ -75,30 +76,29 @@ export const JobCard = ({ className, job }: JobCardProps) => {
         });
       }}
       className={cn(
-        "px-4 w-full py-4 gap-2 border-2 border-border rounded-lg",
+        "w-full pb-4 gap-2 border-2 border-border rounded-lg",
         className,
       )}
       activeOpacity={0.7}
     >
-      {!imageSource ? (
+      {coverId && isUploadPending ? (
         <Skeleton className="w-full h-[200px]" />
       ) : (
-        <Image
-          recyclingKey={job.id.toString()}
-          source={imageSource}
-          style={{
-            width: "100%",
-            height: 200,
-            marginVertical: 2,
-            borderRadius: 8,
-          }}
-          placeholder={require("~/assets/images/icon.png")}
-          contentFit="cover"
-          transition={300}
-        />
+        <View>
+          {coverId && upload ? (
+            <Image source={{ uri: upload }} className="w-full h-[200px]" />
+          ) : (
+            <View className="w-full h-[200px] bg-muted"></View>
+          )}
+          {isOwner && (
+            <Badge className="absolute top-4 right-4">
+              <Text className="text-base">{job.status}</Text>
+            </Badge>
+          )}
+        </View>
       )}
 
-      <View className="flex-col justify-between items-start">
+      <View className="flex-col justify-between items-start px-4">
         <View className="flex-row justify-between items-start">
           <Text className="font-semibold text-xl flex-1">{job.title}</Text>
         </View>
@@ -110,7 +110,7 @@ export const JobCard = ({ className, job }: JobCardProps) => {
               : `${job.description.slice(0, 100)}... `}
             {job.description.length > 100 && (
               <Text
-                className="text-green-500 underline"
+                className="text-green-500 underline text-sm"
                 onPress={() => setShowFullDesc(!showFullDesc)}
               >
                 {showFullDesc ? "Show less" : "Show more"}
@@ -120,17 +120,7 @@ export const JobCard = ({ className, job }: JobCardProps) => {
         </View>
       </View>
 
-      {/* <View className="flex-row flex-wrap gap-1 mt-2">
-        {job?.tags && job?.tags?.length > 0
-          ? job?.tags.map((tag) => (
-              <Badge variant={"secondary"} key={tag.id}>
-                <Text className="text-xs font-medium">{tag.label}</Text>
-              </Badge>
-            ))
-          : null}
-      </View> */}
-
-      <View className="flex flex-row justify-between">
+      <View className="flex flex-row justify-between px-4">
         <View className="flex flex-row gap-2">
           <View className="flex-row items-center gap-1">
             <Clock size={14} color="#9ca3af" />
@@ -146,21 +136,47 @@ export const JobCard = ({ className, job }: JobCardProps) => {
           </View>
         </View>
 
-        <TouchableOpacity
-          onPress={handleSave}
-          disabled={isSavePending || isUnsavePending}
-        >
-          {isSavePending || isUnsavePending || isSavedPending ? (
-            <Heart size={24} color={"#FAA0A0"} fill={"#FAA0A0"} />
-          ) : (
-            <Heart
-              size={24}
-              color={"#EE4B2B"}
-              fill={isJobSaved ? "#EE4B2B" : "none"}
-            />
-          )}
-        </TouchableOpacity>
+        {!isOwner && (
+          <TouchableOpacity
+            onPress={handleSave}
+            disabled={isSavePending || isUnsavePending}
+          >
+            {isSavePending || isUnsavePending || isSavedPending ? (
+              <Heart size={24} color={"#FAA0A0"} fill={"#FAA0A0"} />
+            ) : (
+              <Heart
+                size={24}
+                color={"#EE4B2B"}
+                fill={isJobSaved ? "#EE4B2B" : "none"}
+              />
+            )}
+          </TouchableOpacity>
+        )}
       </View>
+      {isOwner && (
+        <View className="flex flex-col justify-between gap-2 px-4">
+          <Text className="font-bold">Actions</Text>
+          <View className="flex flex-row gap-4">
+            <Button
+              className="flex-1"
+              size={"sm"}
+              onPress={() => {
+                router.push({
+                  pathname: "/main/my-space/manage-job",
+                  params: { id: job.id },
+                });
+              }}
+            >
+              <Icon as={Settings2} size={16} />
+              <Text>Manage</Text>
+            </Button>
+            <Button className="flex-1" size={"sm"} variant={"outline"}>
+              <Icon as={Pen} size={16} />
+              <Text>Update</Text>
+            </Button>
+          </View>
+        </View>
+      )}
     </TouchableOpacity>
   );
 };

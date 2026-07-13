@@ -10,18 +10,25 @@ import enNotifications from "./locales/en/notifications.json";
 import frNotifications from "./locales/fr/notifications.json";
 import arNotifications from "./locales/ar/notifications.json";
 
+import enSettings from "./locales/en/settings.json";
+import frSettings from "./locales/fr/settings.json";
+import arSettings from "./locales/ar/settings.json";
+
 const resources = {
   en: {
     common: enCommon,
     notifications: enNotifications,
+    settings: enSettings,
   },
   fr: {
     common: frCommon,
     notifications: frNotifications,
+    settings: frSettings,
   },
   ar: {
     common: arCommon,
     notifications: arNotifications,
+    settings: arSettings,
   },
 };
 
@@ -33,7 +40,7 @@ i18n.use(initReactI18next).init({
   resources,
   lng: languageCode,
   fallbackLng: "en",
-  ns: ["common", "notifications"],
+  ns: ["common", "notifications", "settings"],
   defaultNS: "common",
   interpolation: { escapeValue: false },
 });

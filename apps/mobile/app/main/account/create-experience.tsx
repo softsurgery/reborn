@@ -1,4 +1,4 @@
-import { CreateExperience } from "~/components/account/experience/CreateExperience";
+import { CreateExperience } from "@/components/profile/experience/CreateExperience";
 
 export default function Screen() {
   return <CreateExperience />;

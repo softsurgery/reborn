@@ -1,10 +1,11 @@
+import { useUploadMutation } from "@/hooks/content/useUploadMutation";
 import React from "react";
-import { GalleryItem } from "~/components/shared/form-builder/GalleryPictureUploader";
 import {
   Field,
   FieldVariant,
   FormStructure,
   GalleryFieldProps,
+  ImageFile,
   MapPinFieldProps,
   MultiSelectFieldProps,
   NumberFieldProps,
@@ -26,6 +27,7 @@ interface JobCreateFormStructureProps {
   currencies: ResponseRefParamDto<CurrencyPayload>[];
   jobTags: SelectOption[];
   jobCategories: SelectOption[];
+  uploadPicture: ReturnType<typeof useUploadMutation>["uploadFiles"];
 }
 
 export const useCreateJobFormStructure = ({
@@ -33,6 +35,7 @@ export const useCreateJobFormStructure = ({
   currencies,
   jobTags,
   jobCategories,
+  uploadPicture,
 }: JobCreateFormStructureProps) => {
   const selectedCurrency = React.useMemo(() => {
     return currencies.find(
@@ -88,6 +91,27 @@ export const useCreateJobFormStructure = ({
       onChangeText: (value) => {
         jobStore.setNested("createDto.price", value);
         jobStore.setNested("createDtoErrors.price", []);
+      },
+    },
+  };
+
+  const pricingTypeField: Field<SelectFieldProps> = {
+    id: "pricingType",
+    label: "Pricing Type",
+    variant: FieldVariant.SELECT,
+    required: true,
+    placeholder: "Select pricing type",
+    description: "Choose how you want to be charged for this job.",
+    error: jobStore.createDtoErrors?.pricingType?.[0],
+    props: {
+      options: [
+        { label: "Fixed Price", value: "fixed" },
+        { label: "Hourly Rate", value: "hourly" },
+      ],
+      value: jobStore.createDto?.pricingType,
+      onSelect: (value) => {
+        jobStore.setNested("createDto.pricingType", value);
+        jobStore.setNested("createDtoErrors.pricingType", []);
       },
     },
   };
@@ -204,7 +228,8 @@ export const useCreateJobFormStructure = ({
           { id: 1, fields: [titleField] },
           { id: 2, fields: [descriptionField] },
           { id: 3, fields: [priceField] },
-          { id: 4, fields: [locationField] },
+          { id: 4, fields: [pricingTypeField] },
+          { id: 5, fields: [locationField] },
         ],
       },
     ],
@@ -236,11 +261,22 @@ export const useCreateJobFormStructure = ({
     error: jobStore.createDtoErrors?.uploads?.[0],
     description: "Add images related to the job.",
     props: {
-      images: jobStore.pictures,
-      maxImages: 9,
-      onChange: (pictures: GalleryItem[]) =>
-        jobStore.setNested("pictures", pictures),
+      images: jobStore.images,
+      onChange: (images: ImageFile[]) => {
+        jobStore.set("images", images);
+        jobStore.setNested("createDtoErrors.uploads", []);
+      },
+      cols: 3,
+      rows: 3,
       editable: true,
+      onUpload: async (file, onProgress) => {
+        uploadPicture({
+          files: [file],
+          onProgress: (p) => {
+            onProgress(p);
+          },
+        });
+      },
     },
   };
 

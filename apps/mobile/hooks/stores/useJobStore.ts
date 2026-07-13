@@ -2,29 +2,36 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { createBaseSlice, BaseActions } from "./useBaseStore";
 import { CreateJobDto, ResponseJobDto, UpdateJobDto } from "~/types";
-import { GalleryItem } from "~/components/shared/form-builder/GalleryPictureUploader";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { ImageFile } from "@/components/shared/form-builder/types";
 
 interface JobStoreData {
   response?: ResponseJobDto;
   createDto: CreateJobDto;
-  updateDto: UpdateJobDto;
+  updateDto?: UpdateJobDto;
   createDtoErrors: Record<string, string[]>;
   updateDtoErrors: Record<string, string[]>;
-  searchHistory: ResponseJobDto[];
-  pictures: GalleryItem[];
+
+  images: ImageFile[];
   locationName?: string;
+
+  uploads: { id?: number; file: File; progress: number }[];
+
+  searchHistory: ResponseJobDto[];
 }
 
 export interface JobStore extends JobStoreData, BaseActions<JobStoreData> {
   addJobToSearchHistory: (job: ResponseJobDto) => void;
+  setServerImage: (uri: string, serverId: number, progress: number) => void;
 }
 
 const initialState: JobStoreData = {
   createDto: {
     title: "",
     description: "",
+    status: "Draft",
     price: undefined,
+    pricingType: undefined,
     tagIds: [],
     categoryId: undefined,
     style: undefined,
@@ -33,23 +40,14 @@ const initialState: JobStoreData = {
     latitude: undefined,
     longitude: undefined,
   },
-  updateDto: {
-    title: "",
-    description: "",
-    price: undefined,
-    tagIds: [],
-    categoryId: undefined,
-    style: undefined,
-    difficulty: undefined,
-    uploads: [],
-    latitude: undefined,
-    longitude: undefined,
-  },
+
   createDtoErrors: {},
   updateDtoErrors: {},
   searchHistory: [],
-  pictures: [],
+  images: [],
   locationName: "",
+
+  uploads: [],
 };
 
 export const useJobStore = create<JobStore>()(
@@ -65,6 +63,22 @@ export const useJobStore = create<JobStore>()(
         set({
           searchHistory: [job, ...history].slice(0, 20),
         });
+      },
+
+      setImageProgressById: (id: number, progress: number) => {
+        set((state) => ({
+          images: state.images.map((img) =>
+            img.id === id ? { ...img, progress } : img,
+          ),
+        }));
+      },
+
+      setServerImage: (uri: string, serverId: number, progress: number) => {
+        set((state) => ({
+          images: state.images.map((img) =>
+            img.uri === uri ? { ...img, serverId, progress } : img,
+          ),
+        }));
       },
     }),
     {

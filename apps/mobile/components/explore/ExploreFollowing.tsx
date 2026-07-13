@@ -1,7 +1,5 @@
 import { LegendList } from "@legendapp/list";
-import { useInfiniteQuery } from "@tanstack/react-query";
 import React from "react";
-import { api } from "~/api";
 import { ResponseJobDto } from "~/types";
 import { JobCard } from "../jobs/JobCard";
 import {
@@ -12,10 +10,10 @@ import {
 } from "react-native";
 import { Text } from "../ui/text";
 import { JobCardSkeleton } from "../jobs/JobCardSkeleton";
-import { PackageOpenIcon, User } from "lucide-react-native";
-import { useDebounce } from "~/hooks/useDebounce";
 import { cn } from "~/lib/utils";
 import { NAV_THEME } from "~/lib/theme";
+import { useInfiniteJobs } from "@/hooks/content/job/useInfiniteJobs";
+import { NotFound } from "../shared/NotFound";
 
 interface ExploreFollowingProps {
   className?: string;
@@ -31,31 +29,20 @@ export const ExploreFollowing = ({
   handleScroll,
 }: ExploreFollowingProps) => {
   const {
-    data,
+    jobs,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    refetch,
+    isJobsPending,
     isRefetching,
-    isPending: isJobsPending,
-  } = useInfiniteQuery({
-    queryKey: ["jobs-followed", search],
-    initialPageParam: 1,
-    queryFn: ({ pageParam = 1 }) =>
-      api.job.findFollowedPaginated({
-        page: String(pageParam),
-        limit: "5",
-        join: "uploads",
-        filter: search ? `title||$cont||${search}` : undefined,
-        sort: "createdAt,desc",
-      }),
-    getNextPageParam: (lastPage) =>
-      lastPage.meta.hasNextPage ? lastPage.meta.page + 1 : undefined,
+    refetch,
+  } = useInfiniteJobs({
+    search,
+    join: ["uploads"],
+    sortKey: "createdAt",
+    followings: true,
+    sortOrder: "desc",
   });
-
-  const jobs = React.useMemo(() => {
-    return data?.pages.flatMap((page) => page.data) ?? [];
-  }, [data]);
 
   const isPending = isJobsPending || isFetchingNextPage || searching;
 
@@ -66,12 +53,6 @@ export const ExploreFollowing = ({
     [],
   );
 
-  const [dragging, setDragging] = React.useState(false);
-  const { value: debouncedDragging, loading: isDragging } = useDebounce(
-    dragging,
-    1000,
-  );
-
   return (
     <LegendList
       className={cn("flex-1", className)}
@@ -79,11 +60,8 @@ export const ExploreFollowing = ({
       renderItem={renderItem}
       keyExtractor={(item) => item.id}
       showsVerticalScrollIndicator={false}
-      recycleItems={true}
       maintainVisibleContentPosition
       onScroll={handleScroll}
-      onScrollBeginDrag={() => setDragging(true)}
-      onScrollEndDrag={() => setDragging(false)}
       refreshControl={
         <RefreshControl
           refreshing={isRefetching}
@@ -97,27 +75,20 @@ export const ExploreFollowing = ({
           fetchNextPage();
         }
       }}
-      onEndReachedThreshold={0.5}
       ListEmptyComponent={
         !isPending ? (
-          <View className="p-8 items-center">
-            <Text className="text-muted-foreground">No jobs available</Text>
-          </View>
-        ) : null
+          <NotFound className="flex-1 justify-center items-center" />
+        ) : (
+          <JobCardSkeleton />
+        )
       }
       ListFooterComponent={
-        <View className="items-center pb-5">
+        <View className="items-center">
           {isPending ? (
-            <>
-              <JobCardSkeleton />
-              <JobCardSkeleton />
-            </>
+            <JobCardSkeleton />
           ) : hasNextPage ? null : (
-            <View className="flex flex-row items-center justify-center gap-2 p-6">
-              <Text className="text-muted-foreground text-lg">
-                No more jobs
-              </Text>
-              <PackageOpenIcon size={24} color="gray" />
+            <View className="flex flex-row items-center justify-center gap-2 pb-8">
+              <Text className="text-muted-foreground">No more jobs</Text>
             </View>
           )}
         </View>

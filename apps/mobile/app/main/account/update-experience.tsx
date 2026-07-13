@@ -1,4 +1,4 @@
-import { UpdateExperience } from "~/components/account/experience/UpdateExperience";
+import { UpdateExperience } from "@/components/profile/experience/UpdateExperience";
 
 export default function Screen() {
   return <UpdateExperience />;

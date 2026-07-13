@@ -1,4 +1,4 @@
-import { CreateEducation } from "~/components/account/education/CreateEducation";
+import { CreateEducation } from "@/components/profile/education/CreateEducation";
 
 export default function Screen() {
   return <CreateEducation />;

@@ -11,21 +11,18 @@ import { ArrowDownNarrowWide, Bell, Search } from "lucide-react-native";
 import { useNotificationContext } from "~/contexts/NotificationContext";
 import { router } from "expo-router";
 import { useTranslation } from "react-i18next";
-import { JobFilters } from "../jobs/JobFilters";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { useColorScheme } from "nativewind";
-import { THEME } from "~/lib/theme";
+import { createMaterialTopTabNavigator } from "expo-router/js-top-tabs";
 import { useScrollableElement } from "~/hooks/useScrollableElement";
+import { useColorPalette } from "@/hooks/useColorPalette";
 
 interface ExploreProps {
   className?: string;
 }
 
 export const Explore = ({ className }: ExploreProps) => {
-  const { colorScheme } = useColorScheme();
+  const { palette } = useColorPalette();
   const { t } = useTranslation("common");
   const [search] = React.useState("");
-  const [openJobFilters, setOpenJobFilters] = React.useState(false);
 
   const { newCount, resetCount } = useNotificationContext();
 
@@ -47,16 +44,17 @@ export const Explore = ({ className }: ExploreProps) => {
           title={t("screens.explore")}
           shortcuts={[
             {
+              key: "search",
               icon: Search,
               onPress: () => router.push("/main/explore/job-search"),
             },
             {
+              key: "filters",
               icon: ArrowDownNarrowWide,
-              onPress: () => {
-                setOpenJobFilters(true);
-              },
+              onPress: () => router.push("/main/explore/job-filters"),
             },
             {
+              key: "notifications",
               icon: Bell,
               onPress: () => {
                 router.push("/main/notifications");
@@ -82,10 +80,7 @@ export const Explore = ({ className }: ExploreProps) => {
               textTransform: "none",
             },
             tabBarIndicatorStyle: {
-              backgroundColor:
-                colorScheme === "dark"
-                  ? THEME.dark.primary
-                  : THEME.light.primary,
+              backgroundColor: palette.primary,
             },
             tabBarStyle: { backgroundColor: "transparent" },
           }}
@@ -113,11 +108,6 @@ export const Explore = ({ className }: ExploreProps) => {
           </Tab.Screen>
         </Tab.Navigator>
       </View>
-      <JobFilters
-        className="min-h-[70vh] min-w-[90vw]"
-        open={openJobFilters}
-        onOpenChange={setOpenJobFilters}
-      />
     </StableSafeAreaView>
   );
 };

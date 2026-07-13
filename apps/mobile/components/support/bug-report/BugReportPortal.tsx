@@ -1,6 +1,6 @@
 import React from "react";
 import { useMutation } from "@tanstack/react-query";
-import { ArrowLeft } from "lucide-react-native";
+import { ChevronLeft } from "lucide-react-native";
 import { api } from "~/api";
 import { Button } from "~/components/ui/button";
 import { Text } from "~/components/ui/text";
@@ -64,14 +64,14 @@ export const BugReportPortal = ({ className }: BugReportPortalProps) => {
   return (
     <StableSafeAreaView className={cn("flex-1 bg-card", className)}>
       <ApplicationHeader
-        className="border-b border-border pb-2"
+        classNames={{ wrapper: "border-b border-border pb-2" }}
         title={t("screens.reportBug")}
         titleVariant="large"
         reverse
         shortcuts={[
           {
             key: "back",
-            icon: ArrowLeft,
+            icon: ChevronLeft,
             onPress: () => router.back(),
           },
         ]}

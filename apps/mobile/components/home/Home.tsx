@@ -54,6 +54,7 @@ export const Home = ({ className }: HomeProps) => {
         page: "1",
         limit: "20",
         sort: "createdAt,DESC",
+        join: "job",
       }),
   });
 
@@ -68,6 +69,7 @@ export const Home = ({ className }: HomeProps) => {
         page: "1",
         limit: "20",
         sort: "createdAt,DESC",
+        join: "job",
       }),
   });
 
@@ -91,7 +93,7 @@ export const Home = ({ className }: HomeProps) => {
       id: `in-${request.id}`,
       type: "Incoming" as const,
       status: request.status,
-      title: request.job?.title ?? "Untitled job",
+      title: request.job?.title,
       createdAt: new Date(request.createdAt).getTime(),
     }));
 
@@ -99,7 +101,7 @@ export const Home = ({ className }: HomeProps) => {
       id: `out-${request.id}`,
       type: "Outgoing" as const,
       status: request.status,
-      title: request.job?.title ?? "Untitled job",
+      title: request.job?.title,
       createdAt: new Date(request.createdAt).getTime(),
     }));
 
@@ -138,6 +140,7 @@ export const Home = ({ className }: HomeProps) => {
           title="Home"
           shortcuts={[
             {
+              key: "notifications",
               icon: Bell,
               onPress: () => {
                 router.push("/main/notifications");
@@ -153,7 +156,7 @@ export const Home = ({ className }: HomeProps) => {
         style={{ minHeight: 500 }}
       >
         <ScrollView
-          className="flex-1 px-2"
+          className="flex-1 px-2 "
           onScroll={handleScroll}
           scrollEventThrottle={16}
           showsVerticalScrollIndicator={false}
@@ -179,7 +182,7 @@ export const Home = ({ className }: HomeProps) => {
               <Button
                 className="flex-1"
                 size="sm"
-                onPress={() => router.push("/main/explore/new-job")}
+                onPress={() => router.push("/main/my-space/new-job")}
               >
                 <Icon as={Plus} size={16} className="text-primary-foreground" />
                 <Text>Post Job</Text>
@@ -248,9 +251,7 @@ export const Home = ({ className }: HomeProps) => {
                   <React.Fragment key={item.id}>
                     <View className="py-3">
                       <View className="flex-row items-center justify-between gap-2">
-                        <Text className="font-medium flex-1" numberOfLines={1}>
-                          {item.title}
-                        </Text>
+                        <Text className="font-medium flex-1">{item.title}</Text>
                         <View
                           className={cn(
                             "rounded-full px-2 py-0.5",

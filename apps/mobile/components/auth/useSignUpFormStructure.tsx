@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import {
   EmailFieldProps,
   Field,
@@ -11,136 +12,189 @@ import { AuthStore } from "~/hooks/stores/useAuthStore";
 interface useSignUpFormStructureProps {
   store: AuthStore;
   isPending?: boolean;
+  usernameValidation: {
+    usernameError: string | null;
+    isUsernameTaken: boolean;
+    isCheckingUsername: boolean;
+  };
+  emailValidation: {
+    emailError: string | null;
+    isEmailTaken: boolean;
+    isCheckingEmail: boolean;
+  };
+  uploadPicture: (options: {
+    files: File[];
+    onProgress: (progress: number) => void;
+  }) => void;
+  isProfilePictureUploadPending: boolean;
 }
 
 export const useSignUpFormStructure = ({
   store,
+  usernameValidation: { usernameError, isUsernameTaken, isCheckingUsername },
+  emailValidation: { emailError, isEmailTaken, isCheckingEmail },
   isPending,
 }: useSignUpFormStructureProps) => {
-  //pre-email
-  const preEmailField: Field<EmailFieldProps> = {
-    id: "email",
-    label: "E-mail",
-    placeholder: "john@doe.com",
-    variant: FieldVariant.EMAIL,
-    required: false,
-    className: "w-full",
-    error: store.signUpRequestErrors?.email?.[0],
-    props: {
-      value: store.signUpRequest.email,
-      onChangeText: (value: string) => {
-        store.setNested("signUpRequest.email", value);
-        store.setNested("signUpRequestErrors.email", []);
-      },
-      editable: !isPending,
-    },
-  };
-
-  //firstname
-  const firstnameField: Field<TextFieldProps> = {
-    id: "firstname",
-    label: "First Name",
+  // firstName
+  const firstnameField: Field = {
+    id: "firstName",
+    label: "Firstname",
+    description: "Tell us your first name.",
+    placeholder: "Please enter your first name",
     variant: FieldVariant.TEXT,
-    required: true,
-    placeholder: "Enter your first name",
-    disabled: false,
-    description: "Your first name (e.g., John).",
+    className:
+      store.signUpRequest.firstName && !store.signUpRequestErrors.firstName?.[0]
+        ? "border border-green-500"
+        : "",
     error: store.signUpRequestErrors?.firstName?.[0],
     props: {
       value: store.signUpRequest.firstName,
-      onChangeText: (value: string) => {
-        store.setNested("signUpRequest.firstName", value);
+      onChangeText: (text: string) => {
+        store.setNested("signUpRequest.firstName", text);
         store.setNested("signUpRequestErrors.firstName", []);
       },
       editable: !isPending,
     },
   };
 
-  //lastname
-  const lastnameField: Field<TextFieldProps> = {
-    id: "surname",
-    label: "Surname",
+  // lastName
+  const lastnameField: Field = {
+    id: "lastName",
+    label: "Lastname",
+    description: "Tell us your last name.",
+    placeholder: "Please enter your last name",
     variant: FieldVariant.TEXT,
-    required: true,
-    placeholder: "Enter your surname",
-    disabled: false,
-    description: "Your last name (e.g., Doe).",
+    className:
+      store.signUpRequest.lastName && !store.signUpRequestErrors.lastName?.[0]
+        ? "border border-green-500"
+        : "",
     error: store.signUpRequestErrors?.lastName?.[0],
     props: {
       value: store.signUpRequest.lastName,
-      onChangeText: (value: string) => {
-        store.setNested("signUpRequest.lastName", value);
+      onChangeText: (text: string) => {
+        store.setNested("signUpRequest.lastName", text);
         store.setNested("signUpRequestErrors.lastName", []);
       },
       editable: !isPending,
     },
   };
 
-  //pre-email
-  const emailField: Field<EmailFieldProps> = {
+  // email
+  const emailFieldDescription = !store.signUpRequest.email
+    ? "This will be used for logging in and account recovery"
+    : isCheckingEmail
+      ? "Checking availability..."
+      : isEmailTaken
+        ? "E-mail already taken"
+        : "This e-mail is available";
+
+  const emailFieldClassName = cn(
+    !emailError &&
+      !isCheckingEmail &&
+      !isEmailTaken &&
+      store.signUpRequest.email
+      ? "border border-green-500"
+      : "",
+    !isCheckingEmail && isEmailTaken ? "border border-red-500" : "",
+  );
+
+  const emailFieldError =
+    store.signUpRequest.email.length > 0
+      ? emailError || (isEmailTaken ? "E-mail is already taken" : "")
+      : "";
+
+  const emailField: Field = {
     id: "email",
     label: "E-mail",
-    placeholder: "john@doe.com",
-    description: "Please verify your e-mail",
+    description: emailFieldDescription,
+    placeholder: "Please enter your e-mail",
     variant: FieldVariant.EMAIL,
-    required: true,
-    className: "w-full",
-    error: store.signUpRequestErrors?.email?.[0],
+    className: emailFieldClassName,
+    error: emailFieldError,
     props: {
       value: store.signUpRequest.email,
-      onChangeText: (value: string) => {
-        store.setNested("signUpRequest.email", value);
+      onChangeText: (text: string) => {
+        store.setNested("signUpRequest.email", text);
         store.setNested("signUpRequestErrors.email", []);
       },
       editable: !isPending,
     },
   };
 
+  // username
+  const usernameFieldDescription = !store.signUpRequest.username
+    ? "Choose a unique username for your profile"
+    : isCheckingUsername
+      ? "Checking availability..."
+      : isUsernameTaken
+        ? "Username already taken"
+        : "This username is available";
+
+  const usernameFieldClassName = cn(
+    "w-full",
+    !isCheckingUsername && !isUsernameTaken && store.signUpRequest.username
+      ? "border border-green-500"
+      : "",
+    !isCheckingUsername && isUsernameTaken ? "border border-red-500" : "",
+  );
+
+  const usernameFieldError =
+    store.signUpRequest.username.length > 0
+      ? usernameError || (isUsernameTaken ? "Username is already taken" : "")
+      : "";
+
   const usernameField: Field<TextFieldProps> = {
     id: "username",
     label: "Username",
+    description: usernameFieldDescription,
+    placeholder: "Please enter your username",
     variant: FieldVariant.TEXT,
-    required: true,
-    placeholder: "Enter your username",
-    disabled: false,
-    description: "Your username (e.g., johndoe)",
-    error: store.signUpRequestErrors?.username?.[0],
+    className: usernameFieldClassName,
+    error: usernameFieldError,
     props: {
       value: store.signUpRequest.username,
-      onChangeText: (value: string) => {
-        store.setNested("signUpRequest.username", value);
+      onChangeText: (text: string) => {
+        store.setNested("signUpRequest.username", text);
         store.setNested("signUpRequestErrors.username", []);
       },
       editable: !isPending,
     },
   };
 
-  //password
-  const passwordField: Field<PasswordFieldProps> = {
+  // password
+  const passwordField: Field = {
     id: "password",
     label: "Password",
-    description: "Please enter your password",
+    description: "Enter your password",
+    placeholder: "Please enter your password (8+ characters)",
     variant: FieldVariant.PASSWORD,
-    required: true,
-    placeholder: "••••••••",
+    className:
+      store.signUpRequest.password && !store.signUpRequestErrors.password?.[0]
+        ? "border border-green-500"
+        : "",
     error: store.signUpRequestErrors?.password?.[0],
     props: {
       value: store.signUpRequest.password,
-      onChangeText: (value: string) => {
-        store.setNested("signUpRequest.password", value);
+      onChangeText: (text: string) => {
+        store.setNested("signUpRequest.password", text);
         store.setNested("signUpRequestErrors.password", []);
       },
       editable: !isPending,
     },
   };
 
-  const confirmPasswordField: Field<PasswordFieldProps> = {
-    id: "confirm-password",
+  // confirmPassword
+  const confirmPasswordField: Field = {
+    id: "confirmPassword",
     label: "Confirm Password",
-    description: "Please enter your password again",
+    description: "Re-enter your password",
+    placeholder: "Please confirm your password",
     variant: FieldVariant.PASSWORD,
-    required: true,
-    placeholder: "••••••••",
+    className:
+      store.utilities.confirmPassword &&
+      !store.signUpRequestErrors.confirmPassword?.[0]
+        ? "border border-green-500"
+        : "",
     error: store.signUpRequestErrors?.confirmPassword?.[0],
     props: {
       value: store.utilities.confirmPassword,
@@ -152,46 +206,25 @@ export const useSignUpFormStructure = ({
     },
   };
 
+  // FormStructure vertical simple (ancien FormBuilder)
   const signUpFormStructure: FormStructure = {
     title: "",
     description: "",
-    orientation: "horizontal",
-    fieldsets: [
-      {
-        title: "",
-        rows: [
-          {
-            id: 2,
-            fields: [preEmailField],
-          },
-        ],
-      },
-    ],
-  };
-
-  const signUpCarryOnFormStructure: FormStructure = {
-    title: "",
-    description: "",
-    orientation: "horizontal",
+    orientation: "vertical",
     fieldsets: [
       {
         title: "",
         rows: [
           {
             id: 1,
-            fields: [firstnameField, lastnameField],
-          },
-          {
-            id: 2,
-            fields: [emailField],
-          },
-          {
-            id: 3,
-            fields: [usernameField],
-          },
-          {
-            id: 4,
-            fields: [passwordField, confirmPasswordField],
+            fields: [
+              firstnameField,
+              lastnameField,
+              emailField,
+              usernameField,
+              passwordField,
+              confirmPasswordField,
+            ],
           },
         ],
       },
@@ -200,6 +233,5 @@ export const useSignUpFormStructure = ({
 
   return {
     signUpFormStructure,
-    signUpCarryOnFormStructure,
   };
 };

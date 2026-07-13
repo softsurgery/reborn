@@ -1,16 +1,31 @@
-import { View } from "react-native";
-import { StableScrollView } from "~/components/shared/StableScrollView";
-import { ProfileSection } from "./profile-section";
-import { RenderSection } from "./RenderSection";
+import { ScrollView, View } from "react-native";
+import { ProfileSection, RenderSection } from "./RenderSection";
+import { cn } from "@/lib/utils";
+import { RefreshControl } from "react-native";
+
+interface SnippetsTabProps {
+  className?: string;
+  profileSections: ProfileSection[];
+  renderSection: (section: ProfileSection) => React.ReactNode;
+  onRefresh?: () => void;
+  refreshing?: boolean;
+}
 
 export const SnippetsTab = ({
+  className,
   profileSections,
-}: {
-  profileSections: ProfileSection[];
-}) => (
-  <StableScrollView className="flex-1">
+  renderSection,
+  onRefresh,
+  refreshing,
+}: SnippetsTabProps) => (
+  <ScrollView
+    className={cn("flex-1 bg-background", className)}
+    refreshControl={
+      <RefreshControl refreshing={!!refreshing} onRefresh={onRefresh} />
+    }
+  >
     <View className="flex flex-col gap-4 pb-8">
-      {profileSections.filter((s) => s.key === "snippets").map(RenderSection)}
+      {profileSections.filter((s) => s.key === "snippets").map(renderSection)}
     </View>
-  </StableScrollView>
+  </ScrollView>
 );

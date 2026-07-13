@@ -1,5 +1,5 @@
 import React from "react";
-import { ArrowLeft } from "lucide-react-native";
+import { ChevronLeft } from "lucide-react-native";
 import { View } from "react-native";
 import { router } from "expo-router";
 import { useTranslation } from "react-i18next";
@@ -42,14 +42,14 @@ export const FaqsPortal = ({ className }: FaqsPortalProps) => {
   return (
     <StableSafeAreaView className={cn("flex-1 bg-card", className)}>
       <ApplicationHeader
-        className="border-b border-border pb-2"
+        classNames={{ wrapper: "border-b border-border pb-2" }}
         title={t("screens.faqs")}
         titleVariant="large"
         reverse
         shortcuts={[
           {
             key: "back",
-            icon: ArrowLeft,
+            icon: ChevronLeft,
             onPress: () => router.back(),
           },
         ]}

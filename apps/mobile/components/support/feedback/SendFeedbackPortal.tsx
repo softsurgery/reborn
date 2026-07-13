@@ -2,7 +2,7 @@ import React from "react";
 import { useMutation } from "@tanstack/react-query";
 import { api } from "~/api";
 import { View } from "react-native";
-import { ArrowLeft } from "lucide-react-native";
+import { ChevronLeft } from "lucide-react-native";
 import { Text } from "~/components/ui/text";
 import { createFeedbackSchema } from "~/types/validations/system-reports.validation";
 import { Button } from "~/components/ui/button";
@@ -68,14 +68,14 @@ export const SendFeedbackPortal = ({ className }: SendFeedbackPortalProps) => {
   return (
     <StableSafeAreaView className={cn("flex-1 bg-card", className)}>
       <ApplicationHeader
-        className="border-b border-border pb-2"
+        classNames={{ wrapper: "border-b border-border pb-2" }}
         title={t("screens.sendFeedback")}
         titleVariant="large"
         reverse
         shortcuts={[
           {
             key: "back",
-            icon: ArrowLeft,
+            icon: ChevronLeft,
             onPress: () => router.back(),
           },
         ]}

@@ -1,29 +1,29 @@
-import React from "react";
-import { View } from "react-native";
-import { usePreferencePersistStore } from "~/hooks/stores/usePreferencePersistStore";
-import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
-import { cn } from "~/lib/utils";
-import { StablePressable } from "./StablePressable";
-import { useColorScheme } from "nativewind";
-import { Icon } from "../ui/icon";
+import { setAndroidNavigationBar } from "@/lib/android-navigation-bar";
+import { cn } from "@/lib/utils";
 import { MoonStar, Sun } from "lucide-react-native";
+import { useColorScheme } from "nativewind";
+import React from "react";
+import { Platform, View } from "react-native";
+import { StablePressable } from "./StablePressable";
+import { Icon } from "../ui/icon";
+import { usePreferencePersistStore } from "@/hooks/stores/usePreferencePersistStore";
 
 interface ThemeToggleProps {
   className?: string;
 }
 
 export function ThemeToggle({ className }: ThemeToggleProps) {
-  const { setColorScheme, toggleColorScheme } = useColorScheme();
-  const { theme, toggleTheme } = usePreferencePersistStore();
+  const { setColorScheme } = useColorScheme();
+  const { theme, setTheme } = usePreferencePersistStore();
   const isDarkMode = React.useMemo(() => theme === "dark", [theme]);
 
   return (
     <StablePressable
       onPress={() => {
-        toggleTheme();
-        setColorScheme(theme);
-        setAndroidNavigationBar(theme);
-        toggleColorScheme();
+        const newTheme = theme === "dark" ? "light" : "dark";
+        setColorScheme(newTheme);
+        if (Platform.OS === "android") setAndroidNavigationBar(newTheme);
+        setTheme(newTheme);
       }}
       onPressClassname="bg-none"
     >

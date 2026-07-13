@@ -1,4 +1,4 @@
-import { ResponseClientDto } from "./user-management";
+import { ResponseUserDto } from "./user-management";
 
 export interface ResponseClientSigninDto {
   access_token: string;
@@ -19,5 +19,18 @@ export interface RequestClientSignUpDto {
 }
 
 export interface ResponseClientSignupDto {
-  user: ResponseClientDto;
+  user: ResponseUserDto;
+}
+
+export enum OAuthProvider {
+  GOOGLE = "google",
+  LINKEDIN = "linkedin",
+  APPLE = "apple",
+}
+
+export interface RequestClientOAuthDto {
+  provider: OAuthProvider;
+  idToken: string;
+  redirectUri?: string;
+  codeVerifier?: string;
 }

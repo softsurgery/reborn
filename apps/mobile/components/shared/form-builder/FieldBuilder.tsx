@@ -1,6 +1,5 @@
 import React from "react";
-import { View, TouchableOpacity } from "react-native";
-import { Feather } from "@expo/vector-icons";
+import { View } from "react-native";
 import { Field, FieldVariant } from "~/components/shared/form-builder/types";
 import Select from "./Select";
 import { Checkbox } from "~/components/ui/checkbox";
@@ -12,17 +11,17 @@ import { PictureUploader } from "./PictureUploader";
 import { Text } from "~/components/ui/text";
 import { cn } from "~/lib/utils";
 import { Switch } from "~/components/ui/switch";
-import { GalleryPicturePicker } from "./GalleryPictureUploader";
 import MultiSelect from "./MultiSelect";
 import MapPinField from "./MapPinField";
+import { GalleryPictureUploader } from "./GalleryPictureUploader/GalleryPictureUploader";
+import { PasswordField } from "./PasswordField";
+import { TimePicker } from "./TimePicker";
 
 interface FieldBuilderProps {
   field?: Field<any>;
 }
 
 export const FieldBuilder = ({ field }: FieldBuilderProps) => {
-  const [showPassword, setShowPassword] = React.useState(false);
-
   switch (field?.variant) {
     case "text":
     case "tel":
@@ -38,7 +37,7 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
             placeholder={field.placeholder}
             value={field?.props?.value?.toString() || ""}
             onChangeText={(text) => field?.props?.onChangeText?.(text)}
-            className={cn("rounded-md", field?.error && "border-red-500")}
+            className={cn(field.className, field?.error && "border-red-500")}
           />
         </View>
       );
@@ -57,7 +56,7 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
                 cleaned ? Number(cleaned) : undefined,
               );
             }}
-            className={cn("rounded-md", field?.error && "border-red-500")}
+            className={cn(field.className, field?.error && "border-red-500")}
           />
         </View>
       );
@@ -70,8 +69,7 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
           placeholder={field.placeholder}
           value={field?.props?.value?.toString() || ""}
           onChangeText={(text) => field?.props?.onChangeText?.(text)}
-          className={cn("rounded-md", field?.error && "border-red-500")}
-          style={field?.error ? { borderColor: "red" } : {}}
+          className={cn(field.className, field?.error && "border-red-500")}
           {...field.props?.other}
         />
       );
@@ -79,7 +77,6 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
       return (
         <Select
           {...field?.props}
-          className={cn(field?.className)}
           classNames={{
             input: cn(field?.error && "border-red-500"),
           }}
@@ -96,7 +93,9 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
       return (
         <MultiSelect
           {...field?.props}
-          classNames={{ trigger: cn(field?.error && "border-red-500") }}
+          classNames={{
+            trigger: cn(field.className, field?.error && "border-red-500"),
+          }}
           title={field.label}
           description={field.description}
           placeholder={field?.placeholder}
@@ -111,71 +110,65 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
       return (
         <DatePicker
           {...field?.props}
-          className={cn(field?.error && "border border-red-500 rounded-md")}
+          className={cn(
+            field.className,
+            field?.error && "border border-red-500 rounded-md",
+          )}
           value={field?.props?.value}
           onDateChange={(date) => field?.props?.onDateChange?.(date)}
           disabled={field?.props?.editable}
         />
       );
+    case "time":
+      return (
+        <TimePicker
+          {...field?.props}
+          className={cn(
+            field.className,
+            field?.error && "border border-red-500 rounded-md",
+          )}
+          value={field?.props?.value}
+          onTimeChange={(time) => field?.props?.onTimeChange?.(time)}
+          disabled={field?.props?.editable}
+        />
+      );
     case "checkbox":
       return (
-        <View className="flex-row items-center gap-2">
+        <View className="flex-row items-center gap-2 mt-2">
           <Checkbox
             {...field?.props}
-            checked={!!field?.props?.value}
-            onCheckedChange={(checked) =>
-              field?.props?.onValueChange?.(checked)
-            }
+            disabled={field?.props?.editable === false}
+            checked={field?.props?.checked}
+            onCheckedChange={(checked) => {
+              field?.props?.onCheckedChange?.(checked);
+            }}
+            classNames={{
+              root: cn(field?.className, field?.error && "border-red-500"),
+            }}
           />
-          <Text className="text-sm font-base">{field.props?.label}</Text>
+          <Text className="text-sm">{field.description}</Text>
         </View>
       );
     case "password":
       return (
-        <View className="w-full" style={{ position: "relative" }}>
-          <Input
-            {...field?.props}
-            className={cn(field?.error && "border-red-500")}
-            style={{
-              flex: 1,
-              padding: 10,
-              paddingRight: 40,
-            }}
-            placeholder={field?.props?.placeholder || "••••••••"}
-            secureTextEntry={!showPassword}
-            value={field?.props?.value?.toString() || ""}
-            onChangeText={(text) => field?.props?.onChangeText?.(text)}
-            editable={field?.props?.editable}
-            autoComplete="off"
-            autoCorrect={false}
-            spellCheck={false}
-            textContentType="none"
-          />
-
-          <TouchableOpacity
-            onPress={() => setShowPassword(!showPassword)}
-            style={{
-              position: "absolute",
-              right: 10,
-              top: 7,
-              padding: 4,
-            }}
-            disabled={!field?.props?.editable}
-          >
-            <Feather
-              name={showPassword ? "eye-off" : "eye"}
-              size={20}
-              color="gray"
-            />
-          </TouchableOpacity>
-        </View>
+        <PasswordField
+          {...field.props}
+          className={cn(
+            field?.className,
+            field?.error && "border border-red-500",
+          )}
+          placeholder={field?.placeholder}
+          value={field?.props?.value?.toString() || ""}
+          onChangeText={(text) => field?.props?.onChangeText?.(text)}
+          editable={field?.props?.editable}
+        />
       );
     case "textarea":
       return (
         <View className="flex flex-col gap-2 w-full">
           <Textarea
             {...field?.props}
-            className={cn("h-32", field?.error && "border-red-500")}
+            className={cn(field.className, field?.error && "border-red-500")}
             editable={field?.props?.other}
             placeholder={field.placeholder}
             value={field?.props?.value?.toString() || ""}
@@ -211,12 +204,14 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
       );
     case "gallery":
       return (
-        <GalleryPicturePicker
+        <GalleryPictureUploader
           {...field?.props}
-          images={field?.props?.images}
-          maxImages={field?.props?.maxImages}
-          onChange={field?.props?.onChange}
           className={field?.className}
+          images={field?.props?.images}
+          onChange={field?.props?.onChange}
+          onUpload={field?.props?.onUpload}
+          cols={field?.props?.cols}
+          rows={field?.props?.rows}
           editable={field?.props?.editable}
         />
       );

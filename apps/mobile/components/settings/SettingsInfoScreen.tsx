@@ -1,6 +1,6 @@
 import { cn } from "~/lib/utils";
 import { router } from "expo-router";
-import { ArrowLeft } from "lucide-react-native";
+import { ChevronLeft } from "lucide-react-native";
 import React from "react";
 import { View } from "react-native";
 import { ApplicationHeader } from "../shared/AppHeader";
@@ -40,14 +40,14 @@ export const SettingsInfoScreen = ({
   return (
     <StableSafeAreaView className={cn("flex flex-1", className)}>
       <ApplicationHeader
-        className="border-b border-border pb-2 bg-transparent"
+        classNames={{ wrapper: "border-b border-border pb-2 bg-transparent" }}
         title={title}
         titleVariant="large"
         reverse
         shortcuts={[
           {
             key: "back",
-            icon: ArrowLeft,
+            icon: ChevronLeft,
             onPress: () => router.back(),
           },
         ]}

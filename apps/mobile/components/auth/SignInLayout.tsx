@@ -1,24 +1,24 @@
 import React from "react";
 import { cn } from "~/lib/utils";
 import { useMutation } from "@tanstack/react-query";
-import { Image, Platform, View } from "react-native";
+import { View } from "react-native";
 import { api } from "~/api";
 import { useAuthStore } from "~/hooks/stores/useAuthStore";
 import { Text } from "../ui/text";
 import { FormBuilder } from "../shared/form-builder/FormBuilder";
 import { useSignInFormStructure } from "./useSignInFormStructure";
 import { Button } from "../ui/button";
-import { ArrowRight } from "lucide-react-native";
+import { ChevronLeft } from "lucide-react-native";
 import DividerWithText from "../ui/divider-with-text";
 import { requestSignInDtoSchema } from "~/types/validations/auth.validation";
 import { ServerErrorResponse } from "~/types";
 import { StableKeyboardAwareScrollView } from "../shared/StableKeyboardAwareScrollView";
-import { Icon } from "../ui/icon";
 import { router } from "expo-router";
 import { SSOButtons } from "./SSOButtons";
 import { StableSafeAreaView } from "../shared/StableSafeAreaView";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner-native";
+import { ApplicationHeader } from "../shared/AppHeader";
 
 interface SignInLayoutProps {
   className?: string;
@@ -60,51 +60,69 @@ export const SignInLayout = ({ className }: SignInLayoutProps) => {
 
   return (
     <StableSafeAreaView>
-      <StableKeyboardAwareScrollView>
-        <View
-          className={cn("flex flex-col justify-center gap-5 p-4", className)}
-        >
-          <View className="my-5">
-            <Text className="text-2xl font-extrabold text-center">
-              {t("auth.welcome")}
-            </Text>
-            <Text className="text-2xl font-thin text-center">
-              Glad to see you again
-            </Text>
+      <ApplicationHeader
+        classNames={{ wrapper: "border-b border-border pb-2" }}
+        titleVariant="large"
+        shortcuts={[
+          {
+            key: "back",
+            icon: ChevronLeft,
+            onPress: () => {
+              router.back();
+            },
+          },
+        ]}
+      />
+      <View className="flex-1 bg-background">
+        <StableKeyboardAwareScrollView>
+          <View
+            className={cn(
+              "flex flex-col flex-1 justify-centers gap-5 p-4 bg-background",
+              className,
+            )}
+          >
+            <View className="my-5">
+              <Text className="text-2xl font-extrabold text-center">
+                {t("auth.welcome")}
+              </Text>
+              <Text className="text-2xl font-thin text-center">
+                Glad to see you again
+              </Text>
+            </View>
+
+            <View className="flex flex-col gap-2 px-2">
+              <FormBuilder structure={signInFormStructure} />
+
+              <Text className="font-bold ml-auto my-1">Forget Password ?</Text>
+
+              <Button
+                disabled={isSignInPending}
+                size="lg"
+                className="relative flex flex-row items-center justify-center rounded-xl h-14"
+                onPress={onSignInPress}
+              >
+                <Text className="text-lg font-bold text-primary-foreground">
+                  Continue with E-mail
+                </Text>
+              </Button>
+
+              <DividerWithText text="OR" />
+
+              <SSOButtons className="my-1" isSignInPending={isSignInPending} />
+            </View>
+
+            <View className="flex flex-row gap-1 items-center justify-center my-auto">
+              <Text>Don't have an account?</Text>
+              <Text
+                className="font-bold"
+                onPress={() => router.push("/auth/sign-up")}
+              >
+                Create an account
+              </Text>
+            </View>
           </View>
-
-          <View className="flex flex-col gap-2 px-2 w-fit">
-            <FormBuilder structure={signInFormStructure} />
-
-            <Text className="text-md font-bold ml-auto my-1">
-              Forget Password ?
-            </Text>
-
-            <Button
-              disabled={isSignInPending}
-              className="flex flex-row justify-center gap-2 my-1"
-              onPress={onSignInPress}
-            >
-              <Text className="font-bold">Continue with E-mail</Text>
-              <Icon as={ArrowRight} size={24} className="text-white" />
-            </Button>
-
-            <DividerWithText text="OR" />
-
-            <SSOButtons className="my-1" isSignInPending={isSignInPending} />
-          </View>
-
-          <View className="flex flex-row gap-1 items-center justify-center my-auto">
-            <Text>Don't have an account?</Text>
-            <Text
-              className="font-bold"
-              onPress={() => router.push("/auth/sign-up")}
-            >
-              Create an account
-            </Text>
-          </View>
-        </View>
-      </StableKeyboardAwareScrollView>
+        </StableKeyboardAwareScrollView>
+      </View>
     </StableSafeAreaView>
   );
 };

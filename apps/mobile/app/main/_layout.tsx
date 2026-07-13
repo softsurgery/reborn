@@ -34,9 +34,18 @@ export default function MainLayout() {
           animationDuration: 200,
         }}
       />
-      {/* Account */}
+      {/* Account *********************************************************************************************************************/}
       <Stack.Screen
-        name="account/managment"
+        name="account/mail-success"
+        options={{
+          title: "",
+          headerShown: false,
+          animation: "fade_from_bottom",
+          animationDuration: 200,
+        }}
+      />
+      <Stack.Screen
+        name="account/inspect-profile"
         options={{
           title: "My Profile",
           headerShown: false,
@@ -127,7 +136,7 @@ export default function MainLayout() {
         }}
       />
 
-      {/* Chat */}
+      {/* Chat *********************************************************************************************************************/}
       <Stack.Screen
         name="chat/conversation"
         options={{
@@ -144,14 +153,8 @@ export default function MainLayout() {
         }}
       />
 
-      {/* Explore */}
-      <Stack.Screen
-        name="explore/new-job"
-        options={{
-          headerShown: false,
-          title: "New Job",
-        }}
-      />
+      {/* Explore *********************************************************************************************************************/}
+
       <Stack.Screen
         name="explore/job-search"
         options={{
@@ -182,7 +185,16 @@ export default function MainLayout() {
         }}
       />
 
-      {/* My Space */}
+      <Stack.Screen
+        name="connections"
+        options={{
+          title: "",
+          headerShown: false,
+          animation: "slide_from_right",
+        }}
+      />
+
+      {/* My Space *********************************************************************************************************************/}
       <Stack.Screen
         name="my-space/requests"
         options={{
@@ -199,7 +211,48 @@ export default function MainLayout() {
           animation: "slide_from_right",
         }}
       />
-      {/* Notifications */}
+      <Stack.Screen
+        name="my-space/jobs"
+        options={{
+          title: "My Jobs",
+          headerShown: false,
+          animation: "slide_from_right",
+        }}
+      />
+      <Stack.Screen
+        name="my-space/new-job"
+        options={{
+          headerShown: false,
+          title: "New Job",
+        }}
+      />
+      <Stack.Screen
+        name="my-space/update-job"
+        options={{
+          title: "Update Job",
+          headerShown: false,
+          animation: "slide_from_right",
+        }}
+      />
+      <Stack.Screen
+        name="my-space/manage-job"
+        options={{
+          title: "Manage Job",
+          headerShown: false,
+          animation: "slide_from_right",
+        }}
+      />
+
+      <Stack.Screen
+        name="explore/job-filters"
+        options={{
+          title: "Job Filters",
+          headerShown: false,
+          animation: "slide_from_bottom",
+        }}
+      />
+
+      {/* Notifications *********************************************************************************************************************/}
       <Stack.Screen
         name="notifications"
         options={{
@@ -209,7 +262,7 @@ export default function MainLayout() {
         }}
       />
       <Stack.Screen
-        name="settings"
+        name="settings/index"
         options={{
           title: "Settings",
           headerShown: false,
@@ -218,7 +271,7 @@ export default function MainLayout() {
         }}
       />
       <Stack.Screen
-        name="terms"
+        name="settings/terms"
         options={{
           title: "Terms & Conditions",
           headerShown: false,
@@ -227,7 +280,7 @@ export default function MainLayout() {
         }}
       />
       <Stack.Screen
-        name="privacy-policy"
+        name="settings/privacy-policy"
         options={{
           title: "Privacy Policy",
           headerShown: false,
@@ -236,12 +289,54 @@ export default function MainLayout() {
         }}
       />
       <Stack.Screen
-        name="about"
+        name="settings/about"
         options={{
           title: "About Reborn",
           headerShown: false,
           animation: "fade_from_bottom",
           animationDuration: 200,
+        }}
+      />
+      <Stack.Screen
+        name="settings/privacy-security"
+        options={{
+          title: "Privacy & Security",
+          headerShown: false,
+          animation: "slide_from_right",
+        }}
+      />
+      <Stack.Screen
+        name="settings/theme"
+        options={{
+          title: "Theme",
+          headerShown: false,
+          animation: "fade_from_bottom",
+          animationDuration: 200,
+        }}
+      />
+      <Stack.Screen
+        name="settings/language"
+        options={{
+          title: "Language",
+          headerShown: false,
+          animation: "fade_from_bottom",
+          animationDuration: 200,
+        }}
+      />
+      <Stack.Screen
+        name="account/change-email"
+        options={{
+          title: "Change Email",
+          headerShown: false,
+          animation: "slide_from_right",
+        }}
+      />
+      <Stack.Screen
+        name="account/change-password"
+        options={{
+          title: "Change Password",
+          headerShown: false,
+          animation: "slide_from_right",
         }}
       />
       {/* Test */}
