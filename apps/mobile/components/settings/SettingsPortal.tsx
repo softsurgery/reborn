@@ -20,6 +20,7 @@ import { Text } from "../ui/text";
 import { createSettingRow, SettingRow } from "./SettingsRow";
 import type { SettingRowConfig } from "./SettingsRow";
 import { ThemeSwitcher } from "../shared/ThemeSwitcher";
+import { AppHeaderBack } from "../shared/AppHeaderBack";
 
 interface SettingsPortalProps {
   className?: string;
@@ -30,147 +31,13 @@ interface SettingsSection {
   title: string;
   description: string;
   rows: SettingRowConfig[];
+  showOnDevelopment?: boolean;
 }
 
 export const SettingsPortal = ({ className }: SettingsPortalProps) => {
-  const cardClass =
-    "border border-b-border border-t-border bg-card shadow-sm overflow-hidden";
-
-  const primaryCardClass =
-    "rounded-2xl border border-primary/10 bg-primary/5 shadow-sm overflow-hidden";
-
-  const destructiveCardClass =
-    "rounded-2xl border border-destructive/60 bg-destructive/5 shadow-sm overflow-hidden";
-
-  const settingsRows: SettingsSection[] = [
-    {
-      key: "account",
-      title: "Account",
-      description: "Keep your profile and security details up to date.",
-      rows: [
-        createSettingRow({
-          title: "Profile",
-          description: "Update your bio, avatar and socials",
-          rightIcon: ChevronRight,
-          className: "p-1 px-4",
-          onPress: () => router.push("/main/account/update-profile"),
-        }),
-        createSettingRow({
-          title: "Privacy & Security",
-          description: "Set your preferred privacy and security options",
-          rightIcon: ChevronRight,
-          className: "p-1 px-4",
-          onPress: () => router.push("/main/account/privacy-security"),
-        }),
-      ],
-    },
-    {
-      key: "preferences",
-      title: "Preferences",
-      description: "Tailor Reborn to your daily habits.",
-      rows: [
-        createSettingRow({
-          className: "p-1 px-4",
-          Component: () => (
-            <View
-              className={cn("flex flex-row justify-between gap-4", className)}
-            >
-              <View className="flex-1">
-                <Text className="font-semibold text-base">Language</Text>
-                <Text className="text-xs text-muted-foreground">
-                  Set your preferred language
-                </Text>
-              </View>
-              <LanguageSwitcher
-                classNames={{
-                  trigger: "flex-1",
-                }}
-              />
-            </View>
-          ),
-        }),
-        createSettingRow({
-          className: "p-1 px-4",
-          Component: () => (
-            <View
-              className={cn("flex flex-row justify-between gap-4", className)}
-            >
-              <View className="flex-1">
-                <Text className="font-semibold text-base">Theme</Text>
-                <Text className="text-xs text-muted-foreground">
-                  Set your preferred theme
-                </Text>
-              </View>
-              <ThemeSwitcher
-                classNames={{
-                  trigger: "flex-1 ",
-                }}
-              />
-            </View>
-          ),
-        }),
-      ],
-    },
-    {
-      key: "support",
-      title: "Support",
-      description: "Report issues or send us your feedback.",
-      rows: [
-        createSettingRow({
-          title: "Report a Bug",
-          description: "Found an issue? Let us know.",
-          rightIcon: ChevronRight,
-          className: "p-1 px-4",
-          onPress: () => router.push("/main/account/support/report-bug"),
-        }),
-        createSettingRow({
-          title: "Send Feedback",
-          description: "Have suggestions? We want to hear them.",
-          rightIcon: ChevronRight,
-          className: "p-1 px-4",
-          onPress: () => router.push("/main/account/support/send-feedback"),
-        }),
-        createSettingRow({
-          title: "Frequently Asked Questions",
-          description: "Find answers to common questions",
-          rightIcon: ChevronRight,
-          className: "p-1 px-4",
-          onPress: () => router.push("/main/account/support/faqs"),
-        }),
-      ],
-    },
-    {
-      key: "info",
-      title: "Info & Legal",
-      description: "Learn more about Reborn and our policies.",
-      rows: [
-        createSettingRow({
-          title: "Terms & Conditions",
-          description: "Rules for using Reborn",
-          rightIcon: ChevronRight,
-          className: "p-1 px-4",
-          onPress: () => router.push("/main/terms"),
-        }),
-        createSettingRow({
-          title: "Privacy Policy",
-          description: "How we handle your data",
-          rightIcon: ChevronRight,
-          className: "p-1 px-4",
-          onPress: () => router.push("/main/privacy-policy"),
-        }),
-        createSettingRow({
-          title: "About Reborn",
-          description: "What we stand for",
-          rightIcon: ChevronRight,
-          className: "p-1 px-4",
-          onPress: () => router.push("/main/about"),
-        }),
-      ],
-    },
-  ];
-
-  const { t } = useTranslation("common");
   const queryClient = useQueryClient();
+  const { t: tSettings } = useTranslation("settings");
+  const { t } = useTranslation("common");
   const authPersistStore = useAuthPersistStore();
   const { currentUser } = useCurrentUser();
 
@@ -179,53 +46,199 @@ export const SettingsPortal = ({ className }: SettingsPortalProps) => {
     queryClient.clear();
     router.replace("/");
   };
+  const settingsRows: SettingsSection[] = [
+    {
+      key: "account",
+      title: tSettings("settings.account.title"),
+      description: tSettings("settings.account.description"),
+      rows: [
+        createSettingRow({
+          title: tSettings("settings.account.screens.profile.title"),
+          description: tSettings(
+            "settings.account.screens.profile.description",
+          ),
+          rightIcon: ChevronRight,
+          className: "p-1 px-4",
+          onPress: () => router.push("/main/account/update-profile"),
+        }),
+        createSettingRow({
+          title: tSettings("settings.account.screens.privacy-security.title"),
+          description: tSettings(
+            "settings.account.screens.privacy-security.description",
+          ),
+          className: "p-1 px-4",
+          rightIcon: ChevronRight,
+          onPress: () => router.push("/main/settings/privacy-security"),
+        }),
+      ],
+    },
+    {
+      key: "preferences",
+      title: tSettings("settings.preferences.title"),
+      description: tSettings("settings.preferences.description"),
+      rows: [
+        createSettingRow({
+          title: tSettings("settings.preferences.screens.language.title"),
+          description: tSettings(
+            "settings.preferences.screens.language.description",
+          ),
+          className: "p-1 px-4",
+          rightIcon: ChevronRight,
+          onPress: () => router.push("/main/settings/language"),
+        }),
+        createSettingRow({
+          title: tSettings("settings.preferences.screens.theme.title"),
+          description: tSettings(
+            "settings.preferences.screens.theme.description",
+          ),
+          className: "p-1 px-4",
+          rightIcon: ChevronRight,
+          onPress: () => router.push("/main/settings/theme"),
+        }),
+      ],
+      showOnDevelopment: false,
+    },
+    {
+      key: "support",
+      title: tSettings("settings.support.title"),
+      description: tSettings("settings.support.description"),
+      rows: [
+        createSettingRow({
+          title: tSettings("settings.support.screens.report-bug.title"),
+          description: tSettings(
+            "settings.support.screens.report-bug.description",
+          ),
+
+          rightIcon: ChevronRight,
+          className: "p-1 px-4",
+          onPress: () => router.push("/main/account/support/report-bug"),
+        }),
+        createSettingRow({
+          title: tSettings("settings.support.screens.send-feedback.title"),
+          description: tSettings(
+            "settings.support.screens.send-feedback.description",
+          ),
+          rightIcon: ChevronRight,
+          className: "p-1 px-4",
+          onPress: () => router.push("/main/account/support/send-feedback"),
+        }),
+        createSettingRow({
+          title: tSettings("settings.support.screens.faqs.title"),
+          description: tSettings("settings.support.screens.faqs.description"),
+          rightIcon: ChevronRight,
+          className: "p-1 px-4",
+          onPress: () => router.push("/main/account/support/faqs"),
+        }),
+      ],
+      showOnDevelopment: false,
+    },
+    {
+      key: "info",
+      title: tSettings("settings.info-legal.title"),
+      description: tSettings("settings.info-legal.description"),
+      rows: [
+        createSettingRow({
+          title: tSettings(
+            "settings.info-legal.screens.terms-of-service.title",
+          ),
+          description: tSettings(
+            "settings.info-legal.screens.terms-of-service.description",
+          ),
+          rightIcon: ChevronRight,
+          className: "p-1 px-4",
+          onPress: () => router.push("/main/settings/terms"),
+        }),
+        createSettingRow({
+          title: tSettings("settings.info-legal.screens.privacy-policy.title"),
+          description: tSettings(
+            "settings.info-legal.screens.privacy-policy.description",
+          ),
+          rightIcon: ChevronRight,
+          className: "p-1 px-4",
+          onPress: () => router.push("/main/settings/privacy-policy"),
+        }),
+        createSettingRow({
+          title: tSettings("settings.info-legal.screens.about.title"),
+          description: tSettings(
+            "settings.info-legal.screens.about.description",
+          ),
+          rightIcon: ChevronRight,
+          className: "p-1 px-4",
+          onPress: () => router.push("/main/settings/about"),
+        }),
+      ],
+      showOnDevelopment: false,
+    },
+    // {
+    //   key: "test",
+    //   title: "Test",
+    //   description: "This is just for development purposes",
+    //   rows: [
+    //     createSettingRow({
+    //       title: "Deep link",
+    //       description: "Test deep linking",
+    //       rightIcon: ChevronRight,
+    //       className: "p-1 px-4",
+    //       onPress: () => router.push("/main/test/deep-link-test"),
+    //     }),
+    //     createSettingRow({
+    //       title: "Invalidate Queries",
+    //       description: "Invalidate all queries",
+    //       rightIcon: ChevronRight,
+    //       className: "p-1 px-4",
+    //       onPress: () => {
+    //         queryClient.invalidateQueries();
+    //         toast.success("Queries invalidated successfully", {
+    //           description: "All queries have been invalidated",
+    //         });
+    //       },
+    //     }),
+    //   ],
+    //   showOnDevelopment: true,
+    // },
+  ].filter((section) => !section.showOnDevelopment || __DEV__);
 
   return (
     <StableSafeAreaView className={cn("flex flex-1 bg-card", className)}>
       <ApplicationHeader
         classNames={{ wrapper: "border-b border-border pb-2" }}
-        title={t("screens.settings")}
+        title={t("screens.settings.title")}
         titleVariant="large"
         reverse
         shortcuts={[
           {
             key: "back",
-            icon: ArrowLeft,
-            onPress: () => router.back(),
+            render: <AppHeaderBack />,
           },
         ]}
       />
-
-      <StableScrollView className="bg-background">
+      <StableScrollView className="flex-1 bg-background">
         <View className="flex flex-col">
           <View className="px-4 mb-4">
-            <View className={cn("mt-4", primaryCardClass)}>
-              <View className="flex flex-col justify-between p-4 gap-2">
-                <View className="flex flex-row justify-between items-center w-full">
-                  <Text variant="h4">
-                    {identifyUser(currentUser) || "Your account"}
-                  </Text>
-
-                  {currentUser?.username ? (
-                    <Badge variant="outline" className="self-start">
-                      <Text className="uppercase tracking-wide">
-                        @{currentUser.username}
-                      </Text>
-                    </Badge>
-                  ) : null}
-                </View>
-
-                <Text variant="muted">
-                  Signed in and synced across devices. Make changes that feel
-                  personal.
+            <View className="flex flex-col justify-between p-4">
+              <View className="flex flex-row justify-between items-center w-full">
+                <Text variant="h4">
+                  {identifyUser(currentUser) || "Your account"}
                 </Text>
+
+                {currentUser?.username ? (
+                  <Badge variant="outline" className="self-start">
+                    <Text className="uppercase tracking-wide">
+                      @{currentUser.username}
+                    </Text>
+                  </Badge>
+                ) : null}
               </View>
+
+              <Text variant="muted">
+                {tSettings("settings.general.description")}
+              </Text>
             </View>
           </View>
 
           {settingsRows.map((section) => (
-            <View key={section.key} className={cardClass}>
-              <View className="px-8 py-4 bg-background/75 mb-4">
+            <View key={section.key} className="bg-background">
+              <View className="px-8 py-4 bg-card mb-4">
                 <Text className="text-lg font-semibold">{section.title}</Text>
                 <Text className="text-sm text-muted-foreground mt-1">
                   {section.description}
@@ -246,33 +259,40 @@ export const SettingsPortal = ({ className }: SettingsPortalProps) => {
               </View>
             </View>
           ))}
-
           <View className="px-4 mt-4">
-            <View className={cn(destructiveCardClass, "mb-10")}>
+            <View className={cn("bg-card mb-10 rounded-xl")}>
               <View className="px-4 pt-4 pb-2">
-                <Text className="text-lg font-semibold">Session</Text>
+                <Text className="text-lg font-semibold">
+                  {tSettings("settings.session.title")}
+                </Text>
                 <Text className="text-sm text-muted-foreground mt-1">
-                  Sign out or remove your account.
+                  {tSettings("settings.session.description")}
                 </Text>
               </View>
 
-              <View className="px-4 pb-4 flex flex-col gap-3">
+              <View className="px-4 pb-4 mt-4 flex flex-col gap-3">
                 <Button
                   variant="outline"
-                  className="flex flex-row items-center justify-center gap-2"
+                  size="lg"
+                  className="flex flex-row items-center justify-center gap-2 rounded-xl"
                   onPress={logout}
                 >
-                  <Icon as={LogOut} size={18} className="text-foreground" />
-                  <Text>Logout</Text>
+                  <Icon as={LogOut} size={18} />
+                  <Text className="text-md font-bold">
+                    {tSettings("settings.session.actions.sign-out")}
+                  </Text>
                 </Button>
 
                 <Button
                   variant="destructive"
-                  className="flex flex-row items-center justify-center gap-2"
+                  size="lg"
+                  className="flex flex-row items-center justify-center gap-2 rounded-xl"
                   onPress={() => Alert.alert("Delete account", "Coming soon!")}
                 >
                   <Icon as={Trash2} size={18} color="white" />
-                  <Text>Delete Account</Text>
+                  <Text className="text-md font-bold">
+                    {tSettings("settings.session.actions.remove-account")}
+                  </Text>
                 </Button>
               </View>
             </View>

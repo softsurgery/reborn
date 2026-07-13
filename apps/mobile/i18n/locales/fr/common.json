@@ -27,6 +27,11 @@
       "title": "Sélectionnez la langue",
       "description": "Sélectionnez la langue que vous souhaitez utiliser dans l'application",
       "placeholder": "Sélectionnez la langue"
+    },
+    "options": {
+      "en": "Anglais",
+      "fr": "Français",
+      "ar": "Arabe"
     }
   }
 }

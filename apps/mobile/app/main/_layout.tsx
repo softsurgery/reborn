@@ -262,7 +262,7 @@ export default function MainLayout() {
         }}
       />
       <Stack.Screen
-        name="settings"
+        name="settings/index"
         options={{
           title: "Settings",
           headerShown: false,
@@ -271,7 +271,7 @@ export default function MainLayout() {
         }}
       />
       <Stack.Screen
-        name="terms"
+        name="settings/terms"
         options={{
           title: "Terms & Conditions",
           headerShown: false,
@@ -280,7 +280,7 @@ export default function MainLayout() {
         }}
       />
       <Stack.Screen
-        name="privacy-policy"
+        name="settings/privacy-policy"
         options={{
           title: "Privacy Policy",
           headerShown: false,
@@ -289,7 +289,7 @@ export default function MainLayout() {
         }}
       />
       <Stack.Screen
-        name="about"
+        name="settings/about"
         options={{
           title: "About Reborn",
           headerShown: false,
@@ -298,11 +298,29 @@ export default function MainLayout() {
         }}
       />
       <Stack.Screen
-        name="account/privacy-security"
+        name="settings/privacy-security"
         options={{
           title: "Privacy & Security",
           headerShown: false,
           animation: "slide_from_right",
+        }}
+      />
+      <Stack.Screen
+        name="settings/theme"
+        options={{
+          title: "Theme",
+          headerShown: false,
+          animation: "fade_from_bottom",
+          animationDuration: 200,
+        }}
+      />
+      <Stack.Screen
+        name="settings/language"
+        options={{
+          title: "Language",
+          headerShown: false,
+          animation: "fade_from_bottom",
+          animationDuration: 200,
         }}
       />
       <Stack.Screen

@@ -1,7 +1,7 @@
 import React from "react";
 import { SettingsInfoScreen } from "./SettingsInfoScreen";
 
-export const AboutReborn = () => {
+export const About = () => {
   return (
     <SettingsInfoScreen
       title="About Reborn"
