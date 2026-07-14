@@ -19,6 +19,9 @@ interface ExploreProps {
   className?: string;
 }
 
+// Built once — recreating the navigator on every render remounts both tabs.
+const Tab = createMaterialTopTabNavigator();
+
 export const Explore = ({ className }: ExploreProps) => {
   const { palette } = useColorPalette();
   const { t } = useTranslation("common");
@@ -34,12 +37,9 @@ export const Explore = ({ className }: ExploreProps) => {
     deltaThreshold: 40,
   });
 
-  const Tab = createMaterialTopTabNavigator();
-
   return (
-    <StableSafeAreaView className={cn("flex flex-1 flex-col mx-2", className)}>
-      {/* Animated Header */}
-      <Animated.View style={animatedHeaderStyle}>
+    <StableSafeAreaView className={cn("flex flex-1 flex-col", className)}>
+      <Animated.View style={animatedHeaderStyle} className="px-2">
         <ApplicationHeader
           title={t("screens.explore")}
           shortcuts={[
@@ -65,30 +65,36 @@ export const Explore = ({ className }: ExploreProps) => {
           ]}
         />
       </Animated.View>
-      {/* Search Header */}
-      {/* Content */}
-      <View
-        className="flex flex-row flex-1 border-b border-border"
-        style={{ minHeight: 500 }}
-      >
+
+      <View className="flex-1">
         <Tab.Navigator
           screenOptions={{
             tabBarScrollEnabled: false,
+            tabBarActiveTintColor: palette.foreground,
+            tabBarInactiveTintColor: palette.mutedForeground,
             tabBarLabelStyle: {
-              fontSize: 12,
+              fontSize: 13,
               fontWeight: "600",
               textTransform: "none",
             },
             tabBarIndicatorStyle: {
               backgroundColor: palette.primary,
+              height: 2,
+              borderRadius: 2,
             },
-            tabBarStyle: { backgroundColor: "transparent" },
+            tabBarStyle: {
+              backgroundColor: "transparent",
+              elevation: 0,
+              shadowOpacity: 0,
+              borderBottomWidth: 1,
+              borderBottomColor: palette.border,
+            },
           }}
         >
           <Tab.Screen name="Recent" options={{ tabBarLabel: "Recent" }}>
             {() => (
               <ExploreCommon
-                className="p-2"
+                className="px-3"
                 search={debouncedSearchTerm}
                 searching={searching}
                 handleScroll={handleScroll}
@@ -96,10 +102,10 @@ export const Explore = ({ className }: ExploreProps) => {
             )}
           </Tab.Screen>
 
-          <Tab.Screen name="Followings" options={{ tabBarLabel: "Followings" }}>
+          <Tab.Screen name="Following" options={{ tabBarLabel: "Following" }}>
             {() => (
               <ExploreFollowing
-                className="p-2"
+                className="px-3"
                 search={debouncedSearchTerm}
                 searching={searching}
                 handleScroll={handleScroll}
