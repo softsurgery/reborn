@@ -1,3 +1,4 @@
+import { BugVariant } from "@/types";
 import {
   Field,
   FieldVariant,
@@ -5,9 +6,9 @@ import {
   SelectFieldProps,
   TextareaFieldProps,
   TextFieldProps,
-} from "~/components/shared/form-builder/types";
-import { ReportBugStore } from "~/hooks/stores/useReportBugStore";
-import { BugVariant } from "~/types";
+} from "@/components/shared/form-builder/types";
+import { useTranslation } from "react-i18next";
+import { ReportBugStore } from "@/hooks/stores/useReportBugStore";
 
 interface useBugReportFormStructureProps {
   store: ReportBugStore;
@@ -16,20 +17,25 @@ interface useBugReportFormStructureProps {
 export const useBugReportFormStructure = ({
   store,
 }: useBugReportFormStructureProps) => {
+  const { t } = useTranslation("settings");
   //title
   const titleField: Field<TextFieldProps> = {
     id: "bug-title",
-    label: "Bug Title",
+    label: t("settings.support.screens.report-bug.forms.bug-title"),
     variant: FieldVariant.TEXT,
     required: true,
-    placeholder: "Brief summary of the issue",
-    description: "Please provide a brief summary of the issue",
+    placeholder: t(
+      "settings.support.screens.report-bug.forms.placeholders.bug-title",
+    ),
+    description: t(
+      "settings.support.screens.report-bug.forms.descriptions.bug-title",
+    ),
     error: store.errors.title?.[0],
     props: {
       value: store.createDto.title,
       onChangeText: (value: string) => {
         store.setNested("createDto.title", value);
-        store.setNested("errors.title",[]);
+        store.setNested("errors.title", []);
       },
     },
   };
@@ -37,17 +43,21 @@ export const useBugReportFormStructure = ({
   // description
   const descriptionField: Field<TextareaFieldProps> = {
     id: "bug-description",
-    label: "Description",
+    label: t("settings.support.screens.report-bug.forms.bug-description"),
     variant: FieldVariant.TEXTAREA,
     required: true,
-    placeholder: "Detailed description of the bug",
-    description: "Please provide a detailed description of the bug",
+    placeholder: t(
+      "settings.support.screens.report-bug.forms.placeholders.bug-description",
+    ),
+    description: t(
+      "settings.support.screens.report-bug.forms.descriptions.bug-description",
+    ),
     error: store.errors.description?.[0],
     props: {
       value: store.createDto.description,
       onChangeText: (value: string) => {
         store.setNested("createDto.description", value);
-        store.setNested("errors.description", [])
+        store.setNested("errors.description", []);
       },
     },
   };
@@ -55,11 +65,15 @@ export const useBugReportFormStructure = ({
   // category
   const categoryField: Field<SelectFieldProps> = {
     id: "bug-category",
-    label: "Category",
+    label: t("settings.support.screens.report-bug.forms.bug-category"),
     variant: FieldVariant.SELECT,
     required: true,
-    placeholder: "Select Bug Category",
-    description: "Select the Bug Category you think you're looking for",
+    placeholder: t(
+      "settings.support.screens.report-bug.forms.placeholders.bug-category",
+    ),
+    description: t(
+      "settings.support.screens.report-bug.forms.descriptions.bug-category",
+    ),
     error: store.errors.variant?.[0],
     props: {
       value: store.createDto.variant,
@@ -77,7 +91,6 @@ export const useBugReportFormStructure = ({
   const bugFormStructure: FormStructure = {
     title: "",
     description: "",
-    orientation: "vertical",
     isHeaderVisible: false,
     fieldsets: [
       {
@@ -85,10 +98,14 @@ export const useBugReportFormStructure = ({
         rows: [
           {
             id: 1,
-            fields: [titleField, descriptionField],
+            fields: [titleField],
           },
           {
             id: 2,
+            fields: [descriptionField],
+          },
+          {
+            id: 3,
             fields: [categoryField],
           },
         ],

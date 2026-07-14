@@ -4,6 +4,8 @@ import {
   RequestClientOAuthDto,
   RequestClientSignInDto,
   RequestClientSignUpDto,
+  RequestClientUpdateMailDto,
+  RequestClientUpdatePasswordDto,
   ResponseClientSigninDto,
 } from "~/types/auth";
 
@@ -48,9 +50,21 @@ const sendVerifyEmail = async (email?: string) => {
   return response.data;
 };
 
+const updateEmail = async (request: RequestClientUpdateMailDto) => {
+  const response = await axios.post("/client-auth/update-email", request);
+  return response.data;
+};
+
+const updatePassword = async (request: RequestClientUpdatePasswordDto) => {
+  const response = await axios.post("/client-auth/update-password", request);
+  return response.data;
+};
+
 export const auth = {
   signIn,
   ssoSignIn,
   signUp,
   sendVerifyEmail,
+  updateEmail,
+  updatePassword,
 };

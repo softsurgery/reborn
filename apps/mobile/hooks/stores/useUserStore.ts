@@ -16,6 +16,11 @@ import {
 interface UserData {
   response?: ResponseUserDto;
   updateDto: UpdateUserDto;
+  updatePasswordDto: {
+    currentPassword?: string;
+    newPassword?: string;
+    confirmPassword?: string;
+  };
 
   //experiences
   experiences?: ResponseExperienceDto[];
@@ -53,6 +58,11 @@ const initialState: UserData = {
   responseFollowCountsDto: {
     followers: 0,
     following: 0,
+  },
+  updatePasswordDto: {
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
   },
   createExperienceDto: {
     title: "",

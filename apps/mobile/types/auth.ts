@@ -22,6 +22,16 @@ export interface ResponseClientSignupDto {
   user: ResponseUserDto;
 }
 
+export interface RequestClientUpdateMailDto {
+  email: string;
+  password: string;
+}
+
+export interface RequestClientUpdatePasswordDto {
+  currentPassword: string;
+  newPassword: string;
+}
+
 export enum OAuthProvider {
   GOOGLE = "google",
   LINKEDIN = "linkedin",

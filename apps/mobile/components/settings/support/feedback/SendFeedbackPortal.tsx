@@ -2,30 +2,35 @@ import React from "react";
 import { useMutation } from "@tanstack/react-query";
 import { api } from "~/api";
 import { View } from "react-native";
-import { ChevronLeft } from "lucide-react-native";
+import { Loader2 } from "lucide-react-native";
 import { Text } from "~/components/ui/text";
 import { createFeedbackSchema } from "~/types/validations/system-reports.validation";
 import { Button } from "~/components/ui/button";
 import { FormBuilder } from "~/components/shared/form-builder/FormBuilder";
 import { useSendFeedbackFormStructure } from "./useSendFeedbackFormStructure";
 import { cn } from "~/lib/utils";
-import { toast } from "sonner-native";
 import { StableKeyboardAwareScrollView } from "~/components/shared/StableKeyboardAwareScrollView";
 import { router } from "expo-router";
 import { StableSafeAreaView } from "~/components/shared/StableSafeAreaView";
 import { useTranslation } from "react-i18next";
 import { ApplicationHeader } from "~/components/shared/AppHeader";
-import { useKeyboardVisible } from "~/hooks/useKeyboardVisible";
-import { useSendFeedbackStore } from "~/hooks/stores/useFeedbackManager";
-import { ServerErrorResponse } from "@/types";
+import { useKeyboardVisible } from "@/hooks/useKeyboardVisible";
+import { ServerErrorResponse } from "@/types/utils/server.interfaces";
+import { toast } from "sonner-native";
+import { Icon } from "@/components/ui/icon";
+import * as Haptics from "expo-haptics";
 
+import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
+import { useSendFeedbackStore } from "@/hooks/stores/useFeedbackManager";
+import { BottomButtonWrapper } from "@/components/shared/BottomButtonBlockWrapper";
 interface SendFeedbackPortalProps {
   className?: string;
 }
 
 export const SendFeedbackPortal = ({ className }: SendFeedbackPortalProps) => {
-  const { t } = useTranslation("common");
+  const { t } = useTranslation("settings");
   const isKeyboardVisible = useKeyboardVisible();
+  const sendFeedbackStore = useSendFeedbackStore();
 
   React.useEffect(() => {
     return () => {
@@ -33,7 +38,6 @@ export const SendFeedbackPortal = ({ className }: SendFeedbackPortalProps) => {
     };
   }, []);
 
-  const sendFeedbackStore = useSendFeedbackStore();
   const { feedbackFormStructure } = useSendFeedbackFormStructure({
     store: sendFeedbackStore,
   });
@@ -51,7 +55,8 @@ export const SendFeedbackPortal = ({ className }: SendFeedbackPortalProps) => {
       onError: (error: ServerErrorResponse) => {
         toast.error("Oops! Failed to submit feedback", {
           description:
-            error.response?.data?.message || "Please try again later.",
+            error.response?.data?.message ||
+            "An error occurred while submitting your feedback.",
         });
       },
     });
@@ -69,37 +74,57 @@ export const SendFeedbackPortal = ({ className }: SendFeedbackPortalProps) => {
     <StableSafeAreaView className={cn("flex-1 bg-card", className)}>
       <ApplicationHeader
         classNames={{ wrapper: "border-b border-border pb-2" }}
-        title={t("screens.sendFeedback")}
+        title={t("settings.support.screens.send-feedback.title")}
         titleVariant="large"
         reverse
         shortcuts={[
           {
             key: "back",
-            icon: ChevronLeft,
-            onPress: () => router.back(),
+            render: <AppHeaderBack />,
           },
         ]}
       />
       <StableKeyboardAwareScrollView className="flex-1 bg-background">
-        <View className="p-4">
+        <View className="px-5 pt-4 pb-2">
           <Text className="text-sm text-muted-foreground leading-relaxed">
-            Have suggestions or ideas to make Instinct better? We&apos;d love to
-            hear them!
+            {t("settings.support.screens.send-feedback.description")}
           </Text>
         </View>
         <FormBuilder structure={feedbackFormStructure} className="px-2" />
       </StableKeyboardAwareScrollView>
       {!isKeyboardVisible && (
-        <View className="py-6 border-t border-border">
+        <BottomButtonWrapper>
           <Button
-            size={"sm"}
-            className="mx-6 mb-4 rounded-full"
+            size="lg"
+            className="rounded-xl"
+            onPress={() => {
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+              handleSubmit();
+            }}
             disabled={isSendFeedbackPending}
-            onPress={handleSubmit}
           >
-            <Text>Send Feedback</Text>
+            {isSendFeedbackPending ? (
+              <React.Fragment>
+                <Icon
+                  as={Loader2}
+                  size={18}
+                  className="text-primary-foreground animate-spin"
+                />
+                <Text className="text-primary-foreground font-semibold">
+                  {t(
+                    "settings.support.screens.send-feedback.forms.actions.submit-feedback-pending",
+                  )}
+                </Text>
+              </React.Fragment>
+            ) : (
+              <Text className="text-md font-bold">
+                {t(
+                  "settings.support.screens.send-feedback.forms.actions.submit-feedback",
+                )}
+              </Text>
+            )}
           </Button>
-        </View>
+        </BottomButtonWrapper>
       )}
     </StableSafeAreaView>
   );

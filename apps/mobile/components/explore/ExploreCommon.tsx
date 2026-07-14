@@ -11,10 +11,12 @@ import {
 import { Text } from "../ui/text";
 import { JobCardSkeleton } from "../jobs/JobCardSkeleton";
 import { cn } from "~/lib/utils";
-import { NAV_THEME } from "~/lib/theme";
 import { useInfiniteJobs } from "@/hooks/content/job/useInfiniteJobs";
 import { NotFound } from "../shared/NotFound";
 import { useExploreFilterStore } from "@/hooks/stores/userExploreFilterStore";
+import { useColorPalette } from "@/hooks/useColorPalette";
+import { JobFeedSkeleton } from "../jobs/JobFeedSkeleton";
+import { JOB_CARD_HEIGHT } from "../jobs/JobCard";
 
 interface ExploreCommonProps {
   className?: string;
@@ -29,13 +31,11 @@ export const ExploreCommon = ({
   searching,
   handleScroll,
 }: ExploreCommonProps) => {
+  const { palette } = useColorPalette();
   const exploreFilterStore = useExploreFilterStore();
 
   const filter = React.useMemo(() => {
     let arr = exploreFilterStore.getFilterExpression();
-    // if (userId) {
-    //   filter.push(`postedById||$eq||${userId}`);
-    // }
     return arr.join(";");
   }, [exploreFilterStore.filters]);
 
@@ -49,13 +49,14 @@ export const ExploreCommon = ({
     refetch,
   } = useInfiniteJobs({
     search,
-    join: ["uploads"],
+    // postedBy, category and tags are eager on the entity; currency is not.
+    join: ["uploads", "currency"],
     sortKey: "createdAt",
     sortOrder: "desc",
     filter,
   });
 
-  const isPending = isJobsPending || isFetchingNextPage || searching;
+  const isPending = isJobsPending || searching;
 
   const renderItem = React.useCallback(
     ({ item }: { item: ResponseJobDto }) => (
@@ -70,6 +71,8 @@ export const ExploreCommon = ({
       data={jobs}
       renderItem={renderItem}
       keyExtractor={(item) => item.id}
+      // Without a size hint the list mispositions rows and they overlap.
+      estimatedItemSize={JOB_CARD_HEIGHT}
       showsVerticalScrollIndicator={false}
       maintainVisibleContentPosition
       onScroll={handleScroll}
@@ -77,8 +80,8 @@ export const ExploreCommon = ({
         <RefreshControl
           refreshing={isRefetching}
           onRefresh={refetch}
-          tintColor={NAV_THEME.light.colors.primary}
-          colors={[NAV_THEME.light.colors.primary]}
+          tintColor={palette.primary}
+          colors={[palette.primary]}
         />
       }
       onEndReached={() => {
@@ -87,21 +90,26 @@ export const ExploreCommon = ({
         }
       }}
       ListEmptyComponent={
-        !isPending ? (
-          <NotFound className="flex-1 justify-center items-center" />
+        isPending ? (
+          <JobFeedSkeleton />
         ) : (
-          <JobCardSkeleton />
+          <NotFound
+            className="flex-1 items-center justify-center pt-12"
+            message="No jobs here yet. Try widening your filters."
+          />
         )
       }
       ListFooterComponent={
         <View className="items-center">
-          {isPending ? (
+          {isFetchingNextPage ? (
             <JobCardSkeleton />
-          ) : hasNextPage ? null : (
-            <View className="flex flex-row items-center justify-center gap-2 pb-8">
-              <Text className="text-muted-foreground">No more jobs</Text>
+          ) : jobs.length > 0 && !hasNextPage ? (
+            <View className="flex-row items-center justify-center gap-2 py-8">
+              <Text className="text-sm text-muted-foreground">
+                You're all caught up
+              </Text>
             </View>
-          )}
+          ) : null}
         </View>
       }
     />
