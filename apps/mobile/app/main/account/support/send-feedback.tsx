@@ -1,4 +1,4 @@
-import { SendFeedbackPortal } from "~/components/support/feedback/SendFeedbackPortal";
+import { SendFeedbackPortal } from "@/components/settings/support/feedback/SendFeedbackPortal";
 
 export default function Screen() {
   return <SendFeedbackPortal />;
