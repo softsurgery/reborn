@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { NativeScrollEvent, NativeSyntheticEvent, View } from "react-native";
 import { router } from "expo-router";
 import { Text } from "~/components/ui/text";
 import { Button } from "~/components/ui/button";
@@ -21,7 +21,8 @@ import { useIsJobSaved } from "~/hooks/content/job/useIsJobSaved";
 import { useJobSaveActions } from "~/hooks/content/job/useJobSaveActions";
 import { useIsJobViewed } from "~/hooks/content/job/useIsJobViewed";
 import { useJobViewActions } from "~/hooks/content/job/useJobViewActions";
-import { JobCardHeader } from "./JobCardHeader";
+import { JobDetailsTopBar } from "./JobDetailsTopBar";
+import { JobHero } from "./JobHero";
 import { JobClientInformation } from "./JobClientInformation";
 import { JobDetailsBody } from "./JobDetailsBody";
 import { StableScrollView } from "~/components/shared/StableScrollView";
@@ -52,7 +53,11 @@ export const JobDetails = ({ className, id }: JobDetailsProps) => {
   } = useQuery({
     queryKey: ["job", id],
     queryFn: () =>
-      api.job.findById(id as string, ["uploads", "postedBy"].join(",")),
+      // category/tags/postedBy are eager; currency is not, and the price needs it.
+      api.job.findById(
+        id as string,
+        ["uploads", "postedBy", "currency"].join(","),
+      ),
     enabled: !!id,
   });
 
@@ -159,6 +164,20 @@ export const JobDetails = ({ className, id }: JobDetailsProps) => {
     else saveJob(id as string);
   };
 
+  // Echo the title in the bar only once the hero title has scrolled past.
+  const [isTitleScrolledAway, setIsTitleScrolledAway] = React.useState(false);
+
+  const handleScroll = React.useCallback(
+    (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+      const scrolledAway = e.nativeEvent.contentOffset.y > 120;
+      // Only re-render on the crossing, not on every scroll frame.
+      setIsTitleScrolledAway((current) =>
+        current === scrolledAway ? current : scrolledAway,
+      );
+    },
+    [],
+  );
+
   const isPending = isJobPending || isJobRequestedPending || !areImageComplete;
 
   if (isPending)
@@ -181,25 +200,34 @@ export const JobDetails = ({ className, id }: JobDetailsProps) => {
   return (
     <StableSafeAreaView className="flex-1 bg-background">
       <View className="flex-1">
-        {/* Header */}
-        <JobCardHeader
-          job={job}
-          metadata={jobMetadata}
+        <JobDetailsTopBar
+          title={job?.title}
+          showTitle={isTitleScrolledAway}
           handleSave={handleSave}
           isJobSaved={!!isJobSaved}
           isSavePending={isSavePending || isUnsavePending}
-          uploads={job?.uploads?.map((upload) => String(upload.uploadId)) ?? []}
-          imageQueries={imageQueries}
         />
 
-        <StableScrollView className={cn("flex-1")}>
-          {/* Client Info */}
+        <StableScrollView
+          className={cn("flex-1")}
+          contentContainerStyle={{ gap: 12, paddingBottom: 24 }}
+          scrollEventThrottle={32}
+          onScroll={handleScroll}
+        >
+          <JobHero
+            job={job}
+            metadata={jobMetadata}
+            uploads={job?.uploads?.map((upload) => String(upload.uploadId)) ?? []}
+            imageQueries={imageQueries}
+          />
+
+          <JobDetailsBody job={job} />
+
           <JobClientInformation
             job={job}
             metadata={jobMetadata}
             profilePicture={profilePicture}
           />
-          <JobDetailsBody job={job} />
         </StableScrollView>
 
         {/* Apply Button */}
@@ -208,8 +236,7 @@ export const JobDetails = ({ className, id }: JobDetailsProps) => {
             <View className="flex-row items-center gap-2">
               {isJobRequested ? (
                 <Button
-                  className="flex-1 rounded-lg"
-                  size="sm"
+                  className="flex-1 rounded-xl"
                   variant="outline"
                   onPress={() =>
                     router.navigate({
@@ -219,17 +246,16 @@ export const JobDetails = ({ className, id }: JobDetailsProps) => {
                   }
                 >
                   <Text ellipsizeMode="tail" numberOfLines={1}>
-                    View Requests
+                    View request
                   </Text>
                 </Button>
               ) : null}
 
               <Button
                 className={cn(
-                  "rounded-lg",
+                  "rounded-xl",
                   isJobRequested ? "flex-1" : "w-full",
                 )}
-                size="sm"
                 onPress={() => {
                   if (isJobRequested) cancelSheetRef.current?.show();
                   else applySheetRef.current?.show();
@@ -241,15 +267,18 @@ export const JobDetails = ({ className, id }: JobDetailsProps) => {
                 }
                 variant={isJobRequested ? "destructive" : "default"}
               >
-                <Text numberOfLines={1} ellipsizeMode="tail">
-                  {isJobRequested ? "Cancel Application" : "Apply for this job"}
+                <Text
+                  numberOfLines={1}
+                  ellipsizeMode="tail"
+                  className="font-semibold"
+                >
+                  {isJobRequested ? "Cancel application" : "Apply for this job"}
                 </Text>
               </Button>
             </View>
           ) : (
             <Button
-              className="w-full rounded-lg"
-              size="sm"
+              className="w-full rounded-xl"
               onPress={() => {
                 router.push({
                   pathname: "/main/my-space/manage-job",
@@ -257,7 +286,7 @@ export const JobDetails = ({ className, id }: JobDetailsProps) => {
                 });
               }}
             >
-              <Text className="text-base font-semibold">Manage This Job</Text>
+              <Text className="font-semibold">Manage this job</Text>
             </Button>
           )}
 
@@ -274,10 +303,10 @@ export const JobDetails = ({ className, id }: JobDetailsProps) => {
           />
 
           {job?.postedBy.id !== currentUser?.id ? (
-            <View className="mt-2">
-              <Text variant="muted" className="text-center">
+            <View className="mt-3">
+              <Text className="text-center text-xs text-muted-foreground">
                 You'll be able to chat with{" "}
-                <Text className="font-semibold text-foreground">
+                <Text className="text-xs font-semibold text-foreground">
                   {identifyUser(job?.postedBy)}
                 </Text>{" "}
                 before starting work
