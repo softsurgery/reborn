@@ -1,3 +1,7 @@
+import { SendFeedbackStore } from "@/hooks/stores/useFeedbackManager";
+import { useColorPalette } from "@/hooks/useColorPalette";
+import { hslToHex } from "@/lib/theme";
+import { useTranslation } from "react-i18next";
 import {
   Field,
   FieldVariant,
@@ -6,7 +10,6 @@ import {
   SelectFieldProps,
   TextareaFieldProps,
 } from "~/components/shared/form-builder/types";
-import { SendFeedbackStore } from "~/hooks/stores/useFeedbackManager";
 import { FeedbackCategory } from "~/types";
 
 interface useSendFeedbackFormStructureProps {
@@ -16,14 +19,20 @@ interface useSendFeedbackFormStructureProps {
 export const useSendFeedbackFormStructure = ({
   store,
 }: useSendFeedbackFormStructureProps) => {
+  const { palette } = useColorPalette();
+  const { t } = useTranslation("settings");
   //message
   const messageField: Field<TextareaFieldProps> = {
     id: "feedback-message",
-    label: "Feedback Message",
+    label: t("settings.support.screens.send-feedback.forms.message"),
     variant: FieldVariant.TEXTAREA,
     required: true,
-    placeholder: "Share your feedback here...",
-    description: "Share your feedback here",
+    placeholder: t(
+      "settings.support.screens.send-feedback.forms.placeholders.message",
+    ),
+    description: t(
+      "settings.support.screens.send-feedback.forms.descriptions.message",
+    ),
     error: store.errors.message?.[0],
     props: {
       value: store.createDto.message,
@@ -37,11 +46,15 @@ export const useSendFeedbackFormStructure = ({
   //category
   const categoryField: Field<SelectFieldProps> = {
     id: "feedback-category",
-    label: "Category",
+    label: t("settings.support.screens.send-feedback.forms.category"),
     variant: FieldVariant.SELECT,
     required: true,
-    placeholder: "Select Feedback Category",
-    description: "Select the Feedback Category you think you're looking for",
+    placeholder: t(
+      "settings.support.screens.send-feedback.forms.placeholders.category",
+    ),
+    description: t(
+      "settings.support.screens.send-feedback.forms.descriptions.category",
+    ),
     error: store.errors.category?.[0],
     props: {
       value: store.createDto.category,
@@ -59,14 +72,18 @@ export const useSendFeedbackFormStructure = ({
   //rating
   const ratingField: Field<RatingFieldProps> = {
     id: "feedback-rating",
-    label: "Rating",
+    label: t("settings.support.screens.send-feedback.forms.rating"),
     variant: FieldVariant.RATING,
     required: true,
-    placeholder: "Rate your experience",
-    description: "Rate your experience",
+    placeholder: t(
+      "settings.support.screens.send-feedback.forms.placeholders.rating",
+    ),
+    description: t(
+      "settings.support.screens.send-feedback.forms.descriptions.rating",
+    ),
     error: store.errors.rating?.[0],
     props: {
-      color: "#b91c1c",
+      color: hslToHex(palette.primary),
       value: store.createDto.rating,
       onValueChange: (value: number) => {
         store.setNested("createDto.rating", value);
@@ -78,7 +95,6 @@ export const useSendFeedbackFormStructure = ({
   const feedbackFormStructure: FormStructure = {
     title: "",
     description: "",
-    orientation: "vertical",
     isHeaderVisible: false,
     fieldsets: [
       {

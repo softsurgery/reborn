@@ -1,10 +1,17 @@
 import React from "react";
 import { cn } from "~/lib/utils";
 import { View, TouchableOpacity, Image } from "react-native";
-import { Heart, Clock, Wallet, Pen, Settings2 } from "lucide-react-native";
+import {
+  Heart,
+  ImageOff,
+  Pen,
+  Settings2,
+  Signal,
+  MapPin,
+} from "lucide-react-native";
 import { router } from "expo-router";
-import { ResponseJobDto } from "~/types";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { JobPricingType, ResponseJobDto } from "~/types";
+import { useQueryClient } from "@tanstack/react-query";
 
 import { Skeleton } from "../ui/skeleton";
 import { timeAgo } from "~/lib/dates.utils";
@@ -15,6 +22,9 @@ import { Button } from "../ui/button";
 import { Icon } from "../ui/icon";
 import { Badge } from "../ui/badge";
 import { useServerImage } from "@/hooks/content/useServerImage";
+import { useColorPalette } from "@/hooks/useColorPalette";
+import { Avatar, AvatarFallback, AvatarImage } from "../shared/StableAvatar";
+import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
 
 interface JobCardProps {
   className?: string;
@@ -22,9 +32,28 @@ interface JobCardProps {
   isOwner?: boolean;
 }
 
+export const THUMBNAIL_SIZE = 84;
+export const JOB_CARD_HEIGHT = 190;
+
+const DEFAULT_CURRENCY = "TND";
+
+interface CurrencyExtras {
+  code?: string;
+  symbol?: string;
+  digitsAfterComma?: number;
+}
+
+const readCurrency = (job: ResponseJobDto) => {
+  const extras = (job.currency?.extras ?? {}) as CurrencyExtras;
+  return {
+    code: extras.code || job.currency?.label || DEFAULT_CURRENCY,
+    digits: extras.digitsAfterComma ?? 2,
+  };
+};
+
 export const JobCard = ({ className, job, isOwner }: JobCardProps) => {
   const queryClient = useQueryClient();
-  const [showFullDesc, setShowFullDesc] = React.useState(false);
+  const { palette } = useColorPalette();
 
   const { isJobSaved, isSavedPending } = useIsJobSaved(job.id);
   const { saveJob, isSavePending, unsaveJob, isUnsavePending } =
@@ -35,34 +64,41 @@ export const JobCard = ({ className, job, isOwner }: JobCardProps) => {
     });
 
   const orderedUploads = React.useMemo(
-    () => job.uploads?.sort((a, b) => a.order - b.order),
+    () => job.uploads?.slice().sort((a, b) => a.order - b.order),
     [job.uploads],
   );
 
   const coverId = orderedUploads?.[0]?.uploadId;
+  const extraPhotos = Math.max((orderedUploads?.length ?? 0) - 1, 0);
 
   const { upload, isUploadPending } = useServerImage({
     id: coverId,
-    fallback: "IMAGE",
-    wrapperClassName: "border border-border bg-muted rounded-lg",
     enabled: !!coverId,
+  });
+
+  const { upload: authorPicture } = useServerImage({
+    id: job.postedBy?.pictureId,
+    enabled: !!job.postedBy?.pictureId,
   });
 
   React.useEffect(() => {
     return () => {
-      queryClient.invalidateQueries({
-        queryKey: ["job-thumbnail", job.id],
-      });
+      queryClient.invalidateQueries({ queryKey: ["job-thumbnail", job.id] });
       queryClient.invalidateQueries({ queryKey: ["is-job-saved", job.id] });
     };
   }, []);
 
+  const isSaveMutating = isSavePending || isUnsavePending;
+
   const handleSave = (e: any) => {
     e.stopPropagation();
-    if (isSavePending || isUnsavePending) return;
+    if (isSaveMutating) return;
     if (isJobSaved) unsaveJob(job.id);
     else saveJob(job.id);
   };
+
+  const { code, digits } = readCurrency(job);
+  const isHourly = job.pricingType === JobPricingType.HOURLY;
 
   return (
     <TouchableOpacity
@@ -71,110 +107,210 @@ export const JobCard = ({ className, job, isOwner }: JobCardProps) => {
           pathname: "/main/explore/job-details",
           params: {
             id: job.id,
-            uploads: JSON.stringify(job.uploads.map((u) => u.uploadId)),
+            uploads: JSON.stringify((job.uploads ?? []).map((u) => u.uploadId)),
           },
         });
       }}
-      className={cn(
-        "w-full pb-4 gap-2 border-2 border-border rounded-lg",
-        className,
-      )}
-      activeOpacity={0.7}
+      className={cn("w-full rounded-lg border-b border-gray-500 p-3", className)}
+      activeOpacity={0.85}
     >
-      {coverId && isUploadPending ? (
-        <Skeleton className="w-full h-[200px]" />
-      ) : (
-        <View>
-          {coverId && upload ? (
-            <Image source={{ uri: upload }} className="w-full h-[200px]" />
+      <View style={{ flexDirection: "row", gap: 12 }}>
+        <View
+          style={{ width: THUMBNAIL_SIZE, height: THUMBNAIL_SIZE }}
+          className="overflow-hidden rounded-xl bg-muted"
+        >
+          {coverId && isUploadPending ? (
+            <Skeleton style={{ width: "100%", height: "100%" }} />
+          ) : coverId && upload ? (
+            <Image
+              source={{ uri: upload }}
+              style={{ width: "100%", height: "100%" }}
+              resizeMode="cover"
+            />
           ) : (
-            <View className="w-full h-[200px] bg-muted"></View>
-          )}
-          {isOwner && (
-            <Badge className="absolute top-4 right-4">
-              <Text className="text-base">{job.status}</Text>
-            </Badge>
-          )}
-        </View>
-      )}
-
-      <View className="flex-col justify-between items-start px-4">
-        <View className="flex-row justify-between items-start">
-          <Text className="font-semibold text-xl flex-1">{job.title}</Text>
-        </View>
-
-        <View className="mt-1">
-          <Text className="text-sm">
-            {showFullDesc
-              ? job.description
-              : `${job.description.slice(0, 100)}... `}
-            {job.description.length > 100 && (
-              <Text
-                className="text-green-500 underline text-sm"
-                onPress={() => setShowFullDesc(!showFullDesc)}
-              >
-                {showFullDesc ? "Show less" : "Show more"}
-              </Text>
-            )}
-          </Text>
-        </View>
-      </View>
-
-      <View className="flex flex-row justify-between px-4">
-        <View className="flex flex-row gap-2">
-          <View className="flex-row items-center gap-1">
-            <Clock size={14} color="#9ca3af" />
-            <Text className="text-sm text-muted-foreground">
-              {timeAgo(job?.createdAt || new Date())}
-            </Text>
-          </View>
-          <View className="flex-row items-center gap-1">
-            <Wallet size={14} color="#9ca3af" />
-            <Text className="text-sm text-muted-foreground">
-              {job?.price.toFixed(3)} TND
-            </Text>
-          </View>
-        </View>
-
-        {!isOwner && (
-          <TouchableOpacity
-            onPress={handleSave}
-            disabled={isSavePending || isUnsavePending}
-          >
-            {isSavePending || isUnsavePending || isSavedPending ? (
-              <Heart size={24} color={"#FAA0A0"} fill={"#FAA0A0"} />
-            ) : (
-              <Heart
-                size={24}
-                color={"#EE4B2B"}
-                fill={isJobSaved ? "#EE4B2B" : "none"}
-              />
-            )}
-          </TouchableOpacity>
-        )}
-      </View>
-      {isOwner && (
-        <View className="flex flex-col justify-between gap-2 px-4">
-          <Text className="font-bold">Actions</Text>
-          <View className="flex flex-row gap-4">
-            <Button
-              className="flex-1"
-              size={"sm"}
-              onPress={() => {
-                router.push({
-                  pathname: "/main/my-space/manage-job",
-                  params: { id: job.id },
-                });
-              }}
+            <View
+              style={{ width: "100%", height: "100%" }}
+              className="items-center justify-center"
             >
-              <Icon as={Settings2} size={16} />
-              <Text>Manage</Text>
-            </Button>
-            <Button className="flex-1" size={"sm"} variant={"outline"}>
-              <Icon as={Pen} size={16} />
-              <Text>Update</Text>
-            </Button>
+              <ImageOff
+                size={18}
+                color={palette.mutedForeground}
+                opacity={0.4}
+              />
+            </View>
+          )}
+
+          {extraPhotos > 0 && (
+            <View
+              style={{ position: "absolute", bottom: 4, right: 4 }}
+              className="rounded-md bg-black/60 px-1.5 py-0.5"
+            >
+              <Text
+                style={{ fontSize: 10 }}
+                className="font-semibold text-white"
+              >
+                +{extraPhotos}
+              </Text>
+            </View>
+          )}
+        </View>
+
+        <View style={{ flex: 1 }}>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Text
+              numberOfLines={1}
+              style={{ flex: 1, fontSize: 10 }}
+              className="font-bold uppercase tracking-widest text-primary"
+            >
+              {job.category?.label ?? "Uncategorised"}
+            </Text>
+
+            {isOwner ? (
+              <Badge variant="secondary" className="ml-2">
+                <Text style={{ fontSize: 10 }}>{job.status}</Text>
+              </Badge>
+            ) : (
+              <TouchableOpacity
+                onPress={handleSave}
+                disabled={isSaveMutating}
+                hitSlop={12}
+                style={{ marginLeft: 8 }}
+              >
+                <Heart
+                  size={20}
+                  color={isJobSaved ? palette.primary : palette.mutedForeground}
+                  fill={isJobSaved ? palette.primary : "none"}
+                  opacity={isSaveMutating || isSavedPending ? 0.4 : 1}
+                />
+              </TouchableOpacity>
+            )}
           </View>
+
+          <Text
+            numberOfLines={2}
+            style={{ marginTop: 2 }}
+            className="text-base font-semibold leading-5 tracking-tight"
+          >
+            {job.title}
+          </Text>
+
+          {job.description ? (
+            <Text
+              numberOfLines={1}
+              style={{ marginTop: 2 }}
+              className="text-xs leading-4 text-muted-foreground"
+            >
+              {job.description}
+            </Text>
+          ) : null}
+
+          <View
+            style={{
+              marginTop: 6,
+              flexDirection: "row",
+              alignItems: "baseline",
+              gap: 4,
+            }}
+          >
+            <Text className="text-lg font-bold leading-6 tracking-tight">
+              {job.price?.toFixed(digits)}
+            </Text>
+            <Text className="text-xs font-semibold text-muted-foreground">
+              {code}
+              {isHourly ? " / hr" : ""}
+            </Text>
+          </View>
+        </View>
+      </View>
+
+      <View
+        style={{
+          marginTop: 12,
+          paddingTop: 10,
+          flexDirection: "row",
+          alignItems: "center",
+          gap: 6,
+        }}
+        className="border-t border-border"
+      >
+        <Avatar
+          alt={identifyUser(job.postedBy)}
+          style={{ width: 20, height: 20 }}
+        >
+          {/* Always mounted: AvatarImage is what raises the fallback flag. */}
+          <AvatarImage source={{ uri: authorPicture ?? "" }} />
+          <AvatarFallback>
+            <Text style={{ fontSize: 9 }} className="font-semibold">
+              {identifyUserAvatar(job.postedBy)}
+            </Text>
+          </AvatarFallback>
+        </Avatar>
+
+        <Text
+          numberOfLines={1}
+          style={{ flexShrink: 1 }}
+          className="text-xs font-medium"
+        >
+          {identifyUser(job.postedBy)}
+        </Text>
+
+        <Text className="text-xs text-muted-foreground">
+          · {timeAgo(job?.createdAt || new Date())}
+        </Text>
+
+        <View
+          style={{
+            marginLeft: "auto",
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 6,
+          }}
+        >
+          {job.style ? (
+            <View className="flex-row items-center gap-1 rounded-full bg-muted px-2 py-1">
+              <MapPin size={10} color={palette.mutedForeground} />
+              <Text
+                style={{ fontSize: 10 }}
+                className="font-medium text-muted-foreground"
+              >
+                {job.style}
+              </Text>
+            </View>
+          ) : null}
+
+          {job.difficulty ? (
+            <View className="flex-row items-center gap-1 rounded-full bg-muted px-2 py-1">
+              <Signal size={10} color={palette.mutedForeground} />
+              <Text
+                style={{ fontSize: 10 }}
+                className="font-medium text-muted-foreground"
+              >
+                {job.difficulty}
+              </Text>
+            </View>
+          ) : null}
+        </View>
+      </View>
+
+      {isOwner && (
+        <View style={{ marginTop: 8, flexDirection: "row", gap: 12 }}>
+          <Button
+            className="flex-1"
+            size="sm"
+            onPress={() => {
+              router.push({
+                pathname: "/main/my-space/manage-job",
+                params: { id: job.id },
+              });
+            }}
+          >
+            <Icon as={Settings2} size={16} />
+            <Text>Manage</Text>
+          </Button>
+          <Button className="flex-1" size="sm" variant="outline">
+            <Icon as={Pen} size={16} />
+            <Text>Update</Text>
+          </Button>
         </View>
       )}
     </TouchableOpacity>

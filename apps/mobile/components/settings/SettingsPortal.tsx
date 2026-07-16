@@ -2,7 +2,7 @@ import React from "react";
 import { Alert, View } from "react-native";
 import { useQueryClient } from "@tanstack/react-query";
 import { router } from "expo-router";
-import { ChevronLeft, ChevronRight, LogOut, Trash2 } from "lucide-react-native";
+import { ChevronRight, LogOut, Trash2 } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import { cn } from "~/lib/utils";
 import { useAuthPersistStore } from "~/hooks/stores/useAuthPersistStore";
@@ -11,7 +11,6 @@ import { identifyUser } from "~/lib/user.utils";
 import { ApplicationHeader } from "../shared/AppHeader";
 import { StableSafeAreaView } from "../shared/StableSafeAreaView";
 import { StableScrollView } from "../shared/StableScrollView";
-import { LanguageSwitcher } from "../user-preferences/LanguageSwitcher";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Icon } from "../ui/icon";
@@ -19,7 +18,6 @@ import { Separator } from "../ui/separator";
 import { Text } from "../ui/text";
 import { createSettingRow, SettingRow } from "./SettingsRow";
 import type { SettingRowConfig } from "./SettingsRow";
-import { ThemeSwitcher } from "../shared/ThemeSwitcher";
 import { AppHeaderBack } from "../shared/AppHeaderBack";
 
 interface SettingsPortalProps {
@@ -202,7 +200,7 @@ export const SettingsPortal = ({ className }: SettingsPortalProps) => {
     <StableSafeAreaView className={cn("flex flex-1 bg-card", className)}>
       <ApplicationHeader
         classNames={{ wrapper: "border-b border-border pb-2" }}
-        title={t("screens.settings.title")}
+        title={t("screens.settings")}
         titleVariant="large"
         reverse
         shortcuts={[

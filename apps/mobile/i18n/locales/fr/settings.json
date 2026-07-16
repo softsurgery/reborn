@@ -156,6 +156,11 @@
               "bug-description": "Décrivez le bug en détail",
               "bug-category": "Sélectionnez la catégorie qui décrit le mieux le bug"
             },
+            "descriptions": {
+              "bug-title": "Un titre concis qui résume le bug que vous avez rencontré.",
+              "bug-description": "Une description détaillée du bug, incluant les étapes pour le reproduire, le comportement attendu ainsi que toute capture d’écran ou message d’erreur pertinent.",
+              "bug-category": "Sélectionnez la catégorie qui décrit le mieux le bug que vous avez rencontré."
+            },
             "actions": {
               "submit-bug": "Soumettre le rapport",
               "submit-bug-pending": "Soumission en cours..."
@@ -206,7 +211,7 @@
       "description": "Découvrez davantage l’application et ses informations légales.",
       "screens": {
         "about": {
-          "title": "À propos d’Instanct",
+          "title": "À propos de Reborn",
           "description": "Découvrez davantage l’application et ses fonctionnalités."
         },
         "terms-of-service": {

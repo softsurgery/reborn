@@ -9,72 +9,68 @@ interface SkeletonBlockProps {
   uploads?: string[];
 }
 
+/** Mirrors JobDetails: top bar, gallery, identity, pay block, stats, body. */
 export const JobDetailsSkeleton = ({
   className,
   uploads,
 }: SkeletonBlockProps) => {
-  const safeUploads = uploads ?? [];
+  const hasGallery = (uploads ?? []).length > 0;
+
   return (
     <StableSafeAreaView className={cn("flex-1 bg-background", className)}>
-      {/* Header */}
-      <View className="bg-card pb-5 border-b border-border">
-        {safeUploads.length > 0 ? (
-          <Skeleton className="h-48 w-full mt-4" />
-        ) : null}
-
-        <View className="flex-row items-start px-4 justify-between mt-4">
-          <View className="flex-1 pr-3">
-            <Skeleton className="h-6 w-2/3 mb-2" />
-            <Skeleton className="h-3 w-44" />
-          </View>
-          <Skeleton className="w-10 h-10 rounded-full" />
-        </View>
-
-        <View className="flex-row flex-wrap gap-2 mt-4 px-4">
-          <Skeleton className="h-6 w-28 rounded-full" />
-          <Skeleton className="h-6 w-32 rounded-full" />
-          <Skeleton className="h-6 w-24 rounded-full" />
-        </View>
+      {/* Top bar */}
+      <View className="flex-row items-center gap-2 border-b border-border bg-card px-2 py-2">
+        <Skeleton style={{ height: 40, width: 40 }} className="rounded-full" />
+        <Skeleton style={{ height: 16 }} className="flex-1" />
+        <Skeleton style={{ height: 40, width: 40 }} className="rounded-full" />
       </View>
 
-      {/* Content */}
-      <View className="flex-1">
-        {/* Client card */}
-        <View className="bg-card border p-4">
-          <Skeleton className="h-5 w-40 mb-3" />
-          <View className="flex-row items-center justify-between">
-            <View className="flex-row items-center gap-3 flex-1 pr-3">
-              <Skeleton className="w-10 h-10 rounded-full" />
-              <View className="flex-1">
-                <Skeleton className="h-4 w-32 mb-2" />
-                <Skeleton className="h-3 w-40" />
-              </View>
+      <View className="flex-1 gap-3">
+        <View className="bg-card">
+          {hasGallery ? (
+            <Skeleton style={{ height: 220 }} className="w-full rounded-none" />
+          ) : null}
+
+          <View className="gap-3 px-5 pb-5 pt-5">
+            <Skeleton style={{ height: 10, width: 90 }} />
+            <Skeleton style={{ height: 24 }} className="w-3/4" />
+
+            <View className="flex-row items-center gap-2">
+              <Skeleton
+                style={{ height: 22, width: 22 }}
+                className="rounded-full"
+              />
+              <Skeleton style={{ height: 12, width: 140 }} />
             </View>
-            <View className="items-end">
-              <Skeleton className="h-3 w-20 mb-1" />
-              <Skeleton className="h-3 w-16" />
-            </View>
+
+            {/* Pay block */}
+            <Skeleton style={{ height: 62 }} className="w-full rounded-2xl" />
+
+            {/* Stat strip */}
+            <Skeleton style={{ height: 74 }} className="w-full rounded-2xl" />
           </View>
         </View>
 
         {/* About */}
-        <View className="mt-4 bg-card border p-4">
-          <Skeleton className="h-5 w-44 mb-3" />
-          <Skeleton className="h-10 w-full mb-2" />
+        <View className="gap-2 bg-card px-5 py-5">
+          <Skeleton style={{ height: 18, width: 120 }} className="mb-1" />
+          <Skeleton style={{ height: 12 }} className="w-full" />
+          <Skeleton style={{ height: 12 }} className="w-full" />
+          <Skeleton style={{ height: 12 }} className="w-2/3" />
         </View>
 
-        {/* Details */}
-        <View className="mt-4 bg-card border p-4">
-          <Skeleton className="h-5 w-28 mb-3" />
-          <Skeleton className="h-10 w-full rounded-lg mb-2" />
-          <Skeleton className="h-10 w-full rounded-lg mb-2" />
-          <Skeleton className="h-10 w-full rounded-lg" />
+        {/* At a glance */}
+        <View className="gap-3 bg-card px-5 py-5">
+          <Skeleton style={{ height: 18, width: 100 }} />
+          <Skeleton style={{ height: 12 }} className="w-full" />
+          <Skeleton style={{ height: 12 }} className="w-full" />
+          <Skeleton style={{ height: 12 }} className="w-full" />
         </View>
       </View>
 
       {/* Action bar */}
-      <View className="flex-row gap-2 px-6 py-5 bg-card border-t border-border">
-        <Skeleton className="h-9 flex-1 rounded-lg" />
+      <View className="border-t border-border bg-card px-6 py-5 pb-8">
+        <Skeleton style={{ height: 44 }} className="w-full rounded-xl" />
       </View>
     </StableSafeAreaView>
   );
