@@ -36,7 +36,7 @@ export default function MainLayout() {
       />
       {/* Account *********************************************************************************************************************/}
       <Stack.Screen
-        name="account/mail-success"
+        name="account/email-success"
         options={{
           title: "",
           headerShown: false,

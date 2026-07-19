@@ -211,7 +211,7 @@
       "description": "Learn more about the app and its legal information.",
       "screens": {
         "about": {
-          "title": "About Instanct",
+          "title": "About Reborn",
           "description": "Discover more about the app & its features"
         },
         "terms-of-service": {
