@@ -45,7 +45,11 @@ export default function MapPinField({
     latitude: number;
     longitude: number;
   } | null>(
-    latitude != null && longitude != null ? { latitude, longitude } : null,
+    latitude != null &&
+      longitude != null &&
+      (latitude !== 0 || longitude !== 0)
+      ? { latitude, longitude }
+      : null,
   );
   const [name, setName] = React.useState(locationName || "");
   const [loading, setLoading] = React.useState(false);
@@ -53,7 +57,11 @@ export default function MapPinField({
 
   // Sync external prop changes
   React.useEffect(() => {
-    if (latitude != null && longitude != null) {
+    if (
+      latitude != null &&
+      longitude != null &&
+      (latitude !== 0 || longitude !== 0)
+    ) {
       setPin({ latitude, longitude });
     }
   }, [latitude, longitude]);
@@ -133,19 +141,20 @@ export default function MapPinField({
     }
   };
 
-  const initialRegion: Region = pin
-    ? {
-        latitude: pin.latitude,
-        longitude: pin.longitude,
-        latitudeDelta: 0.01,
-        longitudeDelta: 0.01,
-      }
-    : {
-        latitude: 33.8938,
-        longitude: 35.5018,
-        latitudeDelta: 0.05,
-        longitudeDelta: 0.05,
-      };
+  const initialRegion: Region =
+    pin && (pin.latitude !== 0 || pin.longitude !== 0)
+      ? {
+          latitude: pin.latitude,
+          longitude: pin.longitude,
+          latitudeDelta: 0.01,
+          longitudeDelta: 0.01,
+        }
+      : {
+          latitude: 33.8938,
+          longitude: 35.5018,
+          latitudeDelta: 0.05,
+          longitudeDelta: 0.05,
+        };
 
   const toggle = () => {
     if (!editable) return;

@@ -91,10 +91,16 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
   });
 
   React.useEffect(() => {
-    // jobStore.setNested("createDto.currencyId", "TND");
-    jobStore.setNested("createDto.latitude", latitude);
-    jobStore.setNested("createDto.longitude", longitude);
-    jobStore.set("locationName", locationName);
+    if (
+      latitude !== 0 &&
+      longitude !== 0 &&
+      (!jobStore.createDto.latitude || jobStore.createDto.latitude === 0) &&
+      (!jobStore.createDto.longitude || jobStore.createDto.longitude === 0)
+    ) {
+      jobStore.setNested("createDto.latitude", latitude);
+      jobStore.setNested("createDto.longitude", longitude);
+      jobStore.set("locationName", locationName);
+    }
   }, [latitude, longitude, locationName]);
 
   const handleSubmit = (status: "Draft" | "Posted") => {
