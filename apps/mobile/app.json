@@ -46,9 +46,7 @@
       "expo-localization",
       "@react-native-community/datetimepicker",
       "expo-audio",
-      "expo-image",
       "expo-splash-screen",
-      "expo-status-bar",
       "expo-video"
     ],
     "experiments": {

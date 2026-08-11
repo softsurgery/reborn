@@ -9,7 +9,7 @@ import { Icon } from "~/components/ui/icon";
 import { StableSafeAreaView } from "~/components/shared/StableSafeAreaView";
 import { router } from "expo-router";
 import { ApplicationHeader } from "~/components/shared/AppHeader";
-import { createMaterialTopTabNavigator } from "expo-router/js-top-tabs";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
 type TabType = "incoming" | "outgoing";
 

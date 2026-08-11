@@ -36,22 +36,20 @@ export default function ScreenRedirect() {
     "Poppins-ThinItalic": require("../assets/fonts/Poppins/Poppins-ThinItalic.ttf"),
   });
 
+  const hasBootstrapped = React.useRef(false);
+
   React.useEffect(() => {
-    if (preferencePersistStore.isReady) {
-      // Set Android navigation bar
+    if (!preferencePersistStore.isReady || hasBootstrapped.current) return;
+    hasBootstrapped.current = true;
 
-      SplashScreen.hideAsync();
-
-      setTimeout(() => {
-        // Set system color scheme
-        setColorScheme(preferencePersistStore.theme);
-        if (Platform.OS === "android")
-          setAndroidNavigationBar(preferencePersistStore.theme);
-        i18n.changeLanguage(preferencePersistStore.language);
-        router.replace("/main");
-      }, 100);
-    }
-  }, [preferencePersistStore.theme, preferencePersistStore.isReady]);
+    setTimeout(() => {
+      setColorScheme(preferencePersistStore.theme);
+      if (Platform.OS === "android")
+        setAndroidNavigationBar(preferencePersistStore.theme);
+      i18n.changeLanguage(preferencePersistStore.language);
+      router.replace("/main");
+    }, 100);
+  }, [preferencePersistStore.isReady]);
 
   return <ActivityIndicator className="flex-1" size="large" />;
 }

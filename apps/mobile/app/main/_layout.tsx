@@ -1,17 +1,16 @@
 import React from "react";
 import { Stack } from "expo-router";
-import { NAV_THEME } from "~/lib/theme";
-import { useColorScheme } from "nativewind";
 import { useCheckHealth } from "~/hooks/content/useCheckHealth";
 import { useAuthPersistStore } from "~/hooks/stores/useAuthPersistStore";
+import { useColorPalette } from "@/hooks/useColorPalette";
 
 export default function MainLayout() {
   const authPersistStore = useAuthPersistStore();
-  const { colorScheme } = useColorScheme();
-  const isDarkColorScheme = colorScheme === "dark";
-  useCheckHealth({
-    enabled: authPersistStore.isAuthenticated,
-  });
+  const { palette } = useColorPalette();
+
+  // useCheckHealth({
+  //   enabled: authPersistStore.isAuthenticated,
+  // });
 
   return (
     <Stack>
@@ -162,9 +161,7 @@ export default function MainLayout() {
           animation: "slide_from_bottom",
           animationDuration: 300,
           headerStyle: {
-            backgroundColor: isDarkColorScheme
-              ? NAV_THEME.dark.colors.background
-              : NAV_THEME.light.colors.background,
+            backgroundColor: palette.background,
           },
         }}
       />
@@ -315,7 +312,7 @@ export default function MainLayout() {
         }}
       />
       <Stack.Screen
-        name="settings/language"
+        name="/settings/language"
         options={{
           title: "Language",
           headerShown: false,
