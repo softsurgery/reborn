@@ -1,48 +1,99 @@
 import React from "react";
-import { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
+import {
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  LayoutChangeEvent,
+} from "react-native";
 import {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface UseScrollableElementProps {
   duration?: number; // Duration for the animation in milliseconds
   deltaThreshold?: number; // Minimum scroll delta to trigger header visibility change
+  checkScrollable?: boolean; // Flag to only activate event if content is scrollable
+  collapseHeight?: boolean; // Collapse layout height when header is hidden
 }
 
 export const useScrollableElement = ({
   duration = 250,
   deltaThreshold = 10,
+  checkScrollable = false,
+  collapseHeight = true,
 }: UseScrollableElementProps) => {
   const showHeader = useSharedValue(true);
+  const headerHeight = useSharedValue(-1);
 
-  // Memoized header visibility handler
-  const handleHeaderVisibility = React.useCallback(
-    (visible: boolean) => {
-      showHeader.value = visible;
+  const handleHeaderVisibility = (visible: boolean) => {
+    showHeader.value = visible;
+  };
+
+  const insets = useSafeAreaInsets();
+
+  const contentAnimatedStyle = useAnimatedStyle(() => {
+    return {
+      marginTop: withTiming(showHeader.value ? 0 : -insets.top, {
+        duration,
+      }),
+    };
+  });
+
+  const animatedHeaderStyle = useAnimatedStyle(() => {
+    const style: {
+      transform: { translateY: number }[];
+      opacity: number;
+      height?: number;
+    } = {
+      transform: [
+        {
+          translateY: withTiming(
+            showHeader.value
+              ? 0
+              : -(headerHeight.value > 0 ? headerHeight.value : deltaThreshold),
+            { duration },
+          ),
+        },
+      ],
+      opacity: withTiming(showHeader.value ? 1 : 0, { duration }),
+    };
+
+    if (collapseHeight && headerHeight.value > 0) {
+      style.height = withTiming(showHeader.value ? headerHeight.value : 0, {
+        duration,
+      });
+    }
+
+    return style;
+  });
+
+  const onLayout = React.useCallback(
+    (e: LayoutChangeEvent) => {
+      const h = e.nativeEvent.layout.height;
+      if (h > 0 && Math.abs(headerHeight.value - h) > 1) {
+        headerHeight.value = h;
+      }
     },
-    [showHeader],
+    [headerHeight],
   );
-
-  const animatedHeaderStyle = useAnimatedStyle(() => ({
-    transform: [
-      {
-        translateY: withTiming(showHeader.value ? 0 : -deltaThreshold, {
-          duration,
-        }),
-      },
-    ],
-    opacity: withTiming(showHeader.value ? 1 : 0, { duration }),
-    height: withTiming(showHeader.value ? deltaThreshold : 0, {
-      duration,
-    }),
-  }));
 
   // Track scroll direction
   const lastOffsetY = React.useRef(0);
 
   const handleScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    if (checkScrollable) {
+      const contentHeight = e.nativeEvent.contentSize.height;
+      const layoutHeight = e.nativeEvent.layoutMeasurement.height;
+
+      // If content is not scrollable, force header to be visible and ignore scroll
+      if (contentHeight <= layoutHeight) {
+        handleHeaderVisibility(true);
+        return;
+      }
+    }
+
     const currentOffsetY = e.nativeEvent.contentOffset.y;
 
     const delta = currentOffsetY - lastOffsetY.current;
@@ -59,6 +110,9 @@ export const useScrollableElement = ({
 
   return {
     animatedHeaderStyle,
+    contentAnimatedStyle,
     handleScroll,
+    onLayout,
+    showHeader,
   };
 };

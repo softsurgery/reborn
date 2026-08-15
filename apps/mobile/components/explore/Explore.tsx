@@ -32,10 +32,11 @@ export const Explore = ({ className }: ExploreProps) => {
   const { value: debouncedSearchTerm, loading: searching } =
     useDebounce<string>(search, 1000);
 
-  const { animatedHeaderStyle, handleScroll } = useScrollableElement({
-    duration: 250,
-    deltaThreshold: 40,
-  });
+  const { animatedHeaderStyle, contentAnimatedStyle, handleScroll } =
+    useScrollableElement({
+      duration: 250,
+      deltaThreshold: 40,
+    });
 
   return (
     <StableSafeAreaView className={cn("flex flex-1 flex-col", className)}>
@@ -66,7 +67,7 @@ export const Explore = ({ className }: ExploreProps) => {
         />
       </Animated.View>
 
-      <View className="flex-1">
+      <Animated.View className="flex-1" style={contentAnimatedStyle}>
         <Tab.Navigator
           screenOptions={{
             tabBarScrollEnabled: false,
@@ -113,7 +114,7 @@ export const Explore = ({ className }: ExploreProps) => {
             )}
           </Tab.Screen>
         </Tab.Navigator>
-      </View>
+      </Animated.View>
     </StableSafeAreaView>
   );
 };
