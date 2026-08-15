@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import { useColorScheme } from "nativewind";
 import ActionSheet, { ActionSheetRef } from "react-native-actions-sheet";
 import * as Haptics from "expo-haptics";
@@ -15,6 +15,7 @@ interface ThreeDotsActionSheetProps {
   icon?: LucideIcon;
   size?: number;
   disabled?: boolean;
+  renderTrigger?: boolean;
   options: {
     label: string;
     onPress: () => void;
@@ -24,15 +25,15 @@ interface ThreeDotsActionSheetProps {
   }[];
 }
 
-export const ThreeDotsActionSheet = ({
-  icon,
-  disabled,
-  size,
-  options,
-}: ThreeDotsActionSheetProps) => {
+export const ThreeDotsActionSheet = forwardRef<
+  ActionSheetRef,
+  ThreeDotsActionSheetProps
+>(({ icon, disabled, size, options, renderTrigger = true }, ref) => {
   const { colorScheme } = useColorScheme();
   const isDarkColorScheme = colorScheme === "dark";
   const sheetRef = React.useRef<ActionSheetRef>(null);
+
+  React.useImperativeHandle(ref, () => sheetRef.current as ActionSheetRef);
 
   const handleClose = () => {
     Keyboard.dismiss();
@@ -40,20 +41,22 @@ export const ThreeDotsActionSheet = ({
 
   return (
     <>
-      <Pressable
-        className={cn(
-          "flex justify-center rounded-full p-1 active:bg-card",
-          disabled && "opacity-50 pointer-events-none",
-        )}
-        onPress={() => {
-          if (!disabled) {
-            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-            sheetRef.current?.show();
-          }
-        }}
-      >
-        <Icon as={icon || Ellipsis} size={size || 24} color={"gray"} />
-      </Pressable>
+      {renderTrigger && (
+        <Pressable
+          className={cn(
+            "flex justify-center rounded-full p-1 active:bg-card",
+            disabled && "opacity-50 pointer-events-none",
+          )}
+          onPress={() => {
+            if (!disabled) {
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+              sheetRef.current?.show();
+            }
+          }}
+        >
+          <Icon as={icon || Ellipsis} size={size || 24} color={"gray"} />
+        </Pressable>
+      )}
       <ActionSheet
         ref={sheetRef}
         gestureEnabled
@@ -71,12 +74,12 @@ export const ThreeDotsActionSheet = ({
           paddingBottom: 32,
         }}
       >
-        <View className="flex flex-col gap-2.5">
+        <View className="flex flex-col gap-2.5 pt-2">
           {options.map((option) => (
             <Button
               key={option.label}
               disabled={option.disabled}
-              variant={"link"}
+              variant={"ghost"}
               onPress={async () => {
                 if (option.disabled) return;
                 await Haptics.selectionAsync();
@@ -84,7 +87,7 @@ export const ThreeDotsActionSheet = ({
                 sheetRef.current?.hide();
               }}
               className={cn(
-                "flex flex-row items-center gap-2 rounded-2xl px-2",
+                "flex flex-row items-center gap-2 rounded-2xl h-12",
                 option.disabled && "opacity-50",
               )}
             >
@@ -127,4 +130,6 @@ export const ThreeDotsActionSheet = ({
       </ActionSheet>
     </>
   );
-};
+});
+
+ThreeDotsActionSheet.displayName = "ThreeDotsActionSheet";
