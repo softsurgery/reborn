@@ -31,7 +31,15 @@
     "options": {
       "en": "English",
       "fr": "French",
-      "ar": "Arabic"
+      "ar": "Arabic",
+      "system": "System"
     }
+  },
+  "theme": {
+    "title": "Theme",
+    "description": "Choose your preferred theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
   }
 }
