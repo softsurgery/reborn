@@ -31,7 +31,15 @@
     "options": {
       "en": "Anglais",
       "fr": "Français",
-      "ar": "Arabe"
+      "ar": "Arabe",
+      "system": "Système"
     }
+  },
+  "theme": {
+    "title": "Thème",
+    "description": "Choisissez votre thème préféré",
+    "light": "Clair",
+    "dark": "Sombre",
+    "system": "Système"
   }
 }

@@ -10,9 +10,11 @@ import { Text } from "~/components/ui/text";
 import { cn } from "~/lib/utils";
 import { StableSafeAreaView } from "../shared/StableSafeAreaView";
 import { SSOButtons } from "./SSOButtons";
-import { Rocket, Zap, ShieldCheck } from "lucide-react-native";
+import { Rocket, Zap, ShieldCheck, Languages } from "lucide-react-native";
 import { useColorPalette } from "@/hooks/useColorPalette";
 import { ThemeToggle } from "../shared/ThemeToggle";
+import { LanguageSwitcher } from "../shared/LanguageSwitcher";
+import { Icon } from "../ui/icon";
 
 const width = Dimensions.get("window").width;
 
@@ -69,23 +71,32 @@ export default function OnBoarding({ className }: OnBoardingProps) {
               Reborn
             </Text>
           </View>
-          <ThemeToggle className="mx-6" />
+          <View className="flex flex-row items-center mr-4">
+            <LanguageSwitcher
+              customTrigger={
+                <View className="mx-2">
+                  <Icon as={Languages} className="text-foreground" size={24} />
+                </View>
+              }
+            />
+            <ThemeToggle className="mx-2" />
+          </View>
         </View>
 
         <View className="flex-1 justify-center mt-8">
           <Carousel
             width={width}
             ref={ref}
-            style={{ width: width, height: 350 }}
+            style={{ width: width, height: 250 }}
             data={ONBOARDING_DATA}
             onProgressChange={progress}
             renderItem={({ item, index }) => {
               const IconComponent = item.icon;
               return (
                 <View className="flex-1 justify-center items-center px-8">
-                  <View className="bg-primary/10 p-6 rounded-full mb-8">
+                  <View className="bg-primary/10 p-6 rounded-full mb-2">
                     <IconComponent
-                      size={100}
+                      size={80}
                       color={palette.primary}
                       strokeWidth={1.5}
                     />
