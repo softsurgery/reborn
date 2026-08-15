@@ -1,5 +1,5 @@
 import React from "react";
-import { StableScrollView } from "../shared/StableScrollView";
+import StableScrollView from "../shared/StableScrollView";
 import { DarkModePreferenceCard } from "./DarkModePreferenceCard";
 import { useTranslation } from "react-i18next";
 import { LanguageSwitcher } from "./LanguageSwitcher";

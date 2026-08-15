@@ -24,7 +24,7 @@ import { toast } from "sonner-native";
 import { ActionSheetRef } from "react-native-actions-sheet";
 import { DeleteExperienceActionSheet } from "./DeleteExperienceActionSheet";
 import { getExperienceYears } from "@/lib/dates.utils";
-import { StableScrollView } from "@/components/shared/StableScrollView";
+import StableScrollView from "@/components/shared/StableScrollView";
 
 interface UpdateExperiencesProps {
   className?: string;

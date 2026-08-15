@@ -21,7 +21,7 @@ import { toast } from "sonner-native";
 import { DeleteEducationActionSheet } from "./DeleteEducationActionSheet";
 import { ActionSheetRef } from "react-native-actions-sheet";
 import { useUserStore } from "@/hooks/stores/useUserStore";
-import { StableScrollView } from "@/components/shared/StableScrollView";
+import StableScrollView from "@/components/shared/StableScrollView";
 
 interface UpdateEducationsProps {
   className?: string;

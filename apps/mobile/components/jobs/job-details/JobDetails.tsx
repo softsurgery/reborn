@@ -25,7 +25,7 @@ import { JobDetailsTopBar } from "./JobDetailsTopBar";
 import { JobHero } from "./JobHero";
 import { JobClientInformation } from "./JobClientInformation";
 import { JobDetailsBody } from "./JobDetailsBody";
-import { StableScrollView } from "~/components/shared/StableScrollView";
+import StableScrollView from "~/components/shared/StableScrollView";
 import { type ActionSheetRef } from "react-native-actions-sheet";
 import { ApplyJobActionSheet } from "./ApplyJobActionSheet";
 import { CancelApplicationActionSheet } from "./CancelApplicationActionSheet";
@@ -217,7 +217,9 @@ export const JobDetails = ({ className, id }: JobDetailsProps) => {
           <JobHero
             job={job}
             metadata={jobMetadata}
-            uploads={job?.uploads?.map((upload) => String(upload.uploadId)) ?? []}
+            uploads={
+              job?.uploads?.map((upload) => String(upload.uploadId)) ?? []
+            }
             imageQueries={imageQueries}
           />
 

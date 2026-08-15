@@ -10,7 +10,7 @@ import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
 import { identifyUser } from "~/lib/user.utils";
 import { ApplicationHeader } from "../shared/AppHeader";
 import { StableSafeAreaView } from "../shared/StableSafeAreaView";
-import { StableScrollView } from "../shared/StableScrollView";
+import StableScrollView from "../shared/StableScrollView";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Icon } from "../ui/icon";
