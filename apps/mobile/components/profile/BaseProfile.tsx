@@ -14,12 +14,11 @@ import {
   ResponseExperienceDto,
   ResponseRefParamDto,
   ServerErrorResponse,
-  UpdateUserCoverDto,
   UpdateUserDto,
 } from "~/types";
 import { Text } from "../ui/text";
 import { Icon } from "../ui/icon";
-import { Mail, UserPlus, Edit, Pencil } from "lucide-react-native";
+import { Mail, UserPlus } from "lucide-react-native";
 import { cn } from "~/lib/utils";
 import { useUserStore } from "~/hooks/stores/useUserStore";
 import { SocialStat } from "./social/SocialStat";
@@ -30,11 +29,8 @@ import { useExperiences } from "~/hooks/content/user/useExperiences";
 import { useEducations } from "~/hooks/content/user/useEducations";
 import { AboutTab } from "./sections/AboutTab";
 import { SnippetsTab } from "./sections/SnippetTab";
-import { PhotoPreview } from "../shared/PhotoPreview";
-import { useServerImages } from "@/hooks/content/useServerImages";
-import * as ImagePicker from "expo-image-picker";
-import { useUploadMutation } from "@/hooks/content/useUploadMutation";
-import { Upload } from "@/types/upload";
+import { ProfileAvatar } from "./ProfileAvatar";
+import { ProfileCover } from "./ProfileCover";
 import { toast } from "sonner-native";
 import { Loader } from "../shared/Loader";
 import { BaseProfileSkeleton } from "./BaseProfileSkeleton";
@@ -44,7 +40,6 @@ import { useColorPalette } from "@/hooks/useColorPalette";
 import { CareerTab } from "./sections/CareerTab";
 import { ExperienceInstance } from "./experience/ExperienceInstance";
 import { EducationInstance } from "./education/EducationInstance";
-import { Skeleton } from "../ui/skeleton";
 import { ProfileStat } from "./ProfileStat";
 
 interface InspectBaseProfileProps {
@@ -69,7 +64,6 @@ export const InspectBaseProfile = ({
 
   const queryClient = useQueryClient();
   const userStore = useUserStore();
-  const [draftCoverUri, setDraftCoverUri] = React.useState<string | null>(null);
 
   const { user, refetchUser, isUserPending } = useIdentifiedUser({
     id,
@@ -94,29 +88,6 @@ export const InspectBaseProfile = ({
         );
       },
     });
-
-  //profile picture side-effect
-  const {
-    uploads: profileUploads,
-    jsxArray: profilePictures,
-    isPending: isProfilePicturePending,
-  } = useServerImages({
-    ids: [user?.pictureId],
-    fallbacks: [fallback],
-    className: "rounded-full",
-    wrapperClassName: "border border-border bg-background rounded-full",
-    size: { width: 100, height: 100 },
-    enabled: !!user && !!user.pictureId,
-  });
-  const profilePictureSource = profileUploads?.[0];
-
-  const { uploads: coverUploads, isPending: isCoverPending } = useServerImages({
-    ids: [user?.coverId],
-    fallbacks: [""],
-    wrapperClassName: "",
-    size: { width: 100, height: 100 },
-    enabled: !!user && !!user.coverId,
-  });
 
   const hasSeededRef = React.useRef(false);
 
@@ -174,100 +145,6 @@ export const InspectBaseProfile = ({
       },
     },
   });
-
-  const { uploadFiles: uploadCover, isUploadPending: isCoverUploadPending } =
-    useUploadMutation({
-      onSuccess: (response: Upload[]) => {
-        const coverId = response?.[0]?.id;
-        if (coverId) {
-          updateUserCover({ coverId: coverId });
-        }
-      },
-      onError: (error: ServerErrorResponse) => {
-        toast.error(
-          error.response?.data?.message || "Failed to upload image",
-          {},
-        );
-      },
-    });
-
-  const { mutate: updateUserCover, isPending: isUpdateCoverPending } =
-    useMutation({
-      mutationFn: (coverDto: UpdateUserCoverDto) =>
-        api.client.updateCover(coverDto),
-      onSuccess: () => {
-        toast.success("Cover updated successfully", {
-          description: "Your cover has been successfully updated.",
-        });
-        userStore.reset();
-        queryClient.invalidateQueries({ queryKey: ["user", currentUser?.id] });
-        queryClient.invalidateQueries({ queryKey: ["current-user"] });
-        queryClient.invalidateQueries({
-          queryKey: ["server-image", currentUser?.coverId],
-        });
-        refetchCurrentUser();
-      },
-      onError: (error: ServerErrorResponse) => {
-        toast.error(
-          error.response?.data?.message || "Failed to update cover",
-          {},
-        );
-      },
-    });
-
-  const handlePickCover = async () => {
-    if (currentUser?.id !== id) return;
-
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ["images"],
-      allowsEditing: true,
-      aspect: [16, 9],
-      quality: 0.8,
-    });
-
-    if (result.canceled) return;
-
-    const asset = result.assets[0];
-
-    // INSTANT UI PREVIEW
-    setDraftCoverUri(asset.uri);
-
-    const fileLike = {
-      uri: asset.uri,
-      name: asset.uri.split("/").pop() || "cover.jpg",
-      type: asset.mimeType || "image/jpeg",
-    } as unknown as File;
-
-    // AUTO UPLOAD
-    uploadCover({
-      files: [fileLike],
-    });
-  };
-
-  const coverSource = coverUploads?.[0];
-
-  const coverImageSource = React.useMemo<
-    ImageSourcePropType | undefined
-  >(() => {
-    switch (typeof coverSource) {
-      case "string":
-        return { uri: coverSource };
-      case "number":
-        return coverSource;
-      case "object": {
-        if (!coverSource || !("uri" in coverSource)) return undefined;
-        const uri = String(coverSource.uri ?? "");
-        return uri ? { uri } : undefined;
-      }
-      default:
-        return require("~/assets/images/partial-react-logo.png");
-    }
-  }, [coverSource]);
-
-  const coverPreviewSource = React.useMemo<ImageSourcePropType | undefined>(
-    () => (draftCoverUri ? { uri: draftCoverUri } : coverImageSource),
-    [draftCoverUri, coverImageSource],
-  );
 
   React.useEffect(() => {
     userStore?.set("followers", followers);
@@ -369,8 +246,7 @@ export const InspectBaseProfile = ({
     isUserPending ||
     isSocialStatPending ||
     isExperiencesPending ||
-    isEducationsPending ||
-    isCoverPending;
+    isEducationsPending;
 
   if (refreshing || !user) {
     return <BaseProfileSkeleton className={className} />;
@@ -379,45 +255,19 @@ export const InspectBaseProfile = ({
   return (
     <View className={cn("bg-background flex-1", className)}>
       <View>
-        {coverExtra}
-        <PhotoPreview
-          className="active:opacity-70 relative w-full h-48 overflow-hidden bg-muted items-center justify-center"
-          source={coverPreviewSource}
-          onPress={handlePickCover}
-          footer={() => {
-            if (currentUser?.id !== id) return null;
-
-            return (
-              <Pressable
-                className="flex flex-row gap-2 items-center px-4 py-2 m-4 mx-auto border border-border rounded-full active:bg-muted"
-                onPress={handlePickCover}
-              >
-                <Icon as={Pencil} color="white" />
-                <Text className="text-white">Change Cover</Text>
-              </Pressable>
-            );
-          }}
-        >
-          <Image
-            source={coverImageSource}
-            className="w-full h-full opacity-70"
-            resizeMode="cover"
-          />
-        </PhotoPreview>
-        {(isCoverUploadPending || isUpdateCoverPending) && (
-          <View className="absolute inset-0 bg-black/40 flex items-center justify-center z-50">
-            <Loader isPending={true} size="large" />
-          </View>
-        )}
+        <ProfileCover
+          user={user}
+          currentUser={currentUser}
+          onRefresh={onRefresh}
+          coverExtra={coverExtra}
+        />
         <View className="flex-col items-start px-4 -mt-12 z-10">
           <View className="flex-row w-full items-end justify-between">
-            {isProfilePicturePending ? (
-              <Skeleton className="h-[100px] w-[100px] rounded-full" />
-            ) : (
-              <PhotoPreview source={profilePictureSource}>
-                {profilePictures[0]}
-              </PhotoPreview>
-            )}
+            <ProfileAvatar
+              user={user}
+              currentUser={currentUser}
+              onRefresh={onRefresh}
+            />
             {currentUser?.id === id && <ProfileStat />}
           </View>
 
