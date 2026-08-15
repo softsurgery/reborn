@@ -15,6 +15,7 @@ import { useColorPalette } from "@/hooks/useColorPalette";
 import { ThemeToggle } from "../shared/ThemeToggle";
 import { LanguageSwitcher } from "../shared/LanguageSwitcher";
 import { Icon } from "../ui/icon";
+import { AcceptTerms } from "./AcceptTerms";
 
 const width = Dimensions.get("window").width;
 
@@ -46,6 +47,7 @@ interface OnBoardingProps {
 export default function OnBoarding({ className }: OnBoardingProps) {
   const { palette } = useColorPalette();
   const ref = React.useRef<ICarouselInstance>(null);
+  const [acceptedTerms, setAcceptedTerms] = React.useState(false);
   const progress = useSharedValue<number>(0);
 
   const onPressPagination = (index: number) => {
@@ -133,12 +135,18 @@ export default function OnBoarding({ className }: OnBoardingProps) {
             onPress={onPressPagination}
           />
         </View>
-
-        <SSOButtons
-          className="mx-6 mt-8 mb-4"
-          isSignInPending={false}
-          classic
-        />
+        <View className="mx-6 mt-8 mb-4">
+          <AcceptTerms
+            className="mt-4"
+            checked={acceptedTerms}
+            onCheckedChange={setAcceptedTerms}
+          />
+          <SSOButtons
+            isSignInPending={false}
+            acceptedTerms={acceptedTerms}
+            classic
+          />
+        </View>
       </View>
     </StableSafeAreaView>
   );

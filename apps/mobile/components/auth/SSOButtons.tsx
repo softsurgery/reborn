@@ -11,6 +11,7 @@ export interface SSOButtonsProps {
   className?: string;
   classic?: boolean;
   isSignInPending?: boolean;
+  acceptedTerms?: boolean;
 }
 
 const IconSlot = ({ children }: { children: React.ReactNode }) => (
@@ -23,6 +24,7 @@ export const SSOButtons = ({
   className,
   classic = false,
   isSignInPending = false,
+  acceptedTerms = true,
 }: SSOButtonsProps) => {
   const { colorScheme } = useColorScheme();
   const {
@@ -35,7 +37,7 @@ export const SSOButtons = ({
     isAppleReady,
   } = useSSO();
 
-  const isDisabled = isSignInPending || isSSOPending;
+  const isDisabled = isSignInPending || isSSOPending || !acceptedTerms;
 
   return (
     <View
