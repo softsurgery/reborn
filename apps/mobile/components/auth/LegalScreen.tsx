@@ -5,7 +5,7 @@ import { Text } from "@/components/ui/text";
 import { cn } from "@/lib/utils";
 import { View } from "react-native";
 import { useTranslation } from "react-i18next";
-import { StableScrollView } from "../shared/StableScrollView";
+import StableScrollView from "../shared/StableScrollView";
 
 export type LegalDocument = "terms" | "privacy";
 

@@ -20,7 +20,7 @@ import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 
 import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
-import { StableScrollView } from "@/components/shared/StableScrollView";
+import StableScrollView from "@/components/shared/StableScrollView";
 interface PrivacySecurityPortalProps {
   className?: string;
 }

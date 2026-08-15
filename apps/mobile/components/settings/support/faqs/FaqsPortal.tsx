@@ -18,7 +18,7 @@ import { Loader } from "@/components/shared/Loader";
 import { Icon } from "@/components/ui/icon";
 
 import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
-import { StableScrollView } from "@/components/shared/StableScrollView";
+import StableScrollView from "@/components/shared/StableScrollView";
 interface Faq {
   question: string;
   answer: string;
