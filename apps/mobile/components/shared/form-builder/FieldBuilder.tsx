@@ -1,21 +1,21 @@
 import React from "react";
 import { View } from "react-native";
 import { Field, FieldVariant } from "~/components/shared/form-builder/types";
-import Select from "./Select";
+import Select from "./components/Select";
 import { Checkbox } from "~/components/ui/checkbox";
-import { DatePicker } from "./DatePicker2";
+import { DatePicker } from "./components/DatePicker2";
 import { Textarea } from "~/components/ui/textarea";
 import { Input } from "~/components/ui/input";
 import StarRating from "react-native-star-rating-widget";
-import { PictureUploader } from "./PictureUploader";
+import { PictureUploader } from "./components/PictureUploader";
 import { Text } from "~/components/ui/text";
 import { cn } from "~/lib/utils";
 import { Switch } from "~/components/ui/switch";
-import MultiSelect from "./MultiSelect";
-import MapPinField from "./MapPinField";
-import { GalleryPictureUploader } from "./GalleryPictureUploader/GalleryPictureUploader";
-import { PasswordField } from "./PasswordField";
-import { TimePicker } from "./TimePicker";
+import MultiSelect from "./components/MultiSelect";
+import MapPinField from "./components/MapPinField";
+import { GalleryPictureUploader } from "./gallery-picture-uploader/GalleryPictureUploader";
+import { PasswordField } from "./components/PasswordField";
+import { TimePicker } from "./components/TimePicker";
 
 interface FieldBuilderProps {
   field?: Field<any>;

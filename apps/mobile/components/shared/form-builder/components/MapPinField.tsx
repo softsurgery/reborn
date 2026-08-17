@@ -17,10 +17,10 @@ import {
 } from "react-native";
 import ActionSheet, { type ActionSheetRef } from "react-native-actions-sheet";
 import MapView, { MapPressEvent, Marker, Region } from "react-native-maps";
-import type { MapPinFieldProps } from "./types";
+import type { MapPinFieldProps } from "../types";
 import { Button } from "@/components/ui/button";
 import { Easing, useSharedValue, withTiming } from "react-native-reanimated";
-import { AndroidDarkMapStyle } from "./utils/AndroidDarkMapStyle";
+import { AndroidDarkMapStyle } from "../utils/AndroidDarkMapStyle";
 
 interface MapPinInputProps extends MapPinFieldProps {
   className?: string;
