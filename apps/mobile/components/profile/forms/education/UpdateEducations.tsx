@@ -4,30 +4,28 @@ import { ApplicationHeader } from "@/components/shared/AppHeader";
 import { Tappable } from "@/components/shared/Tappable";
 import { StablePressable } from "@/components/shared/StablePressable";
 import { StableSafeAreaView } from "@/components/shared/StableSafeAreaView";
+import StableScrollView from "@/components/shared/StableScrollView";
 import { Icon } from "@/components/ui/icon";
 import { Text } from "@/components/ui/text";
 import { cn } from "@/lib/utils";
 import { ResponseEducationDto, ServerErrorResponse } from "@/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { router } from "expo-router";
-import {
-  ChevronLeft,
-  GraduationCap,
-  Building2,
-  FileText,
-} from "lucide-react-native";
+import { GraduationCap, Building2, FileText } from "lucide-react-native";
 import { View } from "react-native";
 import { toast } from "sonner-native";
 import { DeleteEducationActionSheet } from "./DeleteEducationActionSheet";
 import { ActionSheetRef } from "react-native-actions-sheet";
-import { useUserStore } from "@/hooks/stores/useUserStore";
-import StableScrollView from "@/components/shared/StableScrollView";
+import { useTranslation } from "react-i18next";
 
+import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
+import { useUserStore } from "@/hooks/stores/useUserStore";
 interface UpdateEducationsProps {
   className?: string;
 }
 
 export const UpdateEducations = ({ className }: UpdateEducationsProps) => {
+  const { t } = useTranslation("menu");
   const userStore = useUserStore();
   const queryClient = useQueryClient();
   const deleteSheetRef = React.useRef<ActionSheetRef>(null);
@@ -44,14 +42,14 @@ export const UpdateEducations = ({ className }: UpdateEducationsProps) => {
       endDate: edu.endDate ? new Date(edu.endDate) : null,
       description: edu.description,
     });
-    router.push("/main/account/update-education");
+    router.push("/main/account/career/update-education");
   };
 
   const { mutate: deleteEducation, isPending: isDeletePending } = useMutation({
     mutationFn: (id: number) => api.education.remove(id),
     onSuccess: () => {
-      toast.success("Education deleted successfully", {
-        description: "Your education has been successfully deleted.",
+      toast.success(t("education.toasts.deleted"), {
+        description: t("education.toasts.deletedDescription"),
       });
       queryClient.invalidateQueries({
         queryKey: ["educations", userStore.response?.id],
@@ -61,7 +59,10 @@ export const UpdateEducations = ({ className }: UpdateEducationsProps) => {
     },
 
     onError: (error: ServerErrorResponse) => {
-      toast.error(error.response?.data?.message || "An error occurred", {});
+      toast.error(
+        error.response?.data?.message || t("education.toasts.error"),
+        {},
+      );
     },
   });
 
@@ -77,7 +78,7 @@ export const UpdateEducations = ({ className }: UpdateEducationsProps) => {
 
   const onConfirmDeleteEducation = () => {
     if (!selectedEducationId) {
-      toast.error("No education selected");
+      toast.error(t("education.toasts.noSelection"));
       return;
     }
 
@@ -88,16 +89,13 @@ export const UpdateEducations = ({ className }: UpdateEducationsProps) => {
     <StableSafeAreaView className={cn("flex flex-1", className)}>
       <ApplicationHeader
         classNames={{ wrapper: "border-b border-border pb-2 bg-transparent" }}
-        title="Educations"
+        title={t("education.list.title")}
         titleVariant="large"
         reverse
         shortcuts={[
           {
             key: "back",
-            icon: ChevronLeft,
-            onPress: () => {
-              router.back();
-            },
+            render: <AppHeaderBack />,
           },
         ]}
       />
@@ -116,7 +114,7 @@ export const UpdateEducations = ({ className }: UpdateEducationsProps) => {
                       {/* Degree/Title */}
                       <View className="gap-1.5">
                         <Text className="text-xs font-semibold uppercase text-muted-foreground tracking-wide">
-                          Degree/Field of Study
+                          {t("education.list.degreeLabel")}
                         </Text>
                         <Text className="text-lg font-bold text-foreground">
                           {edu.title}
@@ -132,8 +130,8 @@ export const UpdateEducations = ({ className }: UpdateEducationsProps) => {
                       </View>
 
                       {/* Description */}
-                      {edu.description && (
-                        <View className="flex flex-row gap-3 mt-1">
+                      {!!edu.description && (
+                        <View className="flex flex-row gap-3">
                           <Icon as={FileText} size={18} />
                           <Text className="text-sm text-foreground flex-1 leading-5">
                             {edu.description}
@@ -152,7 +150,7 @@ export const UpdateEducations = ({ className }: UpdateEducationsProps) => {
                         }}
                         onPress={() => onUpdateEducationPress(edu)}
                       >
-                        Edit education
+                        {t("education.list.actions.edit")}
                       </Tappable>
                       <Tappable
                         className="p-4 flex flex-row"
@@ -162,7 +160,7 @@ export const UpdateEducations = ({ className }: UpdateEducationsProps) => {
                         }}
                         onPress={() => onDeleteEducationPress(edu.id)}
                       >
-                        Delete education
+                        {t("education.list.actions.delete")}
                       </Tappable>
                     </View>
                   </View>
@@ -175,16 +173,20 @@ export const UpdateEducations = ({ className }: UpdateEducationsProps) => {
                 <Icon as={GraduationCap} size={32} />
               </View>
               <Text className="text-lg font-semibold mb-2">
-                No Education Yet
+                {t("education.list.empty.title")}
               </Text>
               <Text className="text-sm text-muted-foreground text-center">
-                Add your education to showcase your academic background
+                {t("education.list.empty.description")}
               </Text>
               <StablePressable
                 className="text-center mt-4 underline font-medium w-fit mx-auto rounded-lg"
-                onPress={() => router.push("/main/account/create-education")}
+                onPress={() =>
+                  router.push("/main/account/career/create-education")
+                }
               >
-                <Text className="text-sm underline p-2">New Education?</Text>
+                <Text className="text-sm underline p-2">
+                  {t("education.list.empty.action")}
+                </Text>
               </StablePressable>
             </View>
           )}

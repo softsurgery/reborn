@@ -9,21 +9,23 @@ import { cn } from "@/lib/utils";
 import { ServerErrorResponse, UpdateEducationDto } from "@/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { router } from "expo-router";
-import { ChevronLeft } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import { useUpdateEducationFormStructure } from "./useUpdateEducationFormStructure";
 import { updateEducationSchema } from "@/types/validations/education.validation";
 import { View } from "react-native";
 import { useKeyboardVisible } from "@/hooks/useKeyboardVisible";
 import { toast } from "sonner-native";
-import { useUserStore } from "@/hooks/stores/useUserStore";
 
+import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
+import { BottomButtonWrapper } from "@/components/shared/BottomButtonBlockWrapper";
+import { useUserStore } from "@/hooks/stores/useUserStore";
 interface UpdateEducationProps {
   className?: string;
 }
 
 export const UpdateEducation = ({ className }: UpdateEducationProps) => {
   const { t } = useTranslation("common");
+  const { t: tMenu } = useTranslation("menu");
   const userStore = useUserStore();
   const queryClient = useQueryClient();
   const isKeyboardVisible = useKeyboardVisible();
@@ -36,8 +38,8 @@ export const UpdateEducation = ({ className }: UpdateEducationProps) => {
     mutationFn: (data: { id: number; education: UpdateEducationDto }) =>
       api.education.update(data.id, data.education),
     onSuccess: () => {
-      toast.success("Education updated successfully", {
-        description: "Your education has been successfully updated.",
+      toast.success(tMenu("education.toasts.updated"), {
+        description: tMenu("education.toasts.updatedDescription"),
       });
       queryClient.invalidateQueries({
         queryKey: ["educations", userStore.response?.id],
@@ -45,7 +47,10 @@ export const UpdateEducation = ({ className }: UpdateEducationProps) => {
       router.back();
     },
     onError: (error: ServerErrorResponse) => {
-      toast.error(error.response?.data?.message || "An error occurred", {});
+      toast.error(
+        error.response?.data?.message || tMenu("education.toasts.error"),
+        {},
+      );
     },
   });
 
@@ -74,30 +79,26 @@ export const UpdateEducation = ({ className }: UpdateEducationProps) => {
         shortcuts={[
           {
             key: "back",
-            icon: ChevronLeft,
-            onPress: () => router.back(),
+            render: <AppHeaderBack />,
           },
         ]}
       />
       <StableKeyboardAwareScrollView className="flex-1 bg-background">
         <View className="p-4">
           <Text className="text-sm text-muted-foreground leading-relaxed">
-            Add your educational background — institutions, degrees, and any
-            notable achievements.
+            {tMenu("education.form.description")}
           </Text>
         </View>
         <FormBuilder structure={structure} className="px-2" />
       </StableKeyboardAwareScrollView>
       {!isKeyboardVisible && (
-        <View className="py-6 border-t border-border">
-          <Button
-            size="sm"
-            className="mx-6 mb-4 rounded-full"
-            onPress={handleUpdateSubmit}
-          >
-            <Text>Update Education</Text>
+        <BottomButtonWrapper>
+          <Button size="lg" className="rounded-xl" onPress={handleUpdateSubmit}>
+            <Text className="text-md font-bold">
+              {tMenu("education.form.actions.update")}
+            </Text>
           </Button>
-        </View>
+        </BottomButtonWrapper>
       )}
     </StableSafeAreaView>
   );

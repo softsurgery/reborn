@@ -10,21 +10,22 @@ import { CreateExperienceDto, ServerErrorResponse } from "@/types";
 import { createExperienceSchema } from "@/types/validations/experience.validation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { router } from "expo-router";
-import { ChevronLeft } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 import { useKeyboardVisible } from "@/hooks/useKeyboardVisible";
 import { useCreateExperienceFormStructure } from "./useCreateExperienceFormStructure";
 import { toast } from "sonner-native";
 import React from "react";
-import { useUserStore } from "@/hooks/stores/useUserStore";
 
+import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
+import { BottomButtonWrapper } from "@/components/shared/BottomButtonBlockWrapper";
+import { useUserStore } from "@/hooks/stores/useUserStore";
 interface CreateExperienceProps {
   className?: string;
 }
 
 export const CreateExperience = ({ className }: CreateExperienceProps) => {
-  const { t } = useTranslation("common");
+  const { t } = useTranslation("menu");
   const isKeyboardVisible = useKeyboardVisible();
   const userStore = useUserStore();
   const queryClient = useQueryClient();
@@ -37,8 +38,8 @@ export const CreateExperience = ({ className }: CreateExperienceProps) => {
     mutationFn: (data: { id: string; experience: CreateExperienceDto }) =>
       api.experience.create(data.id, data.experience),
     onSuccess: () => {
-      toast.success("Experience created successfully", {
-        description: "Your experience has been successfully created.",
+      toast.success(t("experience.toasts.created"), {
+        description: t("experience.toasts.createdDescription"),
       });
       queryClient.invalidateQueries({
         queryKey: ["experiences"],
@@ -46,14 +47,16 @@ export const CreateExperience = ({ className }: CreateExperienceProps) => {
       router.back();
     },
     onError: (error: ServerErrorResponse) => {
-      toast.error(error.response?.data?.message || "An error occurred", {});
+      toast.error(
+        error.response?.data?.message || t("experience.toasts.error"),
+        {},
+      );
     },
   });
 
   const handleCreateSubmit = () => {
     const data = userStore.createExperienceDto;
     const result = createExperienceSchema.safeParse(data);
-    console.log(result.error?.flatten().fieldErrors);
     if (!result.success) {
       userStore.set("experienceErrors", result.error.flatten().fieldErrors);
     } else {
@@ -76,14 +79,13 @@ export const CreateExperience = ({ className }: CreateExperienceProps) => {
     <StableSafeAreaView className={cn("flex-1 bg-card", className)}>
       <ApplicationHeader
         classNames={{ wrapper: "border-b border-border pb-2" }}
-        title={"Add Experience"}
+        title={t("experience.form.createHeader")}
         titleVariant="large"
         reverse
         shortcuts={[
           {
             key: "back",
-            icon: ChevronLeft,
-            onPress: () => router.back(),
+            render: <AppHeaderBack />,
           },
         ]}
       />
@@ -92,8 +94,7 @@ export const CreateExperience = ({ className }: CreateExperienceProps) => {
       <StableKeyboardAwareScrollView className="flex-1 bg-background">
         <View className="p-4">
           <Text className="text-sm text-muted-foreground leading-relaxed">
-            Please provide details about your experience. This information will
-            help others understand your background and expertise.
+            {t("experience.form.description")}
           </Text>
         </View>
         <FormBuilder structure={structure} className="px-2" />
@@ -101,15 +102,13 @@ export const CreateExperience = ({ className }: CreateExperienceProps) => {
 
       {/* Sticky bottom button */}
       {!isKeyboardVisible && (
-        <View className="py-6 border-t border-border">
-          <Button
-            size="sm"
-            className="mx-6 mb-4 rounded-full"
-            onPress={handleCreateSubmit}
-          >
-            <Text>Create Experience</Text>
+        <BottomButtonWrapper>
+          <Button size="lg" className="rounded-xl" onPress={handleCreateSubmit}>
+            <Text className="text-md font-bold">
+              {t("experience.form.actions.create")}
+            </Text>
           </Button>
-        </View>
+        </BottomButtonWrapper>
       )}
     </StableSafeAreaView>
   );
