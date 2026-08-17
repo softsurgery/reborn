@@ -1,5 +1,5 @@
-import { Saved } from "@/components/home/my-space/saved/Saved";
+import { JobSavedList } from "@/components/home/my-space/JobSavedList";
 
 export default function Screen() {
-  return <Saved />;
+  return <JobSavedList />;
 }

@@ -3,10 +3,14 @@ import React from "react";
 import { api } from "~/api";
 
 interface useInfiniteSavedJobsProps {
-  search: string;
+  search?: string;
+  join?: string;
 }
 
-export const useInfiniteSavedJobs = ({ search }: useInfiniteSavedJobsProps) => {
+export const useInfiniteSavedJobs = ({ search = "", join = "job.postedBy,job.uploads" }: useInfiniteSavedJobsProps = {
+  search: "",
+  join: "job.postedBy,job.uploads",
+}) => {
   const {
     data,
     fetchNextPage,
@@ -19,12 +23,13 @@ export const useInfiniteSavedJobs = ({ search }: useInfiniteSavedJobsProps) => {
     queryKey: ["saved-jobs", search],
     initialPageParam: 1,
     queryFn: ({ pageParam = 1 }) => {
-      const queryParams = {
+      const queryParams: Record<string, string> = {
         page: String(pageParam),
         limit: "20",
         sort: "createdAt,desc",
-        join: "job.postedBy,job.uploads",
-      };
+        join,
+        search,
+      };    
       return api.jobSave.findUserPaginated(queryParams);
     },
     getNextPageParam: (lastPage) =>
