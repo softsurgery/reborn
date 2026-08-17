@@ -1,11 +1,4 @@
-import React, {
-  useState,
-  useRef,
-  useEffect,
-  useCallback,
-  useImperativeHandle,
-  forwardRef,
-} from "react";
+import React from "react";
 import {
   Modal,
   Pressable,
@@ -17,7 +10,7 @@ import {
 import { Image, ImageSource } from "expo-image";
 import { cn } from "@/lib/utils";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { X } from "lucide-react-native";
+import { X, ChevronLeft, ChevronRight } from "lucide-react-native";
 import {
   GestureHandlerRootView,
   GestureDetector,
@@ -50,6 +43,7 @@ interface PhotoPreviewProps {
     | "pageSheet"
     | "formSheet";
   onPress?: () => void;
+  onIndexChange?: (index: number) => void;
   footer?: (helpers: {
     close: () => void;
     open: () => void;
@@ -225,6 +219,8 @@ function GestureImage({
     });
 
   const panGesture = Gesture.Pan()
+    .activeOffsetY([-10, 10])
+    .failOffsetX(isSingleImage ? [-99999, 99999] : [-15, 15])
     .onStart(() => {
       savedTranslateX.value = translateX.value;
       savedTranslateY.value = translateY.value;
@@ -363,7 +359,10 @@ function GestureImage({
   );
 }
 
-export const PhotoPreview = forwardRef<PhotoPreviewRef, PhotoPreviewProps>(
+export const PhotoPreview = React.forwardRef<
+  PhotoPreviewRef,
+  PhotoPreviewProps
+>(
   (
     {
       className,
@@ -374,22 +373,23 @@ export const PhotoPreview = forwardRef<PhotoPreviewRef, PhotoPreviewProps>(
       color = "rgba(0,0,0,0.85)",
       presentationStyle = "overFullScreen",
       onPress,
+      onIndexChange,
       footer,
     },
     ref,
   ) => {
-    const [visible, setVisible] = useState(false);
-    const [isZoomed, setIsZoomed] = useState(false);
-    const [isClosing, setIsClosing] = useState(false);
+    const [visible, setVisible] = React.useState(false);
+    const [isZoomed, setIsZoomed] = React.useState(false);
+    const [isClosing, setIsClosing] = React.useState(false);
     const backdropOpacity = useSharedValue(0);
-    const [triggerRect, setTriggerRect] = useState<{
+    const [triggerRect, setTriggerRect] = React.useState<{
       x: number;
       y: number;
       width: number;
       height: number;
     } | null>(null);
 
-    const containerRef = useRef<View>(null);
+    const containerRef = React.useRef<View>(null);
     const { width: screenWidth, height: screenHeight } = useWindowDimensions();
     const insets = useSafeAreaInsets();
 
@@ -398,12 +398,22 @@ export const PhotoPreview = forwardRef<PhotoPreviewRef, PhotoPreviewProps>(
       ? Math.min(Math.max(index, 0), images.length - 1)
       : 0;
 
+    const [activeIndex, setActiveIndex] = React.useState(initialIndex);
+    const flatListRef = React.useRef<FlatList>(null);
+
+    React.useEffect(() => {
+      if (visible) {
+        setActiveIndex(initialIndex);
+      }
+    }, [visible, initialIndex]);
+
     const open = () => {
       onPress?.();
       if (!images.length) return;
       setIsClosing(false);
       backdropOpacity.value = 0;
       setIsZoomed(false);
+      setActiveIndex(initialIndex);
 
       // Measure the Pressable container to get screen coordinates for shared element transition
       containerRef.current?.measureInWindow((x, y, width, height) => {
@@ -425,7 +435,7 @@ export const PhotoPreview = forwardRef<PhotoPreviewRef, PhotoPreviewProps>(
       setIsClosing(false);
     };
 
-    useImperativeHandle(ref, () => ({
+    React.useImperativeHandle(ref, () => ({
       open,
       close,
     }));
@@ -484,6 +494,71 @@ export const PhotoPreview = forwardRef<PhotoPreviewRef, PhotoPreviewProps>(
                 <X size={20} color="white" />
               </Pressable>
 
+              {/* Left Arrow Button */}
+              {images.length > 1 && activeIndex > 0 && !isZoomed && (
+                <Pressable
+                  onPress={() => {
+                    const prevIdx = Math.max(0, activeIndex - 1);
+                    setActiveIndex(prevIdx);
+                    onIndexChange?.(prevIdx);
+                    flatListRef.current?.scrollToIndex({
+                      index: prevIdx,
+                      animated: true,
+                    });
+                  }}
+                  hitSlop={{ top: 15, bottom: 15, left: 15, right: 15 }}
+                  style={{
+                    position: "absolute",
+                    left: 16,
+                    top: screenHeight / 2 - 22,
+                    zIndex: 1000,
+                    width: 44,
+                    height: 44,
+                    borderRadius: 22,
+                    backgroundColor: "rgba(0, 0, 0, 0.5)",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <ChevronLeft size={26} color="white" />
+                </Pressable>
+              )}
+
+              {/* Right Arrow Button */}
+              {images.length > 1 &&
+                activeIndex < images.length - 1 &&
+                !isZoomed && (
+                  <Pressable
+                    onPress={() => {
+                      const nextIdx = Math.min(
+                        images.length - 1,
+                        activeIndex + 1,
+                      );
+                      setActiveIndex(nextIdx);
+                      onIndexChange?.(nextIdx);
+                      flatListRef.current?.scrollToIndex({
+                        index: nextIdx,
+                        animated: true,
+                      });
+                    }}
+                    hitSlop={{ top: 15, bottom: 15, left: 15, right: 15 }}
+                    style={{
+                      position: "absolute",
+                      right: 16,
+                      top: screenHeight / 2 - 22,
+                      zIndex: 1000,
+                      width: 44,
+                      height: 44,
+                      borderRadius: 22,
+                      backgroundColor: "rgba(0, 0, 0, 0.5)",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <ChevronRight size={26} color="white" />
+                  </Pressable>
+                )}
+
               {/* Image Content */}
               {images.length === 1 ? (
                 <View
@@ -505,17 +580,34 @@ export const PhotoPreview = forwardRef<PhotoPreviewRef, PhotoPreviewProps>(
                 </View>
               ) : (
                 <FlatList
+                  ref={flatListRef}
                   data={images}
                   horizontal
                   pagingEnabled
                   scrollEnabled={!isZoomed}
                   initialScrollIndex={initialIndex}
+                  onMomentumScrollEnd={(e) => {
+                    const idx = Math.round(
+                      e.nativeEvent.contentOffset.x / screenWidth,
+                    );
+                    if (idx >= 0 && idx < images.length) {
+                      setActiveIndex(idx);
+                      onIndexChange?.(idx);
+                    }
+                  }}
                   getItemLayout={(_, idx) => ({
                     length: screenWidth,
                     offset: screenWidth * idx,
                     index: idx,
                   })}
-                  onScrollToIndexFailed={() => {}}
+                  onScrollToIndexFailed={(info) => {
+                    setTimeout(() => {
+                      flatListRef.current?.scrollToIndex({
+                        index: info.index,
+                        animated: false,
+                      });
+                    }, 50);
+                  }}
                   showsHorizontalScrollIndicator={false}
                   keyExtractor={(_, idx) => idx.toString()}
                   renderItem={({ item }) => (

@@ -1,16 +1,25 @@
 import React from "react";
 import { View } from "react-native";
 import { UseQueryResult } from "@tanstack/react-query";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { BadgeCheck, ShieldOff, Star, Users } from "lucide-react-native";
 import { ImageCarousel } from "~/components/shared/image-carousel/ImageCarouselWithModal";
-import { Avatar, AvatarFallback, AvatarImage } from "~/components/shared/StableAvatar";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "~/components/shared/StableAvatar";
 import { Text } from "~/components/ui/text";
 import { useServerImage } from "~/hooks/content/useServerImage";
 import { useColorPalette } from "@/hooks/useColorPalette";
 import { timeAgo } from "~/lib/dates.utils";
 import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
 import { cn } from "~/lib/utils";
-import { JobPricingType, ResponseJobDto, ResponseJobMetadataDto } from "~/types";
+import {
+  JobPricingType,
+  ResponseJobDto,
+  ResponseJobMetadataDto,
+} from "~/types";
 
 interface JobHeroProps {
   className?: string;
@@ -41,10 +50,7 @@ const Stat = ({
     <Text
       numberOfLines={1}
       adjustsFontSizeToFit
-      className={cn(
-        "text-sm font-semibold",
-        muted && "text-muted-foreground",
-      )}
+      className={cn("text-sm font-semibold", muted && "text-muted-foreground")}
     >
       {value}
     </Text>
@@ -66,6 +72,8 @@ export const JobHero = ({
   imageQueries,
 }: JobHeroProps) => {
   const { palette } = useColorPalette();
+  const insets = useSafeAreaInsets();
+  const hasImages = imageQueries.length > 0;
 
   const { upload: authorPicture } = useServerImage({
     id: job?.postedBy?.pictureId,
@@ -76,9 +84,7 @@ export const JobHero = ({
   const extras = (job?.currency?.extras ?? {}) as CurrencyExtras;
   const code = extras.code || job?.currency?.label || "";
   const digits = extras.digitsAfterComma ?? 2;
-  const amount = Number.isFinite(job?.price)
-    ? job!.price.toFixed(digits)
-    : "—";
+  const amount = Number.isFinite(job?.price) ? job!.price.toFixed(digits) : "—";
   const isHourly = job?.pricingType === JobPricingType.HOURLY;
 
   const paymentVerified = !!metadata?.paymentVerified;
@@ -86,13 +92,16 @@ export const JobHero = ({
     !!metadata?.reviewCount && Number.isFinite(metadata.rating);
 
   return (
-    <View className={cn("bg-card", className)}>
-      {imageQueries.length > 0 && (
+    <View
+      style={{ paddingTop: hasImages ? 0 : insets.top + 48 }}
+      className={cn("bg-card", className)}
+    >
+      {hasImages && (
         <ImageCarousel
           uploads={uploads}
           imageQueries={imageQueries}
           autoPlay={false}
-          heightScale={0.32}
+          heightScale={0.35}
         />
       )}
 
@@ -186,7 +195,9 @@ export const JobHero = ({
               />
             }
             value={
-              hasReviews ? `${metadata!.rating.toFixed(1)} (${metadata!.reviewCount})` : "—"
+              hasReviews
+                ? `${metadata!.rating.toFixed(1)} (${metadata!.reviewCount})`
+                : "—"
             }
             label="Rating"
             muted={!hasReviews}

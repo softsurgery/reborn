@@ -1,5 +1,6 @@
 import React from "react";
 import { NativeScrollEvent, NativeSyntheticEvent, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { router } from "expo-router";
 import { Text } from "~/components/ui/text";
 import { Button } from "~/components/ui/button";
@@ -14,7 +15,6 @@ import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
 import { cn } from "~/lib/utils";
 import { JobDetailsSkeleton } from "./JobDetailsSkeleton";
 import { ServerErrorResponse } from "~/types";
-import { StableSafeAreaView } from "~/components/shared/StableSafeAreaView";
 import { useServerImage } from "~/hooks/content/useServerImage";
 import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
 import { useIsJobSaved } from "~/hooks/content/job/useIsJobSaved";
@@ -37,6 +37,7 @@ interface JobDetailsProps {
 }
 
 export const JobDetails = ({ className, id }: JobDetailsProps) => {
+  const insets = useSafeAreaInsets();
   const { currentUser } = useCurrentUser();
 
   const queryClient = useQueryClient();
@@ -197,125 +198,127 @@ export const JobDetails = ({ className, id }: JobDetailsProps) => {
       </View>
     );
   }
+
   return (
-    <StableSafeAreaView className="flex-1 bg-background">
-      <View className="flex-1">
-        <JobDetailsTopBar
-          title={job?.title}
-          showTitle={isTitleScrolledAway}
-          handleSave={handleSave}
-          isJobSaved={!!isJobSaved}
+    <View className="flex-1 bg-background">
+      <JobDetailsTopBar
+        title={job?.title}
+        showTitle={isTitleScrolledAway}
+        handleSave={handleSave}
+        isJobSaved={!!isJobSaved}
+      />
+
+      <StableScrollView
+        className={cn("flex-1")}
+        contentContainerStyle={{ gap: 12, paddingBottom: 24 }}
+        scrollEventThrottle={32}
+        onScroll={handleScroll}
+      >
+        <JobHero
+          job={job}
+          metadata={jobMetadata}
+          uploads={
+            job?.uploads?.map((upload) => String(upload.uploadId)) ?? []
+          }
+          imageQueries={imageQueries}
         />
 
-        <StableScrollView
-          className={cn("flex-1")}
-          contentContainerStyle={{ gap: 12, paddingBottom: 24 }}
-          scrollEventThrottle={32}
-          onScroll={handleScroll}
-        >
-          <JobHero
-            job={job}
-            metadata={jobMetadata}
-            uploads={
-              job?.uploads?.map((upload) => String(upload.uploadId)) ?? []
-            }
-            imageQueries={imageQueries}
-          />
+        <JobDetailsBody job={job} />
 
-          <JobDetailsBody job={job} />
+        <JobClientInformation
+          job={job}
+          metadata={jobMetadata}
+          profilePicture={profilePicture}
+        />
+      </StableScrollView>
 
-          <JobClientInformation
-            job={job}
-            metadata={jobMetadata}
-            profilePicture={profilePicture}
-          />
-        </StableScrollView>
-
-        {/* Apply Button */}
-        <View className="px-6 py-5 pb-8 bg-card border-t border-border">
-          {job?.postedBy.id !== currentUser?.id ? (
-            <View className="flex-row items-center gap-2">
-              {isJobRequested ? (
-                <Button
-                  className="flex-1 rounded-xl"
-                  variant="outline"
-                  onPress={() =>
-                    router.navigate({
-                      pathname: "/main/my-space/requests",
-                      params: { variant: "outgoing" },
-                    })
-                  }
-                >
-                  <Text ellipsizeMode="tail" numberOfLines={1}>
-                    View request
-                  </Text>
-                </Button>
-              ) : null}
-
+      {/* Apply Button */}
+      <View
+        style={{ paddingBottom: Math.max(insets.bottom, 16) }}
+        className="px-6 pt-5 bg-card border-t border-border"
+      >
+        {job?.postedBy.id !== currentUser?.id ? (
+          <View className="flex-row items-center gap-2">
+            {isJobRequested ? (
               <Button
-                className={cn(
-                  "rounded-xl",
-                  isJobRequested ? "flex-1" : "w-full",
-                )}
-                onPress={() => {
-                  if (isJobRequested) cancelSheetRef.current?.show();
-                  else applySheetRef.current?.show();
-                }}
-                disabled={
-                  isJobRequestedPending ||
-                  isCancelRequestPending ||
-                  isSendRequestPending
+                className="flex-1 rounded-xl"
+                variant="outline"
+                onPress={() =>
+                  router.navigate({
+                    pathname: "/main/my-space/requests",
+                    params: { variant: "outgoing" },
+                  })
                 }
-                variant={isJobRequested ? "destructive" : "default"}
               >
-                <Text
-                  numberOfLines={1}
-                  ellipsizeMode="tail"
-                  className="font-semibold"
-                >
-                  {isJobRequested ? "Cancel application" : "Apply for this job"}
+                <Text ellipsizeMode="tail" numberOfLines={1}>
+                  View request
                 </Text>
               </Button>
-            </View>
-          ) : (
+            ) : null}
+
             <Button
-              className="w-full rounded-xl"
+              className={cn(
+                "rounded-xl",
+                isJobRequested ? "flex-1" : "w-full",
+              )}
               onPress={() => {
-                router.push({
-                  pathname: "/main/my-space/manage-job",
-                  params: { id },
-                });
+                if (isJobRequested) cancelSheetRef.current?.show();
+                else applySheetRef.current?.show();
               }}
+              disabled={
+                isJobRequestedPending ||
+                isCancelRequestPending ||
+                isSendRequestPending
+              }
+              variant={isJobRequested ? "destructive" : "default"}
             >
-              <Text className="font-semibold">Manage this job</Text>
-            </Button>
-          )}
-
-          <ApplyJobActionSheet
-            ref={applySheetRef}
-            onConfirm={() => sendRequest()}
-            isPending={isSendRequestPending}
-          />
-
-          <CancelApplicationActionSheet
-            ref={cancelSheetRef}
-            onConfirm={() => cancelRequest()}
-            isPending={isCancelRequestPending}
-          />
-
-          {job?.postedBy.id !== currentUser?.id ? (
-            <View className="mt-3">
-              <Text className="text-center text-xs text-muted-foreground">
-                You'll be able to chat with{" "}
-                <Text className="text-xs font-semibold text-foreground">
-                  {identifyUser(job?.postedBy)}
-                </Text>{" "}
-                before starting work
+              <Text
+                numberOfLines={1}
+                ellipsizeMode="tail"
+                className="font-semibold"
+              >
+                {isJobRequested ? "Cancel application" : "Apply for this job"}
               </Text>
-            </View>
-          ) : null}
-        </View>
+            </Button>
+          </View>
+        ) : (
+          <Button
+            className="w-full rounded-xl"
+            onPress={() => {
+              router.push({
+                pathname: "/main/my-space/manage-job",
+                params: { id },
+              });
+            }}
+          >
+            <Text className="font-semibold">Manage this job</Text>
+          </Button>
+        )}
+
+        <ApplyJobActionSheet
+          ref={applySheetRef}
+          onConfirm={() => sendRequest()}
+          isPending={isSendRequestPending}
+        />
+
+        <CancelApplicationActionSheet
+          ref={cancelSheetRef}
+          onConfirm={() => cancelRequest()}
+          isPending={isCancelRequestPending}
+        />
+
+        {job?.postedBy.id !== currentUser?.id ? (
+          <View className="mt-3">
+            <Text className="text-center text-xs text-muted-foreground">
+              You'll be able to chat with{" "}
+              <Text className="text-xs font-semibold text-foreground">
+                {identifyUser(job?.postedBy)}
+              </Text>{" "}
+              before starting work
+            </Text>
+          </View>
+        ) : null}
       </View>
-    </StableSafeAreaView>
+    </View>
   );
 };
