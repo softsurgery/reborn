@@ -41,6 +41,7 @@ interface UserData {
   followings: ResponseFollowDto[];
 
   picture?: string;
+  hasInitializedPicture: boolean;
   progress: number;
   errors: Record<string, string[]>;
   experienceErrors: Record<string, string[]>;
@@ -110,6 +111,7 @@ const initialState: UserData = {
     regionId: undefined,
   },
   picture: undefined,
+  hasInitializedPicture: false,
   progress: 0,
   errors: {},
   experienceErrors: {},
