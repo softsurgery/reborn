@@ -12,7 +12,6 @@ import { useColorPalette } from "@/hooks/useColorPalette";
 import { ChevronLeft, Search } from "lucide-react-native";
 import { router } from "expo-router";
 import { format, isToday, isYesterday, parseISO } from "date-fns";
-import { JobFeedSkeleton } from "@/components/jobs/JobFeedSkeleton";
 import { JobCardSkeleton } from "@/components/jobs/JobCardSkeleton";
 import { MarkedInput } from "~/components/shared/MarkedInput";
 import { useDebounce } from "~/hooks/useDebounce";
@@ -149,7 +148,11 @@ export const JobSavedList = ({ className }: JobSavedListProps) => {
           onEndReachedThreshold={0.5}
           ListEmptyComponent={
             isPending ? (
-              <JobFeedSkeleton />
+              <View>
+                {Array.from({ length: 3 }).map((_, index) => (
+                  <JobCardSkeleton key={index} className="mb-3" />
+                ))}
+              </View>
             ) : (
               <View className="p-6 items-center">
                 <Text className="text-muted-foreground">

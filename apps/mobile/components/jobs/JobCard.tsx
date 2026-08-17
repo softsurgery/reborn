@@ -119,7 +119,7 @@ export const JobCard = ({ className, job, isOwner }: JobCardProps) => {
           className="overflow-hidden rounded-xl bg-muted"
         >
           {coverId && isUploadPending ? (
-            <Skeleton style={{ width: "100%", height: "100%" }} />
+            <Skeleton className="h-full w-full" />
           ) : coverId && upload ? (
             <Image
               source={{ uri: upload }}

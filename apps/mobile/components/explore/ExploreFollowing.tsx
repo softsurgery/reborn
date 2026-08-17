@@ -10,7 +10,6 @@ import {
 } from "react-native";
 import { Text } from "../ui/text";
 import { JobCardSkeleton } from "../jobs/JobCardSkeleton";
-import { JobFeedSkeleton } from "../jobs/JobFeedSkeleton";
 import { cn } from "~/lib/utils";
 import { useInfiniteJobs } from "@/hooks/content/job/useInfiniteJobs";
 import { NotFound } from "../shared/NotFound";
@@ -81,7 +80,11 @@ export const ExploreFollowing = ({
       }}
       ListEmptyComponent={
         isPending ? (
-          <JobFeedSkeleton />
+          <View>
+            {Array.from({ length: 3 }).map((_, index) => (
+              <JobCardSkeleton key={index} className="my-2" />
+            ))}
+          </View>
         ) : (
           <NotFound
             className="flex-1 items-center justify-center pt-12"

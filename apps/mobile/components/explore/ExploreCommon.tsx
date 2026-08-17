@@ -15,7 +15,6 @@ import { useInfiniteJobs } from "@/hooks/content/job/useInfiniteJobs";
 import { NotFound } from "../shared/NotFound";
 import { useExploreFilterStore } from "@/hooks/stores/userExploreFilterStore";
 import { useColorPalette } from "@/hooks/useColorPalette";
-import { JobFeedSkeleton } from "../jobs/JobFeedSkeleton";
 
 interface ExploreCommonProps {
   className?: string;
@@ -88,7 +87,11 @@ export const ExploreCommon = ({
       }}
       ListEmptyComponent={
         isPending ? (
-          <JobFeedSkeleton />
+          <View>
+            {Array.from({ length: 4 }).map((_, index) => (
+              <JobCardSkeleton key={index} className="my-2" />
+            ))}
+          </View>
         ) : (
           <NotFound
             className="flex-1 items-center justify-center pt-12"
