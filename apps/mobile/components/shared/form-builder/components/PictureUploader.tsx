@@ -19,6 +19,8 @@ interface PictureUploaderProps {
   ) => void;
 }
 
+import { useLoader } from "~/contexts/LoaderContext";
+
 export const PictureUploader = ({
   className,
   editable = true,
@@ -27,29 +29,36 @@ export const PictureUploader = ({
   onFileChange,
   onUpload,
 }: PictureUploaderProps) => {
+  const { setLoading } = useLoader();
+
   const onPress = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ["images"],
-      allowsEditing: true,
-      aspect: [1, 1],
-      quality: 1,
-    });
+    try {
+      setLoading(true);
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ["images"],
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 1,
+      });
 
-    if (!result.canceled) {
-      const asset = result.assets[0];
+      if (!result.canceled) {
+        const asset = result.assets[0];
 
-      const fileLike = {
-        uri: asset.uri,
-        name: asset.uri.split("/").pop() || "photo.jpg",
-        type: asset.type || "image/jpeg",
-      };
+        const fileLike = {
+          uri: asset.uri,
+          name: asset.uri.split("/").pop() || "photo.jpg",
+          type: asset.type || "image/jpeg",
+        };
 
-      onFileChange?.(fileLike);
-      if (onUpload) {
-        onUpload(fileLike, (percent) => {
-          console.log("Upload progress:", percent);
-        });
+        onFileChange?.(fileLike);
+        if (onUpload) {
+          onUpload(fileLike, (percent) => {
+            console.log("Upload progress:", percent);
+          });
+        }
       }
+    } finally {
+      setLoading(false);
     }
   };
 
