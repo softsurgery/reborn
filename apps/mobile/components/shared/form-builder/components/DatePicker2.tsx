@@ -17,12 +17,12 @@ import Animated, {
   withTiming,
   Easing,
 } from "react-native-reanimated";
-import { StablePressable } from "../StablePressable";
+import { StablePressable } from "../../StablePressable";
 import { Separator } from "~/components/ui/separator";
 import * as Haptics from "expo-haptics";
 import { ScrollViewContext } from "~/contexts/ScrollViewContext";
 import { toLongDateString } from "~/lib/dates.utils";
-import { StableScrollable } from "../StableScrollable";
+import { StableScrollable } from "../../StableScrollable";
 
 if (
   Platform.OS === "android" &&

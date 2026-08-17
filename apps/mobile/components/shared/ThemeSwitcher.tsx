@@ -1,4 +1,4 @@
-import Select from "./form-builder/Select";
+import Select from "./form-builder/components/Select";
 import { useColorScheme } from "nativewind";
 import { setAndroidNavigationBar } from "@/lib/android-navigation-bar";
 import { Platform, Appearance } from "react-native";
