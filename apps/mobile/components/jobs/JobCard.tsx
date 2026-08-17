@@ -33,7 +33,6 @@ interface JobCardProps {
 }
 
 export const THUMBNAIL_SIZE = 84;
-export const JOB_CARD_HEIGHT = 190;
 
 const DEFAULT_CURRENCY = "TND";
 
@@ -111,7 +110,7 @@ export const JobCard = ({ className, job, isOwner }: JobCardProps) => {
           },
         });
       }}
-      className={cn("w-full rounded-lg border-b border-border p-3", className)}
+      className={cn("w-full rounded-lg p-3", className)}
       activeOpacity={0.85}
     >
       <View style={{ flexDirection: "row", gap: 12 }}>

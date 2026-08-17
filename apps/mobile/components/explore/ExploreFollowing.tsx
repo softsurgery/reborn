@@ -15,7 +15,6 @@ import { cn } from "~/lib/utils";
 import { useInfiniteJobs } from "@/hooks/content/job/useInfiniteJobs";
 import { NotFound } from "../shared/NotFound";
 import { useColorPalette } from "@/hooks/useColorPalette";
-import { JOB_CARD_HEIGHT } from "../jobs/JobCard";
 
 interface ExploreFollowingProps {
   className?: string;
@@ -64,8 +63,6 @@ export const ExploreFollowing = ({
       data={jobs}
       renderItem={renderItem}
       keyExtractor={(item) => item.id}
-      // Without a size hint the list mispositions rows and they overlap.
-      estimatedItemSize={JOB_CARD_HEIGHT}
       showsVerticalScrollIndicator={false}
       maintainVisibleContentPosition
       onScroll={handleScroll}

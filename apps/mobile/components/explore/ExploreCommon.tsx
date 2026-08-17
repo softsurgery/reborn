@@ -16,7 +16,6 @@ import { NotFound } from "../shared/NotFound";
 import { useExploreFilterStore } from "@/hooks/stores/userExploreFilterStore";
 import { useColorPalette } from "@/hooks/useColorPalette";
 import { JobFeedSkeleton } from "../jobs/JobFeedSkeleton";
-import { JOB_CARD_HEIGHT } from "../jobs/JobCard";
 
 interface ExploreCommonProps {
   className?: string;
@@ -71,8 +70,6 @@ export const ExploreCommon = ({
       data={jobs}
       renderItem={renderItem}
       keyExtractor={(item) => item.id}
-      // Without a size hint the list mispositions rows and they overlap.
-      estimatedItemSize={JOB_CARD_HEIGHT}
       showsVerticalScrollIndicator={false}
       maintainVisibleContentPosition
       onScroll={handleScroll}
