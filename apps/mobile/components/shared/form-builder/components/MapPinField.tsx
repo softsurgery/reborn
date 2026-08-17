@@ -1,12 +1,11 @@
 import { Icon } from "@/components/ui/icon";
 import { Text } from "@/components/ui/text";
-import { THEME } from "@/lib/theme";
 import { cn } from "@/lib/utils";
 import * as Haptics from "expo-haptics";
 import * as Location from "expo-location";
 import { ChevronDown, MapPin, Navigation, Pin } from "lucide-react-native";
-import { useColorScheme } from "nativewind";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import {
   LayoutAnimation,
   ActivityIndicator,
@@ -20,11 +19,13 @@ import MapView, { MapPressEvent, Marker, Region } from "react-native-maps";
 import type { MapPinFieldProps } from "../types";
 import { Button } from "@/components/ui/button";
 import { Easing, useSharedValue, withTiming } from "react-native-reanimated";
+import { useColorPalette } from "@/hooks/useColorPalette";
 import { AndroidDarkMapStyle } from "../utils/AndroidDarkMapStyle";
 
 interface MapPinInputProps extends MapPinFieldProps {
   className?: string;
   placeholder?: string;
+  changedOnFocus?: boolean;
 }
 
 export default function MapPinField({
@@ -35,9 +36,11 @@ export default function MapPinField({
   locationName,
   onLocationChange,
   editable = true,
+  changedOnFocus = false,
 }: MapPinInputProps) {
-  const { colorScheme } = useColorScheme();
-  const isDark = colorScheme === "dark";
+  const { colorScheme, palette } = useColorPalette();
+  const { t } = useTranslation("common");
+
   const sheetRef = React.useRef<ActionSheetRef>(null);
   const mapRef = React.useRef<MapView>(null);
 
@@ -57,16 +60,14 @@ export default function MapPinField({
 
   // Sync external prop changes
   React.useEffect(() => {
-    if (
-      latitude != null &&
-      longitude != null &&
-      (latitude !== 0 || longitude !== 0)
-    ) {
+    if (latitude != null && longitude != null) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setPin({ latitude, longitude });
     }
   }, [latitude, longitude]);
 
   React.useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (locationName != null) setName(locationName);
   }, [locationName]);
 
@@ -105,12 +106,6 @@ export default function MapPinField({
 
     const placeName = await reverseGeocode(lat, lng);
     setName(placeName);
-
-    onLocationChange?.({
-      latitude: lat,
-      longitude: lng,
-      name: placeName,
-    });
   };
 
   const handleConfirm = async () => {
@@ -156,7 +151,7 @@ export default function MapPinField({
           longitudeDelta: 0.05,
         };
 
-  const toggle = () => {
+  const toggle = async () => {
     if (!editable) return;
     Keyboard.dismiss();
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -165,24 +160,35 @@ export default function MapPinField({
       easing: Easing.out(Easing.ease),
     });
     sheetRef.current?.show();
+    if (changedOnFocus) {
+      console.log("changedOnFocus", initialRegion);
+      const placeName = await reverseGeocode(
+        initialRegion.latitude,
+        initialRegion.longitude,
+      );
+      setName(placeName);
+      onLocationChange?.({
+        latitude: initialRegion.latitude,
+        longitude: initialRegion.longitude,
+        name: placeName,
+      });
+    }
   };
 
   return (
     <>
-      {/* Trigger - looks like an input */}
-
       <Button
         disabled={!editable}
         variant="outline"
-        className={cn("w-full h-12 rounded-xl p-0 px-2.5", className)}
+        className={cn("w-full h-11 rounded-xl p-0 px-2", className)}
         onPress={toggle}
       >
         <View className="flex flex-row items-center justify-between w-full">
           <View className="flex flex-row items-center gap-2">
-            <Icon as={Pin} size={18} color={"gray"} />
-            <Text>{name || placeholder || "Select a location"}</Text>
+            <Icon as={Pin} size={16} color={"gray"} />
+            <Text className="text-sm">{name || placeholder}</Text>
           </View>
-          <Icon as={ChevronDown} size={18} color={"gray"} />
+          <Icon as={ChevronDown} size={16} color={"gray"} />
         </View>
       </Button>
 
@@ -193,9 +199,7 @@ export default function MapPinField({
         statusBarTranslucent
         defaultOverlayOpacity={0.45}
         containerStyle={{
-          backgroundColor: isDark
-            ? THEME.dark.background
-            : THEME.light.background,
+          backgroundColor: palette.background,
           borderTopLeftRadius: 24,
           borderTopRightRadius: 24,
           paddingHorizontal: 16,
@@ -204,94 +208,84 @@ export default function MapPinField({
           height: "75%",
         }}
       >
-        {/* Header */}
-        <View className="flex-row items-center justify-between mb-3">
-          <Text className="text-lg font-semibold text-foreground">
-            Pick a Location
-          </Text>
-          {loading && <ActivityIndicator size="small" />}
-        </View>
-
-        {/* Location preview */}
-        {name ? (
-          <View className="flex-row items-center gap-2 mb-3 px-1">
-            <Icon
-              as={MapPin}
-              size={14}
-              color={isDark ? "#a78bfa" : "#7c3aed"}
-            />
-            <Text
-              className="text-sm text-muted-foreground flex-1"
-              numberOfLines={1}
-            >
-              {name}
+        <View className="mb-8 flex-1">
+          {/* Header */}
+          <View className="flex-row items-center justify-between mb-3">
+            <Text className="text-lg font-semibold text-foreground">
+              {t("formBuilder.mapPinField.title")}
             </Text>
+            {loading && <ActivityIndicator size="small" />}
           </View>
-        ) : (
-          <Text className="text-sm text-muted-foreground mb-3 px-1">
-            Tap on the map to drop a pin
-          </Text>
-        )}
 
-        {/* Map */}
-        <View className="flex-1 rounded-xl overflow-hidden">
-          <MapView
-            ref={mapRef}
-            style={{ flex: 1 }}
-            initialRegion={initialRegion}
-            onPress={handleMapPress}
-            showsUserLocation
-            showsMyLocationButton={false}
-            customMapStyle={
-              isDark && Platform.OS === "android"
-                ? AndroidDarkMapStyle
-                : undefined
-            }
-          >
-            {pin && (
-              <Marker
-                coordinate={pin}
-                pinColor={isDark ? "#a78bfa" : "#7c3aed"}
-              />
-            )}
-          </MapView>
+          {/* Location preview */}
+          {name ? (
+            <View className="flex-row items-center gap-2 mb-3 px-1">
+              <Icon as={MapPin} size={24} color={palette.primary} />
+              <Text
+                className="text-base text-muted-foreground flex-1"
+                numberOfLines={1}
+              >
+                {name}
+              </Text>
+            </View>
+          ) : (
+            <Text className="text-sm text-muted-foreground mb-3 px-1">
+              {t("formBuilder.mapPinField.hint")}
+            </Text>
+          )}
 
-          {/* Current location button */}
-          <Pressable
-            onPress={handleGoToCurrentLocation}
-            className="absolute bottom-3 right-3 bg-background rounded-full p-2.5 shadow-md"
-            style={{
-              shadowColor: "#000",
-              shadowOffset: { width: 0, height: 2 },
-              shadowOpacity: 0.15,
-              shadowRadius: 4,
-              elevation: 4,
-            }}
+          {/* Map */}
+          <View className="flex-1 rounded-xl overflow-hidden mb-4">
+            <MapView
+              ref={mapRef}
+              style={{ flex: 1 }}
+              initialRegion={initialRegion}
+              onPress={handleMapPress}
+              showsUserLocation
+              showsMyLocationButton={false}
+              customMapStyle={
+                colorScheme === "dark" && Platform.OS === "android"
+                  ? AndroidDarkMapStyle
+                  : undefined
+              }
+            >
+              {pin && <Marker coordinate={pin} pinColor={palette.primary} />}
+            </MapView>
+
+            {/* Current location button */}
+            <Pressable
+              onPress={handleGoToCurrentLocation}
+              className="absolute bottom-3 right-3 bg-background rounded-full p-2.5 shadow-md"
+              style={{
+                shadowColor: "#000",
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.15,
+                shadowRadius: 4,
+                elevation: 4,
+              }}
+            >
+              <Icon as={Navigation} size={18} color={palette.primary} />
+            </Pressable>
+          </View>
+
+          {/* Confirm button */}
+          <Button
+            onPress={handleConfirm}
+            disabled={!pin}
+            size="lg"
+            variant="outline"
+            className="rounded-xl"
           >
-            <Icon
-              as={Navigation}
-              size={18}
-              color={isDark ? "#a78bfa" : "#7c3aed"}
-            />
-          </Pressable>
+            <Text
+              className={cn(
+                "text-md font-bold",
+                pin ? "dark:text-primary-foreground" : "text-muted-foreground",
+              )}
+            >
+              {t("formBuilder.mapPinField.confirm")}
+            </Text>
+          </Button>
         </View>
-
-        {/* Confirm button */}
-        <Button
-          onPress={handleConfirm}
-          disabled={!pin}
-          className="mt-4 mx-2"
-          variant="outline"
-        >
-          <Text
-            className={cn(
-              "font-semibold text-base",
-              pin ? "text-primary-foreground" : "text-muted-foreground",
-            )}
-          >
-            Confirm Location
-          </Text>
-        </Button>
       </ActionSheet>
     </>
   );

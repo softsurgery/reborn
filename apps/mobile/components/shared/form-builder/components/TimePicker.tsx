@@ -5,23 +5,21 @@ import { ScrollViewContext } from "@/contexts/ScrollViewContext";
 import { cn } from "@/lib/utils";
 import { Clock, ChevronDown } from "lucide-react-native";
 import React from "react";
-import {
-  Keyboard,
-  LayoutAnimation,
-  Platform,
-  UIManager,
-  View,
-} from "react-native";
+import { useTranslation } from "react-i18next";
+import { Keyboard, Platform, UIManager, View } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
   Easing,
+  FadeIn,
+  FadeOut,
+  LinearTransition,
 } from "react-native-reanimated";
 import { StablePressable } from "../../StablePressable";
 import { StableScrollable } from "../../StableScrollable";
 import { Separator } from "@/components/ui/separator";
-import * as Haptics from "expo-haptics";
+import { triggerHaptic } from "@/lib/haptics";
 
 if (
   Platform.OS === "android" &&
@@ -73,6 +71,7 @@ export const TimePicker = ({
   onTimeChange,
   nullable = true,
 }: TimePickerProps) => {
+  const { t } = useTranslation("common");
   const [expanded, setExpanded] = React.useState(false);
   const rotation = useSharedValue(0);
   const { scrollToView } = React.useContext(ScrollViewContext);
@@ -81,7 +80,6 @@ export const TimePicker = ({
   const toggle = () => {
     if (disabled) return;
     Keyboard.dismiss();
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     const next = !expanded;
     setExpanded(next);
     rotation.value = withTiming(next ? 180 : 0, {
@@ -101,8 +99,8 @@ export const TimePicker = ({
   }));
 
   const displayText = React.useMemo(
-    () => (time ? formatTime(time) : "Select a time"),
-    [time],
+    () => (time ? formatTime(time) : t("formBuilder.timePicker.placeholder")),
+    [time, t],
   );
 
   const getInitialHour = () => {
@@ -124,6 +122,18 @@ export const TimePicker = ({
   const [hour, setHour] = React.useState(getInitialHour);
   const [minute, setMinute] = React.useState(getInitialMinute);
   const [period, setPeriod] = React.useState(getInitialPeriod);
+
+  // Sync local state when controlled time changes externally
+  const timeStamp = time ? time.getTime() : null;
+  React.useEffect(() => {
+    if (time) {
+      const h = time.getHours() % 12 || 12;
+      setHour(String(h));
+      setMinute(String(time.getMinutes()));
+      setPeriod(time.getHours() >= 12 ? "PM" : "AM");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [timeStamp]);
 
   const handleTimeChange = (
     key: "hour" | "minute" | "period",
@@ -164,18 +174,23 @@ export const TimePicker = ({
   };
 
   return (
-    <View className={cn("w-full", className)}>
+    <Animated.View
+      layout={LinearTransition}
+      className={cn("w-full", className)}
+    >
       {/* Trigger */}
       <Button
         disabled={disabled}
         variant="outline"
-        className={cn("w-full h-9 p-0 px-2", classNames?.trigger)}
+        className={cn("w-full h-12 rounded-xl p-0 px-2", classNames?.trigger)}
         onPress={toggle}
       >
         <View className="flex flex-row items-center justify-between w-full">
           <View className="flex flex-row items-center gap-2">
             <Icon as={Clock} size={16} color={"gray"} />
-            <Text className="text-sm">{displayText}</Text>
+            <Text className={cn("text-base", !time && "text-foreground/50")}>
+              {displayText}
+            </Text>
           </View>
           <Animated.View style={chevronStyle}>
             <Icon as={ChevronDown} size={16} color={"gray"} />
@@ -185,10 +200,12 @@ export const TimePicker = ({
 
       {/* Accordion content */}
       {expanded && (
-        <View
+        <Animated.View
+          entering={FadeIn}
+          exiting={FadeOut}
           ref={contentRef}
           className={cn(
-            "mt-2 rounded-lg border border-border bg-card p-3",
+            "mt-2 rounded-xl border border-border bg-card p-3",
             classNames?.content,
           )}
           onStartShouldSetResponder={() => true}
@@ -220,25 +237,29 @@ export const TimePicker = ({
             <StablePressable
               className="p-2 rounded-lg"
               onPress={() => {
-                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+                triggerHaptic();
                 setExpanded(false);
                 clearTime();
               }}
             >
-              <Text className="font-bold">Remove Time</Text>
+              <Text className="font-bold">
+                {t("formBuilder.timePicker.remove")}
+              </Text>
             </StablePressable>
             <StablePressable
               className="p-2 rounded-lg"
               onPress={() => {
-                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+                triggerHaptic();
                 setExpanded(false);
               }}
             >
-              <Text className="text-primary font-bold">Done</Text>
+              <Text className="text-primary font-bold">
+                {t("formBuilder.timePicker.done")}
+              </Text>
             </StablePressable>
           </View>
-        </View>
+        </Animated.View>
       )}
-    </View>
+    </Animated.View>
   );
 };
