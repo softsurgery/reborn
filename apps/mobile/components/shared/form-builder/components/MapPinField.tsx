@@ -21,7 +21,6 @@ import { Button } from "@/components/ui/button";
 import { Easing, useSharedValue, withTiming } from "react-native-reanimated";
 import { useColorPalette } from "@/hooks/useColorPalette";
 import { AndroidDarkMapStyle } from "../utils/AndroidDarkMapStyle";
-import { useColorPalette } from "@/hooks/useColorPalette";
 
 interface MapPinInputProps extends MapPinFieldProps {
   className?: string;
