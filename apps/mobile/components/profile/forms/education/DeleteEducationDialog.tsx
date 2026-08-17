@@ -6,12 +6,13 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Text } from "@/components/ui/text";
-import { UserStore } from "@/hooks/stores/useUserStore";
 import { cn } from "@/lib/utils";
 import React from "react";
 import { View } from "react-native";
+import { useTranslation } from "react-i18next";
+import { UserStore } from "@/hooks/stores/useUserStore";
 
-interface DeleteExperienceDialogProps {
+interface DeleteEducationDialogProps {
   userStore?: UserStore;
   trigger?: React.ReactNode;
   loading?: boolean;
@@ -19,32 +20,34 @@ interface DeleteExperienceDialogProps {
   handleDelete?: () => void;
 }
 
-export const DeleteExperienceDialog = ({
+export const DeleteEducationDialog = ({
   trigger,
   loading,
   handleDelete,
-}: DeleteExperienceDialogProps) => {
+}: DeleteEducationDialogProps) => {
+  const { t } = useTranslation("menu");
   const [visible, setVisible] = React.useState(false);
 
   return (
     <Dialog open={visible} onOpenChange={setVisible}>
       <DialogTrigger asChild>
         {trigger || (
-          <Text className="text-red-500 text-sm font-semibold">Delete</Text>
+          <Text className="text-red-500 text-sm font-semibold">
+            {t("education.delete.trigger")}
+          </Text>
         )}
       </DialogTrigger>
 
       <DialogContent className={cn("w-[90vw] rounded-lg")}>
         <DialogTitle>
           <Text className="text-lg font-semibold text-foreground">
-            Delete Experience
+            {t("education.delete.title")}
           </Text>
         </DialogTitle>
 
         <View className="flex flex-col gap-2">
           <Text className="text-sm text-muted-foreground">
-            Are you sure you want to delete this experience? This action cannot
-            be undone.
+            {t("education.delete.message")}
           </Text>
         </View>
 
@@ -58,7 +61,11 @@ export const DeleteExperienceDialog = ({
             disabled={loading}
             className="flex-1"
           >
-            <Text>{loading ? "Deleting..." : "Delete"}</Text>
+            <Text>
+              {loading
+                ? t("education.delete.actions.deletePending")
+                : t("education.delete.actions.delete")}
+            </Text>
           </Button>
           <Button
             variant="outline"
@@ -66,7 +73,7 @@ export const DeleteExperienceDialog = ({
             disabled={loading}
             className="flex-1"
           >
-            <Text>Cancel</Text>
+            <Text>{t("education.delete.actions.cancel")}</Text>
           </Button>
         </View>
       </DialogContent>

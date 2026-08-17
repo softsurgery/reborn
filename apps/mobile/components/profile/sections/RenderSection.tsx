@@ -1,84 +1,120 @@
-import { Pressable, View } from "react-native";
-import { Text } from "~/components/ui/text";
-import { cn } from "~/lib/utils";
+import { Icon } from "@/components/ui/icon";
+import { Text } from "@/components/ui/text";
+import { useColorPalette } from "@/hooks/useColorPalette";
+import { hslToHex } from "@/lib/theme";
+import { cn } from "@/lib/utils";
 import { router } from "expo-router";
-import { Icon } from "~/components/ui/icon";
-import { Pen, Plus } from "lucide-react-native";
+import {
+  Briefcase,
+  GraduationCap,
+  LucideIcon,
+  Pen,
+  Plus,
+  Tag,
+} from "lucide-react-native";
+import { Pressable, View } from "react-native";
+
+const SECTION_ICONS: Record<string, LucideIcon> = {
+  experience: Briefcase,
+  education: GraduationCap,
+  industries: Tag,
+};
 
 export interface ProfileSection<T = unknown> {
   key: string;
   title: string;
   data: T[];
   editable: boolean;
+  userId?: string;
   renderItem: (item: any) => React.ReactNode;
 }
 
 export const RenderSection = (section: ProfileSection) => {
+  const { palette } = useColorPalette();
+  const primary = hslToHex(palette.primary);
+  const isBadge = section.key === "industries";
+  const count = section.data?.length ?? 0;
+  const SectionIcon = SECTION_ICONS[section.key] ?? Briefcase;
+
   return (
-    <View className="flex flex-col flex-1 bg-background" key={section.key}>
-      <View className={cn("flex flex-1")}>
-        <View className="flex flex-row items-center justify-between">
-          <View className="p-4">
-            <Text variant="h4">{section.title}</Text>
-          </View>
-          {section.editable && (
-            <View className="flex flex-row gap-1 items-center p-2">
-              <Pressable
-                className="p-2 rounded-full active:bg-primary/25"
-                onPress={() => {
-                  switch (section.key) {
-                    case "experience":
-                      router.push("/main/account/create-experience");
-                      break;
-                    case "education":
-                      router.push("/main/account/create-education");
-                      break;
-                    case "skills":
-                      router.push("/main/account/create-skill");
-                      break;
-                  }
-                }}
-              >
-                <Icon as={Plus} size={20} className="text-muted-foreground" />
-              </Pressable>
-              <Pressable
-                className="p-2 rounded-full active:bg-primary/25"
-                onPress={() => {
-                  switch (section.key) {
-                    case "experience":
-                      router.push({
-                        pathname: "/main/account/update-experiences",
-                      });
-                      break;
-                    case "education":
-                      router.push("/main/account/update-educations");
-                      break;
-                    case "skills":
-                      router.push("/main/account/update-skills");
-                      break;
-                  }
-                }}
-              >
-                <Icon as={Pen} size={18} className="text-muted-foreground" />
-              </Pressable>
+    <View key={section.key} className="px-4">
+      {/* Section header */}
+      <View className="flex-row items-center justify-between">
+        <View className="flex-row items-center gap-2">
+          <Icon as={SectionIcon} size={18} color={primary} />
+          <Text className="text-base font-bold text-foreground">
+            {section.title}
+          </Text>
+          {count > 0 && (
+            <View className="items-center rounded-full px-1.5 py-0.5 bg-primary/10">
+              <Text className="text-sm font-bold">{count}</Text>
             </View>
           )}
         </View>
+
+        <View
+          className={cn(
+            "flex-row items-center gap-1.5",
+            !section.editable && "hidden",
+          )}
+        >
+          {!isBadge && (
+            <Pressable
+              className="h-9 w-9 items-center justify-center rounded-full border border-border active:bg-primary/15"
+              onPress={() => {
+                switch (section.key) {
+                  case "experience":
+                    router.push("/main/account/career/create-experience");
+                    break;
+                  case "education":
+                    router.push("/main/account/career/create-education");
+                    break;
+                }
+              }}
+            >
+              <Icon as={Plus} size={18} color={primary} />
+            </Pressable>
+          )}
+
+          <Pressable
+            className="h-9 w-9 items-center justify-center rounded-full border border-border active:bg-primary/15"
+            onPress={() => {
+              switch (section.key) {
+                case "experience":
+                  router.push("/main/account/career/update-experiences");
+                  break;
+                case "education":
+                  router.push("/main/account/career/update-educations");
+                  break;
+              }
+            }}
+          >
+            <Icon as={Pen} size={16} color={primary} />
+          </Pressable>
+        </View>
       </View>
 
-      <View className="p-4 flex-1 bg-background">
-        {section.data?.length === 0 ? (
-          <View key={section.key}>
-            <Text className="text-sm text-muted-foreground italic text-center my-4">
-              No {section.title} added yet
+      {/* Section content */}
+      <View className="pt-3">
+        {count === 0 ? (
+          <View className="items-center rounded-2xl border border-dashed border-border py-6">
+            <Text className="text-sm italic text-muted-foreground">
+              No {section.title.toLowerCase()} added yet
             </Text>
           </View>
+        ) : isBadge ? (
+          <View className="flex-row flex-wrap gap-2">
+            {section.data.map((sectionItem, idx) => (
+              <View key={idx}>{section.renderItem(sectionItem)}</View>
+            ))}
+          </View>
         ) : (
-          <View className="flex flex-col gap-4">
-            {Array.isArray(section.data) &&
-              section.data.map((item, idx) => (
-                <View key={idx}>{section.renderItem(item)}</View>
-              ))}
+          <View>
+            {section.data.map((sectionItem, idx) => (
+              <View key={idx} className="my-4">
+                {section.renderItem(sectionItem)}
+              </View>
+            ))}
           </View>
         )}
       </View>

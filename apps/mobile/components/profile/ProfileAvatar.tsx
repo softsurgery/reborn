@@ -1,7 +1,7 @@
 import React, { useRef, useMemo } from "react";
 import { ActionSheetRef } from "react-native-actions-sheet";
 import * as Haptics from "expo-haptics";
-import { Keyboard, Pressable } from "react-native";
+import { Keyboard, Pressable, View } from "react-native";
 import { Eye, Camera } from "lucide-react-native";
 import { PhotoPreview, PhotoPreviewRef } from "../shared/PhotoPreview";
 import { api } from "@/api";
@@ -20,14 +20,17 @@ import { useServerImages } from "@/hooks/content/useServerImages";
 import { identifyUserAvatar } from "@/lib/user.utils";
 import { useUploadMutation } from "@/hooks/content/useUploadMutation";
 import { ThreeDotsActionSheet } from "../shared/ThreeDotsActionSheet";
+import { cn } from "@/lib/utils";
 
 interface ProfileAvatarProps {
+  className?: string;
   user: ResponseUserDto;
   currentUser: ResponseUserDto | null;
   onRefresh: () => void;
 }
 
 export const ProfileAvatar = ({
+  className,
   user,
   currentUser,
   onRefresh,
@@ -142,7 +145,7 @@ export const ProfileAvatar = ({
   };
 
   return (
-    <>
+    <View className={cn(className)}>
       <Pressable className="active:opacity-85" onPress={handlePress}>
         {profilePictures[0]}
       </Pressable>
@@ -174,6 +177,6 @@ export const ProfileAvatar = ({
           },
         ]}
       />
-    </>
+    </View>
   );
 };

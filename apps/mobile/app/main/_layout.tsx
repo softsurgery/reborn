@@ -92,22 +92,30 @@ export default function MainLayout() {
           animation: "slide_from_right",
         }}
       />
+      {/* Career *********************************************************************************************************************/}
       <Stack.Screen
-        name="account/create-experience"
+        name="account/career/experiences"
         options={{
           title: "Experiences",
           headerShown: false,
         }}
       />
       <Stack.Screen
-        name="account/update-experiences"
+        name="account/career/create-experience"
+        options={{
+          title: "Create Experience",
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="account/career/update-experiences"
         options={{
           title: "Experiences",
           headerShown: false,
         }}
       />
       <Stack.Screen
-        name="account/update-experience"
+        name="account/career/update-experience"
         options={{
           title: "Edit Experiences",
           headerShown: false,
@@ -115,21 +123,21 @@ export default function MainLayout() {
       />
 
       <Stack.Screen
-        name="account/create-education"
+        name="account/career/create-education"
         options={{
           title: "Create Education",
           headerShown: false,
         }}
       />
       <Stack.Screen
-        name="account/update-education"
+        name="account/career/update-education"
         options={{
           title: "Edit Education",
           headerShown: false,
         }}
       />
       <Stack.Screen
-        name="account/update-educations"
+        name="account/career/update-educations"
         options={{
           title: "Educations",
           headerShown: false,

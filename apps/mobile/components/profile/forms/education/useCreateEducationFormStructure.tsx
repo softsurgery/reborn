@@ -1,5 +1,4 @@
 import {
-  DateFieldProps,
   Field,
   FieldVariant,
   FormStructure,
@@ -7,27 +6,28 @@ import {
   TextFieldProps,
 } from "@/components/shared/form-builder/types";
 import { UserStore } from "@/hooks/stores/useUserStore";
+import { useTranslation } from "react-i18next";
 
-interface UseUpdateEducationFormStructureProps {
+interface UseCreateEducationFormStructureProps {
   store: UserStore;
 }
 
-export const useUpdateEducationFormStructure = ({
+export const useCreateEducationFormStructure = ({
   store,
-}: UseUpdateEducationFormStructureProps) => {
+}: UseCreateEducationFormStructureProps) => {
+  const { t } = useTranslation("menu");
   const educationTitle: Field<TextFieldProps> = {
     id: "title",
-    label: "Degree/Field of Study",
+    label: t("education.form.labels.title"),
     variant: FieldVariant.TEXT,
     required: true,
-    placeholder: "Enter your degree or field of study",
-    description:
-      "The degree or field of study (e.g., Bachelor of Science in Computer Science).",
-    error: store.educationErrors?.title?.[0],
+    placeholder: t("education.form.placeholders.title"),
+    description: t("education.form.descriptions.title"),
+    error: t(store.educationErrors?.title?.[0]),
     props: {
-      value: store.updateEducationDto.title,
+      value: store.createEducationDto?.title,
       onChangeText: (value) => {
-        store.setNested("updateEducationDto.title", value);
+        store.setNested("createEducationDto.title", value);
         store.setNested("educationErrors.title", []);
       },
     },
@@ -35,16 +35,16 @@ export const useUpdateEducationFormStructure = ({
 
   const institutionName: Field<TextFieldProps> = {
     id: "institution",
-    label: "Institution Name",
+    label: t("education.form.labels.institution"),
     variant: FieldVariant.TEXT,
     required: true,
-    placeholder: "Enter the institution name",
-    description: "The name of the school, college, or university you attended.",
-    error: store.educationErrors?.institution?.[0],
+    placeholder: t("education.form.placeholders.institution"),
+    description: t("education.form.descriptions.institution"),
+    error: t(store.educationErrors?.institution?.[0]),
     props: {
-      value: store.updateEducationDto?.institution,
+      value: store.createEducationDto?.institution,
       onChangeText: (value) => {
-        store.setNested("updateEducationDto.institution", value);
+        store.setNested("createEducationDto.institution", value);
         store.setNested("educationErrors.institution", []);
       },
     },
@@ -52,17 +52,16 @@ export const useUpdateEducationFormStructure = ({
 
   const description: Field<TextareaFieldProps> = {
     id: "description",
-    label: "Description",
+    label: t("education.form.labels.description"),
     variant: FieldVariant.TEXTAREA,
     required: false,
-    placeholder: "Describe your studies, achievements, or activities",
-    description:
-      "A brief description of your studies, achievements, relevant coursework, or extracurricular activities.",
-    error: store.educationErrors?.description?.[0],
+    placeholder: t("education.form.placeholders.description"),
+    description: t("education.form.descriptions.description"),
+    error: t(store.educationErrors?.description?.[0]),
     props: {
-      value: store.updateEducationDto?.description,
+      value: store.createEducationDto?.description,
       onChangeText: (value) => {
-        store.setNested("updateEducationDto.description", value);
+        store.setNested("createEducationDto.description", value);
         store.setNested("educationErrors.description", []);
       },
       rows: 50,
@@ -77,12 +76,12 @@ export const useUpdateEducationFormStructure = ({
   //   description: "The date you started this education program.",
   //   error: store.educationErrors?.startDate?.[0],
   //   props: {
-  //     value: store.updateEducationDto?.startDate
-  //       ? new Date(store.updateEducationDto.startDate)
+  //     value: store.createEducationDto?.startDate
+  //       ? new Date(store.createEducationDto.startDate)
   //       : undefined,
   //     onDateChange: (value) => {
   //       store.setNested(
-  //         "updateEducationDto.startDate",
+  //         "createEducationDto.startDate",
   //         value ? value.toISOString() : null,
   //       );
   //       store.setNested("educationErrors.startDate", []);
@@ -99,12 +98,12 @@ export const useUpdateEducationFormStructure = ({
   //     "The date you completed or expect to complete this program. Leave blank if currently enrolled.",
   //   error: store.educationErrors?.endDate?.[0],
   //   props: {
-  //     value: store.updateEducationDto?.endDate
-  //       ? new Date(store.updateEducationDto.endDate)
+  //     value: store.createEducationDto?.endDate
+  //       ? new Date(store.createEducationDto.endDate)
   //       : undefined,
   //     onDateChange: (value) => {
   //       store.setNested(
-  //         "updateEducationDto.endDate",
+  //         "createEducationDto.endDate",
   //         value ? value.toISOString() : null,
   //       );
   //       store.setNested("educationErrors.endDate", []);
@@ -113,10 +112,10 @@ export const useUpdateEducationFormStructure = ({
   // };
 
   const structure: FormStructure = {
-    title: "Update Education",
+    title: t("education.form.createTitle"),
     fieldsets: [
       {
-        title: "Education Details",
+        title: t("education.form.sectionTitle"),
         rows: [
           {
             id: 1,

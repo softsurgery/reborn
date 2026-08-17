@@ -4,33 +4,30 @@ import { ApplicationHeader } from "@/components/shared/AppHeader";
 import { Tappable } from "@/components/shared/Tappable";
 import { StablePressable } from "@/components/shared/StablePressable";
 import { StableSafeAreaView } from "@/components/shared/StableSafeAreaView";
+import StableScrollView from "@/components/shared/StableScrollView";
 import { Icon } from "@/components/ui/icon";
 import { Text } from "@/components/ui/text";
 import { cn } from "@/lib/utils";
-import { useUserStore } from "@/hooks/stores/useUserStore";
 import { ResponseExperienceDto, ServerErrorResponse } from "@/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { router } from "expo-router";
-import {
-  ChevronLeft,
-  Briefcase,
-  Building2,
-  Calendar,
-  FileText,
-} from "lucide-react-native";
+import { Briefcase, Building2, Calendar, FileText } from "lucide-react-native";
 import { View } from "react-native";
 import { toast } from "sonner-native";
 import { ActionSheetRef } from "react-native-actions-sheet";
 import { DeleteExperienceActionSheet } from "./DeleteExperienceActionSheet";
-import { getExperienceYears } from "@/lib/dates.utils";
-import StableScrollView from "@/components/shared/StableScrollView";
+import { useTranslation } from "react-i18next";
 
+import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
+import { useUserStore } from "@/hooks/stores/useUserStore";
+import { getExperienceYears } from "@/lib/dates.utils";
 interface UpdateExperiencesProps {
   className?: string;
 }
 
 export const UpdateExperiences = ({ className }: UpdateExperiencesProps) => {
+  const { t } = useTranslation("menu");
   const userStore = useUserStore();
   const queryClient = useQueryClient();
   const deleteSheetRef = React.useRef<ActionSheetRef>(null);
@@ -51,7 +48,7 @@ export const UpdateExperiences = ({ className }: UpdateExperiencesProps) => {
       description: exp.description,
     });
     userStore.set("present", exp.endDate === null);
-    router.push("/main/account/update-experience");
+    router.push("/main/account/career/update-experience");
   };
 
   const { mutate: deleteExperience, isPending: isDeletePending } = useMutation({
@@ -60,14 +57,17 @@ export const UpdateExperiences = ({ className }: UpdateExperiencesProps) => {
       queryClient.invalidateQueries({
         queryKey: ["experiences", userStore.response?.id],
       });
-      toast.success("Experience deleted successfully", {
-        description: "Your experience has been successfully deleted.",
+      toast.success(t("experience.toasts.deleted"), {
+        description: t("experience.toasts.deletedDescription"),
       });
       deleteSheetRef.current?.hide();
       setSelectedExperienceId(null);
     },
     onError: (error: ServerErrorResponse) => {
-      toast.error(error.response?.data?.message || "An error occurred", {});
+      toast.error(
+        error.response?.data?.message || t("experience.toasts.error"),
+        {},
+      );
     },
   });
 
@@ -83,7 +83,7 @@ export const UpdateExperiences = ({ className }: UpdateExperiencesProps) => {
 
   const onConfirmDeleteExperience = () => {
     if (!selectedExperienceId) {
-      toast.error("No experience selected");
+      toast.error(t("experience.toasts.noSelection"));
       return;
     }
 
@@ -94,16 +94,13 @@ export const UpdateExperiences = ({ className }: UpdateExperiencesProps) => {
     <StableSafeAreaView className={cn("flex flex-1", className)}>
       <ApplicationHeader
         classNames={{ wrapper: "border-b border-border pb-2 bg-transparent" }}
-        title="Experiences"
+        title={t("experience.list.title")}
         titleVariant="large"
         reverse
         shortcuts={[
           {
             key: "back",
-            icon: ChevronLeft,
-            onPress: () => {
-              router.back();
-            },
+            render: <AppHeaderBack />,
           },
         ]}
       />
@@ -123,7 +120,7 @@ export const UpdateExperiences = ({ className }: UpdateExperiencesProps) => {
                       <View className="flex flex-row justify-between">
                         <View className="gap-1.5">
                           <Text className="text-xs font-semibold uppercase text-muted-foreground tracking-wide">
-                            Job Title
+                            {t("experience.list.jobTitleLabel")}
                           </Text>
                           <Text className="text-lg font-bold text-foreground">
                             {exp.title}
@@ -133,7 +130,7 @@ export const UpdateExperiences = ({ className }: UpdateExperiencesProps) => {
                           {exp.endDate === null && (
                             <View className="bg-green-500/20 px-2.5 py-1 rounded-full">
                               <Text className="text-xs font-medium">
-                                Current
+                                {t("experience.list.current")}
                               </Text>
                             </View>
                           )}
@@ -156,17 +153,21 @@ export const UpdateExperiences = ({ className }: UpdateExperiencesProps) => {
                             {format(new Date(exp.startDate!), "MMM yyyy")} -{" "}
                             {exp.endDate
                               ? format(new Date(exp.endDate), "MMM yyyy")
-                              : "Present"}
+                              : t("experience.instance.present")}
                           </Text>
                           <Text className="text-xs text-muted-foreground">
-                            {getExperienceYears(exp.startDate!, exp.endDate)}{" "}
-                            years
+                            {t("experience.list.yearsCount", {
+                              years: getExperienceYears(
+                                exp.startDate!,
+                                exp.endDate,
+                              ),
+                            })}
                           </Text>
                         </View>
                       </View>
 
                       {/* Description */}
-                      {exp.description && (
+                      {!!exp.description && (
                         <View className="flex flex-row gap-3 mt-1">
                           <Icon as={FileText} size={18} />
                           <Text className="text-sm text-foreground flex-1 leading-5">
@@ -186,7 +187,7 @@ export const UpdateExperiences = ({ className }: UpdateExperiencesProps) => {
                         }}
                         onPress={() => onUpdateExperiencePress(exp)}
                       >
-                        Edit experience
+                        {t("experience.list.actions.edit")}
                       </Tappable>
                       <Tappable
                         className="p-4 flex flex-row"
@@ -196,7 +197,7 @@ export const UpdateExperiences = ({ className }: UpdateExperiencesProps) => {
                         }}
                         onPress={() => onDeleteExperiencePress(exp.id)}
                       >
-                        Delete experience
+                        {t("experience.list.actions.delete")}
                       </Tappable>
                     </View>
                   </View>
@@ -209,16 +210,20 @@ export const UpdateExperiences = ({ className }: UpdateExperiencesProps) => {
                 <Icon as={Briefcase} size={32} />
               </View>
               <Text className="text-lg font-semibold mb-2">
-                No Experiences Yet
+                {t("experience.list.empty.title")}
               </Text>
               <Text className="text-sm text-muted-foreground text-center">
-                Add your work experience to showcase your professional journey
+                {t("experience.list.empty.description")}
               </Text>
               <StablePressable
                 className="text-center mt-4 underline font-medium w-fit mx-auto rounded-lg"
-                onPress={() => router.push("/main/account/create-experience")}
+                onPress={() =>
+                  router.push("/main/account/career/create-experience")
+                }
               >
-                <Text className="text-sm underline p-2">New Experience ?</Text>
+                <Text className="text-sm underline p-2">
+                  {t("experience.list.empty.action")}
+                </Text>
               </StablePressable>
             </View>
           )}
