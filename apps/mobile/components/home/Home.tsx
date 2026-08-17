@@ -20,12 +20,14 @@ import { QuickActions } from "./QuickActions";
 import Animated from "react-native-reanimated";
 import { StatCard } from "./StatCard";
 import { useScrollableElement } from "~/hooks/useScrollableElement";
+import { useColorPalette } from "@/hooks/useColorPalette";
 
 interface HomeProps {
   className?: string;
 }
 
 export const Home = ({ className }: HomeProps) => {
+  const { palette } = useColorPalette();
   const { currentUser, isCurrentUserPending } = useCurrentUser();
   const { newCount, resetCount } = useNotificationContext();
 
@@ -120,10 +122,12 @@ export const Home = ({ className }: HomeProps) => {
     return "bg-secondary text-secondary-foreground";
   };
 
-  const { animatedHeaderStyle, handleScroll } = useScrollableElement({
-    duration: 250,
-    deltaThreshold: 40,
-  });
+  const { animatedHeaderStyle, contentAnimatedStyle, handleScroll } =
+    useScrollableElement({
+      duration: 250,
+      deltaThreshold: 40,
+      checkScrollable: true,
+    });
 
   const isRefreshing = isJobsPending || isIncomingPending || isOutgoingPending;
 
@@ -134,7 +138,7 @@ export const Home = ({ className }: HomeProps) => {
   };
 
   return (
-    <StableSafeAreaView className={cn("flex-1 mx-2", className)}>
+    <StableSafeAreaView className={cn("flex-1", className)}>
       <Animated.View style={animatedHeaderStyle}>
         <ApplicationHeader
           title="Home"
@@ -151,12 +155,12 @@ export const Home = ({ className }: HomeProps) => {
           ]}
         />
       </Animated.View>
-      <View
-        className="flex flex-row flex-1 border-b border-border"
-        style={{ minHeight: 500 }}
+      <Animated.View
+        className="flex flex-row flex-1 border-border px-4"
+        style={contentAnimatedStyle}
       >
         <ScrollView
-          className="flex-1 px-2 "
+          className="flex-1"
           onScroll={handleScroll}
           scrollEventThrottle={16}
           showsVerticalScrollIndicator={false}
@@ -184,7 +188,7 @@ export const Home = ({ className }: HomeProps) => {
                 size="sm"
                 onPress={() => router.push("/main/my-space/new-job")}
               >
-                <Icon as={Plus} size={16} className="text-primary-foreground" />
+                <Icon as={Plus} size={20} color={palette.primaryForeground} />
                 <Text>Post Job</Text>
               </Button>
               <Button
@@ -193,7 +197,7 @@ export const Home = ({ className }: HomeProps) => {
                 variant="outline"
                 onPress={() => router.push("/main/explore/job-search")}
               >
-                <Icon as={Compass} size={16} className="text-foreground" />
+                <Icon as={Compass} size={20} color={palette.foreground} />
                 <Text>Explore</Text>
               </Button>
             </View>
@@ -201,18 +205,21 @@ export const Home = ({ className }: HomeProps) => {
 
           <View className="flex-row gap-2 mt-3">
             <StatCard
+              className="p-3"
               title="My Jobs"
               value={myJobsCount}
               subtitle="Active posts"
               loading={isJobsPending}
             />
             <StatCard
+              className="p-3"
               title="Incoming"
               value={incomingCount}
               subtitle="Requests received"
               loading={isIncomingPending}
             />
             <StatCard
+              className="p-3"
               title="Pending"
               value={outgoingPendingCount}
               subtitle="Awaiting approval"
@@ -287,7 +294,7 @@ export const Home = ({ className }: HomeProps) => {
             </View>
           </View>
         </ScrollView>
-      </View>
+      </Animated.View>
     </StableSafeAreaView>
   );
 };
