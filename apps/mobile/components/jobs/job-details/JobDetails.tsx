@@ -205,7 +205,6 @@ export const JobDetails = ({ className, id }: JobDetailsProps) => {
           showTitle={isTitleScrolledAway}
           handleSave={handleSave}
           isJobSaved={!!isJobSaved}
-          isSavePending={isSavePending || isUnsavePending}
         />
 
         <StableScrollView

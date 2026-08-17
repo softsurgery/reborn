@@ -172,7 +172,6 @@ export const JobCard = ({ className, job, isOwner }: JobCardProps) => {
             ) : (
               <TouchableOpacity
                 onPress={handleSave}
-                disabled={isSaveMutating}
                 hitSlop={12}
                 style={{ marginLeft: 8 }}
               >
@@ -180,7 +179,7 @@ export const JobCard = ({ className, job, isOwner }: JobCardProps) => {
                   size={20}
                   color={isJobSaved ? palette.primary : palette.mutedForeground}
                   fill={isJobSaved ? palette.primary : "none"}
-                  opacity={isSaveMutating || isSavedPending ? 0.4 : 1}
+                  opacity={isSavedPending ? 0.4 : 1}
                 />
               </TouchableOpacity>
             )}
