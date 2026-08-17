@@ -16,9 +16,10 @@ import Animated, {
   LinearTransition,
 } from "react-native-reanimated";
 import { StableScrollable } from "../../StableScrollable";
+import { StablePressable } from "../../StablePressable";
 import { Separator } from "@/components/ui/separator";
-import { triggerHaptic } from "@/lib/haptics";
 import { toLongDateString } from "@/lib/dates.utils";
+import { triggerHaptic } from "@/lib/haptics";
 
 if (
   Platform.OS === "android" &&
@@ -174,7 +175,7 @@ export const DatePicker = ({
       <Button
         disabled={disabled}
         variant="outline"
-        className={cn("w-full h-11 rounded-xl p-0 px-2", classNames?.trigger)}
+        className={cn("w-full h-12 rounded-xl p-0 px-2", classNames?.trigger)}
         onPress={toggle}
       >
         <View className="flex flex-row items-center justify-between w-full">
@@ -228,7 +229,7 @@ export const DatePicker = ({
           <Separator className="my-2" />
           <View className="flex-row justify-between">
             <Pressable
-              className="p-2 rounded-lg"
+              className="p-2 rounded-lg active:opacity-70"
               onPress={() => {
                 triggerHaptic();
                 setExpanded(false);
@@ -238,7 +239,7 @@ export const DatePicker = ({
               <Text className="font-bold">Remove Date</Text>
             </Pressable>
             <Pressable
-              className="p-2 rounded-lg"
+              className="p-2 rounded-lg active:opacity-70"
               onPress={() => {
                 triggerHaptic();
                 setExpanded(false);
