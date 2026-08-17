@@ -100,7 +100,7 @@ function GestureImage({
   );
 
   // Trigger open animation on mount
-  useEffect(() => {
+  React.useEffect(() => {
     translateX.value = withTiming(0, {
       duration: ANIMATION_DURATION,
       easing: ANIMATION_EASING,
@@ -119,7 +119,7 @@ function GestureImage({
     });
   }, [triggerRect, translateX, translateY, scale, backdropOpacity]);
 
-  const dismiss = useCallback(() => {
+  const dismiss = React.useCallback(() => {
     if (triggerRect) {
       translateX.value = withTiming(targetTranslateX, {
         duration: ANIMATION_DURATION,
@@ -171,7 +171,7 @@ function GestureImage({
   ]);
 
   // Trigger close animation when parent requests it
-  useEffect(() => {
+  React.useEffect(() => {
     if (isClosing) {
       dismiss();
     }
