@@ -11,43 +11,26 @@ interface JobCardSkeletonProps {
 /** Mirrors JobCard: thumbnail, eyebrow, title, description, pay, author row. */
 export const JobCardSkeleton = ({ className }: JobCardSkeletonProps) => {
   return (
-    <View
-      className={cn(
-        "my-2 w-full rounded-2xl border border-border bg-card p-3",
-        className,
-      )}
-    >
-      <View style={{ flexDirection: "row", gap: 12 }}>
+    <View className={cn("w-full rounded-lg p-3", className)}>
+      <View className="flex-row gap-3">
         <Skeleton
           style={{ width: THUMBNAIL_SIZE, height: THUMBNAIL_SIZE }}
           className="rounded-xl"
         />
 
-        <View style={{ flex: 1, gap: 8 }}>
-          <Skeleton style={{ height: 10, width: 80 }} />
-          <Skeleton style={{ height: 16 }} className="w-full" />
-          <Skeleton style={{ height: 12 }} className="w-2/3" />
-          <Skeleton style={{ height: 20, width: 110 }} />
+        <View className="flex-1 gap-2">
+          <Skeleton className="h-2.5 w-20" />
+          <Skeleton className="h-4 w-full" />
+          <Skeleton className="h-3 w-2/3" />
+          <Skeleton className="h-5 w-28" />
         </View>
       </View>
 
-      <View
-        style={{
-          marginTop: 12,
-          paddingTop: 10,
-          flexDirection: "row",
-          alignItems: "center",
-          gap: 8,
-        }}
-        className="border-t border-border"
-      >
-        <Skeleton style={{ height: 20, width: 20 }} className="rounded-full" />
-        <Skeleton style={{ height: 12, width: 90 }} />
-        <Skeleton
-          style={{ marginLeft: "auto", height: 20, width: 64 }}
-          className="rounded-full"
-        />
-        <Skeleton style={{ height: 20, width: 64 }} className="rounded-full" />
+      <View className="mt-3 flex-row items-center gap-2 border-t border-border pt-2.5">
+        <Skeleton className="h-5 w-5 rounded-full" />
+        <Skeleton className="h-3 w-24" />
+        <Skeleton className="ml-auto h-5 w-16 rounded-full" />
+        <Skeleton className="h-5 w-16 rounded-full" />
       </View>
     </View>
   );
