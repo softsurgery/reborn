@@ -1,14 +1,12 @@
-import { api } from "@/api";
 import { ApplicationHeader } from "@/components/shared/AppHeader";
 import { Loader } from "@/components/shared/Loader";
 import { StableSafeAreaView } from "@/components/shared/StableSafeAreaView";
+import { useJob } from "@/hooks/content/job/useJob";
 import { cn } from "@/lib/utils";
 import { createMaterialTopTabNavigator } from "expo-router/js-top-tabs";
-import { useQuery } from "@tanstack/react-query";
 import { router } from "expo-router";
 import { ChevronLeft } from "lucide-react-native";
-import { ScrollView } from "react-native";
-
+import { ScrollView, View } from "react-native";
 interface JobManagementInstanceProps {
   id: string;
   className?: string;
@@ -20,10 +18,8 @@ export const JobManagementInstance = ({
   id,
   className,
 }: JobManagementInstanceProps) => {
-  const { data: job, isPending: isJobPending } = useQuery({
-    queryKey: ["job", id],
-    queryFn: async () => api.job.findById(id),
-  });
+  const { job, isJobPending } = useJob({ id });
+
   if (isJobPending)
     return <Loader className="flex-1 justify-center items-center" />;
   return (
@@ -64,26 +60,23 @@ export const JobManagementInstance = ({
             options={{
               tabBarLabel: "Summary",
             }}
-          >
-            {() => <></>}
-          </Tab.Screen>
+            component={View}
+          />
 
           <Tab.Screen
             name="career"
             options={{
               tabBarLabel: "Statistics",
             }}
-          >
-            {() => <></>}
-          </Tab.Screen>
+            component={View}
+          />
           <Tab.Screen
             name="gallery"
             options={{
               tabBarLabel: "Actions",
             }}
-          >
-            {() => <></>}
-          </Tab.Screen>
+            component={View}
+          />
         </Tab.Navigator>
       </ScrollView>
     </StableSafeAreaView>

@@ -17,7 +17,6 @@ interface JobDetailsTopBarProps {
   title?: string;
   showTitle?: boolean;
   isJobSaved: boolean;
-  isSavePending: boolean;
   handleSave: () => void;
 }
 
@@ -26,7 +25,6 @@ export const JobDetailsTopBar = ({
   title,
   showTitle = false,
   isJobSaved,
-  isSavePending,
   handleSave,
 }: JobDetailsTopBarProps) => {
   const { palette } = useColorPalette();
@@ -66,12 +64,8 @@ export const JobDetailsTopBar = ({
       </Animated.View>
 
       <StablePressable
-        className={cn(
-          "h-10 w-10 items-center justify-center rounded-full active:bg-muted",
-          isSavePending && "opacity-50",
-        )}
+        className="h-10 w-10 items-center justify-center rounded-full active:bg-muted"
         onPress={handleSave}
-        disabled={isSavePending}
         hitSlop={8}
       >
         <Heart
