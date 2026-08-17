@@ -322,7 +322,6 @@ export const InspectBaseProfile = ({
               onPress={() => (isFollowing ? unfollowUser() : followUser())}
               variant={isFollowing ? "outline" : "default"}
               className="flex flex-row flex-1 gap-2"
-              disabled={isFollowPending || isUnfollowPending}
             >
               {!isFollowing && <Icon as={UserPlus} size={20} />}
               <Text>{isFollowing ? "Following" : "Follow"}</Text>

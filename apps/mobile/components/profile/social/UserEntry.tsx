@@ -1,9 +1,8 @@
 import React from "react";
-import { View } from "react-native";
+import { Pressable, View } from "react-native";
 import { useQueryClient } from "@tanstack/react-query";
 import { MapPin, Star, UserPlus } from "lucide-react-native";
 import { router } from "expo-router";
-import { StablePressable } from "~/components/shared/StablePressable";
 import { Button } from "~/components/ui/button";
 import { Text } from "~/components/ui/text";
 import { UserStore } from "~/hooks/stores/useUserStore";
@@ -88,7 +87,7 @@ export const UserEntry = ({
   });
 
   return (
-    <StablePressable
+    <Pressable
       className={cn("p-2 active:bg-secondary/10", className)}
       onPress={() => {
         router.push({
@@ -131,13 +130,12 @@ export const UserEntry = ({
             onPress={() => (isFollowing ? unfollowUser() : followUser())}
             variant={isFollowing ? "outline" : "default"}
             className="flex flex-row gap-2"
-            disabled={isFollowPending || isUnfollowPending}
           >
             {!isFollowing && <Icon as={UserPlus} size={20} />}
             <Text>{isFollowing ? "Following" : "Follow"}</Text>
           </Button>
         )}
       </View>
-    </StablePressable>
+    </Pressable>
   );
 };
