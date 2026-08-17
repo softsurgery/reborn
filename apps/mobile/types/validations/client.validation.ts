@@ -43,8 +43,8 @@ export const updateClientSchema = z.object({
 
           return age > 18 || (age === 18 && isBirthdayPassed);
         },
-        { message: "A user must be at least 18 years old." }
-      )
+        { message: "A user must be at least 18 years old." },
+      ),
     )
     .optional(),
 });
@@ -61,7 +61,7 @@ export const updateProfileSchema = z.object({
       },
       {
         message: "Phone number must be a valid international format.",
-      }
+      },
     ),
   bio: z
     .string()

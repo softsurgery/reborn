@@ -16,16 +16,18 @@ import { Gender } from "~/types";
 
 interface useUpdateProfileFormStructureProps {
   store: UserStore;
+  fallback?: string;
   regions: SelectOption[];
   uploadPicture: ReturnType<typeof useUploadMutation>["uploadFiles"];
-  isUploadPending?: boolean;
+  isProfilePictureUploadPending?: boolean;
 }
 
 export const useUpdateProfileFormStructure = ({
   store,
   regions,
+  fallback,
   uploadPicture,
-  isUploadPending,
+  isProfilePictureUploadPending,
 }: useUpdateProfileFormStructureProps) => {
   // picture
   const pictureField: Field<PictureFieldProps> = {
@@ -35,8 +37,8 @@ export const useUpdateProfileFormStructure = ({
     description: "Upload a profile picture to personalize your account.",
     props: {
       image: store?.picture,
-      alt: "Profile Picture",
-      editable: !isUploadPending,
+      alt: fallback,
+      editable: !isProfilePictureUploadPending,
       onFileChange: (value) => {
         store.set("picture", value);
       },
@@ -220,7 +222,7 @@ export const useUpdateProfileFormStructure = ({
     },
   };
 
-  const updateProfileStructure: FormStructure = {
+  const structure: FormStructure = {
     title: "Update Your Profile",
     description: "Make changes to your profile information below",
     orientation: "horizontal",
@@ -262,5 +264,5 @@ export const useUpdateProfileFormStructure = ({
     ],
   };
 
-  return { updateProfileStructure };
+  return { structure };
 };
