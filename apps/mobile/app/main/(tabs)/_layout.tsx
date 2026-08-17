@@ -11,16 +11,9 @@ import {
 import { Button } from "~/components/ui/button";
 import { useTranslation } from "react-i18next";
 import { useRTL } from "~/hooks/useRTL";
-import { Pressable, View } from "react-native";
 import { useColorPalette } from "@/hooks/useColorPalette";
-import Animated, {
-  interpolate,
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-} from "react-native-reanimated";
-import React from "react";
 import { Icon } from "@/components/ui/icon";
+import { VibratingTabButton } from "@/components/shared/VibratingTabButton";
 
 export default function TabLayout() {
   const { palette } = useColorPalette();
@@ -35,65 +28,6 @@ export default function TabLayout() {
       await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
       onPress();
     };
-  };
-
-  const VibratingTabButton = ({
-    accessibilityState,
-    children,
-    onPress,
-  }: any) => {
-    const focused = accessibilityState?.selected;
-    const scale = useSharedValue(focused ? 1 : 0);
-
-    React.useEffect(() => {
-      scale.value = withSpring(focused ? 1 : 0, {
-        damping: 15,
-        stiffness: 140,
-      });
-    }, [focused]);
-
-    const animatedStyle = useAnimatedStyle(() => ({
-      transform: [
-        {
-          scale: interpolate(scale.value, [0, 1], [1, 1.08]),
-        },
-      ],
-    }));
-
-    const indicatorStyle = useAnimatedStyle(() => ({
-      opacity: scale.value,
-      transform: [
-        {
-          scaleX: withSpring(focused ? 1 : 0.4),
-        },
-      ],
-    }));
-
-    const handlePress = async () => {
-      await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-      onPress?.();
-    };
-
-    return (
-      <Pressable onPress={handlePress} className="mt-2">
-        <Animated.View
-          style={animatedStyle}
-          className="items-center justify-center gap-1"
-        >
-          {children}
-
-          <Animated.View
-            style={indicatorStyle}
-            className="mt-1 h-1 w-8 rounded-full"
-          >
-            <View
-              style={{ backgroundColor: palette.primary }}
-              className="h-full w-full rounded-full"
-            />
-          </Animated.View>
-        </Animated.View>
-      </Pressable>
-    );
   };
 
   const tabsConfig = [
@@ -176,7 +110,12 @@ export default function TabLayout() {
             title: tab.title,
             tabBarButton: tab.customButton
               ? tab.customButton
-              : (props) => <VibratingTabButton {...props} />,
+              : (props) => (
+                  <VibratingTabButton
+                    {...props}
+                    indicatorColor={palette.primary}
+                  />
+                ),
             tabBarIcon: tab.icon
               ? ({ color, focused }) => (
                   <Icon
