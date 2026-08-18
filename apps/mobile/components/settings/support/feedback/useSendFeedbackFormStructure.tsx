@@ -33,7 +33,9 @@ export const useSendFeedbackFormStructure = ({
     description: t(
       "settings.support.screens.send-feedback.forms.descriptions.message",
     ),
-    error: store.errors.message?.[0],
+    error: store.errors.message?.[0]
+      ? t(store.errors.message[0])
+      : undefined,
     props: {
       value: store.createDto.message,
       onChangeText: (value: string) => {
@@ -55,7 +57,9 @@ export const useSendFeedbackFormStructure = ({
     description: t(
       "settings.support.screens.send-feedback.forms.descriptions.category",
     ),
-    error: store.errors.category?.[0],
+    error: store.errors.category?.[0]
+      ? t(store.errors.category[0])
+      : undefined,
     props: {
       value: store.createDto.category,
       onSelect: (value: string) => {
@@ -81,7 +85,9 @@ export const useSendFeedbackFormStructure = ({
     description: t(
       "settings.support.screens.send-feedback.forms.descriptions.rating",
     ),
-    error: store.errors.rating?.[0],
+    error: store.errors.rating?.[0]
+      ? t(store.errors.rating[0])
+      : undefined,
     props: {
       color: hslToHex(palette.primary),
       value: store.createDto.rating,

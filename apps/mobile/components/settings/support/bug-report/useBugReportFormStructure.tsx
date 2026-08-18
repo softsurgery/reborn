@@ -30,7 +30,7 @@ export const useBugReportFormStructure = ({
     description: t(
       "settings.support.screens.report-bug.forms.descriptions.bug-title",
     ),
-    error: store.errors.title?.[0],
+    error: t(store.errors.title?.[0]),
     props: {
       value: store.createDto.title,
       onChangeText: (value: string) => {
@@ -52,7 +52,7 @@ export const useBugReportFormStructure = ({
     description: t(
       "settings.support.screens.report-bug.forms.descriptions.bug-description",
     ),
-    error: store.errors.description?.[0],
+    error: t(store.errors.description?.[0]),
     props: {
       value: store.createDto.description,
       onChangeText: (value: string) => {
@@ -74,7 +74,7 @@ export const useBugReportFormStructure = ({
     description: t(
       "settings.support.screens.report-bug.forms.descriptions.bug-category",
     ),
-    error: store.errors.variant?.[0],
+    error: t(store.errors.variant?.[0]),
     props: {
       value: store.createDto.variant,
       onSelect: (value: string) => {

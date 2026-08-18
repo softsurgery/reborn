@@ -3,29 +3,45 @@ import { z } from "zod";
 export const updateClientSchema = z.object({
   firstName: z
     .string({
-      error: "First name is required.",
+      error: "settings.account.screens.profile.validation.firstNameRequired",
     })
-    .min(3, { message: "First name must be at least 3 characters long." })
-    .max(50, { message: "First name must be at most 50 characters long." })
+    .min(3, {
+      message: "settings.account.screens.profile.validation.firstNameTooShort",
+    })
+    .max(50, {
+      message: "settings.account.screens.profile.validation.firstNameTooLong",
+    })
     .regex(/^[a-zA-Z\s]+$/, {
-      message: "First name must contain only letters and spaces.",
+      message:
+        "settings.account.screens.profile.validation.firstNameLettersOnly",
     }),
   lastName: z
     .string({
-      error: "Last name is required.",
+      error: "settings.account.screens.profile.validation.lastNameRequired",
     })
-    .min(3, { message: "Last name must be at least 3 characters long." })
-    .max(50, { message: "Last name must be at most 50 characters long." })
+    .min(3, {
+      message: "settings.account.screens.profile.validation.lastNameTooShort",
+    })
+    .max(50, {
+      message: "settings.account.screens.profile.validation.lastNameTooLong",
+    })
     .regex(/^[a-zA-Z\s]+$/, {
-      message: "Last name must contain only letters and spaces.",
+      message:
+        "settings.account.screens.profile.validation.lastNameLettersOnly",
     }),
   email: z
     .string({
-      error: "Email is required.",
+      error: "settings.account.screens.profile.validation.emailRequired",
     })
-    .min(3, { message: "Email must be at least 3 characters long." })
-    .max(255, { message: "Email must be at most 255 characters long." })
-    .email({ message: "Email must be a valid email address." }),
+    .min(3, {
+      message: "settings.account.screens.profile.validation.emailRequired",
+    })
+    .max(255, {
+      message: "settings.account.screens.profile.validation.emailRequired",
+    })
+    .email({
+      message: "settings.account.screens.profile.validation.emailInvalid",
+    }),
   dateOfBirth: z
     .preprocess(
       (value) =>
@@ -43,7 +59,9 @@ export const updateClientSchema = z.object({
 
           return age > 18 || (age === 18 && isBirthdayPassed);
         },
-        { message: "A user must be at least 18 years old." },
+        {
+          message: "settings.account.screens.profile.validation.ageMin18",
+        },
       ),
     )
     .optional(),
@@ -60,19 +78,20 @@ export const updateProfileSchema = z.object({
         return phoneRegex.test(value);
       },
       {
-        message: "Phone number must be a valid international format.",
+        message: "settings.account.screens.profile.validation.phoneInvalid",
       },
     ),
   bio: z
     .string()
     .max(255, {
-      message: "Bio must be at most 255 characters long.",
+      message: "settings.account.screens.profile.validation.bioTooLong",
     })
     .optional(),
   regionId: z
     .number({
-      message: "Region is required.",
+      message: "settings.account.screens.profile.validation.regionRequired",
     })
     .optional(),
+  gender: z.string().optional(),
   isPrivate: z.boolean().optional(),
 });

@@ -8,22 +8,30 @@ const dateOrNull = z.preprocess(
 
 const baseEducationSchema = z.object({
   title: z
-    .string()
-    .min(2, { message: "Title must be at least 2 characters long" })
-    .max(100, { message: "Title must not exceed 100 characters" }),
+    .string({
+      error: "education.validation.titleTooShort",
+    })
+    .min(2, { message: "education.validation.titleTooShort" })
+    .max(255, { message: "education.validation.titleTooLong" }),
+
   institution: z
-    .string()
-    .min(2, { message: "Institution name must be at least 2 characters long" })
-    .max(100, { message: "Institution name must not exceed 100 characters" }),
+    .string({
+      error: "education.validation.institutionTooShort",
+    })
+    .min(2, { message: "education.validation.institutionTooShort" })
+    .max(100, { message: "education.validation.institutionTooLong" }),
+
   startDate: dateOrNull
     .refine((date) => date === null || date <= new Date(), {
-      message: "Start date cannot be in the future",
+      message: "education.validation.startDateInFuture",
     })
     .optional(),
+
   endDate: dateOrNull.optional(),
+
   description: z
     .string()
-    .max(500, { message: "Description must not exceed 500 characters" })
+    .max(500, { message: "education.validation.descriptionTooLong" })
     .optional(),
 });
 
@@ -36,7 +44,7 @@ const dateRefinements = (schema: typeof baseEducationSchema) =>
         }
         return true;
       },
-      { message: "End date must be after start date", path: ["endDate"] },
+      { message: "education.validation.endDateBeforeStart", path: ["endDate"] },
     )
     .refine(
       (data) => {
@@ -45,7 +53,7 @@ const dateRefinements = (schema: typeof baseEducationSchema) =>
         }
         return true;
       },
-      { message: "End date cannot be in the future", path: ["endDate"] },
+      { message: "education.validation.endDateInFuture", path: ["endDate"] },
     );
 
 const createEducationSchema = dateRefinements(baseEducationSchema);
