@@ -1,8 +1,8 @@
 import { api } from "@/api";
 import { ApplicationHeader } from "@/components/shared/AppHeader";
 import { FormBuilder } from "@/components/shared/form-builder/FormBuilder";
-import { StableKeyboardAwareScrollView } from "@/components/shared/StableKeyboardAwareScrollView";
-import { StableSafeAreaView } from "@/components/shared/StableSafeAreaView";
+import { StableKeyboardAwareScrollView } from "@/components/shared/stables/StableKeyboardAwareScrollView";
+import { StableSafeAreaView } from "@/components/shared/stables/StableSafeAreaView";
 import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
 import { cn } from "@/lib/utils";

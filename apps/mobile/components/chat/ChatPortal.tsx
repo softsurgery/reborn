@@ -8,7 +8,7 @@ import { Pressable, RefreshControl, View } from "react-native";
 import { cn } from "~/lib/utils";
 import { ResponseConversationDto } from "~/types";
 import { ApplicationHeader } from "../shared/AppHeader";
-import { StableSafeAreaView } from "../shared/StableSafeAreaView";
+import { StableSafeAreaView } from "../shared/stables/StableSafeAreaView";
 import { Text } from "../ui/text";
 import { UserEntry } from "./UserEntry";
 import { Separator } from "../ui/separator";

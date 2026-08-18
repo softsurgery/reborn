@@ -3,7 +3,7 @@ import { router, useLocalSearchParams } from "expo-router";
 import { createMaterialTopTabNavigator } from "expo-router/js-top-tabs";
 import { ChevronLeft } from "lucide-react-native";
 import { ApplicationHeader } from "~/components/shared/AppHeader";
-import { StableSafeAreaView } from "~/components/shared/StableSafeAreaView";
+import { StableSafeAreaView } from "@/components/shared/stables/StableSafeAreaView";
 import { cn } from "~/lib/utils";
 import { FollowingTab } from "./FollowingTab";
 import { FollowersTab } from "./FollowersTab";

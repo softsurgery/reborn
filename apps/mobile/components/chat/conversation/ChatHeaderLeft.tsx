@@ -1,7 +1,7 @@
 import { View } from "react-native";
 import { cn } from "~/lib/utils";
 import { Text } from "../../ui/text";
-import { StablePressable } from "~/components/shared/StablePressable";
+import { StablePressable } from "@/components/shared/stables/StablePressable";
 import { router, useNavigation } from "expo-router";
 import { NavigationProps } from "~/types/app.routes";
 import { ChevronLeft } from "lucide-react-native";

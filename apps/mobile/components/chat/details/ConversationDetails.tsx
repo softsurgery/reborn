@@ -30,7 +30,7 @@ import axios from "~/api/axios";
 import { api } from "~/api";
 import { message as messageApi } from "~/api/chat/message";
 import { ResponseMessageDto } from "~/types";
-import { StableSafeAreaView } from "../../shared/StableSafeAreaView";
+import { StableSafeAreaView } from "../../shared/stables/StableSafeAreaView";
 import { ApplicationHeader } from "../../shared/AppHeader";
 import { useServerImages } from "@/hooks/content/useServerImages";
 import { ScrollView } from "react-native-gesture-handler";

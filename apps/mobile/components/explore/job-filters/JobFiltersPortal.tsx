@@ -6,7 +6,7 @@ import { ChevronLeft } from "lucide-react-native";
 import { router } from "expo-router";
 import { useKeyboardVisible } from "@/hooks/useKeyboardVisible";
 import { useExploreFilterStore } from "@/hooks/stores/userExploreFilterStore";
-import { StableKeyboardAwareScrollView } from "@/components/shared/StableKeyboardAwareScrollView";
+import { StableKeyboardAwareScrollView } from "@/components/shared/stables/StableKeyboardAwareScrollView";
 import { FormBuilder } from "@/components/shared/form-builder/FormBuilder";
 import { useJobCategories } from "@/hooks/content/reference-types/useJobCategories";
 import { useJobTags } from "@/hooks/content/reference-types/useJobTags";
@@ -14,7 +14,7 @@ import { useExploreFilterFormStructure } from "./useExploreFiltersFormStructure"
 import { mapToSelectOptions } from "@/components/shared/form-builder/utils/mapToSelectOptions";
 import { useSkills } from "@/hooks/content/reference-types/useSkills";
 import { Button } from "@/components/ui/button";
-import { StableSafeAreaView } from "@/components/shared/StableSafeAreaView";
+import { StableSafeAreaView } from "@/components/shared/stables/StableSafeAreaView";
 import { ApplicationHeader } from "@/components/shared/AppHeader";
 
 interface JobFiltersProps {

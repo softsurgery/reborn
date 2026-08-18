@@ -129,8 +129,8 @@ const findWorkflowById = async (
   return response.data;
 };
 
-const save = async (createJobDto: CreateJobDto): Promise<CreateJobDto> => {
-  const response = await axios.post("/job", createJobDto);
+const save = async (createJobDto: CreateJobDto): Promise<ResponseJobDto> => {
+  const response = await axios.post<ResponseJobDto>("/job", createJobDto);
   return response.data;
 };
 

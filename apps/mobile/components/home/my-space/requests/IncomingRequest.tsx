@@ -2,7 +2,7 @@ import React from "react";
 import { format } from "date-fns";
 import { router } from "expo-router";
 import { View } from "react-native";
-import { StablePressable } from "~/components/shared/StablePressable";
+import { StablePressable } from "@/components/shared/stables/StablePressable";
 import { Button } from "~/components/ui/button";
 import { Text } from "~/components/ui/text";
 import {

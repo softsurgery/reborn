@@ -2,7 +2,7 @@ import React from "react";
 import { View } from "react-native";
 import { Button } from "../ui/button";
 import { Text } from "../ui/text";
-import { StableKeyboardAwareScrollView } from "./StableKeyboardAwareScrollView";
+import { StableKeyboardAwareScrollView } from "./stables/StableKeyboardAwareScrollView";
 import { useKeyboardVisible } from "~/hooks/useKeyboardVisible";
 import { cn } from "~/lib/utils";
 import { Icon } from "../ui/icon";

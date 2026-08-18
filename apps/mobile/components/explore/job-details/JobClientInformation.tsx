@@ -3,7 +3,7 @@ import { router } from "expo-router";
 import { ChevronRight, MapPin, Star } from "lucide-react-native";
 import { JSX } from "react";
 import { View } from "react-native";
-import { StablePressable } from "~/components/shared/StablePressable";
+import { StablePressable } from "@/components/shared/stables/StablePressable";
 import { Text } from "~/components/ui/text";
 import { identifyUser } from "~/lib/user.utils";
 import { cn } from "~/lib/utils";

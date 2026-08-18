@@ -18,7 +18,7 @@ import MaskedView from "@react-native-masked-view/masked-view";
 import { LinearGradient } from "expo-linear-gradient";
 import { cn } from "~/lib/utils";
 import { hslToHex } from "~/lib/theme";
-import { SelectOption } from "./form-builder/types";
+import { SelectOption } from "../form-builder/types";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import { useColorPalette } from "@/hooks/useColorPalette";
 

@@ -1,8 +1,8 @@
 import { cn } from "@/lib/utils";
-import { StableSafeAreaView } from "@/components/shared/StableSafeAreaView";
+import { StableSafeAreaView } from "@/components/shared/stables/StableSafeAreaView";
 import { ApplicationHeader } from "@/components/shared/AppHeader";
 import { useTranslation } from "react-i18next";
-import { StableKeyboardAwareScrollView } from "@/components/shared/StableKeyboardAwareScrollView";
+import { StableKeyboardAwareScrollView } from "@/components/shared/stables/StableKeyboardAwareScrollView";
 
 import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
 interface VerifyEmailPortalProps {

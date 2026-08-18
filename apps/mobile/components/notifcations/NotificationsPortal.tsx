@@ -9,7 +9,7 @@ import { api } from "~/api";
 import { cn } from "~/lib/utils";
 import { ResponseNotificationDto } from "~/types/notifications";
 import { ApplicationHeader } from "../shared/AppHeader";
-import { StableSafeAreaView } from "../shared/StableSafeAreaView";
+import { StableSafeAreaView } from "../shared/stables/StableSafeAreaView";
 import { Text } from "../ui/text";
 import { NotificationEntry } from "./NotificationEntry";
 import { NotificationEntrySkeleton } from "./NotificationEntrySkeleton";

@@ -1,6 +1,6 @@
 import { ApplicationHeader } from "@/components/shared/AppHeader";
 import { Loader } from "@/components/shared/lotties/Loader";
-import { StableSafeAreaView } from "@/components/shared/StableSafeAreaView";
+import { StableSafeAreaView } from "@/components/shared/stables/StableSafeAreaView";
 import { useJob } from "@/hooks/content/job/useJob";
 import { cn } from "@/lib/utils";
 import { createMaterialTopTabNavigator } from "expo-router/js-top-tabs";

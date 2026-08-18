@@ -3,7 +3,7 @@ import { Image, View } from "react-native";
 import { cn } from "~/lib/utils";
 import { ResponseNotificationDto } from "~/types/notifications";
 import { HTMLText } from "../shared/HTMLText";
-import { StablePressable } from "../shared/StablePressable";
+import { StablePressable } from "../shared/stables/StablePressable";
 import { Text } from "../ui/text";
 import { timeAgo } from "~/lib/dates.utils";
 

@@ -16,7 +16,7 @@ import { Badge } from "~/components/ui/badge";
 import { Separator } from "~/components/ui/separator";
 import { cn } from "~/lib/utils";
 import { Text } from "../ui/text";
-import { StableSafeAreaView } from "../shared/StableSafeAreaView";
+import { StableSafeAreaView } from "../shared/stables/StableSafeAreaView";
 import { ApplicationHeader } from "../shared/AppHeader";
 import { router } from "expo-router";
 import { useNotificationContext } from "~/contexts/NotificationContext";

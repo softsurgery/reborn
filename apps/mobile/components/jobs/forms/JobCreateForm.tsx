@@ -13,7 +13,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CreateJobDto, ServerErrorResponse } from "~/types";
 import { cn } from "~/lib/utils";
 import { router } from "expo-router";
-import { StableSafeAreaView } from "~/components/shared/StableSafeAreaView";
+import { StableSafeAreaView } from "@/components/shared/stables/StableSafeAreaView";
 import { ApplicationHeader } from "~/components/shared/AppHeader";
 import { ChevronLeft } from "lucide-react-native";
 import { Loader } from "@/components/shared/lotties/Loader";

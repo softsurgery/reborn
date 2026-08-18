@@ -3,7 +3,11 @@ import { Text } from "../../../ui/text";
 import { cn } from "~/lib/utils";
 import { Pressable } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import { Avatar, AvatarFallback, AvatarImage } from "../../StableAvatar";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "../../stables/StableAvatar";
 
 interface PictureUploaderProps {
   className?: string;

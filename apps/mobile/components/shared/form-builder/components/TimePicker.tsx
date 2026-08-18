@@ -16,8 +16,8 @@ import Animated, {
   FadeOut,
   LinearTransition,
 } from "react-native-reanimated";
-import { StablePressable } from "../../StablePressable";
-import { StableScrollable } from "../../StableScrollable";
+import { StablePressable } from "../../stables/StablePressable";
+import { StableScrollable } from "../../stables/StableScrollable";
 import { Separator } from "@/components/ui/separator";
 import { triggerHaptic } from "@/lib/haptics";
 
