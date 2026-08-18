@@ -30,13 +30,11 @@ export const CreateExperience = ({ className }: CreateExperienceProps) => {
   const userStore = useUserStore();
   const queryClient = useQueryClient();
 
-  const { structure } = useCreateExperienceFormStructure({
-    store: userStore,
-  });
 
-  const { mutate: createExperience } = useMutation({
-    mutationFn: (data: { id: string; experience: CreateExperienceDto }) =>
-      api.experience.create(data.id, data.experience),
+
+  const { mutate: createExperience, isPending } = useMutation({
+    mutationFn: (experience: CreateExperienceDto) =>
+      api.experience.createCurrent(experience),
     onSuccess: () => {
       toast.success(t("experience.toasts.created"), {
         description: t("experience.toasts.createdDescription"),
@@ -54,18 +52,18 @@ export const CreateExperience = ({ className }: CreateExperienceProps) => {
     },
   });
 
+  const { structure } = useCreateExperienceFormStructure({
+    store: userStore,
+    isPending,
+  });
+
   const handleCreateSubmit = () => {
     const data = userStore.createExperienceDto;
     const result = createExperienceSchema.safeParse(data);
     if (!result.success) {
       userStore.set("experienceErrors", result.error.flatten().fieldErrors);
     } else {
-      if (userStore.response?.id) {
-        createExperience({
-          id: userStore.response?.id!,
-          experience: data,
-        });
-      }
+      createExperience(data);
     }
   };
 
@@ -103,7 +101,7 @@ export const CreateExperience = ({ className }: CreateExperienceProps) => {
       {/* Sticky bottom button */}
       {!isKeyboardVisible && (
         <BottomButtonWrapper>
-          <Button size="lg" className="rounded-xl" onPress={handleCreateSubmit}>
+          <Button size="lg" className="rounded-xl" onPress={handleCreateSubmit} disabled={isPending}>
             <Text className="text-md font-bold">
               {t("experience.form.actions.create")}
             </Text>

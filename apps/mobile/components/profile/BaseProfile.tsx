@@ -406,6 +406,7 @@ export const InspectBaseProfile = ({
                   refreshing={refreshing}
                   renderSection={RenderSection}
                   profileSections={profileSections}
+                  onScroll={handleScroll}
                 />
               )}
             </Tab.Screen>

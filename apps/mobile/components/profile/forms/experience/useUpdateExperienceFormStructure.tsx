@@ -14,10 +14,12 @@ import { useTranslation } from "react-i18next";
 
 interface UseUpdateExperienceFormStructureProps {
   store: UserStore;
+  isPending?: boolean;
 }
 
 export const useUpdateExperienceFormStructure = ({
   store,
+  isPending,
 }: UseUpdateExperienceFormStructureProps) => {
   const { t } = useTranslation("menu");
   const experienceTitle: Field<TextFieldProps> = {
@@ -29,6 +31,7 @@ export const useUpdateExperienceFormStructure = ({
     description: t("experience.form.descriptions.title"),
     error: t(store.experienceErrors?.title?.[0]),
     props: {
+      editable: !isPending,
       value: store.updateExperienceDto.title,
       onChangeText: (value) => {
         store.setNested("updateExperienceDto.title", value);
@@ -46,6 +49,7 @@ export const useUpdateExperienceFormStructure = ({
     description: t("experience.form.descriptions.company"),
     error: t(store.experienceErrors?.company?.[0]),
     props: {
+      editable: !isPending,
       value: store.updateExperienceDto?.company,
       onChangeText: (value) => {
         store.setNested("updateExperienceDto.company", value);
@@ -63,6 +67,7 @@ export const useUpdateExperienceFormStructure = ({
     description: t("experience.form.descriptions.description"),
     error: t(store.experienceErrors?.description?.[0]),
     props: {
+      editable: !isPending,
       value: store.updateExperienceDto?.description,
       onChangeText: (value) => {
         store.setNested("updateExperienceDto.description", value);
@@ -82,6 +87,7 @@ export const useUpdateExperienceFormStructure = ({
     error: t(store.experienceErrors?.location?.[0]),
     hidden: store.updateExperienceDto?.locationType === LocationTypes.REMOTE,
     props: {
+      editable: !isPending,
       value: store.updateExperienceDto?.location,
       onChangeText: (value) => {
         store.setNested("updateExperienceDto.location", value);
@@ -98,6 +104,7 @@ export const useUpdateExperienceFormStructure = ({
     description: t("experience.form.descriptions.workType"),
     error: t(store.experienceErrors?.workType?.[0]),
     props: {
+      editable: !isPending,
       value: store.updateExperienceDto?.workType,
       onSelect: (value) => {
         store.setNested("updateExperienceDto.workType", value);
@@ -118,6 +125,7 @@ export const useUpdateExperienceFormStructure = ({
     description: t("experience.form.descriptions.locationTypeUpdate"),
     error: t(store.experienceErrors?.locationType?.[0]),
     props: {
+      editable: !isPending,
       value: store.updateExperienceDto?.locationType,
       onSelect: (value) => {
         store.setNested("updateExperienceDto.locationType", value);
@@ -138,6 +146,7 @@ export const useUpdateExperienceFormStructure = ({
     description: t("experience.form.descriptions.startDate"),
     error: t(store.experienceErrors?.startDate?.[0]),
     props: {
+      editable: !isPending,
       value: store.updateExperienceDto?.startDate
         ? new Date(store.updateExperienceDto.startDate)
         : undefined,
@@ -158,6 +167,7 @@ export const useUpdateExperienceFormStructure = ({
     required: false,
     description: t("experience.form.descriptions.stillWorkHere"),
     props: {
+      editable: !isPending,
       checked: store.present,
       onCheckedChange: (value) => {
         store.set("present", value);
@@ -176,6 +186,7 @@ export const useUpdateExperienceFormStructure = ({
     error: t(store.experienceErrors?.endDate?.[0]),
     hidden: store.present,
     props: {
+      editable: !isPending,
       value: store.updateExperienceDto?.endDate
         ? new Date(store.updateExperienceDto.endDate)
         : undefined,

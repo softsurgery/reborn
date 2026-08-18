@@ -10,10 +10,12 @@ import { useTranslation } from "react-i18next";
 
 interface UseCreateEducationFormStructureProps {
   store: UserStore;
+  isPending?: boolean;
 }
 
 export const useCreateEducationFormStructure = ({
   store,
+  isPending,
 }: UseCreateEducationFormStructureProps) => {
   const { t } = useTranslation("menu");
   const educationTitle: Field<TextFieldProps> = {
@@ -25,6 +27,7 @@ export const useCreateEducationFormStructure = ({
     description: t("education.form.descriptions.title"),
     error: t(store.educationErrors?.title?.[0]),
     props: {
+      editable: !isPending,
       value: store.createEducationDto?.title,
       onChangeText: (value) => {
         store.setNested("createEducationDto.title", value);
@@ -42,6 +45,7 @@ export const useCreateEducationFormStructure = ({
     description: t("education.form.descriptions.institution"),
     error: t(store.educationErrors?.institution?.[0]),
     props: {
+      editable: !isPending,
       value: store.createEducationDto?.institution,
       onChangeText: (value) => {
         store.setNested("createEducationDto.institution", value);
@@ -59,6 +63,7 @@ export const useCreateEducationFormStructure = ({
     description: t("education.form.descriptions.description"),
     error: t(store.educationErrors?.description?.[0]),
     props: {
+      editable: !isPending,
       value: store.createEducationDto?.description,
       onChangeText: (value) => {
         store.setNested("createEducationDto.description", value);
@@ -76,6 +81,7 @@ export const useCreateEducationFormStructure = ({
   //   description: "The date you started this education program.",
   //   error: store.educationErrors?.startDate?.[0],
   //   props: {
+      editable: !isPending,
   //     value: store.createEducationDto?.startDate
   //       ? new Date(store.createEducationDto.startDate)
   //       : undefined,
@@ -98,6 +104,7 @@ export const useCreateEducationFormStructure = ({
   //     "The date you completed or expect to complete this program. Leave blank if currently enrolled.",
   //   error: store.educationErrors?.endDate?.[0],
   //   props: {
+      editable: !isPending,
   //     value: store.createEducationDto?.endDate
   //       ? new Date(store.createEducationDto.endDate)
   //       : undefined,

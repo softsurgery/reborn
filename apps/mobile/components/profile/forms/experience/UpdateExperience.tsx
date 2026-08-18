@@ -31,11 +31,9 @@ export const UpdateExperience = ({ className }: UpdateExperienceProps) => {
   const queryClient = useQueryClient();
   const isKeyboardVisible = useKeyboardVisible();
 
-  const { structure } = useUpdateExperienceFormStructure({
-    store: userStore,
-  });
 
-  const { mutate: updateExperience } = useMutation({
+
+  const { mutate: updateExperience, isPending } = useMutation({
     mutationFn: (data: { id: number; experience: UpdateExperienceDto }) =>
       api.experience.update(data.id, data.experience),
     onSuccess: () => {
@@ -54,6 +52,11 @@ export const UpdateExperience = ({ className }: UpdateExperienceProps) => {
         {},
       );
     },
+  });
+
+  const { structure } = useUpdateExperienceFormStructure({
+    store: userStore,
+    isPending,
   });
 
   const handleUpdateSubmit = () => {
@@ -102,7 +105,7 @@ export const UpdateExperience = ({ className }: UpdateExperienceProps) => {
 
       {!isKeyboardVisible && (
         <BottomButtonWrapper>
-          <Button size="lg" className="rounded-xl" onPress={handleUpdateSubmit}>
+          <Button size="lg" className="rounded-xl" onPress={handleUpdateSubmit} disabled={isPending}>
             <Text className="text-md font-bold">
               {tMenu("experience.form.actions.update")}
             </Text>
