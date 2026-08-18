@@ -24,6 +24,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { timeAgo } from "@/lib/dates.utils";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
+import { useColorPalette } from "@/hooks/useColorPalette";
 
 interface JobManagementCardProps {
   className?: string;
@@ -65,6 +66,7 @@ export const JobManagementCard = ({
   className,
   job,
 }: JobManagementCardProps) => {
+  const { palette } = useColorPalette();
   const queryClient = useQueryClient();
   const orderedUploads = React.useMemo(
     () => job.uploads?.sort((a, b) => a.order - b.order),
@@ -222,7 +224,7 @@ export const JobManagementCard = ({
           className="flex-1 rounded-xl h-9 flex-row items-center justify-center gap-1.5"
           onPress={navigateToManage}
         >
-          <Icon as={Settings2} size={15} className="text-primary-foreground" />
+          <Icon as={Settings2} size={15} color={palette.primaryForeground} />
           <Text className="text-xs font-semibold text-primary-foreground">
             Manage
           </Text>

@@ -1,33 +1,34 @@
 import React from "react";
+import Animated from "react-native-reanimated";
 import { LegendList } from "@legendapp/list";
+
 import {
   RefreshControl,
   View,
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import {
-  Search,
-  Plus,
-  Briefcase,
-  X,
-  Sparkles,
-  ChevronLeft,
-} from "lucide-react-native";
+import { Search, Plus, Briefcase } from "lucide-react-native";
 import { router } from "expo-router";
 import { ResponseJobDto, JobStatus } from "~/types";
 import { cn } from "~/lib/utils";
 import { ApplicationHeader } from "~/components/shared/AppHeader";
 import { StableSafeAreaView } from "@/components/shared/stables/StableSafeAreaView";
+import { MarkedInput } from "@/components/shared/MarkedInput";
 import { useInfiniteJobs } from "@/hooks/content/job/useInfiniteJobs";
 import { useCurrentUser } from "@/hooks/content/user/useCurrentUser";
-import { NAV_THEME } from "@/lib/theme";
 import { Loader } from "@/components/shared/lotties/Loader";
 import { JobManagementCard } from "@/components/jobs/job-management/JobManagmentCard";
 import { Icon } from "@/components/ui/icon";
-import { Input } from "@/components/ui/input";
 import { Text } from "@/components/ui/text";
 import { Button } from "@/components/ui/button";
+import { useColorPalette } from "@/hooks/useColorPalette";
+import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
+import { useStickyElement } from "@/hooks/useStickyElement";
+
+const AnimatedLegendList = Animated.createAnimatedComponent(
+  LegendList,
+) as typeof LegendList;
 
 interface UserJobsListProps {
   className?: string;
@@ -51,9 +52,14 @@ export const UserJobsList = ({
   className,
   searching = false,
 }: UserJobsListProps) => {
+  const { palette } = useColorPalette();
   const { currentUser } = useCurrentUser();
   const [search, setSearch] = React.useState("");
   const [selectedFilter, setSelectedFilter] = React.useState("all");
+
+  const [bannerHeight, setBannerHeight] = React.useState(100);
+  const [searchBarHeight, setSearchBarHeight] = React.useState(110);
+  const { handleScroll, stickyHeaderStyle } = useStickyElement(bannerHeight);
 
   const filterExpression = React.useMemo(() => {
     if (!currentUser?.id) return "";
@@ -93,88 +99,41 @@ export const UserJobsList = ({
   };
 
   const renderHeader = () => (
-    <View className="flex flex-col gap-4 pb-4 pt-2">
-      {/* Quick Action Banner */}
-      <TouchableOpacity
-        activeOpacity={0.8}
-        onPress={navigateToCreateJob}
-        className="flex flex-row items-center justify-between bg-card border border-border/80 rounded-2xl p-4 shadow-xs"
+    <View>
+      <View
+        className="flex flex-col pt-4"
+        onLayout={(e) => setBannerHeight(e.nativeEvent.layout.height)}
       >
-        <View className="flex-row items-center gap-3 flex-1">
-          <View className="w-10 h-10 rounded-xl bg-primary/10 items-center justify-center">
-            <Icon as={Sparkles} size={20} className="text-primary" />
-          </View>
-          <View className="flex-1">
-            <Text className="text-base font-semibold text-foreground">
-              Post a New Job
-            </Text>
-            <Text className="text-xs text-muted-foreground">
-              Create a listing to hire talented workers
-            </Text>
-          </View>
-        </View>
-        <View className="w-8 h-8 rounded-full bg-primary items-center justify-center">
-          <Icon as={Plus} size={18} className="text-primary-foreground" />
-        </View>
-      </TouchableOpacity>
-
-      {/* Search Input */}
-      <View className="relative">
-        <Icon
-          as={Search}
-          size={18}
-          className="absolute left-3.5 top-3.5 z-10 text-muted-foreground"
-        />
-        <Input
-          value={search}
-          onChangeText={setSearch}
-          placeholder="Search jobs by title or keyword..."
-          className="pl-10 pr-10 h-11 rounded-2xl bg-card border-border text-foreground"
-        />
-        {search.length > 0 && (
-          <TouchableOpacity
-            onPress={() => setSearch("")}
-            className="absolute right-3 top-3 z-10 p-1"
-          >
-            <Icon as={X} size={16} className="text-muted-foreground" />
-          </TouchableOpacity>
-        )}
-      </View>
-
-      {/* Filter Tabs */}
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{ gap: 8 }}
-      >
-        {FILTER_OPTIONS.map((filter) => {
-          const isActive = selectedFilter === filter.value;
-          return (
-            <TouchableOpacity
-              key={filter.value}
-              activeOpacity={0.7}
-              onPress={() => setSelectedFilter(filter.value)}
-              className={cn(
-                "px-4 py-2 rounded-full border flex-row items-center gap-1.5",
-                isActive
-                  ? "bg-primary border-primary shadow-xs"
-                  : "bg-card border-border",
-              )}
-            >
-              <Text
-                className={cn(
-                  "text-xs font-semibold",
-                  isActive
-                    ? "text-primary-foreground"
-                    : "text-muted-foreground",
-                )}
-              >
-                {filter.label}
+        {/* Quick Action Banner */}
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={navigateToCreateJob}
+          className="flex flex-row items-center justify-between bg-card border border-border/80 rounded-2xl p-4 shadow-xs"
+        >
+          <View className="flex-row items-center gap-3 flex-1">
+            <View className="w-10 h-10 rounded-xl bg-background items-center justify-center">
+              <Icon
+                as={Briefcase}
+                size={20}
+                color={palette.primaryForeground}
+              />
+            </View>
+            <View className="flex-1">
+              <Text className="text-base font-semibold text-foreground">
+                Post a New Job
               </Text>
-            </TouchableOpacity>
-          );
-        })}
-      </ScrollView>
+              <Text className="text-xs text-muted-foreground">
+                Create a listing to hire talented workers
+              </Text>
+            </View>
+          </View>
+          <View className="w-8 h-8 rounded-full bg-primary items-center justify-center">
+            <Icon as={Plus} size={18} color={palette.primaryForeground} />
+          </View>
+        </TouchableOpacity>
+      </View>
+      {/* Spacer to prevent absolute search bar from covering list items initially */}
+      <View style={{ height: searchBarHeight }} />
     </View>
   );
 
@@ -188,16 +147,71 @@ export const UserJobsList = ({
         shortcuts={[
           {
             key: "back",
-            icon: ChevronLeft,
-            onPress: () => router.back(),
+            render: <AppHeaderBack />,
           },
         ]}
       />
-      <View className="flex-1 bg-background px-2">
-        <LegendList
+      <View className="flex-1 bg-background px-3 relative">
+        <Animated.View
+          className="absolute left-0 right-0 z-20 bg-background/90 px-3 flex flex-col gap-4 py-4"
+          style={stickyHeaderStyle}
+          onLayout={(e) => setSearchBarHeight(e.nativeEvent.layout.height)}
+        >
+          {/* Search Input */}
+          <View className="relative justify-center">
+            <MarkedInput
+              icon={Search}
+              value={search}
+              onChangeText={setSearch}
+              placeholder="Search jobs by title or keyword..."
+              enableClear
+            />
+          </View>
+
+          {/* Filter Tabs */}
+          <View>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={{ gap: 8 }}
+            >
+              {FILTER_OPTIONS.map((filter) => {
+                const isActive = selectedFilter === filter.value;
+                return (
+                  <TouchableOpacity
+                    key={filter.value}
+                    activeOpacity={0.7}
+                    onPress={() => setSelectedFilter(filter.value)}
+                    className={cn(
+                      "px-4 py-2 rounded-full border flex-row items-center gap-1.5",
+                      isActive
+                        ? "bg-primary border-primary shadow-xs"
+                        : "bg-card border-border",
+                    )}
+                  >
+                    <Text
+                      className={cn(
+                        "text-xs font-semibold",
+                        isActive
+                          ? "text-primary-foreground"
+                          : "text-muted-foreground",
+                      )}
+                    >
+                      {filter.label}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </ScrollView>
+          </View>
+        </Animated.View>
+
+        <AnimatedLegendList
           className="flex-1"
           style={{ flex: 1 }}
           data={isPending ? [] : jobs}
+          onScroll={handleScroll}
+          scrollIndicatorInsets={{ top: searchBarHeight }}
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
           showsVerticalScrollIndicator={false}
@@ -205,12 +219,7 @@ export const UserJobsList = ({
           maintainVisibleContentPosition
           ListHeaderComponent={renderHeader}
           refreshControl={
-            <RefreshControl
-              refreshing={isRefetching}
-              onRefresh={refetch}
-              tintColor={NAV_THEME.light.colors.primary}
-              colors={[NAV_THEME.light.colors.primary]}
-            />
+            <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
           }
           onEndReached={() => {
             if (hasNextPage && !isFetchingNextPage) {
