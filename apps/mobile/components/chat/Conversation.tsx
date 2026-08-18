@@ -16,7 +16,7 @@ import { useServerImages } from "@/hooks/content/useServerImages";
 import { Text } from "~/components/ui/text";
 import { ImageBackground } from "expo-image";
 import { useColorScheme } from "nativewind";
-import { Loader } from "../shared/Loader";
+import { Loader } from "../shared/lotties/Loader";
 import { useConversationFeatures } from "@/hooks/content/chat/useConversationFeatures";
 import { useCurrentUser } from "@/hooks/content/user/useCurrentUser";
 import { identifyUser, identifyUserAvatar } from "@/lib/user.utils";

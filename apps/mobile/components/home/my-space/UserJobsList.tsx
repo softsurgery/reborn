@@ -22,7 +22,7 @@ import { StableSafeAreaView } from "~/components/shared/StableSafeAreaView";
 import { useInfiniteJobs } from "@/hooks/content/job/useInfiniteJobs";
 import { useCurrentUser } from "@/hooks/content/user/useCurrentUser";
 import { NAV_THEME } from "@/lib/theme";
-import { Loader } from "@/components/shared/Loader";
+import { Loader } from "@/components/shared/lotties/Loader";
 import { JobManagementCard } from "@/components/jobs/job-management/JobManagmentCard";
 import { Icon } from "@/components/ui/icon";
 import { Input } from "@/components/ui/input";

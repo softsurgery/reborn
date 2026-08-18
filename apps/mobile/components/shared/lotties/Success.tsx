@@ -40,7 +40,6 @@ export const Success = ({
       <Animated.View style={animatedStyle}>
         <LottieView
           autoPlay
-          loop
           style={{
             width: size === "small" ? 100 : size === "large" ? 200 : size,
             height: size === "small" ? 100 : size === "large" ? 200 : size,

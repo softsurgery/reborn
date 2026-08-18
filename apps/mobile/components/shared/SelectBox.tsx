@@ -9,7 +9,7 @@ import { Separator } from "~/components/ui/separator";
 import { cn } from "~/lib/utils";
 import { X, Search, ChevronRight } from "lucide-react-native";
 import * as Haptics from "expo-haptics";
-import { Loader } from "./Loader";
+import { Loader } from "./lotties/Loader";
 import { StableKeyboardAwareScrollView } from "./StableKeyboardAwareScrollView";
 
 export interface SelectOption {

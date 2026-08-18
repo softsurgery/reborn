@@ -16,7 +16,7 @@ import { router } from "expo-router";
 import { StableSafeAreaView } from "~/components/shared/StableSafeAreaView";
 import { ApplicationHeader } from "~/components/shared/AppHeader";
 import { ChevronLeft } from "lucide-react-native";
-import { Loader } from "@/components/shared/Loader";
+import { Loader } from "@/components/shared/lotties/Loader";
 import { useLiveGeolocation } from "@/hooks/useLiveGeolocation";
 import { toast } from "sonner-native";
 import {
@@ -208,12 +208,7 @@ export const JobUpdateForm = ({ className, id }: JobUpdateFormProps) => {
               {
                 title: "Define the job",
                 description: "Start by providing the basic details of the job.",
-                component: (
-                  <FormBuilder
-                    structure={jobCreateFormStructure}
-                    className="py-2"
-                  />
-                ),
+                component: <FormBuilder structure={jobCreateFormStructure} />,
                 validation: () => {
                   const result = defineJobValidationSchemas.safeParse(
                     jobStore.updateDto,
@@ -232,12 +227,7 @@ export const JobUpdateForm = ({ className, id }: JobUpdateFormProps) => {
                 title: "Add Details",
                 description:
                   "Enrich the job listing with more specific information.",
-                component: (
-                  <FormBuilder
-                    structure={jobDetailsFormStructure}
-                    className="py-2"
-                  />
-                ),
+                component: <FormBuilder structure={jobDetailsFormStructure} />,
                 validation: () => {
                   const result = detailedJobValidationSchemas.safeParse(
                     jobStore.updateDto,
@@ -255,12 +245,7 @@ export const JobUpdateForm = ({ className, id }: JobUpdateFormProps) => {
               {
                 title: "Add Images",
                 description: "Upload images related to the job.",
-                component: (
-                  <FormBuilder
-                    structure={jobImagePickerStructure}
-                    className="py-2"
-                  />
-                ),
+                component: <FormBuilder structure={jobImagePickerStructure} />,
                 validation: true,
               },
             ]}
