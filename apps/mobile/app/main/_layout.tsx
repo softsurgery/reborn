@@ -205,7 +205,7 @@ export default function MainLayout() {
         }}
       />
       <Stack.Screen
-        name="my-space/saved"
+        name="my-space/quick-actions/saved"
         options={{
           title: "saved",
           headerShown: false,
@@ -213,9 +213,17 @@ export default function MainLayout() {
         }}
       />
       <Stack.Screen
-        name="my-space/jobs"
+        name="my-space/quick-actions/jobs"
         options={{
           title: "My Jobs",
+          headerShown: false,
+          animation: "slide_from_right",
+        }}
+      />
+      <Stack.Screen
+        name="my-space/quick-actions/viewed"
+        options={{
+          title: "Viewed",
           headerShown: false,
           animation: "slide_from_right",
         }}

@@ -112,11 +112,7 @@ export const UserJobsList = ({
         >
           <View className="flex-row items-center gap-3 flex-1">
             <View className="w-10 h-10 rounded-xl bg-background items-center justify-center">
-              <Icon
-                as={Briefcase}
-                size={20}
-                color={palette.primaryForeground}
-              />
+              <Icon as={Briefcase} size={20} color={palette.foreground} />
             </View>
             <View className="flex-1">
               <Text className="text-base font-semibold text-foreground">
