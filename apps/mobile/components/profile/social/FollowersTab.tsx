@@ -3,12 +3,14 @@ import { Loader } from "@/components/shared/lotties/Loader";
 import { Text } from "@/components/ui/text";
 import { useFollowSystem } from "@/hooks/content/useFollowSystem";
 import { ScrollView, View } from "react-native";
+import { useTranslation } from "react-i18next";
 
 interface FollowersTabProps {
   profileId: string;
 }
 
 export const FollowersTab = ({ profileId }: FollowersTabProps) => {
+  const { t } = useTranslation("menu");
   const { followers, isFollowersPending } = useFollowSystem({
     id: profileId,
     use: ["followers"],
@@ -26,7 +28,7 @@ export const FollowersTab = ({ profileId }: FollowersTabProps) => {
     return (
       <View className="flex-1 items-center justify-center px-6">
         <Text variant="muted" className="text-center">
-          No followers yet.
+          {t("menu.social.noFollowers")}
         </Text>
       </View>
     );

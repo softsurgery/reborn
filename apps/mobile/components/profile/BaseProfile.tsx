@@ -82,7 +82,7 @@ export const InspectBaseProfile = ({
       }),
     };
   });
-  const { t } = useTranslation("common");
+  const { t } = useTranslation("menu");
 
   const queryClient = useQueryClient();
   const userStore = useUserStore();
@@ -102,13 +102,13 @@ export const InspectBaseProfile = ({
       onMutate: () => setLoading(true),
       onSettled: () => setLoading(false),
       onSuccess: () => {
-        toast.success("Email sent successfully", {
-          description: "Check your email for verification link.",
+        toast.success(t("menu.toasts.emailSent"), {
+          description: t("menu.toasts.emailSentDescription"),
         });
       },
       onError: (error: ServerErrorResponse) => {
         toast.error(
-          error.response?.data?.message || "Failed to update cover",
+          error.response?.data?.message || t("menu.toasts.emailError"),
           {},
         );
       },
@@ -289,7 +289,7 @@ export const InspectBaseProfile = ({
                         !user?.emailVerified &&
                         currentUser?.id === id && (
                           <Text className="text-xs text-yellow-600 font-bold">
-                            (Unverified Email)
+                            ({t("menu.unverifiedEmail")})
                           </Text>
                         )}
                     </View>
@@ -326,7 +326,11 @@ export const InspectBaseProfile = ({
                 className="flex flex-row flex-1 gap-2"
               >
                 {!isFollowing && <Icon as={UserPlus} size={20} />}
-                <Text>{isFollowing ? "Following" : "Follow"}</Text>
+                <Text>
+                  {isFollowing
+                    ? t("menu.actions.following")
+                    : t("menu.actions.follow")}
+                </Text>
               </Button>
 
               <Button
@@ -335,7 +339,7 @@ export const InspectBaseProfile = ({
                 variant="outline"
               >
                 <Icon as={Mail} size={20} />
-                <Text>Send Message</Text>
+                <Text>{t("menu.actions.sendMessage")}</Text>
               </Button>
             </View>
           ) : null}
@@ -366,7 +370,7 @@ export const InspectBaseProfile = ({
             <Tab.Screen
               name="about"
               options={{
-                tabBarLabel: "About",
+                tabBarLabel: t("menu.tabs.about.title"),
               }}
             >
               {() => (
@@ -382,7 +386,7 @@ export const InspectBaseProfile = ({
             <Tab.Screen
               name="career"
               options={{
-                tabBarLabel: "Career",
+                tabBarLabel: t("menu.tabs.career.title"),
               }}
             >
               {() => (
@@ -397,7 +401,7 @@ export const InspectBaseProfile = ({
             <Tab.Screen
               name="gallery"
               options={{
-                tabBarLabel: "Gallery",
+                tabBarLabel: t("menu.tabs.gallery.title"),
               }}
             >
               {() => (

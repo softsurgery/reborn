@@ -13,11 +13,12 @@ import {
   Tag,
 } from "lucide-react-native";
 import { Pressable, View } from "react-native";
+import { useTranslation } from "react-i18next";
 
 const SECTION_ICONS: Record<string, LucideIcon> = {
   experience: Briefcase,
   education: GraduationCap,
-  industries: Tag,
+  skills: Tag,
 };
 
 export interface ProfileSection<T = unknown> {
@@ -30,11 +31,25 @@ export interface ProfileSection<T = unknown> {
 }
 
 export const RenderSection = (section: ProfileSection) => {
+  const { t } = useTranslation("menu");
   const { palette } = useColorPalette();
   const primary = hslToHex(palette.primary);
-  const isBadge = section.key === "industries";
+  const isBadge = section.key === "skills";
   const count = section.data?.length ?? 0;
   const SectionIcon = SECTION_ICONS[section.key] ?? Briefcase;
+
+  const getEmptyMessage = () => {
+    switch (section.key) {
+      case "experience":
+        return t("experience.list.empty.title");
+
+      case "education":
+        return t("education.list.empty.title");
+
+      default:
+        return t("menu.tabs.about.empty");
+    }
+  };
 
   return (
     <View key={section.key} className="px-4">
@@ -99,7 +114,7 @@ export const RenderSection = (section: ProfileSection) => {
         {count === 0 ? (
           <View className="items-center rounded-2xl border border-dashed border-border py-6">
             <Text className="text-sm italic text-muted-foreground">
-              No {section.title.toLowerCase()} added yet
+              {getEmptyMessage()}
             </Text>
           </View>
         ) : isBadge ? (

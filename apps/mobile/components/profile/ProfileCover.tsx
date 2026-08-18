@@ -84,13 +84,13 @@ export const ProfileCover = ({
           });
         }
         onRefresh();
-        toast.success(t("menu.toasts.profilePictureUpdated"), {
-          description: t("menu.toasts.profilePictureUpdatedDescription"),
+        toast.success(t("menu.toasts.coverUpdated"), {
+          description: t("menu.toasts.coverUpdatedDescription"),
         });
       },
       onError: (error: ServerErrorResponse) => {
         toast.error(
-          error.response?.data?.message || t("menu.toasts.profilePictureError"),
+          error.response?.data?.message || t("menu.toasts.coverError"),
           {},
         );
       },
