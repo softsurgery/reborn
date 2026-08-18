@@ -76,10 +76,9 @@ export const ThreeDotsActionSheet = forwardRef<
       >
         <View className="flex flex-col gap-2.5 pt-2">
           {options.map((option) => (
-            <Button
+            <Pressable
               key={option.label}
               disabled={option.disabled}
-              variant={"ghost"}
               onPress={async () => {
                 if (option.disabled) return;
                 await Haptics.selectionAsync();
@@ -87,7 +86,7 @@ export const ThreeDotsActionSheet = forwardRef<
                 sheetRef.current?.hide();
               }}
               className={cn(
-                "flex flex-row items-center gap-2 rounded-2xl h-12",
+                "flex flex-row items-center gap-2 rounded-2xl h-12 active:opacity-50",
                 option.disabled && "opacity-50",
               )}
             >
@@ -124,7 +123,7 @@ export const ThreeDotsActionSheet = forwardRef<
                   {option.label}
                 </Text>
               </View>
-            </Button>
+            </Pressable>
           ))}
         </View>
       </ActionSheet>
