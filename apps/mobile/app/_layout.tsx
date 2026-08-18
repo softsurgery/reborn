@@ -1,106 +1,105 @@
-import React from "react";
-import { Stack, useRootNavigationState } from "expo-router";
-import * as Notifications from "expo-notifications";
-import { useColorScheme } from "nativewind";
+import { splashPrevented } from "@/lib/splash-screen";
+import { NAV_THEME } from "@/lib/theme";
+import { cn } from "@/lib/utils";
 import { ThemeProvider } from "expo-router/react-navigation";
-import { NAV_THEME } from "~/lib/theme";
-import "~/global.css";
-import "../i18n";
-import { Platform, View } from "react-native";
-import { cn } from "~/lib/utils";
-import { useNotifications } from "~/hooks/content/notifications/useNotification";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { NotificationContext } from "~/contexts/NotificationContext";
-import { StatusBar } from "expo-status-bar";
 import { PortalHost } from "@rn-primitives/portal";
+import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
+import * as SplashScreen from "expo-splash-screen";
+import { Stack } from "expo-router";
+import { StatusBar } from "expo-status-bar";
+import React from "react";
+import { Platform, View } from "react-native";
+import {
+  SafeAreaProvider,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
+import "../global.css";
+import "../i18n";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Toaster } from "sonner-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { KeyboardProvider } from "react-native-keyboard-controller";
+import { useColorPalette } from "@/hooks/useColorPalette";
+import { asyncStoragePersister, queryClient } from "@/lib/queryClient";
+import { LoaderProvider } from "@/contexts/LoaderContext";
+import { usePreferencePersistStore } from "@/hooks/stores/usePreferencePersistStore";
+import { VideoThumbnailGeneratorHost } from "@/components/shared/VideoThumbnailGeneratorHost";
 
-export { ErrorBoundary } from "expo-router";
+function RootLayoutContent() {
+  const { colorScheme, palette } = useColorPalette();
+  const insets = useSafeAreaInsets();
 
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: true,
-    shouldSetBadge: false,
-    shouldShowBanner: true,
-    shouldShowList: true,
-  }),
-});
-
-const queryClient = new QueryClient();
+  return (
+    <KeyboardProvider>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <View
+          className={cn("flex-1 light dark:dark bg-background")}
+          style={{ paddingBottom: Platform.OS === "ios" ? 0 : insets.bottom }}
+        >
+          <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
+          <Stack
+            screenOptions={{
+              headerShown: false,
+              contentStyle: {
+                flex: 1,
+                backgroundColor: palette.background,
+              },
+              keyboardHandlingEnabled: true,
+              headerStyle: {
+                backgroundColor: palette.background,
+              },
+              headerTintColor: palette.foreground,
+              headerTitleStyle: {
+                fontSize: 20,
+                color: palette.foreground,
+              },
+            }}
+          />
+          <Toaster
+            duration={1000}
+            style={{
+              backgroundColor: palette.card,
+            }}
+          />
+          <PortalHost />
+          <VideoThumbnailGeneratorHost />
+        </View>
+      </GestureHandlerRootView>
+    </KeyboardProvider>
+  );
+}
 
 export default function RootLayout() {
-  const { colorScheme } = useColorScheme();
-  const insets = useSafeAreaInsets();
-  const { newCount, notifications, resetCount } = useNotifications();
-  const [ready, setReady] = React.useState(false);
+  const { colorScheme } = useColorPalette();
+  const isPreferenceReady = usePreferencePersistStore((state) => state.isReady);
 
-  const isDarkColorScheme = colorScheme === "dark";
-
-  // Wait for navigation context to load
-  const navigationState = useRootNavigationState();
   React.useEffect(() => {
-    if (navigationState) {
-      setReady(true);
-    }
-  }, [navigationState]);
+    if (!isPreferenceReady) return;
 
-  if (!ready) return null;
+    void (async () => {
+      try {
+        await splashPrevented;
+        await SplashScreen.hideAsync();
+      } catch {
+        // Splash may already be hidden (e.g. dev fast refresh).
+      }
+    })();
+  }, [isPreferenceReady]);
+
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <ThemeProvider value={NAV_THEME[colorScheme ?? "light"]}>
-        <QueryClientProvider client={queryClient}>
-          <NotificationContext.Provider
-            value={{ newCount, notifications, resetCount }}
-          >
-            <View
-              className={cn("flex-1 light dark:dark bg-background")}
-              style={{
-                paddingBottom: Platform.OS === "ios" ? 0 : insets.bottom,
-              }}
-            >
-              <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
-              <Stack
-                screenOptions={{
-                  headerShown: false,
-                  contentStyle: {
-                    flex: 1,
-                    backgroundColor: isDarkColorScheme
-                      ? NAV_THEME.dark.colors.background
-                      : NAV_THEME.light.colors.background,
-                  },
-                  headerStyle: {
-                    backgroundColor: isDarkColorScheme
-                      ? NAV_THEME.dark.colors.card
-                      : NAV_THEME.light.colors.card,
-                  },
-                  headerTintColor: isDarkColorScheme
-                    ? NAV_THEME.dark.colors.text
-                    : NAV_THEME.light.colors.text,
-                  headerTitleStyle: {
-                    fontFamily: "Poppins-SemiBold",
-                    fontSize: 18,
-                    color: isDarkColorScheme
-                      ? NAV_THEME.dark.colors.text
-                      : NAV_THEME.light.colors.text,
-                  },
-                }}
-              />
-              <Toaster
-                duration={1000}
-                style={{
-                  backgroundColor: isDarkColorScheme
-                    ? NAV_THEME.dark.colors.card
-                    : NAV_THEME.light.colors.card,
-                }}
-              />
-              <PortalHost />
-            </View>
-          </NotificationContext.Provider>
-        </QueryClientProvider>
-      </ThemeProvider>
-    </GestureHandlerRootView>
+    <ThemeProvider value={NAV_THEME[colorScheme ?? "light"]}>
+      <PersistQueryClientProvider
+        client={queryClient}
+        persistOptions={{
+          persister: asyncStoragePersister,
+          maxAge: 1000 * 60 * 60 * 24,
+        }}
+      >
+        <SafeAreaProvider>
+          <LoaderProvider>
+            <RootLayoutContent />
+          </LoaderProvider>
+        </SafeAreaProvider>
+      </PersistQueryClientProvider>
+    </ThemeProvider>
   );
 }
