@@ -15,17 +15,29 @@
             "profile-picture": "Photo de profil",
             "first-name": "Prénom",
             "last-name": "Nom",
+            "email": "E-mail",
+            "phone": "Téléphone",
             "date-of-birth": "Date de naissance",
             "bio": "Biographie",
             "gender": "Genre",
+            "genderOptions": {
+              "Male": "Homme",
+              "Female": "Femme"
+            },
+            "region": "Région",
+            "private-profile": "Profil privé",
             "website": "Site web",
             "linkedin": "LinkedIn",
             "placeholders": {
               "first-name": "Entrez votre prénom",
               "last-name": "Entrez votre nom",
+              "email": "votre.email@exemple.com",
+              "phone": "Entrez votre numéro de téléphone",
               "date-of-birth": "Entrez votre date de naissance",
-              "bio": "Parlez-nous de vous",
+              "bio": "Rédigez une courte biographie...",
               "gender": "Sélectionnez votre genre",
+              "region": "Sélectionnez votre région",
+              "private-profile": "Ne pas afficher mon profil aux autres",
               "website": "Entrez l’URL de votre site web",
               "linkedin": "Entrez l’URL de votre profil LinkedIn"
             },
@@ -33,12 +45,36 @@
               "profile-picture": "Téléversez une photo de profil pour personnaliser votre compte.",
               "first-name": "Votre prénom tel qu’il apparaît sur votre profil.",
               "last-name": "Votre nom tel qu’il apparaît sur votre profil.",
+              "email": "Nous utiliserons cet e-mail pour les communications importantes.",
+              "phone": "Entrez un numéro de téléphone pour que nous puissions vous contacter si nécessaire.",
               "date-of-birth": "Célébrons votre anniversaire !",
               "bio": "Une courte description à votre sujet qui sera visible sur votre profil.",
               "gender": "Votre genre est utilisé pour la récupération du compte et les notifications.",
+              "region": "Sélectionnez la région où vous vous trouvez.",
+              "private-profile": "Cochez pour rendre votre profil privé",
               "website": "L’URL de votre site web est utilisée pour la récupération du compte et les notifications.",
               "linkedin": "L’URL de votre profil LinkedIn est utilisée pour la récupération du compte et les notifications."
             }
+          },
+          "sections": {
+            "general": "Informations générales",
+            "additional": "Informations complémentaires"
+          },
+          "validation": {
+            "firstNameRequired": "Le prénom est obligatoire.",
+            "firstNameTooShort": "Le prénom doit contenir au moins 3 caractères.",
+            "firstNameTooLong": "Le prénom ne doit pas dépasser 50 caractères.",
+            "firstNameLettersOnly": "Le prénom ne doit contenir que des lettres et des espaces.",
+            "lastNameRequired": "Le nom est obligatoire.",
+            "lastNameTooShort": "Le nom doit contenir au moins 3 caractères.",
+            "lastNameTooLong": "Le nom ne doit pas dépasser 50 caractères.",
+            "lastNameLettersOnly": "Le nom ne doit contenir que des lettres et des espaces.",
+            "emailRequired": "L'e-mail est obligatoire.",
+            "emailInvalid": "L'e-mail doit être une adresse e-mail valide.",
+            "ageMin18": "L'utilisateur doit avoir au moins 18 ans.",
+            "phoneInvalid": "Le numéro de téléphone doit être au format international valide.",
+            "bioTooLong": "La biographie ne doit pas dépasser 255 caractères.",
+            "regionRequired": "La région est obligatoire."
           },
           "actions": {
             "update-profile": "Mettre à jour le profil",
@@ -164,6 +200,15 @@
             "actions": {
               "submit-bug": "Soumettre le rapport",
               "submit-bug-pending": "Soumission en cours..."
+            },
+            "validation": {
+              "variantRequired": "Vous devez sélectionner une catégorie de bug.",
+              "titleRequired": "Le titre est obligatoire.",
+              "titleTooShort": "Le titre doit contenir au moins 10 caractères.",
+              "titleTooLong": "Le titre ne doit pas dépasser 255 caractères.",
+              "descriptionRequired": "La description est obligatoire.",
+              "descriptionTooShort": "La description doit contenir au moins 10 caractères.",
+              "descriptionTooLong": "La description ne doit pas dépasser 1024 caractères."
             }
           }
         },
@@ -173,7 +218,7 @@
           "forms": {
             "title": "Envoyer un commentaire",
             "description": "Nous apprécions vos commentaires et suggestions. Veuillez nous faire part de vos idées pour améliorer l’application.",
-            "message": "Feedback massage",
+            "message": "Feedback message",
             "category": "Catégorie du commentaire",
             "rating": "Évaluation",
             "placeholders": {
@@ -189,6 +234,13 @@
             "actions": {
               "submit-feedback": "Soumettre le commentaire",
               "submit-feedback-pending": "Soumission en cours..."
+            },
+            "validation": {
+              "categoryRequired": "Vous devez sélectionner une catégorie d'avis.",
+              "messageRequired": "Le message est obligatoire.",
+              "messageTooShort": "Le message doit contenir au moins 10 caractères.",
+              "messageTooLong": "Le message ne doit pas dépasser 1024 caractères.",
+              "ratingRequired": "La note est obligatoire."
             }
           }
         },
