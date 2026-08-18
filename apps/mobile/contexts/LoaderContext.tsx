@@ -1,5 +1,6 @@
 import React from "react";
-import { View, ActivityIndicator, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
+import { Loader } from "@/components/shared/lotties/Loader";
 
 interface LoaderContextType {
   setLoading: (loading: boolean) => void;
@@ -24,7 +25,7 @@ export const LoaderProvider = ({ children }: { children: React.ReactNode }) => {
           ]}
           className="justify-center items-center"
         >
-          <ActivityIndicator size="large" />
+          <Loader size="large" />
         </View>
       )}
     </LoaderContext.Provider>
