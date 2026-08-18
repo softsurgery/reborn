@@ -33,6 +33,7 @@ import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
 interface JobCardProps {
   className?: string;
   job: ResponseJobDto;
+  redundantUser?: boolean;
   isOwner?: boolean;
 }
 
@@ -54,7 +55,12 @@ const readCurrency = (job: ResponseJobDto) => {
   };
 };
 
-export const JobCard = ({ className, job, isOwner }: JobCardProps) => {
+export const JobCard = ({
+  className,
+  job,
+  isOwner,
+  redundantUser = false,
+}: JobCardProps) => {
   const queryClient = useQueryClient();
   const { palette } = useColorPalette();
 
@@ -235,30 +241,33 @@ export const JobCard = ({ className, job, isOwner }: JobCardProps) => {
         }}
         className="border-t border-border"
       >
-        <Avatar
-          alt={identifyUser(job.postedBy)}
-          style={{ width: 20, height: 20 }}
-        >
-          {/* Always mounted: AvatarImage is what raises the fallback flag. */}
-          <AvatarImage source={{ uri: authorPicture ?? "" }} />
-          <AvatarFallback>
-            <Text style={{ fontSize: 9 }} className="font-semibold">
-              {identifyUserAvatar(job.postedBy)}
+        {!redundantUser && (
+          <>
+            <Avatar
+              alt={identifyUser(job.postedBy)}
+              style={{ width: 20, height: 20 }}
+            >
+              {/* Always mounted: AvatarImage is what raises the fallback flag. */}
+              <AvatarImage source={{ uri: authorPicture ?? "" }} />
+              <AvatarFallback>
+                <Text style={{ fontSize: 9 }} className="font-semibold">
+                  {identifyUserAvatar(job.postedBy)}
+                </Text>
+              </AvatarFallback>
+            </Avatar>
+            <Text
+              numberOfLines={1}
+              style={{ flexShrink: 1 }}
+              className="text-xs font-medium"
+            >
+              {identifyUser(job.postedBy)}
             </Text>
-          </AvatarFallback>
-        </Avatar>
 
-        <Text
-          numberOfLines={1}
-          style={{ flexShrink: 1 }}
-          className="text-xs font-medium"
-        >
-          {identifyUser(job.postedBy)}
-        </Text>
-
-        <Text className="text-xs text-muted-foreground">
-          · {timeAgo(job?.createdAt || new Date())}
-        </Text>
+            <Text className="text-xs text-muted-foreground">
+              · {timeAgo(job?.createdAt || new Date())}
+            </Text>
+          </>
+        )}
 
         <View
           style={{

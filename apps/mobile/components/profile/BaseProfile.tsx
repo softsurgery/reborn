@@ -9,7 +9,6 @@ import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
 import {
   ResponseEducationDto,
   ResponseExperienceDto,
-  ResponseRefParamDto,
   ServerErrorResponse,
   UpdateUserDto,
 } from "~/types";
@@ -26,6 +25,7 @@ import { useExperiences } from "~/hooks/content/user/useExperiences";
 import { useEducations } from "~/hooks/content/user/useEducations";
 import { AboutTab } from "./sections/AboutTab";
 import { SnippetsTab } from "./sections/SnippetTab";
+import { JobsTab } from "./sections/JobsTab";
 import { ProfileAvatar } from "./ProfileAvatar";
 import { ProfileCover } from "./ProfileCover";
 import { toast } from "sonner-native";
@@ -378,6 +378,24 @@ export const InspectBaseProfile = ({
                 />
               )}
             </Tab.Screen>
+
+            {currentUser?.id !== user?.id && (
+              <Tab.Screen
+                name="jobs"
+                options={{
+                  tabBarLabel: "Jobs",
+                }}
+              >
+                {() => (
+                  <JobsTab
+                    user={user}
+                    onRefresh={onRefresh}
+                    refreshing={refreshing}
+                    onScroll={handleScroll}
+                  />
+                )}
+              </Tab.Screen>
+            )}
 
             <Tab.Screen
               name="career"
