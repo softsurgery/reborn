@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { useQueryClient } from "@tanstack/react-query";
 import { MapPin, Star, UserPlus } from "lucide-react-native";
 import { router } from "expo-router";
-import { StablePressable } from "~/components/shared/StablePressable";
+import { StablePressable } from "~/components/shared/stables/StablePressable";
 import { Button } from "~/components/ui/button";
 import { Text } from "~/components/ui/text";
 import { UserStore } from "~/hooks/stores/useUserStore";
