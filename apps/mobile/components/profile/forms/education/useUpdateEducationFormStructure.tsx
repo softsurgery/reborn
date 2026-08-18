@@ -11,10 +11,12 @@ import { useTranslation } from "react-i18next";
 
 interface UseUpdateEducationFormStructureProps {
   store: UserStore;
+  isPending?: boolean;
 }
 
 export const useUpdateEducationFormStructure = ({
   store,
+  isPending,
 }: UseUpdateEducationFormStructureProps) => {
   const { t } = useTranslation("menu");
   const educationTitle: Field<TextFieldProps> = {
@@ -26,6 +28,7 @@ export const useUpdateEducationFormStructure = ({
     description: t("education.form.descriptions.title"),
     error: t(store.educationErrors?.title?.[0]),
     props: {
+      editable: !isPending,
       value: store.updateEducationDto.title,
       onChangeText: (value) => {
         store.setNested("updateEducationDto.title", value);
@@ -43,6 +46,7 @@ export const useUpdateEducationFormStructure = ({
     description: t("education.form.descriptions.institution"),
     error: t(store.educationErrors?.institution?.[0]),
     props: {
+      editable: !isPending,
       value: store.updateEducationDto?.institution,
       onChangeText: (value) => {
         store.setNested("updateEducationDto.institution", value);
@@ -60,6 +64,7 @@ export const useUpdateEducationFormStructure = ({
     description: t("education.form.descriptions.description"),
     error: t(store.educationErrors?.description?.[0]),
     props: {
+      editable: !isPending,
       value: store.updateEducationDto?.description,
       onChangeText: (value) => {
         store.setNested("updateEducationDto.description", value);
@@ -77,6 +82,7 @@ export const useUpdateEducationFormStructure = ({
     description: t("education.form.descriptions.startDate"),
     error: store.educationErrors?.startDate?.[0],
     props: {
+      editable: !isPending,
       value: store.updateEducationDto?.startDate
         ? new Date(store.updateEducationDto.startDate)
         : undefined,
@@ -98,6 +104,7 @@ export const useUpdateEducationFormStructure = ({
     description: t("education.form.descriptions.endDate"),
     error: store.educationErrors?.endDate?.[0],
     props: {
+      editable: !isPending,
       value: store.updateEducationDto?.endDate
         ? new Date(store.updateEducationDto.endDate)
         : undefined,

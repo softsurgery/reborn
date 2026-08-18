@@ -30,11 +30,9 @@ export const UpdateEducation = ({ className }: UpdateEducationProps) => {
   const queryClient = useQueryClient();
   const isKeyboardVisible = useKeyboardVisible();
 
-  const { structure } = useUpdateEducationFormStructure({
-    store: userStore,
-  });
 
-  const { mutate: updateEducation } = useMutation({
+
+  const { mutate: updateEducation, isPending } = useMutation({
     mutationFn: (data: { id: number; education: UpdateEducationDto }) =>
       api.education.update(data.id, data.education),
     onSuccess: () => {
@@ -52,6 +50,11 @@ export const UpdateEducation = ({ className }: UpdateEducationProps) => {
         {},
       );
     },
+  });
+
+  const { structure } = useUpdateEducationFormStructure({
+    store: userStore,
+    isPending,
   });
 
   const handleUpdateSubmit = () => {
@@ -93,7 +96,7 @@ export const UpdateEducation = ({ className }: UpdateEducationProps) => {
       </StableKeyboardAwareScrollView>
       {!isKeyboardVisible && (
         <BottomButtonWrapper>
-          <Button size="lg" className="rounded-xl" onPress={handleUpdateSubmit}>
+          <Button size="lg" className="rounded-xl" onPress={handleUpdateSubmit} disabled={isPending}>
             <Text className="text-md font-bold">
               {tMenu("education.form.actions.update")}
             </Text>

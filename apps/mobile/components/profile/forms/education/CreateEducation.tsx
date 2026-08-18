@@ -30,19 +30,17 @@ export const CreateEducation = ({ className }: CreateEducationProps) => {
   const queryClient = useQueryClient();
   const isKeyboardVisible = useKeyboardVisible();
 
-  const { structure } = useCreateEducationFormStructure({
-    store: userStore,
-  });
 
-  const { mutate: createEducation } = useMutation({
-    mutationFn: (data: { id: string; education: CreateEducationDto }) =>
-      api.education.create(data.id, data.education),
+
+  const { mutate: createEducation, isPending } = useMutation({
+    mutationFn: (education: CreateEducationDto) =>
+      api.education.createCurrent(education),
     onSuccess: () => {
       toast.success(tMenu("education.toasts.created"), {
         description: tMenu("education.toasts.createdDescription"),
       });
       queryClient.invalidateQueries({
-        queryKey: ["educations", userStore.response?.id],
+        queryKey: ["educations"],
       });
       router.back();
     },
@@ -54,18 +52,18 @@ export const CreateEducation = ({ className }: CreateEducationProps) => {
     },
   });
 
+  const { structure } = useCreateEducationFormStructure({
+    store: userStore,
+    isPending,
+  });
+
   const handleCreateSubmit = () => {
     const data = userStore.createEducationDto;
     const result = createEducationSchema.safeParse(data);
     if (!result.success) {
       userStore.set("educationErrors", result.error.flatten().fieldErrors);
     } else {
-      if (userStore.response?.id) {
-        createEducation({
-          id: userStore.response?.id!,
-          education: data,
-        });
-      }
+      createEducation(data);
     }
   };
 
@@ -93,7 +91,7 @@ export const CreateEducation = ({ className }: CreateEducationProps) => {
       </StableKeyboardAwareScrollView>
       {!isKeyboardVisible && (
         <BottomButtonWrapper>
-          <Button size="lg" className="rounded-xl" onPress={handleCreateSubmit}>
+          <Button size="lg" className="rounded-xl" onPress={handleCreateSubmit} disabled={isPending}>
             <Text className="text-md font-bold">
               {tMenu("education.form.actions.create")}
             </Text>

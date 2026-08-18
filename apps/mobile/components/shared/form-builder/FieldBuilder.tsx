@@ -139,18 +139,19 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
       );
     case "checkbox":
       return (
-        <View className="flex-row items-center gap-2 mt-2">
+        <View className="flex-row items-center gap-2">
           <Checkbox
             {...field?.props}
-            color={hslToHex(palette.primary)}
             disabled={!editable}
             checked={field?.props?.checked}
             onCheckedChange={(checked) => {
               field?.props?.onCheckedChange?.(checked);
             }}
-            className={cn(field?.className, field?.error && "border-red-500")}
+            classNames={{
+              root: cn(field?.className, field?.error && "border-red-500"),
+            }}
           />
-          <Text className="text-sm">{field.description}</Text>
+          <Text className="text-sm pr-8">{field.description}</Text>
         </View>
       );
     case "password":
