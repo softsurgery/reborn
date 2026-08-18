@@ -71,10 +71,10 @@ export const useUpdateEducationFormStructure = ({
 
   const startDate: Field<DateFieldProps> = {
     id: "startDate",
-    label: "Start Date",
+    label: t("education.form.labels.startDate"),
     variant: FieldVariant.DATE,
     required: true,
-    description: "The date you started this education program.",
+    description: t("education.form.descriptions.startDate"),
     error: store.educationErrors?.startDate?.[0],
     props: {
       value: store.updateEducationDto?.startDate
@@ -92,11 +92,10 @@ export const useUpdateEducationFormStructure = ({
 
   const endDate: Field<DateFieldProps> = {
     id: "endDate",
-    label: "End Date",
+    label: t("education.form.labels.endDate"),
     variant: FieldVariant.DATE,
     required: false,
-    description:
-      "The date you completed or expect to complete this program. Leave blank if currently enrolled.",
+    description: t("education.form.descriptions.endDate"),
     error: store.educationErrors?.endDate?.[0],
     props: {
       value: store.updateEducationDto?.endDate

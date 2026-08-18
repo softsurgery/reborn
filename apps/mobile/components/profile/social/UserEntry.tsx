@@ -14,6 +14,7 @@ import { ResponseUserDto, ServerErrorResponse } from "~/types";
 import { useServerImage } from "~/hooks/content/useServerImage";
 import { Icon } from "~/components/ui/icon";
 import { toast } from "sonner-native";
+import { useTranslation } from "react-i18next";
 
 interface UserEntryProps {
   className?: string;
@@ -30,6 +31,7 @@ export const UserEntry = ({
   profileId,
   closeDialog,
 }: UserEntryProps) => {
+  const { t } = useTranslation("menu");
   const { currentUser } = useCurrentUser();
   const queryClient = useQueryClient();
 
@@ -132,7 +134,11 @@ export const UserEntry = ({
             className="flex flex-row gap-2"
           >
             {!isFollowing && <Icon as={UserPlus} size={20} />}
-            <Text>{isFollowing ? "Following" : "Follow"}</Text>
+            <Text>
+              {isFollowing
+                ? t("menu.actions.following")
+                : t("menu.actions.follow")}
+            </Text>
           </Button>
         )}
       </View>

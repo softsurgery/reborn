@@ -4,12 +4,14 @@ import { router } from "expo-router";
 import { Text } from "~/components/ui/text";
 import { useUserStore } from "~/hooks/stores/useUserStore";
 import { cn } from "~/lib/utils";
+import { useTranslation } from "react-i18next";
 
 interface SocialStatProps {
   className?: string;
 }
 
 export const SocialStat = ({ className }: SocialStatProps) => {
+  const { t } = useTranslation("menu");
   const clientStore = useUserStore();
   return (
     <View
@@ -22,7 +24,7 @@ export const SocialStat = ({ className }: SocialStatProps) => {
 
       <Pressable className="flex flex-col items-center active:opacity-70">
         <Text variant={"large"}>-</Text>
-        <Text variant={"muted"}>Services</Text>
+        <Text variant={"muted"}>{t("menu.social.services")}</Text>
       </Pressable>
 
       {/* Following */}
@@ -41,7 +43,7 @@ export const SocialStat = ({ className }: SocialStatProps) => {
         <Text variant={"large"}>
           {clientStore?.responseFollowCountsDto?.following}
         </Text>
-        <Text variant={"muted"}>Following</Text>
+        <Text variant={"muted"}>{t("menu.social.following")}</Text>
       </Pressable>
 
       {/* Followers */}
@@ -60,7 +62,7 @@ export const SocialStat = ({ className }: SocialStatProps) => {
         <Text variant={"large"}>
           {clientStore?.responseFollowCountsDto?.followers}
         </Text>
-        <Text variant={"muted"}>Followers</Text>
+        <Text variant={"muted"}>{t("menu.social.followers")}</Text>
       </Pressable>
     </View>
   );

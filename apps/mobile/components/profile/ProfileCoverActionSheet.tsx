@@ -8,6 +8,7 @@ import { Text } from "../ui/text";
 import { Button } from "../ui/button";
 import { Icon } from "../ui/icon";
 import { Image as ImageIcon } from "lucide-react-native";
+import { useTranslation } from "react-i18next";
 
 interface ProfileCoverActionSheetProps {
   onConfirm: () => void;
@@ -33,6 +34,7 @@ export const ProfileCoverActionSheet = React.forwardRef<
     },
     ref,
   ) => {
+    const { t } = useTranslation("menu");
     const { colorScheme } = useColorScheme();
     const isDarkColorScheme = colorScheme === "dark";
 
@@ -56,7 +58,7 @@ export const ProfileCoverActionSheet = React.forwardRef<
         <View className="p-4">
           <View className="flex-row items-center justify-between mb-4">
             <Text variant="large" className="text-foreground">
-              Update Cover
+              {t("menu.actions.updateCover")}
             </Text>
           </View>
 
@@ -79,7 +81,7 @@ export const ProfileCoverActionSheet = React.forwardRef<
               disabled={isPending}
             >
               <Icon as={ImageIcon} size={16} />
-              <Text>Choose Image</Text>
+              <Text>{t("menu.actions.chooseImage")}</Text>
             </Button>
             <Button
               size="sm"
@@ -87,7 +89,7 @@ export const ProfileCoverActionSheet = React.forwardRef<
               onPress={onConfirm}
               disabled={!canConfirm || isPending}
             >
-              <Text>Confirm</Text>
+              <Text>{t("menu.actions.confirm")}</Text>
             </Button>
           </View>
 
@@ -98,7 +100,7 @@ export const ProfileCoverActionSheet = React.forwardRef<
             onPress={onClose}
             disabled={isPending}
           >
-            <Text>Cancel</Text>
+            <Text>{t("menu.actions.cancel")}</Text>
           </Button>
         </View>
       </ActionSheet>
