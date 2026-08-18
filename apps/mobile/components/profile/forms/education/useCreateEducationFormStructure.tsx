@@ -81,7 +81,7 @@ export const useCreateEducationFormStructure = ({
   //   description: "The date you started this education program.",
   //   error: store.educationErrors?.startDate?.[0],
   //   props: {
-      editable: !isPending,
+  //  editable: !isPending,
   //     value: store.createEducationDto?.startDate
   //       ? new Date(store.createEducationDto.startDate)
   //       : undefined,
@@ -104,7 +104,7 @@ export const useCreateEducationFormStructure = ({
   //     "The date you completed or expect to complete this program. Leave blank if currently enrolled.",
   //   error: store.educationErrors?.endDate?.[0],
   //   props: {
-      editable: !isPending,
+  //   editable: !isPending,
   //     value: store.createEducationDto?.endDate
   //       ? new Date(store.createEducationDto.endDate)
   //       : undefined,
