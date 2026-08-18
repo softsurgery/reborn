@@ -1,7 +1,7 @@
+import { useColorPalette } from "@/hooks/useColorPalette";
 import { THEME } from "@/lib/theme";
 import { cn } from "@/lib/utils";
 import type { LucideIcon, LucideProps } from "lucide-react-native";
-import { useColorScheme } from "nativewind";
 
 type IconProps = LucideProps & {
   className?: string;
@@ -16,20 +16,18 @@ function Icon({
   as: IconComponent,
   className,
   size = 14,
+  color,
+  fill,
   ...props
 }: IconProps) {
-  const { colorScheme } = useColorScheme();
+  const { palette } = useColorPalette();
   return (
     <IconImpl
       as={IconComponent}
       className={cn(className)}
       size={size}
-      color={
-        props.color || colorScheme === "dark"
-          ? THEME.dark.foreground
-          : THEME.light.foreground
-      }
-      fill={props.fill || "transparent"}
+      color={color || palette.foreground}
+      fill={fill || "transparent"}
       {...props}
     />
   );

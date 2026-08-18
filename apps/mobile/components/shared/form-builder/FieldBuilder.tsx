@@ -16,12 +16,15 @@ import MapPinField from "./components/MapPinField";
 import { GalleryPictureUploader } from "./gallery-picture-uploader/GalleryPictureUploader";
 import { PasswordField } from "./components/PasswordField";
 import { TimePicker } from "./components/TimePicker";
+import { useColorPalette } from "@/hooks/useColorPalette";
+import { hslToHex } from "@/lib/theme";
 
 interface FieldBuilderProps {
   field?: Field<any>;
 }
 
 export const FieldBuilder = ({ field }: FieldBuilderProps) => {
+  const { palette } = useColorPalette();
   const editable = field?.props?.editable ?? true;
 
   switch (field?.variant) {
@@ -139,14 +142,13 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
         <View className="flex-row items-center gap-2 mt-2">
           <Checkbox
             {...field?.props}
+            color={hslToHex(palette.primary)}
             disabled={!editable}
             checked={field?.props?.checked}
             onCheckedChange={(checked) => {
               field?.props?.onCheckedChange?.(checked);
             }}
-            classNames={{
-              root: cn(field?.className, field?.error && "border-red-500"),
-            }}
+            className={cn(field?.className, field?.error && "border-red-500")}
           />
           <Text className="text-sm">{field.description}</Text>
         </View>
