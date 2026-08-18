@@ -156,8 +156,8 @@ export const JobDetails = ({ className, id }: JobDetailsProps) => {
   });
 
   React.useEffect(() => {
-    if (!isViewedPending && !isJobViewed && id) viewJob(id as string);
-  }, [isViewedPending, isJobViewed, id]);
+    if (id) viewJob(id as string);
+  }, [id]);
 
   const handleSave = () => {
     if (isSavePending || isUnsavePending) return;

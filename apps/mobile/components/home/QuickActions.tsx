@@ -26,7 +26,7 @@ export const QuickActions = ({ className }: QuickActionsProps) => {
       title: "My jobs",
       icon: BriefcaseBusiness,
       description: "Preview your posted jobs",
-      onPress: () => router.push("/main/my-space/jobs"),
+      onPress: () => router.push("/main/my-space/quick-actions/jobs"),
     },
     {
       title: "Requests",
@@ -38,7 +38,7 @@ export const QuickActions = ({ className }: QuickActionsProps) => {
       title: "Saved jobs",
       icon: Bookmark,
       description: "Keep track of jobs you bookmarked",
-      onPress: () => router.push("/main/my-space/saved"),
+      onPress: () => router.push("/main/my-space/quick-actions/saved"),
     },
     {
       title: "Reviews",
@@ -51,8 +51,7 @@ export const QuickActions = ({ className }: QuickActionsProps) => {
       title: "Viewed",
       icon: Eye,
       description: "Revisit recently viewed opportunities",
-      onPress: () => {},
-      disabled: true,
+      onPress: () => router.push("/main/my-space/quick-actions/viewed"),
     },
   ];
   return (
