@@ -111,8 +111,8 @@ export const JobSavedList = ({ className }: JobSavedListProps) => {
           },
         ]}
       />
-      <View className={cn("flex-1 bg-background")}>
-        <View className="px-4 pt-4 pb-2">
+      <View className={cn("flex-1 bg-background px-3")}>
+        <View className="pt-4">
           <MarkedInput
             icon={Search}
             placeholder="Search saved jobs..."
@@ -127,8 +127,8 @@ export const JobSavedList = ({ className }: JobSavedListProps) => {
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 24 }}
           recycleItems={true}
+          style={{ paddingVertical: 10 }}
           maintainVisibleContentPosition
           onScrollBeginDrag={() => setDragging(true)}
           onScrollEndDrag={() => setDragging(false)}
@@ -163,15 +163,7 @@ export const JobSavedList = ({ className }: JobSavedListProps) => {
           }
           ListFooterComponent={
             <View className="items-center">
-              {isFetchingNextPage ? (
-                <JobCardSkeleton />
-              ) : flattenedData.length > 0 && !hasNextPage ? (
-                <View className="flex-row items-center justify-center gap-2 py-8">
-                  <Text className="text-sm text-muted-foreground">
-                    You're all caught up
-                  </Text>
-                </View>
-              ) : null}
+              {isFetchingNextPage && <JobCardSkeleton />}
             </View>
           }
         />
