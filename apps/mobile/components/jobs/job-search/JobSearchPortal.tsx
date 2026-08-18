@@ -1,6 +1,6 @@
 import React from "react";
 import { View } from "react-native";
-import { IconTextInput } from "~/components/shared/IconTextInput";
+import { MarkedInput } from "~/components/shared/MarkedInput";
 import { Search } from "lucide-react-native";
 import { router, useNavigation } from "expo-router";
 import { Text } from "~/components/ui/text";
@@ -29,11 +29,10 @@ export const JobSearchPortal = ({ className }: JobSearchPortalProps) => {
     navigation.setOptions({
       headerTitle: () => (
         <View className="flex flex-row gap-4 w-full pr-4">
-          <IconTextInput
+          <MarkedInput
             icon={Search}
             placeholder="Search Reborn"
             className="flex-1"
-            iClassame="text-muted-foreground"
             value={searchQuery}
             onChangeText={setSearchQuery}
           />
