@@ -9,7 +9,6 @@ import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
 import {
   ResponseEducationDto,
   ResponseExperienceDto,
-  ResponseRefParamDto,
   ServerErrorResponse,
   UpdateUserDto,
 } from "~/types";
