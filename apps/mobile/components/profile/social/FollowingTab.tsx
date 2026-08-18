@@ -1,5 +1,5 @@
 import { UserEntry } from "@/components/profile/social/UserEntry";
-import { Loader } from "@/components/shared/Loader";
+import { Loader } from "@/components/shared/lotties/Loader";
 import { Text } from "@/components/ui/text";
 import { useFollowSystem } from "@/hooks/content/useFollowSystem";
 import { ScrollView, View } from "react-native";

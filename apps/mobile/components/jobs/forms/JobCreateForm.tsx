@@ -16,7 +16,7 @@ import { router } from "expo-router";
 import { StableSafeAreaView } from "~/components/shared/StableSafeAreaView";
 import { ApplicationHeader } from "~/components/shared/AppHeader";
 import { ChevronLeft } from "lucide-react-native";
-import { Loader } from "@/components/shared/Loader";
+import { Loader } from "@/components/shared/lotties/Loader";
 import { useLiveGeolocation } from "@/hooks/useLiveGeolocation";
 import { toast } from "sonner-native";
 import {
@@ -26,6 +26,7 @@ import {
 } from "@/types/validations/job.validation";
 import { useUploadMutation } from "@/hooks/content/useUploadMutation";
 import { Upload } from "@/types/upload";
+import { JobCreatedSuccess } from "./JobCreatedSuccess";
 
 interface JobCreateFormProps {
   className?: string;
@@ -33,6 +34,7 @@ interface JobCreateFormProps {
 
 export const JobCreateForm = ({ className }: JobCreateFormProps) => {
   const queryClient = useQueryClient();
+  const [createdJobId, setCreatedJobId] = React.useState<string | null>(null);
   const {
     latitude,
     longitude,
@@ -79,11 +81,10 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
 
   const { mutate: createJob, isPending: isCreationPending } = useMutation({
     mutationFn: (job: CreateJobDto) => api.job.save(job),
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["jobs"] });
       jobStore.reset();
-      toast.success("Job created successfully");
-      router.push("/main/(tabs)");
+      setCreatedJobId(data.id);
     },
     onError: (error: ServerErrorResponse) => {
       toast.error(`Failed to create job: ${error.response?.data.message}`);
@@ -130,6 +131,31 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
     };
   }, []);
 
+  if (createdJobId) {
+    return (
+      <StableSafeAreaView className="flex-1 bg-card">
+        <ApplicationHeader
+          classNames={{ wrapper: "border-b border-border pb-2" }}
+          title={"Success"}
+          reverse
+          titleVariant="large"
+          shortcuts={[
+            {
+              key: "back",
+              icon: ChevronLeft,
+              onPress: () => {
+                router.replace("/main/(tabs)");
+              },
+            },
+          ]}
+        />
+        <View className={cn("flex-1 px-2 bg-background", className)}>
+          <JobCreatedSuccess jobId={createdJobId} />
+        </View>
+      </StableSafeAreaView>
+    );
+  }
+
   return (
     <StableSafeAreaView className="flex-1 bg-card">
       <ApplicationHeader
@@ -159,12 +185,7 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
               {
                 title: "Define the job",
                 description: "Start by providing the basic details of the job.",
-                component: (
-                  <FormBuilder
-                    structure={jobCreateFormStructure}
-                    className="p-4"
-                  />
-                ),
+                component: <FormBuilder structure={jobCreateFormStructure} />,
                 validation: () => {
                   const result = defineJobValidationSchemas.safeParse(
                     jobStore.createDto,
@@ -183,12 +204,7 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
                 title: "Add Details",
                 description:
                   "Enrich the job listing with more specific information.",
-                component: (
-                  <FormBuilder
-                    structure={jobDetailsFormStructure}
-                    className="p-4"
-                  />
-                ),
+                component: <FormBuilder structure={jobDetailsFormStructure} />,
                 validation: () => {
                   const result = detailedJobValidationSchemas.safeParse(
                     jobStore.createDto,
@@ -206,12 +222,7 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
               {
                 title: "Add Images",
                 description: "Upload images related to the job.",
-                component: (
-                  <FormBuilder
-                    structure={jobImagePickerStructure}
-                    className="p-4"
-                  />
-                ),
+                component: <FormBuilder structure={jobImagePickerStructure} />,
                 validation: true,
               },
             ]}

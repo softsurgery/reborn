@@ -14,7 +14,7 @@ import { StableSafeAreaView } from "~/components/shared/StableSafeAreaView";
 import { ApplicationHeader } from "~/components/shared/AppHeader";
 import { useTranslation } from "react-i18next";
 import { useDataStore } from "@/hooks/content/useDataStore";
-import { Loader } from "@/components/shared/Loader";
+import { Loader } from "@/components/shared/lotties/Loader";
 import { Icon } from "@/components/ui/icon";
 
 import { AppHeaderBack } from "@/components/shared/AppHeaderBack";

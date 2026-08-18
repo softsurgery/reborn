@@ -11,7 +11,7 @@ import { useColorScheme } from "nativewind";
 import { THEME } from "~/lib/theme";
 import { UseQueryResult } from "@tanstack/react-query";
 import { cn } from "~/lib/utils";
-import { Loader } from "../Loader";
+import { Loader } from "../lotties/Loader";
 import { PhotoPreview } from "../PhotoPreview";
 
 interface ImageCarouselProps {

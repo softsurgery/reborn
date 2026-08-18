@@ -12,7 +12,7 @@ import { Text } from "../ui/text";
 import { JobCardSkeleton } from "../jobs/JobCardSkeleton";
 import { cn } from "~/lib/utils";
 import { useInfiniteJobs } from "@/hooks/content/job/useInfiniteJobs";
-import { NotFound } from "../shared/NotFound";
+import { NotFound } from "../shared/lotties/NotFound";
 import { useExploreFilterStore } from "@/hooks/stores/userExploreFilterStore";
 import { useColorPalette } from "@/hooks/useColorPalette";
 
