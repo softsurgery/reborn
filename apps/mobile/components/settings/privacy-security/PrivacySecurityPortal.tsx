@@ -12,7 +12,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { cn } from "~/lib/utils";
 import { ApplicationHeader } from "~/components/shared/AppHeader";
-import { StableSafeAreaView } from "~/components/shared/StableSafeAreaView";
+import { StableSafeAreaView } from "@/components/shared/stables/StableSafeAreaView";
 import { SettingRow, createSettingRow } from "../SettingsRow";
 import type { SettingRowConfig } from "../SettingsRow";
 import { Text } from "~/components/ui/text";
@@ -20,7 +20,7 @@ import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 
 import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
-import StableScrollView from "@/components/shared/StableScrollView";
+import StableScrollView from "@/components/shared/stables/StableScrollView";
 interface PrivacySecurityPortalProps {
   className?: string;
 }

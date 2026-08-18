@@ -7,7 +7,7 @@ import {
   Platform,
   View,
 } from "react-native";
-import { StableSafeAreaView } from "../shared/StableSafeAreaView";
+import { StableSafeAreaView } from "../shared/stables/StableSafeAreaView";
 import { ChatBubble } from "./conversation/ChatBubble";
 import { ChatHeaderLeft } from "./conversation/ChatHeaderLeft";
 import { ChatHeaderRight } from "./conversation/ChatHeaderRight";

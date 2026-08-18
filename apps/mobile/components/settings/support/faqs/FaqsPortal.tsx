@@ -10,7 +10,7 @@ import {
 import { Text } from "~/components/ui/text";
 import { cn } from "~/lib/utils";
 import { StoreIDs } from "~/types";
-import { StableSafeAreaView } from "~/components/shared/StableSafeAreaView";
+import { StableSafeAreaView } from "@/components/shared/stables/StableSafeAreaView";
 import { ApplicationHeader } from "~/components/shared/AppHeader";
 import { useTranslation } from "react-i18next";
 import { useDataStore } from "@/hooks/content/useDataStore";
@@ -18,7 +18,7 @@ import { Loader } from "@/components/shared/lotties/Loader";
 import { Icon } from "@/components/ui/icon";
 
 import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
-import StableScrollView from "@/components/shared/StableScrollView";
+import StableScrollView from "@/components/shared/stables/StableScrollView";
 interface Faq {
   question: string;
   answer: string;

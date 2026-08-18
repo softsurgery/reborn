@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import { LucideIcon } from "lucide-react-native";
 import React, { useMemo } from "react";
 import { Pressable, View } from "react-native";
-import { StablePressable } from "../shared/StablePressable";
+import { StablePressable } from "../shared/stables/StablePressable";
 import { Icon } from "../ui/icon";
 import { Text } from "../ui/text";
 

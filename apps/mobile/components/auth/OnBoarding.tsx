@@ -8,7 +8,7 @@ import Carousel, {
 } from "react-native-reanimated-carousel";
 import { Text } from "~/components/ui/text";
 import { cn } from "~/lib/utils";
-import { StableSafeAreaView } from "../shared/StableSafeAreaView";
+import { StableSafeAreaView } from "../shared/stables/StableSafeAreaView";
 import { SSOButtons } from "./SSOButtons";
 import { Rocket, Zap, ShieldCheck, Languages } from "lucide-react-native";
 import { useColorPalette } from "@/hooks/useColorPalette";

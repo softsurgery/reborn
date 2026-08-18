@@ -1,11 +1,11 @@
 import { ApplicationHeader } from "@/components/shared/AppHeader";
 import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
-import { StableSafeAreaView } from "@/components/shared/StableSafeAreaView";
+import { StableSafeAreaView } from "@/components/shared/stables/StableSafeAreaView";
 import { Text } from "@/components/ui/text";
 import { cn } from "@/lib/utils";
 import { View } from "react-native";
 import { useTranslation } from "react-i18next";
-import StableScrollView from "../shared/StableScrollView";
+import StableScrollView from "../shared/stables/StableScrollView";
 
 export type LegalDocument = "terms" | "privacy";
 

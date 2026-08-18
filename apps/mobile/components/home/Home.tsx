@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Bell, Clock3, Compass, Plus } from "lucide-react-native";
 import { RefreshControl, ScrollView, View } from "react-native";
 import { api } from "~/api";
-import { StableSafeAreaView } from "~/components/shared/StableSafeAreaView";
+import { StableSafeAreaView } from "@/components/shared/stables/StableSafeAreaView";
 import { ApplicationHeader } from "~/components/shared/AppHeader";
 import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/icon";

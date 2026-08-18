@@ -1,7 +1,7 @@
 import React from "react";
 import { View } from "react-native";
 import { ChevronUp } from "lucide-react-native";
-import { StablePressable } from "~/components/shared/StablePressable";
+import { StablePressable } from "@/components/shared/stables/StablePressable";
 import { Text } from "~/components/ui/text";
 import { cn } from "~/lib/utils";
 import { useColorPalette } from "@/hooks/useColorPalette";

@@ -5,7 +5,7 @@ import { useDebounce } from "~/hooks/useDebounce";
 import { ExploreCommon } from "./ExploreCommon";
 import { ExploreFollowing } from "./ExploreFollowing";
 import { cn } from "~/lib/utils";
-import { StableSafeAreaView } from "../shared/StableSafeAreaView";
+import { StableSafeAreaView } from "../shared/stables/StableSafeAreaView";
 import { ApplicationHeader } from "../shared/AppHeader";
 import { ArrowDownNarrowWide, Bell, Search } from "lucide-react-native";
 import { useNotificationContext } from "~/contexts/NotificationContext";

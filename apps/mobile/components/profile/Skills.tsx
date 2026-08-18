@@ -1,6 +1,6 @@
 import React from "react";
 import { cn } from "~/lib/utils";
-import { StableSafeAreaView } from "../shared/StableSafeAreaView";
+import { StableSafeAreaView } from "../shared/stables/StableSafeAreaView";
 import { ApplicationHeader } from "../shared/AppHeader";
 import { ChevronLeft, Loader2, Save } from "lucide-react-native";
 import { router } from "expo-router";

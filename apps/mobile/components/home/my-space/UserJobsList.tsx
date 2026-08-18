@@ -18,7 +18,7 @@ import { router } from "expo-router";
 import { ResponseJobDto, JobStatus } from "~/types";
 import { cn } from "~/lib/utils";
 import { ApplicationHeader } from "~/components/shared/AppHeader";
-import { StableSafeAreaView } from "~/components/shared/StableSafeAreaView";
+import { StableSafeAreaView } from "@/components/shared/stables/StableSafeAreaView";
 import { useInfiniteJobs } from "@/hooks/content/job/useInfiniteJobs";
 import { useCurrentUser } from "@/hooks/content/user/useCurrentUser";
 import { NAV_THEME } from "@/lib/theme";

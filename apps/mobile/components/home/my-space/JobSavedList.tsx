@@ -6,7 +6,7 @@ import { RefreshControl, View } from "react-native";
 import { Text } from "~/components/ui/text";
 import { useInfiniteSavedJobs } from "~/hooks/content/job/useInfiniteSavedJobs";
 import { JobCard } from "../../jobs/JobCard";
-import { StableSafeAreaView } from "~/components/shared/StableSafeAreaView";
+import { StableSafeAreaView } from "@/components/shared/stables/StableSafeAreaView";
 import { ApplicationHeader } from "~/components/shared/AppHeader";
 import { useColorPalette } from "@/hooks/useColorPalette";
 import { ChevronLeft, Search } from "lucide-react-native";
@@ -38,7 +38,7 @@ export const JobSavedList = ({ className }: JobSavedListProps) => {
     isFetchingNextPage,
     isRefetching,
   } = useInfiniteSavedJobs({ search });
-  
+
   const isPending = isSavedJobsPending || searching;
 
   const renderItem = React.useCallback(({ item }: { item: FlattenedItem }) => {

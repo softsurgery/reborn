@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import { router } from "expo-router";
 import { View } from "react-native";
 import { FormBuilder } from "../shared/form-builder/FormBuilder";
-import { StableSafeAreaView } from "../shared/StableSafeAreaView";
+import { StableSafeAreaView } from "../shared/stables/StableSafeAreaView";
 import { ApplicationHeader } from "../shared/AppHeader";
 import { ChevronLeft } from "lucide-react-native";
 import { Stepper } from "../shared/Stepper";

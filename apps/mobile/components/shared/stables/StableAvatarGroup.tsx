@@ -1,7 +1,7 @@
 import React from "react";
 import { View } from "react-native";
 import { Avatar, AvatarFallback, AvatarImage } from "./StableAvatar";
-import { Text } from "../ui/text";
+import { Text } from "../../ui/text";
 import { ImageSource } from "expo-image";
 import { cn } from "~/lib/utils";
 

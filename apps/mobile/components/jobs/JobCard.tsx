@@ -23,7 +23,11 @@ import { Icon } from "../ui/icon";
 import { Badge } from "../ui/badge";
 import { useServerImage } from "@/hooks/content/useServerImage";
 import { useColorPalette } from "@/hooks/useColorPalette";
-import { Avatar, AvatarFallback, AvatarImage } from "../shared/StableAvatar";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "../shared/stables/StableAvatar";
 import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
 
 interface JobCardProps {

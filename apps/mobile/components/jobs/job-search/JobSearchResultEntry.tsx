@@ -2,7 +2,7 @@ import { View } from "react-native";
 import {
   StablePressable,
   StablePressableProps,
-} from "~/components/shared/StablePressable";
+} from "@/components/shared/stables/StablePressable";
 import { Text } from "~/components/ui/text";
 import { timeAgo } from "~/lib/dates.utils";
 import { ResponseJobDto } from "~/types";

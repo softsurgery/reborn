@@ -8,7 +8,7 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "~/components/shared/StableAvatar";
+} from "@/components/shared/stables/StableAvatar";
 import { Text } from "~/components/ui/text";
 import { useServerImage } from "~/hooks/content/useServerImage";
 import { useColorPalette } from "@/hooks/useColorPalette";
