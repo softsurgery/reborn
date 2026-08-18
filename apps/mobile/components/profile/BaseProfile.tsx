@@ -43,6 +43,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useLoader } from "@/contexts/LoaderContext";
 
 interface InspectBaseProfileProps {
   className?: string;
@@ -85,6 +86,7 @@ export const InspectBaseProfile = ({
 
   const queryClient = useQueryClient();
   const userStore = useUserStore();
+  const { setLoading } = useLoader();
 
   const { user, refetchUser, isUserPending } = useIdentifiedUser({
     id,
@@ -97,6 +99,8 @@ export const InspectBaseProfile = ({
   const { mutate: sendVerifyEmail, isPending: isSendVerifyEmailPending } =
     useMutation({
       mutationFn: () => api.auth.sendVerifyEmail(user?.email),
+      onMutate: () => setLoading(true),
+      onSettled: () => setLoading(false),
       onSuccess: () => {
         toast.success("Email sent successfully", {
           description: "Check your email for verification link.",
