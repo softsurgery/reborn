@@ -110,7 +110,7 @@ export const NotificationsPortal = ({ className }: NotificationPortalProps) => {
             ) : null
           }
           ListFooterComponent={
-            <View className="items-center mb-8">
+            <View className="items-center mb-8 px-4">
               {isPending ? (
                 <>
                   <NotificationEntrySkeleton />

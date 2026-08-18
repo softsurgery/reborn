@@ -23,14 +23,14 @@ export const NotificationEntry = ({
   };
   return (
     <StablePressable
-      className={cn("flex flex-row items-center gap-2 px-2 py-1", className)}
+      className={cn("flex flex-row items-center gap-2 px-2 py-1 rounded-xl", className)}
       onPress={onPress}
     >
       <Image
         className="w-16 h-16 rounded-full"
         source={require("~/assets/images/icon.png")}
       />
-      <View className="flex flex-col gap-2 px-2 py-1 flex-1">
+      <View className="relative flex flex-col gap-2 px-2 py-1 flex-1">
         <HTMLText variant={"large"}>
           {t(`titles.${notification.type}`)}
         </HTMLText>
