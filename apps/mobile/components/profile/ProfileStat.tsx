@@ -1,12 +1,14 @@
 import React from "react";
 import { cn } from "~/lib/utils";
-import { Pressable, View } from "react-native";
+import { View } from "react-native";
 import { Mail, Pencil } from "lucide-react-native";
 import { Icon } from "../ui/icon";
 import { Text } from "../ui/text";
 import { router } from "expo-router";
 import { ResponseUserDto } from "@/types";
 import { useTranslation } from "react-i18next";
+import { useColorPalette } from "@/hooks/useColorPalette";
+import { Button } from "../ui/button";
 
 interface ProfileStatProps {
   className?: string;
@@ -23,25 +25,33 @@ export const ProfileStat = ({
   sendVerifyEmail,
   isSendVerifyEmailPending,
 }: ProfileStatProps) => {
+  const { palette } = useColorPalette();
   const { t } = useTranslation("menu");
   return (
     <View className={cn("flex flex-col gap-2", className)}>
-      <Pressable
+      <Button
+        size={"sm"}
+        variant={"outline"}
         onPress={() => router.push("/main/account/update-profile")}
         className="flex-row items-center gap-1.5 rounded-xl border border-border px-3.5 py-2 active:opacity-80"
       >
-        <Icon as={Pencil} size={16} />
-        <Text className="text-md font-semibold">{t("menu.actions.editProfile")}</Text>
-      </Pressable>
+        <Icon as={Pencil} size={16} color={palette.foreground} />
+        <Text className="text-sm font-semibold text-foreground">
+          {t("menu.actions.editProfile")}
+        </Text>
+      </Button>
       {currentUser?.id === user?.id && user?.email && !user.emailVerified && (
-        <Pressable
+        <Button
+          size={"sm"}
           onPress={() => sendVerifyEmail?.()}
           disabled={isSendVerifyEmailPending}
-          className="flex-row items-center gap-1.5 rounded-xl border border-border px-3.5 py-2 active:opacity-80 bg-yellow-700"
+          className="flex-row items-center gap-1.5 rounded-xl border border-border px-3.5 py-2 active:opacity-80"
         >
-          <Icon as={Mail} size={16} color={"white"} />
-          <Text className="text-md font-semibold text-white">{t("menu.actions.verifyEmail")}</Text>
-        </Pressable>
+          <Icon as={Mail} size={16} color={palette.primaryForeground} />
+          <Text className="text-sm font-semibold text-primary-foreground">
+            {t("menu.actions.verifyEmail")}
+          </Text>
+        </Button>
       )}
     </View>
   );

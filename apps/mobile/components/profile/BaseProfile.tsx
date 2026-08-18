@@ -276,7 +276,7 @@ export const InspectBaseProfile = ({
             {/* Identity */}
             <View className="flex flex-row items-start justify-between mt-3 w-full">
               <View>
-                <Text className="text-2xl font-bold text-foreground">
+                <Text className="text-lg font-bold text-foreground">
                   {identity}
                 </Text>
                 {id && (
@@ -285,13 +285,6 @@ export const InspectBaseProfile = ({
                       <Text className="text-sm text-muted-foreground">
                         @{user?.username}
                       </Text>
-                      {!!user?.email &&
-                        !user?.emailVerified &&
-                        currentUser?.id === id && (
-                          <Text className="text-xs text-yellow-600 font-bold">
-                            ({t("menu.unverifiedEmail")})
-                          </Text>
-                        )}
                     </View>
                   </View>
                 )}
