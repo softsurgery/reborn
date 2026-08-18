@@ -3,7 +3,7 @@ import { ThreeDotsActionSheet } from "@/components/shared/ThreeDotsActionSheet";
 import { Text } from "@/components/ui/text";
 import { useServerImage } from "@/hooks/content/useServerImage";
 import { cn } from "@/lib/utils";
-import { JobEvents, JobStatus, ResponseJobDto } from "@/types";
+import { JobEvents, JobStatus, ResponseJobDto, Paginated } from "@/types";
 import { View, TouchableOpacity } from "react-native";
 import {
   ExternalLink,
@@ -20,11 +20,13 @@ import {
 import { router } from "expo-router";
 import { Badge } from "@/components/ui/badge";
 import { useNextWorkflowJob } from "@/hooks/content/job/workflow/useNextWorkflowJob";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQueryClient, InfiniteData } from "@tanstack/react-query";
 import { timeAgo } from "@/lib/dates.utils";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { useColorPalette } from "@/hooks/useColorPalette";
+import { toast } from "sonner-native";
+import { useLoader } from "@/contexts/LoaderContext";
 
 interface JobManagementCardProps {
   className?: string;
@@ -68,6 +70,8 @@ export const JobManagementCard = ({
 }: JobManagementCardProps) => {
   const { palette } = useColorPalette();
   const queryClient = useQueryClient();
+  const { setLoading } = useLoader();
+
   const orderedUploads = React.useMemo(
     () => job.uploads?.sort((a, b) => a.order - b.order),
     [job.uploads],
@@ -87,13 +91,47 @@ export const JobManagementCard = ({
 
   const { nextJobWorkflow, isNextJobWorkflowPending } = useNextWorkflowJob({
     id: job.id,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["my-jobs"] });
+    onSuccess: (data) => {
+      if (data.job.status === JobStatus.POSTED) {
+        toast.success("Job published successfully");
+      } else if (data.job.status === JobStatus.DRAFT) {
+        toast.success("Job unpublished successfully");
+      }
+
+      queryClient.setQueriesData<InfiniteData<Paginated<ResponseJobDto>>>(
+        { queryKey: ["jobs"] },
+        (oldData) => {
+          if (!oldData) return oldData;
+          return {
+            ...oldData,
+            pages: oldData.pages.map((page) => ({
+              ...page,
+              data: page.data.map((j) =>
+                j.id === job.id
+                  ? {
+                      ...j,
+                      ...data.job,
+                      uploads:
+                        data.job.uploads?.length > 0
+                          ? data.job.uploads
+                          : j.uploads,
+                    }
+                  : j,
+              ),
+            })),
+          };
+        },
+      );
     },
     onError: (error) => {
       console.error("Error updating job:", error);
+      toast.error("Failed to update job status");
     },
   });
+
+  React.useEffect(() => {
+    setLoading(isNextJobWorkflowPending);
+  }, [isNextJobWorkflowPending, setLoading]);
 
   const navigateToManage = () => {
     router.push({
