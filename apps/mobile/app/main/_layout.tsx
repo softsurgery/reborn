@@ -94,13 +94,6 @@ export default function MainLayout() {
       />
       {/* Career *********************************************************************************************************************/}
       <Stack.Screen
-        name="account/career/experiences"
-        options={{
-          title: "Experiences",
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
         name="account/career/create-experience"
         options={{
           title: "Create Experience",
