@@ -10,28 +10,32 @@ interface InspectProfileProps {
   id: string;
 }
 
+import { UserStoreProvider } from "~/hooks/stores/useUserStore";
+
 export const InspectProfile = ({ className, id }: InspectProfileProps) => {
   return (
-    <View className={cn("flex-1", className)}>
-      <InspectBaseProfile
-        id={id}
-        coverExtra={
-          <StableSafeAreaView
-            className="absolute top-0 left-0 right-0 z-30"
-            pointerEvents="box-none"
-          >
-            <ApplicationHeader
-              title=""
-              shortcuts={[
-                {
-                  key: "settings",
-                  render: <AppHeaderBack />,
-                },
-              ]}
-            />
-          </StableSafeAreaView>
-        }
-      />
-    </View>
+    <UserStoreProvider>
+      <View className={cn("flex-1", className)}>
+        <InspectBaseProfile
+          id={id}
+          coverExtra={
+            <StableSafeAreaView
+              className="absolute top-0 left-0 right-0 z-30"
+              pointerEvents="box-none"
+            >
+              <ApplicationHeader
+                title=""
+                shortcuts={[
+                  {
+                    key: "settings",
+                    render: <AppHeaderBack />,
+                  },
+                ]}
+              />
+            </StableSafeAreaView>
+          }
+        />
+      </View>
+    </UserStoreProvider>
   );
 };
