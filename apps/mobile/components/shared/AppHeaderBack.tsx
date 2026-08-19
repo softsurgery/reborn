@@ -84,9 +84,9 @@ export const AppHeaderBack = ({ className }: AppHeaderBackProps) => {
       if (routeName === "(tabs)") {
         const tabName = getActiveTabName(prevRoute);
         if (tabName && tabName !== "index") {
-          return tryKey(tabName) ?? t("back");
+          return tryKey(tabName) ?? "";
         }
-        return tryKey("explore") ?? t("back");
+        return tryKey("explore") ?? "";
       }
 
       // 3. Try the full route name directly (works for "chat", "notifications", etc.)
@@ -156,7 +156,6 @@ export const AppHeaderBack = ({ className }: AppHeaderBackProps) => {
         size={28}
         color={palette.foreground}
         style={{
-          opacity: 0.75,
           flexShrink: 0,
         }}
       />
