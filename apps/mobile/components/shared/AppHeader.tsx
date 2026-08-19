@@ -49,7 +49,11 @@ export const ApplicationHeader = ({
       return (
         <Text
           variant={titleVariant}
-          className={cn("mx-2 flex-1", classNames?.title)}
+          className={cn(
+            "mx-2 flex-1 self-center",
+            isRTL || reverse ? "text-right" : "text-left",
+            classNames?.title,
+          )}
           numberOfLines={1}
         >
           {title}
@@ -57,7 +61,7 @@ export const ApplicationHeader = ({
       );
     }
 
-    return <View className="mx-2">{title}</View>;
+    return <View className="mx-2 flex-1 justify-center">{title}</View>;
   };
 
   return (
@@ -70,7 +74,10 @@ export const ApplicationHeader = ({
     >
       {renderTitle()}
       <View
-        className={cn("flex gap-2", reverse ? "flex-row-reverse" : "flex-row")}
+        className={cn(
+          "flex flex-row items-center gap-2",
+          reverse ? "flex-row-reverse" : "flex-row",
+        )}
       >
         {shortcuts?.map((shortcut) => {
           if (
