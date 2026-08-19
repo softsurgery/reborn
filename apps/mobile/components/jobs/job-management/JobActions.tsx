@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, TouchableOpacity } from "react-native";
+import { View, Text, ScrollView, Pressable } from "react-native";
 import {
   Edit,
   Trash2,
@@ -14,6 +14,8 @@ import {
 } from "lucide-react-native";
 import { useColorPalette } from "@/hooks/useColorPalette";
 import { cn } from "@/lib/utils";
+import { useRouter } from "expo-router";
+import { useDuplicateJob } from "@/hooks/content/job/useDuplicateJob";
 
 type ActionItem = {
   id: string;
@@ -35,11 +37,14 @@ type ActionGroup = {
 };
 
 interface JobActionsProps {
+  id: string;
   className?: string;
 }
 
-export const JobActions = ({ className }: JobActionsProps) => {
+export const JobActions = ({ id, className }: JobActionsProps) => {
   const { palette } = useColorPalette();
+  const router = useRouter();
+  const { duplicateJob, isDuplicatingJob } = useDuplicateJob();
 
   const ACTION_GROUPS: ActionGroup[] = [
     {
@@ -52,6 +57,12 @@ export const JobActions = ({ className }: JobActionsProps) => {
           description: "Update title, requirements & salary",
           Icon: Edit,
           iconBgClass: "bg-blue-500/10",
+          onPress: () => {
+            router.push({
+              pathname: "/main/my-space/update-job",
+              params: { id },
+            });
+          },
         },
         {
           id: "duplicate",
@@ -59,6 +70,18 @@ export const JobActions = ({ className }: JobActionsProps) => {
           description: "Create a copy for a similar opening",
           Icon: Copy,
           iconBgClass: "bg-purple-500/10",
+          onPress: async () => {
+            if (isDuplicatingJob) return;
+            try {
+              const duplicatedJob = await duplicateJob(id);
+              router.push({
+                pathname: "/main/my-space/update-job",
+                params: { id: duplicatedJob.id },
+              });
+            } catch (e) {
+              console.error(e);
+            }
+          },
         },
         {
           id: "pause",
@@ -186,12 +209,13 @@ export const JobActions = ({ className }: JobActionsProps) => {
           {group.items.map((item, index) => {
             const isLast = index === group.items.length - 1;
             return (
-              <TouchableOpacity
+              <Pressable
                 key={item.id}
                 onPress={item.onPress}
-                className={`flex-row items-center justify-between p-4 ${
-                  !isLast ? "border-b border-border/40" : ""
-                } ${item.activeBgClass || "active:bg-muted/40"}`}
+                className={cn(
+                  "flex-row items-center justify-between p-4 active:opacity-50",
+                  !isLast ? "border-b border-border/40" : "",
+                )}
               >
                 <View className="flex-row items-center gap-3.5">
                   <View
@@ -213,7 +237,7 @@ export const JobActions = ({ className }: JobActionsProps) => {
                   </View>
                 </View>
                 <ChevronRight size={18} color={palette.foreground} />
-              </TouchableOpacity>
+              </Pressable>
             );
           })}
         </View>

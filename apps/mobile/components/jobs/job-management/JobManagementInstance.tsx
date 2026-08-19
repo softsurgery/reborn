@@ -82,7 +82,7 @@ export const JobManagementInstance = ({
               tabBarLabel: "Actions",
             }}
           >
-            {() => <JobActions className="p-2" />}
+            {() => <JobActions id={id} className="p-2" />}
           </Tab.Screen>
         </Tab.Navigator>
       </View>
