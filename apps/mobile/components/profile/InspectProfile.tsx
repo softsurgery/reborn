@@ -1,10 +1,9 @@
 import { cn } from "@/lib/utils";
-import { router } from "expo-router";
-import { ChevronLeft } from "lucide-react-native";
 import { View } from "react-native";
 import { InspectBaseProfile } from "../profile/BaseProfile";
 import { ApplicationHeader } from "../shared/AppHeader";
 import { StableSafeAreaView } from "../shared/stables/StableSafeAreaView";
+import { AppHeaderBack } from "../shared/AppHeaderBack";
 
 interface InspectProfileProps {
   className?: string;
@@ -26,8 +25,7 @@ export const InspectProfile = ({ className, id }: InspectProfileProps) => {
               shortcuts={[
                 {
                   key: "settings",
-                  icon: ChevronLeft,
-                  onPress: () => router.back(),
+                  render: <AppHeaderBack />,
                 },
               ]}
             />

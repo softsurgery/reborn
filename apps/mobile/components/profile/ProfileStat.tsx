@@ -1,7 +1,7 @@
 import React from "react";
 import { cn } from "~/lib/utils";
 import { View } from "react-native";
-import { Mail, Pencil } from "lucide-react-native";
+import { Mail, Pencil, UserPlus } from "lucide-react-native";
 import { Icon } from "../ui/icon";
 import { Text } from "../ui/text";
 import { router } from "expo-router";
@@ -16,6 +16,9 @@ interface ProfileStatProps {
   currentUser?: ResponseUserDto | null;
   sendVerifyEmail?: () => void;
   isSendVerifyEmailPending?: boolean;
+  isFollowing?: boolean;
+  onFollowPress?: () => void;
+  onSendMessagePress?: () => void;
 }
 
 export const ProfileStat = ({
@@ -24,34 +27,81 @@ export const ProfileStat = ({
   currentUser,
   sendVerifyEmail,
   isSendVerifyEmailPending,
+  isFollowing,
+  onFollowPress,
+  onSendMessagePress,
 }: ProfileStatProps) => {
   const { palette } = useColorPalette();
   const { t } = useTranslation("menu");
+  const isCurrentUser = currentUser?.id === user?.id;
+
   return (
     <View className={cn("flex flex-col gap-2", className)}>
-      <Button
-        size={"sm"}
-        variant={"outline"}
-        onPress={() => router.push("/main/account/update-profile")}
-        className="flex-row items-center gap-1.5 rounded-xl border border-border px-3.5 py-2 active:opacity-80"
-      >
-        <Icon as={Pencil} size={16} color={palette.foreground} />
-        <Text className="text-sm font-semibold text-foreground">
-          {t("menu.actions.editProfile")}
-        </Text>
-      </Button>
-      {currentUser?.id === user?.id && user?.email && !user.emailVerified && (
-        <Button
-          size={"sm"}
-          onPress={() => sendVerifyEmail?.()}
-          disabled={isSendVerifyEmailPending}
-          className="flex-row items-center gap-1.5 rounded-xl border border-border px-3.5 py-2 active:opacity-80"
-        >
-          <Icon as={Mail} size={16} color={palette.primaryForeground} />
-          <Text className="text-sm font-semibold text-primary-foreground">
-            {t("menu.actions.verifyEmail")}
-          </Text>
-        </Button>
+      {isCurrentUser ? (
+        <>
+          <Button
+            size={"sm"}
+            variant={"outline"}
+            onPress={() => router.push("/main/account/update-profile")}
+            className="flex-row items-center gap-1.5 rounded-xl border border-border px-3.5 py-2 active:opacity-80"
+          >
+            <Icon as={Pencil} size={16} color={palette.foreground} />
+            <Text className="text-sm font-semibold text-foreground">
+              {t("menu.actions.editProfile")}
+            </Text>
+          </Button>
+          {user?.email && !user.emailVerified && (
+            <Button
+              size={"sm"}
+              onPress={() => sendVerifyEmail?.()}
+              disabled={isSendVerifyEmailPending}
+              className="flex-row items-center gap-1.5 rounded-xl border border-border px-3.5 py-2 active:opacity-80"
+            >
+              <Icon as={Mail} size={16} color={palette.primaryForeground} />
+              <Text className="text-sm font-semibold text-primary-foreground">
+                {t("menu.actions.verifyEmail")}
+              </Text>
+            </Button>
+          )}
+        </>
+      ) : (
+        <>
+          <Button
+            size={"sm"}
+            variant={isFollowing ? "outline" : "default"}
+            onPress={onFollowPress}
+            className="flex-row items-center gap-1.5 rounded-xl border border-border px-3.5 py-2 active:opacity-80"
+          >
+            {!isFollowing && (
+              <Icon
+                as={UserPlus}
+                size={16}
+                color={palette.primaryForeground}
+              />
+            )}
+            <Text
+              className={cn(
+                "text-sm font-semibold",
+                isFollowing ? "text-foreground" : "text-primary-foreground",
+              )}
+            >
+              {isFollowing
+                ? t("menu.actions.following")
+                : t("menu.actions.follow")}
+            </Text>
+          </Button>
+          <Button
+            size={"sm"}
+            variant={"outline"}
+            onPress={onSendMessagePress}
+            className="flex-row items-center gap-1.5 rounded-xl border border-border px-3.5 py-2 active:opacity-80"
+          >
+            <Icon as={Mail} size={16} color={palette.foreground} />
+            <Text className="text-sm font-semibold text-foreground">
+              {t("menu.actions.sendMessage")}
+            </Text>
+          </Button>
+        </>
       )}
     </View>
   );

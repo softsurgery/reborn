@@ -1,6 +1,6 @@
 import React from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Pressable, View } from "react-native";
+import { View } from "react-native";
 import { api } from "~/api";
 import { useFollowSystem } from "~/hooks/content/useFollowSystem";
 import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
@@ -14,8 +14,6 @@ import {
   UpdateUserDto,
 } from "~/types";
 import { Text } from "../ui/text";
-import { Icon } from "../ui/icon";
-import { Mail, UserPlus } from "lucide-react-native";
 import { cn } from "~/lib/utils";
 import { useUserStore } from "~/hooks/stores/useUserStore";
 import { SocialStat } from "./social/SocialStat";
@@ -38,12 +36,9 @@ import { ExperienceInstance } from "./forms/experience/ExperienceInstance";
 import { EducationInstance } from "./forms/education/EducationInstance";
 import { ProfileStat } from "./ProfileStat";
 import { useScrollableElement } from "@/hooks/useScrollableElement";
-import Animated, {
-  useAnimatedStyle,
-  withTiming,
-} from "react-native-reanimated";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import Animated from "react-native-reanimated";
 import { useLoader } from "@/contexts/LoaderContext";
+import { JobsTab } from "./sections/JobsTab";
 
 interface InspectBaseProfileProps {
   className?: string;
@@ -68,20 +63,14 @@ export const InspectBaseProfile = ({
     contentAnimatedStyle,
     handleScroll,
     onLayout,
-    showHeader,
+    scrollRef,
+    scrollToTop,
   } = useScrollableElement({
-    deltaThreshold: 0,
     duration: 400,
-    checkScrollable: true,
+    deltaThreshold: 100,
+    ignoreTopInset: true,
   });
-  const insets = useSafeAreaInsets();
-  const animatedTabsStyle = useAnimatedStyle(() => {
-    return {
-      paddingTop: withTiming(showHeader.value ? 0 : insets.top, {
-        duration: 400,
-      }),
-    };
-  });
+
   const { t } = useTranslation("menu");
 
   const queryClient = useQueryClient();
@@ -144,11 +133,15 @@ export const InspectBaseProfile = ({
     follow: {
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: ["follow-data-count", userStore?.response?.id],
+          queryKey: ["follow-data-count", user?.id],
+        });
+        queryClient.invalidateQueries({
+          queryKey: ["social-data", user?.id],
         });
         refetchFollowers();
         refetchFollowing();
         refetchIsFollowing();
+        refetchSocialStat();
       },
       onError: (err: ServerErrorResponse) => {
         toast.error(err.response?.data.message || "Failed to follow user");
@@ -157,11 +150,15 @@ export const InspectBaseProfile = ({
     unfollow: {
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: ["follow-data-count", userStore?.response?.id],
+          queryKey: ["follow-data-count", user?.id],
+        });
+        queryClient.invalidateQueries({
+          queryKey: ["social-data", user?.id],
         });
         refetchFollowers();
         refetchFollowing();
         refetchIsFollowing();
+        refetchSocialStat();
       },
       onError: (err: ServerErrorResponse) => {
         toast.error(err.response?.data.message || "Failed to unfollow user");
@@ -257,7 +254,7 @@ export const InspectBaseProfile = ({
   return (
     <View className={cn("bg-background flex-1", className)}>
       <Animated.View style={animatedHeaderStyle}>
-        <View onLayout={onLayout}>
+        <View className="pb-4" onLayout={onLayout}>
           <ProfileCover
             user={user}
             currentUser={currentUser}
@@ -274,141 +271,157 @@ export const InspectBaseProfile = ({
             </View>
 
             {/* Identity */}
-            <View className="flex flex-row items-start justify-between mt-3 w-full">
-              <View>
-                <Text className="text-lg font-bold text-foreground">
+            <View className="flex flex-row items-start justify-between mt-3 w-full gap-3">
+              <View className="flex-1 min-w-0 pr-2">
+                <Text
+                  className="text-lg font-bold text-foreground"
+                  numberOfLines={1}
+                  ellipsizeMode="tail"
+                >
                   {identity}
                 </Text>
                 {id && (
                   <View className="flex-col items-start justify-between gap-2">
                     <View className="flex flex-row items-center gap-2">
-                      <Text className="text-sm text-muted-foreground">
+                      <Text
+                        className="text-sm text-muted-foreground"
+                        numberOfLines={1}
+                        ellipsizeMode="tail"
+                      >
                         @{user?.username}
                       </Text>
                     </View>
                   </View>
                 )}
               </View>
-              {currentUser?.id === id && (
-                <ProfileStat
-                  className="-mt-8 mb-4"
-                  user={user}
-                  currentUser={currentUser}
-                  sendVerifyEmail={sendVerifyEmail}
-                  isSendVerifyEmailPending={isSendVerifyEmailPending}
-                />
-              )}
+              <ProfileStat
+                className="-mt-8 mb-4 shrink-0"
+                user={user}
+                currentUser={currentUser}
+                sendVerifyEmail={sendVerifyEmail}
+                isSendVerifyEmailPending={isSendVerifyEmailPending}
+                isFollowing={isFollowing}
+                onFollowPress={() =>
+                  isFollowing ? unfollowUser() : followUser()
+                }
+              />
             </View>
           </View>
-          <SocialStat className="w-[70vw] mx-auto" />
+          <SocialStat className="w-[70vw] mx-auto" userId={user?.id} />
+          {/* Bio + Sections */}
+          <View className="flex flex-col">
+            <View>
+              {overrideContent && customContent ? customContent : null}
+            </View>
+          </View>
         </View>
       </Animated.View>
-      <Animated.View
-        className={cn("flex-1", !user?.emailVerified ? "mt-2" : "")}
-        style={animatedTabsStyle}
-      >
-        {/* Bio + Sections */}
-        <View className="flex flex-col">
-          {/* Follow buttons */}
-          {currentUser?.id !== user?.id ? (
-            <View className="flex flex-row px-4 my-4 gap-4">
-              <Button
-                size="sm"
-                onPress={() => (isFollowing ? unfollowUser() : followUser())}
-                variant={isFollowing ? "outline" : "default"}
-                className="flex flex-row flex-1 gap-2"
-              >
-                {!isFollowing && <Icon as={UserPlus} size={20} />}
-                <Text>
-                  {isFollowing
-                    ? t("menu.actions.following")
-                    : t("menu.actions.follow")}
-                </Text>
-              </Button>
-
-              <Button
-                size="sm"
-                className="flex flex-row flex-1 gap-2"
-                variant="outline"
-              >
-                <Icon as={Mail} size={20} />
-                <Text>{t("menu.actions.sendMessage")}</Text>
-              </Button>
-            </View>
-          ) : null}
-          <View>{overrideContent && customContent ? customContent : null}</View>
-        </View>
-
+      <Animated.View className={cn("flex-1")} style={contentAnimatedStyle}>
         {/* Profile Content */}
-        <View className="flex-1">
-          <Tab.Navigator
-            screenOptions={{
-              tabBarScrollEnabled: false,
-              tabBarLabelStyle: {
-                fontSize: 12,
-                fontWeight: "600",
-                textTransform: "none",
-              },
-              tabBarIndicatorStyle: {
-                backgroundColor: hslToHex(palette.primary),
-              },
-              tabBarStyle: { backgroundColor: "transparent" },
-            }}
-            commonOptions={{
-              sceneStyle: {
-                flex: 1,
-              },
+        <Tab.Navigator
+          screenOptions={{
+            tabBarScrollEnabled: false,
+            tabBarActiveTintColor: palette.foreground,
+            tabBarInactiveTintColor: palette.mutedForeground,
+            tabBarLabelStyle: {
+              fontSize: 13,
+              fontWeight: "600",
+              textTransform: "none",
+            },
+            tabBarIndicatorStyle: {
+              backgroundColor: hslToHex(palette.primary),
+              height: 2,
+              borderRadius: 2,
+            },
+            tabBarStyle: {
+              backgroundColor: "transparent",
+              elevation: 0,
+              shadowOpacity: 0,
+              borderBottomWidth: 1,
+              borderBottomColor: palette.border,
+            },
+          }}
+          commonOptions={{
+            sceneStyle: {
+              flex: 1,
+            },
+          }}
+          screenListeners={{
+            state: () => scrollToTop(),
+            tabPress: () => scrollToTop(),
+          }}
+        >
+          <Tab.Screen
+            name="about"
+            options={{
+              tabBarLabel: t("menu.tabs.about.title"),
             }}
           >
+            {() => (
+              <AboutTab
+                user={user}
+                onRefresh={onRefresh}
+                refreshing={refreshing}
+                onScroll={handleScroll}
+                scrollRef={scrollRef}
+              />
+            )}
+          </Tab.Screen>
+
+          {currentUser?.id !== user?.id && (
             <Tab.Screen
-              name="about"
+              name="jobs"
               options={{
-                tabBarLabel: t("menu.tabs.about.title"),
+                tabBarLabel: "Jobs",
               }}
             >
               {() => (
-                <AboutTab
+                <JobsTab
                   user={user}
                   onRefresh={onRefresh}
                   refreshing={refreshing}
                   onScroll={handleScroll}
+                  scrollRef={scrollRef}
                 />
               )}
             </Tab.Screen>
+          )}
 
-            <Tab.Screen
-              name="career"
-              options={{
-                tabBarLabel: t("menu.tabs.career.title"),
-              }}
-            >
-              {() => (
-                <CareerTab
-                  onRefresh={onRefresh}
-                  refreshing={refreshing}
-                  renderSection={RenderSection}
-                  profileSections={profileSections}
-                  onScroll={handleScroll}
-                />
-              )}
-            </Tab.Screen>
-            <Tab.Screen
-              name="gallery"
-              options={{
-                tabBarLabel: t("menu.tabs.gallery.title"),
-              }}
-            >
-              {() => (
-                <SnippetsTab
-                  onRefresh={onRefresh}
-                  refreshing={refreshing}
-                  renderSection={RenderSection}
-                  profileSections={profileSections}
-                />
-              )}
-            </Tab.Screen>
-          </Tab.Navigator>
-        </View>
+          <Tab.Screen
+            name="career"
+            options={{
+              tabBarLabel: t("menu.tabs.career.title"),
+            }}
+          >
+            {() => (
+              <CareerTab
+                onRefresh={onRefresh}
+                refreshing={refreshing}
+                renderSection={RenderSection}
+                profileSections={profileSections}
+                onScroll={handleScroll}
+                scrollRef={scrollRef}
+              />
+            )}
+          </Tab.Screen>
+          <Tab.Screen
+            name="gallery"
+            options={{
+              tabBarLabel: t("menu.tabs.gallery.title"),
+            }}
+          >
+            {() => (
+              <SnippetsTab
+                onRefresh={onRefresh}
+                refreshing={refreshing}
+                renderSection={RenderSection}
+                profileSections={profileSections}
+                onScroll={handleScroll}
+                scrollRef={scrollRef}
+              />
+            )}
+          </Tab.Screen>
+        </Tab.Navigator>
       </Animated.View>
     </View>
   );

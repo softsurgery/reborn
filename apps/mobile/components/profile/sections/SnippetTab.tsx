@@ -1,5 +1,10 @@
-import { ScrollView, View } from "react-native";
-import { ProfileSection, RenderSection } from "./RenderSection";
+import {
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  ScrollView,
+  View,
+} from "react-native";
+import { ProfileSection } from "./RenderSection";
 import { cn } from "@/lib/utils";
 import { RefreshControl } from "react-native";
 
@@ -9,6 +14,8 @@ interface SnippetsTabProps {
   renderSection: (section: ProfileSection) => React.ReactNode;
   onRefresh?: () => void;
   refreshing?: boolean;
+  onScroll?: (e: NativeSyntheticEvent<NativeScrollEvent>) => void;
+  scrollRef?: React.RefObject<any>;
 }
 
 export const SnippetsTab = ({
@@ -17,8 +24,12 @@ export const SnippetsTab = ({
   renderSection,
   onRefresh,
   refreshing,
+  onScroll,
+  scrollRef,
 }: SnippetsTabProps) => (
   <ScrollView
+    ref={scrollRef}
+    onScroll={onScroll}
     className={cn("flex-1 bg-background", className)}
     refreshControl={
       <RefreshControl refreshing={!!refreshing} onRefresh={onRefresh} />
