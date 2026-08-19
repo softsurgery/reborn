@@ -8,11 +8,17 @@ import { useTranslation } from "react-i18next";
 
 interface SocialStatProps {
   className?: string;
+  userId?: string;
 }
 
-export const SocialStat = ({ className }: SocialStatProps) => {
+export const SocialStat = ({ className, userId }: SocialStatProps) => {
   const { t } = useTranslation("menu");
   const clientStore = useUserStore();
+  const targetId = userId || clientStore?.response?.id;
+
+  const followingCount = clientStore?.responseFollowCountsDto?.following ?? 0;
+  const followersCount = clientStore?.responseFollowCountsDto?.followers ?? 0;
+
   return (
     <View
       className={cn(
@@ -30,38 +36,34 @@ export const SocialStat = ({ className }: SocialStatProps) => {
       {/* Following */}
       <Pressable
         className="flex flex-col items-center active:opacity-70"
-        disabled={
-          !clientStore?.response?.id || clientStore.followings.length === 0
-        }
-        onPress={() =>
-          router.push({
-            pathname: "/main/connections",
-            params: { id: clientStore?.response?.id, tab: "following" },
-          })
-        }
+        disabled={!targetId}
+        onPress={() => {
+          if (targetId) {
+            router.push({
+              pathname: "/main/connections",
+              params: { id: targetId, tab: "following" },
+            });
+          }
+        }}
       >
-        <Text variant={"large"}>
-          {clientStore?.responseFollowCountsDto?.following}
-        </Text>
+        <Text variant={"large"}>{followingCount}</Text>
         <Text variant={"muted"}>{t("menu.social.following")}</Text>
       </Pressable>
 
       {/* Followers */}
       <Pressable
         className="flex flex-col items-center active:opacity-70"
-        disabled={
-          !clientStore?.response?.id || clientStore.followers.length === 0
-        }
-        onPress={() =>
-          router.push({
-            pathname: "/main/connections",
-            params: { id: clientStore?.response?.id, tab: "followers" },
-          })
-        }
+        disabled={!targetId}
+        onPress={() => {
+          if (targetId) {
+            router.push({
+              pathname: "/main/connections",
+              params: { id: targetId, tab: "followers" },
+            });
+          }
+        }}
       >
-        <Text variant={"large"}>
-          {clientStore?.responseFollowCountsDto?.followers}
-        </Text>
+        <Text variant={"large"}>{followersCount}</Text>
         <Text variant={"muted"}>{t("menu.social.followers")}</Text>
       </Pressable>
     </View>

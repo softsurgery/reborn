@@ -38,49 +38,49 @@ export const UserEntry = ({
 
   const invalidateOwnerId = profileId ?? userStore?.response?.id;
 
-  const {
-    isFollowing,
-    refetchIsFollowing,
-    followUser,
-    unfollowUser,
-    isFollowPending,
-    isUnfollowPending,
-  } = useFollowSystem({
-    id: user?.id,
-    follow: {
-      onSuccess: () => {
-        refetchIsFollowing();
-        if (invalidateOwnerId) {
-          queryClient.invalidateQueries({
-            queryKey: ["follow-data-count", invalidateOwnerId],
-          });
-          queryClient.invalidateQueries({
-            queryKey: ["followings", invalidateOwnerId],
-          });
-        }
+  const { isFollowing, refetchIsFollowing, followUser, unfollowUser } =
+    useFollowSystem({
+      id: user?.id,
+      follow: {
+        onSuccess: () => {
+          refetchIsFollowing();
+          if (invalidateOwnerId) {
+            queryClient.invalidateQueries({
+              queryKey: ["follow-data-count", invalidateOwnerId],
+            });
+            queryClient.invalidateQueries({
+              queryKey: ["social-data", invalidateOwnerId],
+            });
+            queryClient.invalidateQueries({
+              queryKey: ["followings", invalidateOwnerId],
+            });
+          }
+        },
+        onError: (err: ServerErrorResponse) => {
+          toast.error(err.response?.data.message || "Failed to follow user");
+        },
       },
-      onError: (err: ServerErrorResponse) => {
-        toast.error(err.response?.data.message || "Failed to follow user");
+      unfollow: {
+        onSuccess: () => {
+          refetchIsFollowing();
+          if (invalidateOwnerId) {
+            queryClient.invalidateQueries({
+              queryKey: ["follow-data-count", invalidateOwnerId],
+            });
+            queryClient.invalidateQueries({
+              queryKey: ["social-data", invalidateOwnerId],
+            });
+            queryClient.invalidateQueries({
+              queryKey: ["followers", invalidateOwnerId],
+            });
+          }
+        },
+        onError: (err: ServerErrorResponse) => {
+          toast.error(err.response?.data.message || "Failed to unfollow user");
+        },
       },
-    },
-    unfollow: {
-      onSuccess: () => {
-        refetchIsFollowing();
-        if (invalidateOwnerId) {
-          queryClient.invalidateQueries({
-            queryKey: ["follow-data-count", invalidateOwnerId],
-          });
-          queryClient.invalidateQueries({
-            queryKey: ["followers", invalidateOwnerId],
-          });
-        }
-      },
-      onError: (err: ServerErrorResponse) => {
-        toast.error(err.response?.data.message || "Failed to unfollow user");
-      },
-    },
-    use: ["is-following"],
-  });
+      use: ["is-following"],
+    });
 
   const { jsx: profilePicture } = useServerImage({
     id: user?.pictureId,
