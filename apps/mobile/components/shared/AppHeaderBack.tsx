@@ -147,7 +147,7 @@ export const AppHeaderBack = ({ className }: AppHeaderBackProps) => {
       onPress={router.back}
       className={cn("flex-row items-center h-9", className)}
       style={{
-        width: SCREEN_WIDTH * 0.4,
+        maxWidth: SCREEN_WIDTH * 0.4,
         flexShrink: 1,
       }}
     >
