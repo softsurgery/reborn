@@ -15,6 +15,7 @@ import { createEducationSchema } from "@/types/validations/education.validation"
 import { View } from "react-native";
 import { useKeyboardVisible } from "@/hooks/useKeyboardVisible";
 import { toast } from "sonner-native";
+import React from "react";
 
 import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
 import { BottomButtonWrapper } from "@/components/shared/BottomButtonBlockWrapper";
@@ -66,6 +67,12 @@ export const CreateEducation = ({ className }: CreateEducationProps) => {
       createEducation(data);
     }
   };
+
+  React.useEffect(() => {
+    return () => {
+      userStore.reset();
+    };
+  }, []);
 
   return (
     <StableSafeAreaView className={cn("flex-1 bg-card", className)}>

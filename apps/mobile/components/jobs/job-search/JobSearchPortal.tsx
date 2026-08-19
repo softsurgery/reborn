@@ -21,7 +21,7 @@ export const JobSearchPortal = ({ className }: JobSearchPortalProps) => {
   const jobStore = useJobStore();
   const { value: debouncedSearchQuery, loading: searching } = useDebounce(
     searchQuery,
-    2000
+    2000,
   );
   const navigation = useNavigation();
 
@@ -53,7 +53,7 @@ export const JobSearchPortal = ({ className }: JobSearchPortalProps) => {
         }}
       />
     ),
-    []
+    [],
   );
 
   return (
