@@ -2,9 +2,13 @@ import { SeeMoreText } from "@/components/shared/SeeMoreText";
 import { Icon } from "@/components/ui/icon";
 import { Text } from "@/components/ui/text";
 import { cn } from "@/lib/utils";
+import { hslToHex } from "@/lib/theme";
 import { ResponseEducationDto } from "@/types";
-import { GraduationCap } from "lucide-react-native";
+import { format } from "date-fns";
+import { CalendarDays, GraduationCap } from "lucide-react-native";
 import { View } from "react-native";
+import { useTranslation } from "react-i18next";
+import { useColorPalette } from "@/hooks/useColorPalette";
 
 interface EducationInstanceProps {
   className?: string;
@@ -15,17 +19,17 @@ export const EducationInstance = ({
   className,
   education,
 }: EducationInstanceProps) => {
-  // const { t } = useTranslation("menu");
-  // const { palette } = useColorPalette();
-  // const primary = hslToHex(palette.primary);
+  const { t } = useTranslation("menu");
+  const { palette } = useColorPalette();
+  const primary = hslToHex(palette.primary);
 
-  // const range = education.startDate
-  //   ? `${format(new Date(education.startDate), "yyyy")} — ${
-  //       education.endDate
-  //         ? format(new Date(education.endDate), "yyyy")
-  //         : t("education.instance.present")
-  //     }`
-  //   : null;
+  const range = education.startDate
+    ? `${format(new Date(education.startDate), "yyyy")} — ${
+        education.endDate
+          ? format(new Date(education.endDate), "yyyy")
+          : t("education.instance.present")
+      }`
+    : null;
 
   return (
     <View
@@ -50,7 +54,7 @@ export const EducationInstance = ({
           </Text>
         )}
 
-        {/* {range && (
+        {range && (
           <View className="mt-2 flex-row">
             <View className="flex-row items-center gap-1 rounded-full bg-muted px-2.5 py-1">
               <Icon as={CalendarDays} size={12} color={primary} />
@@ -59,7 +63,7 @@ export const EducationInstance = ({
               </Text>
             </View>
           </View>
-        )} */}
+        )}
 
         {!!education.description && (
           <SeeMoreText
