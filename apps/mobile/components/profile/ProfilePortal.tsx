@@ -8,13 +8,16 @@ import { useNotificationContext } from "~/contexts/NotificationContext";
 import { useTranslation } from "react-i18next";
 import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
 import { View } from "react-native";
-import { InspectBaseProfile } from "../profile/BaseProfile";
+import { InspectBaseProfile } from "./BaseProfile";
+import { useColorPalette } from "@/hooks/useColorPalette";
+import { hslToHex } from "@/lib/theme";
 
-interface MenuPortalProps {
+interface ProfilePortalProps {
   className?: string;
 }
 
-export const MenuPortal = ({ className }: MenuPortalProps) => {
+export const ProfilePortal = ({ className }: ProfilePortalProps) => {
+  const { palette } = useColorPalette();
   const { t } = useTranslation("common");
   const { currentUser } = useCurrentUser();
 
@@ -31,29 +34,30 @@ export const MenuPortal = ({ className }: MenuPortalProps) => {
           >
             <ApplicationHeader
               title={t("screens.menu")}
-              classNames={{ title: "text-white" }}
+              classNames={{ title: "text-foreground" }}
               shortcuts={[
                 {
                   key: "settings",
                   icon: Settings,
-                  color: "white",
+                  color: hslToHex(palette.foreground),
                   onPress: () => router.push("/main/settings"),
                 },
                 {
                   key: "notifications",
                   icon: Bell,
-                  color: "white",
+                  color: hslToHex(palette.foreground),
                   onPress: () => {
                     router.push("/main/notifications");
                     resetCount();
                   },
                   badgeText: newCount > 0 ? `${newCount}` : undefined,
                 },
-                ...(process.env.NODE_ENV === "development"
+                ...(__DEV__
                   ? [
                       {
                         key: "flask",
-                        color: "white",
+                        color: hslToHex(palette.foreground),
+
                         icon: FlaskConical,
                         onPress: () => router.push("/main/test"),
                       },
