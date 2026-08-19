@@ -74,6 +74,10 @@ export function useFollowSystem({
     },
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: ["jobs"] });
+      queryClient.invalidateQueries({ queryKey: ["social-data", id] });
+      queryClient.invalidateQueries({ queryKey: ["follow-data-count", id] });
+      queryClient.invalidateQueries({ queryKey: ["followers", id] });
+      queryClient.invalidateQueries({ queryKey: ["followings", id] });
       if (follow?.onSuccess) follow.onSuccess(data, variables, context);
     },
     onError: (err, variables, context) => {
@@ -84,6 +88,8 @@ export function useFollowSystem({
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["is-following", id] });
+      queryClient.invalidateQueries({ queryKey: ["social-data", id] });
+      queryClient.invalidateQueries({ queryKey: ["follow-data-count", id] });
     },
   });
 
@@ -97,6 +103,10 @@ export function useFollowSystem({
     },
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: ["jobs"] });
+      queryClient.invalidateQueries({ queryKey: ["social-data", id] });
+      queryClient.invalidateQueries({ queryKey: ["follow-data-count", id] });
+      queryClient.invalidateQueries({ queryKey: ["followers", id] });
+      queryClient.invalidateQueries({ queryKey: ["followings", id] });
       if (unfollow?.onSuccess) unfollow.onSuccess(data, variables, context);
     },
     onError: (err, variables, context) => {
@@ -107,6 +117,8 @@ export function useFollowSystem({
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["is-following", id] });
+      queryClient.invalidateQueries({ queryKey: ["social-data", id] });
+      queryClient.invalidateQueries({ queryKey: ["follow-data-count", id] });
     },
   });
 
