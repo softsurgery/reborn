@@ -9,7 +9,6 @@ import {
   ScrollView,
 } from "react-native";
 import { Search, Plus, Briefcase } from "lucide-react-native";
-import { router } from "expo-router";
 import { ResponseJobDto, JobStatus } from "~/types";
 import { cn } from "~/lib/utils";
 import { ApplicationHeader } from "~/components/shared/AppHeader";
@@ -21,10 +20,9 @@ import { Loader } from "@/components/shared/lotties/Loader";
 import { JobManagementCard } from "@/components/jobs/job-management/JobManagmentCard";
 import { Icon } from "@/components/ui/icon";
 import { Text } from "@/components/ui/text";
-import { Button } from "@/components/ui/button";
-import { useColorPalette } from "@/hooks/useColorPalette";
 import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
 import { useStickyElement } from "@/hooks/useStickyElement";
+import { JobCreateActionBanner } from "./JobCreateActionBanner";
 
 const AnimatedLegendList = Animated.createAnimatedComponent(
   LegendList,
@@ -52,7 +50,6 @@ export const UserJobsList = ({
   className,
   searching = false,
 }: UserJobsListProps) => {
-  const { palette } = useColorPalette();
   const { currentUser } = useCurrentUser();
   const [search, setSearch] = React.useState("");
   const [selectedFilter, setSelectedFilter] = React.useState("all");
@@ -91,47 +88,8 @@ export const UserJobsList = ({
   const isPending = isJobsPending || searching;
 
   const renderItem = React.useCallback(({ item }: { item: ResponseJobDto }) => {
-    return <JobManagementCard job={item} className="mb-3" />;
+    return <JobManagementCard job={item} />;
   }, []);
-
-  const navigateToCreateJob = () => {
-    router.push("/main/my-space/new-job");
-  };
-
-  const renderHeader = () => (
-    <View>
-      <View
-        className="flex flex-col pt-4"
-        onLayout={(e) => setBannerHeight(e.nativeEvent.layout.height)}
-      >
-        {/* Quick Action Banner */}
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={navigateToCreateJob}
-          className="flex flex-row items-center justify-between bg-card border border-border/80 rounded-2xl p-4 shadow-xs"
-        >
-          <View className="flex-row items-center gap-3 flex-1">
-            <View className="w-10 h-10 rounded-xl bg-background items-center justify-center">
-              <Icon as={Briefcase} size={20} color={palette.foreground} />
-            </View>
-            <View className="flex-1">
-              <Text className="text-base font-semibold text-foreground">
-                Post a New Job
-              </Text>
-              <Text className="text-xs text-muted-foreground">
-                Create a listing to hire talented workers
-              </Text>
-            </View>
-          </View>
-          <View className="w-8 h-8 rounded-full bg-primary items-center justify-center">
-            <Icon as={Plus} size={18} color={palette.primaryForeground} />
-          </View>
-        </TouchableOpacity>
-      </View>
-      {/* Spacer to prevent absolute search bar from covering list items initially */}
-      <View style={{ height: searchBarHeight }} />
-    </View>
-  );
 
   return (
     <StableSafeAreaView className={cn("flex-1 bg-card", className)}>
@@ -165,41 +123,39 @@ export const UserJobsList = ({
           </View>
 
           {/* Filter Tabs */}
-          <View>
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={{ gap: 8 }}
-            >
-              {FILTER_OPTIONS.map((filter) => {
-                const isActive = selectedFilter === filter.value;
-                return (
-                  <TouchableOpacity
-                    key={filter.value}
-                    activeOpacity={0.7}
-                    onPress={() => setSelectedFilter(filter.value)}
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{ gap: 8 }}
+          >
+            {FILTER_OPTIONS.map((filter) => {
+              const isActive = selectedFilter === filter.value;
+              return (
+                <TouchableOpacity
+                  key={filter.value}
+                  activeOpacity={0.7}
+                  onPress={() => setSelectedFilter(filter.value)}
+                  className={cn(
+                    "px-4 py-2 rounded-full border flex-row items-center gap-1.5",
+                    isActive
+                      ? "bg-primary border-primary shadow-xs"
+                      : "bg-card border-border",
+                  )}
+                >
+                  <Text
                     className={cn(
-                      "px-4 py-2 rounded-full border flex-row items-center gap-1.5",
+                      "text-xs font-semibold",
                       isActive
-                        ? "bg-primary border-primary shadow-xs"
-                        : "bg-card border-border",
+                        ? "text-primary-foreground"
+                        : "text-muted-foreground",
                     )}
                   >
-                    <Text
-                      className={cn(
-                        "text-xs font-semibold",
-                        isActive
-                          ? "text-primary-foreground"
-                          : "text-muted-foreground",
-                      )}
-                    >
-                      {filter.label}
-                    </Text>
-                  </TouchableOpacity>
-                );
-              })}
-            </ScrollView>
-          </View>
+                    {filter.label}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </ScrollView>
         </Animated.View>
 
         <AnimatedLegendList
@@ -213,7 +169,13 @@ export const UserJobsList = ({
           showsVerticalScrollIndicator={false}
           recycleItems={true}
           maintainVisibleContentPosition
-          ListHeaderComponent={renderHeader}
+          ListHeaderComponent={
+            <JobCreateActionBanner
+              className="py-4"
+              searchBarHeight={searchBarHeight}
+              setBannerHeight={setBannerHeight}
+            />
+          }
           refreshControl={
             <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
           }
