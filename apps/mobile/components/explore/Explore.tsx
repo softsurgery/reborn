@@ -1,5 +1,4 @@
 import React from "react";
-import { View } from "react-native";
 import Animated from "react-native-reanimated";
 import { useDebounce } from "~/hooks/useDebounce";
 import { ExploreCommon } from "./ExploreCommon";
@@ -14,6 +13,7 @@ import { useTranslation } from "react-i18next";
 import { createMaterialTopTabNavigator } from "expo-router/js-top-tabs";
 import { useScrollableElement } from "~/hooks/useScrollableElement";
 import { useColorPalette } from "@/hooks/useColorPalette";
+import { hslToHex } from "@/lib/theme";
 
 interface ExploreProps {
   className?: string;
@@ -36,6 +36,7 @@ export const Explore = ({ className }: ExploreProps) => {
     useScrollableElement({
       duration: 250,
       deltaThreshold: 40,
+      checkScrollable: true,
     });
 
   return (
@@ -79,7 +80,7 @@ export const Explore = ({ className }: ExploreProps) => {
               textTransform: "none",
             },
             tabBarIndicatorStyle: {
-              backgroundColor: palette.primary,
+              backgroundColor: hslToHex(palette.primary),
               height: 2,
               borderRadius: 2,
             },
