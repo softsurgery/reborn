@@ -20,6 +20,7 @@ interface AboutTabProps {
   onRefresh?: () => void;
   refreshing?: boolean;
   onScroll?: (e: NativeSyntheticEvent<NativeScrollEvent>) => void;
+  scrollRef?: React.RefObject<any>;
 }
 
 const SectionHeader = ({
@@ -43,11 +44,13 @@ export const AboutTab = ({
   refreshing,
   onRefresh,
   onScroll,
+  scrollRef,
 }: AboutTabProps) => {
   const { t } = useTranslation("menu");
 
   return (
     <ScrollView
+      ref={scrollRef}
       className={cn(className)}
       onScroll={onScroll}
       contentContainerStyle={{ paddingTop: 20, paddingBottom: 32 }}

@@ -16,6 +16,7 @@ interface CarreerTabProps {
   onRefresh?: () => void;
   refreshing?: boolean;
   onScroll?: (e: NativeSyntheticEvent<NativeScrollEvent>) => void;
+  scrollRef?: React.RefObject<any>;
 }
 
 export const CareerTab = ({
@@ -26,8 +27,10 @@ export const CareerTab = ({
   onRefresh,
   refreshing,
   onScroll,
+  scrollRef,
 }: CarreerTabProps) => (
   <ScrollView
+    ref={scrollRef}
     onScroll={onScroll}
     className={cn("flex-1 bg-background", className)}
     contentContainerStyle={{ paddingTop: 20, paddingBottom: 32 }}

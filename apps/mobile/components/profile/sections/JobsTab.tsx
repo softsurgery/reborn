@@ -21,6 +21,7 @@ interface JobsTabProps {
   onRefresh?: () => void;
   refreshing?: boolean;
   onScroll?: (e: NativeSyntheticEvent<NativeScrollEvent>) => void;
+  scrollRef?: React.RefObject<any>;
 }
 
 export const JobsTab = ({
@@ -29,6 +30,7 @@ export const JobsTab = ({
   onRefresh,
   refreshing,
   onScroll,
+  scrollRef,
 }: JobsTabProps) => {
   const filterExpression = React.useMemo(() => {
     if (!user?.id) return "";
@@ -62,6 +64,7 @@ export const JobsTab = ({
 
   return (
     <LegendList
+      ref={scrollRef}
       className={cn("flex-1", className)}
       contentContainerStyle={{ paddingTop: 20 }}
       onScroll={onScroll}
