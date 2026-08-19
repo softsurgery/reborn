@@ -3,13 +3,13 @@ import { Loader } from "@/components/shared/lotties/Loader";
 import { StableSafeAreaView } from "@/components/shared/stables/StableSafeAreaView";
 import { useJob } from "@/hooks/content/job/useJob";
 import { cn } from "@/lib/utils";
-import { createMaterialTopTabNavigator } from "expo-router/js-top-tabs";
-import { router } from "expo-router";
-import { ChevronLeft } from "lucide-react-native";
 import { View } from "react-native";
 import { JobSummary } from "./JobSummary";
 import { JobStatistics } from "./JobStatistics";
 import { JobActions } from "./JobActions";
+import { useColorPalette } from "@/hooks/useColorPalette";
+import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
+import { createMaterialTopTabNavigator } from "expo-router/js-top-tabs";
 
 interface JobManagementInstanceProps {
   id: string;
@@ -22,6 +22,7 @@ export const JobManagementInstance = ({
   id,
   className,
 }: JobManagementInstanceProps) => {
+  const { palette } = useColorPalette();
   const { job, isJobPending } = useJob({ id });
 
   if (isJobPending)
@@ -30,14 +31,13 @@ export const JobManagementInstance = ({
     <StableSafeAreaView className={cn("flex flex-1 bg-card", className)}>
       <ApplicationHeader
         classNames={{ wrapper: "border-b border-border pb-2" }}
-        title={`${job?.title.slice(0, 30)}...` || "Job Management"}
+        title={job?.title || "Job Management"}
         titleVariant="large"
         reverse
         shortcuts={[
           {
             key: "back",
-            icon: ChevronLeft,
-            onPress: () => router.back(),
+            render: <AppHeaderBack />,
           },
         ]}
       />
@@ -50,7 +50,7 @@ export const JobManagementInstance = ({
               fontWeight: "600",
               textTransform: "none",
             },
-            tabBarIndicatorStyle: { backgroundColor: "#9B2C2C" },
+            tabBarIndicatorStyle: { backgroundColor: palette.primary },
             tabBarStyle: { backgroundColor: "transparent" },
           }}
           commonOptions={{
@@ -73,15 +73,17 @@ export const JobManagementInstance = ({
             options={{
               tabBarLabel: "Statistics",
             }}
-            component={JobStatistics}
-          />
+          >
+            {() => <JobStatistics />}
+          </Tab.Screen>
           <Tab.Screen
             name="gallery"
             options={{
               tabBarLabel: "Actions",
             }}
-            component={JobActions}
-          />
+          >
+            {() => <JobActions className="p-2" />}
+          </Tab.Screen>
         </Tab.Navigator>
       </View>
     </StableSafeAreaView>

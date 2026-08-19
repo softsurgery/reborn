@@ -1,84 +1,158 @@
-import { View, Text, ScrollView, TouchableOpacity, Switch } from "react-native";
+import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import {
   Edit,
   Trash2,
   Share2,
   PauseCircle,
   Copy,
-  Rocket,
   Download,
   Mail,
-  Sliders,
   Calendar,
   Link,
   Archive,
   ChevronRight,
 } from "lucide-react-native";
-import { useState } from "react";
+import { useColorPalette } from "@/hooks/useColorPalette";
+import { cn } from "@/lib/utils";
 
-export const JobActions = () => {
-  const [isActive, setIsActive] = useState(true);
-  const [autoScreening, setAutoScreening] = useState(true);
+type ActionItem = {
+  id: string;
+  title: string;
+  description: string;
+  Icon: any;
+  iconBgClass: string;
+  titleClass?: string;
+  activeBgClass?: string;
+  onPress?: () => void;
+};
+
+type ActionGroup = {
+  id: string;
+  title: string;
+  containerClass?: string;
+  titleClass?: string;
+  items: ActionItem[];
+};
+
+interface JobActionsProps {
+  className?: string;
+}
+
+export const JobActions = ({ className }: JobActionsProps) => {
+  const { palette } = useColorPalette();
+
+  const ACTION_GROUPS: ActionGroup[] = [
+    {
+      id: "core-actions",
+      title: "Core Actions",
+      items: [
+        {
+          id: "edit",
+          title: "Edit Job Posting",
+          description: "Update title, requirements & salary",
+          Icon: Edit,
+          iconBgClass: "bg-blue-500/10",
+        },
+        {
+          id: "duplicate",
+          title: "Duplicate Listing",
+          description: "Create a copy for a similar opening",
+          Icon: Copy,
+          iconBgClass: "bg-purple-500/10",
+        },
+        {
+          id: "pause",
+          title: "Pause Applications",
+          description: "Stop accepting new candidate submissions",
+          Icon: PauseCircle,
+          iconBgClass: "bg-amber-500/10",
+        },
+      ],
+    },
+    {
+      id: "pipeline-tools",
+      title: "Candidate Pipeline Tools",
+      items: [
+        {
+          id: "export",
+          title: "Export Applicants (CSV/PDF)",
+          description: "Download full application database",
+          Icon: Download,
+          iconBgClass: "bg-emerald-500/10",
+        },
+        {
+          id: "broadcast",
+          title: "Broadcast Message",
+          description: "Send updates to all 58 applicants",
+          Icon: Mail,
+          iconBgClass: "bg-sky-500/10",
+        },
+        {
+          id: "interview",
+          title: "Interview Batch Scheduler",
+          description: "Set available calendar slots for interviews",
+          Icon: Calendar,
+          iconBgClass: "bg-indigo-500/10",
+        },
+      ],
+    },
+    {
+      id: "distribution",
+      title: "Distribution & Share",
+      items: [
+        {
+          id: "copy-link",
+          title: "Copy Direct Link",
+          description: "Share custom referral or landing page link",
+          Icon: Link,
+          iconBgClass: "bg-primary/10",
+        },
+        {
+          id: "share-social",
+          title: "Share on Social Media",
+          description: "Publish post to LinkedIn, X, or Facebook",
+          Icon: Share2,
+          iconBgClass: "bg-primary/10",
+        },
+      ],
+    },
+    {
+      id: "danger-zone",
+      title: "Danger Zone",
+      containerClass: "border-destructive/30 mb-6",
+      titleClass: "text-destructive",
+      items: [
+        {
+          id: "archive",
+          title: "Archive Job Listing",
+          description: "Move to archive without deleting data",
+          Icon: Archive,
+          iconBgClass: "bg-muted",
+          activeBgClass: "active:bg-destructive/10",
+        },
+        {
+          id: "delete",
+          title: "Delete Job Permanently",
+          description: "Irreversibly remove listing & applicant records",
+          Icon: Trash2,
+          iconBgClass: "bg-destructive/10",
+          titleClass: "text-destructive font-bold",
+          activeBgClass: "active:bg-destructive/10",
+        },
+      ],
+    },
+  ];
 
   return (
     <ScrollView
-      className="flex-1 bg-background p-4"
+      className={cn("flex-1 bg-background", className)}
       showsVerticalScrollIndicator={false}
     >
-      {/* Quick Status Control Card */}
-      <View className="bg-card rounded-2xl p-5 border border-border shadow-sm mb-4">
-        <Text className="text-foreground text-base font-bold mb-3">
-          Job Listing Controls
-        </Text>
-
-        <View className="flex-row items-center justify-between py-3 border-b border-border/50">
-          <View className="flex-row items-center gap-3">
-            <View
-              className={`w-3 h-3 rounded-full ${isActive ? "bg-emerald-500" : "bg-amber-500"}`}
-            />
-            <View>
-              <Text className="text-foreground font-semibold text-sm">
-                {isActive ? "Listing Status: Active" : "Listing Status: Paused"}
-              </Text>
-              <Text className="text-muted-foreground text-xs">
-                {isActive
-                  ? "Visible to job seekers in search"
-                  : "Hidden from search results"}
-              </Text>
-            </View>
-          </View>
-          <Switch
-            value={isActive}
-            onValueChange={setIsActive}
-            trackColor={{ false: "#71717a", true: "#10b981" }}
-          />
-        </View>
-
-        <View className="flex-row items-center justify-between py-3">
-          <View className="flex-row items-center gap-3">
-            <Sliders size={18} className="text-primary" />
-            <View>
-              <Text className="text-foreground font-semibold text-sm">
-                AI Candidate Auto-Screening
-              </Text>
-              <Text className="text-muted-foreground text-xs">
-                Automatically score candidate match
-              </Text>
-            </View>
-          </View>
-          <Switch
-            value={autoScreening}
-            onValueChange={setAutoScreening}
-            trackColor={{ false: "#71717a", true: "#3b82f6" }}
-          />
-        </View>
-      </View>
-
       {/* Featured / Sponsor Banner */}
-      <TouchableOpacity className="bg-gradient-to-r from-primary/10 to-purple-500/10 border border-primary/30 rounded-2xl p-4 mb-4 flex-row items-center justify-between">
+      {/* <TouchableOpacity className="bg-gradient-to-r from-primary/10 to-purple-500/10 border border-primary/30 rounded-2xl p-4 mb-4 flex-row items-center justify-between">
         <View className="flex-row items-center gap-3.5 flex-1">
           <View className="w-10 h-10 rounded-xl bg-primary/20 items-center justify-center">
-            <Rocket size={20} className="text-primary" />
+            <Rocket size={20} color={palette.foreground} />
           </View>
           <View className="flex-1">
             <Text className="text-foreground font-bold text-sm">
@@ -89,206 +163,61 @@ export const JobActions = () => {
             </Text>
           </View>
         </View>
-        <ChevronRight size={18} className="text-muted-foreground" />
-      </TouchableOpacity>
+        <ChevronRight size={18} color={palette.foreground} />
+      </TouchableOpacity> */}
 
-      {/* Primary Management Actions */}
-      <View className="bg-card rounded-2xl border border-border shadow-sm overflow-hidden mb-4">
-        <Text className="text-foreground text-xs font-bold uppercase tracking-wider px-5 pt-4 pb-2 text-muted-foreground">
-          Core Actions
-        </Text>
+      {/* Action Groups */}
+      {ACTION_GROUPS.map((group) => (
+        <View
+          key={group.id}
+          className={cn(
+            "overflow-hidden",
+            group.containerClass || "border-border mb-4",
+          )}
+        >
+          <Text
+            className={`text-xs font-bold uppercase tracking-wider px-5 pt-4 pb-2 ${
+              group.titleClass || "text-muted-foreground"
+            }`}
+          >
+            {group.title}
+          </Text>
 
-        <TouchableOpacity className="flex-row items-center justify-between p-4 border-b border-border/40 active:bg-muted/40">
-          <View className="flex-row items-center gap-3.5">
-            <View className="w-9 h-9 rounded-xl bg-blue-500/10 items-center justify-center">
-              <Edit size={18} className="text-blue-500" />
-            </View>
-            <View>
-              <Text className="text-foreground font-semibold text-sm">
-                Edit Job Posting
-              </Text>
-              <Text className="text-muted-foreground text-xs">
-                Update title, requirements & salary
-              </Text>
-            </View>
-          </View>
-          <ChevronRight size={18} className="text-muted-foreground" />
-        </TouchableOpacity>
-
-        <TouchableOpacity className="flex-row items-center justify-between p-4 border-b border-border/40 active:bg-muted/40">
-          <View className="flex-row items-center gap-3.5">
-            <View className="w-9 h-9 rounded-xl bg-purple-500/10 items-center justify-center">
-              <Copy size={18} className="text-purple-500" />
-            </View>
-            <View>
-              <Text className="text-foreground font-semibold text-sm">
-                Duplicate Listing
-              </Text>
-              <Text className="text-muted-foreground text-xs">
-                Create a copy for a similar opening
-              </Text>
-            </View>
-          </View>
-          <ChevronRight size={18} className="text-muted-foreground" />
-        </TouchableOpacity>
-
-        <TouchableOpacity className="flex-row items-center justify-between p-4 active:bg-muted/40">
-          <View className="flex-row items-center gap-3.5">
-            <View className="w-9 h-9 rounded-xl bg-amber-500/10 items-center justify-center">
-              <PauseCircle size={18} className="text-amber-500" />
-            </View>
-            <View>
-              <Text className="text-foreground font-semibold text-sm">
-                Pause Applications
-              </Text>
-              <Text className="text-muted-foreground text-xs">
-                Stop accepting new candidate submissions
-              </Text>
-            </View>
-          </View>
-          <ChevronRight size={18} className="text-muted-foreground" />
-        </TouchableOpacity>
-      </View>
-
-      {/* Candidate Pipeline Tools */}
-      <View className="bg-card rounded-2xl border border-border shadow-sm overflow-hidden mb-4">
-        <Text className="text-foreground text-xs font-bold uppercase tracking-wider px-5 pt-4 pb-2 text-muted-foreground">
-          Candidate Pipeline Tools
-        </Text>
-
-        <TouchableOpacity className="flex-row items-center justify-between p-4 border-b border-border/40 active:bg-muted/40">
-          <View className="flex-row items-center gap-3.5">
-            <View className="w-9 h-9 rounded-xl bg-emerald-500/10 items-center justify-center">
-              <Download size={18} className="text-emerald-500" />
-            </View>
-            <View>
-              <Text className="text-foreground font-semibold text-sm">
-                Export Applicants (CSV/PDF)
-              </Text>
-              <Text className="text-muted-foreground text-xs">
-                Download full application database
-              </Text>
-            </View>
-          </View>
-          <ChevronRight size={18} className="text-muted-foreground" />
-        </TouchableOpacity>
-
-        <TouchableOpacity className="flex-row items-center justify-between p-4 border-b border-border/40 active:bg-muted/40">
-          <View className="flex-row items-center gap-3.5">
-            <View className="w-9 h-9 rounded-xl bg-sky-500/10 items-center justify-center">
-              <Mail size={18} className="text-sky-500" />
-            </View>
-            <View>
-              <Text className="text-foreground font-semibold text-sm">
-                Broadcast Message
-              </Text>
-              <Text className="text-muted-foreground text-xs">
-                Send updates to all 58 applicants
-              </Text>
-            </View>
-          </View>
-          <ChevronRight size={18} className="text-muted-foreground" />
-        </TouchableOpacity>
-
-        <TouchableOpacity className="flex-row items-center justify-between p-4 active:bg-muted/40">
-          <View className="flex-row items-center gap-3.5">
-            <View className="w-9 h-9 rounded-xl bg-indigo-500/10 items-center justify-center">
-              <Calendar size={18} className="text-indigo-500" />
-            </View>
-            <View>
-              <Text className="text-foreground font-semibold text-sm">
-                Interview Batch Scheduler
-              </Text>
-              <Text className="text-muted-foreground text-xs">
-                Set available calendar slots for interviews
-              </Text>
-            </View>
-          </View>
-          <ChevronRight size={18} className="text-muted-foreground" />
-        </TouchableOpacity>
-      </View>
-
-      {/* Share & Distribution */}
-      <View className="bg-card rounded-2xl border border-border shadow-sm overflow-hidden mb-4">
-        <Text className="text-foreground text-xs font-bold uppercase tracking-wider px-5 pt-4 pb-2 text-muted-foreground">
-          Distribution & Share
-        </Text>
-
-        <TouchableOpacity className="flex-row items-center justify-between p-4 border-b border-border/40 active:bg-muted/40">
-          <View className="flex-row items-center gap-3.5">
-            <View className="w-9 h-9 rounded-xl bg-primary/10 items-center justify-center">
-              <Link size={18} className="text-primary" />
-            </View>
-            <View>
-              <Text className="text-foreground font-semibold text-sm">
-                Copy Direct Link
-              </Text>
-              <Text className="text-muted-foreground text-xs">
-                Share custom referral or landing page link
-              </Text>
-            </View>
-          </View>
-          <ChevronRight size={18} className="text-muted-foreground" />
-        </TouchableOpacity>
-
-        <TouchableOpacity className="flex-row items-center justify-between p-4 active:bg-muted/40">
-          <View className="flex-row items-center gap-3.5">
-            <View className="w-9 h-9 rounded-xl bg-primary/10 items-center justify-center">
-              <Share2 size={18} className="text-primary" />
-            </View>
-            <View>
-              <Text className="text-foreground font-semibold text-sm">
-                Share on Social Media
-              </Text>
-              <Text className="text-muted-foreground text-xs">
-                Publish post to LinkedIn, X, or Facebook
-              </Text>
-            </View>
-          </View>
-          <ChevronRight size={18} className="text-muted-foreground" />
-        </TouchableOpacity>
-      </View>
-
-      {/* Danger Zone */}
-      <View className="bg-card rounded-2xl border border-destructive/30 shadow-sm overflow-hidden mb-6">
-        <Text className="text-destructive text-xs font-bold uppercase tracking-wider px-5 pt-4 pb-2">
-          Danger Zone
-        </Text>
-
-        <TouchableOpacity className="flex-row items-center justify-between p-4 border-b border-border/40 active:bg-destructive/10">
-          <View className="flex-row items-center gap-3.5">
-            <View className="w-9 h-9 rounded-xl bg-muted items-center justify-center">
-              <Archive size={18} className="text-muted-foreground" />
-            </View>
-            <View>
-              <Text className="text-foreground font-semibold text-sm">
-                Archive Job Listing
-              </Text>
-              <Text className="text-muted-foreground text-xs">
-                Move to archive without deleting data
-              </Text>
-            </View>
-          </View>
-          <ChevronRight size={18} className="text-muted-foreground" />
-        </TouchableOpacity>
-
-        <TouchableOpacity className="flex-row items-center justify-between p-4 active:bg-destructive/10">
-          <View className="flex-row items-center gap-3.5">
-            <View className="w-9 h-9 rounded-xl bg-destructive/10 items-center justify-center">
-              <Trash2 size={18} className="text-destructive" />
-            </View>
-            <View>
-              <Text className="text-destructive font-bold text-sm">
-                Delete Job Permanently
-              </Text>
-              <Text className="text-muted-foreground text-xs">
-                Irreversibly remove listing & applicant records
-              </Text>
-            </View>
-          </View>
-          <ChevronRight size={18} className="text-muted-foreground" />
-        </TouchableOpacity>
-      </View>
+          {group.items.map((item, index) => {
+            const isLast = index === group.items.length - 1;
+            return (
+              <TouchableOpacity
+                key={item.id}
+                onPress={item.onPress}
+                className={`flex-row items-center justify-between p-4 ${
+                  !isLast ? "border-b border-border/40" : ""
+                } ${item.activeBgClass || "active:bg-muted/40"}`}
+              >
+                <View className="flex-row items-center gap-3.5">
+                  <View
+                    className={`w-9 h-9 rounded-xl items-center justify-center ${item.iconBgClass}`}
+                  >
+                    <item.Icon size={18} color={palette.foreground} />
+                  </View>
+                  <View>
+                    <Text
+                      className={`text-sm ${
+                        item.titleClass || "text-foreground font-semibold"
+                      }`}
+                    >
+                      {item.title}
+                    </Text>
+                    <Text className="text-muted-foreground text-xs">
+                      {item.description}
+                    </Text>
+                  </View>
+                </View>
+                <ChevronRight size={18} color={palette.foreground} />
+              </TouchableOpacity>
+            );
+          })}
+        </View>
+      ))}
     </ScrollView>
   );
 };
