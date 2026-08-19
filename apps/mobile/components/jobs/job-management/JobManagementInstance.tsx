@@ -6,7 +6,11 @@ import { cn } from "@/lib/utils";
 import { createMaterialTopTabNavigator } from "expo-router/js-top-tabs";
 import { router } from "expo-router";
 import { ChevronLeft } from "lucide-react-native";
-import { ScrollView, View } from "react-native";
+import { View } from "react-native";
+import { JobSummary } from "./JobSummary";
+import { JobStatistics } from "./JobStatistics";
+import { JobActions } from "./JobActions";
+
 interface JobManagementInstanceProps {
   id: string;
   className?: string;
@@ -37,7 +41,7 @@ export const JobManagementInstance = ({
           },
         ]}
       />
-      <ScrollView className="flex-1 bg-background">
+      <View className="flex-1 bg-background">
         <Tab.Navigator
           screenOptions={{
             tabBarScrollEnabled: false,
@@ -60,25 +64,26 @@ export const JobManagementInstance = ({
             options={{
               tabBarLabel: "Summary",
             }}
-            component={View}
-          />
+          >
+            {() => <JobSummary job={job} />}
+          </Tab.Screen>
 
           <Tab.Screen
             name="career"
             options={{
               tabBarLabel: "Statistics",
             }}
-            component={View}
+            component={JobStatistics}
           />
           <Tab.Screen
             name="gallery"
             options={{
               tabBarLabel: "Actions",
             }}
-            component={View}
+            component={JobActions}
           />
         </Tab.Navigator>
-      </ScrollView>
+      </View>
     </StableSafeAreaView>
   );
 };

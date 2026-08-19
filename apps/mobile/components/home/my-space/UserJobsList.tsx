@@ -149,7 +149,7 @@ export const UserJobsList = ({
       />
       <View className="flex-1 bg-background px-3 relative">
         <Animated.View
-          className="absolute left-0 right-0 z-20 bg-background/90 px-3 flex flex-col gap-4 py-4"
+          className="absolute left-0 right-0 z-20 bg-background/90 mx-3 flex flex-col gap-4 py-4"
           style={stickyHeaderStyle}
           onLayout={(e) => setSearchBarHeight(e.nativeEvent.layout.height)}
         >
@@ -230,11 +230,11 @@ export const UserJobsList = ({
           }
           ListEmptyComponent={
             !isPending ? (
-              <View className="flex-col items-center justify-center py-12 px-6 gap-4 bg-card border border-border rounded-2xl mt-2">
+              <View className="flex-col items-center justify-center py-12 px-6 gap-4 mt-2">
                 <View className="w-14 h-14 rounded-full bg-muted items-center justify-center">
                   <Icon
                     as={Briefcase}
-                    size={26}
+                    size={45}
                     className="text-muted-foreground"
                   />
                 </View>
@@ -244,41 +244,12 @@ export const UserJobsList = ({
                       ? "No jobs found"
                       : "No jobs posted yet"}
                   </Text>
-                  <Text className="text-xs text-muted-foreground text-center max-w-[240px]">
+                  <Text className="text-sm text-muted-foreground text-center max-w-[240px]">
                     {search || selectedFilter !== "all"
                       ? "Try adjusting your search keywords or clearing filter tabs."
                       : "Start hiring by posting your first job listing today."}
                   </Text>
                 </View>
-                {search || selectedFilter !== "all" ? (
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className="rounded-xl px-4"
-                    onPress={() => {
-                      setSearch("");
-                      setSelectedFilter("all");
-                    }}
-                  >
-                    <Text className="text-xs font-semibold">Clear Filters</Text>
-                  </Button>
-                ) : (
-                  <Button
-                    size="sm"
-                    variant="default"
-                    className="rounded-xl px-5 flex-row items-center gap-2"
-                    onPress={navigateToCreateJob}
-                  >
-                    <Icon
-                      as={Plus}
-                      size={16}
-                      className="text-primary-foreground"
-                    />
-                    <Text className="text-xs font-semibold text-primary-foreground">
-                      Post Your First Job
-                    </Text>
-                  </Button>
-                )}
               </View>
             ) : (
               <View className="py-16 items-center justify-center">
