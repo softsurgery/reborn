@@ -47,7 +47,11 @@ export const ApplicationHeader = ({
 
     if (typeof title === "string") {
       return (
-        <Text variant={titleVariant} className={cn("mx-2", classNames?.title)}>
+        <Text
+          variant={titleVariant}
+          className={cn("mx-2 flex-1", classNames?.title)}
+          numberOfLines={1}
+        >
           {title}
         </Text>
       );
@@ -55,6 +59,7 @@ export const ApplicationHeader = ({
 
     return <View className="mx-2">{title}</View>;
   };
+
   return (
     <View
       className={cn(
