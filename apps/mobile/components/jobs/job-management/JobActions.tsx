@@ -1,4 +1,7 @@
+import React, { useRef } from "react";
 import { View, Text, ScrollView, Pressable } from "react-native";
+import { ActionSheetRef } from "react-native-actions-sheet";
+import { DuplicateJobActionSheet } from "./DuplicateJobActionSheet";
 import {
   Edit,
   Trash2,
@@ -45,6 +48,7 @@ export const JobActions = ({ id, className }: JobActionsProps) => {
   const { palette } = useColorPalette();
   const router = useRouter();
   const { duplicateJob, isDuplicatingJob } = useDuplicateJob();
+  const duplicateSheetRef = useRef<ActionSheetRef>(null);
 
   const ACTION_GROUPS: ActionGroup[] = [
     {
@@ -66,21 +70,12 @@ export const JobActions = ({ id, className }: JobActionsProps) => {
         },
         {
           id: "duplicate",
-          title: "Duplicate Listing",
+          title: "Duplicate Job",
           description: "Create a copy for a similar opening",
           Icon: Copy,
           iconBgClass: "bg-purple-500/10",
-          onPress: async () => {
-            if (isDuplicatingJob) return;
-            try {
-              const duplicatedJob = await duplicateJob(id);
-              router.push({
-                pathname: "/main/my-space/update-job",
-                params: { id: duplicatedJob.id },
-              });
-            } catch (e) {
-              console.error(e);
-            }
+          onPress: () => {
+            duplicateSheetRef.current?.show();
           },
         },
         {
@@ -242,6 +237,24 @@ export const JobActions = ({ id, className }: JobActionsProps) => {
           })}
         </View>
       ))}
+
+      <DuplicateJobActionSheet
+        ref={duplicateSheetRef}
+        isPending={isDuplicatingJob}
+        onClose={() => duplicateSheetRef.current?.hide()}
+        onConfirm={async () => {
+          try {
+            const duplicatedJob = await duplicateJob(id);
+            duplicateSheetRef.current?.hide();
+            router.push({
+              pathname: "/main/my-space/update-job",
+              params: { id: duplicatedJob.id },
+            });
+          } catch (e) {
+            console.error(e);
+          }
+        }}
+      />
     </ScrollView>
   );
 };
