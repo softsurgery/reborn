@@ -1,74 +1,84 @@
+import React from "react";
 import { cn } from "@/lib/utils";
-import { LucideIcon } from "lucide-react-native";
-import React, { useMemo } from "react";
 import { Pressable, View } from "react-native";
-import { StablePressable } from "../shared/stables/StablePressable";
-import { Icon } from "../ui/icon";
 import { Text } from "../ui/text";
+import { useRTL } from "@/hooks/useRTL";
+import { ChevronLeft, ChevronRight } from "lucide-react-native";
+import { Icon } from "../ui/icon";
 
-export interface SettingRowConfig {
+export interface SettingRowProps {
+  className?: string;
   title?: string;
   description?: string;
-  leftIcon?: LucideIcon;
-  rightIcon?: LucideIcon;
   rightComponent?: React.ReactNode;
   disabled?: boolean;
   Component?: React.ComponentType;
-  className?: string;
   onPress?: () => void;
-}
-
-interface SettingRowProps extends SettingRowConfig {
-  className?: string;
 }
 
 export const SettingRow = ({
   className,
   title,
   description,
-  leftIcon,
-  rightIcon,
   rightComponent,
   disabled = false,
   Component,
   onPress,
 }: SettingRowProps) => {
+  const isRTL = useRTL();
   const isPressable = !!onPress && !disabled;
 
-  const renderedComponent = useMemo(() => {
+  const renderedComponent = React.useMemo(() => {
     if (!Component) return null;
     return <Component />;
   }, [Component]);
 
   if (Component) {
+    const componentContent = (
+      <View className={cn(className)}>{renderedComponent}</View>
+    );
+
     return isPressable ? (
-      <StablePressable
+      <Pressable
         onPress={onPress}
         className={cn("w-full", disabled && "opacity-50")}
       >
-        <View className={cn(className)}>{renderedComponent}</View>
-      </StablePressable>
+        {componentContent}
+      </Pressable>
     ) : (
-      <View className={cn(disabled && "opacity-50")}>
-        <View className={cn(className)}>{renderedComponent}</View>
-      </View>
+      <View className={cn(disabled && "opacity-50")}>{componentContent}</View>
     );
   }
 
   const content = (
-    <View className="flex flex-row justify-between items-center w-full">
-      {/* Left side */}
-      <View className="flex flex-row items-center gap-3 flex-1">
-        {leftIcon ? (
-          <Icon as={leftIcon} size={20} className="text-foreground" />
-        ) : null}
+    <View
+      className={cn(
+        "flex w-full items-center justify-between",
+        isRTL ? "flex-row-reverse" : "flex-row",
+      )}
+    >
+      {/* Main / left content */}
+      <View className="flex flex-1 flex-row items-center gap-3">
         {title || description ? (
           <View className="flex-1">
             {title ? (
-              <Text className="font-semibold text-base">{title}</Text>
+              <Text
+                className={cn(
+                  "font-semibold text-base",
+                  isRTL ? "text-right" : "text-left",
+                )}
+              >
+                {title}
+              </Text>
             ) : null}
+
             {description ? (
-              <Text className="text-xs text-muted-foreground">
+              <Text
+                className={cn(
+                  "text-xs text-muted-foreground",
+                  isRTL ? "text-right" : "text-left",
+                )}
+              >
                 {description}
               </Text>
             ) : null}
@@ -76,15 +86,15 @@ export const SettingRow = ({
         ) : null}
       </View>
 
-      {/* Right side */}
-      {rightComponent || rightIcon ? (
-        <View className="flex flex-row items-center gap-2">
-          {rightComponent}
-          {rightIcon ? (
-            <Icon as={rightIcon} size={18} className="text-muted-foreground" />
-          ) : null}
-        </View>
-      ) : null}
+      {/* Right content */}
+      <View className="flex flex-row items-center gap-2">
+        {rightComponent}
+        <Icon
+          as={isRTL ? ChevronLeft : ChevronRight}
+          size={18}
+          className="text-muted-foreground"
+        />
+      </View>
     </View>
   );
 
@@ -103,7 +113,3 @@ export const SettingRow = ({
     <View className={cn(disabled && "opacity-50", className)}>{content}</View>
   );
 };
-
-// Builder function for creating typed row configurations
-export const createSettingRow = (config: SettingRowConfig): SettingRowConfig =>
-  config;
