@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import { cn } from "~/lib/utils";
 import { useAuthPersistStore } from "~/hooks/stores/useAuthPersistStore";
 import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
+import { useRTL } from "~/hooks/useRTL";
 import { identifyUser } from "~/lib/user.utils";
 import { ApplicationHeader } from "../shared/AppHeader";
 import { StableSafeAreaView } from "../shared/stables/StableSafeAreaView";
@@ -37,6 +38,7 @@ export const SettingsPortal = ({ className }: SettingsPortalProps) => {
   const { t } = useTranslation("common");
   const authPersistStore = useAuthPersistStore();
   const { currentUser } = useCurrentUser();
+  const isRTL = useRTL();
 
   const logout = () => {
     authPersistStore.logout?.();
@@ -201,7 +203,12 @@ export const SettingsPortal = ({ className }: SettingsPortalProps) => {
         <View className="flex flex-col">
           <View className="px-4 mb-4">
             <View className="flex flex-col justify-between p-4">
-              <View className="flex flex-row justify-between items-center w-full">
+              <View
+                className={cn(
+                  "flex justify-between items-center w-full",
+                  isRTL ? "flex-row-reverse" : "flex-row",
+                )}
+              >
                 <Text variant="h4">
                   {identifyUser(currentUser) || "Your account"}
                 </Text>
@@ -259,7 +266,10 @@ export const SettingsPortal = ({ className }: SettingsPortalProps) => {
                 <Button
                   variant="outline"
                   size="lg"
-                  className="flex flex-row items-center justify-center gap-2 rounded-xl"
+                  className={cn(
+                    "flex items-center justify-center gap-2 rounded-xl",
+                    isRTL ? "flex-row-reverse" : "flex-row",
+                  )}
                   onPress={logout}
                 >
                   <Icon as={LogOut} size={18} />
@@ -271,7 +281,10 @@ export const SettingsPortal = ({ className }: SettingsPortalProps) => {
                 <Button
                   variant="destructive"
                   size="lg"
-                  className="flex flex-row items-center justify-center gap-2 rounded-xl"
+                  className={cn(
+                    "flex items-center justify-center gap-2 rounded-xl",
+                    isRTL ? "flex-row-reverse" : "flex-row",
+                  )}
                   onPress={() => Alert.alert("Delete account", "Coming soon!")}
                 >
                   <Icon as={Trash2} size={18} color="white" />
