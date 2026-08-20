@@ -9,6 +9,7 @@ import { CalendarDays, GraduationCap } from "lucide-react-native";
 import { View } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useColorPalette } from "@/hooks/useColorPalette";
+import { useRTL } from "@/hooks/useRTL";
 
 interface EducationInstanceProps {
   className?: string;
@@ -21,6 +22,7 @@ export const EducationInstance = ({
 }: EducationInstanceProps) => {
   const { t } = useTranslation("menu");
   const { palette } = useColorPalette();
+  const isRTL = useRTL();
   const primary = hslToHex(palette.primary);
 
   const range = education.startDate
@@ -34,7 +36,8 @@ export const EducationInstance = ({
   return (
     <View
       className={cn(
-        "flex-row gap-3",
+        "gap-3",
+        isRTL ? "flex-row-reverse" : "flex-row",
         education.description ? "items-start" : "items-center",
         className,
       )}
@@ -55,8 +58,13 @@ export const EducationInstance = ({
         )}
 
         {range && (
-          <View className="mt-2 flex-row">
-            <View className="flex-row items-center gap-1 rounded-full bg-muted px-2.5 py-1">
+          <View className={cn("mt-2", isRTL ? "flex-row-reverse" : "flex-row")}>
+            <View
+              className={cn(
+                "items-center gap-1 rounded-full bg-muted px-2.5 py-1",
+                isRTL ? "flex-row-reverse" : "flex-row",
+              )}
+            >
               <Icon as={CalendarDays} size={12} color={primary} />
               <Text className="text-[11px] font-medium text-muted-foreground">
                 {range}

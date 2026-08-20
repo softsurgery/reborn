@@ -14,6 +14,7 @@ import {
 } from "lucide-react-native";
 import { Pressable, View } from "react-native";
 import { useTranslation } from "react-i18next";
+import { useRTL } from "@/hooks/useRTL";
 
 const SECTION_ICONS: Record<string, LucideIcon> = {
   experience: Briefcase,
@@ -33,6 +34,7 @@ export interface ProfileSection<T = unknown> {
 export const RenderSection = (section: ProfileSection) => {
   const { t } = useTranslation("menu");
   const { palette } = useColorPalette();
+  const isRTL = useRTL();
   const primary = hslToHex(palette.primary);
   const isBadge = section.key === "skills";
   const count = section.data?.length ?? 0;
@@ -54,8 +56,18 @@ export const RenderSection = (section: ProfileSection) => {
   return (
     <View key={section.key} className="px-4">
       {/* Section header */}
-      <View className="flex-row items-center justify-between">
-        <View className="flex-row items-center gap-2">
+      <View
+        className={cn(
+          "items-center justify-between",
+          isRTL ? "flex-row-reverse" : "flex-row",
+        )}
+      >
+        <View
+          className={cn(
+            "items-center gap-2",
+            isRTL ? "flex-row-reverse" : "flex-row",
+          )}
+        >
           <Icon as={SectionIcon} size={18} color={primary} />
           <Text className="text-base font-bold text-foreground">
             {section.title}
@@ -69,7 +81,8 @@ export const RenderSection = (section: ProfileSection) => {
 
         <View
           className={cn(
-            "flex-row items-center gap-1.5",
+            "items-center gap-1.5",
+            isRTL ? "flex-row-reverse" : "flex-row",
             !section.editable && "hidden",
           )}
         >
@@ -118,7 +131,12 @@ export const RenderSection = (section: ProfileSection) => {
             </Text>
           </View>
         ) : isBadge ? (
-          <View className="flex-row flex-wrap gap-2">
+          <View
+            className={cn(
+              "flex-wrap gap-2",
+              isRTL ? "flex-row-reverse" : "flex-row",
+            )}
+          >
             {section.data.map((sectionItem, idx) => (
               <View key={idx}>{section.renderItem(sectionItem)}</View>
             ))}

@@ -9,6 +9,7 @@ import { format } from "date-fns";
 import { Briefcase, CalendarDays, Laptop, MapPin } from "lucide-react-native";
 import { View } from "react-native";
 import { useTranslation } from "react-i18next";
+import { useRTL } from "@/hooks/useRTL";
 
 interface ExperienceInstanceProps {
   className?: string;
@@ -19,12 +20,19 @@ const MetaChip = ({
   icon,
   label,
   color,
+  isRTL,
 }: {
   icon: React.ComponentProps<typeof Icon>["as"];
   label: string;
   color: string;
+  isRTL?: boolean;
 }) => (
-  <View className="flex-row items-center gap-1 rounded-full bg-muted px-2.5 py-1">
+  <View
+    className={cn(
+      "items-center gap-1 rounded-full bg-muted px-2.5 py-1",
+      isRTL ? "flex-row-reverse" : "flex-row",
+    )}
+  >
     <Icon as={icon} size={12} color={color} />
     <Text className="text-[11px] font-medium text-muted-foreground">
       {label}
@@ -38,6 +46,7 @@ export const ExperienceInstance = ({
 }: ExperienceInstanceProps) => {
   const { t } = useTranslation("menu");
   const { palette } = useColorPalette();
+  const isRTL = useRTL();
   const primary = hslToHex(palette.primary);
 
   const range = experience.startDate
@@ -58,7 +67,8 @@ export const ExperienceInstance = ({
   return (
     <View
       className={cn(
-        "flex-row gap-3",
+        "gap-3",
+        isRTL ? "flex-row-reverse" : "flex-row",
         experience.description ? "items-start" : "items-center",
         className,
       )}
@@ -79,9 +89,14 @@ export const ExperienceInstance = ({
         )}
 
         {(range || experience.workType || place) && (
-          <View className="mt-2 flex-row flex-wrap gap-1.5">
+          <View
+            className={cn(
+              "mt-2 flex-wrap gap-1.5",
+              isRTL ? "flex-row-reverse" : "flex-row",
+            )}
+          >
             {range && (
-              <MetaChip icon={CalendarDays} label={range} color={primary} />
+              <MetaChip icon={CalendarDays} label={range} color={primary} isRTL={isRTL} />
             )}
             {!!experience.workType && (
               <MetaChip
@@ -90,10 +105,11 @@ export const ExperienceInstance = ({
                   `experience.form.labels.workTypeOptions.${experience.workType}`,
                 )}
                 color={primary}
+                isRTL={isRTL}
               />
             )}
             {!!place && (
-              <MetaChip icon={MapPin} label={place} color={primary} />
+              <MetaChip icon={MapPin} label={place} color={primary} isRTL={isRTL} />
             )}
           </View>
         )}
