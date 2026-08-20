@@ -14,6 +14,8 @@ import {
   View,
 } from "react-native";
 
+import { useRTL } from "@/hooks/useRTL";
+
 interface AboutTabProps {
   className?: string;
   user: ResponseUserDto | null;
@@ -27,12 +29,14 @@ const SectionHeader = ({
   icon,
   title,
   color = hslToHex(THEME.light.primary),
+  isRTL,
 }: {
   icon: LucideIcon;
   title: string;
   color?: string;
+  isRTL?: boolean;
 }) => (
-  <View className="mb-3 flex-row items-center gap-2">
+  <View className={cn("mb-3 items-center gap-2", isRTL ? "flex-row-reverse" : "flex-row")}>
     <Icon as={icon} size={18} color={color} />
     <Text className="text-base font-bold text-foreground">{title}</Text>
   </View>
@@ -47,6 +51,7 @@ export const AboutTab = ({
   scrollRef,
 }: AboutTabProps) => {
   const { t } = useTranslation("menu");
+  const isRTL = useRTL();
 
   return (
     <ScrollView
@@ -61,7 +66,7 @@ export const AboutTab = ({
       <View className="flex flex-col gap-6 px-4">
         {/* Bio */}
         <View>
-          <SectionHeader icon={UserRound} title={t("menu.tabs.about.title")} />
+          <SectionHeader icon={UserRound} title={t("menu.tabs.about.title")} isRTL={isRTL} />
           {user?.bio ? (
             <SeeMoreText
               textClassname="text-sm leading-6 text-foreground"

@@ -5,6 +5,7 @@ import { Text } from "~/components/ui/text";
 import { useUserStore } from "~/hooks/stores/useUserStore";
 import { cn } from "~/lib/utils";
 import { useTranslation } from "react-i18next";
+import { useRTL } from "~/hooks/useRTL";
 
 interface SocialStatProps {
   className?: string;
@@ -13,6 +14,7 @@ interface SocialStatProps {
 
 export const SocialStat = ({ className, userId }: SocialStatProps) => {
   const { t } = useTranslation("menu");
+  const isRTL = useRTL();
   const clientStore = useUserStore();
   const targetId = userId || clientStore?.response?.id;
 
@@ -22,7 +24,8 @@ export const SocialStat = ({ className, userId }: SocialStatProps) => {
   return (
     <View
       className={cn(
-        "flex flex-row w-full items-center justify-between",
+        "flex w-full items-center justify-between",
+        isRTL ? "flex-row-reverse" : "flex-row",
         className,
       )}
     >

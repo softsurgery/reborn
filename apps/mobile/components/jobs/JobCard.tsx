@@ -23,6 +23,7 @@ import { Icon } from "../ui/icon";
 import { Badge } from "../ui/badge";
 import { useServerImage } from "@/hooks/content/useServerImage";
 import { useColorPalette } from "@/hooks/useColorPalette";
+import { useRTL } from "@/hooks/useRTL";
 import {
   Avatar,
   AvatarFallback,
@@ -63,6 +64,7 @@ export const JobCard = ({
 }: JobCardProps) => {
   const queryClient = useQueryClient();
   const { palette } = useColorPalette();
+  const isRTL = useRTL();
 
   const { isJobSaved, isSavedPending } = useIsJobSaved(job.id);
   const { saveJob, isSavePending, unsaveJob, isUnsavePending } =
@@ -123,7 +125,7 @@ export const JobCard = ({
       className={cn("w-full rounded-lg p-3", className)}
       activeOpacity={0.85}
     >
-      <View style={{ flexDirection: "row", gap: 12 }}>
+      <View style={{ flexDirection: isRTL ? "row-reverse" : "row", gap: 12 }}>
         <View
           style={{ width: THUMBNAIL_SIZE, height: THUMBNAIL_SIZE }}
           className="overflow-hidden rounded-xl bg-muted"
@@ -151,7 +153,11 @@ export const JobCard = ({
 
           {extraPhotos > 0 && (
             <View
-              style={{ position: "absolute", bottom: 4, right: 4 }}
+              style={{
+                position: "absolute",
+                bottom: 4,
+                ...(isRTL ? { left: 4 } : { right: 4 }),
+              }}
               className="rounded-md bg-black/60 px-1.5 py-0.5"
             >
               <Text
@@ -165,24 +171,32 @@ export const JobCard = ({
         </View>
 
         <View style={{ flex: 1 }}>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <View
+            style={{
+              flexDirection: isRTL ? "row-reverse" : "row",
+              alignItems: "center",
+            }}
+          >
             <Text
               numberOfLines={1}
               style={{ flex: 1, fontSize: 10 }}
-              className="font-bold uppercase tracking-widest text-primary"
+              className={cn(
+                "font-bold uppercase tracking-widest text-primary",
+                isRTL ? "text-right" : "text-left",
+              )}
             >
               {job.category?.label ?? "Uncategorised"}
             </Text>
 
             {isOwner ? (
-              <Badge variant="secondary" className="ml-2">
+              <Badge variant="secondary" className={isRTL ? "mr-2" : "ml-2"}>
                 <Text style={{ fontSize: 10 }}>{job.status}</Text>
               </Badge>
             ) : (
               <TouchableOpacity
                 onPress={handleSave}
                 hitSlop={12}
-                style={{ marginLeft: 8 }}
+                style={isRTL ? { marginRight: 8 } : { marginLeft: 8 }}
               >
                 <Heart
                   size={20}
@@ -215,7 +229,7 @@ export const JobCard = ({
           <View
             style={{
               marginTop: 6,
-              flexDirection: "row",
+              flexDirection: isRTL ? "row-reverse" : "row",
               alignItems: "baseline",
               gap: 4,
             }}
@@ -235,7 +249,7 @@ export const JobCard = ({
         style={{
           marginTop: 12,
           paddingTop: 10,
-          flexDirection: "row",
+          flexDirection: isRTL ? "row-reverse" : "row",
           alignItems: "center",
           gap: 6,
         }}
@@ -271,14 +285,19 @@ export const JobCard = ({
 
         <View
           style={{
-            marginLeft: "auto",
-            flexDirection: "row",
+            ...(isRTL ? { marginRight: "auto" } : { marginLeft: "auto" }),
+            flexDirection: isRTL ? "row-reverse" : "row",
             alignItems: "center",
             gap: 6,
           }}
         >
           {job.style ? (
-            <View className="flex-row items-center gap-1 rounded-full bg-muted px-2 py-1">
+            <View
+              className={cn(
+                "items-center gap-1 rounded-full bg-muted px-2 py-1",
+                isRTL ? "flex-row-reverse" : "flex-row",
+              )}
+            >
               <MapPin size={10} color={palette.mutedForeground} />
               <Text
                 style={{ fontSize: 10 }}
@@ -290,7 +309,12 @@ export const JobCard = ({
           ) : null}
 
           {job.difficulty ? (
-            <View className="flex-row items-center gap-1 rounded-full bg-muted px-2 py-1">
+            <View
+              className={cn(
+                "items-center gap-1 rounded-full bg-muted px-2 py-1",
+                isRTL ? "flex-row-reverse" : "flex-row",
+              )}
+            >
               <Signal size={10} color={palette.mutedForeground} />
               <Text
                 style={{ fontSize: 10 }}
@@ -304,7 +328,13 @@ export const JobCard = ({
       </View>
 
       {isOwner && (
-        <View style={{ marginTop: 8, flexDirection: "row", gap: 12 }}>
+        <View
+          style={{
+            marginTop: 8,
+            flexDirection: isRTL ? "row-reverse" : "row",
+            gap: 12,
+          }}
+        >
           <Button
             className="flex-1"
             size="sm"
