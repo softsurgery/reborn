@@ -1,4 +1,7 @@
+import React, { useRef } from "react";
 import { View, Text, ScrollView, TouchableOpacity } from "react-native";
+import { ActionSheetRef } from "react-native-actions-sheet";
+import { DuplicateJobActionSheet } from "./DuplicateJobActionSheet";
 import {
   Edit,
   Trash2,
@@ -14,6 +17,8 @@ import {
 } from "lucide-react-native";
 import { useColorPalette } from "@/hooks/useColorPalette";
 import { cn } from "@/lib/utils";
+import { useRouter } from "expo-router";
+import { useDuplicateJob } from "@/hooks/content/job/useDuplicateJob";
 
 type ActionItem = {
   id: string;
@@ -40,6 +45,9 @@ interface JobActionsProps {
 
 export const JobActions = ({ className }: JobActionsProps) => {
   const { palette } = useColorPalette();
+  const router = useRouter();
+  const { duplicateJob, isDuplicatingJob } = useDuplicateJob();
+  const duplicateSheetRef = useRef<ActionSheetRef>(null);
 
   const ACTION_GROUPS: ActionGroup[] = [
     {
@@ -55,10 +63,13 @@ export const JobActions = ({ className }: JobActionsProps) => {
         },
         {
           id: "duplicate",
-          title: "Duplicate Listing",
+          title: "Duplicate Job",
           description: "Create a copy for a similar opening",
           Icon: Copy,
           iconBgClass: "bg-purple-500/10",
+          onPress: () => {
+            duplicateSheetRef.current?.show();
+          },
         },
         {
           id: "pause",
@@ -218,6 +229,24 @@ export const JobActions = ({ className }: JobActionsProps) => {
           })}
         </View>
       ))}
+
+      <DuplicateJobActionSheet
+        ref={duplicateSheetRef}
+        isPending={isDuplicatingJob}
+        onClose={() => duplicateSheetRef.current?.hide()}
+        onConfirm={async () => {
+          try {
+            const duplicatedJob = await duplicateJob(id);
+            duplicateSheetRef.current?.hide();
+            router.push({
+              pathname: "/main/my-space/update-job",
+              params: { id: duplicatedJob.id },
+            });
+          } catch (e) {
+            console.error(e);
+          }
+        }}
+      />
     </ScrollView>
   );
 };

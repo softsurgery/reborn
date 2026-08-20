@@ -142,6 +142,11 @@ const update = async (
   return response.data;
 };
 
+const duplicate = async (id: string): Promise<ResponseJobDto> => {
+  const response = await axios.post<ResponseJobDto>(`/job/${id}/duplicate`);
+  return response.data;
+};
+
 const next = async (
   id: string,
   event: string,
@@ -159,6 +164,7 @@ export const job = {
   findById,
   save,
   update,
+  duplicate,
   current: {
     findPaginated: findCurrentPaginated,
     findFollowedPaginated,

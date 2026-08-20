@@ -1,4 +1,5 @@
-import { create } from "zustand";
+import { createStore, useStore } from "zustand";
+import React, { createContext, useContext, useRef } from "react";
 import { setDeepValue } from "~/lib/object.lib";
 import {
   CreateEducationDto,
@@ -118,9 +119,6 @@ const initialState: UserData = {
   educationErrors: {},
 };
 
-import { createStore, useStore } from "zustand";
-import React, { createContext, useContext, useRef } from "react";
-
 export const createUserStore = () =>
   createStore<UserStore>((set) => ({
     ...initialState,
@@ -165,14 +163,24 @@ export const createUserStore = () =>
 
 export const globalUserStore = createUserStore();
 
-export const UserStoreContext = createContext<ReturnType<typeof createUserStore> | null>(null);
+export const UserStoreContext = createContext<ReturnType<
+  typeof createUserStore
+> | null>(null);
 
-export const UserStoreProvider = ({ children }: { children: React.ReactNode }) => {
+export const UserStoreProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
   const storeRef = useRef<ReturnType<typeof createUserStore> | null>(null);
   if (!storeRef.current) {
     storeRef.current = createUserStore();
   }
-  return React.createElement(UserStoreContext.Provider, { value: storeRef.current }, children);
+  return React.createElement(
+    UserStoreContext.Provider,
+    { value: storeRef.current },
+    children,
+  );
 };
 
 export function useUserStore(): UserStore;
