@@ -1,5 +1,5 @@
-import React, { useRef } from "react";
-import { View, Text, ScrollView, TouchableOpacity } from "react-native";
+import React from "react";
+import { View, Text, ScrollView, Pressable } from "react-native";
 import { ActionSheetRef } from "react-native-actions-sheet";
 import { DuplicateJobActionSheet } from "./DuplicateJobActionSheet";
 import { ArchiveJobActionSheet } from "./ArchiveJobActionSheet";
@@ -48,17 +48,18 @@ type ActionGroup = {
 };
 
 interface JobActionsProps {
+  id: string;
   className?: string;
 }
 
-export const JobActions = ({ className }: JobActionsProps) => {
+export const JobActions = ({ id, className }: JobActionsProps) => {
   const { palette } = useColorPalette();
   const router = useRouter();
   const { duplicateJob, isDuplicatingJob } = useDuplicateJob();
   const { deleteJob, isDeletingJob } = useDeleteJob();
-  const duplicateSheetRef = useRef<ActionSheetRef>(null);
-  const archiveSheetRef = useRef<ActionSheetRef>(null);
-  const deleteSheetRef = useRef<ActionSheetRef>(null);
+  const duplicateSheetRef = React.useRef<ActionSheetRef>(null);
+  const archiveSheetRef = React.useRef<ActionSheetRef>(null);
+  const deleteSheetRef = React.useRef<ActionSheetRef>(null);
 
   const { job, refetchJob } = useJob({ id });
 
@@ -91,6 +92,12 @@ export const JobActions = ({ className }: JobActionsProps) => {
           description: "Update title, requirements & salary",
           Icon: Edit,
           iconBgClass: "bg-blue-500/10",
+          onPress: () => {
+            router.push({
+              pathname: "/main/my-space/update-job",
+              params: { id },
+            });
+          },
         },
         {
           id: "duplicate",
@@ -240,7 +247,7 @@ export const JobActions = ({ className }: JobActionsProps) => {
           {group.items.map((item, index) => {
             const isLast = index === group.items.length - 1;
             return (
-              <TouchableOpacity
+              <Pressable
                 key={item.id}
                 onPress={item.onPress}
                 disabled={item.disabled}
@@ -270,7 +277,7 @@ export const JobActions = ({ className }: JobActionsProps) => {
                   </View>
                 </View>
                 <ChevronRight size={18} color={palette.foreground} />
-              </TouchableOpacity>
+              </Pressable>
             );
           })}
         </View>
