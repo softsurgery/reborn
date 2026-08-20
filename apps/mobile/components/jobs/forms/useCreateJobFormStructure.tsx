@@ -180,7 +180,7 @@ export const useCreateJobFormStructure = ({
     id: "tags",
     label: "Tags",
     variant: FieldVariant.MULTISELECT,
-    required: false,
+    required: true,
     placeholder: "Select relevant tags",
     description: "Add tags to help freelancers find your job.",
     error: jobStore.createDtoErrors?.tagIds?.[0],
@@ -258,6 +258,7 @@ export const useCreateJobFormStructure = ({
     id: "pictures",
     label: "Job Images",
     variant: FieldVariant.GALLERY,
+    required: true,
     error: jobStore.createDtoErrors?.uploads?.[0],
     description: "Add images related to the job.",
     props: {
