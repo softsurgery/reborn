@@ -1,38 +1,61 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner-native";
-import { api } from "~/api";
-import { ServerErrorResponse } from "~/types";
+import { api } from "@/api";
+import { ServerErrorResponse } from "@/types";
 
 interface useJobRequestActionsProps {
-  onSuccess?: (...args: any) => void;
-  onError?: (...args: any) => void;
+  onSuccess?: (...args: any[]) => void;
+  onError?: (...args: any[]) => void;
 }
 
 export const useJobRequestActions = ({
   onSuccess,
   onError,
-}: useJobRequestActionsProps) => {
-  const defaultOnError = (error: ServerErrorResponse) => {
-    toast.error("Oops! Failed to perform action", {
-      description: error.response?.data?.message || "Please try again later.",
-    });
+}: useJobRequestActionsProps = {}) => {
+  const queryClient = useQueryClient();
+
+  const handleSuccess = (message: string, ...args: any[]) => {
+    toast.success(message);
+    queryClient.invalidateQueries({ queryKey: ["requests"] });
+    queryClient.invalidateQueries({ queryKey: ["job-request"] });
+    queryClient.invalidateQueries({ queryKey: ["job-metadata"] });
+    onSuccess?.(...args);
   };
+
+  const defaultOnError = (error: ServerErrorResponse, defaultMsg: string) => {
+    toast.error(
+      error?.response?.data?.message || defaultMsg || "Please try again later.",
+    );
+  };
+
   const { mutate: approveJobRequest, isPending: isApprovePending } =
     useMutation({
       mutationFn: (id: number) => api.jobRequest.approve(id),
-      onSuccess,
-      onError: onError ? onError : defaultOnError,
+      onSuccess: (...args) => handleSuccess("Job request approved", ...args),
+      onError: (error: ServerErrorResponse) => {
+        if (onError) onError(error);
+        else defaultOnError(error, "Failed to approve job request");
+      },
     });
+
   const { mutate: rejectJobRequest, isPending: isRejectPending } = useMutation({
     mutationFn: (id: number) => api.jobRequest.reject(id),
-    onSuccess,
-    onError: onError ? onError : defaultOnError,
+    onSuccess: (...args) => handleSuccess("Job request rejected", ...args),
+    onError: (error: ServerErrorResponse) => {
+      if (onError) onError(error);
+      else defaultOnError(error, "Failed to reject job request");
+    },
   });
+
   const { mutate: cancelJobRequest, isPending: isCancelPending } = useMutation({
     mutationFn: (id: number) => api.jobRequest.cancel(id),
-    onSuccess,
-    onError: onError ? onError : defaultOnError,
+    onSuccess: (...args) => handleSuccess("Job request cancelled", ...args),
+    onError: (error: ServerErrorResponse) => {
+      if (onError) onError(error);
+      else defaultOnError(error, "Failed to cancel job request");
+    },
   });
+
   return {
     approveJobRequest,
     isApprovePending,

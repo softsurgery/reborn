@@ -1,7 +1,7 @@
 import React from "react";
 import { View } from "react-native";
-import { Skeleton } from "~/components/ui/skeleton";
-import { cn } from "~/lib/utils";
+import { Skeleton } from "@/components/ui/skeleton";
+import { cn } from "@/lib/utils";
 
 interface IncomingRequestEntrySkeletonProps {
   className?: string;
@@ -13,52 +13,32 @@ export const IncomingRequestSkeleton = ({
   return (
     <View
       className={cn(
-        "flex flex-col bg-card border border-border rounded-xl overflow-hidden shadow-sm",
-        className
+        "w-full py-3 px-1 border-b border-border/40 flex flex-col gap-2",
+        className,
       )}
     >
-      {/* Header section */}
-      <View className="flex flex-row items-start justify-between p-4 pb-2 border-b border-border/50">
-        <View className="flex-1 pr-3">
-          {/* Job title */}
-          <Skeleton className="h-5 w-2/3 mb-2 rounded" />
-
-          {/* Status badge */}
-          <View className="flex flex-row items-center gap-1.5">
-            <Skeleton className="h-4 w-4 rounded-full" />
-            <Skeleton className="h-4 w-16 rounded" />
+      {/* Top Row: Thumbnail + Info */}
+      <View className="flex flex-row gap-3">
+        <Skeleton className="w-[72px] h-[72px] rounded-xl shrink-0" />
+        <View className="flex-1 justify-between gap-1.5">
+          <View className="flex flex-row items-center justify-between gap-2">
+            <Skeleton className="h-3.5 w-20 rounded-md" />
+            <Skeleton className="h-4 w-14 rounded-full" />
           </View>
-        </View>
-
-        {/* Profile image */}
-        <Skeleton className="w-16 h-16 rounded-full border-2 border-border" />
-      </View>
-
-      {/* Body section */}
-      <View className="flex flex-col gap-3 p-4">
-        {/* Client info */}
-        <View className="flex flex-row items-center gap-2">
-          <Skeleton className="w-8 h-8 rounded-full" />
-          <View className="flex-1">
-            <Skeleton className="h-3 w-12 mb-1 rounded" />
-            <Skeleton className="h-4 w-32 rounded" />
-          </View>
-        </View>
-
-        {/* Requested at */}
-        <View className="flex flex-row items-center gap-2">
-          <Skeleton className="w-8 h-8 rounded-full" />
-          <View className="flex-1">
-            <Skeleton className="h-3 w-16 mb-1 rounded" />
-            <Skeleton className="h-4 w-40 rounded" />
-          </View>
+          <Skeleton className="h-4 w-5/6 rounded-md" />
+          <Skeleton className="h-4 w-24 rounded-md" />
         </View>
       </View>
 
-      {/* Action buttons (pending state placeholder) */}
-      <View className="flex flex-row items-center justify-center gap-2 px-4 py-4">
-        <Skeleton className="h-10 rounded-lg flex-1" />
-        <Skeleton className="h-10 rounded-lg flex-1" />
+      {/* Bottom Footer Row */}
+      <View className="flex flex-row items-center justify-between pt-1">
+        <View className="flex flex-row items-center gap-2">
+          <Skeleton className="w-5 h-5 rounded-full" />
+          <Skeleton className="h-3.5 w-24 rounded-md" />
+          <Skeleton className="h-3.5 w-16 rounded-md" />
+        </View>
+
+        <Skeleton className="h-7 w-20 rounded-lg" />
       </View>
     </View>
   );

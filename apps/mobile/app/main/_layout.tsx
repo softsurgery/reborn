@@ -205,6 +205,14 @@ export default function MainLayout() {
         }}
       />
       <Stack.Screen
+        name="my-space/request-details"
+        options={{
+          title: "Request Details",
+          headerShown: false,
+          animation: "slide_from_right",
+        }}
+      />
+      <Stack.Screen
         name="my-space/quick-actions/saved"
         options={{
           title: "saved",

@@ -1,28 +1,32 @@
 import React from "react";
-import { cn } from "~/lib/utils";
-import { ResponseJobRequestDto } from "~/types";
+import { RefreshControl, View } from "react-native";
+import { LegendList } from "@legendapp/list";
+import { Inbox, Send, Search } from "lucide-react-native";
+import { cn } from "@/lib/utils";
+import { ResponseJobRequestDto } from "@/types";
 import { IncomingRequestEntry } from "./IncomingRequest";
 import { IncomingRequestSkeleton } from "./IncomingRequestSkeleton";
 import { OutgoingRequestEntry } from "./OutgoingRequest";
 import { OutgoingRequestSkeleton } from "./OutgoingRequestSkeleton";
-import { LegendList } from "@legendapp/list";
-import { RefreshControl, View } from "react-native";
-import { Text } from "~/components/ui/text";
-import { useRequestSystem } from "~/hooks/content/job/useInfiniteJobRequests";
+import { Text } from "@/components/ui/text";
+import { Icon } from "@/components/ui/icon";
+import { MarkedInput } from "@/components/shared/MarkedInput";
+import { useDebounce } from "@/hooks/useDebounce";
+import { useInfiniteJobRequests } from "@/hooks/content/job/useInfiniteJobRequests";
 
 interface RequestsListProps {
   className?: string;
   variant: "incoming" | "outgoing";
-  search: string;
-  searching: boolean;
 }
 
 export const RequestsList = ({
   className,
   variant,
-  search,
-  searching,
 }: RequestsListProps) => {
+  const [searchValue, setSearchValue] = React.useState("");
+  const { value: search, loading: searching } = useDebounce(searchValue, 300);
+  const [searchBarHeight, setSearchBarHeight] = React.useState(60);
+
   const {
     requests,
     hasNextPage,
@@ -31,48 +35,73 @@ export const RequestsList = ({
     isFetchingNextPage,
     fetchNextPage,
     refetchRequests,
-  } = useRequestSystem({
+  } = useInfiniteJobRequests({
     search,
     variant,
   });
 
-  const isPending =
-    isRequestsPending || isRefetching || isFetchingNextPage || searching;
+  const isInitialPending = isRequestsPending || searching;
 
   const renderItem = React.useCallback(
     ({ item }: { item: ResponseJobRequestDto }) =>
       variant === "incoming" ? (
         <IncomingRequestEntry
           request={item}
-          className="mt-4"
+          className="mb-3.5"
           refetchRequests={refetchRequests}
         />
       ) : (
         <OutgoingRequestEntry
           request={item}
-          className="mt-4"
+          className="mb-3.5"
           refetchRequests={refetchRequests}
         />
       ),
-    [variant],
+    [variant, refetchRequests]
   );
-
-  const [dragging, setDragging] = React.useState(false);
 
   const SkeletonComponent =
     variant === "incoming" ? IncomingRequestSkeleton : OutgoingRequestSkeleton;
 
+  const EmptyIcon = variant === "incoming" ? Inbox : Send;
+  const emptyTitle =
+    variant === "incoming"
+      ? "No Incoming Requests"
+      : "No Sent Applications";
+  const emptySubtitle =
+    variant === "incoming"
+      ? "Applications from candidates will appear here."
+      : "Job applications you've submitted will appear here.";
+
   return (
-    <LegendList
-      className={cn("flex-1", className)}
-      data={isPending ? [] : requests}
+    <View className="flex-1 bg-background relative">
+      {/* Sticky Search Header matching UserJobsList */}
+      <View
+        className="absolute left-0 right-0 z-20 bg-background/90 py-3 flex flex-col justify-center"
+        onLayout={(e) => setSearchBarHeight(e.nativeEvent.layout.height)}
+      >
+        <MarkedInput
+          value={searchValue}
+          onChangeText={setSearchValue}
+          placeholder={
+            variant === "incoming"
+              ? "Search incoming candidates..."
+              : "Search sent applications..."
+          }
+          icon={Search}
+          enableClear
+        />
+      </View>
+
+      <LegendList
+        className={cn("flex-1", className)}
+        contentContainerStyle={{ paddingTop: searchBarHeight + 4 }}
+      data={isInitialPending ? [] : requests}
       renderItem={renderItem}
       keyExtractor={(item) => item.id.toString()}
       showsVerticalScrollIndicator={false}
       recycleItems={true}
       maintainVisibleContentPosition
-      onScrollBeginDrag={() => setDragging(true)}
-      onScrollEndDrag={() => setDragging(false)}
       refreshControl={
         <RefreshControl
           refreshing={isRefetching}
@@ -86,28 +115,39 @@ export const RequestsList = ({
           fetchNextPage();
         }
       }}
-      onEndReachedThreshold={0.5}
-      ListHeaderComponent={isPending ? null : <View />}
+      onEndReachedThreshold={0.4}
       ListEmptyComponent={
-        !isPending ? (
-          <View className="p-6 items-center">
-            <Text className="text-muted-foreground">No requests available</Text>
+        !isInitialPending ? (
+          <View className="py-16 items-center justify-center px-6 text-center">
+            <View className="w-16 h-16 rounded-full bg-muted/60 items-center justify-center mb-3">
+              <Icon as={EmptyIcon} size={28} className="text-muted-foreground" />
+            </View>
+            <Text className="text-base font-semibold text-foreground mb-1">
+              {emptyTitle}
+            </Text>
+            <Text className="text-xs text-muted-foreground text-center max-w-[260px] leading-relaxed">
+              {emptySubtitle}
+            </Text>
           </View>
         ) : null
       }
       ListFooterComponent={
-        <View className="items-center w-full">
-          {isPending ? (
-            <View className="w-full">
+        <View className="items-center w-full pb-8">
+          {isInitialPending ? (
+            <View className="w-full gap-3.5">
               {[...Array(3)].map((_, idx) => (
-                <SkeletonComponent key={idx} className="mt-4" />
+                <SkeletonComponent key={idx} />
               ))}
             </View>
-          ) : hasNextPage ? null : (
-            <View className="flex flex-row items-center justify-center gap-2 p-6"></View>
-          )}
+          ) : isFetchingNextPage ? (
+            <View className="py-4">
+              <SkeletonComponent />
+            </View>
+          ) : null}
         </View>
       }
     />
+    </View>
   );
 };
+
