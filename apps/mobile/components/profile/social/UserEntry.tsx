@@ -90,7 +90,7 @@ export const UserEntry = ({
 
   return (
     <Pressable
-      className={cn("p-2 active:bg-secondary/10", className)}
+      className={cn("p-2 active:opacity-50", className)}
       onPress={() => {
         router.push({
           pathname: "/main/explore/inspect-profile",
@@ -115,14 +115,6 @@ export const UserEntry = ({
                   4.9 (127 reviews)
                 </Text>
               </View>
-              {user?.region && (
-                <View className="flex-row items-center gap-1">
-                  <MapPin size={12} color="#6366f1" />
-                  <Text className="text-xs text-muted-foreground">
-                    {user.region.label}
-                  </Text>
-                </View>
-              )}
             </View>
           </View>
         </View>

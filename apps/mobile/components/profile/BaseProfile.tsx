@@ -325,7 +325,7 @@ export const InspectBaseProfile = ({
               />
             </View>
           </View>
-          <SocialStat className="w-[70vw] mx-auto" userId={user?.id} />
+          <SocialStat className="w-[70vw] mx-auto mt-4" userId={user?.id} />
           {/* Bio + Sections */}
           <View className="flex flex-col">
             <View>
