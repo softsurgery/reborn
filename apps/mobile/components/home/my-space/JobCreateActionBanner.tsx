@@ -1,6 +1,7 @@
 import { Icon } from "@/components/ui/icon";
 import { Text } from "@/components/ui/text";
 import { useColorPalette } from "@/hooks/useColorPalette";
+import { useRTL } from "@/hooks/useRTL";
 import { cn } from "@/lib/utils";
 import { router } from "expo-router";
 import { Briefcase, Plus } from "lucide-react-native";
@@ -18,6 +19,7 @@ export const JobCreateActionBanner = ({
   setBannerHeight,
 }: JobCreateActionBannerProps) => {
   const { palette } = useColorPalette();
+  const isRTL = useRTL();
   return (
     <View>
       <View
@@ -30,9 +32,12 @@ export const JobCreateActionBanner = ({
           onPress={() => {
             router.push("/main/my-space/new-job");
           }}
-          className="flex flex-row items-center justify-between  rounded-2xl px-4 shadow-xs"
+          className={cn(
+            "flex flex-row items-center justify-between rounded-2xl px-4 shadow-xs",
+            isRTL && "flex-row-reverse",
+          )}
         >
-          <View className="flex-row items-center gap-3 flex-1">
+          <View className={cn("flex-row items-center gap-3 flex-1", isRTL && "flex-row-reverse")}>
             <View className="w-10 h-10 rounded-xl bg-background items-center justify-center">
               <Icon as={Briefcase} size={20} color={palette.foreground} />
             </View>

@@ -2,6 +2,7 @@ import { router } from "expo-router";
 import {
   Bookmark,
   BriefcaseBusiness,
+  ChevronLeft,
   ChevronRight,
   Eye,
   Inbox,
@@ -14,6 +15,7 @@ import { Text } from "~/components/ui/text";
 import { Badge } from "~/components/ui/badge";
 import { Separator } from "~/components/ui/separator";
 import { useColorPalette } from "@/hooks/useColorPalette";
+import { useRTL } from "@/hooks/useRTL";
 
 interface QuickActionsProps {
   className?: string;
@@ -21,6 +23,7 @@ interface QuickActionsProps {
 
 export const QuickActions = ({ className }: QuickActionsProps) => {
   const { palette } = useColorPalette();
+  const isRTL = useRTL();
   const portalItems = [
     {
       title: "My jobs",
@@ -71,8 +74,8 @@ export const QuickActions = ({ className }: QuickActionsProps) => {
                 onPress={isDisabled ? undefined : item.onPress}
                 disabled={isDisabled}
               >
-                <View className="flex-row items-center justify-between">
-                  <View className="flex-row items-center gap-3 flex-1">
+                <View className={cn("flex-row items-center justify-between", isRTL && "flex-row-reverse")}>
+                  <View className={cn("flex-row items-center gap-3 flex-1", isRTL && "flex-row-reverse")}>
                     <View className="h-10 w-10 items-center justify-center rounded-lg bg-primary">
                       <Icon
                         as={item.icon}
@@ -98,7 +101,7 @@ export const QuickActions = ({ className }: QuickActionsProps) => {
                       </Badge>
                     ) : (
                       <Icon
-                        as={ChevronRight}
+                        as={isRTL ? ChevronLeft : ChevronRight}
                         size={18}
                         className="text-muted-foreground"
                       />

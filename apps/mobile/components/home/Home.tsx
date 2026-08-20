@@ -21,6 +21,7 @@ import Animated from "react-native-reanimated";
 import { StatCard } from "./StatCard";
 import { useScrollableElement } from "~/hooks/useScrollableElement";
 import { useColorPalette } from "@/hooks/useColorPalette";
+import { useRTL } from "~/hooks/useRTL";
 
 interface HomeProps {
   className?: string;
@@ -30,6 +31,7 @@ export const Home = ({ className }: HomeProps) => {
   const { palette } = useColorPalette();
   const { currentUser, isCurrentUserPending } = useCurrentUser();
   const { newCount, resetCount } = useNotificationContext();
+  const isRTL = useRTL();
 
   const {
     data: jobsResp,
@@ -182,9 +184,11 @@ export const Home = ({ className }: HomeProps) => {
               Keep your momentum today with new opportunities and responses.
             </Text>
 
-            <View className="flex-row gap-2 mt-4">
+            <View
+              className={cn("flex-row gap-2 mt-4", isRTL && "flex-row-reverse")}
+            >
               <Button
-                className="flex-1"
+                className={cn("flex-1", isRTL && "flex-row-reverse")}
                 size="sm"
                 onPress={() => router.push("/main/my-space/new-job")}
               >
@@ -192,7 +196,7 @@ export const Home = ({ className }: HomeProps) => {
                 <Text>Post Job</Text>
               </Button>
               <Button
-                className="flex-1"
+                className={cn("flex-1", isRTL && "flex-row-reverse")}
                 size="sm"
                 variant="outline"
                 onPress={() => router.push("/main/explore/job-search")}
@@ -203,7 +207,9 @@ export const Home = ({ className }: HomeProps) => {
             </View>
           </View>
 
-          <View className="flex-row gap-2 mt-3">
+          <View
+            className={cn("flex-row gap-2 mt-3", isRTL && "flex-row-reverse")}
+          >
             <StatCard
               className="p-3"
               title="My Jobs"
@@ -235,7 +241,12 @@ export const Home = ({ className }: HomeProps) => {
           </View>
 
           <View className="rounded-2xl border border-border bg-card p-4 mt-3 mb-6">
-            <View className="flex-row items-center justify-between">
+            <View
+              className={cn(
+                "flex-row items-center justify-between",
+                isRTL && "flex-row-reverse",
+              )}
+            >
               <Text className="text-lg font-semibold">Recent activity</Text>
               <Button
                 variant="ghost"
@@ -257,7 +268,12 @@ export const Home = ({ className }: HomeProps) => {
                 recentActivity.map((item, index) => (
                   <React.Fragment key={item.id}>
                     <View className="py-3">
-                      <View className="flex-row items-center justify-between gap-2">
+                      <View
+                        className={cn(
+                          "flex-row items-center justify-between gap-2",
+                          isRTL && "flex-row-reverse",
+                        )}
+                      >
                         <Text className="font-medium flex-1">{item.title}</Text>
                         <View
                           className={cn(
@@ -270,7 +286,12 @@ export const Home = ({ className }: HomeProps) => {
                           </Text>
                         </View>
                       </View>
-                      <View className="flex-row items-center gap-1 mt-1">
+                      <View
+                        className={cn(
+                          "flex-row items-center gap-1 mt-1",
+                          isRTL && "flex-row-reverse",
+                        )}
+                      >
                         <Icon
                           as={Clock3}
                           size={12}

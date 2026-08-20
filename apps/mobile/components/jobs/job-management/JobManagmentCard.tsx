@@ -30,6 +30,7 @@ import { timeAgo } from "@/lib/dates.utils";
 import { useColorPalette } from "@/hooks/useColorPalette";
 import { toast } from "sonner-native";
 import { useLoader } from "@/contexts/LoaderContext";
+import { useRTL } from "@/hooks/useRTL";
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface JobManagementCardProps {
@@ -107,6 +108,7 @@ export const JobManagementCard = ({
   const { palette } = useColorPalette();
   const queryClient = useQueryClient();
   const { setLoading } = useLoader();
+  const isRTL = useRTL();
 
   const orderedUploads = React.useMemo(
     () => job.uploads?.slice().sort((a, b) => a.order - b.order),
@@ -188,18 +190,28 @@ export const JobManagementCard = ({
       )}
     >
       {/* Header Row: Category Tag, Status Badge & Positioned Action Menu */}
-      <View className="flex-row items-center justify-between">
+      <View
+        className={cn(
+          "flex-row items-center justify-between",
+          isRTL && "flex-row-reverse",
+        )}
+      >
         <Text
           numberOfLines={1}
-          className="flex-1 text-[10px] font-bold uppercase tracking-widest text-primary pr-2"
+          className={cn(
+            "flex-1 text-[10px] font-bold uppercase tracking-widest text-primary",
+          )}
         >
           {job.category?.label ?? "Uncategorised"}
         </Text>
 
-        <View className="flex-row items-center gap-2">
+        <View className={cn("flex-row items-center gap-2")}>
           <Badge
             variant="secondary"
-            className={cn("px-2.5 py-0.5 rounded-full border", statusStyle.badge)}
+            className={cn(
+              "px-2.5 py-0.5 rounded-full border",
+              statusStyle.badge,
+            )}
           >
             <Text className={cn("text-[10px] capitalize", statusStyle.text)}>
               {job.status}
@@ -262,7 +274,12 @@ export const JobManagementCard = ({
       </View>
 
       {/* Main Body: Thumbnail & Job Metadata */}
-      <View className="flex-row gap-3.5 items-start">
+      <View
+        className={cn(
+          "flex-row gap-3.5 items-start",
+          isRTL && "flex-row-reverse",
+        )}
+      >
         <View className="w-[76px] h-[76px] overflow-hidden rounded-xl bg-muted/60 shrink-0 border border-border/30">
           {coverId && isUploadPending ? (
             <Skeleton className="h-full w-full" />
@@ -283,7 +300,12 @@ export const JobManagementCard = ({
           )}
 
           {extraPhotos > 0 && (
-            <View className="absolute bottom-1 right-1 rounded-md bg-black/70 px-1.5 py-0.5">
+            <View
+              className={cn(
+                "absolute bottom-1 rounded-md bg-black/70 px-1.5 py-0.5",
+                isRTL ? "left-1" : "right-1",
+              )}
+            >
               <Text className="text-[9px] font-semibold text-white">
                 +{extraPhotos}
               </Text>
@@ -291,10 +313,12 @@ export const JobManagementCard = ({
           )}
         </View>
 
-        <View className="flex-1 gap-1">
+        <View className={cn("flex-1 gap-1", isRTL && "items-end")}>
           <Text
             numberOfLines={2}
-            className="text-base font-semibold leading-tight text-foreground tracking-tight"
+            className={cn(
+              "text-base font-semibold leading-tight text-foreground tracking-tight",
+            )}
           >
             {job.title || "Untitled Job"}
           </Text>
@@ -302,13 +326,18 @@ export const JobManagementCard = ({
           {job.description ? (
             <Text
               numberOfLines={1}
-              className="text-xs text-muted-foreground leading-4"
+              className={cn("text-xs text-muted-foreground leading-4")}
             >
               {job.description}
             </Text>
           ) : null}
 
-          <View className="flex-row items-baseline gap-1 mt-0.5">
+          <View
+            className={cn(
+              "flex-row items-baseline gap-1 mt-0.5",
+              isRTL && "flex-row-reverse",
+            )}
+          >
             <Text className="text-base font-bold text-foreground tracking-tight">
               {job.price ? job.price.toFixed(digits) : "0.00"}
             </Text>
@@ -321,14 +350,29 @@ export const JobManagementCard = ({
       </View>
 
       {/* Footer Info: Date Ago & Metadata Pills */}
-      <View className="flex-row items-center justify-between pt-0.5">
+      <View
+        className={cn(
+          "flex-row items-center justify-between pt-0.5",
+          isRTL && "flex-row-reverse",
+        )}
+      >
         <Text className="text-[11px] font-medium text-muted-foreground">
           {timeAgo(job?.createdAt || new Date())}
         </Text>
 
-        <View className="flex-row items-center gap-1.5">
+        <View
+          className={cn(
+            "flex-row items-center gap-1.5",
+            isRTL && "flex-row-reverse",
+          )}
+        >
           {job.style ? (
-            <View className="flex-row items-center gap-1 rounded-full bg-muted/60 px-2 py-0.5">
+            <View
+              className={cn(
+                "flex-row items-center gap-1 rounded-full bg-muted/60 px-2 py-0.5",
+                isRTL && "flex-row-reverse",
+              )}
+            >
               <MapPin size={10} color={palette.mutedForeground} />
               <Text className="text-[10px] font-medium text-muted-foreground">
                 {job.style}
@@ -337,7 +381,12 @@ export const JobManagementCard = ({
           ) : null}
 
           {job.difficulty ? (
-            <View className="flex-row items-center gap-1 rounded-full bg-muted/60 px-2 py-0.5">
+            <View
+              className={cn(
+                "flex-row items-center gap-1 rounded-full bg-muted/60 px-2 py-0.5",
+                isRTL && "flex-row-reverse",
+              )}
+            >
               <Signal size={10} color={palette.mutedForeground} />
               <Text className="text-[10px] font-medium text-muted-foreground">
                 {job.difficulty}
@@ -349,5 +398,3 @@ export const JobManagementCard = ({
     </TouchableOpacity>
   );
 };
-
-
