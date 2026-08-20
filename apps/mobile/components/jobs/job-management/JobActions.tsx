@@ -3,6 +3,7 @@ import { View, Text, ScrollView, Pressable } from "react-native";
 import { ActionSheetRef } from "react-native-actions-sheet";
 import { DuplicateJobActionSheet } from "./DuplicateJobActionSheet";
 import { ArchiveJobActionSheet } from "./ArchiveJobActionSheet";
+import { DeleteJobActionSheet } from "./DeleteJobActionSheet";
 import { useNextWorkflowJob } from "@/hooks/content/job/workflow/useNextWorkflowJob";
 import { JobEvents, JobStatus } from "@/types";
 import { useJob } from "@/hooks/content/job/useJob";
@@ -18,11 +19,13 @@ import {
   Link,
   Archive,
   ChevronRight,
+  X,
 } from "lucide-react-native";
 import { useColorPalette } from "@/hooks/useColorPalette";
 import { cn } from "@/lib/utils";
 import { useRouter } from "expo-router";
 import { useDuplicateJob } from "@/hooks/content/job/useDuplicateJob";
+import { useDeleteJob } from "@/hooks/content/job/useDeleteJob";
 
 type ActionItem = {
   id: string;
@@ -53,8 +56,10 @@ export const JobActions = ({ id, className }: JobActionsProps) => {
   const { palette } = useColorPalette();
   const router = useRouter();
   const { duplicateJob, isDuplicatingJob } = useDuplicateJob();
+  const { deleteJob, isDeletingJob } = useDeleteJob();
   const duplicateSheetRef = useRef<ActionSheetRef>(null);
   const archiveSheetRef = useRef<ActionSheetRef>(null);
+  const deleteSheetRef = useRef<ActionSheetRef>(null);
 
   const { job, refetchJob } = useJob({ id });
 
@@ -73,6 +78,8 @@ export const JobActions = ({ id, className }: JobActionsProps) => {
     job?.status === JobStatus.DRAFT ||
     job?.status === JobStatus.FAILED ||
     job?.status === JobStatus.SUCCESSFUL;
+
+  const canDelete = job?.status === JobStatus.DRAFT;
 
   const ACTION_GROUPS: ActionGroup[] = [
     {
@@ -181,11 +188,17 @@ export const JobActions = ({ id, className }: JobActionsProps) => {
         {
           id: "delete",
           title: "Delete Job Permanently",
-          description: "Irreversibly remove listing & applicant records",
-          Icon: Trash2,
-          iconBgClass: "bg-destructive/10",
+          description: canDelete
+            ? "Irreversibly remove listing & applicant records"
+            : "Job must be in Draft status to be deleted",
+          Icon: X,
+          iconBgClass: "bg-destructive",
           titleClass: "text-destructive font-bold",
-          activeBgClass: "active:bg-destructive/10",
+          activeBgClass: "active:bg-destructive",
+          disabled: !canDelete,
+          onPress: () => {
+            deleteSheetRef.current?.show();
+          },
         },
       ],
     },
@@ -241,7 +254,7 @@ export const JobActions = ({ id, className }: JobActionsProps) => {
                 className={cn(
                   "flex-row items-center justify-between p-4 active:opacity-50",
                   !isLast ? "border-b border-border/40" : "",
-                  item.disabled ? "opacity-50" : ""
+                  item.disabled ? "opacity-50" : "",
                 )}
               >
                 <View className="flex-row items-center gap-3.5">
@@ -293,6 +306,20 @@ export const JobActions = ({ id, className }: JobActionsProps) => {
         onClose={() => archiveSheetRef.current?.hide()}
         onConfirm={() => {
           nextJobWorkflow(JobEvents.ARCHIVE);
+        }}
+      />
+      <DeleteJobActionSheet
+        ref={deleteSheetRef}
+        isPending={isDeletingJob}
+        onClose={() => deleteSheetRef.current?.hide()}
+        onConfirm={async () => {
+          try {
+            await deleteJob(id);
+            deleteSheetRef.current?.hide();
+            router.back();
+          } catch (e) {
+            console.error(e);
+          }
         }}
       />
     </ScrollView>
