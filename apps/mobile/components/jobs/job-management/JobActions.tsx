@@ -2,6 +2,10 @@ import React, { useRef } from "react";
 import { View, Text, ScrollView, Pressable } from "react-native";
 import { ActionSheetRef } from "react-native-actions-sheet";
 import { DuplicateJobActionSheet } from "./DuplicateJobActionSheet";
+import { ArchiveJobActionSheet } from "./ArchiveJobActionSheet";
+import { useNextWorkflowJob } from "@/hooks/content/job/workflow/useNextWorkflowJob";
+import { JobEvents, JobStatus } from "@/types";
+import { useJob } from "@/hooks/content/job/useJob";
 import {
   Edit,
   Trash2,
@@ -29,6 +33,7 @@ type ActionItem = {
   titleClass?: string;
   activeBgClass?: string;
   onPress?: () => void;
+  disabled?: boolean;
 };
 
 type ActionGroup = {
@@ -49,6 +54,25 @@ export const JobActions = ({ id, className }: JobActionsProps) => {
   const router = useRouter();
   const { duplicateJob, isDuplicatingJob } = useDuplicateJob();
   const duplicateSheetRef = useRef<ActionSheetRef>(null);
+  const archiveSheetRef = useRef<ActionSheetRef>(null);
+
+  const { job, refetchJob } = useJob({ id });
+
+  const { nextJobWorkflow, isNextJobWorkflowPending } = useNextWorkflowJob({
+    id,
+    onSuccess: () => {
+      refetchJob();
+      archiveSheetRef.current?.hide();
+    },
+    onError: (e) => {
+      console.error(e);
+    },
+  });
+
+  const canArchive =
+    job?.status === JobStatus.DRAFT ||
+    job?.status === JobStatus.FAILED ||
+    job?.status === JobStatus.SUCCESSFUL;
 
   const ACTION_GROUPS: ActionGroup[] = [
     {
@@ -143,10 +167,16 @@ export const JobActions = ({ id, className }: JobActionsProps) => {
         {
           id: "archive",
           title: "Archive Job Listing",
-          description: "Move to archive without deleting data",
+          description: canArchive
+            ? "Move to archive without deleting data"
+            : "Job must be in Draft, Failed, or Successful status to be archived",
           Icon: Archive,
           iconBgClass: "bg-muted",
           activeBgClass: "active:bg-destructive/10",
+          disabled: !canArchive,
+          onPress: () => {
+            archiveSheetRef.current?.show();
+          },
         },
         {
           id: "delete",
@@ -207,9 +237,11 @@ export const JobActions = ({ id, className }: JobActionsProps) => {
               <Pressable
                 key={item.id}
                 onPress={item.onPress}
+                disabled={item.disabled}
                 className={cn(
                   "flex-row items-center justify-between p-4 active:opacity-50",
                   !isLast ? "border-b border-border/40" : "",
+                  item.disabled ? "opacity-50" : ""
                 )}
               >
                 <View className="flex-row items-center gap-3.5">
@@ -253,6 +285,14 @@ export const JobActions = ({ id, className }: JobActionsProps) => {
           } catch (e) {
             console.error(e);
           }
+        }}
+      />
+      <ArchiveJobActionSheet
+        ref={archiveSheetRef}
+        isPending={isNextJobWorkflowPending}
+        onClose={() => archiveSheetRef.current?.hide()}
+        onConfirm={() => {
+          nextJobWorkflow(JobEvents.ARCHIVE);
         }}
       />
     </ScrollView>
