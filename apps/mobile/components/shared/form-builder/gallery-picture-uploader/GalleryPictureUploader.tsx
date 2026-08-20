@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { AddTile } from "./AddTitle";
 import { DraggableTile } from "./DraggableTile";
 import Sortable from "react-native-sortables";
+import { useLoader } from "@/contexts/LoaderContext";
 
 interface GalleryPictureUploaderProps {
   className?: string;
@@ -32,6 +33,7 @@ export const GalleryPictureUploader = ({
   editable = true,
   quality = 0.8,
 }: GalleryPictureUploaderProps) => {
+  const { setLoading } = useLoader();
   const [containerWidth, setContainerWidth] = React.useState(0);
   const imagesRef = React.useRef(images);
 
@@ -67,44 +69,49 @@ export const GalleryPictureUploader = ({
     const remaining = maxImages - images.length;
     if (remaining <= 0) return;
 
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ["images"],
-      allowsMultipleSelection: true,
-      selectionLimit: remaining,
-      quality,
-    });
-
-    if (!result.canceled && result.assets.length > 0) {
-      const newImages: ImageFile[] = result.assets.map((asset, order) => ({
-        id: Math.random().toString(36).substring(2, 11),
-        uri: asset.uri,
-        name: asset.uri.split("/").pop() || "photo.jpg",
-        type: asset.type || "image/jpeg",
-        progress: 0,
-        order,
-      }));
-
-      const updated = [...images, ...newImages].slice(0, maxImages);
-
-      imagesRef.current = updated;
-      onChange(updated);
-
-      newImages.forEach((img) => {
-        const file = {
-          uri: img.uri,
-          name: img.name,
-          type: img.type,
-        } as unknown as File;
-
-        onUpload?.(file, (progress) => {
-          const updatedImages = imagesRef.current.map((i) =>
-            i.id === img.id ? { ...i, progress } : i,
-          );
-
-          imagesRef.current = updatedImages;
-          onChange(updatedImages);
-        });
+    try {
+      setLoading(true);
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ["images"],
+        allowsMultipleSelection: true,
+        selectionLimit: remaining,
+        quality,
       });
+
+      if (!result.canceled && result.assets.length > 0) {
+        const newImages: ImageFile[] = result.assets.map((asset, order) => ({
+          id: Math.random().toString(36).substring(2, 11),
+          uri: asset.uri,
+          name: asset.uri.split("/").pop() || "photo.jpg",
+          type: asset.type || "image/jpeg",
+          progress: 0,
+          order,
+        }));
+
+        const updated = [...images, ...newImages].slice(0, maxImages);
+
+        imagesRef.current = updated;
+        onChange(updated);
+
+        newImages.forEach((img) => {
+          const file = {
+            uri: img.uri,
+            name: img.name,
+            type: img.type,
+          } as unknown as File;
+
+          onUpload?.(file, (progress) => {
+            const updatedImages = imagesRef.current.map((i) =>
+              i.id === img.id ? { ...i, progress } : i,
+            );
+
+            imagesRef.current = updatedImages;
+            onChange(updatedImages);
+          });
+        });
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
