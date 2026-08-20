@@ -1,16 +1,29 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import React from "react";
-import { api } from "~/api";
+import { api } from "@/api";
 
-interface useRequestSystemProps {
-  search: string;
+const DEFAULT_JOINS = [
+  "job",
+  "job.postedBy",
+  "job.uploads",
+  "job.currency",
+  "job.category",
+  "user",
+];
+
+interface UseInfiniteJobRequestsProps {
+  search?: string;
+  join?: string[];
   variant: "incoming" | "outgoing";
+  statusFilter?: string;
 }
 
-export const useRequestSystem = ({
-  search,
+export const useInfiniteJobRequests = ({
+  search = "",
+  join = DEFAULT_JOINS,
   variant,
-}: useRequestSystemProps) => {
+  statusFilter,
+}: UseInfiniteJobRequestsProps) => {
   const {
     data,
     fetchNextPage,
@@ -20,21 +33,25 @@ export const useRequestSystem = ({
     isRefetching,
     isPending: isRequestsPending,
   } = useInfiniteQuery({
-    queryKey: ["requests", search, variant],
+    queryKey: ["requests", search, variant, statusFilter],
     initialPageParam: 1,
     queryFn: ({ pageParam = 1 }) => {
-      const queryParams = {
+      const queryParams: Record<string, string> = {
         page: String(pageParam),
         limit: "20",
         sort: "createdAt,desc",
-        join: "job.postedBy,job.uploads",
+        join: join.join(","),
       };
+
+      if (search) queryParams.search = search;
+      if (statusFilter) queryParams.filter = `status||$eq||${statusFilter}`;
+
       return variant === "incoming"
         ? api.jobRequest.findPaginatedIncoming(queryParams)
         : api.jobRequest.findPaginatedOngoing(queryParams);
     },
     getNextPageParam: (lastPage) =>
-      lastPage.meta.hasNextPage ? lastPage.meta.page + 1 : undefined,
+      lastPage?.meta?.hasNextPage ? lastPage.meta.page + 1 : undefined,
   });
 
   const requests = React.useMemo(() => {
