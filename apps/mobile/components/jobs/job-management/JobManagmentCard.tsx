@@ -32,6 +32,9 @@ import { toast } from "sonner-native";
 import { useLoader } from "@/contexts/LoaderContext";
 import { useRTL } from "@/hooks/useRTL";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ActionSheetRef } from "react-native-actions-sheet";
+import { DeleteJobActionSheet } from "./DeleteJobActionSheet";
+import { useDeleteJob } from "@/hooks/content/job/useDeleteJob";
 
 interface JobManagementCardProps {
   className?: string;
@@ -89,6 +92,7 @@ const getStatusStyle = (status: JobStatus | string) => {
         text: "text-orange-600 dark:text-orange-400 font-semibold",
       };
     case JobStatus.FAILED:
+    case JobStatus.DELETED:
       return {
         badge: "bg-red-500/10 border-red-500/25",
         text: "text-red-600 dark:text-red-400 font-semibold",
@@ -109,6 +113,8 @@ export const JobManagementCard = ({
   const queryClient = useQueryClient();
   const { setLoading } = useLoader();
   const isRTL = useRTL();
+  const deleteSheetRef = React.useRef<ActionSheetRef>(null);
+  const { deleteJob, isDeletingJob } = useDeleteJob();
 
   const orderedUploads = React.useMemo(
     () => job.uploads?.slice().sort((a, b) => a.order - b.order),
@@ -266,7 +272,10 @@ export const JobManagementCard = ({
                 label: "Delete Listing",
                 icon: Trash2,
                 variant: "destructive",
-                onPress: () => {},
+                disabled: job.status !== JobStatus.DRAFT,
+                onPress: () => {
+                  deleteSheetRef.current?.show();
+                },
               },
             ]}
           />
@@ -395,6 +404,19 @@ export const JobManagementCard = ({
           ) : null}
         </View>
       </View>
+      <DeleteJobActionSheet
+        ref={deleteSheetRef}
+        isPending={isDeletingJob}
+        onClose={() => deleteSheetRef.current?.hide()}
+        onConfirm={async () => {
+          try {
+            await deleteJob(job.id);
+            deleteSheetRef.current?.hide();
+          } catch (e) {
+            console.error(e);
+          }
+        }}
+      />
     </TouchableOpacity>
   );
 };

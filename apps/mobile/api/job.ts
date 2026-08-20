@@ -147,6 +147,11 @@ const duplicate = async (id: string): Promise<ResponseJobDto> => {
   return response.data;
 };
 
+const remove = async (id?: string): Promise<ResponseJobDto> => {
+  const response = await axios.delete<ResponseJobDto>(`/job/${id}`);
+  return response.data;
+};
+
 const next = async (
   id: string,
   event: string,
@@ -165,6 +170,8 @@ export const job = {
   save,
   update,
   duplicate,
+  remove,
+  delete: remove,
   current: {
     findPaginated: findCurrentPaginated,
     findFollowedPaginated,

@@ -34,6 +34,7 @@ export enum JobStatus {
   FAILED = "Failed",
   SUCCESSFUL = "Successfull",
   ARCHIVED = "Archived",
+  DELETED = "Deleted",
 }
 
 // Job *************************************************************
