@@ -1,6 +1,6 @@
 import React from "react";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { useTranslation } from "react-i18next";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
 import { ResponseUserDto } from "@/types";
 import { useColorPalette } from "@/hooks/useColorPalette";

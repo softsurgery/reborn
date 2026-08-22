@@ -29,7 +29,6 @@ import { EducationInstance } from "./forms/education/EducationInstance";
 import { ProfileStat } from "./ProfileStat";
 import { ProfileTabs } from "./ProfileTabs";
 import { useScrollableElement } from "@/hooks/useScrollableElement";
-import { useColorPalette } from "@/hooks/useColorPalette";
 import Animated, { FadeInUp } from "react-native-reanimated";
 import { useLoader } from "@/contexts/LoaderContext";
 import { useRTL } from "~/hooks/useRTL";
@@ -50,7 +49,6 @@ export const InspectBaseProfile = ({
   overrideContent = true,
 }: InspectBaseProfileProps) => {
   const isRTL = useRTL();
-  const { palette } = useColorPalette();
   const {
     animatedHeaderStyle,
     contentAnimatedStyle,
