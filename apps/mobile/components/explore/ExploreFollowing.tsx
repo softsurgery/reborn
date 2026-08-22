@@ -20,6 +20,8 @@ interface ExploreFollowingProps {
   search: string;
   searching: boolean;
   handleScroll: (e: NativeSyntheticEvent<NativeScrollEvent>) => void;
+  onPreviewJobChange?: (job: ResponseJobDto | null) => void;
+  isPreviewing?: boolean;
 }
 
 export const ExploreFollowing = ({
@@ -27,6 +29,8 @@ export const ExploreFollowing = ({
   search,
   searching,
   handleScroll,
+  onPreviewJobChange,
+  isPreviewing,
 }: ExploreFollowingProps) => {
   const { palette } = useColorPalette();
 
@@ -51,9 +55,9 @@ export const ExploreFollowing = ({
 
   const renderItem = React.useCallback(
     ({ item }: { item: ResponseJobDto }) => (
-      <JobCard job={item} className="my-2" />
+      <JobCard job={item} className="my-2" onLongPress={onPreviewJobChange} />
     ),
-    [],
+    [onPreviewJobChange],
   );
 
   return (
@@ -64,6 +68,7 @@ export const ExploreFollowing = ({
       keyExtractor={(item) => item.id}
       showsVerticalScrollIndicator={false}
       maintainVisibleContentPosition
+      scrollEnabled={!isPreviewing}
       onScroll={handleScroll}
       refreshControl={
         <RefreshControl

@@ -21,6 +21,8 @@ interface ExploreCommonProps {
   search: string;
   searching: boolean;
   handleScroll: (e: NativeSyntheticEvent<NativeScrollEvent>) => void;
+  onPreviewJobChange?: (job: ResponseJobDto | null) => void;
+  isPreviewing?: boolean;
 }
 
 export const ExploreCommon = ({
@@ -28,6 +30,8 @@ export const ExploreCommon = ({
   search,
   searching,
   handleScroll,
+  onPreviewJobChange,
+  isPreviewing,
 }: ExploreCommonProps) => {
   const { palette } = useColorPalette();
   const exploreFilterStore = useExploreFilterStore();
@@ -58,9 +62,9 @@ export const ExploreCommon = ({
 
   const renderItem = React.useCallback(
     ({ item }: { item: ResponseJobDto }) => (
-      <JobCard job={item} className="my-2" />
+      <JobCard job={item} className="my-2" onLongPress={onPreviewJobChange} />
     ),
-    [],
+    [onPreviewJobChange],
   );
 
   return (
@@ -71,6 +75,7 @@ export const ExploreCommon = ({
       keyExtractor={(item) => item.id}
       showsVerticalScrollIndicator={false}
       maintainVisibleContentPosition
+      scrollEnabled={!isPreviewing}
       onScroll={handleScroll}
       refreshControl={
         <RefreshControl

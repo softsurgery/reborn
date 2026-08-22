@@ -1,5 +1,8 @@
 import React from "react";
-import Animated from "react-native-reanimated";
+import Animated, {
+  useAnimatedStyle,
+  withTiming,
+} from "react-native-reanimated";
 import { useDebounce } from "~/hooks/useDebounce";
 import { ExploreCommon } from "./ExploreCommon";
 import { ExploreFollowing } from "./ExploreFollowing";
@@ -14,6 +17,8 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import { useScrollableElement } from "~/hooks/useScrollableElement";
 import { useColorPalette } from "@/hooks/useColorPalette";
 import { hslToHex } from "@/lib/theme";
+import { ResponseJobDto } from "~/types";
+import { JobPreviewModal } from "../jobs/JobPreviewModal";
 
 interface ExploreProps {
   className?: string;
@@ -26,6 +31,17 @@ export const Explore = ({ className }: ExploreProps) => {
   const { palette } = useColorPalette();
   const { t } = useTranslation("common");
   const [search] = React.useState("");
+  const [previewJob, setPreviewJob] = React.useState<ResponseJobDto | null>(null);
+
+  const isPreviewing = !!previewJob;
+
+  const animatedExploreBlurStyle = useAnimatedStyle(() => {
+    return {
+      opacity: withTiming(isPreviewing ? 0.35 : 1, {
+        duration: 250,
+      }),
+    };
+  }, [isPreviewing]);
 
   const { newCount, resetCount } = useNotificationContext();
 
@@ -41,7 +57,11 @@ export const Explore = ({ className }: ExploreProps) => {
 
   return (
     <StableSafeAreaView className={cn("flex flex-1 flex-col", className)}>
-      <Animated.View style={animatedHeaderStyle} className="px-2">
+      <Animated.View
+        pointerEvents={isPreviewing ? "none" : "auto"}
+        style={[animatedHeaderStyle, animatedExploreBlurStyle]}
+        className="px-2"
+      >
         <ApplicationHeader
           title={t("screens.explore")}
           shortcuts={[
@@ -68,9 +88,14 @@ export const Explore = ({ className }: ExploreProps) => {
         />
       </Animated.View>
 
-      <Animated.View className="flex-1" style={contentAnimatedStyle}>
+      <Animated.View
+        pointerEvents={isPreviewing ? "none" : "auto"}
+        className="flex-1"
+        style={[contentAnimatedStyle, animatedExploreBlurStyle]}
+      >
         <Tab.Navigator
           screenOptions={{
+            swipeEnabled: !isPreviewing,
             tabBarScrollEnabled: false,
             tabBarActiveTintColor: palette.foreground,
             tabBarInactiveTintColor: palette.mutedForeground,
@@ -100,6 +125,8 @@ export const Explore = ({ className }: ExploreProps) => {
                 search={debouncedSearchTerm}
                 searching={searching}
                 handleScroll={handleScroll}
+                onPreviewJobChange={setPreviewJob}
+                isPreviewing={isPreviewing}
               />
             )}
           </Tab.Screen>
@@ -111,11 +138,19 @@ export const Explore = ({ className }: ExploreProps) => {
                 search={debouncedSearchTerm}
                 searching={searching}
                 handleScroll={handleScroll}
+                onPreviewJobChange={setPreviewJob}
+                isPreviewing={isPreviewing}
               />
             )}
           </Tab.Screen>
         </Tab.Navigator>
       </Animated.View>
+
+      <JobPreviewModal
+        visible={!!previewJob}
+        job={previewJob}
+        onClose={() => setPreviewJob(null)}
+      />
     </StableSafeAreaView>
   );
 };
