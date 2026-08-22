@@ -1,16 +1,9 @@
 import React, { useRef, useMemo } from "react";
 import { ActionSheetRef } from "react-native-actions-sheet";
 import * as Haptics from "expo-haptics";
-import { Keyboard, Pressable, View } from "react-native";
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withSpring,
-  withTiming,
-  Easing,
-  FadeIn,
-  ZoomIn,
-} from "react-native-reanimated";
+import { Keyboard } from "react-native";
+import Animated, { ZoomIn } from "react-native-reanimated";
+import { AnimatedPressable } from "../shared/AnimatedPressable";
 import { Eye, Camera } from "lucide-react-native";
 import { PhotoPreview, PhotoPreviewRef } from "../shared/PhotoPreview";
 import { api } from "@/api";
@@ -30,8 +23,6 @@ import { identifyUserAvatar } from "@/lib/user.utils";
 import { useUploadMutation } from "@/hooks/content/useUploadMutation";
 import { ThreeDotsActionSheet } from "../shared/ThreeDotsActionSheet";
 import { cn } from "@/lib/utils";
-
-const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 interface ProfileAvatarProps {
   className?: string;
@@ -117,28 +108,6 @@ export const ProfileAvatar = ({
     return () => setLoading(false);
   }, [setLoading]);
 
-  const scale = useSharedValue(1);
-  const opacity = useSharedValue(1);
-
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: scale.value }],
-    opacity: opacity.value,
-  }));
-
-  const handlePressIn = () => {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    scale.value = withTiming(0.92, {
-      duration: 75,
-      easing: Easing.out(Easing.quad),
-    });
-    opacity.value = withTiming(0.85, { duration: 75 });
-  };
-
-  const handlePressOut = () => {
-    scale.value = withSpring(1, { damping: 12, stiffness: 320, mass: 0.5 });
-    opacity.value = withTiming(1, { duration: 120 });
-  };
-
   const handlePickPicture = async () => {
     setIsPickingPicture(true);
     try {
@@ -178,13 +147,11 @@ export const ProfileAvatar = ({
   };
 
   return (
-    <Animated.View entering={ZoomIn.duration(350).delay(100)} className={cn("relative", className)}>
-      <AnimatedPressable
-        onPressIn={handlePressIn}
-        onPressOut={handlePressOut}
-        onPress={handlePress}
-        style={animatedStyle}
-      >
+    <Animated.View
+      entering={ZoomIn.duration(350).delay(100)}
+      className={cn("relative", className)}
+    >
+      <AnimatedPressable scaleTo={0.92} opacityTo={0.85} onPress={handlePress}>
         {profilePictures[0]}
       </AnimatedPressable>
 

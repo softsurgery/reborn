@@ -1,15 +1,9 @@
 import React, { useRef } from "react";
 import { ActionSheetRef } from "react-native-actions-sheet";
 import * as Haptics from "expo-haptics";
-import { Keyboard, Pressable, View } from "react-native";
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withSpring,
-  withTiming,
-  Easing,
-  FadeIn,
-} from "react-native-reanimated";
+import { Keyboard, View } from "react-native";
+import { FadeIn } from "react-native-reanimated";
+import { AnimatedPressable } from "../shared/AnimatedPressable";
 import { cn } from "@/lib/utils";
 import { Eye, Camera } from "lucide-react-native";
 import { PhotoPreview, PhotoPreviewRef } from "../shared/PhotoPreview";
@@ -31,8 +25,6 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useUploadMutation } from "@/hooks/content/useUploadMutation";
 import { ThreeDotsActionSheet } from "../shared/ThreeDotsActionSheet";
 import { useLuminance } from "@/hooks/useLuminance";
-
-const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 interface ProfileCoverProps {
   user: ResponseUserDto;
@@ -114,31 +106,6 @@ export const ProfileCover = ({
     return () => setLoading(false);
   }, [setLoading]);
 
-  const scale = useSharedValue(1);
-  const pressOverlay = useSharedValue(0);
-
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: scale.value }],
-  }));
-
-  const animatedOverlayStyle = useAnimatedStyle(() => ({
-    opacity: pressOverlay.value,
-  }));
-
-  const handlePressIn = () => {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    scale.value = withTiming(0.98, {
-      duration: 75,
-      easing: Easing.out(Easing.quad),
-    });
-    pressOverlay.value = withTiming(0.2, { duration: 75 });
-  };
-
-  const handlePressOut = () => {
-    scale.value = withSpring(1, { damping: 14, stiffness: 320, mass: 0.6 });
-    pressOverlay.value = withTiming(0, { duration: 120 });
-  };
-
   const handlePickCover = async () => {
     if (!isCurrentUser) return;
 
@@ -191,11 +158,13 @@ export const ProfileCover = ({
         className={cn(
           "relative w-full h-56 overflow-hidden items-center justify-center bg-primary/25",
         )}
-        style={animatedStyle}
         onHoverIn={() => setIsHovered(true)}
         onHoverOut={() => setIsHovered(false)}
-        onPressIn={handlePressIn}
-        onPressOut={handlePressOut}
+        scaleTo={0.98}
+        springDamping={14}
+        springMass={0.6}
+        withOverlay={true}
+        overlayOpacityTo={0.2}
         onPress={handlePress}
       >
         {coverExtra}
@@ -227,22 +196,6 @@ export const ProfileCover = ({
             top: 0,
             bottom: 0,
           }}
-        />
-
-        {/* Animated Touch Press Dark Overlay */}
-        <Animated.View
-          style={[
-            {
-              position: "absolute",
-              left: 0,
-              right: 0,
-              top: 0,
-              bottom: 0,
-              backgroundColor: "black",
-            },
-            animatedOverlayStyle,
-          ]}
-          pointerEvents="none"
         />
       </AnimatedPressable>
 
