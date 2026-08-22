@@ -12,6 +12,7 @@ import {
 import { router } from "expo-router";
 import { JobPricingType, ResponseJobDto } from "~/types";
 import { useQueryClient } from "@tanstack/react-query";
+import * as Haptics from "expo-haptics";
 
 import { Skeleton } from "../ui/skeleton";
 import { timeAgo } from "~/lib/dates.utils";
@@ -35,6 +36,7 @@ interface JobCardProps {
   className?: string;
   job: ResponseJobDto;
   isOwner?: boolean;
+  onLongPress?: (job: ResponseJobDto) => void;
 }
 
 export const THUMBNAIL_SIZE = 84;
@@ -55,7 +57,7 @@ const readCurrency = (job: ResponseJobDto) => {
   };
 };
 
-export const JobCard = ({ className, job, isOwner }: JobCardProps) => {
+export const JobCard = ({ className, job, isOwner, onLongPress }: JobCardProps) => {
   const queryClient = useQueryClient();
   const { palette } = useColorPalette();
   const isRTL = useRTL();
@@ -116,6 +118,13 @@ export const JobCard = ({ className, job, isOwner }: JobCardProps) => {
           },
         });
       }}
+      onLongPress={() => {
+        if (onLongPress) {
+          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+          onLongPress(job);
+        }
+      }}
+      delayLongPress={300}
       className={cn("w-full rounded-lg p-3", className)}
       activeOpacity={0.85}
     >
