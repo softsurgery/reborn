@@ -30,7 +30,7 @@ import { ProfileStat } from "./ProfileStat";
 import { ProfileTabs } from "./ProfileTabs";
 import { useScrollableElement } from "@/hooks/useScrollableElement";
 import { useColorPalette } from "@/hooks/useColorPalette";
-import Animated from "react-native-reanimated";
+import Animated, { FadeInUp } from "react-native-reanimated";
 import { useLoader } from "@/contexts/LoaderContext";
 import { useRTL } from "~/hooks/useRTL";
 
@@ -274,13 +274,11 @@ export const InspectBaseProfile = ({
             </View>
 
             {/* Identity */}
-            <View
-              className={cn(
-                "flex justify-between mt-3 w-full gap-3",
-                isRTL ? "flex-row-reverse items-end" : "flex-row items-start",
-              )}
+            <Animated.View
+              entering={FadeInUp.duration(400).delay(150)}
+              className="flex flex-row items-start justify-between mt-3 w-full gap-3"
             >
-              <View className={cn("flex-1 min-w-0", isRTL ? "pl-2" : "pr-2")}>
+              <View className="flex-1 min-w-0 pr-2">
                 <Text
                   className="text-lg font-bold text-foreground"
                   numberOfLines={1}
@@ -323,9 +321,13 @@ export const InspectBaseProfile = ({
                   isFollowing ? unfollowUser() : followUser()
                 }
               />
-            </View>
+            </Animated.View>
           </View>
-          <SocialStat className="w-[70vw] mx-auto mt-4" userId={user?.id} />
+
+          <Animated.View entering={FadeInUp.duration(400).delay(220)}>
+            <SocialStat className="w-[70vw] mx-auto" userId={user?.id} />
+          </Animated.View>
+
           {/* Bio + Sections */}
           <View className="flex flex-col">
             <View>
@@ -334,7 +336,11 @@ export const InspectBaseProfile = ({
           </View>
         </View>
       </Animated.View>
-      <Animated.View className={cn("flex-1")} style={contentAnimatedStyle}>
+      <Animated.View
+        entering={FadeInUp.duration(450).delay(280)}
+        className={cn("flex-1")}
+        style={contentAnimatedStyle}
+      >
         {/* Profile Content */}
         <ProfileTabs
           user={user}
