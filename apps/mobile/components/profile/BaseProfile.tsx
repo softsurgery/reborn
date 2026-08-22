@@ -16,27 +16,22 @@ import { Text } from "../ui/text";
 import { cn } from "~/lib/utils";
 import { useUserStore } from "~/hooks/stores/useUserStore";
 import { SocialStat } from "./social/SocialStat";
-import { createMaterialTopTabNavigator } from "expo-router/js-top-tabs";
 import { useTranslation } from "react-i18next";
 import { useExperiences } from "~/hooks/content/user/useExperiences";
 import { useEducations } from "~/hooks/content/user/useEducations";
-import { AboutTab } from "./sections/AboutTab";
-import { SnippetsTab } from "./sections/SnippetTab";
 import { ProfileAvatar } from "./ProfileAvatar";
 import { ProfileCover } from "./ProfileCover";
 import { toast } from "sonner-native";
 import { BaseProfileSkeleton } from "./BaseProfileSkeleton";
 import { ProfileSection, RenderSection } from "./sections/RenderSection";
-import { hslToHex } from "@/lib/theme";
-import { useColorPalette } from "@/hooks/useColorPalette";
-import { CareerTab } from "./sections/CareerTab";
 import { ExperienceInstance } from "./forms/experience/ExperienceInstance";
 import { EducationInstance } from "./forms/education/EducationInstance";
 import { ProfileStat } from "./ProfileStat";
 import { useScrollableElement } from "@/hooks/useScrollableElement";
 import Animated, { FadeInUp } from "react-native-reanimated";
 import { useLoader } from "@/contexts/LoaderContext";
-import { JobsTab } from "./sections/JobsTab";
+import { useRTL } from "@/hooks/useRTL";
+import { ProfileTabs } from "./ProfileTabs";
 
 interface InspectBaseProfileProps {
   className?: string;
@@ -46,8 +41,6 @@ interface InspectBaseProfileProps {
   overrideContent?: boolean;
 }
 
-const Tab = createMaterialTopTabNavigator();
-
 export const InspectBaseProfile = ({
   className,
   id,
@@ -55,7 +48,7 @@ export const InspectBaseProfile = ({
   customContent,
   overrideContent = true,
 }: InspectBaseProfileProps) => {
-  const { palette } = useColorPalette();
+  const isRTL = useRTL();
   const {
     animatedHeaderStyle,
     contentAnimatedStyle,
@@ -259,8 +252,18 @@ export const InspectBaseProfile = ({
             onRefresh={onRefresh}
             coverExtra={coverExtra}
           />
-          <View className="flex-col items-start px-4 z-10 -mt-12">
-            <View className="flex-row w-full justify-between">
+          <View
+            className={cn(
+              "flex-col px-4 z-10 -mt-12",
+              isRTL ? "items-end" : "items-start",
+            )}
+          >
+            <View
+              className={cn(
+                "w-full justify-between",
+                isRTL ? "flex-row-reverse" : "flex-row",
+              )}
+            >
               <ProfileAvatar
                 user={user}
                 currentUser={currentUser}
@@ -282,8 +285,18 @@ export const InspectBaseProfile = ({
                   {identity}
                 </Text>
                 {id && (
-                  <View className="flex-col items-start justify-between gap-2">
-                    <View className="flex flex-row items-center gap-2">
+                  <View
+                    className={cn(
+                      "flex-col justify-between gap-2",
+                      isRTL ? "items-end" : "items-start",
+                    )}
+                  >
+                    <View
+                      className={cn(
+                        "flex items-center gap-2",
+                        isRTL ? "flex-row-reverse" : "flex-row",
+                      )}
+                    >
                       <Text
                         className="text-sm text-muted-foreground"
                         numberOfLines={1}
@@ -327,110 +340,16 @@ export const InspectBaseProfile = ({
         style={contentAnimatedStyle}
       >
         {/* Profile Content */}
-        <Tab.Navigator
-          screenOptions={{
-            tabBarScrollEnabled: false,
-            tabBarActiveTintColor: palette.foreground,
-            tabBarInactiveTintColor: palette.mutedForeground,
-            tabBarLabelStyle: {
-              fontSize: 13,
-              fontWeight: "600",
-              textTransform: "none",
-            },
-            tabBarIndicatorStyle: {
-              backgroundColor: hslToHex(palette.primary),
-              height: 2,
-              borderRadius: 2,
-            },
-            tabBarStyle: {
-              backgroundColor: "transparent",
-              elevation: 0,
-              shadowOpacity: 0,
-              borderBottomWidth: 1,
-              borderBottomColor: palette.border,
-            },
-          }}
-          commonOptions={{
-            sceneStyle: {
-              flex: 1,
-            },
-          }}
-          screenListeners={{
-            state: () => scrollToTop(),
-            tabPress: () => scrollToTop(),
-          }}
-        >
-          <Tab.Screen
-            name="about"
-            options={{
-              tabBarLabel: t("menu.tabs.about.title"),
-            }}
-          >
-            {() => (
-              <AboutTab
-                user={user}
-                onRefresh={onRefresh}
-                refreshing={refreshing}
-                onScroll={handleScroll}
-                scrollRef={scrollRef}
-              />
-            )}
-          </Tab.Screen>
-
-          {currentUser?.id !== user?.id && (
-            <Tab.Screen
-              name="jobs"
-              options={{
-                tabBarLabel: "Jobs",
-              }}
-            >
-              {() => (
-                <JobsTab
-                  user={user}
-                  onRefresh={onRefresh}
-                  refreshing={refreshing}
-                  onScroll={handleScroll}
-                  scrollRef={scrollRef}
-                />
-              )}
-            </Tab.Screen>
-          )}
-
-          <Tab.Screen
-            name="career"
-            options={{
-              tabBarLabel: t("menu.tabs.career.title"),
-            }}
-          >
-            {() => (
-              <CareerTab
-                onRefresh={onRefresh}
-                refreshing={refreshing}
-                renderSection={RenderSection}
-                profileSections={profileSections}
-                onScroll={handleScroll}
-                scrollRef={scrollRef}
-              />
-            )}
-          </Tab.Screen>
-          <Tab.Screen
-            name="gallery"
-            options={{
-              tabBarLabel: t("menu.tabs.gallery.title"),
-            }}
-          >
-            {() => (
-              <SnippetsTab
-                onRefresh={onRefresh}
-                refreshing={refreshing}
-                renderSection={RenderSection}
-                profileSections={profileSections}
-                onScroll={handleScroll}
-                scrollRef={scrollRef}
-              />
-            )}
-          </Tab.Screen>
-        </Tab.Navigator>
+        <ProfileTabs
+          user={user}
+          currentUser={currentUser}
+          onRefresh={onRefresh}
+          refreshing={refreshing}
+          profileSections={profileSections}
+          handleScroll={handleScroll}
+          scrollRef={scrollRef}
+          scrollToTop={scrollToTop}
+        />
       </Animated.View>
     </View>
   );

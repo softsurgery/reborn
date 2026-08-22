@@ -1,5 +1,4 @@
 import React from "react";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { useTranslation } from "react-i18next";
 import { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
 import { ResponseUserDto } from "@/types";
@@ -11,6 +10,7 @@ import { JobsTab } from "./sections/JobsTab";
 import { CareerTab } from "./sections/CareerTab";
 import { SnippetsTab } from "./sections/SnippetTab";
 import { ProfileSection, RenderSection } from "./sections/RenderSection";
+import { createMaterialTopTabNavigator } from "expo-router/js-top-tabs";
 
 interface ProfileTabsProps {
   user: ResponseUserDto | null;
