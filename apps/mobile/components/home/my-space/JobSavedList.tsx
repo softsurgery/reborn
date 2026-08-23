@@ -1,5 +1,6 @@
 import React from "react";
 import { ResponseJobSaveDto } from "~/types";
+import { InfiniteListFooter } from "@/components/shared/InfiniteListFooter";
 import { LegendList } from "@legendapp/list";
 import Animated from "react-native-reanimated";
 
@@ -179,9 +180,13 @@ export const JobSavedList = ({ className }: JobSavedListProps) => {
             )
           }
           ListFooterComponent={
-            <View className="items-center">
-              {isFetchingNextPage && <JobCardSkeleton />}
-            </View>
+            <InfiniteListFooter
+              isPending={isFetchingNextPage}
+              hasNextPage={!!hasNextPage}
+              dataLength={0}
+              showEndMessage={false}
+              loadingComponent={<JobCardSkeleton />}
+            />
           }
         />
       </View>

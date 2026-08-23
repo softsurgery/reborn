@@ -18,6 +18,7 @@ import { ImageBackground } from "expo-image";
 import { useColorScheme } from "nativewind";
 import { Loader } from "../shared/lotties/Loader";
 import { useConversationFeatures } from "@/hooks/content/chat/useConversationFeatures";
+import { InfiniteListFooter } from "@/components/shared/InfiniteListFooter";
 import { useCurrentUser } from "@/hooks/content/user/useCurrentUser";
 import { identifyUser, identifyUserAvatar } from "@/lib/user.utils";
 
@@ -135,11 +136,13 @@ export const Conversation = ({ id }: ConversationProps) => {
                 onEndReached={loadMore}
                 onEndReachedThreshold={0.3}
                 ListFooterComponent={
-                  isMoreMessagesLoading ? (
-                    <View className="py-4 items-center">
-                      <ActivityIndicator size="small" />
-                    </View>
-                  ) : null
+                  <InfiniteListFooter
+                    isPending={isMoreMessagesLoading}
+                    hasNextPage={false}
+                    dataLength={0}
+                    showEndMessage={false}
+                    loadingComponent={<ActivityIndicator size="small" />}
+                  />
                 }
                 ListEmptyComponent={
                   <View className="flex-1 justify-center items-center py-20">

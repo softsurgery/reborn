@@ -11,6 +11,7 @@ import {
 import { Text } from "../ui/text";
 import { JobCardSkeleton } from "../jobs/JobCardSkeleton";
 import { cn } from "~/lib/utils";
+import { InfiniteListFooter } from "@/components/shared/InfiniteListFooter";
 import { useInfiniteJobs } from "@/hooks/content/job/useInfiniteJobs";
 import { NotFound } from "../shared/lotties/NotFound";
 import { useExploreFilterStore } from "@/hooks/stores/userExploreFilterStore";
@@ -105,17 +106,13 @@ export const ExploreCommon = ({
         )
       }
       ListFooterComponent={
-        <View className="items-center">
-          {isFetchingNextPage ? (
-            <JobCardSkeleton />
-          ) : jobs.length > 0 && !hasNextPage ? (
-            <View className="flex-row items-center justify-center gap-2 py-8">
-              <Text className="text-sm text-muted-foreground">
-                You're all caught up
-              </Text>
-            </View>
-          ) : null}
-        </View>
+        <InfiniteListFooter
+          isPending={isFetchingNextPage}
+          hasNextPage={!!hasNextPage}
+          dataLength={jobs.length}
+          endMessage="You're all caught up"
+          loadingComponent={<JobCardSkeleton />}
+        />
       }
     />
   );

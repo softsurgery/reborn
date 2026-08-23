@@ -1,6 +1,7 @@
 import React from "react";
 import Animated from "react-native-reanimated";
 import { LegendList } from "@legendapp/list";
+import { InfiniteListFooter } from "@/components/shared/InfiniteListFooter";
 
 import {
   RefreshControl,
@@ -186,9 +187,13 @@ export const UserJobsList = ({
           }}
           onEndReachedThreshold={0.5}
           ListFooterComponent={
-            <View className="py-6 items-center">
-              {isFetchingNextPage ? <Loader /> : null}
-            </View>
+            <InfiniteListFooter
+              isPending={isFetchingNextPage}
+              hasNextPage={!!hasNextPage}
+              dataLength={0}
+              showEndMessage={false}
+              loadingComponent={<Loader />}
+            />
           }
           ListEmptyComponent={
             !isPending ? (
