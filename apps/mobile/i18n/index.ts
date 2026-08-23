@@ -18,24 +18,31 @@ import enMenu from "./locales/en/menu.json";
 import frMenu from "./locales/fr/menu.json";
 import arMenu from "./locales/ar/menu.json";
 
+import enFinance from "./locales/en/finance.json";
+import frFinance from "./locales/fr/finance.json";
+import arFinance from "./locales/ar/finance.json";
+
 const resources = {
   en: {
     common: enCommon,
     notifications: enNotifications,
     settings: enSettings,
     menu: enMenu,
+    finance: enFinance,
   },
   fr: {
     common: frCommon,
     notifications: frNotifications,
     settings: frSettings,
     menu: frMenu,
+    finance: frFinance,
   },
   ar: {
     common: arCommon,
     notifications: arNotifications,
     settings: arSettings,
     menu: arMenu,
+    finance: arFinance,
   },
 };
 
@@ -47,7 +54,7 @@ i18n.use(initReactI18next).init({
   resources,
   lng: languageCode,
   fallbackLng: "en",
-  ns: ["common", "notifications", "settings", "menu"],
+  ns: ["common", "notifications", "settings", "menu", "finance"],
   defaultNS: "common",
   interpolation: { escapeValue: false },
 });
