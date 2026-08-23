@@ -3,6 +3,7 @@ import { router } from "expo-router";
 import { useQuery } from "@tanstack/react-query";
 import { Bell, Clock3, Compass, Plus } from "lucide-react-native";
 import { RefreshControl, ScrollView, View } from "react-native";
+import { useTranslation } from "react-i18next";
 import { api } from "~/api";
 import { StableSafeAreaView } from "@/components/shared/stables/StableSafeAreaView";
 import { ApplicationHeader } from "~/components/shared/AppHeader";
@@ -32,6 +33,7 @@ export const Home = ({ className }: HomeProps) => {
   const { currentUser, isCurrentUserPending } = useCurrentUser();
   const { count } = useNotificationContext();
   const isRTL = useRTL();
+  const { t } = useTranslation("home");
 
   const {
     data: jobsResp,
@@ -143,7 +145,7 @@ export const Home = ({ className }: HomeProps) => {
     <StableSafeAreaView className={cn("flex-1", className)}>
       <Animated.View style={animatedHeaderStyle}>
         <ApplicationHeader
-          title="Home"
+          title={t("title")}
           shortcuts={[
             {
               key: "notifications",
@@ -173,14 +175,16 @@ export const Home = ({ className }: HomeProps) => {
           }
         >
           <View className="rounded-2xl border border-border bg-card p-4 mt-3">
-            <Text className="text-sm text-muted-foreground">Welcome back</Text>
+            <Text className="text-sm text-muted-foreground">
+              {t("welcomeBack")}
+            </Text>
 
             <Text className="text-2xl font-semibold">
               {isCurrentUserPending ? "-" : identifyUser(currentUser)}
             </Text>
 
             <Text className="text-sm text-muted-foreground mt-2">
-              Keep your momentum today with new opportunities and responses.
+              {t("welcomeSubtitle")}
             </Text>
 
             <View
@@ -192,7 +196,7 @@ export const Home = ({ className }: HomeProps) => {
                 onPress={() => router.push("/main/my-space/new-job")}
               >
                 <Icon as={Plus} size={20} color={palette.primaryForeground} />
-                <Text>Post Job</Text>
+                <Text>{t("postJob")}</Text>
               </Button>
               <Button
                 className={cn("flex-1", isRTL && "flex-row-reverse")}
@@ -201,7 +205,7 @@ export const Home = ({ className }: HomeProps) => {
                 onPress={() => router.push("/main/explore/job-search")}
               >
                 <Icon as={Compass} size={20} color={palette.foreground} />
-                <Text>Explore</Text>
+                <Text>{t("explore")}</Text>
               </Button>
             </View>
           </View>
@@ -211,30 +215,32 @@ export const Home = ({ className }: HomeProps) => {
           >
             <StatCard
               className="p-3"
-              title="My Jobs"
+              title={t("stats.myJobs.title")}
               value={myJobsCount}
-              subtitle="Active posts"
+              subtitle={t("stats.myJobs.subtitle")}
               loading={isJobsPending}
             />
             <StatCard
               className="p-3"
-              title="Incoming"
+              title={t("stats.incoming.title")}
               value={incomingCount}
-              subtitle="Requests received"
+              subtitle={t("stats.incoming.subtitle")}
               loading={isIncomingPending}
             />
             <StatCard
               className="p-3"
-              title="Pending"
+              title={t("stats.pending.title")}
               value={outgoingPendingCount}
-              subtitle="Awaiting approval"
+              subtitle={t("stats.pending.subtitle")}
               loading={isOutgoingPending}
             />
           </View>
 
           <View className="rounded-2xl border border-border bg-card p-4 mt-3">
             <View>
-              <Text className="text-lg font-semibold">Quick actions</Text>
+              <Text className="text-lg font-semibold">
+                {t("quickActions.title")}
+              </Text>
             </View>
             <QuickActions />
           </View>
@@ -246,13 +252,17 @@ export const Home = ({ className }: HomeProps) => {
                 isRTL && "flex-row-reverse",
               )}
             >
-              <Text className="text-lg font-semibold">Recent activity</Text>
+              <Text className="text-lg font-semibold">
+                {t("recentActivity.title")}
+              </Text>
               <Button
                 variant="ghost"
                 size="sm"
                 onPress={() => router.push("/main/my-space/requests")}
               >
-                <Text className="text-muted-foreground">View all</Text>
+                <Text className="text-muted-foreground">
+                  {t("recentActivity.viewAll")}
+                </Text>
               </Button>
             </View>
 
@@ -281,7 +291,10 @@ export const Home = ({ className }: HomeProps) => {
                           )}
                         >
                           <Text className="text-xs font-medium capitalize">
-                            {item.status}
+                            {t(
+                              `recentActivity.status.${item.status.toLowerCase()}`,
+                              item.status,
+                            )}
                           </Text>
                         </View>
                       </View>
@@ -297,7 +310,9 @@ export const Home = ({ className }: HomeProps) => {
                           className="text-muted-foreground"
                         />
                         <Text className="text-xs text-muted-foreground">
-                          {item.type} request
+                          {item.type === "Incoming"
+                            ? t("recentActivity.incomingRequest")
+                            : t("recentActivity.outgoingRequest")}
                         </Text>
                       </View>
                     </View>
@@ -307,7 +322,7 @@ export const Home = ({ className }: HomeProps) => {
               ) : (
                 <View className="items-center py-6">
                   <Text className="text-sm text-muted-foreground">
-                    No recent request activity yet.
+                    {t("recentActivity.empty")}
                   </Text>
                 </View>
               )}
