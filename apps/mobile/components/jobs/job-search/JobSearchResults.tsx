@@ -1,3 +1,4 @@
+import { InfiniteListFooter } from "@/components/shared/InfiniteListFooter";
 import { LegendList } from "@legendapp/list";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
@@ -8,9 +9,9 @@ import { NAV_THEME } from "~/lib/theme";
 import { cn } from "~/lib/utils";
 import { ResponseJobDto } from "~/types";
 import { router } from "expo-router";
-import { Skeleton } from "~/components/ui/skeleton";
 import { useJobStore } from "~/hooks/stores/useJobStore";
 import { JobSearchResultEntry } from "./JobSearchResultEntry";
+import { JobSearchResultEntrySkeleton } from "./JobSearchResultEntrySkeleton";
 
 interface JobSearchResultsProps {
   className?: string;
@@ -85,21 +86,13 @@ export const JobSearchResults = ({
         ) : null
       }
       ListFooterComponent={
-        <View className="items-center">
-          {isPending ? (
-            <View className="p-4 border-b">
-              {/* Title */}
-              <Skeleton className="h-5 w-3/4 mb-2 rounded-md bg-secondary" />
-
-              {/* Description */}
-              <Skeleton className="h-4 w-full mb-2 rounded-md" />
-              <Skeleton className="h-4 w-5/6 mb-2 rounded-md" />
-
-              {/* Time */}
-              <Skeleton className="h-4 w-1/6 ml-auto rounded-md" />
-            </View>
-          ) : null}
-        </View>
+        <InfiniteListFooter
+          isPending={isPending}
+          hasNextPage={false}
+          dataLength={0}
+          showEndMessage={false}
+          loadingComponent={<JobSearchResultEntrySkeleton />}
+        />
       }
     />
   );

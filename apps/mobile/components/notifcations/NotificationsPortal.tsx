@@ -13,6 +13,7 @@ import { NotificationEntrySkeleton } from "./NotificationEntrySkeleton";
 
 import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
 import { useNotificationContext } from "@/contexts/NotificationContext";
+import { InfiniteListFooter } from "../shared/InfiniteListFooter";
 import { StableSafeAreaView } from "../shared/stables/StableSafeAreaView";
 interface NotificationPortalProps {
   className?: string;
@@ -137,21 +138,14 @@ export const NotificationsPortal = ({ className }: NotificationPortalProps) => {
             ) : null
           }
           ListFooterComponent={
-            <View className="items-center mb-8 px-4">
-              {isPending ? (
-                <>
-                  <NotificationEntrySkeleton />
-                  <NotificationEntrySkeleton />
-                  <NotificationEntrySkeleton />
-                </>
-              ) : hasNextPage ? null : (
-                <View className="flex flex-row items-center justify-center gap-2 py-6">
-                  <Text variant={"p"} className="text-muted-foreground">
-                    You have caught up with all notifications
-                  </Text>
-                </View>
-              )}
-            </View>
+            <InfiniteListFooter
+              isPending={isPending}
+              hasNextPage={!!hasNextPage}
+              dataLength={notifications.length}
+              endMessage="You have caught up with all notifications"
+              loadingCount={3}
+              loadingComponent={<NotificationEntrySkeleton />}
+            />
           }
         />
       </View>
