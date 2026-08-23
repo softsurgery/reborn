@@ -11,13 +11,13 @@ import { View } from "react-native";
 interface NotFoundProps {
   size?: "small" | "large" | number;
   className?: string;
-  message?: string;
+  message?: string | string[];
 }
 
 export const NotFound = ({
   size = "large",
   className,
-  message = "No results found",
+  message = "",
 }: NotFoundProps) => {
   const height = useSharedValue(1);
   const opacity = useSharedValue(1);
@@ -43,10 +43,20 @@ export const NotFound = ({
             width: size === "small" ? 100 : size === "large" ? 200 : size,
             height: size === "small" ? 100 : size === "large" ? 200 : size,
           }}
-          source={require("~/assets/not-found.json")}
+          source={require("~/assets/lotties/not-found.json")}
         />
       </Animated.View>
-      <Text className="mt-4">{message}</Text>
+      <View className="flex flex-col items-center gap-2">
+        {Array.isArray(message) ? (
+          message.map((m, i) => (
+            <Text key={i} className="text-lg font-bold text-center">
+              {m}
+            </Text>
+          ))
+        ) : (
+          <Text className="text-lg font-bold text-center">{message}</Text>
+        )}
+      </View>
     </View>
   );
 };

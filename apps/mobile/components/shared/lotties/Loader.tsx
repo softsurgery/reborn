@@ -41,7 +41,7 @@ export const Loader = ({
             width: size === "small" ? 100 : size === "large" ? 200 : size,
             height: size === "small" ? 100 : size === "large" ? 200 : size,
           }}
-          source={require("~/assets/loader.json")}
+          source={require("~/assets/lotties/loader.json")}
         />
       )}
     </Animated.View>
