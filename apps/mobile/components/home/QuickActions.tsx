@@ -9,6 +9,7 @@ import {
   Star,
 } from "lucide-react-native";
 import { Pressable, View } from "react-native";
+import { useTranslation } from "react-i18next";
 import { cn } from "~/lib/utils";
 import { Icon } from "~/components/ui/icon";
 import { Text } from "~/components/ui/text";
@@ -24,36 +25,43 @@ interface QuickActionsProps {
 export const QuickActions = ({ className }: QuickActionsProps) => {
   const { palette } = useColorPalette();
   const isRTL = useRTL();
+  const { t } = useTranslation("home");
+
   const portalItems = [
     {
-      title: "My jobs",
+      id: "myJobs",
+      title: t("quickActions.items.myJobs.title"),
       icon: BriefcaseBusiness,
-      description: "Preview your posted jobs",
+      description: t("quickActions.items.myJobs.description"),
       onPress: () => router.push("/main/my-space/quick-actions/jobs"),
     },
     {
-      title: "Requests",
+      id: "requests",
+      title: t("quickActions.items.requests.title"),
       icon: Inbox,
-      description: "Manage incoming and outgoing requests",
+      description: t("quickActions.items.requests.description"),
       onPress: () => router.push("/main/my-space/requests"),
     },
     {
-      title: "Saved jobs",
+      id: "savedJobs",
+      title: t("quickActions.items.savedJobs.title"),
       icon: Bookmark,
-      description: "Keep track of jobs you bookmarked",
+      description: t("quickActions.items.savedJobs.description"),
       onPress: () => router.push("/main/my-space/quick-actions/saved"),
     },
     {
-      title: "Reviews",
+      id: "reviews",
+      title: t("quickActions.items.reviews.title"),
       icon: Star,
-      description: "See your ratings and feedback",
+      description: t("quickActions.items.reviews.description"),
       onPress: () => {},
       disabled: true,
     },
     {
-      title: "Viewed",
+      id: "viewed",
+      title: t("quickActions.items.viewed.title"),
       icon: Eye,
-      description: "Revisit recently viewed opportunities",
+      description: t("quickActions.items.viewed.description"),
       onPress: () => router.push("/main/my-space/quick-actions/viewed"),
     },
   ];
@@ -65,7 +73,7 @@ export const QuickActions = ({ className }: QuickActionsProps) => {
           const isDisabled = !!item.disabled;
 
           return (
-            <View key={item.title}>
+            <View key={item.id}>
               <Pressable
                 className={cn(
                   "w-full py-3 rounded-none active:opacity-50",
@@ -97,7 +105,7 @@ export const QuickActions = ({ className }: QuickActionsProps) => {
                   <View className="flex-row items-center gap-2">
                     {isDisabled ? (
                       <Badge variant="outline">
-                        <Text>Soon</Text>
+                        <Text>{t("quickActions.soon")}</Text>
                       </Badge>
                     ) : (
                       <Icon

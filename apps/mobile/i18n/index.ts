@@ -22,6 +22,10 @@ import enFinance from "./locales/en/finance.json";
 import frFinance from "./locales/fr/finance.json";
 import arFinance from "./locales/ar/finance.json";
 
+import enHome from "./locales/en/home.json";
+import frHome from "./locales/fr/home.json";
+import arHome from "./locales/ar/home.json";
+
 const resources = {
   en: {
     common: enCommon,
@@ -29,6 +33,7 @@ const resources = {
     settings: enSettings,
     menu: enMenu,
     finance: enFinance,
+    home: enHome,
   },
   fr: {
     common: frCommon,
@@ -36,6 +41,7 @@ const resources = {
     settings: frSettings,
     menu: frMenu,
     finance: frFinance,
+    home: frHome,
   },
   ar: {
     common: arCommon,
@@ -43,6 +49,7 @@ const resources = {
     settings: arSettings,
     menu: arMenu,
     finance: arFinance,
+    home: arHome,
   },
 };
 
@@ -54,7 +61,7 @@ i18n.use(initReactI18next).init({
   resources,
   lng: languageCode,
   fallbackLng: "en",
-  ns: ["common", "notifications", "settings", "menu", "finance"],
+  ns: ["common", "notifications", "settings", "menu", "home", "finance"],
   defaultNS: "common",
   interpolation: { escapeValue: false },
 });

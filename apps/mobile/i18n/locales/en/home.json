@@ -1,0 +1,59 @@
+{
+  "title": "Home",
+  "welcomeBack": "Welcome back",
+  "welcomeSubtitle": "Keep your momentum today with new opportunities and responses.",
+  "postJob": "Post Job",
+  "explore": "Explore",
+  "stats": {
+    "myJobs": {
+      "title": "My Jobs",
+      "subtitle": "Active posts"
+    },
+    "incoming": {
+      "title": "Incoming",
+      "subtitle": "Requests received"
+    },
+    "pending": {
+      "title": "Pending",
+      "subtitle": "Awaiting approval"
+    }
+  },
+  "quickActions": {
+    "title": "Quick actions",
+    "soon": "Soon",
+    "items": {
+      "myJobs": {
+        "title": "My jobs",
+        "description": "Preview your posted jobs"
+      },
+      "requests": {
+        "title": "Requests",
+        "description": "Manage incoming and outgoing requests"
+      },
+      "savedJobs": {
+        "title": "Saved jobs",
+        "description": "Keep track of jobs you bookmarked"
+      },
+      "reviews": {
+        "title": "Reviews",
+        "description": "See your ratings and feedback"
+      },
+      "viewed": {
+        "title": "Viewed",
+        "description": "Revisit recently viewed opportunities"
+      }
+    }
+  },
+  "recentActivity": {
+    "title": "Recent activity",
+    "viewAll": "View all",
+    "incomingRequest": "Incoming request",
+    "outgoingRequest": "Outgoing request",
+    "empty": "No recent request activity yet.",
+    "status": {
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected"
+    }
+  }
+}

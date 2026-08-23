@@ -1,0 +1,59 @@
+{
+  "title": "Accueil",
+  "welcomeBack": "Bon retour",
+  "welcomeSubtitle": "Maintenez votre dynamique aujourd'hui avec de nouvelles opportunités et réponses.",
+  "postJob": "Publier une offre",
+  "explore": "Explorer",
+  "stats": {
+    "myJobs": {
+      "title": "Mes offres",
+      "subtitle": "Annonces actives"
+    },
+    "incoming": {
+      "title": "Reçues",
+      "subtitle": "Demandes reçues"
+    },
+    "pending": {
+      "title": "En attente",
+      "subtitle": "En attente d'approbation"
+    }
+  },
+  "quickActions": {
+    "title": "Actions rapides",
+    "soon": "Bientôt",
+    "items": {
+      "myJobs": {
+        "title": "Mes offres",
+        "description": "Aperçu de vos offres publiées"
+      },
+      "requests": {
+        "title": "Demandes",
+        "description": "Gérer les demandes entrantes et sortantes"
+      },
+      "savedJobs": {
+        "title": "Offres sauvegardées",
+        "description": "Suivez les offres mises en favoris"
+      },
+      "reviews": {
+        "title": "Avis",
+        "description": "Consultez vos évaluations et commentaires"
+      },
+      "viewed": {
+        "title": "Consultées",
+        "description": "Revoir les opportunités récemment consultées"
+      }
+    }
+  },
+  "recentActivity": {
+    "title": "Activité récente",
+    "viewAll": "Voir tout",
+    "incomingRequest": "Demande entrante",
+    "outgoingRequest": "Demande sortante",
+    "empty": "Aucune activité de demande récente pour le moment.",
+    "status": {
+      "pending": "En attente",
+      "approved": "Approuvé",
+      "rejected": "Refusé"
+    }
+  }
+}
