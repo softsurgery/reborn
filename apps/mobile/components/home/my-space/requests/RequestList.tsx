@@ -17,11 +17,13 @@ import { useInfiniteJobRequests } from "@/hooks/content/job/useInfiniteJobReques
 interface RequestsListProps {
   className?: string;
   variant: "incoming" | "outgoing";
+  jobId?: string;
 }
 
 export const RequestsList = ({
   className,
   variant,
+  jobId,
 }: RequestsListProps) => {
   const [searchValue, setSearchValue] = React.useState("");
   const { value: search, loading: searching } = useDebounce(searchValue, 300);
@@ -38,6 +40,7 @@ export const RequestsList = ({
   } = useInfiniteJobRequests({
     search,
     variant,
+    jobId,
   });
 
   const isInitialPending = isRequestsPending || searching;
@@ -57,7 +60,7 @@ export const RequestsList = ({
           refetchRequests={refetchRequests}
         />
       ),
-    [variant, refetchRequests]
+    [variant, refetchRequests],
   );
 
   const SkeletonComponent =
@@ -65,16 +68,14 @@ export const RequestsList = ({
 
   const EmptyIcon = variant === "incoming" ? Inbox : Send;
   const emptyTitle =
-    variant === "incoming"
-      ? "No Incoming Requests"
-      : "No Sent Applications";
+    variant === "incoming" ? "No Incoming Requests" : "No Sent Applications";
   const emptySubtitle =
     variant === "incoming"
       ? "Applications from candidates will appear here."
       : "Job applications you've submitted will appear here.";
 
   return (
-    <View className="flex-1 bg-background relative">
+    <View className={cn("flex-1 bg-background relative", className)}>
       {/* Sticky Search Header matching UserJobsList */}
       <View
         className="absolute left-0 right-0 z-20 bg-background/90 py-3 flex flex-col justify-center"
@@ -96,58 +97,61 @@ export const RequestsList = ({
       <LegendList
         className={cn("flex-1", className)}
         contentContainerStyle={{ paddingTop: searchBarHeight + 4 }}
-      data={isInitialPending ? [] : requests}
-      renderItem={renderItem}
-      keyExtractor={(item) => item.id.toString()}
-      showsVerticalScrollIndicator={false}
-      recycleItems={true}
-      maintainVisibleContentPosition
-      refreshControl={
-        <RefreshControl
-          refreshing={isRefetching}
-          onRefresh={refetchRequests}
-          tintColor="transparent"
-          colors={["transparent"]}
-        />
-      }
-      onEndReached={() => {
-        if (hasNextPage && !isFetchingNextPage) {
-          fetchNextPage();
+        data={isInitialPending ? [] : requests}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id.toString()}
+        showsVerticalScrollIndicator={false}
+        recycleItems={true}
+        maintainVisibleContentPosition
+        refreshControl={
+          <RefreshControl
+            refreshing={isRefetching}
+            onRefresh={refetchRequests}
+            tintColor="transparent"
+            colors={["transparent"]}
+          />
         }
-      }}
-      onEndReachedThreshold={0.4}
-      ListEmptyComponent={
-        !isInitialPending ? (
-          <View className="py-16 items-center justify-center px-6 text-center">
-            <View className="w-16 h-16 rounded-full bg-muted/60 items-center justify-center mb-3">
-              <Icon as={EmptyIcon} size={28} className="text-muted-foreground" />
+        onEndReached={() => {
+          if (hasNextPage && !isFetchingNextPage) {
+            fetchNextPage();
+          }
+        }}
+        onEndReachedThreshold={0.4}
+        ListEmptyComponent={
+          !isInitialPending ? (
+            <View className="py-16 items-center justify-center px-6 text-center">
+              <View className="w-16 h-16 rounded-full bg-muted/60 items-center justify-center mb-3">
+                <Icon
+                  as={EmptyIcon}
+                  size={28}
+                  className="text-muted-foreground"
+                />
+              </View>
+              <Text className="text-base font-semibold text-foreground mb-1">
+                {emptyTitle}
+              </Text>
+              <Text className="text-xs text-muted-foreground text-center max-w-[260px] leading-relaxed">
+                {emptySubtitle}
+              </Text>
             </View>
-            <Text className="text-base font-semibold text-foreground mb-1">
-              {emptyTitle}
-            </Text>
-            <Text className="text-xs text-muted-foreground text-center max-w-[260px] leading-relaxed">
-              {emptySubtitle}
-            </Text>
+          ) : null
+        }
+        ListFooterComponent={
+          <View className="items-center w-full pb-8">
+            {isInitialPending ? (
+              <View className="w-full gap-3.5">
+                {[...Array(3)].map((_, idx) => (
+                  <SkeletonComponent key={idx} />
+                ))}
+              </View>
+            ) : isFetchingNextPage ? (
+              <View className="py-4">
+                <SkeletonComponent />
+              </View>
+            ) : null}
           </View>
-        ) : null
-      }
-      ListFooterComponent={
-        <View className="items-center w-full pb-8">
-          {isInitialPending ? (
-            <View className="w-full gap-3.5">
-              {[...Array(3)].map((_, idx) => (
-                <SkeletonComponent key={idx} />
-              ))}
-            </View>
-          ) : isFetchingNextPage ? (
-            <View className="py-4">
-              <SkeletonComponent />
-            </View>
-          ) : null}
-        </View>
-      }
-    />
+        }
+      />
     </View>
   );
 };
-

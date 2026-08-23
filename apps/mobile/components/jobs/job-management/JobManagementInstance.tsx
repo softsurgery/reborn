@@ -10,6 +10,7 @@ import { JobStatistics } from "./JobStatistics";
 import { JobActions } from "./JobActions";
 import { useColorPalette } from "@/hooks/useColorPalette";
 import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
+import { RequestsList } from "@/components/home/my-space/requests/RequestList";
 
 interface JobManagementInstanceProps {
   id: string;
@@ -75,6 +76,20 @@ export const JobManagementInstance = ({
             }}
           >
             {() => <JobStatistics />}
+          </Tab.Screen>
+          <Tab.Screen
+            name="requests"
+            options={{
+              tabBarLabel: "Requests",
+            }}
+          >
+            {() => (
+              <RequestsList
+                variant="incoming"
+                jobId={id}
+                className="pt-2 mx-4"
+              />
+            )}
           </Tab.Screen>
           <Tab.Screen
             name="gallery"
