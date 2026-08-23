@@ -1,12 +1,13 @@
 import { useTranslation } from "react-i18next";
-import { Image, View } from "react-native";
+import { View } from "react-native";
+import { Image } from "@/components/ui/image";
 import { cn } from "~/lib/utils";
 import { ResponseNotificationDto } from "~/types/notifications";
 import { HTMLText } from "../shared/HTMLText";
 import { StablePressable } from "../shared/stables/StablePressable";
 import { Text } from "../ui/text";
 import { timeAgo } from "~/lib/dates.utils";
-import { useServerImages } from "@/hooks/content/useServerImages";
+import { useNotificationPicture } from "~/hooks/content/notifications/useNotificationPicture";
 
 interface NotificationEntryProps {
   className?: string;
@@ -25,15 +26,7 @@ export const NotificationEntry = ({
     }
   };
 
-  //profile picture side-effect
-  const { uploads: profileUploads } = useServerImages({
-    ids: [notification.payload.pictureId],
-    fallbacks: ["?", ""],
-    wrapperClassName:
-      "border border-border bg-background rounded-full shadow-md",
-    size: { width: 100, height: 100 },
-  });
-  const profilePictureSource = profileUploads?.[0];
+  const { source: pictureSource } = useNotificationPicture(notification);
   const isUnread = isUnreadProp ?? !notification.readAt;
 
   return (
@@ -47,11 +40,7 @@ export const NotificationEntry = ({
     >
       <Image
         className="w-16 h-16 rounded-full"
-        source={
-          profilePictureSource
-            ? profilePictureSource
-            : require("@/assets/images/icon.png")
-        }
+        source={pictureSource}
       />
       <View className="relative flex flex-col gap-2 px-2 py-1 flex-1">
         <HTMLText

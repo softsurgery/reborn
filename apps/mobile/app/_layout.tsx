@@ -59,6 +59,7 @@ function RootLayoutContent({ palette, colorScheme }: RootLayoutContentProps) {
       [NotificationType.JOB_REQUEST_APPROVED]: () => {},
       [NotificationType.JOB_REQUEST_REJECTED]: () => {},
       [NotificationType.NEW_JOB_REQUEST]: () => {},
+      [NotificationType.NEW_FOLLOWER]: () => {},
     },
   });
   const [ready, setReady] = React.useState(false);
