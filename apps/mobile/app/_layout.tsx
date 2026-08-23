@@ -25,6 +25,7 @@ import { splashPrevented } from "@/lib/splash-screen";
 import { asyncStoragePersister, queryClient } from "@/lib/query-client";
 import { LoaderProvider } from "@/contexts/LoaderContext";
 import { NotificationType } from "@/types";
+import { KeyboardProvider } from "react-native-keyboard-controller";
 
 export { ErrorBoundary } from "expo-router";
 
@@ -148,14 +149,16 @@ export default function RootLayout() {
           maxAge: 1000 * 60 * 60 * 24,
         }}
       >
-        <SafeAreaProvider>
-          <LoaderProvider>
-            <RootLayoutContent
-              colorScheme={colorScheme ?? "light"}
-              palette={palette}
-            />
-          </LoaderProvider>
-        </SafeAreaProvider>
+        <KeyboardProvider statusBarTranslucent>
+          <SafeAreaProvider>
+            <LoaderProvider>
+              <RootLayoutContent
+                colorScheme={colorScheme ?? "light"}
+                palette={palette}
+              />
+            </LoaderProvider>
+          </SafeAreaProvider>
+        </KeyboardProvider>
       </PersistQueryClientProvider>
     </ThemeProvider>
   );

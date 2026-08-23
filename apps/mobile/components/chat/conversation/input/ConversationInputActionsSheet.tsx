@@ -90,12 +90,12 @@ export const ConversationInputActionsSheet = React.forwardRef<
       }}
     >
       {/* Action grid */}
-      <View className="flex-row flex-wrap my-5 gap-y-5">
+      <View className="w-full flex-row flex-wrap my-5 gap-y-5">
         {actions.map((item) => (
           <ChatActionGridItem
             key={item.label}
             {...item}
-            className="flex-none basis-1/4 px-1.5 py-1.5"
+            className=" basis-1/4 py-1.5"
           />
         ))}
       </View>
