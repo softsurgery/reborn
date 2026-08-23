@@ -1,0 +1,14 @@
+{
+  "overview": "Aperçu",
+  "transactions": "Transactions",
+  "real_money": "Argent réel",
+  "points": "Points",
+  "add_funds": "Ajouter des fonds",
+  "payment_methods": "Méthodes de paiement",
+  "visa_ending": "Visa se terminant par 4242",
+  "expires": "Expire le 12/28",
+  "primary": "Principal",
+  "add_new_method": "Ajouter une nouvelle méthode",
+  "transaction_history": "Historique des transactions",
+  "no_transactions": "Aucune transaction trouvée."
+}

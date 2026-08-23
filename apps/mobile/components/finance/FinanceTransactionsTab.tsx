@@ -13,10 +13,23 @@ import { Text } from "~/components/ui/text";
 import { usePointTransactions } from "~/hooks/content/finance/useFinance";
 import { PointTransaction } from "~/api/finance";
 import { useColorPalette } from "~/hooks/useColorPalette";
+import { useTranslation } from "react-i18next";
 
-export const BalanceTransactionsTab = () => {
+interface FinanceTransactionsTabProps {
+  className?: string;
+}
+
+export const FinanceTransactionsTab = ({
+  className,
+}: FinanceTransactionsTabProps) => {
   const { palette } = useColorPalette();
-  const { data: txData, isLoading: isLoadingTx, fetchNextPage, hasNextPage } = usePointTransactions();
+  const { t } = useTranslation("finance");
+  const {
+    data: txData,
+    isLoading: isLoadingTx,
+    fetchNextPage,
+    hasNextPage,
+  } = usePointTransactions();
 
   const transactions = txData?.pages.flatMap((page) => page.data) || [];
 
@@ -32,12 +45,12 @@ export const BalanceTransactionsTab = () => {
   };
 
   return (
-    <View className="flex-1 bg-background p-4">
+    <View className={cn("flex-1 bg-background p-4", className)}>
       <View className="flex-row justify-between items-center mb-4">
         <View className="flex-row items-center gap-2">
           <TrendingUp size={20} color={palette.primary} />
           <Text className="text-lg font-semibold text-foreground">
-            Transaction History
+            {t("transaction_history", "Transaction History")}
           </Text>
         </View>
       </View>
@@ -79,7 +92,7 @@ export const BalanceTransactionsTab = () => {
                 className={cn(
                   "font-semibold text-base",
                   item.type === "CREDIT" && "text-green-600",
-                  item.type === "DEBIT" && "text-red-600"
+                  item.type === "DEBIT" && "text-red-600",
                 )}
               >
                 {item.type === "CREDIT" ? "+" : "-"}
@@ -89,7 +102,9 @@ export const BalanceTransactionsTab = () => {
           )}
           ListEmptyComponent={() => (
             <View className="items-center justify-center py-8">
-              <Text className="text-muted-foreground">No transactions found.</Text>
+              <Text className="text-muted-foreground">
+                {t("no_transactions", "No transactions found.")}
+              </Text>
             </View>
           )}
         />

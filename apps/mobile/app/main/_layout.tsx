@@ -393,14 +393,6 @@ export default function MainLayout() {
           animation: "slide_from_right",
         }}
       />
-      <Stack.Screen
-        name="balance"
-        options={{
-          title: "Balance",
-          headerShown: false,
-          animation: "slide_from_right",
-        }}
-      />
       {/* Test */}
       <Stack.Screen
         name="test"

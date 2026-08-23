@@ -4,7 +4,7 @@
   "screens": {
     "explore": "Explore",
     "chat": "Chat",
-    "balance": "Balance",
+    "finance": "Finance",
     "userPreferences": "User Preferences",
     "reportBug": "Report a Bug",
     "faqs": "FAQs",

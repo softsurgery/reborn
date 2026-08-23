@@ -161,8 +161,8 @@ export default function TabLayout() {
       hideLabel: true,
     },
     {
-      name: "balance",
-      title: t("screens.balance"),
+      name: "finance",
+      title: t("screens.finance"),
       icon: Wallet,
       iconSize: 34,
     },

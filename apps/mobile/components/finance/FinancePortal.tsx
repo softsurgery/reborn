@@ -10,17 +10,17 @@ import { useTranslation } from "react-i18next";
 import { createMaterialTopTabNavigator } from "expo-router/js-top-tabs";
 import { useColorPalette } from "~/hooks/useColorPalette";
 import { hslToHex } from "~/lib/theme";
-import { BalanceOverviewTab } from "./BalanceOverviewTab";
-import { BalanceTransactionsTab } from "./BalanceTransactionsTab";
+import { FinanceOverviewTab } from "./FinanceOverviewTab";
+import { FinanceTransactionsTab } from "./FinanceTransactionsTab";
 
 const Tab = createMaterialTopTabNavigator();
 
-interface BalanceProps {
+interface FinancePortalProps {
   className?: string;
 }
 
-export const Balance = ({ className }: BalanceProps) => {
-  const { t } = useTranslation("common");
+export const FinancePortal = ({ className }: FinancePortalProps) => {
+  const { t } = useTranslation(["common", "finance"]);
   const { count } = useNotificationContext();
   const { palette } = useColorPalette();
 
@@ -28,7 +28,7 @@ export const Balance = ({ className }: BalanceProps) => {
     <StableSafeAreaView className={cn("flex flex-1 flex-col", className)}>
       <View>
         <ApplicationHeader
-          title={t("screens.balance", { defaultValue: "Balance & Points" })}
+          title={t("screens.finance", { defaultValue: "Finance" })}
           shortcuts={[
             {
               key: "notifications",
@@ -41,7 +41,7 @@ export const Balance = ({ className }: BalanceProps) => {
           ]}
         />
       </View>
-      
+
       <View className="flex-1">
         <Tab.Navigator
           screenOptions={{
@@ -67,11 +67,14 @@ export const Balance = ({ className }: BalanceProps) => {
             },
           }}
         >
-          <Tab.Screen name="overview" options={{ tabBarLabel: "Overview" }}>
-            {() => <BalanceOverviewTab />}
+          <Tab.Screen name="overview" options={{ tabBarLabel: t("finance:overview", "Overview") }}>
+            {() => <FinanceOverviewTab />}
           </Tab.Screen>
-          <Tab.Screen name="transactions" options={{ tabBarLabel: "Transactions" }}>
-            {() => <BalanceTransactionsTab />}
+          <Tab.Screen
+            name="transactions"
+            options={{ tabBarLabel: t("finance:transactions", "Transactions") }}
+          >
+            {() => <FinanceTransactionsTab />}
           </Tab.Screen>
         </Tab.Navigator>
       </View>
