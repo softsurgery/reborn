@@ -9,7 +9,7 @@ import { JobEvents, JobStatus } from "@/types";
 import { useJob } from "@/hooks/content/job/useJob";
 import {
   Edit,
-  Trash2,
+  
   Share2,
   PauseCircle,
   Copy,
