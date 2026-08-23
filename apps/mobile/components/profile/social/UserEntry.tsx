@@ -117,7 +117,6 @@ export const UserEntry = ({
               </View>
               {user?.region && (
                 <View className="flex-row items-center gap-1">
-                  <MapPin size={12} color="#6366f1" />
                   <Text className="text-xs text-muted-foreground">
                     {user.region.label}
                   </Text>
