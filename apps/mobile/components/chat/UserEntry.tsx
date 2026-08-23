@@ -2,9 +2,15 @@ import React from "react";
 import { View } from "react-native";
 import { Text } from "~/components/ui/text";
 import { cn } from "~/lib/utils";
-import { ResponseConversationDto } from "~/types";
-import { useServerImages } from "~/hooks/content/useServerImages";
+import {
+  MessageVariant,
+  ResponseConversationDto,
+  StaticMessageEnum,
+} from "~/types";
+import { useServerImages } from "@/hooks/content/useServerImages";
 import { differenceInMilliseconds } from "date-fns";
+import { useUserPresence } from "@/hooks/content/chat/useUserPresence";
+import { useTranslation } from "react-i18next";
 import { useCurrentUser } from "@/hooks/content/user/useCurrentUser";
 import { identifyUser, identifyUserAvatar } from "@/lib/user.utils";
 import { formatSmartDate } from "@/lib/dates.utils";
@@ -15,17 +21,24 @@ interface UserCardProps {
   isPending?: boolean;
 }
 
+/**
+ * Component displaying an individual conversation row item in the conversation list,
+ * including participant avatar, online badge, unread count, and last message snippet.
+ */
 export const UserEntry = ({
   className,
   conversation,
   isPending,
 }: UserCardProps) => {
+  const { t } = useTranslation("chat");
   const { currentUser } = useCurrentUser();
   const user = React.useMemo(
     () =>
       conversation.participants.find((p) => p.userId !== currentUser?.id)?.user,
     [conversation.participants, currentUser?.id],
   );
+
+  const { isOnline } = useUserPresence({ userId: user?.id });
 
   const lastMessage = conversation.lastMessage;
 
@@ -38,6 +51,7 @@ export const UserEntry = ({
 
   const { jsxArray: profilePictures } = useServerImages({
     ids: [user?.pictureId],
+    className: "rounded-full",
     fallbacks: [identifyUserAvatar(user)],
     size: { width: 60, height: 60 },
   });
@@ -53,6 +67,111 @@ export const UserEntry = ({
     );
   }, [lastCheck, lastMessage?.createdAt]);
 
+  const messagePreview = React.useMemo(() => {
+    if (!lastMessage) {
+      return (
+        <Text
+          className="flex-1 text-sm font-bold text-primary"
+          numberOfLines={1}
+          ellipsizeMode="tail"
+        >
+          {t("chat.preview.startConversation")}
+        </Text>
+      );
+    }
+
+    const isMe = lastMessage.userId === currentUser?.id;
+    const prefix =
+      isMe && lastMessage.static !== StaticMessageEnum.FIRST_MESSAGE
+        ? t("chat.preview.youPrefix")
+        : "";
+
+    const defaultStyle = cn(
+      "flex-1 text-sm",
+      seen
+        ? "text-gray-500 dark:text-gray-400 font-normal"
+        : "font-bold text-black dark:text-white",
+    );
+
+    if (lastMessage?.variant === MessageVariant.STATIC) {
+      if (lastMessage?.static === StaticMessageEnum.FIRST_MESSAGE) {
+        return (
+          <Text
+            className="flex-1 text-sm font-bold text-primary"
+            numberOfLines={1}
+            ellipsizeMode="tail"
+          >
+            {t("chat.preview.startConversation")}
+          </Text>
+        );
+      }
+      if (lastMessage?.static === StaticMessageEnum.POKE) {
+        return (
+          <Text
+            className="flex-1 text-sm font-bold text-primary"
+            numberOfLines={1}
+            ellipsizeMode="tail"
+          >
+            {isMe ? t("chat.preview.pokeSent") : t("chat.preview.pokeReceived")}
+          </Text>
+        );
+      }
+    }
+
+    const mediaCount = lastMessage.uploads?.length || 1;
+
+    if (lastMessage?.variant === MessageVariant.IMAGE) {
+      const label = t("chat.preview.image", { count: mediaCount });
+      return (
+        <Text className={defaultStyle} numberOfLines={1} ellipsizeMode="tail">
+          {prefix}
+          {label}
+        </Text>
+      );
+    }
+
+    if (lastMessage?.variant === MessageVariant.VIDEO) {
+      const label = t("chat.preview.video", { count: mediaCount });
+      return (
+        <Text className={defaultStyle} numberOfLines={1} ellipsizeMode="tail">
+          {prefix}
+          {label}
+        </Text>
+      );
+    }
+
+    if (lastMessage?.variant === MessageVariant.FILE) {
+      const label = t("chat.preview.file", { count: mediaCount });
+      return (
+        <Text className={defaultStyle} numberOfLines={1} ellipsizeMode="tail">
+          {prefix}
+          {label}
+        </Text>
+      );
+    }
+
+    if (lastMessage?.variant === MessageVariant.EMOJI) {
+      return (
+        <Text className={defaultStyle} numberOfLines={1} ellipsizeMode="tail">
+          {prefix}
+          {lastMessage?.content}
+        </Text>
+      );
+    }
+
+    const text =
+      lastMessage?.content
+        ?.replaceAll("\n", " ")
+        ?.replace(/\s+/g, " ")
+        ?.trim() || "";
+    return (
+      <Text className={defaultStyle} numberOfLines={1} ellipsizeMode="tail">
+        {prefix}
+        {text}
+      </Text>
+    );
+  }, [lastMessage, currentUser?.id, seen, t]);
+
   return (
     <View
       className={cn(
@@ -63,8 +182,11 @@ export const UserEntry = ({
       {/* Left Content */}
       <View className="flex-1 flex-row items-center gap-3">
         {/* Avatar */}
-        <View className="overflow-hidden rounded-full">
+        <View className="relative">
           {profilePictures[0]}
+          {isOnline && (
+            <View className="absolute bottom-0 right-0 w-4 h-4 bg-green-500 border-2 border-card rounded-full" />
+          )}
         </View>
 
         {/* Text Content */}
@@ -87,25 +209,7 @@ export const UserEntry = ({
 
           {/* Bottom Row */}
           <View className="mt-1 flex-row items-center justify-between gap-4">
-            <Text
-              className={cn(
-                "flex-1 text-sm",
-                lastMessage
-                  ? "text-gray-600 dark:text-gray-300"
-                  : "text-primary font-bold",
-                seen ? "font-base" : "font-bold",
-              )}
-              numberOfLines={1}
-              ellipsizeMode="tail"
-            >
-              {lastMessage?.userId === currentUser?.id && `You: `}
-              {lastMessage
-                ? lastMessage?.content
-                    .replaceAll("\n", " ")
-                    .replace(/\s+/g, " ")
-                    .trim()
-                : "You can send a message to start the conversation"}
-            </Text>
+            {messagePreview}
 
             {/* Status */}
             <View className="flex-row items-center gap-1">

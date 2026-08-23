@@ -1,0 +1,202 @@
+{
+  "chat": {
+    "title": "الرسائل",
+    "searchPlaceholder": "البحث عن المحادثات...",
+    "empty": {
+      "noConversations": "لم يتم العثور على أي محادثات.",
+      "startNew": "ابدأ محادثة جديدة بالبحث عن مستخدم."
+    },
+    "preview": {
+      "startConversation": "ابدأ محادثة 👋",
+      "youPrefix": "أنت: ",
+      "pokeSent": "👉 لقد أرسلت إشارة",
+      "pokeReceived": "👈 لقد تلقيت إشارة",
+      "image_one": "📷 صورة",
+      "image_other": "📷 {{count}} صور",
+      "video_one": "🎥 فيديو",
+      "video_other": "🎥 {{count}} فيديوهات",
+      "file_one": "📎 ملف",
+      "file_other": "📎 {{count}} ملفات"
+    },
+    "tabs": {
+      "media": {
+        "title": "الوسائط"
+      },
+      "files": {
+        "title": "الملفات"
+      },
+      "links": {
+        "title": "الروابط"
+      }
+    },
+    "conversation": {
+      "empty": "لا توجد رسائل حتى الآن. قل مرحبًا!",
+      "loading": "جارٍ تحميل المحادثة...",
+      "locked": "لا يمكنك إرسال رسائل في هذه المحادثة.",
+      "inputPlaceholder": "Aa",
+      "presence": {
+        "online": "متصل الآن",
+        "justNow": "الآن",
+        "secondsAgo_one": "منذ {{count}} ثانية",
+        "secondsAgo_other": "منذ {{count}} ثوانٍ",
+        "minutesAgo_one": "منذ {{count}} دقيقة",
+        "minutesAgo_other": "منذ {{count}} دقائق",
+        "hoursAgo_one": "منذ {{count}} ساعة",
+        "hoursAgo_other": "منذ {{count}} ساعات",
+        "daysAgo_one": "منذ {{count}} يوم",
+        "daysAgo_other": "منذ {{count}} أيام",
+        "weeksAgo_one": "منذ {{count}} أسبوع",
+        "weeksAgo_other": "منذ {{count}} أسابيع",
+        "monthsAgo_one": "منذ {{count}} شهر",
+        "monthsAgo_other": "منذ {{count}} أشهر",
+        "yearsAgo_one": "منذ {{count}} سنة",
+        "yearsAgo_other": "منذ {{count}} سنوات"
+      },
+      "messageUnavailable": {
+        "title": "الرسالة غير متاحة",
+        "description": "تعذر العثور على هذه الرسالة في سجل المحادثة."
+      },
+      "messageOptions": {
+        "title": "خيارات الرسالة",
+        "copy": "نسخ",
+        "delete": "حذف",
+        "cancel": "إلغاء"
+      },
+      "static": {
+        "firstMessage": "هذه بداية المحادثة",
+        "pokeSent": "لقد أرسلت إشارة",
+        "pokeReceived": "لقد تلقيت إشارة"
+      },
+      "attachments": {
+        "photo": {
+          "label": "صورة",
+          "sublabel": "إرسال صورة"
+        },
+        "video": {
+          "label": "فيديو",
+          "sublabel": "إرسال فيديو"
+        },
+        "file": {
+          "label": "ملف",
+          "sublabel": "إرسال ملف"
+        },
+        "poke": {
+          "label": "إشارة",
+          "sublabel": "قل مرحبًا"
+        }
+      },
+      "upload": {
+        "uploading": "جارٍ الرفع...",
+        "sending": "جارٍ الإرسال...",
+        "failed": "فشل الرفع",
+        "progressFailed": "فشل",
+        "fileFallback": "ملف {{index}}"
+      },
+      "staging": {
+        "photo_one": "{{count}} صورة",
+        "photo_other": "{{count}} صور",
+        "video_one": "{{count}} فيديو",
+        "video_other": "{{count}} فيديوهات",
+        "items": "{{count}} عناصر"
+      }
+    },
+    "search": {
+      "placeholder": "البحث في المحادثة",
+      "searching": "جارٍ البحث...",
+      "resultCount_one": "{{count}} نتيجة",
+      "resultCount_other": "{{count}} نتائج",
+      "noResults": "لا توجد نتائج لـ \"{{query}}\"",
+      "noResultsHint": "تحقق من الإملاء أو جرّب كلمات مفتاحية أخرى",
+      "prompt": "أدخل كلمة مفتاحية للبحث في هذه المحادثة"
+    },
+    "details": {
+      "sections": {
+        "contentActions": "إجراءات المحتوى",
+        "privacySupport": "الخصوصية والدعم"
+      },
+      "rows": {
+        "viewResources": "عرض الوسائط والملفات والروابط",
+        "search": "البحث في المحادثة",
+        "block": "حظر",
+        "report": "إبلاغ",
+        "delete": "حذف المحادثة"
+      },
+      "deleteAlert": {
+        "title": "حذف المحادثة",
+        "message": "هل أنت متأكد من رغبتك في حذف هذه المحادثة؟ لا يمكن التراجع عن هذا الإجراء.",
+        "cancel": "إلغاء",
+        "confirm": "حذف"
+      },
+      "blockAlert": {
+        "title": "حظر المستخدم",
+        "message": "هل تريد حظر {{name}}؟ لن يتمكن هذا الشخص من إرسال رسائل إليك بعد الآن.",
+        "cancel": "إلغاء",
+        "confirm": "حظر"
+      },
+      "toasts": {
+        "conversationDeleted": "تم حذف المحادثة.",
+        "userBlocked": "تم حظر المستخدم."
+      },
+      "errors": {
+        "deleteFailed": "تعذر حذف المحادثة",
+        "blockFailed": "تعذر حظر المستخدم",
+        "generic": "حدث خطأ ما. يُرجى المحاولة مرة أخرى."
+      }
+    },
+    "resources": {
+      "title": "الوسائط والملفات والروابط",
+      "noMedia": "لا توجد وسائط",
+      "fileFallback": "ملف",
+      "empty": {
+        "media": "لم يتم العثور على أي وسائط",
+        "files": "لم يتم العثور على أي ملفات",
+        "links": "لم يتم العثور على أي روابط"
+      }
+    },
+    "report": {
+      "title": "الإبلاغ عن المحادثة",
+      "description": "أخبرنا بما حدث في هذه المحادثة. بلاغك سري.",
+      "descriptionWithName": "أخبرنا بما حدث في محادثتك مع {{name}}. بلاغك سري.",
+      "form": {
+        "sectionTitle": "الإبلاغ عن المحادثة",
+        "reason": {
+          "label": "السبب",
+          "placeholder": "اختر سببًا",
+          "description": "لماذا تقوم بالإبلاغ عن هذه المحادثة؟"
+        },
+        "details": {
+          "label": "التفاصيل",
+          "placeholder": "صف ما حدث",
+          "description": "قدّم أكبر قدر ممكن من التفاصيل لمساعدتنا في مراجعة بلاغك."
+        }
+      },
+      "validation": {
+        "reasonRequired": "يجب اختيار سبب.",
+        "descriptionRequired": "الوصف مطلوب.",
+        "descriptionTooShort": "يجب أن يحتوي الوصف على 10 أحرف على الأقل.",
+        "descriptionTooLong": "يجب ألا يتجاوز الوصف 1024 حرفًا."
+      },
+      "reasons": {
+        "spam": "رسائل مزعجة",
+        "harassment": "تحرش",
+        "inappropriateContent": "محتوى غير لائق",
+        "scam": "احتيال أو نصب",
+        "other": "أخرى"
+      },
+      "actions": {
+        "submit": "إرسال البلاغ",
+        "submitPending": "جارٍ إرسال البلاغ..."
+      },
+      "toasts": {
+        "success": {
+          "title": "تم إرسال البلاغ",
+          "description": "شكرًا لك. سنراجع بلاغك قريبًا."
+        },
+        "error": {
+          "title": "فشل إرسال البلاغ",
+          "description": "حدث خطأ أثناء إرسال بلاغك."
+        }
+      }
+    }
+  }
+}

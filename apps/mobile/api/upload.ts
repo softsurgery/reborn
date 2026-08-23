@@ -1,76 +1,298 @@
+import { Upload } from "~/types/upload";
+import {
+  FileSystemUploadType,
+  createUploadTask,
+} from "expo-file-system/legacy";
 import { Platform } from "react-native";
 import axios from "./axios";
-import { Upload } from "~/types/upload";
-import { Buffer } from "buffer";
+import { useAuthPersistStore } from "@/hooks/stores/useAuthPersistStore";
 
-export const uploadFiles = async (
-  files: File[],
+const BASE_URL = process.env.EXPO_PUBLIC_API_BASE_URL;
+
+/**
+ * File descriptor used by React Native FormData instead of a web `File`.
+ * Image picker assets are cast to this shape before upload.
+ */
+export type ReactNativeUploadFile = {
+  uri: string;
+  name: string;
+  type: string;
+};
+
+/** Accepted upload payload on web (File) and native ({ uri, name, type }). */
+export type UploadFileInput = File | ReactNativeUploadFile;
+
+/**
+ * Returns true when `file` is a React Native upload descriptor (has a `uri`).
+ */
+const isReactNativeUploadFile = (
+  file: UploadFileInput,
+): file is ReactNativeUploadFile =>
+  typeof file === "object" &&
+  file !== null &&
+  "uri" in file &&
+  typeof file.uri === "string";
+
+/**
+ * Builds auth and client headers required by storage endpoints.
+ */
+const getUploadHeaders = (): Record<string, string> => {
+  const authStore = useAuthPersistStore.getState();
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const headers: Record<string, string> = {
+    Accept: "application/json",
+  };
+
+  if (authStore.accessToken) {
+    headers.Authorization = `Bearer ${authStore.accessToken}`;
+  }
+
+  if (timezone) {
+    headers["x-timezone"] = timezone;
+  }
+
+  return headers;
+};
+
+/**
+ * Normalizes byte counts into a 0–99 progress percentage.
+ * Falls back to a KB-based estimate when the total size is unknown
+ * (common with axios FormData uploads on React Native).
+ */
+const reportUploadProgress = (
+  onProgress: ((percent: number) => void) | undefined,
+  loaded: number,
+  total?: number,
+): void => {
+  if (!onProgress) return;
+
+  if (total && total > 0) {
+    onProgress(Math.min(99, Math.round((loaded * 100) / total)));
+    return;
+  }
+
+  if (loaded > 0) {
+    onProgress(Math.min(95, Math.max(1, Math.round(loaded / 2048))));
+  }
+};
+
+/**
+ * Uploads one file on iOS/Android via expo-file-system `File.upload`,
+ * which reports reliable byte-level progress.
+ *
+ * @param finalizeProgress - When false, skips the final 100% callback so
+ *   callers can aggregate progress across a multi-file batch.
+ */
+const uploadNativeFile = async (
+  file: ReactNativeUploadFile,
+  onProgress: ((percent: number) => void) | undefined,
+  temporary: boolean,
+  finalizeProgress = true,
+): Promise<Upload> => {
+  const endpoint = temporary ? "/storage/upload/temporary" : "/storage/upload";
+
+  const uploadTask = createUploadTask(
+    `${BASE_URL}${endpoint}`,
+    file.uri,
+    {
+      uploadType: FileSystemUploadType.MULTIPART,
+      fieldName: "file",
+      mimeType: file.type,
+      parameters: {
+        filename: file.name,
+      },
+      headers: getUploadHeaders(),
+    },
+    ({ totalBytesSent, totalBytesExpectedToSend }) => {
+      reportUploadProgress(
+        onProgress,
+        totalBytesSent,
+        totalBytesExpectedToSend,
+      );
+    },
+  );
+
+  const result = await uploadTask.uploadAsync();
+
+  if (!result || result.status < 200 || result.status >= 300) {
+    throw new Error(`Upload failed with status ${result?.status}`);
+  }
+
+  if (finalizeProgress) {
+    onProgress?.(100);
+  }
+
+  return JSON.parse(result.body) as Upload;
+};
+
+/**
+ * Uploads multiple native files sequentially, mapping per-file progress
+ * into a single 0–100 value for the whole batch.
+ */
+const uploadNativeFiles = async (
+  files: ReactNativeUploadFile[],
+  onProgress: ((percent: number) => void) | undefined,
+  temporary: boolean,
+): Promise<Upload[]> => {
+  const uploads: Upload[] = [];
+  onProgress?.(0);
+
+  for (let i = 0; i < files.length; i++) {
+    const upload = await uploadNativeFile(
+      files[i],
+      (filePercent) => {
+        const overall = Math.round((i * 100 + filePercent) / files.length);
+        onProgress?.(Math.min(99, overall));
+      },
+      temporary,
+      false,
+    );
+    uploads.push(upload);
+  }
+
+  onProgress?.(100);
+  return uploads;
+};
+
+/**
+ * Uploads a single file to storage.
+ *
+ * - **Native:** uses expo-file-system for accurate progress.
+ * - **Web:** uses axios multipart POST to `/storage/upload[/temporary]`.
+ */
+export const uploadFile = async (
+  file: UploadFileInput,
   onProgress?: (percent: number) => void,
   temporary: boolean = true,
+): Promise<Upload> => {
+  if (Platform.OS !== "web" && isReactNativeUploadFile(file)) {
+    return uploadNativeFile(file, onProgress, temporary);
+  }
+
+  const formData = new FormData();
+  formData.append("file", file as File);
+  if (isReactNativeUploadFile(file)) {
+    formData.append("filename", file.name);
+  }
+
+  onProgress?.(0);
+
+  const response = await axios.post<Upload>(
+    temporary ? "/storage/upload/temporary" : "/storage/upload",
+    formData,
+    {
+      headers: {
+        Accept: "application/json",
+      },
+      onUploadProgress: (event) => {
+        reportUploadProgress(onProgress, event.loaded, event.total);
+      },
+    },
+  );
+
+  onProgress?.(100);
+  return response.data;
+};
+
+/**
+ * Uploads one or more files to storage.
+ *
+ * - **Native:** uploads each file sequentially via expo-file-system and
+ *   aggregates progress across the batch.
+ * - **Web:** sends all files in one axios multipart POST to
+ *   `/storage/multiple[/temporary]`. Pass `totalBytes` when known to improve
+ *   progress reporting if the server omits Content-Length.
+ */
+export const uploadFiles = async (
+  files: UploadFileInput[],
+  onProgress?: (percent: number) => void,
+  temporary: boolean = true,
+  totalBytes?: number,
 ): Promise<Upload[]> => {
+  if (
+    Platform.OS !== "web" &&
+    files.length > 0 &&
+    files.every(isReactNativeUploadFile)
+  ) {
+    return uploadNativeFiles(files, onProgress, temporary);
+  }
+
   const formData = new FormData();
   files.forEach((file) => {
-    formData.append("files", file);
+    formData.append("files", file as File);
   });
+
+  onProgress?.(0);
 
   const response = await axios.post<Upload[]>(
     temporary ? "/storage/multiple/temporary" : "/storage/multiple",
     formData,
     {
       headers: {
-        "Content-Type": "multipart/form-data",
+        Accept: "application/json",
       },
       onUploadProgress: (event) => {
-        if (onProgress && event.loaded != null) {
-          if (event.total && event.total > 0) {
-            const percent = Math.round((event.loaded * 100) / event.total);
-            onProgress(percent);
-          } else if (event.progress != null) {
-            onProgress(Math.round(event.progress * 100));
-          }
-        }
+        reportUploadProgress(
+          onProgress,
+          event.loaded,
+          event.total || totalBytes,
+        );
       },
     },
   );
+
+  onProgress?.(100);
   return response.data;
 };
 
-export const getUploadById = async (id: number) => {
-  const url = `/storage/view/id/${id}`;
-  const { data, headers } = await axios.get(url, {
-    responseType: "arraybuffer",
-  });
-
-  const mimeType = headers["content-type"] || "application/octet-stream";
-
-  if (Platform.OS === "web") {
-    const blob = new Blob([data], { type: mimeType });
-    return URL.createObjectURL(blob);
-  } else {
-    const base64 = Buffer.from(data, "binary").toString("base64");
-    return `data:${mimeType};base64,${base64}`;
-  }
+export const fetchUploadById = async (id: number): Promise<Upload> => {
+  const response = await axios.get<Upload>(`/storage/${id}`);
+  return response.data;
 };
 
-export const getUploadBySlug = async (slug: string) => {
-  const url = `/storage/view/slug/${slug}`;
-  const { data, headers } = await axios.get(url, {
-    responseType: "arraybuffer",
-  });
+/**
+ * Returns an expo-image source for a stored upload, including auth headers.
+ * expo-image handles streaming, caching, and progressive loading natively.
+ */
+export const getUploadById = (id: number) => {
+  const authStore = useAuthPersistStore.getState();
+  return {
+    uri: `${BASE_URL}/storage/view/id/${id}`,
+    headers: {
+      Authorization: `Bearer ${authStore.accessToken}`,
+    },
+  };
+};
 
-  const mimeType = headers["content-type"] || "application/octet-stream";
+/**
+ * Returns an expo-image source for a stored upload looked up by slug,
+ * including auth headers.
+ */
+export const getUploadBySlug = (slug: string) => {
+  const authStore = useAuthPersistStore.getState();
+  return {
+    uri: `${BASE_URL}/storage/view/slug/${slug}`,
+    headers: {
+      Authorization: `Bearer ${authStore.accessToken}`,
+    },
+  };
+};
 
-  if (Platform.OS === "web") {
-    const blob = new Blob([data], { type: mimeType });
-    return URL.createObjectURL(blob);
-  } else {
-    const base64 = Buffer.from(data, "binary").toString("base64");
-    return `data:${mimeType};base64,${base64}`;
-  }
+export const getUploadDownloadById = (id: number) => {
+  const authStore = useAuthPersistStore.getState();
+  return {
+    uri: `${BASE_URL}/storage/download/id/${id}`,
+    headers: {
+      Authorization: `Bearer ${authStore.accessToken}`,
+    },
+  };
 };
 
 export const upload = {
+  uploadFile,
   uploadFiles,
+  fetchUploadById,
   getUploadBySlug,
   getUploadById,
+  getUploadDownloadById,
 };

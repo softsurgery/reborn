@@ -1,5 +1,7 @@
 import React from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { router } from "expo-router";
+import { useStartConversation } from "~/hooks/content/chat/useStartConversation";
 import { View } from "react-native";
 import { api } from "~/api";
 import { useFollowSystem } from "~/hooks/content/useFollowSystem";
@@ -93,6 +95,29 @@ export const InspectBaseProfile = ({
         );
       },
     });
+
+  const { startConversation } = useStartConversation({
+    onMutate: () => setLoading(true),
+    onSettled: () => setLoading(false),
+    onSuccess: (conversation) => {
+      router.push({
+        pathname: "/main/chat/conversation",
+        params: {
+          id: String(conversation.id),
+          userId: user?.id,
+          identifier: identity,
+          pictureId: user?.pictureId ? String(user.pictureId) : "",
+          avatarFallback: fallback,
+        },
+      });
+    },
+    onError: (error: any) => {
+      toast.error(
+        error?.response?.data?.message || t("menu.toasts.emailError"),
+        {},
+      );
+    },
+  });
 
   const hasSeededRef = React.useRef(false);
 
@@ -318,6 +343,7 @@ export const InspectBaseProfile = ({
                 onFollowPress={() =>
                   isFollowing ? unfollowUser() : followUser()
                 }
+                onSendMessagePress={() => startConversation({ users: [user?.id!] })}
               />
             </Animated.View>
           </View>

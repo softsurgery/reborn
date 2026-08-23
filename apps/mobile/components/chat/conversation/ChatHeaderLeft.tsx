@@ -1,9 +1,7 @@
-import { View } from "react-native";
+import { Pressable, View } from "react-native";
 import { cn } from "~/lib/utils";
 import { Text } from "../../ui/text";
-import { StablePressable } from "@/components/shared/stables/StablePressable";
-import { router, useNavigation } from "expo-router";
-import { NavigationProps } from "~/types/app.routes";
+import { router } from "expo-router";
 import { ChevronLeft } from "lucide-react-native";
 import { Icon } from "~/components/ui/icon";
 
@@ -12,38 +10,50 @@ interface ChatHeaderLeftProps {
   id: string;
   identifier?: string;
   profilePicture?: React.ReactNode;
+  isOnline?: boolean;
   lastSeen?: string;
 }
 
+/**
+ * Navigation bar left header displaying back button, participant avatar, presence badge, and name.
+ */
 export const ChatHeaderLeft = ({
   className,
   id,
   identifier,
   profilePicture,
+  isOnline,
   lastSeen,
 }: ChatHeaderLeftProps) => {
-  const navigation = useNavigation<NavigationProps>();
   return (
-    <View className={cn("flex flex-row items-center flex-1 gap-1", className)}>
-      <StablePressable
-        className="p-2 rounded-full"
-        onPress={() => navigation.goBack()}
-        onPressClassname="bg-muted"
+    <View
+      className={cn(
+        "flex flex-row items-center flex-1 gap-1 bg-card",
+        className,
+      )}
+    >
+      <Pressable
+        className="p-2 rounded-full active:bg-muted"
+        onPress={() => router.back()}
       >
-        <Icon as={ChevronLeft} size={24} />
-      </StablePressable>
+        <Icon as={ChevronLeft} size={28} />
+      </Pressable>
 
-      <StablePressable
-        className="flex flex-row items-center gap-3 flex-1 py-1 px-1 rounded-lg"
+      <Pressable
+        className="flex flex-row items-center gap-3 flex-1 py-1 px-1 rounded-lg active:bg-muted/50"
         onPress={() =>
           router.push({
             pathname: "/main/account/inspect-profile",
             params: { id },
           })
         }
-        onPressClassname="bg-muted/50"
       >
-        <View>{profilePicture}</View>
+        <View>
+          {profilePicture}
+          {isOnline && (
+            <View className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-card rounded-full" />
+          )}
+        </View>
         <View className="flex flex-col justify-center">
           <Text className="font-semibold text-[15px]" numberOfLines={1}>
             {identifier}
@@ -52,7 +62,7 @@ export const ChatHeaderLeft = ({
             {lastSeen}
           </Text>
         </View>
-      </StablePressable>
+      </Pressable>
     </View>
   );
 };
