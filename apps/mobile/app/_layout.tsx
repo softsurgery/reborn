@@ -59,7 +59,11 @@ function RootLayoutContent({ palette, colorScheme }: RootLayoutContentProps) {
       [NotificationType.JOB_REQUEST_APPROVED]: () => {},
       [NotificationType.JOB_REQUEST_REJECTED]: () => {},
       [NotificationType.NEW_JOB_REQUEST]: () => {},
-      [NotificationType.NEW_FOLLOWER]: () => {},
+      [NotificationType.NEW_FOLLOWER]: () => {
+        queryClient.invalidateQueries({ queryKey: ["followers"] });
+        queryClient.invalidateQueries({ queryKey: ["follow-data-count"] });
+        queryClient.invalidateQueries({ queryKey: ["social-data"] });
+      },
     },
   });
   const [ready, setReady] = React.useState(false);
