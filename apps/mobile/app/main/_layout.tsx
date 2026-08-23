@@ -93,13 +93,6 @@ export default function MainLayout() {
       />
       {/* Career *********************************************************************************************************************/}
       <Stack.Screen
-        name="account/career/experiences"
-        options={{
-          title: "Experiences",
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
         name="account/career/create-experience"
         options={{
           title: "Create Experience",
@@ -116,7 +109,14 @@ export default function MainLayout() {
       <Stack.Screen
         name="account/career/update-experience"
         options={{
-          title: "Edit Experiences",
+          title: "Edit Experience",
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="account/career/delete-experience"
+        options={{
+          title: "Delete Experience",
           headerShown: false,
         }}
       />
@@ -139,6 +139,28 @@ export default function MainLayout() {
         name="account/career/update-educations"
         options={{
           title: "Educations",
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="account/career/delete-education"
+        options={{
+          title: "Delete Education",
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
+        name="account/create-skill"
+        options={{
+          title: "Create Skill",
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="account/update-skills"
+        options={{
+          title: "Update Skills",
           headerShown: false,
         }}
       />
@@ -356,6 +378,22 @@ export default function MainLayout() {
         name="account/change-password"
         options={{
           title: "Change Password",
+          headerShown: false,
+          animation: "slide_from_right",
+        }}
+      />
+      <Stack.Screen
+        name="settings/verify-email"
+        options={{
+          title: "Verify Email",
+          headerShown: false,
+          animation: "slide_from_right",
+        }}
+      />
+      <Stack.Screen
+        name="balance"
+        options={{
+          title: "Balance",
           headerShown: false,
           animation: "slide_from_right",
         }}
