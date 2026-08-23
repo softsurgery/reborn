@@ -1,13 +1,16 @@
-import { api } from "@/api";
 import { ApplicationHeader } from "@/components/shared/AppHeader";
-import { Loader } from "@/components/shared/Loader";
-import { StableSafeAreaView } from "@/components/shared/StableSafeAreaView";
+import { Loader } from "@/components/shared/lotties/Loader";
+import { StableSafeAreaView } from "@/components/shared/stables/StableSafeAreaView";
+import { useJob } from "@/hooks/content/job/useJob";
 import { cn } from "@/lib/utils";
+import { View } from "react-native";
+import { JobSummary } from "./JobSummary";
+import { JobStatistics } from "./JobStatistics";
+import { useColorPalette } from "@/hooks/useColorPalette";
+import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
 import { createMaterialTopTabNavigator } from "expo-router/js-top-tabs";
-import { useQuery } from "@tanstack/react-query";
-import { router } from "expo-router";
-import { ChevronLeft } from "lucide-react-native";
-import { ScrollView } from "react-native";
+import { RequestsList } from "@/components/home/my-space/requests/RequestList";
+import { JobActions } from "./JobActions";
 
 interface JobManagementInstanceProps {
   id: string;
@@ -20,28 +23,26 @@ export const JobManagementInstance = ({
   id,
   className,
 }: JobManagementInstanceProps) => {
-  const { data: job, isPending: isJobPending } = useQuery({
-    queryKey: ["job", id],
-    queryFn: async () => api.job.findById(id),
-  });
+  const { palette } = useColorPalette();
+  const { job, isJobPending } = useJob({ id });
+
   if (isJobPending)
     return <Loader className="flex-1 justify-center items-center" />;
   return (
     <StableSafeAreaView className={cn("flex flex-1 bg-card", className)}>
       <ApplicationHeader
         classNames={{ wrapper: "border-b border-border pb-2" }}
-        title={`${job?.title.slice(0, 30)}...` || "Job Management"}
+        title={job?.title || "Job Management"}
         titleVariant="large"
         reverse
         shortcuts={[
           {
             key: "back",
-            icon: ChevronLeft,
-            onPress: () => router.back(),
+            render: <AppHeaderBack />,
           },
         ]}
       />
-      <ScrollView className="flex-1 bg-background">
+      <View className="flex-1 bg-background">
         <Tab.Navigator
           screenOptions={{
             tabBarScrollEnabled: false,
@@ -50,7 +51,7 @@ export const JobManagementInstance = ({
               fontWeight: "600",
               textTransform: "none",
             },
-            tabBarIndicatorStyle: { backgroundColor: "#9B2C2C" },
+            tabBarIndicatorStyle: { backgroundColor: palette.primary },
             tabBarStyle: { backgroundColor: "transparent" },
           }}
           commonOptions={{
@@ -65,7 +66,7 @@ export const JobManagementInstance = ({
               tabBarLabel: "Summary",
             }}
           >
-            {() => <></>}
+            {() => <JobSummary job={job} />}
           </Tab.Screen>
 
           <Tab.Screen
@@ -74,7 +75,21 @@ export const JobManagementInstance = ({
               tabBarLabel: "Statistics",
             }}
           >
-            {() => <></>}
+            {() => <JobStatistics />}
+          </Tab.Screen>
+          <Tab.Screen
+            name="requests"
+            options={{
+              tabBarLabel: "Requests",
+            }}
+          >
+            {() => (
+              <RequestsList
+                variant="incoming"
+                jobId={id}
+                className="pt-2 mx-4"
+              />
+            )}
           </Tab.Screen>
           <Tab.Screen
             name="gallery"
@@ -82,10 +97,10 @@ export const JobManagementInstance = ({
               tabBarLabel: "Actions",
             }}
           >
-            {() => <></>}
+            {() => <JobActions id={id} className="p-2" />}
           </Tab.Screen>
         </Tab.Navigator>
-      </ScrollView>
+      </View>
     </StableSafeAreaView>
   );
 };

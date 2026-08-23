@@ -8,8 +8,8 @@ export const THEME = {
   light: {
     background: "hsl(24 33.3333% 97.0588%)",
     foreground: "hsl(0 0% 10.1961%)",
-    card: "hsl(24 33.3333% 97.0588%)",
-    cardForeground: "hsl(0 0% 10.1961%)",
+    card: "hsl(192 15% 94%)",
+    cardForeground: "hsl(0 0% 20%)",
     popover: "hsl(24 33.3333% 97.0588%)",
     popoverForeground: "hsl(0 0% 10.1961%)",
     primary: "hsl(24.1237 100% 61.9608%)",
@@ -43,8 +43,8 @@ export const THEME = {
   dark: {
     background: "hsl(24 9.8039% 10%)",
     foreground: "hsl(60 4.7619% 95.8824%)",
-    card: "hsl(12 6.4935% 15.098%)",
-    cardForeground: "hsl(60 4.7619% 95.8824%)",
+    card: "hsl(0 0% 14.902%)",
+    cardForeground: "hsl(0 0% 89.8039%)",
     popover: "hsl(12 6.4935% 15.098%)",
     popoverForeground: "hsl(60 4.7619% 95.8824%)",
     primary: "hsl(24.1237 100% 61.9608%)",
@@ -102,11 +102,11 @@ export const NAV_THEME: Record<"light" | "dark", Theme> = {
 };
 
 export function hslToHex(hslString: string): string {
-  const match = hslString.match(/hsl\((\d+)\s+(\d+)%\s+(\d+)%\)/);
+  const match = hslString.match(/hsl\(([\d.]+)\s+([\d.]+)%\s+([\d.]+)%\)/);
   if (!match) return hslString; // Return as-is if not valid HSL
-  let h = parseInt(match[1], 10) / 360;
-  let s = parseInt(match[2], 10) / 100;
-  let l = parseInt(match[3], 10) / 100;
+  let h = parseFloat(match[1]) / 360;
+  let s = parseFloat(match[2]) / 100;
+  let l = parseFloat(match[3]) / 100;
   let r, g, b;
   if (s === 0) {
     r = g = b = l;

@@ -92,46 +92,76 @@ export default function MainLayout() {
           animation: "slide_from_right",
         }}
       />
+      {/* Career *********************************************************************************************************************/}
       <Stack.Screen
-        name="account/create-experience"
+        name="account/career/create-experience"
+        options={{
+          title: "Create Experience",
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="account/career/update-experiences"
         options={{
           title: "Experiences",
           headerShown: false,
         }}
       />
       <Stack.Screen
-        name="account/update-experiences"
+        name="account/career/update-experience"
         options={{
-          title: "Experiences",
+          title: "Edit Experience",
           headerShown: false,
         }}
       />
       <Stack.Screen
-        name="account/update-experience"
+        name="account/career/delete-experience"
         options={{
-          title: "Edit Experiences",
+          title: "Delete Experience",
           headerShown: false,
         }}
       />
 
       <Stack.Screen
-        name="account/create-education"
+        name="account/career/create-education"
         options={{
           title: "Create Education",
           headerShown: false,
         }}
       />
       <Stack.Screen
-        name="account/update-education"
+        name="account/career/update-education"
         options={{
           title: "Edit Education",
           headerShown: false,
         }}
       />
       <Stack.Screen
-        name="account/update-educations"
+        name="account/career/update-educations"
         options={{
           title: "Educations",
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="account/career/delete-education"
+        options={{
+          title: "Delete Education",
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
+        name="account/create-skill"
+        options={{
+          title: "Create Skill",
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="account/update-skills"
+        options={{
+          title: "Update Skills",
           headerShown: false,
         }}
       />
@@ -204,7 +234,15 @@ export default function MainLayout() {
         }}
       />
       <Stack.Screen
-        name="my-space/saved"
+        name="my-space/request-details"
+        options={{
+          title: "Request Details",
+          headerShown: false,
+          animation: "slide_from_right",
+        }}
+      />
+      <Stack.Screen
+        name="my-space/quick-actions/saved"
         options={{
           title: "saved",
           headerShown: false,
@@ -212,9 +250,17 @@ export default function MainLayout() {
         }}
       />
       <Stack.Screen
-        name="my-space/jobs"
+        name="my-space/quick-actions/jobs"
         options={{
           title: "My Jobs",
+          headerShown: false,
+          animation: "slide_from_right",
+        }}
+      />
+      <Stack.Screen
+        name="my-space/quick-actions/viewed"
+        options={{
+          title: "Viewed",
           headerShown: false,
           animation: "slide_from_right",
         }}
@@ -335,6 +381,14 @@ export default function MainLayout() {
         name="account/change-password"
         options={{
           title: "Change Password",
+          headerShown: false,
+          animation: "slide_from_right",
+        }}
+      />
+      <Stack.Screen
+        name="settings/verify-email"
+        options={{
+          title: "Verify Email",
           headerShown: false,
           animation: "slide_from_right",
         }}

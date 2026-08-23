@@ -15,17 +15,29 @@
             "profile-picture": "Profile Picture",
             "first-name": "First Name",
             "last-name": "Last Name",
+            "email": "E-mail",
+            "phone": "Phone",
             "date-of-birth": "Date of Birth",
             "bio": "Bio",
             "gender": "Gender",
+            "genderOptions": {
+              "Male": "Male",
+              "Female": "Female"
+            },
+            "region": "Region",
+            "private-profile": "Private Profile",
             "website": "Website",
             "linkedin": "LinkedIn",
             "placeholders": {
               "first-name": "Enter your first name",
               "last-name": "Enter your last name",
+              "email": "your.email@example.com",
+              "phone": "Enter your phone number",
               "date-of-birth": "Enter your date of birth",
-              "bio": "Tell us about yourself",
+              "bio": "Write a short bio...",
               "gender": "Select your gender",
+              "region": "Select your region",
+              "private-profile": "Do not show my profile to others",
               "website": "Enter your website URL",
               "linkedin": "Enter your LinkedIn profile URL"
             },
@@ -33,12 +45,36 @@
               "profile-picture": "Upload a profile picture to personalize your account.",
               "first-name": "Your first name as it appears on your profile.",
               "last-name": "Your last name as it appears on your profile.",
-              "date-of-birth": "let's celebrate your birthday!",
+              "email": "We'll use this email for important communication.",
+              "phone": "Enter a phone number so we can reach you if needed.",
+              "date-of-birth": "Let's celebrate your birthday!",
               "bio": "A short description about yourself that will be visible on your profile.",
               "gender": "Your gender is used for account recovery and notifications.",
+              "region": "Select the region where you are located.",
+              "private-profile": "Check to make your profile private",
               "website": "Your website URL is used for account recovery and notifications.",
               "linkedin": "Your LinkedIn profile URL is used for account recovery and notifications."
             }
+          },
+          "sections": {
+            "general": "General Information",
+            "additional": "Additional Information"
+          },
+          "validation": {
+            "firstNameRequired": "First name is required.",
+            "firstNameTooShort": "First name must be at least 3 characters long.",
+            "firstNameTooLong": "First name must be at most 50 characters long.",
+            "firstNameLettersOnly": "First name must contain only letters and spaces.",
+            "lastNameRequired": "Last name is required.",
+            "lastNameTooShort": "Last name must be at least 3 characters long.",
+            "lastNameTooLong": "Last name must be at most 50 characters long.",
+            "lastNameLettersOnly": "Last name must contain only letters and spaces.",
+            "emailRequired": "Email is required.",
+            "emailInvalid": "Email must be a valid email address.",
+            "ageMin18": "A user must be at least 18 years old.",
+            "phoneInvalid": "Phone number must be a valid international format.",
+            "bioTooLong": "Bio must be at most 255 characters long.",
+            "regionRequired": "Region is required."
           },
           "actions": {
             "update-profile": "Update Profile",
@@ -164,6 +200,15 @@
             "actions": {
               "submit-bug": "Submit Report",
               "submit-bug-pending": "Submitting..."
+            },
+            "validation": {
+              "variantRequired": "You must select a Bug Variant.",
+              "titleRequired": "Title is required.",
+              "titleTooShort": "Title must be at least 10 characters long.",
+              "titleTooLong": "Title must be at most 255 characters long.",
+              "descriptionRequired": "Description is required.",
+              "descriptionTooShort": "Description must be at least 10 characters long.",
+              "descriptionTooLong": "Description must be at most 1024 characters long."
             }
           }
         },
@@ -189,6 +234,13 @@
             "actions": {
               "submit-feedback": "Submit Feedback",
               "submit-feedback-pending": "Submitting..."
+            },
+            "validation": {
+              "categoryRequired": "You must select a Feedback Category.",
+              "messageRequired": "Message is required.",
+              "messageTooShort": "Message must be at least 10 characters long.",
+              "messageTooLong": "Message must be at most 1024 characters long.",
+              "ratingRequired": "Rating is required."
             }
           }
         },

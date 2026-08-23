@@ -1,20 +1,20 @@
-import React from "react";
-import { useColorScheme } from "nativewind";
+import React, { forwardRef } from "react";
 import ActionSheet, { ActionSheetRef } from "react-native-actions-sheet";
 import * as Haptics from "expo-haptics";
 import { Keyboard, Pressable, View } from "react-native";
 import { cn } from "@/lib/utils";
 import { Ellipsis, type LucideIcon } from "lucide-react-native";
 import { Icon } from "../ui/icon";
-import { THEME } from "@/lib/theme";
 import { Text } from "../ui/text";
 import { VariantProps } from "class-variance-authority";
 import { Button } from "@/components/ui/button";
+import { useColorPalette } from "@/hooks/useColorPalette";
 
 interface ThreeDotsActionSheetProps {
   icon?: LucideIcon;
   size?: number;
   disabled?: boolean;
+  renderTrigger?: boolean;
   options: {
     label: string;
     onPress: () => void;
@@ -24,15 +24,14 @@ interface ThreeDotsActionSheetProps {
   }[];
 }
 
-export const ThreeDotsActionSheet = ({
-  icon,
-  disabled,
-  size,
-  options,
-}: ThreeDotsActionSheetProps) => {
-  const { colorScheme } = useColorScheme();
-  const isDarkColorScheme = colorScheme === "dark";
+export const ThreeDotsActionSheet = forwardRef<
+  ActionSheetRef,
+  ThreeDotsActionSheetProps
+>(({ icon, disabled, size, options, renderTrigger = true }, ref) => {
+  const { palette } = useColorPalette();
   const sheetRef = React.useRef<ActionSheetRef>(null);
+
+  React.useImperativeHandle(ref, () => sheetRef.current as ActionSheetRef);
 
   const handleClose = () => {
     Keyboard.dismiss();
@@ -40,20 +39,22 @@ export const ThreeDotsActionSheet = ({
 
   return (
     <>
-      <Pressable
-        className={cn(
-          "flex justify-center rounded-full p-1 active:bg-card",
-          disabled && "opacity-50 pointer-events-none",
-        )}
-        onPress={() => {
-          if (!disabled) {
-            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-            sheetRef.current?.show();
-          }
-        }}
-      >
-        <Icon as={icon || Ellipsis} size={size || 24} color={"gray"} />
-      </Pressable>
+      {renderTrigger && (
+        <Pressable
+          className={cn(
+            "flex justify-center rounded-full p-1 active:bg-card",
+            disabled && "opacity-50 pointer-events-none",
+          )}
+          onPress={() => {
+            if (!disabled) {
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+              sheetRef.current?.show();
+            }
+          }}
+        >
+          <Icon as={icon || Ellipsis} size={size || 24} color={"gray"} />
+        </Pressable>
+      )}
       <ActionSheet
         ref={sheetRef}
         gestureEnabled
@@ -61,9 +62,7 @@ export const ThreeDotsActionSheet = ({
         defaultOverlayOpacity={0.45}
         onClose={handleClose}
         containerStyle={{
-          backgroundColor: isDarkColorScheme
-            ? THEME.dark.background
-            : THEME.light.background,
+          backgroundColor: palette.background,
           borderTopLeftRadius: 24,
           borderTopRightRadius: 24,
           paddingHorizontal: 16,
@@ -71,12 +70,11 @@ export const ThreeDotsActionSheet = ({
           paddingBottom: 32,
         }}
       >
-        <View className="flex flex-col gap-2.5">
+        <View className="flex flex-col gap-2 pt-2">
           {options.map((option) => (
-            <Button
+            <Pressable
               key={option.label}
               disabled={option.disabled}
-              variant={"link"}
               onPress={async () => {
                 if (option.disabled) return;
                 await Haptics.selectionAsync();
@@ -84,7 +82,7 @@ export const ThreeDotsActionSheet = ({
                 sheetRef.current?.hide();
               }}
               className={cn(
-                "flex flex-row items-center gap-2 rounded-2xl px-2",
+                "flex flex-row items-center gap-2 rounded-2xl h-12 active:opacity-50",
                 option.disabled && "opacity-50",
               )}
             >
@@ -121,10 +119,12 @@ export const ThreeDotsActionSheet = ({
                   {option.label}
                 </Text>
               </View>
-            </Button>
+            </Pressable>
           ))}
         </View>
       </ActionSheet>
     </>
   );
-};
+});
+
+ThreeDotsActionSheet.displayName = "ThreeDotsActionSheet";

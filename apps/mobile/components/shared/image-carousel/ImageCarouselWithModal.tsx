@@ -1,23 +1,17 @@
 import React from "react";
-import { View, Dimensions, Pressable } from "react-native";
+import { View, Dimensions } from "react-native";
 import Carousel, {
   ICarouselInstance,
   Pagination,
 } from "react-native-reanimated-carousel";
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withTiming,
-  Easing,
-} from "react-native-reanimated";
-import { Image } from "expo-image";
+import { useSharedValue } from "react-native-reanimated";
+import { Image, ImageSource } from "expo-image";
+import { LinearGradient } from "expo-linear-gradient";
 import { useColorScheme } from "nativewind";
 import { THEME } from "~/lib/theme";
 import { UseQueryResult } from "@tanstack/react-query";
 import { cn } from "~/lib/utils";
-import { Icon } from "../../ui/icon";
-import { Expand } from "lucide-react-native";
-import { Loader } from "../Loader";
+import { Loader } from "../lotties/Loader";
 import { PhotoPreview } from "../PhotoPreview";
 
 interface ImageCarouselProps {
@@ -27,10 +21,6 @@ interface ImageCarouselProps {
   autoPlay?: boolean;
   autoPlayInterval?: number;
   heightScale?: number;
-  extraActions?: {
-    icon: React.ReactNode;
-    onPress: () => void;
-  }[];
 }
 
 export const ImageCarousel = ({
@@ -39,8 +29,7 @@ export const ImageCarousel = ({
   className,
   autoPlay,
   autoPlayInterval = 3000,
-  heightScale = 0.4,
-  extraActions,
+  heightScale = 0.36,
 }: ImageCarouselProps) => {
   const [currentIndex, setCurrentIndex] = React.useState(0);
 
@@ -51,24 +40,7 @@ export const ImageCarousel = ({
   const screenWidth = Dimensions.get("window").width;
   const screenHeight = Dimensions.get("window").height;
 
-  const expandedHeight = screenHeight * heightScale;
-  const collapsedHeight = screenHeight * 0.15;
-
-  const animatedHeight = useSharedValue(expandedHeight);
-
-  const animatedStyle = useAnimatedStyle(() => ({
-    height: withTiming(animatedHeight.value, {
-      duration: 350,
-      easing: Easing.out(Easing.cubic),
-    }),
-  }));
-
-  const resize = () => {
-    animatedHeight.value =
-      animatedHeight.value === expandedHeight
-        ? collapsedHeight
-        : expandedHeight;
-  };
+  const carouselHeight = screenHeight * heightScale;
 
   const onPressPagination = (index: number) => {
     ref.current?.scrollTo({
@@ -77,48 +49,55 @@ export const ImageCarousel = ({
     });
   };
 
+  const previewSources = React.useMemo(() => {
+    return imageQueries
+      .map((q) => q.data)
+      .filter(
+        (data): data is string => typeof data === "string" && data.length > 0,
+      ) as ImageSource[];
+  }, [imageQueries]);
+
+  const handlePreviewIndexChange = (newIndex: number) => {
+    setCurrentIndex(newIndex);
+    ref.current?.scrollTo({
+      index: newIndex,
+      animated: false,
+    });
+  };
+
   return (
     <PhotoPreview
-      source={imageQueries.map((q) => q.data as string)}
+      sources={previewSources}
       index={currentIndex}
+      onIndexChange={handlePreviewIndexChange}
     >
       <View className={cn(className)}>
         <View className="relative w-full items-center overflow-hidden">
-          <Pressable className="absolute top-3 right-3 z-10 bg-black/50 p-2 rounded-full ">
-            <Icon
-              className="active:opacity-70"
-              as={Expand}
-              size={22}
-              color="white"
-              onPress={resize}
-            />
-          </Pressable>
+          {/* Top gradient overlay for high contrast header overlay */}
+          <LinearGradient
+            colors={["rgba(0,0,0,0.5)", "rgba(0,0,0,0.1)", "transparent"]}
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              height: 95,
+              zIndex: 5,
+            }}
+            pointerEvents="none"
+          />
 
-          <View className="absolute top-3 left-3 z-10 flex flex-row gap-2">
-            {extraActions?.map((action, index) => (
-              <Pressable
-                key={index}
-                className="bg-black/50 p-2 rounded-full"
-                onPress={action.onPress}
-              >
-                {action.icon}
-              </Pressable>
-            ))}
-          </View>
-
-          <Animated.View
-            style={[
-              {
-                width: screenWidth,
-                overflow: "hidden",
-              },
-              animatedStyle,
-            ]}
+          <View
+            style={{
+              width: screenWidth,
+              height: carouselHeight,
+              overflow: "hidden",
+            }}
           >
             <Carousel
               ref={ref}
               width={screenWidth}
-              height={expandedHeight}
+              height={carouselHeight}
               data={uploads}
               onProgressChange={progress}
               onSnapToItem={(index) => setCurrentIndex(index)}
@@ -144,7 +123,7 @@ export const ImageCarousel = ({
                 );
               }}
             />
-          </Animated.View>
+          </View>
 
           <View className="absolute bottom-3 z-10 flex-row items-center justify-center w-full">
             <Pagination.Basic

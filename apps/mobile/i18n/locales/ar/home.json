@@ -1,0 +1,59 @@
+{
+  "title": "الرئيسية",
+  "welcomeBack": "مرحباً بعودتك",
+  "welcomeSubtitle": "حافظ على زخمك اليوم مع الفرص والاستجابات الجديدة.",
+  "postJob": "نشر وظيفة",
+  "explore": "استكشف",
+  "stats": {
+    "myJobs": {
+      "title": "وظائفي",
+      "subtitle": "المنشورات النشطة"
+    },
+    "incoming": {
+      "title": "الواردة",
+      "subtitle": "الطلبات المستلمة"
+    },
+    "pending": {
+      "title": "قيد الانتظار",
+      "subtitle": "في انتظار الموافقة"
+    }
+  },
+  "quickActions": {
+    "title": "الإجراءات السريعة",
+    "soon": "قريباً",
+    "items": {
+      "myJobs": {
+        "title": "وظائفي",
+        "description": "معاينة الوظائف التي قمت بنشرها"
+      },
+      "requests": {
+        "title": "الطلبات",
+        "description": "إدارة الطلبات الواردة والصادرة"
+      },
+      "savedJobs": {
+        "title": "الوظائف المحفوظة",
+        "description": "متابعة الوظائف التي قمت بحفظها"
+      },
+      "reviews": {
+        "title": "التقييمات",
+        "description": "عرض تقييماتك وآرائك"
+      },
+      "viewed": {
+        "title": "المشاهدة مؤخراً",
+        "description": "إعادة زيارة الفرص المشاهدة مؤخراً"
+      }
+    }
+  },
+  "recentActivity": {
+    "title": "النشاط الحديث",
+    "viewAll": "عرض الكل",
+    "incomingRequest": "طلب وارد",
+    "outgoingRequest": "طلب صادر",
+    "empty": "لا يوجد نشاط طلبات حديث حتى الآن.",
+    "status": {
+      "pending": "قيد الانتظار",
+      "approved": "مقبول",
+      "rejected": "مرفوض"
+    }
+  }
+}

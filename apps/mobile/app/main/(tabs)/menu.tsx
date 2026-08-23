@@ -1,5 +1,5 @@
-import { MenuPortal } from "@/components/menu/MenuPortal";
+import { ProfilePortal } from "@/components/profile/ProfilePortal";
 
 export default function Screen() {
-  return <MenuPortal />;
+  return <ProfilePortal />;
 }

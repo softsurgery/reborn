@@ -8,20 +8,20 @@ import {
   RefreshControl,
   View,
 } from "react-native";
-import { Text } from "../ui/text";
 import { JobCardSkeleton } from "../jobs/JobCardSkeleton";
-import { JobFeedSkeleton } from "../jobs/JobFeedSkeleton";
 import { cn } from "~/lib/utils";
+import { InfiniteListFooter } from "@/components/shared/InfiniteListFooter";
 import { useInfiniteJobs } from "@/hooks/content/job/useInfiniteJobs";
-import { NotFound } from "../shared/NotFound";
+import { NotFound } from "../shared/lotties/NotFound";
 import { useColorPalette } from "@/hooks/useColorPalette";
-import { JOB_CARD_HEIGHT } from "../jobs/JobCard";
 
 interface ExploreFollowingProps {
   className?: string;
   search: string;
   searching: boolean;
   handleScroll: (e: NativeSyntheticEvent<NativeScrollEvent>) => void;
+  onPreviewJobChange?: (job: ResponseJobDto | null) => void;
+  isPreviewing?: boolean;
 }
 
 export const ExploreFollowing = ({
@@ -29,6 +29,8 @@ export const ExploreFollowing = ({
   search,
   searching,
   handleScroll,
+  onPreviewJobChange,
+  isPreviewing,
 }: ExploreFollowingProps) => {
   const { palette } = useColorPalette();
 
@@ -53,9 +55,9 @@ export const ExploreFollowing = ({
 
   const renderItem = React.useCallback(
     ({ item }: { item: ResponseJobDto }) => (
-      <JobCard job={item} className="my-2" />
+      <JobCard job={item} className="my-2" onLongPress={onPreviewJobChange} />
     ),
-    [],
+    [onPreviewJobChange],
   );
 
   return (
@@ -64,10 +66,9 @@ export const ExploreFollowing = ({
       data={jobs}
       renderItem={renderItem}
       keyExtractor={(item) => item.id}
-      // Without a size hint the list mispositions rows and they overlap.
-      estimatedItemSize={JOB_CARD_HEIGHT}
       showsVerticalScrollIndicator={false}
       maintainVisibleContentPosition
+      scrollEnabled={!isPreviewing}
       onScroll={handleScroll}
       refreshControl={
         <RefreshControl
@@ -84,7 +85,11 @@ export const ExploreFollowing = ({
       }}
       ListEmptyComponent={
         isPending ? (
-          <JobFeedSkeleton />
+          <View>
+            {Array.from({ length: 3 }).map((_, index) => (
+              <JobCardSkeleton key={index} className="my-2" />
+            ))}
+          </View>
         ) : (
           <NotFound
             className="flex-1 items-center justify-center pt-12"
@@ -93,17 +98,13 @@ export const ExploreFollowing = ({
         )
       }
       ListFooterComponent={
-        <View className="items-center">
-          {isFetchingNextPage ? (
-            <JobCardSkeleton />
-          ) : jobs.length > 0 && !hasNextPage ? (
-            <View className="flex-row items-center justify-center gap-2 py-8">
-              <Text className="text-sm text-muted-foreground">
-                You're all caught up
-              </Text>
-            </View>
-          ) : null}
-        </View>
+        <InfiniteListFooter
+          isPending={isFetchingNextPage}
+          hasNextPage={!!hasNextPage}
+          dataLength={jobs.length}
+          endMessage="You're all caught up"
+          loadingComponent={<JobCardSkeleton />}
+        />
       }
     />
   );

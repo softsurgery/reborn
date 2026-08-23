@@ -1,25 +1,26 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { create } from "zustand";
-import { persist, createJSONStorage } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 
 interface PreferencePersistData {
-  language: "en" | "fr" | "ar";
-  theme: "dark" | "light";
+  language: "en" | "fr" | "ar" | "system";
+  theme: "dark" | "light" | "system";
 }
 
 interface PreferencePersistStore extends PreferencePersistData {
   isReady: boolean;
-  setTheme: (theme: "dark" | "light") => void;
-  setLanguage: (language: "en" | "fr" | "ar") => void;
+  setTheme: (theme: "dark" | "light" | "system") => void;
+  setLanguage: (language: "en" | "fr" | "ar" | "system") => void;
   toggleTheme: () => void;
 }
 
 const preferencePersistStore: PreferencePersistData = {
-  language: "en",
-  theme: "light",
+  language: "system",
+  theme: "system",
 };
 
 let _set: (fn: Partial<PreferencePersistStore>) => void;
+
+const isClient = typeof window !== "undefined";
 
 export const usePreferencePersistStore = create<PreferencePersistStore>()(
   persist(
@@ -29,33 +30,27 @@ export const usePreferencePersistStore = create<PreferencePersistStore>()(
       return {
         ...preferencePersistStore,
         isReady: false,
-        setTheme: (theme) =>
-          set((state) => ({
-            ...state,
-            theme,
-          })),
-        setLanguage: (language) =>
-          set((state) => ({
-            ...state,
-            language,
-          })),
+
+        setTheme: (theme) => set({ theme }),
+        setLanguage: (language) => set({ language }),
         toggleTheme: () =>
           set((state) => ({
-            ...state,
             theme: state.theme === "light" ? "dark" : "light",
           })),
       };
     },
-
     {
       name: "preference-storage",
-      storage: createJSONStorage(() => AsyncStorage),
-
+      storage: createJSONStorage(() =>
+        isClient
+          ? require("@react-native-async-storage/async-storage").default
+          : undefined,
+      ),
       onRehydrateStorage: () => {
         return () => {
           _set({ isReady: true });
         };
       },
-    }
-  )
+    },
+  ),
 );

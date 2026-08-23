@@ -43,7 +43,7 @@ export const useInfiniteJobs = (
     isRefetching,
     isPending: isJobsPending,
   } = useInfiniteQuery({
-    queryKey: ["my-jobs", search, filter],
+    queryKey: ["jobs", search, filter, followings],
     initialPageParam: 1,
     queryFn: async ({ pageParam = 1 }) => {
       const query = {

@@ -1,4 +1,4 @@
-import { Success } from "@/components/shared/Success";
+import { Success } from "@/components/shared/lotties/Success";
 import { View } from "react-native";
 import { Button } from "../ui/button";
 import { Text } from "../ui/text";

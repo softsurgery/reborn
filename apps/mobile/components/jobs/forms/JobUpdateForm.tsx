@@ -13,11 +13,12 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CreateJobDto, ServerErrorResponse, UpdateJobDto } from "~/types";
 import { cn } from "~/lib/utils";
 import { router } from "expo-router";
-import { StableSafeAreaView } from "~/components/shared/StableSafeAreaView";
+import { StableSafeAreaView } from "@/components/shared/stables/StableSafeAreaView";
 import { ApplicationHeader } from "~/components/shared/AppHeader";
 import { ChevronLeft } from "lucide-react-native";
-import { Loader } from "@/components/shared/Loader";
+import { Loader } from "@/components/shared/lotties/Loader";
 import { useLiveGeolocation } from "@/hooks/useLiveGeolocation";
+import * as Location from "expo-location";
 import { toast } from "sonner-native";
 import {
   defineJobValidationSchemas,
@@ -92,6 +93,38 @@ export const JobUpdateForm = ({ className, id }: JobUpdateFormProps) => {
         style: job.style,
         tagIds: job.tags?.map((tag) => tag.id) || [],
       });
+      if (
+        job.latitude != null &&
+        job.longitude != null &&
+        (job.latitude !== 0 || job.longitude !== 0)
+      ) {
+        Location.reverseGeocodeAsync({
+          latitude: job.latitude,
+          longitude: job.longitude,
+        })
+          .then((results) => {
+            if (results && results.length > 0) {
+              const place = results[0];
+              const parts = [place.street, place.city, place.region, place.country]
+                .filter(Boolean)
+                .filter((part, index, self) => self.indexOf(part) === index);
+              if (parts.length > 0) {
+                jobStore.set("locationName", parts.join(", "));
+                return;
+              }
+            }
+            jobStore.set(
+              "locationName",
+              `${job.latitude.toFixed(4)}, ${job.longitude.toFixed(4)}`,
+            );
+          })
+          .catch(() => {
+            jobStore.set(
+              "locationName",
+              `${job.latitude?.toFixed?.(4) || job.latitude}, ${job.longitude?.toFixed?.(4) || job.longitude}`,
+            );
+          });
+      }
     }
   }, [job]);
 
@@ -145,11 +178,19 @@ export const JobUpdateForm = ({ className, id }: JobUpdateFormProps) => {
   });
 
   React.useEffect(() => {
-    // jobStore.setNested("createDto.currencyId", "TND");
-    jobStore.setNested("createDto.latitude", latitude);
-    jobStore.setNested("createDto.longitude", longitude);
-    jobStore.set("locationName", locationName);
-  }, [latitude, longitude, locationName]);
+    if (
+      latitude !== 0 &&
+      longitude !== 0 &&
+      (!jobStore.updateDto?.latitude || jobStore.updateDto.latitude === 0) &&
+      (!jobStore.updateDto?.longitude || jobStore.updateDto.longitude === 0) &&
+      (!job?.latitude || job.latitude === 0) &&
+      (!job?.longitude || job.longitude === 0)
+    ) {
+      jobStore.setNested("updateDto.latitude", latitude);
+      jobStore.setNested("updateDto.longitude", longitude);
+      jobStore.set("locationName", locationName);
+    }
+  }, [latitude, longitude, locationName, job]);
 
   const handleSubmit = () => {
     const uploads = jobStore.images
@@ -208,12 +249,7 @@ export const JobUpdateForm = ({ className, id }: JobUpdateFormProps) => {
               {
                 title: "Define the job",
                 description: "Start by providing the basic details of the job.",
-                component: (
-                  <FormBuilder
-                    structure={jobCreateFormStructure}
-                    className="py-2"
-                  />
-                ),
+                component: <FormBuilder structure={jobCreateFormStructure} />,
                 validation: () => {
                   const result = defineJobValidationSchemas.safeParse(
                     jobStore.updateDto,
@@ -232,12 +268,7 @@ export const JobUpdateForm = ({ className, id }: JobUpdateFormProps) => {
                 title: "Add Details",
                 description:
                   "Enrich the job listing with more specific information.",
-                component: (
-                  <FormBuilder
-                    structure={jobDetailsFormStructure}
-                    className="py-2"
-                  />
-                ),
+                component: <FormBuilder structure={jobDetailsFormStructure} />,
                 validation: () => {
                   const result = detailedJobValidationSchemas.safeParse(
                     jobStore.updateDto,
@@ -255,12 +286,7 @@ export const JobUpdateForm = ({ className, id }: JobUpdateFormProps) => {
               {
                 title: "Add Images",
                 description: "Upload images related to the job.",
-                component: (
-                  <FormBuilder
-                    structure={jobImagePickerStructure}
-                    className="py-2"
-                  />
-                ),
+                component: <FormBuilder structure={jobImagePickerStructure} />,
                 validation: true,
               },
             ]}

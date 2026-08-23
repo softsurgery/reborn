@@ -1,0 +1,14 @@
+{
+  "overview": "نظرة عامة",
+  "transactions": "المعاملات",
+  "real_money": "نقود حقيقية",
+  "points": "نقاط",
+  "add_funds": "إضافة أموال",
+  "payment_methods": "طرق الدفع",
+  "visa_ending": "بطاقة فيزا تنتهي بـ 4242",
+  "expires": "تنتهي في 12/28",
+  "primary": "أساسي",
+  "add_new_method": "إضافة طريقة جديدة",
+  "transaction_history": "تاريخ المعاملات",
+  "no_transactions": "لم يتم العثور على معاملات."
+}

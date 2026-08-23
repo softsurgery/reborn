@@ -4,7 +4,7 @@ import { MoonStar, Sun } from "lucide-react-native";
 import { useColorScheme } from "nativewind";
 import React from "react";
 import { Platform, View } from "react-native";
-import { StablePressable } from "./StablePressable";
+import { StablePressable } from "./stables/StablePressable";
 import { Icon } from "../ui/icon";
 import { usePreferencePersistStore } from "@/hooks/stores/usePreferencePersistStore";
 

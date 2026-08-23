@@ -6,7 +6,7 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "~/components/shared/StableAvatar";
+} from "@/components/shared/stables/StableAvatar";
 import { Skeleton } from "~/components/ui/skeleton";
 import { Text } from "~/components/ui/text";
 import { cn } from "~/lib/utils";

@@ -4,8 +4,8 @@ import { ChevronLeft } from "lucide-react-native";
 import React from "react";
 import { View } from "react-native";
 import { ApplicationHeader } from "../shared/AppHeader";
-import { StableSafeAreaView } from "../shared/StableSafeAreaView";
-import { StableScrollView } from "../shared/StableScrollView";
+import { StableSafeAreaView } from "../shared/stables/StableSafeAreaView";
+import StableScrollView from "../shared/stables/StableScrollView";
 import { Badge } from "../ui/badge";
 import {
   Card,

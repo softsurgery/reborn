@@ -2,12 +2,13 @@ import React from "react";
 import { View } from "react-native";
 import { Button } from "../ui/button";
 import { Text } from "../ui/text";
-import { StableKeyboardAwareScrollView } from "./StableKeyboardAwareScrollView";
+import { StableKeyboardAwareScrollView } from "./stables/StableKeyboardAwareScrollView";
 import { useKeyboardVisible } from "~/hooks/useKeyboardVisible";
 import { cn } from "~/lib/utils";
 import { Icon } from "../ui/icon";
-import { ChevronLeft, ArrowRight } from "lucide-react-native";
+import { ChevronLeft, ChevronRight } from "lucide-react-native";
 import { type VariantProps } from "class-variance-authority";
+import { useTranslation } from "react-i18next";
 
 interface StepperProps {
   classNames?: {
@@ -32,6 +33,10 @@ interface StepperProps {
     disabled?: boolean;
   }[];
   pending?: boolean;
+  placeholders?: {
+    nextLabel: string;
+    previousLabel: string;
+  };
 }
 
 export const Stepper = ({
@@ -42,7 +47,9 @@ export const Stepper = ({
   backwordAdditionalActions = {},
   closingActions = [],
   pending = false,
+  placeholders,
 }: StepperProps) => {
+  const { t } = useTranslation("common");
   const isKeyboardVisible = useKeyboardVisible();
   const [currentStep, setCurrentStep] = React.useState(initialStep);
 
@@ -54,6 +61,14 @@ export const Stepper = ({
     },
     [steps],
   );
+
+  // Function validators may call setState (e.g. form error stores). Never
+  // invoke them during render — only booleans are safe for the disabled flag.
+  const isCurrentStepReady = React.useMemo(() => {
+    const validation = steps[currentStep]?.validation;
+    if (typeof validation === "function") return true;
+    return validation !== false;
+  }, [steps, currentStep]);
 
   const nextStep = () => {
     const isValid = runValidation(currentStep);
@@ -124,20 +139,23 @@ export const Stepper = ({
             )}
           >
             <Icon as={ChevronLeft} size={20} />
-            <Text className="font-semibold">Previous</Text>
+            <Text className="font-semibold">
+              {placeholders?.previousLabel || t("actions.previous")}
+            </Text>
           </Button>
 
           {/* Next / Finish */}
 
           {isLastStep && closingActions.length > 0 ? (
             <View className="flex-row gap-2">
-              {closingActions.map((closingAction) => (
+              {closingActions.map((closingAction, index) => (
                 <Button
-                  key={closingAction.id}
-                  size="sm"
+                  key={closingAction.id ?? `closing-action-${index}`}
                   variant={closingAction.variant}
                   onPress={closingAction.onPress}
-                  disabled={closingAction.disabled || pending}
+                  disabled={
+                    closingAction.disabled || pending || !isCurrentStepReady
+                  }
                   className={cn(
                     "px-4 py-2 rounded-xl",
                     closingAction.className,
@@ -149,13 +167,14 @@ export const Stepper = ({
             </View>
           ) : (
             <Button
-              size="sm"
               onPress={nextStep}
               className={cn("px-4 py-2 rounded-xl")}
-              disabled={pending}
+              disabled={pending || !isCurrentStepReady}
             >
-              <Text className="font-semibold">Next</Text>
-              <Icon as={ArrowRight} size={20} />
+              <Text className="font-semibold">
+                {placeholders?.nextLabel || t("actions.next")}
+              </Text>
+              <Icon as={ChevronRight} size={20} />
             </Button>
           )}
         </View>

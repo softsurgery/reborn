@@ -3,8 +3,9 @@ import { router } from "expo-router";
 import { useQuery } from "@tanstack/react-query";
 import { Bell, Clock3, Compass, Plus } from "lucide-react-native";
 import { RefreshControl, ScrollView, View } from "react-native";
+import { useTranslation } from "react-i18next";
 import { api } from "~/api";
-import { StableSafeAreaView } from "~/components/shared/StableSafeAreaView";
+import { StableSafeAreaView } from "@/components/shared/stables/StableSafeAreaView";
 import { ApplicationHeader } from "~/components/shared/AppHeader";
 import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/icon";
@@ -20,14 +21,19 @@ import { QuickActions } from "./QuickActions";
 import Animated from "react-native-reanimated";
 import { StatCard } from "./StatCard";
 import { useScrollableElement } from "~/hooks/useScrollableElement";
+import { useColorPalette } from "@/hooks/useColorPalette";
+import { useRTL } from "~/hooks/useRTL";
 
 interface HomeProps {
   className?: string;
 }
 
 export const Home = ({ className }: HomeProps) => {
+  const { palette } = useColorPalette();
   const { currentUser, isCurrentUserPending } = useCurrentUser();
-  const { newCount, resetCount } = useNotificationContext();
+  const { count } = useNotificationContext();
+  const isRTL = useRTL();
+  const { t } = useTranslation("home");
 
   const {
     data: jobsResp,
@@ -120,10 +126,12 @@ export const Home = ({ className }: HomeProps) => {
     return "bg-secondary text-secondary-foreground";
   };
 
-  const { animatedHeaderStyle, handleScroll } = useScrollableElement({
-    duration: 250,
-    deltaThreshold: 40,
-  });
+  const { animatedHeaderStyle, contentAnimatedStyle, handleScroll } =
+    useScrollableElement({
+      duration: 250,
+      deltaThreshold: 40,
+      checkScrollable: true,
+    });
 
   const isRefreshing = isJobsPending || isIncomingPending || isOutgoingPending;
 
@@ -134,29 +142,28 @@ export const Home = ({ className }: HomeProps) => {
   };
 
   return (
-    <StableSafeAreaView className={cn("flex-1 mx-2", className)}>
+    <StableSafeAreaView className={cn("flex-1", className)}>
       <Animated.View style={animatedHeaderStyle}>
         <ApplicationHeader
-          title="Home"
+          title={t("title")}
           shortcuts={[
             {
               key: "notifications",
               icon: Bell,
               onPress: () => {
                 router.push("/main/notifications");
-                resetCount();
               },
-              badgeText: newCount > 0 ? `${newCount}` : undefined,
+              badgeText: count > 0 ? `${count}` : undefined,
             },
           ]}
         />
       </Animated.View>
-      <View
-        className="flex flex-row flex-1 border-b border-border"
-        style={{ minHeight: 500 }}
+      <Animated.View
+        className="flex flex-row flex-1 border-border px-4"
+        style={contentAnimatedStyle}
       >
         <ScrollView
-          className="flex-1 px-2 "
+          className="flex-1"
           onScroll={handleScroll}
           scrollEventThrottle={16}
           showsVerticalScrollIndicator={false}
@@ -168,74 +175,94 @@ export const Home = ({ className }: HomeProps) => {
           }
         >
           <View className="rounded-2xl border border-border bg-card p-4 mt-3">
-            <Text className="text-sm text-muted-foreground">Welcome back</Text>
+            <Text className="text-sm text-muted-foreground">
+              {t("welcomeBack")}
+            </Text>
 
             <Text className="text-2xl font-semibold">
               {isCurrentUserPending ? "-" : identifyUser(currentUser)}
             </Text>
 
             <Text className="text-sm text-muted-foreground mt-2">
-              Keep your momentum today with new opportunities and responses.
+              {t("welcomeSubtitle")}
             </Text>
 
-            <View className="flex-row gap-2 mt-4">
+            <View
+              className={cn("flex-row gap-2 mt-4", isRTL && "flex-row-reverse")}
+            >
               <Button
-                className="flex-1"
+                className={cn("flex-1", isRTL && "flex-row-reverse")}
                 size="sm"
                 onPress={() => router.push("/main/my-space/new-job")}
               >
-                <Icon as={Plus} size={16} className="text-primary-foreground" />
-                <Text>Post Job</Text>
+                <Icon as={Plus} size={20} color={palette.primaryForeground} />
+                <Text>{t("postJob")}</Text>
               </Button>
               <Button
-                className="flex-1"
+                className={cn("flex-1", isRTL && "flex-row-reverse")}
                 size="sm"
                 variant="outline"
                 onPress={() => router.push("/main/explore/job-search")}
               >
-                <Icon as={Compass} size={16} className="text-foreground" />
-                <Text>Explore</Text>
+                <Icon as={Compass} size={20} color={palette.foreground} />
+                <Text>{t("explore")}</Text>
               </Button>
             </View>
           </View>
 
-          <View className="flex-row gap-2 mt-3">
+          <View
+            className={cn("flex-row gap-2 mt-3", isRTL && "flex-row-reverse")}
+          >
             <StatCard
-              title="My Jobs"
+              className="p-3"
+              title={t("stats.myJobs.title")}
               value={myJobsCount}
-              subtitle="Active posts"
+              subtitle={t("stats.myJobs.subtitle")}
               loading={isJobsPending}
             />
             <StatCard
-              title="Incoming"
+              className="p-3"
+              title={t("stats.incoming.title")}
               value={incomingCount}
-              subtitle="Requests received"
+              subtitle={t("stats.incoming.subtitle")}
               loading={isIncomingPending}
             />
             <StatCard
-              title="Pending"
+              className="p-3"
+              title={t("stats.pending.title")}
               value={outgoingPendingCount}
-              subtitle="Awaiting approval"
+              subtitle={t("stats.pending.subtitle")}
               loading={isOutgoingPending}
             />
           </View>
 
           <View className="rounded-2xl border border-border bg-card p-4 mt-3">
             <View>
-              <Text className="text-lg font-semibold">Quick actions</Text>
+              <Text className="text-lg font-semibold">
+                {t("quickActions.title")}
+              </Text>
             </View>
             <QuickActions />
           </View>
 
           <View className="rounded-2xl border border-border bg-card p-4 mt-3 mb-6">
-            <View className="flex-row items-center justify-between">
-              <Text className="text-lg font-semibold">Recent activity</Text>
+            <View
+              className={cn(
+                "flex-row items-center justify-between",
+                isRTL && "flex-row-reverse",
+              )}
+            >
+              <Text className="text-lg font-semibold">
+                {t("recentActivity.title")}
+              </Text>
               <Button
                 variant="ghost"
                 size="sm"
                 onPress={() => router.push("/main/my-space/requests")}
               >
-                <Text className="text-muted-foreground">View all</Text>
+                <Text className="text-muted-foreground">
+                  {t("recentActivity.viewAll")}
+                </Text>
               </Button>
             </View>
 
@@ -250,7 +277,12 @@ export const Home = ({ className }: HomeProps) => {
                 recentActivity.map((item, index) => (
                   <React.Fragment key={item.id}>
                     <View className="py-3">
-                      <View className="flex-row items-center justify-between gap-2">
+                      <View
+                        className={cn(
+                          "flex-row items-center justify-between gap-2",
+                          isRTL && "flex-row-reverse",
+                        )}
+                      >
                         <Text className="font-medium flex-1">{item.title}</Text>
                         <View
                           className={cn(
@@ -259,18 +291,28 @@ export const Home = ({ className }: HomeProps) => {
                           )}
                         >
                           <Text className="text-xs font-medium capitalize">
-                            {item.status}
+                            {t(
+                              `recentActivity.status.${item.status.toLowerCase()}`,
+                              item.status,
+                            )}
                           </Text>
                         </View>
                       </View>
-                      <View className="flex-row items-center gap-1 mt-1">
+                      <View
+                        className={cn(
+                          "flex-row items-center gap-1 mt-1",
+                          isRTL && "flex-row-reverse",
+                        )}
+                      >
                         <Icon
                           as={Clock3}
                           size={12}
                           className="text-muted-foreground"
                         />
                         <Text className="text-xs text-muted-foreground">
-                          {item.type} request
+                          {item.type === "Incoming"
+                            ? t("recentActivity.incomingRequest")
+                            : t("recentActivity.outgoingRequest")}
                         </Text>
                       </View>
                     </View>
@@ -280,14 +322,14 @@ export const Home = ({ className }: HomeProps) => {
               ) : (
                 <View className="items-center py-6">
                   <Text className="text-sm text-muted-foreground">
-                    No recent request activity yet.
+                    {t("recentActivity.empty")}
                   </Text>
                 </View>
               )}
             </View>
           </View>
         </ScrollView>
-      </View>
+      </Animated.View>
     </StableSafeAreaView>
   );
 };

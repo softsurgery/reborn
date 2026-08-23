@@ -4,24 +4,24 @@ import { LocationTypes, WorkTypes } from "../user-management";
 const baseExperienceSchema = z.object({
   title: z
     .string({
-      message: "Title is required.",
+      error: "experience.validation.titleRequired",
     })
     .min(1, {
-      message: "Title cannot be empty.",
+      message: "experience.validation.titleEmpty",
     })
-    .max(50, {
-      message: "Title cannot exceed 50 characters.",
+    .max(255, {
+      message: "experience.validation.titleTooLong",
     }),
 
   company: z
     .string({
-      message: "Company name is required.",
+      error: "experience.validation.companyRequired",
     })
     .min(1, {
-      message: "Company name cannot be empty.",
+      message: "experience.validation.companyEmpty",
     })
     .max(50, {
-      message: "Company name cannot exceed 50 characters.",
+      message: "experience.validation.companyTooLong",
     }),
 
   startDate: z
@@ -29,7 +29,7 @@ const baseExperienceSchema = z.object({
       (value) =>
         value === null || value === "" ? null : new Date(value as string),
       z.date({
-        message: "Start date is required.",
+        message: "experience.validation.startDateRequired",
       }),
     )
     .refine(
@@ -38,22 +38,25 @@ const baseExperienceSchema = z.object({
         return date <= new Date();
       },
       {
-        message: "Start date cannot be in the future.",
+        message: "experience.validation.startDateInFuture",
       },
     ),
+
   location: z
     .string()
     .max(50, {
-      message: "Location cannot exceed 50 characters.",
+      message: "experience.validation.locationTooLong",
     })
     .optional(),
 
   workType: z.nativeEnum(WorkTypes, {
-    error: "You must select a valid work type",
+    error: "experience.validation.invalidWorkType",
   }),
+
   locationType: z.nativeEnum(LocationTypes, {
-    error: "You must select a valid location type",
+    error: "experience.validation.invalidLocationType",
   }),
+
   endDate: z
     .preprocess(
       (value) =>
@@ -65,56 +68,34 @@ const baseExperienceSchema = z.object({
   description: z.string().optional(),
 });
 
-const createExperienceSchema = baseExperienceSchema
-  .refine(
-    (data) => {
-      if (data.endDate) {
-        return data.endDate > data.startDate;
-      }
-      return true;
-    },
-    {
-      message: "End date must be after the start date.",
-      path: ["endDate"],
-    },
-  )
-  .refine(
-    (data) => {
-      if (data.endDate) {
-        return data.endDate <= new Date();
-      }
-      return true;
-    },
-    {
-      message: "End date cannot be in the future.",
-      path: ["endDate"],
-    },
-  );
+const dateRefinements = (schema: typeof baseExperienceSchema) =>
+  schema
+    .refine(
+      (data) => {
+        if (data.endDate && data.startDate) {
+          return data.endDate > data.startDate;
+        }
+        return true;
+      },
+      {
+        message: "experience.validation.endDateBeforeStart",
+        path: ["endDate"],
+      },
+    )
+    .refine(
+      (data) => {
+        if (data.endDate) {
+          return data.endDate <= new Date();
+        }
+        return true;
+      },
+      {
+        message: "experience.validation.endDateInFuture",
+        path: ["endDate"],
+      },
+    );
 
-const updateExperienceSchema = baseExperienceSchema
-  .refine(
-    (data) => {
-      if (data.endDate) {
-        return data.endDate > data.startDate;
-      }
-      return true;
-    },
-    {
-      message: "End date must be after the start date.",
-      path: ["endDate"],
-    },
-  )
-  .refine(
-    (data) => {
-      if (data.endDate) {
-        return data.endDate <= new Date();
-      }
-      return true;
-    },
-    {
-      message: "End date cannot be in the future.",
-      path: ["endDate"],
-    },
-  );
+const createExperienceSchema = dateRefinements(baseExperienceSchema);
+const updateExperienceSchema = dateRefinements(baseExperienceSchema);
 
 export { baseExperienceSchema, createExperienceSchema, updateExperienceSchema };

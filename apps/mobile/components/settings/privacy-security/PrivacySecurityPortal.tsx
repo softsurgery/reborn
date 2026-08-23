@@ -1,26 +1,18 @@
 import React from "react";
 import { View } from "react-native";
 import { router } from "expo-router";
-import {
-  ChevronRight,
-  Download,
-  Eye,
-  Lock,
-  Mail,
-  Smartphone,
-} from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import { cn } from "~/lib/utils";
 import { ApplicationHeader } from "~/components/shared/AppHeader";
-import { StableSafeAreaView } from "~/components/shared/StableSafeAreaView";
-import { SettingRow, createSettingRow } from "../SettingsRow";
-import type { SettingRowConfig } from "../SettingsRow";
+import { StableSafeAreaView } from "@/components/shared/stables/StableSafeAreaView";
+import { SettingRow, SettingRowProps } from "../SettingsRow";
 import { Text } from "~/components/ui/text";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 
 import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
-import { StableScrollView } from "@/components/shared/StableScrollView";
+import StableScrollView from "@/components/shared/stables/StableScrollView";
+
 interface PrivacySecurityPortalProps {
   className?: string;
 }
@@ -29,7 +21,7 @@ interface SettingsSection {
   key: string;
   title: string;
   description: string;
-  rows: SettingRowConfig[];
+  rows: SettingRowProps[];
 }
 
 export const PrivacySecurityPortal = ({
@@ -48,38 +40,33 @@ export const PrivacySecurityPortal = ({
         "settings.account.screens.privacy-security.screens.account-security.description",
       ),
       rows: [
-        createSettingRow({
+        {
           title: t(
             "settings.account.screens.privacy-security.screens.account-security.change-email.title",
           ),
           description: t(
             "settings.account.screens.privacy-security.screens.account-security.change-email.description",
           ),
-          leftIcon: Mail,
-          rightIcon: ChevronRight,
           className: "p-1 px-4",
           onPress: () => router.push("/main/account/change-email"),
-        }),
-        createSettingRow({
+        },
+        {
           title: t(
             "settings.account.screens.privacy-security.screens.account-security.change-password.title",
           ),
           description: t(
             "settings.account.screens.privacy-security.screens.account-security.change-password.description",
           ),
-          leftIcon: Lock,
-          rightIcon: ChevronRight,
           className: "p-1 px-4",
           onPress: () => router.push("/main/account/change-password"),
-        }),
-        createSettingRow({
+        },
+        {
           title: t(
             "settings.account.screens.privacy-security.screens.account-security.two-factor-authentication.title",
           ),
           description: t(
             "settings.account.screens.privacy-security.screens.account-security.two-factor-authentication.description",
           ),
-          leftIcon: Smartphone,
           className: "p-1 px-4",
           rightComponent: (
             <Badge variant="outline">
@@ -88,7 +75,7 @@ export const PrivacySecurityPortal = ({
               </Text>
             </Badge>
           ),
-        }),
+        },
       ],
     },
     {
@@ -100,14 +87,13 @@ export const PrivacySecurityPortal = ({
         "settings.account.screens.privacy-security.screens.privacy.description",
       ),
       rows: [
-        createSettingRow({
+        {
           title: t(
             "settings.account.screens.privacy-security.screens.privacy.data-visibility.title",
           ),
           description: t(
             "settings.account.screens.privacy-security.screens.privacy.data-visibility.description",
           ),
-          leftIcon: Eye,
           className: "p-1 px-4",
           rightComponent: (
             <Badge variant="outline">
@@ -116,15 +102,14 @@ export const PrivacySecurityPortal = ({
               </Text>
             </Badge>
           ),
-        }),
-        createSettingRow({
+        },
+        {
           title: t(
             "settings.account.screens.privacy-security.screens.privacy.download-data.title",
           ),
           description: t(
             "settings.account.screens.privacy-security.screens.privacy.download-data.description",
           ),
-          leftIcon: Download,
           className: "p-1 px-4",
           rightComponent: (
             <Badge variant="outline">
@@ -133,7 +118,7 @@ export const PrivacySecurityPortal = ({
               </Text>
             </Badge>
           ),
-        }),
+        },
       ],
     },
   ];

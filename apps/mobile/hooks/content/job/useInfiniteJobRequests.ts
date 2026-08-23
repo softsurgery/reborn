@@ -1,16 +1,31 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import React from "react";
-import { api } from "~/api";
+import { api } from "@/api";
 
-interface useRequestSystemProps {
-  search: string;
+const DEFAULT_JOINS = [
+  "job",
+  "job.postedBy",
+  "job.uploads",
+  "job.currency",
+  "job.category",
+  "user",
+];
+
+interface UseInfiniteJobRequestsProps {
+  search?: string;
+  join?: string[];
   variant: "incoming" | "outgoing";
+  statusFilter?: string;
+  jobId?: string;
 }
 
-export const useRequestSystem = ({
-  search,
+export const useInfiniteJobRequests = ({
+  search = "",
+  join = DEFAULT_JOINS,
   variant,
-}: useRequestSystemProps) => {
+  statusFilter,
+  jobId,
+}: UseInfiniteJobRequestsProps) => {
   const {
     data,
     fetchNextPage,
@@ -20,21 +35,32 @@ export const useRequestSystem = ({
     isRefetching,
     isPending: isRequestsPending,
   } = useInfiniteQuery({
-    queryKey: ["requests", search, variant],
+    queryKey: ["requests", search, variant, statusFilter, jobId],
     initialPageParam: 1,
     queryFn: ({ pageParam = 1 }) => {
-      const queryParams = {
+      const queryParams: Record<string, string | string[]> = {
         page: String(pageParam),
         limit: "20",
         sort: "createdAt,desc",
-        join: "job.postedBy,job.uploads",
+        join: join.join(","),
       };
+
+      if (search) queryParams.search = search;
+      
+      const filters: string[] = [];
+      if (statusFilter) filters.push(`status||$eq||${statusFilter}`);
+      if (jobId) filters.push(`job.id||$eq||${jobId}`);
+      
+      if (filters.length > 0) {
+        queryParams.filter = filters;
+      }
+
       return variant === "incoming"
-        ? api.jobRequest.findPaginatedIncoming(queryParams)
-        : api.jobRequest.findPaginatedOngoing(queryParams);
+        ? api.jobRequest.findPaginatedIncoming(queryParams as any)
+        : api.jobRequest.findPaginatedOngoing(queryParams as any);
     },
     getNextPageParam: (lastPage) =>
-      lastPage.meta.hasNextPage ? lastPage.meta.page + 1 : undefined,
+      lastPage?.meta?.hasNextPage ? lastPage.meta.page + 1 : undefined,
   });
 
   const requests = React.useMemo(() => {

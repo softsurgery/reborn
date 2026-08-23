@@ -1,4 +1,5 @@
-import { create } from "zustand";
+import { createStore, useStore } from "zustand";
+import React, { createContext, useContext, useRef } from "react";
 import { setDeepValue } from "~/lib/object.lib";
 import {
   CreateEducationDto,
@@ -41,6 +42,7 @@ interface UserData {
   followings: ResponseFollowDto[];
 
   picture?: string;
+  hasInitializedPicture: boolean;
   progress: number;
   errors: Record<string, string[]>;
   experienceErrors: Record<string, string[]>;
@@ -110,59 +112,15 @@ const initialState: UserData = {
     regionId: undefined,
   },
   picture: undefined,
+  hasInitializedPicture: false,
   progress: 0,
   errors: {},
   experienceErrors: {},
   educationErrors: {},
 };
 
-export const useUserStore = create<UserStore>((set, get) => ({
-  ...initialState,
-  set: (name, value) => {
-    set((state) => ({
-      ...state,
-      [name]: value,
-    }));
-  },
-  setNested: (path: string, value: unknown) => {
-    if (!path.includes(".")) {
-      // No nesting — set directly
-      set((state) => ({
-        ...state,
-        [path]: value,
-      }));
-      return;
-    }
-
-    // Nested path case
-    const [rootKey, ...restPath] = path.split(".");
-    const nestedPath = restPath.join(".");
-
-    set((state) => {
-      const rootValue = state[rootKey as keyof UserData];
-      if (typeof rootValue !== "object" || rootValue === null) {
-        throw new Error(`Cannot set nested path on non-object: ${rootKey}`);
-      }
-
-      const updatedRoot = setDeepValue(
-        { ...(rootValue as object) },
-        nestedPath,
-        value,
-      );
-
-      return {
-        ...state,
-        [rootKey]: updatedRoot,
-      };
-    });
-  },
-  reset: () => {
-    set({ ...initialState });
-  },
-}));
-
 export const createUserStore = () =>
-  create<UserStore>((set) => ({
+  createStore<UserStore>((set) => ({
     ...initialState,
     set: (name, value) =>
       set((state) => ({
@@ -202,3 +160,32 @@ export const createUserStore = () =>
       set({ ...initialState });
     },
   }));
+
+export const globalUserStore = createUserStore();
+
+export const UserStoreContext = createContext<ReturnType<
+  typeof createUserStore
+> | null>(null);
+
+export const UserStoreProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
+  const storeRef = useRef<ReturnType<typeof createUserStore> | null>(null);
+  if (!storeRef.current) {
+    storeRef.current = createUserStore();
+  }
+  return React.createElement(
+    UserStoreContext.Provider,
+    { value: storeRef.current },
+    children,
+  );
+};
+
+export function useUserStore(): UserStore;
+export function useUserStore<T>(selector: (state: UserStore) => T): T;
+export function useUserStore<T>(selector?: (state: UserStore) => T) {
+  const store = useContext(UserStoreContext) || globalUserStore;
+  return useStore(store, selector as any);
+}

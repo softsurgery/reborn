@@ -1,8 +1,7 @@
 import { LucideIcon } from "lucide-react-native";
-import { View } from "react-native";
+import { Pressable, View } from "react-native";
 import { useRTL } from "~/hooks/useRTL";
 import { cn } from "~/lib/utils";
-import { StablePressable } from "../shared/StablePressable";
 import { Icon } from "../ui/icon";
 import { IconBadge } from "../ui/icon-badge";
 import { Text, TextVariantDefaults } from "../ui/text";
@@ -48,14 +47,23 @@ export const ApplicationHeader = ({
 
     if (typeof title === "string") {
       return (
-        <Text variant={titleVariant} className={cn("mx-2", classNames?.title)}>
+        <Text
+          variant={titleVariant}
+          className={cn(
+            "mx-2 flex-1 self-center",
+            isRTL || reverse ? "text-right" : "text-left",
+            classNames?.title,
+          )}
+          numberOfLines={1}
+        >
           {title}
         </Text>
       );
     }
 
-    return <View className="mx-2">{title}</View>;
+    return <View className="mx-2 flex-1 justify-center">{title}</View>;
   };
+
   return (
     <View
       className={cn(
@@ -66,7 +74,10 @@ export const ApplicationHeader = ({
     >
       {renderTitle()}
       <View
-        className={cn("flex gap-2", reverse ? "flex-row-reverse" : "flex-row")}
+        className={cn(
+          "flex flex-row items-center gap-2",
+          reverse ? "flex-row-reverse" : "flex-row",
+        )}
       >
         {shortcuts?.map((shortcut) => {
           if (
@@ -75,9 +86,12 @@ export const ApplicationHeader = ({
             "icon" in shortcut
           ) {
             return (
-              <StablePressable
+              <Pressable
                 key={shortcut.key}
-                className={cn("p-1", shortcut.hidden && "hidden")}
+                className={cn(
+                  "p-1 rounded-full active:opacity-50",
+                  shortcut.hidden && "hidden",
+                )}
                 onPress={shortcut.onPress}
               >
                 {shortcut.badgeText ? (
@@ -94,7 +108,7 @@ export const ApplicationHeader = ({
                     color={shortcut.color || color}
                   />
                 )}
-              </StablePressable>
+              </Pressable>
             );
           } else {
             if (!shortcut.hidden)

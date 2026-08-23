@@ -12,6 +12,7 @@ import {
 import { router } from "expo-router";
 import { JobPricingType, ResponseJobDto } from "~/types";
 import { useQueryClient } from "@tanstack/react-query";
+import * as Haptics from "expo-haptics";
 
 import { Skeleton } from "../ui/skeleton";
 import { timeAgo } from "~/lib/dates.utils";
@@ -23,17 +24,23 @@ import { Icon } from "../ui/icon";
 import { Badge } from "../ui/badge";
 import { useServerImage } from "@/hooks/content/useServerImage";
 import { useColorPalette } from "@/hooks/useColorPalette";
-import { Avatar, AvatarFallback, AvatarImage } from "../shared/StableAvatar";
+import { useRTL } from "@/hooks/useRTL";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "../shared/stables/StableAvatar";
 import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
 
 interface JobCardProps {
   className?: string;
   job: ResponseJobDto;
+  redundantUser?: boolean;
   isOwner?: boolean;
+  onLongPress?: (job: ResponseJobDto) => void;
 }
 
 export const THUMBNAIL_SIZE = 84;
-export const JOB_CARD_HEIGHT = 190;
 
 const DEFAULT_CURRENCY = "TND";
 
@@ -51,9 +58,17 @@ const readCurrency = (job: ResponseJobDto) => {
   };
 };
 
-export const JobCard = ({ className, job, isOwner }: JobCardProps) => {
+
+export const JobCard = ({
+  className,
+  job,
+  isOwner,
+  redundantUser = false,
+  onLongPress
+}: JobCardProps) => {
   const queryClient = useQueryClient();
   const { palette } = useColorPalette();
+  const isRTL = useRTL();
 
   const { isJobSaved, isSavedPending } = useIsJobSaved(job.id);
   const { saveJob, isSavePending, unsaveJob, isUnsavePending } =
@@ -111,16 +126,23 @@ export const JobCard = ({ className, job, isOwner }: JobCardProps) => {
           },
         });
       }}
-      className={cn("w-full rounded-lg border-b border-gray-500 p-3", className)}
+      onLongPress={() => {
+        if (onLongPress) {
+          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+          onLongPress(job);
+        }
+      }}
+      delayLongPress={300}
+      className={cn("w-full rounded-lg p-3", className)}
       activeOpacity={0.85}
     >
-      <View style={{ flexDirection: "row", gap: 12 }}>
+      <View style={{ flexDirection: isRTL ? "row-reverse" : "row", gap: 12 }}>
         <View
           style={{ width: THUMBNAIL_SIZE, height: THUMBNAIL_SIZE }}
           className="overflow-hidden rounded-xl bg-muted"
         >
           {coverId && isUploadPending ? (
-            <Skeleton style={{ width: "100%", height: "100%" }} />
+            <Skeleton className="h-full w-full" />
           ) : coverId && upload ? (
             <Image
               source={{ uri: upload }}
@@ -142,7 +164,11 @@ export const JobCard = ({ className, job, isOwner }: JobCardProps) => {
 
           {extraPhotos > 0 && (
             <View
-              style={{ position: "absolute", bottom: 4, right: 4 }}
+              style={{
+                position: "absolute",
+                bottom: 4,
+                ...(isRTL ? { left: 4 } : { right: 4 }),
+              }}
               className="rounded-md bg-black/60 px-1.5 py-0.5"
             >
               <Text
@@ -156,31 +182,38 @@ export const JobCard = ({ className, job, isOwner }: JobCardProps) => {
         </View>
 
         <View style={{ flex: 1 }}>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <View
+            style={{
+              flexDirection: isRTL ? "row-reverse" : "row",
+              alignItems: "center",
+            }}
+          >
             <Text
               numberOfLines={1}
               style={{ flex: 1, fontSize: 10 }}
-              className="font-bold uppercase tracking-widest text-primary"
+              className={cn(
+                "font-bold uppercase tracking-widest text-primary",
+                isRTL ? "text-right" : "text-left",
+              )}
             >
               {job.category?.label ?? "Uncategorised"}
             </Text>
 
             {isOwner ? (
-              <Badge variant="secondary" className="ml-2">
+              <Badge variant="secondary" className={isRTL ? "mr-2" : "ml-2"}>
                 <Text style={{ fontSize: 10 }}>{job.status}</Text>
               </Badge>
             ) : (
               <TouchableOpacity
                 onPress={handleSave}
-                disabled={isSaveMutating}
                 hitSlop={12}
-                style={{ marginLeft: 8 }}
+                style={isRTL ? { marginRight: 8 } : { marginLeft: 8 }}
               >
                 <Heart
                   size={20}
                   color={isJobSaved ? palette.primary : palette.mutedForeground}
                   fill={isJobSaved ? palette.primary : "none"}
-                  opacity={isSaveMutating || isSavedPending ? 0.4 : 1}
+                  opacity={isSavedPending ? 0.4 : 1}
                 />
               </TouchableOpacity>
             )}
@@ -207,7 +240,7 @@ export const JobCard = ({ className, job, isOwner }: JobCardProps) => {
           <View
             style={{
               marginTop: 6,
-              flexDirection: "row",
+              flexDirection: isRTL ? "row-reverse" : "row",
               alignItems: "baseline",
               gap: 4,
             }}
@@ -227,47 +260,55 @@ export const JobCard = ({ className, job, isOwner }: JobCardProps) => {
         style={{
           marginTop: 12,
           paddingTop: 10,
-          flexDirection: "row",
+          flexDirection: isRTL ? "row-reverse" : "row",
           alignItems: "center",
           gap: 6,
         }}
         className="border-t border-border"
       >
-        <Avatar
-          alt={identifyUser(job.postedBy)}
-          style={{ width: 20, height: 20 }}
-        >
-          {/* Always mounted: AvatarImage is what raises the fallback flag. */}
-          <AvatarImage source={{ uri: authorPicture ?? "" }} />
-          <AvatarFallback>
-            <Text style={{ fontSize: 9 }} className="font-semibold">
-              {identifyUserAvatar(job.postedBy)}
+        {!redundantUser && (
+          <>
+            <Avatar
+              alt={identifyUser(job.postedBy)}
+              style={{ width: 20, height: 20 }}
+            >
+              {/* Always mounted: AvatarImage is what raises the fallback flag. */}
+              <AvatarImage source={{ uri: authorPicture ?? "" }} />
+              <AvatarFallback>
+                <Text style={{ fontSize: 9 }} className="font-semibold">
+                  {identifyUserAvatar(job.postedBy)}
+                </Text>
+              </AvatarFallback>
+            </Avatar>
+            <Text
+              numberOfLines={1}
+              style={{ flexShrink: 1 }}
+              className="text-xs font-medium"
+            >
+              {identifyUser(job.postedBy)}
             </Text>
-          </AvatarFallback>
-        </Avatar>
 
-        <Text
-          numberOfLines={1}
-          style={{ flexShrink: 1 }}
-          className="text-xs font-medium"
-        >
-          {identifyUser(job.postedBy)}
-        </Text>
-
-        <Text className="text-xs text-muted-foreground">
-          · {timeAgo(job?.createdAt || new Date())}
-        </Text>
+            <Text className="text-xs text-muted-foreground">
+              · {timeAgo(job?.createdAt || new Date())}
+            </Text>
+          </>
+        )}
 
         <View
           style={{
-            marginLeft: "auto",
-            flexDirection: "row",
+            ...(isRTL ? { marginRight: "auto" } : { marginLeft: "auto" }),
+            flexDirection: isRTL ? "row-reverse" : "row",
             alignItems: "center",
             gap: 6,
           }}
         >
           {job.style ? (
-            <View className="flex-row items-center gap-1 rounded-full bg-muted px-2 py-1">
+            <View
+              className={cn(
+                "items-center gap-1 rounded-full bg-muted px-2 py-1",
+                isRTL ? "flex-row-reverse" : "flex-row",
+              )}
+            >
               <MapPin size={10} color={palette.mutedForeground} />
               <Text
                 style={{ fontSize: 10 }}
@@ -279,7 +320,12 @@ export const JobCard = ({ className, job, isOwner }: JobCardProps) => {
           ) : null}
 
           {job.difficulty ? (
-            <View className="flex-row items-center gap-1 rounded-full bg-muted px-2 py-1">
+            <View
+              className={cn(
+                "items-center gap-1 rounded-full bg-muted px-2 py-1",
+                isRTL ? "flex-row-reverse" : "flex-row",
+              )}
+            >
               <Signal size={10} color={palette.mutedForeground} />
               <Text
                 style={{ fontSize: 10 }}
@@ -293,7 +339,13 @@ export const JobCard = ({ className, job, isOwner }: JobCardProps) => {
       </View>
 
       {isOwner && (
-        <View style={{ marginTop: 8, flexDirection: "row", gap: 12 }}>
+        <View
+          style={{
+            marginTop: 8,
+            flexDirection: isRTL ? "row-reverse" : "row",
+            gap: 12,
+          }}
+        >
           <Button
             className="flex-1"
             size="sm"

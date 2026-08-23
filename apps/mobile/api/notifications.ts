@@ -24,12 +24,25 @@ const findPaginatedUserConversations = async ({
     `/notification/list`,
     {
       params,
-    }
+    },
   );
 
   return response.data;
 };
 
+const getUnreadCount = async (): Promise<number> => {
+  const response = await axios.get<{ count: number }>(
+    `/notification/unread-count`,
+  );
+  return response.data.count;
+};
+
+const markAllAsRead = async (): Promise<void> => {
+  await axios.post(`/notification/mark-read`);
+};
+
 export const notifications = {
   findPaginatedUserConversations,
+  getUnreadCount,
+  markAllAsRead,
 };

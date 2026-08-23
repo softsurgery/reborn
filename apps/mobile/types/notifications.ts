@@ -3,11 +3,12 @@ import { DatabaseEntity } from "./utils";
 
 export enum NotificationType {
   TEST = "TEST",
-  NEW_SIGIN = "NEW_SIGIN",
+  NEW_SIGNIN = "NEW_SIGNIN",
   NEW_MESSAGE = "NEW_MESSAGE",
   NEW_JOB_REQUEST = "NEW_JOB_REQUEST",
   JOB_REQUEST_APPROVED = "JOB_REQUEST_APPROVED",
   JOB_REQUEST_REJECTED = "JOB_REQUEST_REJECTED",
+  NEW_FOLLOWER = "NEW_FOLLOWER",
 }
 
 export interface ResponseNotificationDto extends DatabaseEntity {
@@ -16,4 +17,5 @@ export interface ResponseNotificationDto extends DatabaseEntity {
   userId?: string;
   user: ResponseUserDto;
   payload?: any;
+  readAt?: Date | null;
 }

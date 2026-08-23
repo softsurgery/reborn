@@ -1,7 +1,7 @@
 import { Plus, SendHorizonal } from "lucide-react-native";
 import { Pressable, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { StablePressable } from "~/components/shared/StablePressable";
+import { StablePressable } from "@/components/shared/stables/StablePressable";
 import { Icon } from "~/components/ui/icon";
 import { Textarea } from "~/components/ui/textarea";
 import { cn } from "~/lib/utils";

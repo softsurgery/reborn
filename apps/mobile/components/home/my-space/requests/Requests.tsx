@@ -1,15 +1,13 @@
 import React from "react";
 import { View } from "react-native";
-import { cn } from "~/lib/utils";
-import { ChevronLeft, LucideIcon } from "lucide-react-native";
-import { StablePressable } from "~/components/shared/StablePressable";
-import { Text } from "~/components/ui/text";
+import { ChevronLeft } from "lucide-react-native";
+import { cn } from "@/lib/utils";
 import { RequestsList } from "./RequestList";
-import { Icon } from "~/components/ui/icon";
-import { StableSafeAreaView } from "~/components/shared/StableSafeAreaView";
+import { StableSafeAreaView } from "@/components/shared/stables/StableSafeAreaView";
 import { router } from "expo-router";
-import { ApplicationHeader } from "~/components/shared/AppHeader";
 import { createMaterialTopTabNavigator } from "expo-router/js-top-tabs";
+import { ApplicationHeader } from "@/components/shared/AppHeader";
+import { useColorPalette } from "@/hooks/useColorPalette";
 
 type TabType = "incoming" | "outgoing";
 
@@ -26,55 +24,15 @@ export const Requests = ({
   initialTab = "incoming",
   onTabChange,
 }: RequestsProps) => {
-  const [tab, setTab] = React.useState<TabType>(initialTab);
+  const { palette } = useColorPalette();
 
-  // Memoized tab change handler
-  const handleTabChange = React.useCallback(
-    (newTab: TabType) => {
-      setTab(newTab);
-      onTabChange?.(newTab);
-    },
-    [onTabChange],
-  );
-
-  // Memoized tab button renderer
-  const renderTabButton = React.useCallback(
-    (tabKey: TabType, label: string, icon: LucideIcon) => (
-      <StablePressable
-        key={tabKey}
-        onPress={() => handleTabChange(tabKey)}
-        className={cn(
-          "h-12 flex-1 flex items-center justify-center",
-          tab === tabKey ? "border-b-2 border-b-primary" : "",
-        )}
-      >
-        <View className="flex flex-row items-center gap-2">
-          <Text
-            className={cn(
-              "font-medium",
-              tab === tabKey ? "text-primary" : "text-muted-foreground",
-            )}
-          >
-            {label}
-          </Text>
-          <Icon
-            as={icon}
-            size={20}
-            className={cn(
-              "font-medium",
-              tab === tabKey ? "text-primary" : "text-muted-foreground",
-            )}
-          />
-        </View>
-      </StablePressable>
-    ),
-    [tab, handleTabChange],
-  );
   return (
     <StableSafeAreaView className={cn("flex-1 bg-card", className)}>
       <ApplicationHeader
-        classNames={{ wrapper: "border-b border-border pb-2" }}
-        title={"Requests"}
+        classNames={{
+          wrapper: "border-b border-border/60 pb-2.5 bg-card",
+        }}
+        title="Job Requests"
         titleVariant="large"
         reverse
         shortcuts={[
@@ -85,20 +43,34 @@ export const Requests = ({
           },
         ]}
       />
-      <View className="flex flex-1" style={{ minHeight: 400 }}>
+
+      <View className="flex-1 bg-background px-3">
         <Tab.Navigator
+          initialRouteName={initialTab}
           screenOptions={{
             tabBarScrollEnabled: false,
             tabBarLabelStyle: {
-              fontSize: 12,
+              fontSize: 13,
               fontWeight: "600",
               textTransform: "none",
             },
-            tabBarIndicatorStyle: { backgroundColor: "#9B2C2C" },
-            tabBarStyle: { backgroundColor: "transparent" },
+            tabBarActiveTintColor: palette?.primary,
+            tabBarInactiveTintColor: palette?.mutedForeground,
+            tabBarIndicatorStyle: {
+              backgroundColor: palette?.primary,
+              height: 2.5,
+              borderRadius: 2,
+            },
+            tabBarStyle: {
+              backgroundColor: "transparent",
+              elevation: 0,
+              shadowOpacity: 0,
+              borderBottomWidth: 0,
+            },
           }}
           commonOptions={{
             sceneStyle: {
+              backgroundColor: "transparent",
               flex: 1,
             },
           }}
@@ -106,20 +78,22 @@ export const Requests = ({
           <Tab.Screen
             name="incoming"
             options={{
-              tabBarLabel: "Incoming",
+              tabBarLabel: "Incoming Candidates",
             }}
-            component={() => (
-              <RequestsList search="" searching={false} variant={"incoming"} />
-            )}
+            listeners={{
+              tabPress: () => onTabChange?.("incoming"),
+            }}
+            component={() => <RequestsList variant="incoming" />}
           />
           <Tab.Screen
             name="outgoing"
             options={{
-              tabBarLabel: "Outgoing",
+              tabBarLabel: "Sent Applications",
             }}
-            component={() => (
-              <RequestsList search="" searching={false} variant={"outgoing"} />
-            )}
+            listeners={{
+              tabPress: () => onTabChange?.("outgoing"),
+            }}
+            component={() => <RequestsList variant="outgoing" />}
           />
         </Tab.Navigator>
       </View>

@@ -3,6 +3,7 @@ import { View } from "react-native";
 import { Skeleton } from "../ui/skeleton";
 import { cn } from "~/lib/utils";
 import { THUMBNAIL_SIZE } from "./JobCard";
+import { useRTL } from "~/hooks/useRTL";
 
 interface JobCardSkeletonProps {
   className?: string;
@@ -10,44 +11,41 @@ interface JobCardSkeletonProps {
 
 /** Mirrors JobCard: thumbnail, eyebrow, title, description, pay, author row. */
 export const JobCardSkeleton = ({ className }: JobCardSkeletonProps) => {
+  const isRTL = useRTL();
+
   return (
-    <View
-      className={cn(
-        "my-2 w-full rounded-2xl border border-border bg-card p-3",
-        className,
-      )}
-    >
-      <View style={{ flexDirection: "row", gap: 12 }}>
+    <View className={cn("w-full rounded-lg p-3", className)}>
+      <View className={cn("gap-3", isRTL ? "flex-row-reverse" : "flex-row")}>
         <Skeleton
           style={{ width: THUMBNAIL_SIZE, height: THUMBNAIL_SIZE }}
           className="rounded-xl"
         />
 
-        <View style={{ flex: 1, gap: 8 }}>
-          <Skeleton style={{ height: 10, width: 80 }} />
-          <Skeleton style={{ height: 16 }} className="w-full" />
-          <Skeleton style={{ height: 12 }} className="w-2/3" />
-          <Skeleton style={{ height: 20, width: 110 }} />
+        <View
+          className={cn(
+            "flex-1 gap-2",
+            isRTL ? "items-end" : "items-start",
+          )}
+        >
+          <Skeleton className="h-2.5 w-20" />
+          <Skeleton className="h-4 w-full" />
+          <Skeleton className="h-3 w-2/3" />
+          <Skeleton className="h-5 w-28" />
         </View>
       </View>
 
       <View
-        style={{
-          marginTop: 12,
-          paddingTop: 10,
-          flexDirection: "row",
-          alignItems: "center",
-          gap: 8,
-        }}
-        className="border-t border-border"
+        className={cn(
+          "mt-3 items-center gap-2 border-t border-border pt-2.5",
+          isRTL ? "flex-row-reverse" : "flex-row",
+        )}
       >
-        <Skeleton style={{ height: 20, width: 20 }} className="rounded-full" />
-        <Skeleton style={{ height: 12, width: 90 }} />
+        <Skeleton className="h-5 w-5 rounded-full" />
+        <Skeleton className="h-3 w-24" />
         <Skeleton
-          style={{ marginLeft: "auto", height: 20, width: 64 }}
-          className="rounded-full"
+          className={cn("h-5 w-16 rounded-full", isRTL ? "mr-auto" : "ml-auto")}
         />
-        <Skeleton style={{ height: 20, width: 64 }} className="rounded-full" />
+        <Skeleton className="h-5 w-16 rounded-full" />
       </View>
     </View>
   );

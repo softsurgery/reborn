@@ -1,4 +1,4 @@
-import { JobDetails } from "@/components/jobs/job-details/JobDetails";
+import { JobDetails } from "@/components/explore/job-details/JobDetails";
 import { useLocalSearchParams } from "expo-router";
 
 export default function Screen() {

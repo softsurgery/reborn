@@ -1,11 +1,9 @@
 import React from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { ChevronLeft, Save } from "lucide-react-native";
-import { Loader } from "~/components/shared/Loader";
 import { Button } from "~/components/ui/button";
 import { useUserStore } from "~/hooks/stores/useUserStore";
 import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
-import { ServerErrorResponse } from "~/types";
+import { ServerErrorResponse, UpdateUserDto } from "~/types";
 import { Text } from "~/components/ui/text";
 import { FormBuilder } from "~/components/shared/form-builder/FormBuilder";
 import { useUpdateProfileFormStructure } from "./useUpdateProfileFormStructure";
@@ -18,16 +16,18 @@ import {
 import { api } from "~/api";
 import { useUploadMutation } from "~/hooks/content/useUploadMutation";
 import { Upload } from "~/types/upload";
-import { useServerImage } from "~/hooks/content/useServerImage";
 import { identifyUserAvatar } from "~/lib/user.utils";
-import { StableKeyboardAwareScrollView } from "../../shared/StableKeyboardAwareScrollView";
+import { StableKeyboardAwareScrollView } from "../../shared/stables/StableKeyboardAwareScrollView";
 import { router } from "expo-router";
 import { ApplicationHeader } from "../../shared/AppHeader";
 import { cn } from "~/lib/utils";
-import { StableSafeAreaView } from "../../shared/StableSafeAreaView";
-import { View } from "react-native";
+import { StableSafeAreaView } from "../../shared/stables/StableSafeAreaView";
 import { useKeyboardVisible } from "~/hooks/useKeyboardVisible";
 import { toast } from "sonner-native";
+import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
+import { BottomButtonWrapper } from "@/components/shared/BottomButtonBlockWrapper";
+import { useTranslation } from "react-i18next";
+import { useServerImages } from "@/hooks/content/useServerImages";
 
 interface UpdateProfileProps {
   className?: string;
@@ -35,110 +35,118 @@ interface UpdateProfileProps {
 
 export const UpdateProfile = ({ className }: UpdateProfileProps) => {
   const isKeyboardVisible = useKeyboardVisible();
-  const queryClient = useQueryClient();
-  const { currentUser, isCurrentUserPending } = useCurrentUser();
-
-  const { upload } = useServerImage({
-    id: currentUser?.pictureId,
-    fallback: identifyUserAvatar(currentUser),
-    size: { width: 40, height: 40 },
-  });
-
   const userStore = useUserStore();
+  const queryClient = useQueryClient();
+  const { t } = useTranslation("settings");
   const { regions, isRegionsPending } = useRegions();
 
-  const { uploadFiles: uploadPicture, isUploadPending } = useUploadMutation({
+  const { mutate: updateUser, isPending: isUpdatePending } = useMutation({
+    mutationFn: (user: UpdateUserDto) => api.client.updateCurrent(user),
+    onSuccess: () => {
+      router.back();
+      toast.success("Profile updated successfully", {
+        description: "Your profile has been successfully updated.",
+      });
+      userStore.reset();
+      queryClient.invalidateQueries({ queryKey: ["user", currentUser?.id] });
+      queryClient.invalidateQueries({ queryKey: ["current-user"] });
+      queryClient.invalidateQueries({
+        queryKey: ["server-image", currentUser?.pictureId],
+      });
+      refetchCurrentUser();
+    },
+    onError: (error: ServerErrorResponse) => {
+      toast.error(
+        error.response?.data?.message || "Failed to update profile",
+        {},
+      );
+    },
+  });
+
+  const handleUpdateSubmit = () => {
+    const data = userStore.updateDto;
+    const result = updateClientSchema.merge(updateProfileSchema).safeParse({
+      ...data,
+    });
+    if (!result.success) {
+      userStore.set("errors", result.error.flatten().fieldErrors);
+    } else {
+      updateUser(data);
+    }
+  };
+
+  const {
+    uploadFiles: uploadProfilePicture,
+    isUploadPending: isProfilePictureUploadPending,
+  } = useUploadMutation({
     onSuccess: (response: Upload[]) => {
       userStore.setNested("updateDto.pictureId", response?.[0]?.id);
     },
-    onError: (error: any) => {
-      userStore.setNested("errors.pictureId", [error.message]);
+    onError: (error: ServerErrorResponse) => {
+      toast.error(
+        error.response?.data?.message || "Failed to upload image",
+        {},
+      );
     },
   });
 
-  const { updateProfileStructure } = useUpdateProfileFormStructure({
+  const { currentUser, refetchCurrentUser, isCurrentUserPending } =
+    useCurrentUser();
+
+  const fallback = React.useMemo(
+    () => identifyUserAvatar(currentUser),
+    [currentUser],
+  );
+
+  const { structure } = useUpdateProfileFormStructure({
     store: userStore,
+    fallback,
     regions: mapToSelectOptions({
       data: isRegionsPending ? [] : regions,
       labelKey: "label",
       valueKey: "id",
     }),
-    uploadPicture,
-    isUploadPending,
+    uploadPicture: uploadProfilePicture,
+    isProfilePictureUploadPending,
   });
 
   React.useEffect(() => {
     if (currentUser) {
       userStore.set("updateDto", {
-        email: currentUser.email,
         firstName: currentUser.firstName,
         lastName: currentUser.lastName,
+        email: currentUser.email,
+        phone: currentUser.phone,
         dateOfBirth: currentUser.dateOfBirth
           ? new Date(currentUser.dateOfBirth)
           : undefined,
-        isActive: currentUser.isActive,
-        phone: currentUser.phone,
-        cin: currentUser.cin,
         bio: currentUser.bio,
         gender: currentUser.gender,
-        isPrivate: currentUser.isPrivate,
         regionId: currentUser.regionId,
+        isPrivate: currentUser.isPrivate,
       });
-      userStore.set("picture", upload!);
     }
+    return () => {
+      userStore.reset();
+    };
   }, [currentUser]);
 
-  const { mutate: updateProfile, isPending: isUpdateProfilePending } =
-    useMutation({
-      mutationFn: () => api.client.updateCurrent(userStore.updateDto),
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: ["current-user"],
-        });
-        queryClient.invalidateQueries({
-          queryKey: ["user", currentUser?.id],
-        });
-        toast.success("Profile Updated Successfully", {
-          description: "Your profile has been successfully updated.",
-        });
-        router.back();
-      },
-      onError: (error: ServerErrorResponse) => {
-        toast.error(
-          error.response?.data?.message || "Failed to update profile",
-        );
-      },
-    });
+  const { uploads: profileUploads } = useServerImages({
+    ids: [currentUser?.pictureId],
+    fallbacks: [fallback],
+    size: { width: 100, height: 100 },
+  });
 
-  const formRef = React.useRef<{
-    scrollToError: (id: string, scrollRef?: any) => void;
-  }>(null);
-
-  const handleUpdate = () => {
-    const resultUser = updateClientSchema.safeParse(userStore.updateDto);
-    const resultProfile = updateProfileSchema.safeParse(userStore.updateDto);
-
-    if (!resultUser.success || !resultProfile.success) {
-      const errors = {
-        ...(resultUser.success ? {} : resultUser.error.flatten().fieldErrors),
-        ...(resultProfile.success
-          ? {}
-          : resultProfile.error.flatten().fieldErrors),
-      };
-      userStore.set("errors", errors);
-
-      const firstErrorKey = Object.keys(errors)[0];
-      if (firstErrorKey) {
-        formRef.current?.scrollToError(firstErrorKey);
-      }
-      return;
+  React.useEffect(() => {
+    if (
+      profileUploads &&
+      profileUploads[0] &&
+      !userStore.hasInitializedPicture
+    ) {
+      userStore.set("picture", profileUploads[0] as string);
+      userStore.set("hasInitializedPicture", true);
     }
-
-    updateProfile();
-  };
-
-  if (isCurrentUserPending) return <Loader isPending={true} />;
-
+  }, [profileUploads, currentUser?.pictureId]);
   return (
     <StableSafeAreaView className={cn("flex-1 bg-card", className)}>
       <ApplicationHeader
@@ -149,25 +157,33 @@ export const UpdateProfile = ({ className }: UpdateProfileProps) => {
         shortcuts={[
           {
             key: "back",
-            icon: ChevronLeft,
-            onPress: () => router.back(),
+            render: <AppHeaderBack />,
           },
         ]}
       />
       <StableKeyboardAwareScrollView className="flex-1 bg-background ">
-        <FormBuilder structure={updateProfileStructure} className="mt-4 px-2" />
+        <FormBuilder structure={structure} className="px-2" />
       </StableKeyboardAwareScrollView>
       {!isKeyboardVisible && (
-        <View className="py-6 border-t border-border">
+        <BottomButtonWrapper>
           <Button
-            size="sm"
-            className="mx-6 mb-4 rounded-full"
-            onPress={handleUpdate}
-            disabled={isUpdateProfilePending}
+            size="lg"
+            variant="default"
+            className="rounded-xl"
+            onPress={() => {
+              handleUpdateSubmit();
+            }}
+            disabled={isUpdatePending}
           >
-            <Text>Update Profile</Text>
+            <Text className="text-md font-bold">
+              {isUpdatePending
+                ? t(
+                    "settings.account.screens.profile.actions.update-profile-pending",
+                  )
+                : t("settings.account.screens.profile.actions.update-profile")}
+            </Text>
           </Button>
-        </View>
+        </BottomButtonWrapper>
       )}
     </StableSafeAreaView>
   );

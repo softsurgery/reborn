@@ -13,30 +13,37 @@ import {
 import { UserStore } from "~/hooks/stores/useUserStore";
 import { useUploadMutation } from "~/hooks/content/useUploadMutation";
 import { Gender } from "~/types";
+import { useTranslation } from "react-i18next";
 
 interface useUpdateProfileFormStructureProps {
   store: UserStore;
+  fallback?: string;
   regions: SelectOption[];
   uploadPicture: ReturnType<typeof useUploadMutation>["uploadFiles"];
-  isUploadPending?: boolean;
+  isProfilePictureUploadPending?: boolean;
 }
 
 export const useUpdateProfileFormStructure = ({
   store,
   regions,
+  fallback,
   uploadPicture,
-  isUploadPending,
+  isProfilePictureUploadPending,
 }: useUpdateProfileFormStructureProps) => {
+  const { t } = useTranslation("settings");
+
   // picture
   const pictureField: Field<PictureFieldProps> = {
     id: "picture",
-    label: "Profile Picture",
+    label: t("settings.account.screens.profile.form.profile-picture"),
     variant: FieldVariant.PICTURE,
-    description: "Upload a profile picture to personalize your account.",
+    description: t(
+      "settings.account.screens.profile.form.descriptions.profile-picture",
+    ),
     props: {
       image: store?.picture,
-      alt: "Profile Picture",
-      editable: !isUploadPending,
+      alt: fallback,
+      editable: !isProfilePictureUploadPending,
       onFileChange: (value) => {
         store.set("picture", value);
       },
@@ -56,13 +63,17 @@ export const useUpdateProfileFormStructure = ({
   //name
   const firstNameField: Field<TextFieldProps> = {
     id: "firstName",
-    label: "First Name",
+    label: t("settings.account.screens.profile.form.first-name"),
     variant: FieldVariant.TEXT,
     required: true,
-    placeholder: "Enter your first name",
+    placeholder: t(
+      "settings.account.screens.profile.form.placeholders.first-name",
+    ),
     disabled: false,
-    description: "Your first name (e.g., John).",
-    error: store.errors?.firstName?.[0],
+    description: t(
+      "settings.account.screens.profile.form.descriptions.first-name",
+    ),
+    error: t(store.errors.firstName?.[0]),
     props: {
       value: store.updateDto.firstName,
       onChangeText: (value: string) => {
@@ -75,13 +86,17 @@ export const useUpdateProfileFormStructure = ({
   //surname
   const lastNameField: Field<TextFieldProps> = {
     id: "lastName",
-    label: "Last Name",
+    label: t("settings.account.screens.profile.form.last-name"),
     variant: FieldVariant.TEXT,
     required: true,
-    placeholder: "Enter your last name",
+    placeholder: t(
+      "settings.account.screens.profile.form.placeholders.last-name",
+    ),
     disabled: false,
-    description: "Your last name (e.g., Doe).",
-    error: store.errors?.lastName?.[0],
+    description: t(
+      "settings.account.screens.profile.form.descriptions.last-name",
+    ),
+    error: t(store.errors.lastName?.[0]),
     props: {
       value: store.updateDto.lastName,
       onChangeText: (value: string) => {
@@ -94,13 +109,17 @@ export const useUpdateProfileFormStructure = ({
   // email
   const emailField: Field<TextFieldProps> = {
     id: "email",
-    label: "E-mail",
+    label: t("settings.account.screens.profile.form.email"),
     variant: FieldVariant.EMAIL,
     required: true,
-    placeholder: "your.email@example.com",
+    placeholder: t(
+      "settings.account.screens.profile.form.placeholders.email",
+    ),
     disabled: false,
-    description: "We'll use this email for important communication.",
-    error: store.errors?.email?.[0],
+    description: t(
+      "settings.account.screens.profile.form.descriptions.email",
+    ),
+    error: t(store.errors.email?.[0]),
     props: {
       value: store.updateDto.email,
       onChangeText: (value: string) => {
@@ -113,13 +132,17 @@ export const useUpdateProfileFormStructure = ({
   // phone
   const phoneField: Field<TextFieldProps> = {
     id: "phone",
-    label: "Phone",
+    label: t("settings.account.screens.profile.form.phone"),
     variant: FieldVariant.TEL,
     required: true,
-    placeholder: "Enter your phone number",
+    placeholder: t(
+      "settings.account.screens.profile.form.placeholders.phone",
+    ),
     disabled: false,
-    description: "Enter a phone number so we can reach you if needed.",
-    error: store.errors?.phone?.[0],
+    description: t(
+      "settings.account.screens.profile.form.descriptions.phone",
+    ),
+    error: t(store.errors.phone?.[0]),
     props: {
       value: store.updateDto?.phone,
       onChangeText: (value: string) => {
@@ -132,11 +155,16 @@ export const useUpdateProfileFormStructure = ({
   // date of birth
   const dateOfBirthField: Field<DateFieldProps> = {
     id: "dateOfBirth",
-    label: "Date of Birth",
+    label: t("settings.account.screens.profile.form.date-of-birth"),
     variant: FieldVariant.DATE,
     disabled: false,
-    description: "Let us know when you celebrate!",
-    error: store.errors?.dateOfBirth?.[0],
+    placeholder: t(
+      "settings.account.screens.profile.form.placeholders.date-of-birth",
+    ),
+    description: t(
+      "settings.account.screens.profile.form.descriptions.date-of-birth",
+    ),
+    error: t(store.errors.dateOfBirth?.[0]),
     props: {
       value: store.updateDto.dateOfBirth || undefined,
       onDateChange: (value: Date) => {
@@ -149,12 +177,14 @@ export const useUpdateProfileFormStructure = ({
   //bio
   const bioField: Field<TextareaFieldProps> = {
     id: "bio",
-    label: "Bio",
+    label: t("settings.account.screens.profile.form.bio"),
     variant: FieldVariant.TEXTAREA,
-    placeholder: "Write a short bio...",
+    placeholder: t("settings.account.screens.profile.form.placeholders.bio"),
     disabled: false,
-    description: "Tell us a little bit about yourself.",
-    error: store.errors?.bio?.[0],
+    description: t(
+      "settings.account.screens.profile.form.descriptions.bio",
+    ),
+    error: t(store.errors.bio?.[0]),
     props: {
       value: store.updateDto?.bio,
       onChangeText: (value: string) => {
@@ -167,11 +197,16 @@ export const useUpdateProfileFormStructure = ({
   //region
   const regionField: Field<SelectFieldProps> = {
     id: "region",
-    label: "Region",
+    label: t("settings.account.screens.profile.form.region"),
     variant: FieldVariant.SELECT,
     disabled: false,
-    description: "Select the region where you are located.",
-    error: store.errors?.regionId?.[0],
+    placeholder: t(
+      "settings.account.screens.profile.form.placeholders.region",
+    ),
+    description: t(
+      "settings.account.screens.profile.form.descriptions.region",
+    ),
+    error: t(store.errors.regionId?.[0]),
     props: {
       options: regions,
       value: store.updateDto?.regionId?.toString(),
@@ -185,13 +220,17 @@ export const useUpdateProfileFormStructure = ({
   //visibility
   const isPrivateField: Field<CheckboxFieldProps> = {
     id: "is-public",
-    label: "Private Profile",
+    label: t("settings.account.screens.profile.form.private-profile"),
     variant: FieldVariant.CHECKBOX,
     disabled: false,
-    description: "Check to make your profile private",
-    error: store.errors?.isPrivate?.[0],
+    description: t(
+      "settings.account.screens.profile.form.descriptions.private-profile",
+    ),
+    error: t(store.errors.isPrivate?.[0]),
     props: {
-      label: "Do not show my profile to others",
+      label: t(
+        "settings.account.screens.profile.form.placeholders.private-profile",
+      ),
       checked: store.updateDto?.isPrivate,
       onCheckedChange: (value) => {
         store.setNested("updateDto.isPrivate", value);
@@ -199,34 +238,43 @@ export const useUpdateProfileFormStructure = ({
       },
     },
   };
+
   //gender
   const genderField: Field<SelectFieldProps> = {
     id: "gender",
-    label: "Gender",
+    label: t("settings.account.screens.profile.form.gender"),
     variant: FieldVariant.SELECT,
     disabled: false,
-    description: "Specifying your gender helps us personalize your experience.",
-    error: store.errors?.gender?.[0],
+    placeholder: t(
+      "settings.account.screens.profile.form.placeholders.gender",
+    ),
+    description: t(
+      "settings.account.screens.profile.form.descriptions.gender",
+    ),
+    error: t(store.errors.gender?.[0]),
     props: {
       value: store.updateDto?.gender?.toString(),
       onSelect: (value: string) => {
         store.setNested("updateDto.gender", value);
         store.setNested("errors.gender", []);
       },
-      options: Object.entries(Gender).map(([value, label]) => ({
-        label: label as string,
+      options: Object.entries(Gender).map(([_, value]) => ({
+        label: t(
+          `settings.account.screens.profile.form.genderOptions.${value}` as any,
+          { defaultValue: value },
+        ),
         value,
       })),
     },
   };
 
-  const updateProfileStructure: FormStructure = {
-    title: "Update Your Profile",
-    description: "Make changes to your profile information below",
+  const structure: FormStructure = {
+    title: t("settings.account.screens.profile.title"),
+    description: t("settings.account.screens.profile.description"),
     orientation: "horizontal",
     fieldsets: [
       {
-        title: "General Information",
+        title: t("settings.account.screens.profile.sections.general"),
         rows: [
           {
             id: 1,
@@ -247,7 +295,7 @@ export const useUpdateProfileFormStructure = ({
         ],
       },
       {
-        title: "Additional Information",
+        title: t("settings.account.screens.profile.sections.additional"),
         rows: [
           {
             id: 5,
@@ -262,5 +310,5 @@ export const useUpdateProfileFormStructure = ({
     ],
   };
 
-  return { updateProfileStructure };
+  return { structure };
 };

@@ -8,11 +8,14 @@ import Carousel, {
 } from "react-native-reanimated-carousel";
 import { Text } from "~/components/ui/text";
 import { cn } from "~/lib/utils";
-import { StableSafeAreaView } from "../shared/StableSafeAreaView";
+import { StableSafeAreaView } from "../shared/stables/StableSafeAreaView";
 import { SSOButtons } from "./SSOButtons";
-import { Rocket, Zap, ShieldCheck } from "lucide-react-native";
+import { Rocket, Zap, ShieldCheck, Languages } from "lucide-react-native";
 import { useColorPalette } from "@/hooks/useColorPalette";
 import { ThemeToggle } from "../shared/ThemeToggle";
+import { LanguageSwitcher } from "../shared/LanguageSwitcher";
+import { Icon } from "../ui/icon";
+import { AcceptTerms } from "./AcceptTerms";
 
 const width = Dimensions.get("window").width;
 
@@ -44,6 +47,7 @@ interface OnBoardingProps {
 export default function OnBoarding({ className }: OnBoardingProps) {
   const { palette } = useColorPalette();
   const ref = React.useRef<ICarouselInstance>(null);
+  const [acceptedTerms, setAcceptedTerms] = React.useState(false);
   const progress = useSharedValue<number>(0);
 
   const onPressPagination = (index: number) => {
@@ -69,23 +73,32 @@ export default function OnBoarding({ className }: OnBoardingProps) {
               Reborn
             </Text>
           </View>
-          <ThemeToggle className="mx-6" />
+          <View className="flex flex-row items-center mr-4">
+            <LanguageSwitcher
+              customTrigger={
+                <View className="mx-2">
+                  <Icon as={Languages} className="text-foreground" size={24} />
+                </View>
+              }
+            />
+            <ThemeToggle className="mx-2" />
+          </View>
         </View>
 
         <View className="flex-1 justify-center mt-8">
           <Carousel
             width={width}
             ref={ref}
-            style={{ width: width, height: 350 }}
+            style={{ width: width, height: 250 }}
             data={ONBOARDING_DATA}
             onProgressChange={progress}
             renderItem={({ item, index }) => {
               const IconComponent = item.icon;
               return (
                 <View className="flex-1 justify-center items-center px-8">
-                  <View className="bg-primary/10 p-6 rounded-full mb-8">
+                  <View className="bg-primary/10 p-6 rounded-full mb-2">
                     <IconComponent
-                      size={100}
+                      size={80}
                       color={palette.primary}
                       strokeWidth={1.5}
                     />
@@ -122,12 +135,18 @@ export default function OnBoarding({ className }: OnBoardingProps) {
             onPress={onPressPagination}
           />
         </View>
-
-        <SSOButtons
-          className="mx-6 mt-8 mb-4"
-          isSignInPending={false}
-          classic
-        />
+        <View className="mx-6 mt-8 mb-4">
+          <AcceptTerms
+            className="mt-4"
+            checked={acceptedTerms}
+            onCheckedChange={setAcceptedTerms}
+          />
+          <SSOButtons
+            isSignInPending={false}
+            acceptedTerms={acceptedTerms}
+            classic
+          />
+        </View>
       </View>
     </StableSafeAreaView>
   );

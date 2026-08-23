@@ -4,7 +4,7 @@ import {
   Paginated,
   QueryParams,
   ResponseJobRequestDto,
-} from "~/types";
+} from "@/types";
 
 const findPaginated = async ({
   page = "1",
@@ -28,7 +28,7 @@ const findPaginated = async ({
     `/job-request/list`,
     {
       params,
-    }
+    },
   );
 
   return response.data;
@@ -56,7 +56,8 @@ const findPaginatedIncoming = async ({
     `/job-request/list-incoming`,
     {
       params,
-    }
+      paramsSerializer: { indexes: null },
+    },
   );
 
   return response.data;
@@ -84,7 +85,8 @@ const findPaginatedOngoing = async ({
     `/job-request/list-ongoing`,
     {
       params,
-    }
+      paramsSerializer: { indexes: null },
+    },
   );
 
   return response.data;
@@ -96,17 +98,21 @@ const findAll = async (): Promise<ResponseJobRequestDto[]> => {
 };
 
 const findById = async (
-  jobRequestId: number
+  jobRequestId: number,
+  join?: string,
 ): Promise<ResponseJobRequestDto> => {
   const response = await axios.get<ResponseJobRequestDto>(
-    `/job-request/${jobRequestId}`
+    `/job-request/${jobRequestId}`,
+    {
+      params: { join },
+    },
   );
   return response.data;
 };
 
 const findRequested = async (id: string): Promise<ResponseJobRequestDto> => {
   const response = await axios.get<ResponseJobRequestDto>(
-    `/job-request/${id}/exists`
+    `/job-request/${id}/exists`,
   );
   return response.data;
 };
@@ -114,28 +120,28 @@ const findRequested = async (id: string): Promise<ResponseJobRequestDto> => {
 const create = async (createJobRequestDto: CreateJobRequestDto) => {
   const response = await axios.post<ResponseJobRequestDto>(
     `/job-request`,
-    createJobRequestDto
+    createJobRequestDto,
   );
   return response.data;
 };
 
 const approve = async (id: number) => {
   const response = await axios.put<ResponseJobRequestDto>(
-    `/job-request/${id}/approve`
+    `/job-request/${id}/approve`,
   );
   return response.data;
 };
 
 const reject = async (id: number) => {
   const response = await axios.put<ResponseJobRequestDto>(
-    `/job-request/${id}/reject`
+    `/job-request/${id}/reject`,
   );
   return response.data;
 };
 
 const cancel = async (id: number) => {
   const response = await axios.put<ResponseJobRequestDto>(
-    `/job-request/${id}/cancel`
+    `/job-request/${id}/cancel`,
   );
   return response.data;
 };

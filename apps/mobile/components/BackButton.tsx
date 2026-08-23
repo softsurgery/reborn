@@ -2,7 +2,7 @@ import { ChevronLeft } from "lucide-react-native";
 import { cn } from "~/lib/utils";
 import { Icon } from "./ui/icon";
 import { router } from "expo-router";
-import { StablePressable } from "./shared/StablePressable";
+import { StablePressable } from "./shared/stables/StablePressable";
 
 interface BackButtonProps {
   className?: string;

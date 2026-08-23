@@ -129,8 +129,8 @@ const findWorkflowById = async (
   return response.data;
 };
 
-const save = async (createJobDto: CreateJobDto): Promise<CreateJobDto> => {
-  const response = await axios.post("/job", createJobDto);
+const save = async (createJobDto: CreateJobDto): Promise<ResponseJobDto> => {
+  const response = await axios.post<ResponseJobDto>("/job", createJobDto);
   return response.data;
 };
 
@@ -139,6 +139,16 @@ const update = async (
   updateJobDto: UpdateJobDto,
 ): Promise<CreateJobDto> => {
   const response = await axios.put(`/job/${id}`, updateJobDto);
+  return response.data;
+};
+
+const duplicate = async (id: string): Promise<ResponseJobDto> => {
+  const response = await axios.post<ResponseJobDto>(`/job/${id}/duplicate`);
+  return response.data;
+};
+
+const remove = async (id?: string): Promise<ResponseJobDto> => {
+  const response = await axios.delete<ResponseJobDto>(`/job/${id}`);
   return response.data;
 };
 
@@ -159,6 +169,9 @@ export const job = {
   findById,
   save,
   update,
+  duplicate,
+  remove,
+  delete: remove,
   current: {
     findPaginated: findCurrentPaginated,
     findFollowedPaginated,

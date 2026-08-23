@@ -4,7 +4,7 @@
   "screens": {
     "explore": "Explore",
     "chat": "Chat",
-    "balance": "Balance",
+    "finance": "Finance",
     "userPreferences": "User Preferences",
     "reportBug": "Report a Bug",
     "faqs": "FAQs",
@@ -31,7 +31,15 @@
     "options": {
       "en": "English",
       "fr": "French",
-      "ar": "Arabic"
+      "ar": "Arabic",
+      "system": "System"
     }
+  },
+  "theme": {
+    "title": "Theme",
+    "description": "Choose your preferred theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
   }
 }

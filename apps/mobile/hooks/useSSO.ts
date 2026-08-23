@@ -5,9 +5,8 @@ import { useMutation } from "@tanstack/react-query";
 import { router } from "expo-router";
 import { toast } from "sonner-native";
 import { api } from "@/api";
-import { ServerErrorResponse } from "@/types";
+import { OAuthProvider, ServerErrorResponse } from "@/types";
 import { Platform } from "react-native";
-import { OAuthProvider } from "@/types/auth";
 
 // Ensure web browser redirect is handled properly
 WebBrowser.maybeCompleteAuthSession();
@@ -43,17 +42,18 @@ const appleDiscovery: AuthSession.DiscoveryDocument = {
 };
 
 export function useSSO() {
-  // Ensure the redirect URI uses the correct scheme,
-  // For Expo Go, it uses exp:// but Google doesn't allow it.
-  // You should configure a valid Web redirect or Proxy in Google Console.
-  // Redirect to the backend, which will then redirect back to the app with the code
-  const redirectUri = process.env.EXPO_PUBLIC_OAUTH_REDIRECT_URI ?? "exp://";
+  // We need two redirect URIs:
+  // 1. backendRedirectUri: Sent to OAuth providers so they redirect to our backend server.
+  // 2. deepLinkUri: The app's deep link, which WebBrowser waits for to close automatically.
+  const backendRedirectUri =
+    process.env.EXPO_PUBLIC_OAUTH_REDIRECT_URI ?? "exp://";
+  const deepLinkUri = AuthSession.makeRedirectUri({ path: "oauth" });
 
   // ── Google Auth Request ────────────────────────────────────────────
   const [googleRequest, , googlePromptAsync] = AuthSession.useAuthRequest(
     {
       clientId: GOOGLE_CLIENT_ID ?? "",
-      redirectUri,
+      redirectUri: deepLinkUri,
       scopes: ["openid", "profile", "email"],
       responseType: AuthSession.ResponseType.Code,
       usePKCE: true,
@@ -65,7 +65,7 @@ export function useSSO() {
   const [linkedInRequest, , linkedInPromptAsync] = AuthSession.useAuthRequest(
     {
       clientId: LINKEDIN_CLIENT_ID ?? "",
-      redirectUri,
+      redirectUri: deepLinkUri,
       scopes: ["openid", "profile", "email"],
       responseType: AuthSession.ResponseType.Code,
     },
@@ -76,7 +76,7 @@ export function useSSO() {
   const [appleRequest, , applePromptAsync] = AuthSession.useAuthRequest(
     {
       clientId: "com.softsurgery.instanctmobileapp",
-      redirectUri,
+      redirectUri: deepLinkUri,
       scopes: ["name", "email"],
       responseType: AuthSession.ResponseType.IdToken,
     },
@@ -114,12 +114,48 @@ export function useSSO() {
     },
   });
 
+  // Helper to modify the auth URL to point to the backend
+  const getModifiedUrl = useCallback(
+    async (
+      request: AuthSession.AuthRequest | null,
+      discovery: AuthSession.DiscoveryDocument,
+    ) => {
+      if (!request) return null;
+      let authUrl = await request.makeAuthUrlAsync(discovery);
+
+      // Inject the deepLinkUri into the state parameter so the backend knows where to redirect
+      const stateMatch = authUrl.match(/[\?&]state=([^&]+)/);
+      if (stateMatch) {
+        const originalState = decodeURIComponent(stateMatch[1]);
+        const newState = encodeURIComponent(`${originalState}|${deepLinkUri}`);
+        authUrl = authUrl.replace(
+          `state=${stateMatch[1]}`,
+          `state=${newState}`,
+        );
+      }
+
+      // We pass the backend URL to the provider so it redirects to our backend,
+      // but AuthSession expects the deepLinkUri to close the browser.
+      return authUrl.replace(
+        encodeURIComponent(deepLinkUri),
+        encodeURIComponent(backendRedirectUri),
+      );
+    },
+    [backendRedirectUri, deepLinkUri],
+  );
+
   // ── Google Sign-In ─────────────────────────────────────────────────
   const signInWithGoogle = useCallback(async () => {
     try {
-      const result = await googlePromptAsync();
+      if (!googleRequest) return;
+      const modifiedAuthUrl = await getModifiedUrl(
+        googleRequest,
+        googleDiscovery,
+      );
+      if (!modifiedAuthUrl) return;
+
+      const result = await googlePromptAsync({ url: modifiedAuthUrl });
       if (result.type === "success") {
-        console.log(JSON.stringify(result, null, 2));
         const code = result.params?.code;
         const codeVerifier = googleRequest?.codeVerifier;
         if (code) {
@@ -127,7 +163,7 @@ export function useSSO() {
             provider: OAuthProvider.GOOGLE,
             idToken: code,
             codeVerifier,
-            redirectUri,
+            redirectUri: backendRedirectUri,
           });
         } else {
           toast.error("Failed to obtain Google credentials.");
@@ -138,19 +174,32 @@ export function useSSO() {
     } catch {
       toast.error("An unexpected error occurred with Google sign-in.");
     }
-  }, [googlePromptAsync, performSSOSignIn, redirectUri]);
+  }, [
+    googlePromptAsync,
+    googleRequest,
+    performSSOSignIn,
+    backendRedirectUri,
+    getModifiedUrl,
+  ]);
 
   // ── LinkedIn Sign-In ───────────────────────────────────────────────
   const signInWithLinkedIn = useCallback(async () => {
     try {
-      const result = await linkedInPromptAsync();
+      if (!linkedInRequest) return;
+      const modifiedAuthUrl = await getModifiedUrl(
+        linkedInRequest,
+        linkedInDiscovery,
+      );
+      if (!modifiedAuthUrl) return;
+
+      const result = await linkedInPromptAsync({ url: modifiedAuthUrl });
       if (result.type === "success" && result.params?.code) {
         // LinkedIn returns an authorization code;
         // send it to the backend which exchanges it for an access token
         performSSOSignIn({
           provider: OAuthProvider.LINKEDIN,
           idToken: result.params.code,
-          redirectUri,
+          redirectUri: backendRedirectUri,
         });
       } else if (result.type === "error") {
         toast.error(result.error?.message || "LinkedIn sign-in was cancelled.");
@@ -158,18 +207,35 @@ export function useSSO() {
     } catch {
       toast.error("An unexpected error occurred with LinkedIn sign-in.");
     }
-  }, [linkedInPromptAsync, performSSOSignIn, redirectUri]);
+  }, [
+    linkedInPromptAsync,
+    linkedInRequest,
+    performSSOSignIn,
+    backendRedirectUri,
+    getModifiedUrl,
+  ]);
 
   // ── Apple Sign-In (iOS only) ───────────────────────────────────────
   const signInWithApple = useCallback(async () => {
     if (Platform.OS !== "ios") return;
 
     try {
-      const result = await applePromptAsync();
+      if (!appleRequest) return;
+      const modifiedAuthUrl = await getModifiedUrl(
+        appleRequest,
+        appleDiscovery,
+      );
+      if (!modifiedAuthUrl) return;
+
+      const result = await applePromptAsync({ url: modifiedAuthUrl });
       if (result.type === "success") {
         const idToken = result.params?.id_token;
         if (idToken) {
-          performSSOSignIn({ provider: OAuthProvider.APPLE, idToken });
+          performSSOSignIn({
+            provider: OAuthProvider.APPLE,
+            idToken,
+            redirectUri: backendRedirectUri,
+          });
         } else {
           toast.error("Failed to obtain Apple credentials.");
         }
@@ -179,7 +245,13 @@ export function useSSO() {
     } catch {
       toast.error("An unexpected error occurred with Apple sign-in.");
     }
-  }, [applePromptAsync, performSSOSignIn]);
+  }, [
+    applePromptAsync,
+    appleRequest,
+    performSSOSignIn,
+    backendRedirectUri,
+    getModifiedUrl,
+  ]);
 
   return {
     isPending,

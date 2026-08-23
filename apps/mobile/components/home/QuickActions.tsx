@@ -2,56 +2,67 @@ import { router } from "expo-router";
 import {
   Bookmark,
   BriefcaseBusiness,
+  ChevronLeft,
   ChevronRight,
   Eye,
   Inbox,
   Star,
 } from "lucide-react-native";
-import { View } from "react-native";
+import { Pressable, View } from "react-native";
+import { useTranslation } from "react-i18next";
 import { cn } from "~/lib/utils";
-import { StablePressable } from "~/components/shared/StablePressable";
 import { Icon } from "~/components/ui/icon";
 import { Text } from "~/components/ui/text";
 import { Badge } from "~/components/ui/badge";
 import { Separator } from "~/components/ui/separator";
+import { useColorPalette } from "@/hooks/useColorPalette";
+import { useRTL } from "@/hooks/useRTL";
 
 interface QuickActionsProps {
   className?: string;
 }
 
 export const QuickActions = ({ className }: QuickActionsProps) => {
+  const { palette } = useColorPalette();
+  const isRTL = useRTL();
+  const { t } = useTranslation("home");
+
   const portalItems = [
     {
-      title: "My jobs",
+      id: "myJobs",
+      title: t("quickActions.items.myJobs.title"),
       icon: BriefcaseBusiness,
-      description: "Preview your posted jobs",
-      onPress: () => router.push("/main/my-space/jobs"),
+      description: t("quickActions.items.myJobs.description"),
+      onPress: () => router.push("/main/my-space/quick-actions/jobs"),
     },
     {
-      title: "Requests",
+      id: "requests",
+      title: t("quickActions.items.requests.title"),
       icon: Inbox,
-      description: "Manage incoming and outgoing requests",
+      description: t("quickActions.items.requests.description"),
       onPress: () => router.push("/main/my-space/requests"),
     },
     {
-      title: "Saved jobs",
+      id: "savedJobs",
+      title: t("quickActions.items.savedJobs.title"),
       icon: Bookmark,
-      description: "Keep track of jobs you bookmarked",
-      onPress: () => router.push("/main/my-space/saved"),
+      description: t("quickActions.items.savedJobs.description"),
+      onPress: () => router.push("/main/my-space/quick-actions/saved"),
     },
     {
-      title: "Reviews",
+      id: "reviews",
+      title: t("quickActions.items.reviews.title"),
       icon: Star,
-      description: "See your ratings and feedback",
+      description: t("quickActions.items.reviews.description"),
       onPress: () => {},
       disabled: true,
     },
     {
-      title: "Viewed",
+      id: "viewed",
+      title: t("quickActions.items.viewed.title"),
       icon: Eye,
-      description: "Revisit recently viewed opportunities",
-      onPress: () => {},
-      disabled: true,
+      description: t("quickActions.items.viewed.description"),
+      onPress: () => router.push("/main/my-space/quick-actions/viewed"),
     },
   ];
   return (
@@ -62,22 +73,22 @@ export const QuickActions = ({ className }: QuickActionsProps) => {
           const isDisabled = !!item.disabled;
 
           return (
-            <View key={item.title}>
-              <StablePressable
+            <View key={item.id}>
+              <Pressable
                 className={cn(
-                  "w-full py-3 rounded-none active:bg-muted/40",
+                  "w-full py-3 rounded-none active:opacity-50",
                   isDisabled && "opacity-60",
                 )}
                 onPress={isDisabled ? undefined : item.onPress}
                 disabled={isDisabled}
               >
-                <View className="flex-row items-center justify-between">
-                  <View className="flex-row items-center gap-3 flex-1">
-                    <View className="h-10 w-10 items-center justify-center rounded-lg bg-muted">
+                <View className={cn("flex-row items-center justify-between", isRTL && "flex-row-reverse")}>
+                  <View className={cn("flex-row items-center gap-3 flex-1", isRTL && "flex-row-reverse")}>
+                    <View className="h-10 w-10 items-center justify-center rounded-lg bg-primary">
                       <Icon
                         as={item.icon}
-                        size={18}
-                        className="text-foreground"
+                        size={24}
+                        color={palette.primaryForeground}
                       />
                     </View>
 
@@ -94,18 +105,18 @@ export const QuickActions = ({ className }: QuickActionsProps) => {
                   <View className="flex-row items-center gap-2">
                     {isDisabled ? (
                       <Badge variant="outline">
-                        <Text>Soon</Text>
+                        <Text>{t("quickActions.soon")}</Text>
                       </Badge>
                     ) : (
                       <Icon
-                        as={ChevronRight}
+                        as={isRTL ? ChevronLeft : ChevronRight}
                         size={18}
                         className="text-muted-foreground"
                       />
                     )}
                   </View>
                 </View>
-              </StablePressable>
+              </Pressable>
 
               {!isLast ? <Separator /> : null}
             </View>

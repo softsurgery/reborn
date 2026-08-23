@@ -2,22 +2,21 @@ import React from "react";
 import { Alert, View } from "react-native";
 import { useQueryClient } from "@tanstack/react-query";
 import { router } from "expo-router";
-import { ChevronRight, LogOut, Trash2 } from "lucide-react-native";
+import { LogOut, Trash2 } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import { cn } from "~/lib/utils";
 import { useAuthPersistStore } from "~/hooks/stores/useAuthPersistStore";
 import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
 import { identifyUser } from "~/lib/user.utils";
 import { ApplicationHeader } from "../shared/AppHeader";
-import { StableSafeAreaView } from "../shared/StableSafeAreaView";
-import { StableScrollView } from "../shared/StableScrollView";
+import { StableSafeAreaView } from "../shared/stables/StableSafeAreaView";
+import StableScrollView from "../shared/stables/StableScrollView";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Icon } from "../ui/icon";
 import { Separator } from "../ui/separator";
 import { Text } from "../ui/text";
-import { createSettingRow, SettingRow } from "./SettingsRow";
-import type { SettingRowConfig } from "./SettingsRow";
+import { SettingRow, SettingRowProps } from "./SettingsRow";
 import { AppHeaderBack } from "../shared/AppHeaderBack";
 
 interface SettingsPortalProps {
@@ -28,7 +27,7 @@ interface SettingsSection {
   key: string;
   title: string;
   description: string;
-  rows: SettingRowConfig[];
+  rows: SettingRowProps[];
   showOnDevelopment?: boolean;
 }
 
@@ -50,24 +49,22 @@ export const SettingsPortal = ({ className }: SettingsPortalProps) => {
       title: tSettings("settings.account.title"),
       description: tSettings("settings.account.description"),
       rows: [
-        createSettingRow({
+        {
           title: tSettings("settings.account.screens.profile.title"),
           description: tSettings(
             "settings.account.screens.profile.description",
           ),
-          rightIcon: ChevronRight,
           className: "p-1 px-4",
           onPress: () => router.push("/main/account/update-profile"),
-        }),
-        createSettingRow({
+        },
+        {
           title: tSettings("settings.account.screens.privacy-security.title"),
           description: tSettings(
             "settings.account.screens.privacy-security.description",
           ),
           className: "p-1 px-4",
-          rightIcon: ChevronRight,
           onPress: () => router.push("/main/settings/privacy-security"),
-        }),
+        },
       ],
     },
     {
@@ -75,24 +72,22 @@ export const SettingsPortal = ({ className }: SettingsPortalProps) => {
       title: tSettings("settings.preferences.title"),
       description: tSettings("settings.preferences.description"),
       rows: [
-        createSettingRow({
+        {
           title: tSettings("settings.preferences.screens.language.title"),
           description: tSettings(
             "settings.preferences.screens.language.description",
           ),
           className: "p-1 px-4",
-          rightIcon: ChevronRight,
           onPress: () => router.push("/main/settings/language"),
-        }),
-        createSettingRow({
+        },
+        {
           title: tSettings("settings.preferences.screens.theme.title"),
           description: tSettings(
             "settings.preferences.screens.theme.description",
           ),
           className: "p-1 px-4",
-          rightIcon: ChevronRight,
           onPress: () => router.push("/main/settings/theme"),
-        }),
+        },
       ],
       showOnDevelopment: false,
     },
@@ -101,32 +96,29 @@ export const SettingsPortal = ({ className }: SettingsPortalProps) => {
       title: tSettings("settings.support.title"),
       description: tSettings("settings.support.description"),
       rows: [
-        createSettingRow({
+        {
           title: tSettings("settings.support.screens.report-bug.title"),
           description: tSettings(
             "settings.support.screens.report-bug.description",
           ),
 
-          rightIcon: ChevronRight,
           className: "p-1 px-4",
           onPress: () => router.push("/main/account/support/report-bug"),
-        }),
-        createSettingRow({
+        },
+        {
           title: tSettings("settings.support.screens.send-feedback.title"),
           description: tSettings(
             "settings.support.screens.send-feedback.description",
           ),
-          rightIcon: ChevronRight,
           className: "p-1 px-4",
           onPress: () => router.push("/main/account/support/send-feedback"),
-        }),
-        createSettingRow({
+        },
+        {
           title: tSettings("settings.support.screens.faqs.title"),
           description: tSettings("settings.support.screens.faqs.description"),
-          rightIcon: ChevronRight,
           className: "p-1 px-4",
           onPress: () => router.push("/main/account/support/faqs"),
-        }),
+        },
       ],
       showOnDevelopment: false,
     },
@@ -135,35 +127,32 @@ export const SettingsPortal = ({ className }: SettingsPortalProps) => {
       title: tSettings("settings.info-legal.title"),
       description: tSettings("settings.info-legal.description"),
       rows: [
-        createSettingRow({
+        {
           title: tSettings(
             "settings.info-legal.screens.terms-of-service.title",
           ),
           description: tSettings(
             "settings.info-legal.screens.terms-of-service.description",
           ),
-          rightIcon: ChevronRight,
           className: "p-1 px-4",
           onPress: () => router.push("/main/settings/terms"),
-        }),
-        createSettingRow({
+        },
+        {
           title: tSettings("settings.info-legal.screens.privacy-policy.title"),
           description: tSettings(
             "settings.info-legal.screens.privacy-policy.description",
           ),
-          rightIcon: ChevronRight,
           className: "p-1 px-4",
           onPress: () => router.push("/main/settings/privacy-policy"),
-        }),
-        createSettingRow({
+        },
+        {
           title: tSettings("settings.info-legal.screens.about.title"),
           description: tSettings(
             "settings.info-legal.screens.about.description",
           ),
-          rightIcon: ChevronRight,
           className: "p-1 px-4",
           onPress: () => router.push("/main/settings/about"),
-        }),
+        },
       ],
       showOnDevelopment: false,
     },
@@ -172,17 +161,15 @@ export const SettingsPortal = ({ className }: SettingsPortalProps) => {
     //   title: "Test",
     //   description: "This is just for development purposes",
     //   rows: [
-    //     createSettingRow({
+    //     {
     //       title: "Deep link",
     //       description: "Test deep linking",
-    //       rightIcon: ChevronRight,
     //       className: "p-1 px-4",
     //       onPress: () => router.push("/main/test/deep-link-test"),
-    //     }),
-    //     createSettingRow({
+    //     },
+    //     {
     //       title: "Invalidate Queries",
     //       description: "Invalidate all queries",
-    //       rightIcon: ChevronRight,
     //       className: "p-1 px-4",
     //       onPress: () => {
     //         queryClient.invalidateQueries();
@@ -190,7 +177,7 @@ export const SettingsPortal = ({ className }: SettingsPortalProps) => {
     //           description: "All queries have been invalidated",
     //         });
     //       },
-    //     }),
+    //     },
     //   ],
     //   showOnDevelopment: true,
     // },
