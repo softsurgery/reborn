@@ -21,7 +21,7 @@ export const ProfilePortal = ({ className }: ProfilePortalProps) => {
   const { t } = useTranslation("common");
   const { currentUser } = useCurrentUser();
 
-  const { newCount, resetCount } = useNotificationContext();
+  const { count } = useNotificationContext();
 
   return (
     <View className={cn("flex-1", className)}>
@@ -48,9 +48,8 @@ export const ProfilePortal = ({ className }: ProfilePortalProps) => {
                   color: hslToHex(palette.foreground),
                   onPress: () => {
                     router.push("/main/notifications");
-                    resetCount();
                   },
-                  badgeText: newCount > 0 ? `${newCount}` : undefined,
+                  badgeText: count > 0 ? `${count}` : undefined,
                 },
                 ...(__DEV__
                   ? [

@@ -80,7 +80,7 @@ interface BalanceProps {
 
 export const Balance = ({ className }: BalanceProps) => {
   const { t } = useTranslation("common");
-  const { newCount, resetCount } = useNotificationContext();
+  const { count } = useNotificationContext();
 
   const totalEarnings = 28750.0;
   const availableBalance = 15420.0;
@@ -135,9 +135,8 @@ export const Balance = ({ className }: BalanceProps) => {
             icon: Bell,
             onPress: () => {
               router.push("/main/notifications");
-              resetCount();
             },
-            badgeText: newCount > 0 ? `${newCount}` : undefined,
+            badgeText: count > 0 ? `${count}` : undefined,
           },
         ]}
       />

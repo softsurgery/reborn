@@ -1,38 +1,54 @@
 import React from "react";
-import { io, Socket } from "socket.io-client";
+import { useAuthPersistStore } from "@/hooks/stores/useAuthPersistStore";
+import {
+  createAndroidChannel,
+  requestNotificationPermissions,
+} from "@/lib/notification";
+import { disconnectSocket, getSocket } from "@/lib/socket";
+import { sanitizeText } from "@/lib/string.lib";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import * as Notifications from "expo-notifications";
-import { Platform } from "react-native";
-import { useAuthPersistStore } from "~/hooks/stores/useAuthPersistStore";
-import { ResponseNotificationDto } from "~/types/notifications";
 import { useTranslation } from "react-i18next";
-import { sanitizeText } from "~/lib/string.lib";
+import { Socket } from "socket.io-client";
+import { api } from "~/api";
+import {
+  NotificationType,
+  ResponseNotificationDto,
+} from "~/types/notifications";
 
-const SOCKET_URL = `${process.env.EXPO_PUBLIC_API_SOCKET_URL}/notifications`;
+export const NOTIFICATIONS_UNREAD_COUNT_QUERY_KEY = [
+  "notifications-unread-count",
+] as const;
 
-async function requestNotificationPermissions() {
-  const { status } = await Notifications.requestPermissionsAsync();
-  if (status !== "granted") {
-    console.warn("Notification permissions not granted");
-  }
+interface useNotificationsProps {
+  enabled?: boolean;
+  consequences?: Record<NotificationType, (...args: any[]) => void>;
 }
 
-async function createAndroidChannel() {
-  if (Platform.OS === "android") {
-    await Notifications.setNotificationChannelAsync("default", {
-      name: "Default",
-      importance: Notifications.AndroidImportance.HIGH,
-    });
-  }
-}
-
-export function useNotifications() {
+export function useNotifications(
+  { enabled = true, consequences }: useNotificationsProps = { enabled: true },
+) {
+  const queryClient = useQueryClient();
   const { t } = useTranslation("notifications");
   const [notifications, setNotifications] = React.useState<
     ResponseNotificationDto[]
   >([]);
-  const [newCount, setNewCount] = React.useState(0);
   const socketRef = React.useRef<Socket | null>(null);
-  const { accessToken } = useAuthPersistStore();
+  const { accessToken, isAuthenticated } = useAuthPersistStore();
+
+  const { data: count = 0 } = useQuery({
+    queryKey: NOTIFICATIONS_UNREAD_COUNT_QUERY_KEY,
+    queryFn: () => api.notifications.getUnreadCount(),
+    enabled: enabled && isAuthenticated,
+  });
+
+  const { mutate: markAllAsRead } = useMutation({
+    mutationFn: () => api.notifications.markAllAsRead(),
+    onSuccess: () => {
+      queryClient.setQueryData(NOTIFICATIONS_UNREAD_COUNT_QUERY_KEY, 0);
+      queryClient.invalidateQueries({ queryKey: ["notifications"] });
+    },
+  });
 
   React.useEffect(() => {
     (async () => {
@@ -42,27 +58,35 @@ export function useNotifications() {
   }, []);
 
   React.useEffect(() => {
-    if (!accessToken) return;
-
-    const socket = io(SOCKET_URL, {
-      extraHeaders: { Authorization: `Bearer ${accessToken}` },
+    const socket = getSocket("notifications", {
+      token: accessToken,
     });
 
     socketRef.current = socket;
 
     socket.on("notification", async (notification: ResponseNotificationDto) => {
+      if (!enabled) return;
       setNotifications((prev) => [...prev, notification]);
-      setNewCount((prev) => prev + 1);
+      queryClient.invalidateQueries({
+        queryKey: NOTIFICATIONS_UNREAD_COUNT_QUERY_KEY,
+      });
+      queryClient.invalidateQueries({ queryKey: ["notifications"] });
+
+      if (notification.type === NotificationType.NEW_SIGNIN) {
+        queryClient.invalidateQueries({ queryKey: ["user-devices"] });
+      }
+
+      consequences?.[notification.type]?.(notification);
       await Notifications.scheduleNotificationAsync({
         content: {
           title: sanitizeText(
-            t(`titles.${notification.type}`, notification.payload).toString()
+            t(`titles.${notification.type}`, notification.payload).toString(),
           ),
           body: sanitizeText(
             t(
               `descriptions.${notification.type}`,
-              notification.payload
-            ).toString()
+              notification.payload,
+            ).toString(),
           ),
           sound: true,
         },
@@ -71,16 +95,18 @@ export function useNotifications() {
     });
 
     return () => {
-      socket.disconnect();
+      disconnectSocket("notifications");
       socketRef.current = null;
     };
-  }, [accessToken]);
+  }, [accessToken, consequences, enabled, queryClient, t]);
 
-  const resetCount = React.useCallback(() => setNewCount(0), []);
+  const resetCount = React.useCallback(() => {
+    markAllAsRead();
+  }, [markAllAsRead]);
 
   return {
     notifications,
-    newCount,
+    count,
     resetCount,
     socket: socketRef.current,
   };

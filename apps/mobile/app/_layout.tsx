@@ -1,9 +1,8 @@
 import React from "react";
 import { Stack, useRootNavigationState } from "expo-router";
 import * as Notifications from "expo-notifications";
-import { useColorScheme } from "nativewind";
 import { ThemeProvider } from "@react-navigation/native";
-import { NAV_THEME } from "~/lib/theme";
+import { hslToHex, NAV_THEME, THEME } from "~/lib/theme";
 import "~/global.css";
 import "../i18n";
 import { Platform, View } from "react-native";
@@ -25,6 +24,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { splashPrevented } from "@/lib/splash-screen";
 import { asyncStoragePersister, queryClient } from "@/lib/query-client";
 import { LoaderProvider } from "@/contexts/LoaderContext";
+import { NotificationType } from "@/types";
 
 export { ErrorBoundary } from "expo-router";
 
@@ -38,13 +38,28 @@ Notifications.setNotificationHandler({
   }),
 });
 
-function RootLayoutContent() {
-  const { colorScheme } = useColorScheme();
-  const insets = useSafeAreaInsets();
-  const { newCount, notifications, resetCount } = useNotifications();
-  const [ready, setReady] = React.useState(false);
+interface RootLayoutContentProps {
+  palette: typeof THEME.light | typeof THEME.dark;
+  colorScheme: "light" | "dark";
+}
 
-  const isDarkColorScheme = colorScheme === "dark";
+function RootLayoutContent({ palette, colorScheme }: RootLayoutContentProps) {
+  const insets = useSafeAreaInsets();
+  const {
+    count: notificationCount,
+    notifications,
+    resetCount: resetNotificationCount,
+  } = useNotifications({
+    consequences: {
+      [NotificationType.TEST]: () => {},
+      [NotificationType.NEW_SIGNIN]: () => {},
+      [NotificationType.NEW_MESSAGE]: () => {},
+      [NotificationType.JOB_REQUEST_APPROVED]: () => {},
+      [NotificationType.JOB_REQUEST_REJECTED]: () => {},
+      [NotificationType.NEW_JOB_REQUEST]: () => {},
+    },
+  });
+  const [ready, setReady] = React.useState(false);
 
   // Wait for navigation context to load
   const navigationState = useRootNavigationState();
@@ -59,7 +74,11 @@ function RootLayoutContent() {
     <ThemeProvider value={NAV_THEME[colorScheme ?? "light"]}>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <NotificationContext.Provider
-          value={{ newCount, notifications, resetCount }}
+          value={{
+            count: notificationCount,
+            notifications,
+            resetCount: resetNotificationCount,
+          }}
         >
           <View
             className={cn("flex-1 light dark:dark bg-background")}
@@ -73,33 +92,23 @@ function RootLayoutContent() {
                 headerShown: false,
                 contentStyle: {
                   flex: 1,
-                  backgroundColor: isDarkColorScheme
-                    ? NAV_THEME.dark.colors.background
-                    : NAV_THEME.light.colors.background,
+                  backgroundColor: hslToHex(palette.background),
                 },
                 headerStyle: {
-                  backgroundColor: isDarkColorScheme
-                    ? NAV_THEME.dark.colors.card
-                    : NAV_THEME.light.colors.card,
+                  backgroundColor: hslToHex(palette.card),
                 },
-                headerTintColor: isDarkColorScheme
-                  ? NAV_THEME.dark.colors.text
-                  : NAV_THEME.light.colors.text,
+                headerTintColor: hslToHex(palette.foreground),
                 headerTitleStyle: {
                   fontFamily: "Poppins-SemiBold",
                   fontSize: 18,
-                  color: isDarkColorScheme
-                    ? NAV_THEME.dark.colors.text
-                    : NAV_THEME.light.colors.text,
+                  color: hslToHex(palette.foreground),
                 },
               }}
             />
             <Toaster
               duration={1000}
               style={{
-                backgroundColor: isDarkColorScheme
-                  ? NAV_THEME.dark.colors.card
-                  : NAV_THEME.light.colors.card,
+                backgroundColor: hslToHex(palette.card),
               }}
             />
             <PortalHost />
@@ -111,7 +120,7 @@ function RootLayoutContent() {
 }
 
 export default function RootLayout() {
-  const { colorScheme } = useColorPalette();
+  const { colorScheme, palette } = useColorPalette();
   const isPreferenceReady = usePreferencePersistStore((state) => state.isReady);
 
   React.useEffect(() => {
@@ -136,7 +145,10 @@ export default function RootLayout() {
       >
         <SafeAreaProvider>
           <LoaderProvider>
-            <RootLayoutContent />
+            <RootLayoutContent
+              colorScheme={colorScheme ?? "light"}
+              palette={palette}
+            />
           </LoaderProvider>
         </SafeAreaProvider>
       </PersistQueryClientProvider>
