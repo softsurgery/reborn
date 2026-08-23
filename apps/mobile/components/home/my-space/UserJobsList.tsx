@@ -1,5 +1,8 @@
 import React from "react";
-import Animated from "react-native-reanimated";
+import Animated, {
+  useAnimatedStyle,
+  withTiming,
+} from "react-native-reanimated";
 import { LegendList } from "@legendapp/list";
 import { InfiniteListFooter } from "@/components/shared/InfiniteListFooter";
 
@@ -24,6 +27,7 @@ import { Text } from "@/components/ui/text";
 import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
 import { useStickyElement } from "@/hooks/useStickyElement";
 import { JobCreateActionBanner } from "./JobCreateActionBanner";
+import { MyJobPreviewModal } from "@/components/jobs/job-management/MyJobPreviewModal";
 
 const AnimatedLegendList = Animated.createAnimatedComponent(
   LegendList,
@@ -54,6 +58,19 @@ export const UserJobsList = ({
   const { currentUser } = useCurrentUser();
   const [search, setSearch] = React.useState("");
   const [selectedFilter, setSelectedFilter] = React.useState("all");
+  const [previewJob, setPreviewJob] = React.useState<ResponseJobDto | null>(
+    null,
+  );
+
+  const isPreviewing = !!previewJob;
+
+  const animatedBlurStyle = useAnimatedStyle(() => {
+    return {
+      opacity: withTiming(isPreviewing ? 0.35 : 1, {
+        duration: 250,
+      }),
+    };
+  }, [isPreviewing]);
 
   const [bannerHeight, setBannerHeight] = React.useState(100);
   const [searchBarHeight, setSearchBarHeight] = React.useState(110);
@@ -88,25 +105,37 @@ export const UserJobsList = ({
 
   const isPending = isJobsPending || searching;
 
-  const renderItem = React.useCallback(({ item }: { item: ResponseJobDto }) => {
-    return <JobManagementCard job={item} />;
-  }, []);
+  const renderItem = React.useCallback(
+    ({ item }: { item: ResponseJobDto }) => {
+      return <JobManagementCard job={item} onLongPress={setPreviewJob} />;
+    },
+    [setPreviewJob],
+  );
 
   return (
     <StableSafeAreaView className={cn("flex-1 bg-card", className)}>
-      <ApplicationHeader
-        title="My Jobs"
-        classNames={{ wrapper: "border-b border-border/60 pb-2.5 bg-card" }}
-        titleVariant="large"
-        reverse
-        shortcuts={[
-          {
-            key: "back",
-            render: <AppHeaderBack />,
-          },
-        ]}
-      />
-      <View className="flex-1 bg-background px-3 relative">
+      <Animated.View
+        pointerEvents={isPreviewing ? "none" : "auto"}
+        style={[animatedBlurStyle]}
+      >
+        <ApplicationHeader
+          title="My Jobs"
+          classNames={{ wrapper: "border-b border-border/60 pb-2.5 bg-card" }}
+          titleVariant="large"
+          reverse
+          shortcuts={[
+            {
+              key: "back",
+              render: <AppHeaderBack />,
+            },
+          ]}
+        />
+      </Animated.View>
+      <Animated.View
+        pointerEvents={isPreviewing ? "none" : "auto"}
+        className="flex-1 bg-background px-3 relative"
+        style={[animatedBlurStyle]}
+      >
         <Animated.View
           className="absolute left-0 right-0 z-20 bg-background/90 mx-3 flex flex-col gap-4 py-4"
           style={stickyHeaderStyle}
@@ -170,6 +199,7 @@ export const UserJobsList = ({
           showsVerticalScrollIndicator={false}
           recycleItems={true}
           maintainVisibleContentPosition
+          scrollEnabled={!isPreviewing}
           ListHeaderComponent={
             <JobCreateActionBanner
               className="py-4"
@@ -225,7 +255,14 @@ export const UserJobsList = ({
             )
           }
         />
-      </View>
+      </Animated.View>
+
+      <MyJobPreviewModal
+        visible={!!previewJob}
+        job={previewJob}
+        onClose={() => setPreviewJob(null)}
+      />
     </StableSafeAreaView>
   );
 };
+

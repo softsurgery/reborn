@@ -35,10 +35,12 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { ActionSheetRef } from "react-native-actions-sheet";
 import { DeleteJobActionSheet } from "./DeleteJobActionSheet";
 import { useDeleteJob } from "@/hooks/content/job/useDeleteJob";
+import * as Haptics from "expo-haptics";
 
 interface JobManagementCardProps {
   className?: string;
   job: ResponseJobDto;
+  onLongPress?: (job: ResponseJobDto) => void;
 }
 
 export const THUMBNAIL_SIZE = 76;
@@ -108,6 +110,7 @@ const getStatusStyle = (status: JobStatus | string) => {
 export const JobManagementCard = ({
   className,
   job,
+  onLongPress,
 }: JobManagementCardProps) => {
   const { palette } = useColorPalette();
   const queryClient = useQueryClient();
@@ -190,6 +193,13 @@ export const JobManagementCard = ({
     <TouchableOpacity
       activeOpacity={0.75}
       onPress={navigateToManage}
+      onLongPress={() => {
+        if (onLongPress) {
+          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+          onLongPress(job);
+        }
+      }}
+      delayLongPress={300}
       className={cn(
         "w-full py-3.5 px-1 border-b border-border/40 flex-col gap-2.5",
         className,
