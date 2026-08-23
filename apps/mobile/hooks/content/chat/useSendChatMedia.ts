@@ -336,8 +336,8 @@ const toStagedMedia = (asset: ImagePicker.ImagePickerAsset): StagedMedia => ({
  */
 const buildPickerOptions = (
   kind?: MediaKind,
-): ImagePicker.ImagePickerOptions => {
-  const options: ImagePicker.ImagePickerOptions = {
+): ImagePicker.ImagePickerOptions & { shouldDownloadFromNetwork?: boolean } => {
+  const options: ImagePicker.ImagePickerOptions & { shouldDownloadFromNetwork?: boolean } = {
     mediaTypes:
       kind === "image"
         ? ["images"]
@@ -355,7 +355,7 @@ const buildPickerOptions = (
   }
 
   if (Platform.OS === "ios") {
-    (options as any).shouldDownloadFromNetwork = true;
+    options.shouldDownloadFromNetwork = true;
   }
 
   return options;
