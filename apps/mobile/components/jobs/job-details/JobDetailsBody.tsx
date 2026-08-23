@@ -94,7 +94,7 @@ export const JobDetailsBody = ({ className, job }: JobDetailsBodyProps) => {
       {tags.length > 0 && (
         <View className="bg-card px-5 py-5">
           <View className="mb-3 flex-row items-center justify-between">
-            <Text variant="h4">Skills</Text>
+            <Text variant="h4">Tags</Text>
             <Text style={{ fontSize: 11 }} className="text-muted-foreground">
               {tags.length}
             </Text>

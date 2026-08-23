@@ -93,8 +93,6 @@ export const JobDetails = ({ className, id }: JobDetailsProps) => {
       : [],
   });
 
-  const areImageComplete = imageQueries.every((query) => !query.isPending);
-
   // job request *******************************************************************************************************
 
   const {
@@ -179,7 +177,7 @@ export const JobDetails = ({ className, id }: JobDetailsProps) => {
     [],
   );
 
-  const isPending = isJobPending || isJobRequestedPending || !areImageComplete;
+  const isPending = isJobPending || isJobRequestedPending;
 
   if (isPending)
     return (
