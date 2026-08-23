@@ -45,13 +45,16 @@ export const NOTIFICATION_PICTURE_CONFIG: Record<
     strategy: "pictureId",
   },
   [NotificationType.NEW_JOB_REQUEST]: {
-    strategy: "pictureId",
+    strategy: "userId",
+    payloadKey: "requesterId",
   },
   [NotificationType.JOB_REQUEST_APPROVED]: {
-    strategy: "pictureId",
+    strategy: "userId",
+    payloadKey: "requesterId",
   },
   [NotificationType.JOB_REQUEST_REJECTED]: {
-    strategy: "pictureId",
+    strategy: "userId",
+    payloadKey: "requesterId",
   },
   [NotificationType.TEST]: {
     strategy: "static",

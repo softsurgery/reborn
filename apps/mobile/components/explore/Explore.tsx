@@ -62,7 +62,6 @@ export const Explore = ({ className }: ExploreProps) => {
       <Animated.View
         pointerEvents={isPreviewing ? "none" : "auto"}
         style={[animatedHeaderStyle, animatedExploreBlurStyle]}
-        className="px-2"
       >
         <ApplicationHeader
           title={t("screens.explore")}
