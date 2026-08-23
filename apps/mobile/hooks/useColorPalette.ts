@@ -8,6 +8,6 @@ export const useColorPalette = ({}: useColorPaletteProps = {}) => {
   const isDarkColorScheme = colorScheme === "dark";
   return {
     colorScheme,
-    palette: isDarkColorScheme ? THEME.dark : THEME.light,
+    palette: isDarkColorScheme ? THEME.dark : THEME.light ,
   };
 };

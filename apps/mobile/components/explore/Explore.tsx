@@ -31,7 +31,9 @@ export const Explore = ({ className }: ExploreProps) => {
   const { palette } = useColorPalette();
   const { t } = useTranslation("common");
   const [search] = React.useState("");
-  const [previewJob, setPreviewJob] = React.useState<ResponseJobDto | null>(null);
+  const [previewJob, setPreviewJob] = React.useState<ResponseJobDto | null>(
+    null,
+  );
 
   const isPreviewing = !!previewJob;
 
@@ -43,7 +45,7 @@ export const Explore = ({ className }: ExploreProps) => {
     };
   }, [isPreviewing]);
 
-  const { newCount, resetCount } = useNotificationContext();
+  const { count } = useNotificationContext();
 
   const { value: debouncedSearchTerm, loading: searching } =
     useDebounce<string>(search, 1000);
@@ -80,9 +82,8 @@ export const Explore = ({ className }: ExploreProps) => {
               icon: Bell,
               onPress: () => {
                 router.push("/main/notifications");
-                resetCount();
               },
-              badgeText: newCount > 0 ? `${newCount}` : undefined,
+              badgeText: count > 0 ? `${count}` : undefined,
             },
           ]}
         />

@@ -29,7 +29,7 @@ interface HomeProps {
 
 export const Home = ({ className }: HomeProps) => {
   const { currentUser, isCurrentUserPending } = useCurrentUser();
-  const { newCount, resetCount } = useNotificationContext();
+  const { count } = useNotificationContext();
   const isRTL = useRTL();
 
   const {
@@ -147,9 +147,8 @@ export const Home = ({ className }: HomeProps) => {
               icon: Bell,
               onPress: () => {
                 router.push("/main/notifications");
-                resetCount();
               },
-              badgeText: newCount > 0 ? `${newCount}` : undefined,
+              badgeText: count > 0 ? `${count}` : undefined,
             },
           ]}
         />

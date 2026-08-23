@@ -1,16 +1,16 @@
+import { ResponseNotificationDto } from "@/types";
 import React from "react";
-import { ResponseNotificationDto } from "~/types/notifications";
 
 interface NotificationContextProps {
   notifications: ResponseNotificationDto[];
-  newCount: number;
+  count: number;
   resetCount: () => void;
 }
 
 export const NotificationContext =
   React.createContext<NotificationContextProps>({
     notifications: [],
-    newCount: 0,
+    count: 0,
     resetCount: () => {},
   });
 
