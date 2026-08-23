@@ -79,12 +79,12 @@ export const ChatFileBubble = ({
    * Downloading/opening handler for a specific file attachment inside the bubble.
    */
   const handleOpen = React.useCallback(
-    async (uploadId: number, filename: string) => {
+    async (uploadId: number, filename: string, mimetype?: string) => {
       if (openingUploadId !== null) return;
 
       setOpeningUploadId(uploadId);
       try {
-        await openUploadFile(uploadId, filename);
+        await openUploadFile(uploadId, filename, mimetype);
       } finally {
         setOpeningUploadId(null);
       }

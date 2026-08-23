@@ -17,7 +17,7 @@ interface ChatFileListProps {
   items: ChatFileListItem[];
   width: number;
   openingUploadId?: number | null;
-  onOpen?: (uploadId: number, filename: string) => void;
+  onOpen?: (uploadId: number, filename: string, mimetype?: string) => void;
   isUploading?: boolean;
   isSending?: boolean;
   uploadFailed?: boolean;
@@ -115,7 +115,7 @@ export const ChatFileList = ({
             showDivider={index < items.length - 1}
             onPress={
               typeof item.uploadId === "number" && onOpen
-                ? () => onOpen(item.uploadId!, item.filename)
+                ? () => onOpen(item.uploadId!, item.filename, item.mimetype)
                 : undefined
             }
           />

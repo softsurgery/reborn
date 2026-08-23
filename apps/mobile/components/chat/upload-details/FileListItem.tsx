@@ -86,11 +86,11 @@ export const FileListItem = React.memo(function FileListItem({
 
     setIsOpening(true);
     try {
-      await openUploadFile(uploadId, resolvedName);
+      await openUploadFile(uploadId, resolvedName, resolvedMimetype);
     } finally {
       setIsOpening(false);
     }
-  }, [isOpening, resolvedName, uploadId]);
+  }, [isOpening, resolvedName, resolvedMimetype, uploadId]);
 
   return (
     <Pressable

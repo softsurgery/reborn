@@ -65,6 +65,7 @@ export const getUploadDownloadUrl = (uploadId: number) =>
 export const openUploadFile = async (
   uploadId: number,
   filename: string,
+  mimetype?: string,
 ): Promise<void> => {
   const accessToken = useAuthPersistStore.getState().accessToken;
   const downloadUrl = getUploadDownloadUrl(uploadId);
@@ -92,7 +93,11 @@ export const openUploadFile = async (
     });
 
     if (await Sharing.isAvailableAsync()) {
-      await Sharing.shareAsync(result.uri);
+      await Sharing.shareAsync(result.uri, {
+        mimeType: mimetype,
+        dialogTitle: filename,
+        UTI: mimetype,
+      });
       return;
     }
 
