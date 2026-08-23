@@ -15,7 +15,7 @@ import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
 import { cn } from "~/lib/utils";
 import { JobDetailsSkeleton } from "./JobDetailsSkeleton";
 import { ServerErrorResponse } from "~/types";
-import { useServerImage } from "~/hooks/content/useServerImage";
+import { useServerImages } from "~/hooks/content/useServerImages";
 import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
 import { useIsJobSaved } from "~/hooks/content/job/useIsJobSaved";
 import { useJobSaveActions } from "~/hooks/content/job/useJobSaveActions";
@@ -75,10 +75,10 @@ export const JobDetails = ({ className, id }: JobDetailsProps) => {
     [jobMetadataResp],
   );
 
-  const { jsx: profilePicture } = useServerImage({
-    id: job?.postedBy?.pictureId,
+  const { jsxArray: [profilePicture] } = useServerImages({
+    ids: [job?.postedBy?.pictureId],
     className: "rounded-full",
-    fallback: identifyUserAvatar(job?.postedBy),
+    fallbacks: [identifyUserAvatar(job?.postedBy)],
     size: { width: 40, height: 40 },
   });
 

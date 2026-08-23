@@ -28,7 +28,7 @@ import {
 } from "lucide-react-native";
 import { cn } from "@/lib/utils";
 import { identifyUser, identifyUserAvatar } from "@/lib/user.utils";
-import { useServerImage } from "@/hooks/content/useServerImage";
+import { useServerImages } from "@/hooks/content/useServerImages";
 import { useJobRequestActions } from "@/hooks/content/job/useJobRequestActions";
 import {
   JobPricingType,
@@ -77,8 +77,8 @@ export const IncomingRequestEntry = ({
   const [openRejectModal, setOpenRejectModal] = React.useState(false);
 
   // Candidate picture URL
-  const { upload: candidatePicture } = useServerImage({
-    id: request.user?.pictureId,
+  const { uploads: [candidatePicture] } = useServerImages({
+    ids: [request.user?.pictureId],
     enabled: !!request.user?.pictureId,
   });
 
@@ -88,8 +88,8 @@ export const IncomingRequestEntry = ({
     [request.job?.uploads],
   );
   const coverUploadId = orderedUploads?.[0]?.uploadId;
-  const { jsx: coverJsx } = useServerImage({
-    id: coverUploadId,
+  const { jsxArray: [coverJsx] } = useServerImages({
+    ids: [coverUploadId],
     enabled: !!coverUploadId,
     size: { width: 72, height: 72 },
     className: "rounded-xl",
@@ -302,7 +302,7 @@ export const IncomingRequestEntry = ({
             alt={identifyUser(request.user)}
             style={{ width: 22, height: 22 }}
           >
-            <AvatarImage source={{ uri: candidatePicture ?? "" }} />
+            <AvatarImage source={candidatePicture as any} />
             <AvatarFallback>
               <Text style={{ fontSize: 9 }} className="font-semibold">
                 {identifyUserAvatar(request.user)}

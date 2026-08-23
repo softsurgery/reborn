@@ -16,7 +16,7 @@ import { PhotoPreview } from "../PhotoPreview";
 
 interface ImageCarouselProps {
   uploads: string[];
-  imageQueries: UseQueryResult<string, Error>[];
+  imageQueries: UseQueryResult<ImageSource, Error>[];
   className?: string;
   autoPlay?: boolean;
   autoPlayInterval?: number;
@@ -53,8 +53,9 @@ export const ImageCarousel = ({
     return imageQueries
       .map((q) => q.data)
       .filter(
-        (data): data is string => typeof data === "string" && data.length > 0,
-      ) as ImageSource[];
+        (data): data is ImageSource =>
+          !!data && typeof data === "object" && !!(data as any).uri,
+      );
   }, [imageQueries]);
 
   const handlePreviewIndexChange = (newIndex: number) => {
@@ -116,9 +117,9 @@ export const ImageCarousel = ({
 
                 return (
                   <Image
-                    source={{ uri: query.data }}
+                    source={query.data as ImageSource}
                     style={{ width: "100%", height: "100%" }}
-                    resizeMode="cover"
+                    contentFit="cover"
                   />
                 );
               }}

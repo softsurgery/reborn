@@ -39,7 +39,7 @@ import {
   AvatarImage,
 } from "@/components/shared/stables/StableAvatar";
 import { identifyUser, identifyUserAvatar } from "@/lib/user.utils";
-import { useServerImage } from "@/hooks/content/useServerImage";
+import { useServerImages } from "@/hooks/content/useServerImages";
 import { useJobRequestActions } from "@/hooks/content/job/useJobRequestActions";
 import { useCurrentUser } from "@/hooks/content/user/useCurrentUser";
 import {
@@ -50,6 +50,7 @@ import {
 } from "@/types";
 import { cn } from "@/lib/utils";
 import { timeAgo } from "@/lib/dates.utils";
+import { ImageSource } from "expo-image";
 
 interface RequestDetailsProps {
   id: string;
@@ -89,8 +90,10 @@ export const RequestDetails = ({ id }: RequestDetailsProps) => {
   const counterpartyUser = isIncoming ? request?.user : request?.job?.postedBy;
 
   // Counterparty avatar
-  const { upload: counterpartyPicture } = useServerImage({
-    id: counterpartyUser?.pictureId,
+  const {
+    uploads: [counterpartyPicture],
+  } = useServerImages({
+    ids: [counterpartyUser?.pictureId],
     enabled: !!counterpartyUser?.pictureId,
   });
 
@@ -100,8 +103,10 @@ export const RequestDetails = ({ id }: RequestDetailsProps) => {
     [request?.job?.uploads],
   );
   const coverUploadId = orderedUploads?.[0]?.uploadId;
-  const { jsx: coverJsx } = useServerImage({
-    id: coverUploadId,
+  const {
+    jsxArray: [coverJsx],
+  } = useServerImages({
+    ids: [coverUploadId],
     enabled: !!coverUploadId,
     size: { width: 100, height: 100 },
     className: "rounded-xl",
@@ -276,7 +281,7 @@ export const RequestDetails = ({ id }: RequestDetailsProps) => {
               alt={identifyUser(counterpartyUser)}
               style={{ width: 44, height: 44 }}
             >
-              <AvatarImage source={{ uri: counterpartyPicture ?? "" }} />
+              <AvatarImage source={counterpartyPicture as ImageSource} />
               <AvatarFallback>
                 <Text className="font-bold text-sm">
                   {identifyUserAvatar(counterpartyUser)}

@@ -11,7 +11,7 @@ import { useFollowSystem } from "~/hooks/content/useFollowSystem";
 import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
 import { cn } from "~/lib/utils";
 import { ResponseUserDto, ServerErrorResponse } from "~/types";
-import { useServerImage } from "~/hooks/content/useServerImage";
+import { useServerImages } from "~/hooks/content/useServerImages";
 import { Icon } from "~/components/ui/icon";
 import { toast } from "sonner-native";
 import { useTranslation } from "react-i18next";
@@ -81,9 +81,9 @@ export const UserEntry = ({
       use: ["is-following"],
     });
 
-  const { jsx: profilePicture } = useServerImage({
-    id: user?.pictureId,
-    fallback: identifyUserAvatar(user),
+  const { jsxArray: [profilePicture] } = useServerImages({
+    ids: [user?.pictureId],
+    fallbacks: [identifyUserAvatar(user)],
     size: { width: 50, height: 50 },
     className: "rounded-full",
   });

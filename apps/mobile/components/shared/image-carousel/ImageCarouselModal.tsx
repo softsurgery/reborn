@@ -6,14 +6,14 @@ import Carousel, {
   Pagination,
 } from "react-native-reanimated-carousel";
 import { useSharedValue } from "react-native-reanimated";
-import { Image } from "expo-image";
+import { Image, ImageSource } from "expo-image";
 import { useColorScheme } from "nativewind";
 import { THEME } from "~/lib/theme";
 import { Text } from "~/components/ui/text";
 
 interface ImageCarouselModalProps {
   visible: boolean;
-  images: string[];
+  images: ImageSource[];
   initialIndex?: number;
   onClose: () => void;
   title?: string;
@@ -73,12 +73,12 @@ export const ImageCarouselModal = ({
             renderItem={({ item: imageUrl }) => (
               <View className="justify-center items-center">
                 <Image
-                  source={{ uri: imageUrl }}
+                  source={imageUrl as ImageSource}
                   style={{
                     width: "100%",
                     height: "100%",
                   }}
-                  resizeMode="contain"
+                  contentFit="contain"
                 />
               </View>
             )}

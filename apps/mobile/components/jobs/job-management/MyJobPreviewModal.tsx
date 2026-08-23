@@ -1,5 +1,6 @@
 import React from "react";
-import { Modal, Pressable, View, Image, TouchableOpacity } from "react-native";
+import { Modal, Pressable, View, TouchableOpacity } from "react-native";
+import { Image, ImageSource } from "expo-image";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -25,7 +26,7 @@ import { Text } from "@/components/ui/text";
 import { Badge } from "@/components/ui/badge";
 import { JobEvents, JobPricingType, JobStatus, ResponseJobDto } from "@/types";
 import { useColorPalette } from "@/hooks/useColorPalette";
-import { useServerImage } from "@/hooks/content/useServerImage";
+import { useServerImages } from "@/hooks/content/useServerImages";
 import { timeAgo } from "@/lib/dates.utils";
 import { router } from "expo-router";
 import * as Haptics from "expo-haptics";
@@ -122,8 +123,8 @@ export const MyJobPreviewModal = ({
   const coverId = orderedUploads?.[0]?.uploadId;
   const extraPhotos = Math.max((orderedUploads?.length ?? 0) - 1, 0);
 
-  const { upload } = useServerImage({
-    id: coverId,
+  const { uploads: [upload] } = useServerImages({
+    ids: [coverId],
     enabled: !!coverId,
   });
 
@@ -267,7 +268,7 @@ export const MyJobPreviewModal = ({
           className="w-full max-w-sm flex-col items-center z-10"
         >
           {/* Main Floating Preview Card */}
-          <View className="w-full bg-card rounded-3xl border border-border p-4 shadow-2xl overflow-hidden rounded-xl">
+          <View className="w-full bg-card border border-border p-4 shadow-2xl overflow-hidden rounded-xl">
             {/* Header: Category + Status Badge + Close Button */}
             <View className="flex-row items-center justify-between mb-3 pb-2 border-b border-border/60">
               <View className="flex-row items-center gap-2 flex-1">
@@ -302,9 +303,9 @@ export const MyJobPreviewModal = ({
             <View className="w-full h-40 rounded-xl overflow-hidden bg-muted mb-3 justify-center items-center relative">
               {coverId && upload ? (
                 <Image
-                  source={{ uri: upload }}
+                  source={upload as ImageSource}
                   style={{ width: "100%", height: "100%" }}
-                  resizeMode="cover"
+                  contentFit="cover"
                 />
               ) : (
                 <View className="items-center justify-center gap-1">

@@ -35,7 +35,13 @@ export const useServerImages = ({
   const uniqueIds = React.useMemo(
     () =>
       Array.from(
-        new Set(ids.filter((id) => typeof id === "number")),
+        new Set(
+          ids
+            .filter(
+              (id) => id !== undefined && id !== null && !isNaN(Number(id)),
+            )
+            .map((id) => Number(id)),
+        ),
       ) as number[],
     [ids],
   );
@@ -57,15 +63,19 @@ export const useServerImages = ({
     return map;
   }, [uniqueIds, queries]);
 
-  const uploads = uniqueIds.map(
-    (id) => queryMap.get(id)?.data as ImageSource | undefined,
+  const uploads = ids.map(
+    (id) =>
+      (id !== undefined ? queryMap.get(Number(id))?.data : undefined) as
+        | ImageSource
+        | undefined,
   );
   const isPending = queries.some((q) => q.isPending);
 
   const jsxArray = React.useMemo(() => {
     return ids.map((id, index) => {
-      const upload = id !== undefined ? queryMap.get(id)?.data : undefined;
-      const query = id !== undefined ? queryMap.get(id) : undefined;
+      const upload =
+        id !== undefined ? queryMap.get(Number(id))?.data : undefined;
+      const query = id !== undefined ? queryMap.get(Number(id)) : undefined;
       const fallback = fallbacks[index];
 
       if (upload && !query?.isPending) {

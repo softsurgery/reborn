@@ -1,5 +1,6 @@
 import React from "react";
 import { View } from "react-native";
+import { ImageSource } from "expo-image";
 import { UseQueryResult } from "@tanstack/react-query";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { BadgeCheck, ShieldOff, Star, Users } from "lucide-react-native";
@@ -10,7 +11,7 @@ import {
   AvatarImage,
 } from "@/components/shared/stables/StableAvatar";
 import { Text } from "~/components/ui/text";
-import { useServerImage } from "~/hooks/content/useServerImage";
+import { useServerImages } from "~/hooks/content/useServerImages";
 import { useColorPalette } from "@/hooks/useColorPalette";
 import { timeAgo } from "~/lib/dates.utils";
 import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
@@ -26,7 +27,7 @@ interface JobHeroProps {
   job: ResponseJobDto | null;
   metadata: ResponseJobMetadataDto | null;
   uploads: string[];
-  imageQueries: UseQueryResult<string, Error>[];
+  imageQueries: UseQueryResult<ImageSource, Error>[];
 }
 
 interface CurrencyExtras {
@@ -75,8 +76,8 @@ export const JobHero = ({
   const insets = useSafeAreaInsets();
   const hasImages = imageQueries.length > 0;
 
-  const { upload: authorPicture } = useServerImage({
-    id: job?.postedBy?.pictureId,
+  const { uploads: [authorPicture] } = useServerImages({
+    ids: [job?.postedBy?.pictureId],
     enabled: !!job?.postedBy?.pictureId,
   });
 
@@ -126,7 +127,7 @@ export const JobHero = ({
             alt={identifyUser(job?.postedBy)}
             style={{ width: 22, height: 22 }}
           >
-            <AvatarImage source={{ uri: authorPicture ?? "" }} />
+            <AvatarImage source={authorPicture as ImageSource} />
             <AvatarFallback>
               <Text style={{ fontSize: 9 }} className="font-semibold">
                 {identifyUserAvatar(job?.postedBy)}

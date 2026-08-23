@@ -1,7 +1,7 @@
 import React from "react";
 import { ThreeDotsActionSheet } from "@/components/shared/ThreeDotsActionSheet";
 import { Text } from "@/components/ui/text";
-import { useServerImage } from "@/hooks/content/useServerImage";
+import { useServerImages } from "@/hooks/content/useServerImages";
 import { cn } from "@/lib/utils";
 import {
   JobEvents,
@@ -10,7 +10,8 @@ import {
   ResponseJobDto,
   Paginated,
 } from "@/types";
-import { View, TouchableOpacity, Image } from "react-native";
+import { View, TouchableOpacity } from "react-native";
+import { Image, ImageSource } from "expo-image";
 import {
   ExternalLink,
   Folder,
@@ -127,8 +128,8 @@ export const JobManagementCard = ({
   const coverId = orderedUploads?.[0]?.uploadId;
   const extraPhotos = Math.max((orderedUploads?.length ?? 0) - 1, 0);
 
-  const { upload: coverUpload, isUploadPending } = useServerImage({
-    id: coverId,
+  const { uploads: [coverUpload], isPending: isUploadPending } = useServerImages({
+    ids: [coverId],
     enabled: !!coverId,
   });
 
@@ -304,9 +305,9 @@ export const JobManagementCard = ({
             <Skeleton className="h-full w-full" />
           ) : coverId && coverUpload ? (
             <Image
-              source={{ uri: coverUpload }}
+              source={coverUpload as ImageSource}
               className="w-full h-full"
-              resizeMode="cover"
+              contentFit="cover"
             />
           ) : (
             <View className="w-full h-full items-center justify-center">

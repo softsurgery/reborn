@@ -1,5 +1,10 @@
 import React from "react";
-import { ActivityIndicator, View, TouchableOpacity, Pressable } from "react-native";
+import {
+  ActivityIndicator,
+  View,
+  TouchableOpacity,
+  Pressable,
+} from "react-native";
 import { router } from "expo-router";
 import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
@@ -25,13 +30,23 @@ import {
 } from "lucide-react-native";
 import { cn } from "@/lib/utils";
 import { identifyUser, identifyUserAvatar } from "@/lib/user.utils";
-import { useServerImage } from "@/hooks/content/useServerImage";
+import { useServerImages } from "@/hooks/content/useServerImages";
 import { useJobRequestActions } from "@/hooks/content/job/useJobRequestActions";
-import { JobPricingType, JobRequestStatus, ResponseJobRequestDto, ResponseJobDto } from "@/types";
+import {
+  JobPricingType,
+  JobRequestStatus,
+  ResponseJobRequestDto,
+  ResponseJobDto,
+} from "@/types";
 import { timeAgo } from "@/lib/dates.utils";
 import { useColorPalette } from "@/hooks/useColorPalette";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/shared/stables/StableAvatar";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/shared/stables/StableAvatar";
 import { ThreeDotsActionSheet } from "@/components/shared/ThreeDotsActionSheet";
+import { ImageSource } from "expo-image";
 
 interface OutgoingRequestEntryProps {
   className?: string;
@@ -43,8 +58,14 @@ const DEFAULT_CURRENCY = "TND";
 
 const formatPrice = (job?: ResponseJobDto) => {
   if (!job || job.price === undefined || job.price === null) return null;
-  const currencyExtras = job.currency?.extras as { code?: string; symbol?: string } | undefined;
-  const code = currencyExtras?.symbol || currencyExtras?.code || job.currency?.label || DEFAULT_CURRENCY;
+  const currencyExtras = job.currency?.extras as
+    | { code?: string; symbol?: string }
+    | undefined;
+  const code =
+    currencyExtras?.symbol ||
+    currencyExtras?.code ||
+    job.currency?.label ||
+    DEFAULT_CURRENCY;
   const pricingType = job.pricingType === JobPricingType.HOURLY ? "/hr" : "";
   return `${job.price} ${code}${pricingType}`;
 };
@@ -59,19 +80,23 @@ export const OutgoingRequestEntry = ({
   const clientUser = request.job?.postedBy;
 
   // Client picture URL
-  const { upload: clientPicture } = useServerImage({
-    id: clientUser?.pictureId,
+  const {
+    uploads: [clientPicture],
+  } = useServerImages({
+    ids: [clientUser?.pictureId],
     enabled: !!clientUser?.pictureId,
   });
 
   // Job cover upload image
   const orderedUploads = React.useMemo(
     () => request.job?.uploads?.slice().sort((a, b) => a.order - b.order),
-    [request.job?.uploads]
+    [request.job?.uploads],
   );
   const coverUploadId = orderedUploads?.[0]?.uploadId;
-  const { jsx: coverJsx } = useServerImage({
-    id: coverUploadId,
+  const {
+    jsxArray: [coverJsx],
+  } = useServerImages({
+    ids: [coverUploadId],
     enabled: !!coverUploadId,
     size: { width: 72, height: 72 },
     className: "rounded-xl",
@@ -80,17 +105,20 @@ export const OutgoingRequestEntry = ({
   const statusConfig = {
     [JobRequestStatus.Pending]: {
       icon: AlertCircle,
-      badgeStyle: "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/25",
+      badgeStyle:
+        "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/25",
       label: "Pending",
     },
     [JobRequestStatus.Approved]: {
       icon: CheckCircle2,
-      badgeStyle: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/25",
+      badgeStyle:
+        "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/25",
       label: "Accepted",
     },
     [JobRequestStatus.Rejected]: {
       icon: XCircle,
-      badgeStyle: "bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/25",
+      badgeStyle:
+        "bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/25",
       label: "Declined",
     },
   };
@@ -164,13 +192,13 @@ export const OutgoingRequestEntry = ({
               params: {
                 id: request.job.id,
                 uploads: JSON.stringify(
-                  (request.job.uploads ?? []).map((u) => u.uploadId)
+                  (request.job.uploads ?? []).map((u) => u.uploadId),
                 ),
               },
             });
           }
         },
-      }
+      },
     );
 
     return opts;
@@ -182,7 +210,7 @@ export const OutgoingRequestEntry = ({
       onPress={navigateToRequestDetails}
       className={cn(
         "w-full py-3 px-1 border-b border-border/40 flex flex-col gap-2",
-        className
+        className,
       )}
     >
       {/* Top Section: Cover Thumbnail + Job Details Column */}
@@ -192,7 +220,11 @@ export const OutgoingRequestEntry = ({
           {coverUploadId ? (
             coverJsx
           ) : (
-            <ImageOff size={18} color={palette?.mutedForeground || "#9CA3AF"} opacity={0.4} />
+            <ImageOff
+              size={18}
+              color={palette?.mutedForeground}
+              opacity={0.4}
+            />
           )}
         </View>
 
@@ -208,9 +240,21 @@ export const OutgoingRequestEntry = ({
             </Text>
 
             <View className="flex flex-row items-center gap-1.5">
-              <Badge variant="outline" className={cn("gap-1 px-2 py-0.5 border-0", currentStatus.badgeStyle)}>
-                <Icon as={currentStatus.icon} size={10} className="currentColor" />
-                <Text className="text-[10px] font-semibold currentColor">{currentStatus.label}</Text>
+              <Badge
+                variant="outline"
+                className={cn(
+                  "gap-1 px-2 py-0.5 border-0",
+                  currentStatus.badgeStyle,
+                )}
+              >
+                <Icon
+                  as={currentStatus.icon}
+                  size={10}
+                  className="currentColor"
+                />
+                <Text className="text-[10px] font-semibold currentColor">
+                  {currentStatus.label}
+                </Text>
               </Badge>
 
               <Pressable onPress={(e: any) => e?.stopPropagation?.()}>
@@ -237,7 +281,9 @@ export const OutgoingRequestEntry = ({
 
             {request.job?.style && (
               <Badge variant="secondary" className="px-1.5 py-0 bg-muted">
-                <Text className="text-[10px] font-medium text-muted-foreground">{request.job.style}</Text>
+                <Text className="text-[10px] font-medium text-muted-foreground">
+                  {request.job.style}
+                </Text>
               </Badge>
             )}
           </View>
@@ -256,7 +302,7 @@ export const OutgoingRequestEntry = ({
             alt={identifyUser(clientUser)}
             style={{ width: 22, height: 22 }}
           >
-            <AvatarImage source={{ uri: clientPicture ?? "" }} />
+            <AvatarImage source={clientPicture as ImageSource} />
             <AvatarFallback>
               <Text style={{ fontSize: 9 }} className="font-semibold">
                 {identifyUserAvatar(clientUser)}
@@ -264,12 +310,17 @@ export const OutgoingRequestEntry = ({
             </AvatarFallback>
           </Avatar>
 
-          <Text numberOfLines={1} className="text-xs font-semibold text-foreground flex-shrink">
+          <Text
+            numberOfLines={1}
+            className="text-xs font-semibold text-foreground flex-shrink"
+          >
             {identifyUser(clientUser)}
           </Text>
 
           <Badge variant="secondary" className="px-1 py-0 bg-muted">
-            <Text className="text-[9px] font-medium text-muted-foreground">Client</Text>
+            <Text className="text-[9px] font-medium text-muted-foreground">
+              Client
+            </Text>
           </Badge>
 
           <Text className="text-xs text-muted-foreground">
@@ -298,7 +349,9 @@ export const OutgoingRequestEntry = ({
             <Text className="text-xs font-semibold">Message</Text>
           </Button>
         ) : (
-          <Text className="text-[11px] font-medium text-muted-foreground">Declined</Text>
+          <Text className="text-[11px] font-medium text-muted-foreground">
+            Declined
+          </Text>
         )}
       </View>
     </TouchableOpacity>
@@ -353,13 +406,19 @@ export const PendingActionBlock = ({
             <DialogTitle>
               <View className="flex flex-row items-center gap-2">
                 <Icon as={CopyX} size={20} className="text-destructive" />
-                <Text variant="large" className="font-bold">Withdraw Application</Text>
+                <Text variant="large" className="font-bold">
+                  Withdraw Application
+                </Text>
               </View>
             </DialogTitle>
             <DialogDescription>
               <View className="pt-2 gap-4">
                 <Text className="text-muted-foreground leading-relaxed">
-                  Are you sure you want to withdraw your application for <Text className="font-semibold text-foreground">{request.job?.title}</Text>?
+                  Are you sure you want to withdraw your application for{" "}
+                  <Text className="font-semibold text-foreground">
+                    {request.job?.title}
+                  </Text>
+                  ?
                 </Text>
                 <View className="flex flex-row items-center gap-3">
                   <Button
@@ -372,7 +431,9 @@ export const PendingActionBlock = ({
                     {isCancelPending ? (
                       <ActivityIndicator size="small" color="#ffffff" />
                     ) : (
-                      <Text className="font-semibold text-destructive-foreground">Confirm Withdraw</Text>
+                      <Text className="font-semibold text-destructive-foreground">
+                        Confirm Withdraw
+                      </Text>
                     )}
                   </Button>
                   <Button
@@ -393,6 +454,3 @@ export const PendingActionBlock = ({
     </React.Fragment>
   );
 };
-
-
-
