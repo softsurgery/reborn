@@ -8,9 +8,8 @@ import {
   Inbox,
   Star,
 } from "lucide-react-native";
-import { View } from "react-native";
+import { Pressable, View } from "react-native";
 import { cn } from "~/lib/utils";
-import { StablePressable } from "../shared/stables/StablePressable";
 import { Icon } from "~/components/ui/icon";
 import { Text } from "~/components/ui/text";
 import { Badge } from "~/components/ui/badge";
@@ -67,9 +66,9 @@ export const QuickActions = ({ className }: QuickActionsProps) => {
 
           return (
             <View key={item.title}>
-              <StablePressable
+              <Pressable
                 className={cn(
-                  "w-full py-3 rounded-none active:bg-muted/40",
+                  "w-full py-3 rounded-none active:opacity-50",
                   isDisabled && "opacity-60",
                 )}
                 onPress={isDisabled ? undefined : item.onPress}
@@ -80,8 +79,8 @@ export const QuickActions = ({ className }: QuickActionsProps) => {
                     <View className="h-10 w-10 items-center justify-center rounded-lg bg-primary">
                       <Icon
                         as={item.icon}
-                        size={18}
-                        className="text-foreground"
+                        size={24}
+                        color={palette.primaryForeground}
                       />
                     </View>
 
@@ -109,7 +108,7 @@ export const QuickActions = ({ className }: QuickActionsProps) => {
                     )}
                   </View>
                 </View>
-              </StablePressable>
+              </Pressable>
 
               {!isLast ? <Separator /> : null}
             </View>
