@@ -56,6 +56,7 @@ const findPaginatedIncoming = async ({
     `/job-request/list-incoming`,
     {
       params,
+      paramsSerializer: { indexes: null },
     },
   );
 
@@ -84,6 +85,7 @@ const findPaginatedOngoing = async ({
     `/job-request/list-ongoing`,
     {
       params,
+      paramsSerializer: { indexes: null },
     },
   );
 

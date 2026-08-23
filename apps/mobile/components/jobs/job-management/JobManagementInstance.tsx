@@ -6,10 +6,11 @@ import { cn } from "@/lib/utils";
 import { View } from "react-native";
 import { JobSummary } from "./JobSummary";
 import { JobStatistics } from "./JobStatistics";
-import { JobActions } from "./JobActions";
 import { useColorPalette } from "@/hooks/useColorPalette";
 import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
 import { createMaterialTopTabNavigator } from "expo-router/js-top-tabs";
+import { RequestsList } from "@/components/home/my-space/requests/RequestList";
+import { JobActions } from "./JobActions";
 
 interface JobManagementInstanceProps {
   id: string;
@@ -77,12 +78,26 @@ export const JobManagementInstance = ({
             {() => <JobStatistics />}
           </Tab.Screen>
           <Tab.Screen
+            name="requests"
+            options={{
+              tabBarLabel: "Requests",
+            }}
+          >
+            {() => (
+              <RequestsList
+                variant="incoming"
+                jobId={id}
+                className="pt-2 mx-4"
+              />
+            )}
+          </Tab.Screen>
+          <Tab.Screen
             name="gallery"
             options={{
               tabBarLabel: "Actions",
             }}
           >
-            {() => <JobActions className="p-2" />}
+            {() => <JobActions id={id} className="p-2" />}
           </Tab.Screen>
         </Tab.Navigator>
       </View>

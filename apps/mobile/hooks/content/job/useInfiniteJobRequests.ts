@@ -16,6 +16,7 @@ interface UseInfiniteJobRequestsProps {
   join?: string[];
   variant: "incoming" | "outgoing";
   statusFilter?: string;
+  jobId?: string;
 }
 
 export const useInfiniteJobRequests = ({
@@ -23,6 +24,7 @@ export const useInfiniteJobRequests = ({
   join = DEFAULT_JOINS,
   variant,
   statusFilter,
+  jobId,
 }: UseInfiniteJobRequestsProps) => {
   const {
     data,
@@ -33,10 +35,10 @@ export const useInfiniteJobRequests = ({
     isRefetching,
     isPending: isRequestsPending,
   } = useInfiniteQuery({
-    queryKey: ["requests", search, variant, statusFilter],
+    queryKey: ["requests", search, variant, statusFilter, jobId],
     initialPageParam: 1,
     queryFn: ({ pageParam = 1 }) => {
-      const queryParams: Record<string, string> = {
+      const queryParams: Record<string, string | string[]> = {
         page: String(pageParam),
         limit: "20",
         sort: "createdAt,desc",
@@ -44,11 +46,18 @@ export const useInfiniteJobRequests = ({
       };
 
       if (search) queryParams.search = search;
-      if (statusFilter) queryParams.filter = `status||$eq||${statusFilter}`;
+      
+      const filters: string[] = [];
+      if (statusFilter) filters.push(`status||$eq||${statusFilter}`);
+      if (jobId) filters.push(`job.id||$eq||${jobId}`);
+      
+      if (filters.length > 0) {
+        queryParams.filter = filters;
+      }
 
       return variant === "incoming"
-        ? api.jobRequest.findPaginatedIncoming(queryParams)
-        : api.jobRequest.findPaginatedOngoing(queryParams);
+        ? api.jobRequest.findPaginatedIncoming(queryParams as any)
+        : api.jobRequest.findPaginatedOngoing(queryParams as any);
     },
     getNextPageParam: (lastPage) =>
       lastPage?.meta?.hasNextPage ? lastPage.meta.page + 1 : undefined,
