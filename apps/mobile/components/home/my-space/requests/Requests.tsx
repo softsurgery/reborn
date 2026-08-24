@@ -16,7 +16,6 @@ interface RequestsProps {
   initialTab?: TabType;
   onTabChange?: (tab: TabType) => void;
 }
-
 const Tab = createMaterialTopTabNavigator();
 
 export const Requests = ({
@@ -27,10 +26,10 @@ export const Requests = ({
   const { palette } = useColorPalette();
 
   return (
-    <StableSafeAreaView className={cn("flex-1 bg-card", className)}>
+    <StableSafeAreaView className={cn("flex-1 bg-background", className)}>
       <ApplicationHeader
         classNames={{
-          wrapper: "border-b border-border/60 pb-2.5 bg-card",
+          wrapper: "border-b border-border/50 pb-2.5 bg-background",
         }}
         title="Job Requests"
         titleVariant="large"
@@ -51,21 +50,25 @@ export const Requests = ({
             tabBarScrollEnabled: false,
             tabBarLabelStyle: {
               fontSize: 13,
-              fontWeight: "600",
+              fontWeight: "700",
               textTransform: "none",
+              letterSpacing: -0.1,
             },
             tabBarActiveTintColor: palette?.primary,
             tabBarInactiveTintColor: palette?.mutedForeground,
             tabBarIndicatorStyle: {
               backgroundColor: palette?.primary,
-              height: 2.5,
-              borderRadius: 2,
+              height: 3,
+              borderRadius: 3,
             },
             tabBarStyle: {
               backgroundColor: "transparent",
               elevation: 0,
               shadowOpacity: 0,
-              borderBottomWidth: 0,
+              borderBottomWidth: 1,
+              borderBottomColor: palette?.border
+                ? `${palette.border}40`
+                : "rgba(0,0,0,0.05)",
             },
           }}
           commonOptions={{
@@ -83,8 +86,10 @@ export const Requests = ({
             listeners={{
               tabPress: () => onTabChange?.("incoming"),
             }}
-            component={() => <RequestsList variant="incoming" />}
-          />
+          >
+            {() => <RequestsList variant="incoming" />}
+          </Tab.Screen>
+
           <Tab.Screen
             name="outgoing"
             options={{
@@ -93,8 +98,9 @@ export const Requests = ({
             listeners={{
               tabPress: () => onTabChange?.("outgoing"),
             }}
-            component={() => <RequestsList variant="outgoing" />}
-          />
+          >
+          {() => <RequestsList variant="outgoing" />}
+          </Tab.Screen>
         </Tab.Navigator>
       </View>
     </StableSafeAreaView>

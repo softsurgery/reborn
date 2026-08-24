@@ -1,42 +1,30 @@
 import React from "react";
-import { ActivityIndicator, View, TouchableOpacity, Pressable } from "react-native";
+import { View, TouchableOpacity, Pressable } from "react-native";
 import { router } from "expo-router";
-import { Button } from "@/components/ui/button";
+import { StablePressable } from "@/components/shared/stables/StablePressable";
 import { Text } from "@/components/ui/text";
-import { Badge } from "@/components/ui/badge";
 import { Icon } from "@/components/ui/icon";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 import {
   CheckCircle2,
   XCircle,
   AlertCircle,
   Mail,
-  CopyX,
-  Check,
-  X,
-  ImageOff,
-  UserCheck,
   FileText,
   User,
   Briefcase,
+  ChevronRight,
 } from "lucide-react-native";
+import * as Haptics from "expo-haptics";
+import { ActionSheetRef } from "react-native-actions-sheet";
 import { cn } from "@/lib/utils";
 import { identifyUser, identifyUserAvatar } from "@/lib/user.utils";
 import { useServerImages } from "@/hooks/content/useServerImages";
-import { useJobRequestActions } from "@/hooks/content/job/useJobRequestActions";
 import {
   JobPricingType,
   JobRequestStatus,
   ResponseJobRequestDto,
   ResponseJobDto,
 } from "@/types";
-import { timeAgo } from "@/lib/dates.utils";
 import { useColorPalette } from "@/hooks/useColorPalette";
 import {
   Avatar,
@@ -73,11 +61,19 @@ export const IncomingRequestEntry = ({
   refetchRequests,
 }: IncomingRequestEntryProps) => {
   const { palette } = useColorPalette();
+  const actionSheetRef = React.useRef<ActionSheetRef>(null);
   const [openApproveModal, setOpenApproveModal] = React.useState(false);
   const [openRejectModal, setOpenRejectModal] = React.useState(false);
 
+  const handleLongPress = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    actionSheetRef.current?.show();
+  };
+
   // Candidate picture URL
-  const { uploads: [candidatePicture] } = useServerImages({
+  const {
+    uploads: [candidatePicture],
+  } = useServerImages({
     ids: [request.user?.pictureId],
     enabled: !!request.user?.pictureId,
   });
@@ -88,30 +84,29 @@ export const IncomingRequestEntry = ({
     [request.job?.uploads],
   );
   const coverUploadId = orderedUploads?.[0]?.uploadId;
-  const { jsxArray: [coverJsx] } = useServerImages({
+  const {
+    jsxArray: [coverJsx],
+  } = useServerImages({
     ids: [coverUploadId],
     enabled: !!coverUploadId,
-    size: { width: 72, height: 72 },
-    className: "rounded-xl",
+    size: { width: 84, height: 84 },
+    className: "rounded-2xl w-full h-full",
   });
 
   const statusConfig = {
     [JobRequestStatus.Pending]: {
       icon: AlertCircle,
-      badgeStyle:
-        "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/25",
+      dotColor: "bg-amber-500",
       label: "Pending",
     },
     [JobRequestStatus.Approved]: {
       icon: CheckCircle2,
-      badgeStyle:
-        "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/25",
+      dotColor: "bg-emerald-500",
       label: "Accepted",
     },
     [JobRequestStatus.Rejected]: {
       icon: XCircle,
-      badgeStyle:
-        "bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/25",
+      dotColor: "bg-rose-500",
       label: "Declined",
     },
   };
@@ -205,340 +200,99 @@ export const IncomingRequestEntry = ({
   }, [request]);
 
   return (
-    <TouchableOpacity
-      activeOpacity={0.85}
+    <StablePressable
       onPress={navigateToRequestDetails}
-      className={cn(
-        "w-full py-3 px-1 border-b border-border/40 flex flex-col gap-2",
-        className,
-      )}
+      onLongPress={handleLongPress}
+      className={cn("w-full p-2 py-2 flex flex-col gap-3.5", className)}
     >
-      {/* Top Section: Cover Thumbnail + Job Details Column */}
-      <View className="flex flex-row gap-3">
-        {/* Left Thumbnail (matching JobCard 72x72) */}
-        <View className="w-[72px] h-[72px] rounded-xl overflow-hidden bg-muted items-center justify-center shrink-0">
-          {coverUploadId ? (
-            coverJsx
-          ) : (
-            <ImageOff
-              size={18}
-              color={palette?.mutedForeground || "#9CA3AF"}
-              opacity={0.4}
-            />
-          )}
+      <ThreeDotsActionSheet
+        ref={actionSheetRef}
+        renderTrigger={false}
+        options={threeDotsOptions}
+      />
+      {/* Main Section: Job Cover Thumbnail (84x84) with Floating Candidate Avatar + Right Info Column */}
+      <View className="flex flex-row gap-3.5">
+        {/* Left Thumbnail with Floating Candidate Avatar */}
+        <View className="relative shrink-0">
+          <View className="w-[84px] h-[84px] rounded-2xl overflow-hidden bg-muted/70 items-center justify-center border border-border/40 shadow-xs">
+            {coverUploadId ? (
+              coverJsx
+            ) : (
+              <View className="w-full h-full items-center justify-center bg-muted/60">
+                <Icon
+                  as={Briefcase}
+                  size={22}
+                  color={palette?.mutedForeground || "#9CA3AF"}
+                  opacity={0.5}
+                />
+              </View>
+            )}
+          </View>
+
+          {/* Floating Candidate Avatar */}
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={navigateToCandidateProfile}
+            className="absolute -bottom-1.5 -right-1.5 z-10"
+          >
+            <Avatar
+              alt={identifyUser(request.user)}
+              style={{ width: 30, height: 30 }}
+              className="border-2 border-background shadow-xs"
+            >
+              <AvatarImage source={candidatePicture} />
+              <AvatarFallback className="bg-muted">
+                <Text
+                  style={{ fontSize: 10 }}
+                  className="font-extrabold text-foreground"
+                >
+                  {identifyUserAvatar(request.user)}
+                </Text>
+              </AvatarFallback>
+            </Avatar>
+          </TouchableOpacity>
         </View>
 
         {/* Right Info Column */}
-        <View className="flex-1 justify-between">
-          {/* Category & Status Header + Action Menu */}
+        <View className="flex-1 justify-center py-2">
+          {/* Category Eyebrow & Status Dot + Chevron Right */}
           <View className="flex flex-row items-center justify-between gap-2">
-            <Text
-              numberOfLines={1}
-              className="text-[10px] font-bold uppercase tracking-widest text-primary flex-1"
-            >
-              {request.job?.category?.label ?? "Uncategorised"}
-            </Text>
-
-            <View className="flex flex-row items-center gap-1.5">
-              <Badge
-                variant="outline"
-                className={cn(
-                  "gap-1 px-2 py-0.5 border-0",
-                  currentStatus.badgeStyle,
-                )}
+            <View className="flex flex-row items-center gap-2">
+              <Text
+                numberOfLines={1}
+                className="text-[11px] font-extrabold uppercase tracking-wider text-primary shrink min-w-0"
               >
-                <Icon
-                  as={currentStatus.icon}
-                  size={10}
-                  className="currentColor"
+                {request.job?.category?.label ?? "Uncategorised"}
+              </Text>
+
+              <View className="flex flex-row items-center gap-1 shrink-0">
+                <View
+                  className={cn("w-2 h-2 rounded-full", currentStatus.dotColor)}
                 />
-                <Text className="text-[10px] font-semibold currentColor">
+                <Text className="text-[10px] font-bold text-muted-foreground">
                   {currentStatus.label}
                 </Text>
-              </Badge>
+              </View>
+            </View>
 
-              <Pressable onPress={(e: any) => e?.stopPropagation?.()}>
-                <ThreeDotsActionSheet options={threeDotsOptions} size={16} />
-              </Pressable>
+            <View className="w-6 h-6 items-center justify-center -mr-1">
+              <Icon
+                as={ChevronRight}
+                size={18}
+                color={palette?.mutedForeground || "#9CA3AF"}
+              />
             </View>
           </View>
 
           {/* Job Title */}
           <Text
             numberOfLines={2}
-            className="text-sm font-semibold leading-4 tracking-tight text-foreground"
+            className="text-[15px] font-extrabold leading-tight tracking-tight text-foreground mt-0.5"
           >
             {request.job?.title || "Untitled Job"}
           </Text>
-
-          {/* Price & Job Style */}
-          <View className="flex flex-row items-center gap-2 mt-1">
-            {priceDisplay && (
-              <Text className="text-sm font-bold text-foreground">
-                {priceDisplay}
-              </Text>
-            )}
-
-            {request.job?.style && (
-              <Badge variant="secondary" className="px-1.5 py-0 bg-muted">
-                <Text className="text-[10px] font-medium text-muted-foreground">
-                  {request.job.style}
-                </Text>
-              </Badge>
-            )}
-          </View>
         </View>
       </View>
-
-      {/* Bottom Footer Row: Counterparty Candidate Info & Quick Action Button */}
-      <View className="flex flex-row items-center justify-between pt-1 mt-0.5">
-        {/* Counterparty Candidate Info */}
-        <TouchableOpacity
-          activeOpacity={0.7}
-          onPress={navigateToCandidateProfile}
-          className="flex flex-row items-center gap-2 flex-1 pr-2"
-        >
-          <Avatar
-            alt={identifyUser(request.user)}
-            style={{ width: 22, height: 22 }}
-          >
-            <AvatarImage source={candidatePicture as any} />
-            <AvatarFallback>
-              <Text style={{ fontSize: 9 }} className="font-semibold">
-                {identifyUserAvatar(request.user)}
-              </Text>
-            </AvatarFallback>
-          </Avatar>
-
-          <Text
-            numberOfLines={1}
-            className="text-xs font-semibold text-foreground flex-shrink"
-          >
-            {identifyUser(request.user)}
-          </Text>
-
-          <Badge variant="secondary" className="px-1 py-0 bg-primary/10">
-            <Text className="text-[9px] font-semibold text-primary">
-              Candidate
-            </Text>
-          </Badge>
-
-          <Text className="text-xs text-muted-foreground">
-            · {request.createdAt ? timeAgo(request.createdAt) : "Recently"}
-          </Text>
-        </TouchableOpacity>
-
-        {/* Action Button */}
-        {request.status === JobRequestStatus.Pending ? (
-          <IncomingPendingActionBlock
-            request={request}
-            refetchRequests={refetchRequests}
-            openApproveModal={openApproveModal}
-            setOpenApproveModal={setOpenApproveModal}
-            openRejectModal={openRejectModal}
-            setOpenRejectModal={setOpenRejectModal}
-          />
-        ) : request.status === JobRequestStatus.Approved ? (
-          <Button
-            size="sm"
-            className="h-7 px-3 rounded-lg flex flex-row items-center gap-1.5"
-            onPress={(e) => {
-              e.stopPropagation();
-              router.push("/main/(tabs)/chat");
-            }}
-          >
-            <Icon as={Mail} size={12} className="text-primary-foreground" />
-            <Text className="text-xs font-semibold">Message</Text>
-          </Button>
-        ) : (
-          <Text className="text-[11px] font-medium text-muted-foreground">
-            Declined
-          </Text>
-        )}
-      </View>
-    </TouchableOpacity>
-  );
-};
-
-/* ------------------------------ ACTION BLOCKS ------------------------------ */
-
-interface IncomingPendingActionBlockProps extends IncomingRequestEntryProps {
-  openApproveModal?: boolean;
-  setOpenApproveModal?: (open: boolean) => void;
-  openRejectModal?: boolean;
-  setOpenRejectModal?: (open: boolean) => void;
-}
-
-const IncomingPendingActionBlock = ({
-  request,
-  refetchRequests,
-  openApproveModal,
-  setOpenApproveModal,
-  openRejectModal,
-  setOpenRejectModal,
-}: IncomingPendingActionBlockProps) => {
-  const [internalApprove, setInternalApprove] = React.useState(false);
-  const [internalReject, setInternalReject] = React.useState(false);
-
-  const openApprove = openApproveModal !== undefined ? openApproveModal : internalApprove;
-  const setOpenApprove = setOpenApproveModal || setInternalApprove;
-
-  const openReject = openRejectModal !== undefined ? openRejectModal : internalReject;
-  const setOpenReject = setOpenRejectModal || setInternalReject;
-
-  const {
-    approveJobRequest,
-    isApprovePending,
-    rejectJobRequest,
-    isRejectPending,
-  } = useJobRequestActions({
-    onSuccess: () => {
-      refetchRequests?.();
-      setOpenApprove(false);
-      setOpenReject(false);
-    },
-  });
-
-  return (
-    <React.Fragment>
-      <View className="flex flex-row items-center gap-1.5">
-        <Button
-          size="sm"
-          className="h-7 px-2.5 rounded-lg flex flex-row items-center gap-1"
-          onPress={(e) => {
-            e.stopPropagation();
-            setOpenApprove(true);
-          }}
-          disabled={isApprovePending || isRejectPending}
-        >
-          {isApprovePending ? (
-            <ActivityIndicator size="small" color="#ffffff" />
-          ) : (
-            <Icon as={Check} size={12} className="text-primary-foreground" />
-          )}
-          <Text className="text-xs font-semibold">Approve</Text>
-        </Button>
-
-        <Button
-          size="sm"
-          variant="outline"
-          className="h-7 px-2 rounded-lg border-destructive/40"
-          onPress={(e) => {
-            e.stopPropagation();
-            setOpenReject(true);
-          }}
-          disabled={isApprovePending || isRejectPending}
-        >
-          {isRejectPending ? (
-            <ActivityIndicator size="small" />
-          ) : (
-            <Icon as={X} size={12} className="text-destructive" />
-          )}
-        </Button>
-      </View>
-
-      {/* Approve Modal */}
-      <Dialog open={openApprove} onOpenChange={setOpenApprove}>
-        <DialogContent className="rounded-2xl">
-          <DialogHeader>
-            <DialogTitle>
-              <View className="flex flex-row items-center gap-2">
-                <Icon as={UserCheck} size={20} className="text-primary" />
-                <Text variant="large" className="font-bold">
-                  Approve Candidate
-                </Text>
-              </View>
-            </DialogTitle>
-            <DialogDescription>
-              <View className="pt-2 gap-4">
-                <Text className="text-muted-foreground leading-relaxed">
-                  Are you sure you want to accept{" "}
-                  <Text className="font-semibold text-foreground">
-                    {identifyUser(request.user)}
-                  </Text>{" "}
-                  for{" "}
-                  <Text className="font-semibold text-foreground">
-                    {request.job?.title}
-                  </Text>
-                  ?
-                </Text>
-                <View className="flex flex-row items-center gap-3">
-                  <Button
-                    size="sm"
-                    className="flex flex-1 items-center justify-center rounded-xl"
-                    onPress={() => approveJobRequest(request.id)}
-                    disabled={isApprovePending}
-                  >
-                    {isApprovePending ? (
-                      <ActivityIndicator size="small" color="#ffffff" />
-                    ) : (
-                      <Text className="font-semibold">Confirm Approval</Text>
-                    )}
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className="flex flex-1 items-center justify-center rounded-xl"
-                    onPress={() => setOpenApprove(false)}
-                    disabled={isApprovePending}
-                  >
-                    <Text>Cancel</Text>
-                  </Button>
-                </View>
-              </View>
-            </DialogDescription>
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
-
-      {/* Reject Modal */}
-      <Dialog open={openReject} onOpenChange={setOpenReject}>
-        <DialogContent className="rounded-2xl">
-          <DialogHeader>
-            <DialogTitle>
-              <View className="flex flex-row items-center gap-2">
-                <Icon as={CopyX} size={20} className="text-destructive" />
-                <Text variant="large" className="font-bold">
-                  Decline Application
-                </Text>
-              </View>
-            </DialogTitle>
-            <DialogDescription>
-              <View className="pt-2 gap-4">
-                <Text className="text-muted-foreground leading-relaxed">
-                  Are you sure you want to decline this application?
-                </Text>
-                <View className="flex flex-row items-center gap-3">
-                  <Button
-                    size="sm"
-                    variant="destructive"
-                    className="flex flex-1 items-center justify-center rounded-xl"
-                    onPress={() => rejectJobRequest(request.id)}
-                    disabled={isRejectPending}
-                  >
-                    {isRejectPending ? (
-                      <ActivityIndicator size="small" color="#ffffff" />
-                    ) : (
-                      <Text className="font-semibold text-destructive-foreground">
-                        Confirm Decline
-                      </Text>
-                    )}
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className="flex flex-1 items-center justify-center rounded-xl"
-                    onPress={() => setOpenReject(false)}
-                    disabled={isRejectPending}
-                  >
-                    <Text>Cancel</Text>
-                  </Button>
-                </View>
-              </View>
-            </DialogDescription>
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
-    </React.Fragment>
+    </StablePressable>
   );
 };

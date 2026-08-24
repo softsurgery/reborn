@@ -1,6 +1,5 @@
 import React from "react";
-import { RefreshControl, View } from "react-native";
-import { LegendList } from "@legendapp/list";
+import { RefreshControl, View, FlatList } from "react-native";
 import { Inbox, Send, Search } from "lucide-react-native";
 import { cn } from "@/lib/utils";
 import { ResponseJobRequestDto } from "@/types";
@@ -27,7 +26,6 @@ export const RequestsList = ({
 }: RequestsListProps) => {
   const [searchValue, setSearchValue] = React.useState("");
   const { value: search, loading: searching } = useDebounce(searchValue, 300);
-  const [searchBarHeight, setSearchBarHeight] = React.useState(60);
 
   const {
     requests,
@@ -75,12 +73,8 @@ export const RequestsList = ({
       : "Job applications you've submitted will appear here.";
 
   return (
-    <View className={cn("flex-1 bg-background relative", className)}>
-      {/* Sticky Search Header matching UserJobsList */}
-      <View
-        className="absolute left-0 right-0 z-20 bg-background/90 py-3 flex flex-col justify-center"
-        onLayout={(e) => setSearchBarHeight(e.nativeEvent.layout.height)}
-      >
+    <View className={cn("flex-1 bg-background", className)}>
+      <View className="py-2 bg-background border-b border-border/20">
         <MarkedInput
           value={searchValue}
           onChangeText={setSearchValue}
@@ -94,15 +88,13 @@ export const RequestsList = ({
         />
       </View>
 
-      <LegendList
-        className={cn("flex-1", className)}
-        contentContainerStyle={{ paddingTop: searchBarHeight + 4 }}
+      <FlatList
+        className="flex-1"
+        contentContainerStyle={{ paddingTop: 12, paddingBottom: 32 }}
         data={isInitialPending ? [] : requests}
         renderItem={renderItem}
         keyExtractor={(item) => item.id.toString()}
         showsVerticalScrollIndicator={false}
-        recycleItems={true}
-        maintainVisibleContentPosition
         refreshControl={
           <RefreshControl
             refreshing={isRefetching}
@@ -145,7 +137,7 @@ export const RequestsList = ({
                 ))}
               </View>
             ) : isFetchingNextPage ? (
-              <View className="py-4">
+              <View className="py-4 w-full">
                 <SkeletonComponent />
               </View>
             ) : null}

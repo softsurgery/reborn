@@ -12,33 +12,33 @@ export const IncomingRequestSkeleton = ({
 }: IncomingRequestEntrySkeletonProps) => {
   return (
     <View
-      className={cn(
-        "w-full py-3 px-1 border-b border-border/40 flex flex-col gap-2",
-        className,
-      )}
+      className={cn("w-full p-2 py-2 flex flex-col gap-3.5", className)}
     >
-      {/* Top Row: Thumbnail + Info */}
-      <View className="flex flex-row gap-3">
-        <Skeleton className="w-[72px] h-[72px] rounded-xl shrink-0" />
-        <View className="flex-1 justify-between gap-1.5">
+      {/* Main Section: Job Cover Thumbnail (84x84) with Floating Avatar + Info Column */}
+      <View className="flex flex-row gap-3.5">
+        {/* Left Thumbnail with Floating Candidate Avatar Skeleton */}
+        <View className="relative shrink-0">
+          <Skeleton className="w-[84px] h-[84px] rounded-2xl" />
+          <Skeleton className="absolute -bottom-1.5 -right-1.5 w-[30px] h-[30px] rounded-full border-2 border-background" />
+        </View>
+
+        {/* Right Info Column */}
+        <View className="flex-1 justify-between min-w-0 py-0.5">
+          {/* Header row: Category + Status Dot + Chevron Right */}
           <View className="flex flex-row items-center justify-between gap-2">
-            <Skeleton className="h-3.5 w-20 rounded-md" />
-            <Skeleton className="h-4 w-14 rounded-full" />
+            <View className="flex flex-row items-center gap-2 flex-1 min-w-0">
+              <Skeleton className="h-3 w-20 rounded-md" />
+              <View className="flex flex-row items-center gap-1 shrink-0">
+                <Skeleton className="w-2 h-2 rounded-full" />
+                <Skeleton className="h-2.5 w-12 rounded-md" />
+              </View>
+            </View>
+            <Skeleton className="w-4 h-4 rounded-sm shrink-0" />
           </View>
-          <Skeleton className="h-4 w-5/6 rounded-md" />
-          <Skeleton className="h-4 w-24 rounded-md" />
-        </View>
-      </View>
 
-      {/* Bottom Footer Row */}
-      <View className="flex flex-row items-center justify-between pt-1">
-        <View className="flex flex-row items-center gap-2">
-          <Skeleton className="w-5 h-5 rounded-full" />
-          <Skeleton className="h-3.5 w-24 rounded-md" />
-          <Skeleton className="h-3.5 w-16 rounded-md" />
+          {/* Job Title */}
+          <Skeleton className="h-4 w-4/5 rounded-md mt-0.5" />
         </View>
-
-        <Skeleton className="h-7 w-20 rounded-lg" />
       </View>
     </View>
   );
