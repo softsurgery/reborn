@@ -1,6 +1,6 @@
 import { LegendList } from "@legendapp/list";
 import React from "react";
-import { ResponseJobDto } from "~/types";
+import { JobStatus, ResponseJobDto } from "~/types";
 import { JobCard } from "../jobs/JobCard";
 import {
   NativeScrollEvent,
@@ -8,7 +8,6 @@ import {
   RefreshControl,
   View,
 } from "react-native";
-import { Text } from "../ui/text";
 import { JobCardSkeleton } from "../jobs/JobCardSkeleton";
 import { cn } from "~/lib/utils";
 import { InfiniteListFooter } from "@/components/shared/InfiniteListFooter";
@@ -39,6 +38,7 @@ export const ExploreCommon = ({
 
   const filter = React.useMemo(() => {
     let arr = exploreFilterStore.getFilterExpression();
+    arr.push(`status||$eq||${JobStatus.POSTED}`);
     return arr.join(";");
   }, [exploreFilterStore.filters]);
 
@@ -52,7 +52,6 @@ export const ExploreCommon = ({
     refetch,
   } = useInfiniteJobs({
     search,
-    // postedBy, category and tags are eager on the entity; currency is not.
     join: ["uploads", "currency"],
     sortKey: "createdAt",
     sortOrder: "desc",

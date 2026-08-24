@@ -1,6 +1,6 @@
 import { LegendList } from "@legendapp/list";
 import React from "react";
-import { ResponseJobDto } from "~/types";
+import { JobStatus, ResponseJobDto } from "~/types";
 import { JobCard } from "../jobs/JobCard";
 import {
   NativeScrollEvent,
@@ -49,6 +49,7 @@ export const ExploreFollowing = ({
     sortKey: "createdAt",
     followings: true,
     sortOrder: "desc",
+    filter: `status||$eq||${JobStatus.POSTED}`,
   });
 
   const isPending = isJobsPending || searching;

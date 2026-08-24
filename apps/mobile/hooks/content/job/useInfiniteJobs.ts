@@ -60,6 +60,7 @@ export const useInfiniteJobs = (
     },
     getNextPageParam: (lastPage) =>
       lastPage.meta.hasNextPage ? lastPage.meta.page + 1 : undefined,
+    enabled,
   });
 
   const jobs = React.useMemo(() => {
