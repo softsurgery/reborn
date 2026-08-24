@@ -7,6 +7,7 @@ import { api } from "~/api";
 import { useFollowSystem } from "~/hooks/content/useFollowSystem";
 import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
 import { useIdentifiedUser } from "~/hooks/content/user/useIdentifiedUser";
+import { useSocialStat } from "~/hooks/content/user/useSocialStat";
 import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
 import {
   ResponseEducationDto,
@@ -137,8 +138,6 @@ export const InspectBaseProfile = ({
   const {
     isFollowing,
     refetchIsFollowing,
-    followers,
-    followings,
     refetchFollowers,
     refetchFollowing,
     followUser,
@@ -182,24 +181,8 @@ export const InspectBaseProfile = ({
     },
   });
 
-  React.useEffect(() => {
-    userStore?.set("followers", followers);
-    userStore?.set("followings", followings);
-  }, [followers, followings]);
-
-  const {
-    data: socialStat,
-    isPending: isSocialStatPending,
-    refetch: refetchSocialStat,
-  } = useQuery({
-    queryKey: ["social-data", user?.id],
-    queryFn: () => api.follow.findDataCount(user?.id!),
-    enabled: !!user?.id,
-  });
-
-  React.useEffect(() => {
-    if (socialStat) userStore?.set("responseFollowCountsDto", socialStat);
-  }, [socialStat]);
+  const { isPending: isSocialStatPending, refetch: refetchSocialStat } =
+    useSocialStat({ userId: user?.id });
 
   // experience side-effects
   const { experiences, isExperiencesPending, refetchExperiences } =
@@ -343,7 +326,9 @@ export const InspectBaseProfile = ({
                 onFollowPress={() =>
                   isFollowing ? unfollowUser() : followUser()
                 }
-                onSendMessagePress={() => startConversation({ users: [user?.id!] })}
+                onSendMessagePress={() =>
+                  startConversation({ users: [user?.id!] })
+                }
               />
             </Animated.View>
           </View>

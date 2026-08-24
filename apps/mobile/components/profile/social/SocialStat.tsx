@@ -6,6 +6,7 @@ import { useUserStore } from "~/hooks/stores/useUserStore";
 import { cn } from "~/lib/utils";
 import { useTranslation } from "react-i18next";
 import { useRTL } from "~/hooks/useRTL";
+import { useSocialStat } from "~/hooks/content/user/useSocialStat";
 
 interface SocialStatProps {
   className?: string;
@@ -18,8 +19,16 @@ export const SocialStat = ({ className, userId }: SocialStatProps) => {
   const clientStore = useUserStore();
   const targetId = userId || clientStore?.response?.id;
 
-  const followingCount = clientStore?.responseFollowCountsDto?.following ?? 0;
-  const followersCount = clientStore?.responseFollowCountsDto?.followers ?? 0;
+  const { socialStat } = useSocialStat({ userId: targetId });
+
+  const followingCount = React.useMemo(
+    () => socialStat?.following ?? 0,
+    [socialStat],
+  );
+  const followersCount = React.useMemo(
+    () => socialStat?.followers ?? 0,
+    [socialStat],
+  );
 
   return (
     <View

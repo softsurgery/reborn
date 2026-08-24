@@ -6,8 +6,6 @@ import {
   CreateExperienceDto,
   ResponseEducationDto,
   ResponseExperienceDto,
-  ResponseFollowCountsDto,
-  ResponseFollowDto,
   ResponseUserDto,
   UpdateEducationDto,
   UpdateExperienceDto,
@@ -37,10 +35,6 @@ interface UserData {
 
   present: boolean;
 
-  responseFollowCountsDto: ResponseFollowCountsDto;
-  followers: ResponseFollowDto[];
-  followings: ResponseFollowDto[];
-
   picture?: string;
   hasInitializedPicture: boolean;
   progress: number;
@@ -57,10 +51,7 @@ export interface UserStore extends UserData {
 
 const initialState: UserData = {
   response: undefined,
-  responseFollowCountsDto: {
-    followers: 0,
-    following: 0,
-  },
+
   updatePasswordDto: {
     currentPassword: "",
     newPassword: "",
@@ -95,8 +86,6 @@ const initialState: UserData = {
     endDate: new Date(),
     description: "",
   },
-  followers: [],
-  followings: [],
   updateDto: {
     firstName: "",
     lastName: "",
