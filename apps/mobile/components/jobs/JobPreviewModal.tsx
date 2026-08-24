@@ -71,12 +71,16 @@ export const JobPreviewModal = ({
 
   const coverId = orderedUploads?.[0]?.uploadId;
 
-  const { uploads: [upload] } = useServerImages({
+  const {
+    uploads: [upload],
+  } = useServerImages({
     ids: [coverId],
     enabled: !!coverId,
   });
 
-  const { uploads: [authorPicture] } = useServerImages({
+  const {
+    uploads: [authorPicture],
+  } = useServerImages({
     ids: [job?.postedBy?.pictureId],
     enabled: !!job?.postedBy?.pictureId,
   });
@@ -233,13 +237,13 @@ export const JobPreviewModal = ({
                   </Text>
                 </View>
               </View>
-                <TouchableOpacity
-                  onPress={() => handleDismiss()}
-                  className="p-1 rounded-full bg-muted/80"
-                  hitSlop={8}
-                >
-                  <X size={16} color={palette.foreground} />
-                </TouchableOpacity>         
+              <TouchableOpacity
+                onPress={() => handleDismiss()}
+                className="p-1 rounded-full bg-muted/80"
+                hitSlop={8}
+              >
+                <X size={16} color={palette.foreground} />
+              </TouchableOpacity>
             </View>
 
             {/* Cover Image */}
@@ -252,8 +256,14 @@ export const JobPreviewModal = ({
                 />
               ) : (
                 <View className="items-center justify-center gap-1">
-                  <ImageOff size={24} color={palette.mutedForeground} opacity={0.5} />
-                  <Text className="text-xs text-muted-foreground">No Preview Image</Text>
+                  <ImageOff
+                    size={24}
+                    color={palette.mutedForeground}
+                    opacity={0.5}
+                  />
+                  <Text className="text-xs text-muted-foreground">
+                    No Preview Image
+                  </Text>
                 </View>
               )}
             </View>
@@ -296,7 +306,10 @@ export const JobPreviewModal = ({
                   {job.style && (
                     <View className="flex-row items-center gap-1 rounded-full bg-muted px-2 py-1">
                       <MapPin size={10} color={palette.mutedForeground} />
-                      <Text style={{ fontSize: 10 }} className="font-medium text-muted-foreground">
+                      <Text
+                        style={{ fontSize: 10 }}
+                        className="font-medium text-muted-foreground"
+                      >
                         {job.style}
                       </Text>
                     </View>
@@ -304,7 +317,10 @@ export const JobPreviewModal = ({
                   {job.difficulty && (
                     <View className="flex-row items-center gap-1 rounded-full bg-muted px-2 py-1">
                       <Signal size={10} color={palette.mutedForeground} />
-                      <Text style={{ fontSize: 10 }} className="font-medium text-muted-foreground">
+                      <Text
+                        style={{ fontSize: 10 }}
+                        className="font-medium text-muted-foreground"
+                      >
                         {job.difficulty}
                       </Text>
                     </View>

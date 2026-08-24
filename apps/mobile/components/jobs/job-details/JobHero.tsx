@@ -26,8 +26,8 @@ interface JobHeroProps {
   className?: string;
   job: ResponseJobDto | null;
   metadata: ResponseJobMetadataDto | null;
-  uploads: string[];
-  imageQueries: UseQueryResult<ImageSource, Error>[];
+  uploads?: string[];
+  imageQueries?: UseQueryResult<ImageSource, Error>[];
 }
 
 interface CurrencyExtras {
@@ -69,14 +69,30 @@ export const JobHero = ({
   className,
   job,
   metadata,
-  uploads,
+  uploads: propUploads,
   imageQueries,
 }: JobHeroProps) => {
   const { palette } = useColorPalette();
   const insets = useSafeAreaInsets();
-  const hasImages = imageQueries.length > 0;
 
-  const { uploads: [authorPicture] } = useServerImages({
+  const uploadIds = React.useMemo(() => {
+    if (!job?.uploads || job.uploads.length === 0) return [];
+    return [...job.uploads]
+      .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+      .map((u) => u.uploadId);
+  }, [job?.uploads]);
+
+  const { uploads: heroImages } = useServerImages({
+    ids: uploadIds,
+    enabled: uploadIds.length > 0,
+  });
+
+  const hasImages =
+    uploadIds.length > 0 || (!!imageQueries && imageQueries.length > 0);
+
+  const {
+    uploads: [authorPicture],
+  } = useServerImages({
     ids: [job?.postedBy?.pictureId],
     enabled: !!job?.postedBy?.pictureId,
   });
@@ -99,7 +115,8 @@ export const JobHero = ({
     >
       {hasImages && (
         <ImageCarousel
-          uploads={uploads}
+          uploads={propUploads ?? uploadIds.map(String)}
+          images={heroImages}
           imageQueries={imageQueries}
           autoPlay={false}
           heightScale={0.35}

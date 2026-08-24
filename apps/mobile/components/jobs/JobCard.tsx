@@ -14,7 +14,6 @@ import { router } from "expo-router";
 import { JobPricingType, ResponseJobDto } from "~/types";
 import { useQueryClient } from "@tanstack/react-query";
 import * as Haptics from "expo-haptics";
-
 import { Skeleton } from "../ui/skeleton";
 import { timeAgo } from "~/lib/dates.utils";
 import { Text } from "../ui/text";
@@ -86,12 +85,17 @@ export const JobCard = ({
   const coverId = orderedUploads?.[0]?.uploadId;
   const extraPhotos = Math.max((orderedUploads?.length ?? 0) - 1, 0);
 
-  const { uploads: [upload], isPending: isUploadPending } = useServerImages({
+  const {
+    uploads: [upload],
+    isPending: isUploadPending,
+  } = useServerImages({
     ids: [coverId],
     enabled: !!coverId,
   });
 
-  const { uploads: [authorPicture] } = useServerImages({
+  const {
+    uploads: [authorPicture],
+  } = useServerImages({
     ids: [job.postedBy?.pictureId],
     enabled: !!job.postedBy?.pictureId,
   });

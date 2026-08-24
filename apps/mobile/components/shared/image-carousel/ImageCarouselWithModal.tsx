@@ -7,16 +7,16 @@ import Carousel, {
 import { useSharedValue } from "react-native-reanimated";
 import { Image, ImageSource } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
-import { useColorScheme } from "nativewind";
-import { THEME } from "~/lib/theme";
 import { UseQueryResult } from "@tanstack/react-query";
 import { cn } from "~/lib/utils";
 import { Loader } from "../lotties/Loader";
 import { PhotoPreview } from "../PhotoPreview";
+import { useColorPalette } from "@/hooks/useColorPalette";
 
 interface ImageCarouselProps {
-  uploads: string[];
-  imageQueries: UseQueryResult<ImageSource, Error>[];
+  uploads?: string[];
+  images?: (ImageSource | undefined)[];
+  imageQueries?: UseQueryResult<ImageSource, Error>[];
   className?: string;
   autoPlay?: boolean;
   autoPlayInterval?: number;
@@ -24,7 +24,8 @@ interface ImageCarouselProps {
 }
 
 export const ImageCarousel = ({
-  uploads,
+  uploads = [],
+  images,
   imageQueries,
   className,
   autoPlay,
@@ -35,7 +36,7 @@ export const ImageCarousel = ({
 
   const ref = React.useRef<ICarouselInstance>(null);
   const progress = useSharedValue<number>(0);
-  const { colorScheme } = useColorScheme();
+  const { palette } = useColorPalette();
 
   const screenWidth = Dimensions.get("window").width;
   const screenHeight = Dimensions.get("window").height;
@@ -50,13 +51,29 @@ export const ImageCarousel = ({
   };
 
   const previewSources = React.useMemo(() => {
-    return imageQueries
-      .map((q) => q.data)
-      .filter(
+    if (images && images.length > 0) {
+      return images.filter(
         (data): data is ImageSource =>
           !!data && typeof data === "object" && !!(data as any).uri,
       );
-  }, [imageQueries]);
+    }
+    if (imageQueries && imageQueries.length > 0) {
+      return imageQueries
+        .map((q) => q.data)
+        .filter(
+          (data): data is ImageSource =>
+            !!data && typeof data === "object" && !!(data as any).uri,
+        );
+    }
+    return [];
+  }, [images, imageQueries]);
+
+  const carouselData: any[] = React.useMemo(() => {
+    if (images && images.length > 0) return images;
+    if (uploads && uploads.length > 0) return uploads;
+    if (imageQueries && imageQueries.length > 0) return imageQueries;
+    return [];
+  }, [images, uploads, imageQueries]);
 
   const handlePreviewIndexChange = (newIndex: number) => {
     setCurrentIndex(newIndex);
@@ -99,15 +116,19 @@ export const ImageCarousel = ({
               ref={ref}
               width={screenWidth}
               height={carouselHeight}
-              data={uploads}
+              data={carouselData}
               onProgressChange={progress}
               onSnapToItem={(index) => setCurrentIndex(index)}
               autoPlay={autoPlay}
               autoPlayInterval={autoPlayInterval}
               renderItem={({ index }) => {
-                const query = imageQueries[index];
+                const imgSource = images
+                  ? images[index]
+                  : imageQueries
+                    ? imageQueries[index]?.data
+                    : undefined;
 
-                if (!query?.data) {
+                if (!imgSource) {
                   return (
                     <View className="flex-1 justify-center items-center">
                       <Loader />
@@ -117,7 +138,7 @@ export const ImageCarousel = ({
 
                 return (
                   <Image
-                    source={query.data as ImageSource}
+                    source={imgSource}
                     style={{ width: "100%", height: "100%" }}
                     contentFit="cover"
                   />
@@ -129,12 +150,9 @@ export const ImageCarousel = ({
           <View className="absolute bottom-3 z-10 flex-row items-center justify-center w-full">
             <Pagination.Basic
               progress={progress}
-              data={uploads}
+              data={carouselData}
               dotStyle={{
-                backgroundColor:
-                  colorScheme === "dark"
-                    ? THEME.dark.primary
-                    : THEME.light.primary,
+                backgroundColor: palette.primary,
                 borderRadius: 50,
               }}
               containerStyle={{ gap: 5 }}

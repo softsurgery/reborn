@@ -1,20 +1,21 @@
 import { format } from "date-fns";
 import { router } from "expo-router";
 import { ChevronRight, MapPin, Star } from "lucide-react-native";
-import { JSX } from "react";
+import React, { JSX } from "react";
 import { View } from "react-native";
 import { StablePressable } from "@/components/shared/stables/StablePressable";
 import { Text } from "~/components/ui/text";
-import { identifyUser } from "~/lib/user.utils";
+import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
 import { cn } from "~/lib/utils";
 import { useColorPalette } from "@/hooks/useColorPalette";
+import { useServerImages } from "~/hooks/content/useServerImages";
 import { ResponseJobDto, ResponseJobMetadataDto } from "~/types";
 
 interface JobClientInformationProps {
   className?: string;
   job: ResponseJobDto | null;
   metadata?: ResponseJobMetadataDto | null;
-  profilePicture: JSX.Element;
+  profilePicture?: React.ReactNode;
 }
 
 export const JobClientInformation = ({
@@ -24,6 +25,18 @@ export const JobClientInformation = ({
   profilePicture,
 }: JobClientInformationProps) => {
   const { palette } = useColorPalette();
+
+  const {
+    jsxArray: [clientAvatar],
+  } = useServerImages({
+    ids: [job?.postedBy?.pictureId],
+    className: "rounded-full",
+    fallbacks: [identifyUserAvatar(job?.postedBy)],
+    size: { width: 40, height: 40 },
+    enabled: !profilePicture && !!job?.postedBy,
+  });
+
+  const avatarToRender = profilePicture ?? clientAvatar;
 
   const hasReviews = !!metadata?.reviewCount;
   const ratingLabel =
@@ -44,12 +57,14 @@ export const JobClientInformation = ({
   return (
     <StablePressable
       className={cn("bg-card px-5 py-5 active:bg-muted/40", className)}
-      onPress={() =>
-        router.navigate({
-          pathname: "/main/explore/inspect-profile",
-          params: { id: job?.postedBy.id },
-        })
-      }
+      onPress={() => {
+        if (job?.postedBy?.id) {
+          router.navigate({
+            pathname: "/main/explore/inspect-profile",
+            params: { id: job.postedBy.id },
+          });
+        }
+      }}
     >
       <View className="mb-3 flex-row items-center justify-between">
         <Text variant="h4">About the client</Text>
@@ -58,7 +73,7 @@ export const JobClientInformation = ({
 
       <View className="flex-row items-center justify-between">
         <View className="flex-1 flex-row items-center gap-3 pr-3">
-          {profilePicture}
+          {avatarToRender}
           <View className="flex-1">
             <View className="flex-row items-center gap-2">
               <Text
