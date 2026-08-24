@@ -47,7 +47,7 @@ export const MenuTabAvatar = ({ color, focused }: MenuTabAvatarProps) => {
         className="items-center justify-center bg-muted"
       >
         <Image
-          source={{ uri: upload }}
+          source={upload}
           style={{ width: "100%", height: "100%" }}
           resizeMode="cover"
         />
