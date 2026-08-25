@@ -32,11 +32,13 @@ import { ThreeDotsActionSheet } from "@/components/shared/ThreeDotsActionSheet";
 interface IncomingRequestEntryProps {
   className?: string;
   request: ResponseJobRequestDto;
+  embedded: boolean;
 }
 
 export const IncomingRequestEntry = ({
   className,
   request,
+  embedded,
 }: IncomingRequestEntryProps) => {
   const { palette } = useColorPalette();
   const actionSheetRef = React.useRef<ActionSheetRef>(null);
@@ -185,69 +187,121 @@ export const IncomingRequestEntry = ({
       />
       {/* Main Section: Job Cover Thumbnail (76x76 Big Circle) + 2 Bigger Indicators at Bottom Right (Candidate Avatar + Incoming Status Badge) */}
       <View className="flex flex-row items-center gap-5">
-        {/* Left Thumbnail Container with 2 Floating Circles at Bottom Right */}
-        <View className="relative shrink-0 w-[76px] h-[76px]">
-          {/* Big Circle: Job First Picture */}
-          <View className="w-[76px] h-[76px] rounded-full overflow-hidden bg-muted/70 items-center justify-center border border-border/40 shadow-xs">
-            {coverUploadId ? (
-              coverJsx
-            ) : (
-              <View className="w-full h-full items-center justify-center bg-muted/60">
-                <Icon as={Briefcase} size={28} color={palette?.foreground} />
-              </View>
-            )}
-          </View>
-
-          {/* Bottom Right Cluster: Candidate Avatar & Status Indicator side-by-side with overlap */}
-          <View
-            style={{
-              position: "absolute",
-              bottom: -8,
-              right: -8,
-              zIndex: 10,
-              flexDirection: "row",
-            }}
-          >
-            {/* Circle 1: Candidate Profile Picture */}
-            <TouchableOpacity
-              onPress={() => {
-                if (request.userId) {
-                  router.push({
-                    pathname: "/main/explore/inspect-profile",
-                    params: { id: request.userId },
-                  });
-                }
-              }}
-            >
+        {/* Left Thumbnail Container */}
+        {embedded ? (
+          <View className="relative shrink-0 w-[44px] h-[44px]">
+            {/* Big Circle: Candidate Profile Picture */}
+            <View className="rounded-full overflow-hidden bg-muted/70 items-center justify-center border border-border/40 shadow-xs w-[44px] h-[44px]">
               <Avatar
                 alt={identifyUser(request.user)}
-                style={{ width: 36, height: 36 }}
-                className="border-2 border-background shadow-md"
+                style={{ width: 76, height: 76 }}
+                className="w-full h-full"
               >
                 <AvatarImage source={candidatePicture} />
                 <AvatarFallback className="bg-muted">
                   <Text
-                    style={{ fontSize: 11 }}
+                    style={{ fontSize: 14 }}
                     className="font-extrabold text-foreground"
                   >
                     {identifyUserAvatar(request.user)}
                   </Text>
                 </AvatarFallback>
               </Avatar>
-            </TouchableOpacity>
+            </View>
 
-            {/* Circle 2: Status & Direction Indicator */}
+            {/* Bottom Right Cluster: Status Indicator Only */}
             <View
-              className={cn(
-                "rounded-full border-2 border-background shadow-md items-center justify-center",
-                currentStatus.badgeBg,
-              )}
-              style={{ width: 36, height: 36, marginLeft: -12, zIndex: 20 }}
+              style={{
+                position: "absolute",
+                bottom: -2,
+                right: -2,
+                zIndex: 10,
+                flexDirection: "row",
+              }}
             >
-              <Icon as={ArrowDownLeft} size={18} color={palette?.foreground} />
+              <View
+                className={cn(
+                  "rounded-full border-2 border-background shadow-md items-center justify-center",
+                  currentStatus.badgeBg,
+                )}
+                style={{ width: 36, height: 36, zIndex: 20 }}
+              >
+                <Icon
+                  as={ArrowDownLeft}
+                  size={18}
+                  color={palette?.foreground}
+                />
+              </View>
             </View>
           </View>
-        </View>
+        ) : (
+          <View className="relative shrink-0 w-[76px] h-[76px]">
+            {/* Big Circle: Job Picture */}
+            <View className="rounded-full overflow-hidden bg-muted/70 items-center justify-center border border-border/40 shadow-xs w-[76px] h-[76px]">
+              {coverUploadId ? (
+                coverJsx
+              ) : (
+                <View className="w-full h-full items-center justify-center bg-muted/60">
+                  <Icon as={Briefcase} size={28} color={palette?.foreground} />
+                </View>
+              )}
+            </View>
+
+            {/* Bottom Right Cluster: Candidate Avatar & Status Indicator */}
+            <View
+              style={{
+                position: "absolute",
+                bottom: -8,
+                right: -8,
+                zIndex: 10,
+                flexDirection: "row",
+              }}
+            >
+              {/* Circle 1: Candidate Profile Picture */}
+              <TouchableOpacity
+                onPress={() => {
+                  if (request.userId) {
+                    router.push({
+                      pathname: "/main/explore/inspect-profile",
+                      params: { id: request.userId },
+                    });
+                  }
+                }}
+              >
+                <Avatar
+                  alt={identifyUser(request.user)}
+                  style={{ width: 36, height: 36 }}
+                  className="border-2 border-background shadow-md"
+                >
+                  <AvatarImage source={candidatePicture} />
+                  <AvatarFallback className="bg-muted">
+                    <Text
+                      style={{ fontSize: 11 }}
+                      className="font-extrabold text-foreground"
+                    >
+                      {identifyUserAvatar(request.user)}
+                    </Text>
+                  </AvatarFallback>
+                </Avatar>
+              </TouchableOpacity>
+
+              {/* Circle 2: Status & Direction Indicator */}
+              <View
+                className={cn(
+                  "rounded-full border-2 border-background shadow-md items-center justify-center",
+                  currentStatus.badgeBg,
+                )}
+                style={{ width: 36, height: 36, marginLeft: -12, zIndex: 20 }}
+              >
+                <Icon
+                  as={ArrowDownLeft}
+                  size={18}
+                  color={palette?.foreground}
+                />
+              </View>
+            </View>
+          </View>
+        )}
 
         {/* Right Info Column */}
         <View className="flex-1 justify-center gap-2">

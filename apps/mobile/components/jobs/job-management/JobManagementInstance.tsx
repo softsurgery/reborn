@@ -88,6 +88,7 @@ export const JobManagementInstance = ({
                 variant="incoming"
                 jobId={id}
                 className="pt-2 mx-4"
+                embedded
               />
             )}
           </Tab.Screen>

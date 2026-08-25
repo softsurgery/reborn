@@ -24,12 +24,14 @@ interface RequestsListProps {
   className?: string;
   variant: "incoming" | "outgoing";
   jobId?: string;
+  embedded: boolean;
 }
 
 export const RequestsList = ({
   className,
   variant,
   jobId,
+  embedded = false,
 }: RequestsListProps) => {
   const [searchValue, setSearchValue] = React.useState("");
   const { value: search, loading: searching } = useDebounce(searchValue, 300);
@@ -55,7 +57,11 @@ export const RequestsList = ({
   const renderItem = React.useCallback(
     ({ item }: { item: ResponseJobRequestDto }) =>
       variant === "incoming" ? (
-        <IncomingRequestEntry request={item} className="mb-3" />
+        <IncomingRequestEntry
+          request={item}
+          embedded={embedded}
+          className="mb-3"
+        />
       ) : (
         <OutgoingRequestEntry request={item} className="mb-3" />
       ),
