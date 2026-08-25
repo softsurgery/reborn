@@ -3,7 +3,7 @@ import { Text } from "@/components/ui/text";
 import { cn } from "@/lib/utils";
 import * as Haptics from "expo-haptics";
 import * as Location from "expo-location";
-import { ChevronDown, MapPin, Navigation, Pin } from "lucide-react-native";
+import { MapPin, Navigation, Pin } from "lucide-react-native";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -18,9 +18,9 @@ import ActionSheet, { type ActionSheetRef } from "react-native-actions-sheet";
 import MapView, { MapPressEvent, Marker, Region } from "react-native-maps";
 import type { MapPinFieldProps } from "../types";
 import { Button } from "@/components/ui/button";
-import { Easing, useSharedValue, withTiming } from "react-native-reanimated";
 import { useColorPalette } from "@/hooks/useColorPalette";
 import { AndroidDarkMapStyle } from "../utils/AndroidDarkMapStyle";
+import { RotatingChevron } from "./RotatingChevron";
 
 interface MapPinInputProps extends MapPinFieldProps {
   className?: string;
@@ -52,7 +52,12 @@ export default function MapPinField({
   );
   const [name, setName] = React.useState(locationName || "");
   const [loading, setLoading] = React.useState(false);
-  const rotation = useSharedValue(0);
+  const [expanded, setExpanded] = React.useState(false);
+
+  const displayText = React.useMemo(
+    () => name || placeholder || t("formBuilder.mapPinField.placeholder"),
+    [name, placeholder, t],
+  );
 
   // Sync external prop changes
   React.useEffect(() => {
@@ -150,10 +155,7 @@ export default function MapPinField({
     if (!editable) return;
     Keyboard.dismiss();
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    rotation.value = withTiming(180, {
-      duration: 250,
-      easing: Easing.out(Easing.ease),
-    });
+    setExpanded(true);
     sheetRef.current?.show();
     if (changedOnFocus) {
       console.log("changedOnFocus", initialRegion);
@@ -175,15 +177,17 @@ export default function MapPinField({
       <Button
         disabled={!editable}
         variant="outline"
-        className={cn("w-full h-11 rounded-xl p-0 px-2", className)}
+        className={cn("w-full h-12 rounded-xl p-0 px-2", className)}
         onPress={toggle}
       >
         <View className="flex flex-row items-center justify-between w-full">
           <View className="flex flex-row items-center gap-2">
             <Icon as={Pin} size={16} color={"gray"} />
-            <Text className="text-sm">{name || placeholder}</Text>
+            <Text className={cn("text-base", !name && "text-foreground/50")}>
+              {displayText}
+            </Text>
           </View>
-          <Icon as={ChevronDown} size={16} color={"gray"} />
+          <RotatingChevron expanded={expanded} />
         </View>
       </Button>
 
@@ -193,6 +197,7 @@ export default function MapPinField({
         gestureEnabled
         statusBarTranslucent
         defaultOverlayOpacity={0.45}
+        onClose={() => setExpanded(false)}
         containerStyle={{
           backgroundColor: palette.background,
           borderTopLeftRadius: 24,
@@ -203,7 +208,7 @@ export default function MapPinField({
           height: "75%",
         }}
       >
-        <View className="mb-8 flex-1">
+        <View className="mb-4 flex-1">
           {/* Header */}
           <View className="flex-row items-center justify-between mb-3">
             <Text className="text-lg font-semibold text-foreground">

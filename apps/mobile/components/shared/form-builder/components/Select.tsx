@@ -16,6 +16,7 @@ import { cn } from "~/lib/utils";
 import ActionSheet, { type ActionSheetRef } from "react-native-actions-sheet";
 import { useColorPalette } from "@/hooks/useColorPalette";
 import { useRTL } from "@/hooks/useRTL";
+import { RotatingChevron } from "./RotatingChevron";
 
 interface SelectProps {
   classNames?: {
@@ -55,6 +56,7 @@ export default function Select({
   const { palette } = useColorPalette();
   const sheetRef = React.useRef<ActionSheetRef>(null);
   const [search, setSearch] = React.useState("");
+  const [expanded, setExpanded] = React.useState(false);
 
   const filtered = options.filter((o) =>
     o.label.toLowerCase().includes(search.toLowerCase()),
@@ -71,6 +73,7 @@ export default function Select({
   const handleClose = () => {
     Keyboard.dismiss();
     setSearch("");
+    setExpanded(false);
   };
 
   return (
@@ -82,7 +85,10 @@ export default function Select({
           classNames?.trigger,
         )}
         onPress={() => {
-          if (!disabled) sheetRef.current?.show();
+          if (!disabled) {
+            setExpanded(true);
+            sheetRef.current?.show();
+          }
         }}
       >
         {customTrigger ? (
@@ -103,7 +109,7 @@ export default function Select({
                 isRTL ? "left-3" : "right-3",
               )}
             >
-              <Icon as={ChevronDown} size={16} color={"gray"} />
+              <RotatingChevron expanded={expanded} size={16} />
             </View>
           </>
         )}

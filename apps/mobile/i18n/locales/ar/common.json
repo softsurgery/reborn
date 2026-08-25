@@ -41,5 +41,18 @@
     "light": "فاتح",
     "dark": "داكن",
     "system": "النظام"
+  },
+  "formBuilder": {
+    "mapPinField": {
+      "title": "حدد الموقع",
+      "hint": "اضغط على الخريطة لإسقاط دبوس",
+      "confirm": "تأكيد الموقع",
+      "placeholder": "حدد موقعًا"
+    },
+    "timePicker": {
+      "placeholder": "حدد الوقت",
+      "remove": "إزالة الوقت",
+      "done": "تم"
+    }
   }
 }

@@ -41,5 +41,18 @@
     "light": "Clair",
     "dark": "Sombre",
     "system": "Système"
+  },
+  "formBuilder": {
+    "mapPinField": {
+      "title": "Sélectionner un emplacement",
+      "hint": "Appuyez sur la carte pour déposer un repère",
+      "confirm": "Confirmer l'emplacement",
+      "placeholder": "Sélectionner un emplacement"
+    },
+    "timePicker": {
+      "placeholder": "Sélectionner une heure",
+      "remove": "Supprimer l'heure",
+      "done": "Terminé"
+    }
   }
 }

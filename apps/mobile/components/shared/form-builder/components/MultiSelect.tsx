@@ -2,7 +2,7 @@ import { Icon } from "@/components/ui/icon";
 import { Input } from "@/components/ui/input";
 import { Text } from "@/components/ui/text";
 import * as Haptics from "expo-haptics";
-import { Check, ChevronDown, Search, VectorSquare } from "lucide-react-native";
+import { Check, Search, VectorSquare } from "lucide-react-native";
 import React from "react";
 import {
   Keyboard,
@@ -17,6 +17,7 @@ import ActionSheet, { type ActionSheetRef } from "react-native-actions-sheet";
 import { toast } from "sonner-native";
 import { useColorPalette } from "@/hooks/useColorPalette";
 import { Button } from "@/components/ui/button";
+import { RotatingChevron } from "./RotatingChevron";
 
 interface MultiSelectProps {
   classNames?: {
@@ -54,6 +55,7 @@ export default function MultiSelect({
   const { palette } = useColorPalette();
   const sheetRef = React.useRef<ActionSheetRef>(null);
   const [search, setSearch] = React.useState("");
+  const [expanded, setExpanded] = React.useState(false);
 
   const filtered = options.filter((o) =>
     o.label.toLowerCase().includes(search.toLowerCase()),
@@ -93,6 +95,7 @@ export default function MultiSelect({
   const handleClose = () => {
     Keyboard.dismiss();
     setSearch("");
+    setExpanded(false);
   };
 
   return (
@@ -102,7 +105,10 @@ export default function MultiSelect({
           disabled={disabled}
           variant="outline"
           className={cn("w-full h-11 rounded-xl p-0 px-2", classNames?.trigger)}
-          onPress={() => sheetRef.current?.show()}
+          onPress={() => {
+            setExpanded(true);
+            sheetRef.current?.show();
+          }}
         >
           <View className="flex flex-row items-center justify-between w-full">
             <View className="flex flex-row items-center gap-2">
@@ -111,7 +117,7 @@ export default function MultiSelect({
                 {placeholder || "Select options"}
               </Text>
             </View>
-            <Icon as={ChevronDown} size={16} color={"gray"} />
+            <RotatingChevron expanded={expanded} size={16} />
           </View>
         </Button>
       ) : (
@@ -122,7 +128,10 @@ export default function MultiSelect({
             classNames?.trigger,
           )}
           onPress={() => {
-            if (!disabled) sheetRef.current?.show();
+            if (!disabled) {
+              setExpanded(true);
+              sheetRef.current?.show();
+            }
           }}
         >
           <View className="flex-1 flex-row flex-wrap gap-1 pr-8">
@@ -136,7 +145,7 @@ export default function MultiSelect({
             ))}
           </View>
           <View className="absolute right-2 text-muted-foreground">
-            <Icon as={ChevronDown} size={18} color={"gray"} />
+            <RotatingChevron expanded={expanded} size={18} />
           </View>
         </Pressable>
       )}

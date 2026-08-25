@@ -3,23 +3,19 @@ import { Icon } from "@/components/ui/icon";
 import { Text } from "@/components/ui/text";
 import { ScrollViewContext } from "@/contexts/ScrollViewContext";
 import { cn } from "@/lib/utils";
-import { Calendar, ChevronDown } from "lucide-react-native";
+import { Calendar } from "lucide-react-native";
 import React from "react";
 import { Keyboard, Platform, Pressable, UIManager, View } from "react-native";
 import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-  Easing,
   FadeIn,
   FadeOut,
   LinearTransition,
 } from "react-native-reanimated";
 import { StableScrollable } from "../../stables/StableScrollable";
-import { StablePressable } from "../../stables/StablePressable";
 import { Separator } from "@/components/ui/separator";
 import { toLongDateString } from "@/lib/dates.utils";
 import { triggerHaptic } from "@/lib/haptics";
+import { RotatingChevron } from "./RotatingChevron";
 
 if (
   Platform.OS === "android" &&
@@ -64,7 +60,6 @@ export const DatePicker = ({
   nullable = true,
 }: DatePickerProps) => {
   const [expanded, setExpanded] = React.useState(false);
-  const rotation = useSharedValue(0);
   const { scrollToView } = React.useContext(ScrollViewContext);
   const contentRef = React.useRef<View>(null);
 
@@ -73,10 +68,6 @@ export const DatePicker = ({
     Keyboard.dismiss();
     const next = !expanded;
     setExpanded(next);
-    rotation.value = withTiming(next ? 180 : 0, {
-      duration: 250,
-      easing: Easing.out(Easing.ease),
-    });
     if (!date) onDateChange(new Date());
     if (next) {
       setTimeout(() => {
@@ -84,10 +75,6 @@ export const DatePicker = ({
       }, 100);
     }
   };
-
-  const chevronStyle = useAnimatedStyle(() => ({
-    transform: [{ rotate: `${rotation.value}deg` }],
-  }));
 
   const displayText = React.useMemo(
     () => (date ? toLongDateString(date) : "Select a date"),
@@ -185,9 +172,7 @@ export const DatePicker = ({
               {displayText}
             </Text>
           </View>
-          <Animated.View style={chevronStyle}>
-            <Icon as={ChevronDown} size={16} color={"gray"} />
-          </Animated.View>
+          <RotatingChevron expanded={expanded} />
         </View>
       </Button>
 

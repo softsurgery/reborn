@@ -41,5 +41,18 @@
     "light": "Light",
     "dark": "Dark",
     "system": "System"
+  },
+  "formBuilder": {
+    "mapPinField": {
+      "title": "Select Location",
+      "hint": "Tap on the map to drop a pin",
+      "confirm": "Confirm Location",
+      "placeholder": "Select a location"
+    },
+    "timePicker": {
+      "placeholder": "Select a time",
+      "remove": "Remove Time",
+      "done": "Done"
+    }
   }
 }
