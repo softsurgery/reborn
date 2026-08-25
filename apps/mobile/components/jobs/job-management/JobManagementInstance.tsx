@@ -10,7 +10,7 @@ import { JobStatistics } from "./JobStatistics";
 import { JobActions } from "./JobActions";
 import { useColorPalette } from "@/hooks/useColorPalette";
 import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
-import { RequestsList } from "@/components/home/my-space/requests/RequestList";
+import { RequestsList } from "@/components/jobs/requests/RequestList";
 
 interface JobManagementInstanceProps {
   id: string;

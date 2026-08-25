@@ -26,10 +26,10 @@ export const Requests = ({
   const { palette } = useColorPalette();
 
   return (
-    <StableSafeAreaView className={cn("flex-1 bg-background", className)}>
+    <StableSafeAreaView className={cn("flex-1 bg-card", className)}>
       <ApplicationHeader
         classNames={{
-          wrapper: "border-b border-border/50 pb-2.5 bg-background",
+          wrapper: "border-b border-border/50 pb-2.5 bg-transparent",
         }}
         title="Job Requests"
         titleVariant="large"
@@ -99,7 +99,7 @@ export const Requests = ({
               tabPress: () => onTabChange?.("outgoing"),
             }}
           >
-          {() => <RequestsList variant="outgoing" />}
+            {() => <RequestsList variant="outgoing" />}
           </Tab.Screen>
         </Tab.Navigator>
       </View>

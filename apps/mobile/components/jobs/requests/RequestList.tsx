@@ -1,5 +1,6 @@
 import React from "react";
 import { RefreshControl, View, FlatList } from "react-native";
+import Animated from "react-native-reanimated";
 import { Inbox, Send, Search } from "lucide-react-native";
 import { cn } from "@/lib/utils";
 import { ResponseJobRequestDto } from "@/types";
@@ -12,6 +13,12 @@ import { Icon } from "@/components/ui/icon";
 import { MarkedInput } from "@/components/shared/MarkedInput";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useInfiniteJobRequests } from "@/hooks/content/job/useInfiniteJobRequests";
+import { useStickyElement } from "@/hooks/useStickyElement";
+import { InfiniteListFooter } from "@/components/shared/InfiniteListFooter";
+
+const AnimatedFlatList = Animated.createAnimatedComponent(
+  FlatList,
+) as typeof FlatList;
 
 interface RequestsListProps {
   className?: string;
@@ -26,6 +33,8 @@ export const RequestsList = ({
 }: RequestsListProps) => {
   const [searchValue, setSearchValue] = React.useState("");
   const { value: search, loading: searching } = useDebounce(searchValue, 300);
+  const [searchBarHeight, setSearchBarHeight] = React.useState(60);
+  const { handleScroll, stickyHeaderStyle } = useStickyElement(0);
 
   const {
     requests,
@@ -46,17 +55,9 @@ export const RequestsList = ({
   const renderItem = React.useCallback(
     ({ item }: { item: ResponseJobRequestDto }) =>
       variant === "incoming" ? (
-        <IncomingRequestEntry
-          request={item}
-          className="mb-3.5"
-          refetchRequests={refetchRequests}
-        />
+        <IncomingRequestEntry request={item} className="mb-3" />
       ) : (
-        <OutgoingRequestEntry
-          request={item}
-          className="mb-3.5"
-          refetchRequests={refetchRequests}
-        />
+        <OutgoingRequestEntry request={item} className="mb-3" />
       ),
     [variant, refetchRequests],
   );
@@ -73,8 +74,13 @@ export const RequestsList = ({
       : "Job applications you've submitted will appear here.";
 
   return (
-    <View className={cn("flex-1 bg-background", className)}>
-      <View className="py-2 bg-background border-b border-border/20">
+    <View className={cn("flex-1 bg-background relative", className)}>
+      {/* Animated Sticky Transparent Search Bar */}
+      <Animated.View
+        className="absolute left-0 right-0 z-20 bg-background/90 py-2.5 px-0.5 border-b border-border/20 backdrop-blur-md"
+        style={stickyHeaderStyle}
+        onLayout={(e) => setSearchBarHeight(e.nativeEvent.layout.height)}
+      >
         <MarkedInput
           value={searchValue}
           onChangeText={setSearchValue}
@@ -86,14 +92,20 @@ export const RequestsList = ({
           icon={Search}
           enableClear
         />
-      </View>
+      </Animated.View>
 
-      <FlatList
+      <AnimatedFlatList
         className="flex-1"
-        contentContainerStyle={{ paddingTop: 12, paddingBottom: 32 }}
-        data={isInitialPending ? [] : requests}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id.toString()}
+        contentContainerStyle={{
+          paddingTop: searchBarHeight + 8,
+          paddingBottom: 32,
+        }}
+        onScroll={handleScroll}
+        scrollEventThrottle={16}
+        scrollIndicatorInsets={{ top: searchBarHeight }}
+        data={isInitialPending ? [] : (requests as any)}
+        renderItem={renderItem as any}
+        keyExtractor={(item: any) => item.id.toString()}
         showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl
@@ -129,19 +141,20 @@ export const RequestsList = ({
           ) : null
         }
         ListFooterComponent={
-          <View className="items-center w-full pb-8">
-            {isInitialPending ? (
-              <View className="w-full gap-3.5">
-                {[...Array(3)].map((_, idx) => (
-                  <SkeletonComponent key={idx} />
-                ))}
-              </View>
-            ) : isFetchingNextPage ? (
-              <View className="py-4 w-full">
+          <InfiniteListFooter
+            isPending={isInitialPending || isFetchingNextPage}
+            hasNextPage={!!hasNextPage}
+            dataLength={requests?.length || 0}
+            loadingCount={isInitialPending ? 3 : 1}
+            loadingComponent={
+              <View className="w-full mb-3.5">
                 <SkeletonComponent />
               </View>
-            ) : null}
-          </View>
+            }
+            showEndMessage={true}
+            endMessage="No more requests to show"
+            className="pb-8 w-full px-0"
+          />
         }
       />
     </View>

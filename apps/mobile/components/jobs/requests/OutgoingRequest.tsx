@@ -1,23 +1,8 @@
 import React from "react";
-import {
-  ActivityIndicator,
-  View,
-  TouchableOpacity,
-  Pressable,
-} from "react-native";
+import { View, TouchableOpacity, Pressable } from "react-native";
 import { router } from "expo-router";
-import { StablePressable } from "@/components/shared/stables/StablePressable";
-import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
-import { Badge } from "@/components/ui/badge";
 import { Icon } from "@/components/ui/icon";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 import {
   AlertCircle,
   CheckCircle2,
@@ -28,19 +13,14 @@ import {
   User,
   Briefcase,
   ChevronRight,
+  ArrowUpRight,
 } from "lucide-react-native";
 import * as Haptics from "expo-haptics";
 import { ActionSheetRef } from "react-native-actions-sheet";
 import { cn } from "@/lib/utils";
 import { identifyUser, identifyUserAvatar } from "@/lib/user.utils";
 import { useServerImages } from "@/hooks/content/useServerImages";
-import { useJobRequestActions } from "@/hooks/content/job/useJobRequestActions";
-import {
-  JobPricingType,
-  JobRequestStatus,
-  ResponseJobRequestDto,
-  ResponseJobDto,
-} from "@/types";
+import { JobRequestStatus, ResponseJobRequestDto } from "@/types";
 import { timeAgo } from "@/lib/dates.utils";
 import { useColorPalette } from "@/hooks/useColorPalette";
 import {
@@ -49,34 +29,15 @@ import {
   AvatarImage,
 } from "@/components/shared/stables/StableAvatar";
 import { ThreeDotsActionSheet } from "@/components/shared/ThreeDotsActionSheet";
-import { ImageSource } from "expo-image";
 
 interface OutgoingRequestEntryProps {
   className?: string;
   request: ResponseJobRequestDto;
-  refetchRequests?: () => void;
 }
-
-const DEFAULT_CURRENCY = "TND";
-
-const formatPrice = (job?: ResponseJobDto) => {
-  if (!job || job.price === undefined || job.price === null) return null;
-  const currencyExtras = job.currency?.extras as
-    | { code?: string; symbol?: string }
-    | undefined;
-  const code =
-    currencyExtras?.symbol ||
-    currencyExtras?.code ||
-    job.currency?.label ||
-    DEFAULT_CURRENCY;
-  const pricingType = job.pricingType === JobPricingType.HOURLY ? "/hr" : "";
-  return `${job.price} ${code}${pricingType}`;
-};
 
 export const OutgoingRequestEntry = ({
   className,
   request,
-  refetchRequests,
 }: OutgoingRequestEntryProps) => {
   const { palette } = useColorPalette();
   const actionSheetRef = React.useRef<ActionSheetRef>(null);
@@ -107,47 +68,39 @@ export const OutgoingRequestEntry = ({
   } = useServerImages({
     ids: [coverUploadId],
     enabled: !!coverUploadId,
-    size: { width: 84, height: 84 },
-    className: "rounded-2xl w-full h-full",
+    size: { width: 76, height: 76 },
+    className: "rounded-full w-full h-full",
   });
 
   const statusConfig = {
     [JobRequestStatus.Pending]: {
       icon: AlertCircle,
       dotColor: "bg-amber-500",
+      badgeBg: "bg-amber-500",
       label: "Pending",
     },
     [JobRequestStatus.Approved]: {
       icon: CheckCircle2,
       dotColor: "bg-emerald-500",
+      badgeBg: "bg-emerald-500",
       label: "Accepted",
     },
     [JobRequestStatus.Rejected]: {
       icon: XCircle,
       dotColor: "bg-rose-500",
+      badgeBg: "bg-rose-500",
       label: "Declined",
     },
   };
 
   const currentStatus =
     statusConfig[request.status] || statusConfig[JobRequestStatus.Pending];
-  const priceDisplay = formatPrice(request.job);
 
   const navigateToRequestDetails = () => {
     if (request.id) {
       router.push({
         pathname: "/main/my-space/request-details",
         params: { id: request.id },
-      });
-    }
-  };
-
-  const navigateToClientProfile = (e?: any) => {
-    e?.stopPropagation?.();
-    if (clientUser?.id) {
-      router.push({
-        pathname: "/main/explore/inspect-profile",
-        params: { id: clientUser.id },
       });
     }
   };
@@ -211,98 +164,114 @@ export const OutgoingRequestEntry = ({
   }, [request, clientUser]);
 
   return (
-    <StablePressable
+    <Pressable
       onPress={navigateToRequestDetails}
       onLongPress={handleLongPress}
-      className={cn("w-full p-2 py-2 flex flex-col gap-3.5", className)}
+      className={cn(
+        "w-full p-2 py-2 flex flex-col active:opacity-50",
+        className,
+      )}
     >
       <ThreeDotsActionSheet
         ref={actionSheetRef}
         renderTrigger={false}
         options={threeDotsOptions}
       />
-      {/* Main Section: Job Cover Thumbnail (84x84) with Floating Client Avatar + Right Info Column */}
-      <View className="flex flex-row gap-3.5">
-        {/* Left Thumbnail with Floating Client Avatar */}
-        <View className="relative shrink-0">
-          <View className="w-[84px] h-[84px] rounded-2xl overflow-hidden bg-muted/70 items-center justify-center border border-border/40 shadow-xs">
+      {/* Main Section: Job Cover Thumbnail (76x76 Big Circle) + 2 Bigger Indicators at Bottom Right (Client Avatar + Outgoing Status Badge) */}
+      <View className="flex flex-row items-center gap-5">
+        {/* Left Thumbnail Container with 2 Floating Circles at Bottom Right */}
+        <View className="relative shrink-0 w-[76px] h-[76px]">
+          {/* Big Circle: Job First Picture */}
+          <View className="w-[76px] h-[76px] rounded-full overflow-hidden bg-muted/70 items-center justify-center border border-border/40 shadow-xs">
             {coverUploadId ? (
               coverJsx
             ) : (
               <View className="w-full h-full items-center justify-center bg-muted/60">
-                <Icon
-                  as={Briefcase}
-                  size={22}
-                  color={palette?.mutedForeground || "#9CA3AF"}
-                  opacity={0.5}
-                />
+                <Icon as={Briefcase} size={28} color={palette?.foreground} />
               </View>
             )}
           </View>
 
-          {/* Floating Client Avatar */}
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={navigateToClientProfile}
-            className="absolute -bottom-1.5 -right-1.5 z-10"
+          {/* Bottom Right Cluster: Client Avatar & Status Indicator side-by-side with overlap */}
+          <View
+            style={{
+              position: "absolute",
+              bottom: -8,
+              right: -8,
+              zIndex: 10,
+              flexDirection: "row",
+            }}
           >
-            <Avatar
-              alt={identifyUser(clientUser)}
-              style={{ width: 30, height: 30 }}
-              className="border-2 border-background shadow-xs"
+            {/* Circle 1: Client Profile Picture */}
+            <TouchableOpacity
+              onPress={() => {
+                if (clientUser?.id) {
+                  router.push({
+                    pathname: "/main/explore/inspect-profile",
+                    params: { id: clientUser.id },
+                  });
+                }
+              }}
             >
-              <AvatarImage source={clientPicture} />
-              <AvatarFallback className="bg-muted">
-                <Text
-                  style={{ fontSize: 10 }}
-                  className="font-extrabold text-foreground"
-                >
-                  {identifyUserAvatar(clientUser)}
-                </Text>
-              </AvatarFallback>
-            </Avatar>
-          </TouchableOpacity>
+              <Avatar
+                alt={identifyUser(clientUser)}
+                style={{ width: 36, height: 36 }}
+                className="border-2 border-background shadow-md"
+              >
+                <AvatarImage source={clientPicture} />
+                <AvatarFallback className="bg-muted">
+                  <Text
+                    style={{ fontSize: 11 }}
+                    className="font-extrabold text-foreground"
+                  >
+                    {identifyUserAvatar(clientUser)}
+                  </Text>
+                </AvatarFallback>
+              </Avatar>
+            </TouchableOpacity>
+
+            {/* Circle 2: Status & Direction Indicator */}
+            <View
+              className={cn(
+                "rounded-full border-2 border-background shadow-md items-center justify-center",
+                currentStatus.badgeBg,
+              )}
+              style={{ width: 36, height: 36, marginLeft: -12, zIndex: 20 }}
+            >
+              <Icon as={ArrowUpRight} size={18} color={palette?.foreground} />
+            </View>
+          </View>
         </View>
 
         {/* Right Info Column */}
-        <View className="flex-1 justify-center py-2">
-          {/* Category Eyebrow & Status Dot + Chevron Right */}
-          <View className="flex flex-row items-center justify-start gap-2">
-            <View className="flex flex-row items-center gap-2 flex-1 min-w-0">
-              <Text
-                numberOfLines={1}
-                className="text-[11px] font-extrabold uppercase tracking-wider text-primary shrink min-w-0"
-              >
-                {request.job?.category?.label ?? "Uncategorised"}
-              </Text>
-
-              <View className="flex flex-row items-center gap-1 shrink-0">
-                <View
-                  className={cn("w-2 h-2 rounded-full", currentStatus.dotColor)}
-                />
-                <Text className="text-[10px] font-bold text-muted-foreground">
-                  {currentStatus.label}
-                </Text>
-              </View>
-            </View>
-            <View className="w-6 h-6 items-center justify-center -mr-1">
-              <Icon
-                as={ChevronRight}
-                size={18}
-                color={palette?.mutedForeground || "#9CA3AF"}
-              />
-            </View>
-          </View>
+        <View className="flex-1 justify-center gap-2">
+          {/* Client Name */}
+          <Text
+            numberOfLines={1}
+            className="text-base font-extrabold text-foreground tracking-tight"
+          >
+            {identifyUser(clientUser)}
+          </Text>
 
           {/* Job Title */}
           <Text
-            numberOfLines={2}
-            className="text-lg font-extrabold leading-tight tracking-tight text-foreground mt-0.5"
+            numberOfLines={1}
+            className="text-[13px] font-semibold text-muted-foreground/80 leading-tight"
           >
-            {request.job?.title || "Untitled Job"}
+            {request.job?.title || "Unknown Job"}
           </Text>
+
+          {/* Time Sent & Status */}
+          <View className="flex flex-row items-center gap-2 mt-1">
+            <Text className="text-xs font-medium text-muted-foreground">
+              {request.createdAt ? timeAgo(request.createdAt) : "Recently"}
+            </Text>
+          </View>
         </View>
+
+        {/* Right Arrow Chevron (Centered Vertically) */}
+        <Icon as={ChevronRight} size={18} color={palette?.foreground} />
       </View>
-    </StablePressable>
+    </Pressable>
   );
 };
