@@ -45,6 +45,7 @@ export interface ResponseUserDto extends ResponseAbstractUsertDto {
   cover?: Upload;
   experiences?: ResponseExperienceDto[];
   educations?: ResponseEducationDto[];
+  skills?: ResponseRefParamDto[];
 }
 
 export interface CreateUserDto extends CreateAbstractUserDto {
@@ -55,6 +56,7 @@ export interface CreateUserDto extends CreateAbstractUserDto {
   isPrivate?: boolean;
   pictureId?: number;
   regionId?: number;
+  skillIds?: number[];
   officialDocumentId?: number;
   driverLicenseDocumentId?: number;
   uploads?: Upload[];

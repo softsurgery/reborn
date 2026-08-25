@@ -12,16 +12,20 @@ import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
 import {
   ResponseEducationDto,
   ResponseExperienceDto,
+  ResponseRefParamDto,
   ServerErrorResponse,
   UpdateUserDto,
 } from "~/types";
 import { Text } from "../ui/text";
+import { Badge } from "../ui/badge";
 import { cn } from "~/lib/utils";
 import { useUserStore } from "~/hooks/stores/useUserStore";
 import { SocialStat } from "./social/SocialStat";
 import { useTranslation } from "react-i18next";
 import { useExperiences } from "~/hooks/content/user/useExperiences";
 import { useEducations } from "~/hooks/content/user/useEducations";
+import { useSkills } from "@/hooks/content/reference-types/useSkills";
+import { useUserSkills } from "@/hooks/content/user/useUserSkills";
 import { ProfileAvatar } from "./ProfileAvatar";
 import { ProfileCover } from "./ProfileCover";
 import { toast } from "sonner-native";
@@ -200,6 +204,14 @@ export const InspectBaseProfile = ({
     if (educations) userStore?.set("educations", educations);
   }, [educations]);
 
+  // skills side-effects
+  const { skills } = useSkills({ enabled: !!user });
+
+  const { userSkills, isUserSkillsPending, refetchUserSkills } = useUserSkills({
+    userId: id,
+    enabled: !!user,
+  });
+
   React.useEffect(() => {
     return () => {
       userStore?.reset();
@@ -213,6 +225,7 @@ export const InspectBaseProfile = ({
         title: t("menu.tabs.career.experience.title"),
         data: experiences as unknown[],
         editable: currentUser?.id === user?.id,
+        userId: user?.id,
         renderItem: (experience: ResponseExperienceDto) => (
           <ExperienceInstance experience={experience} />
         ),
@@ -222,12 +235,26 @@ export const InspectBaseProfile = ({
         title: t("menu.tabs.career.education.title"),
         data: educations as unknown[],
         editable: currentUser?.id === user?.id,
+        userId: user?.id,
         renderItem: (education: ResponseEducationDto) => (
           <EducationInstance education={education} />
         ),
       },
+      {
+        key: "skills",
+        title: t("menu.skills.title"),
+        data: skills?.filter((skill) =>
+          userSkills?.some((id) => id === skill.id),
+        ) as unknown[],
+        editable: currentUser?.id === user?.id,
+        renderItem: (skill: ResponseRefParamDto) => (
+          <View className="rounded-full border border-border px-3 py-1.5">
+            <Text className="text-sm font-semibold">{skill.label}</Text>
+          </View>
+        ),
+      },
     ],
-    [experiences, educations, currentUser?.id, user?.id, t],
+    [experiences, educations, skills, userSkills, currentUser?.id, user?.id, t],
   );
 
   const onRefresh = async () => {
@@ -237,6 +264,7 @@ export const InspectBaseProfile = ({
       refetchCurrentUser(),
       refetchExperiences(),
       refetchEducations(),
+      refetchUserSkills(),
     ]);
   };
 
@@ -244,7 +272,8 @@ export const InspectBaseProfile = ({
     isUserPending ||
     isSocialStatPending ||
     isExperiencesPending ||
-    isEducationsPending;
+    isEducationsPending ||
+    isUserSkillsPending;
 
   if (refreshing || !user) {
     return <BaseProfileSkeleton className={className} />;

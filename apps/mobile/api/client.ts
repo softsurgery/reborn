@@ -62,11 +62,17 @@ const updateCover = async (
   return response.data;
 };
 
+const getSkills = async (id: string): Promise<number[] | null> => {
+  const response = await axios.get(`/admin/user/skills/${id}`);
+  return response.data;
+};
+
 export const client = {
   findCurrent,
   findById,
   findByUsername,
   findByEmail,
+  getSkills,
   updateCover,
   updateCurrent,
 };

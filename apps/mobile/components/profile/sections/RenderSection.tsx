@@ -48,6 +48,9 @@ export const RenderSection = (section: ProfileSection) => {
       case "education":
         return t("education.list.empty.title");
 
+      case "skills":
+        return t("menu.skills.list.empty.title");
+
       default:
         return t("menu.tabs.about.empty");
     }
@@ -113,6 +116,16 @@ export const RenderSection = (section: ProfileSection) => {
                   break;
                 case "education":
                   router.push("/main/account/career/update-educations");
+                  break;
+                case "skills":
+                  router.push(
+                    section.userId
+                      ? {
+                          pathname: "/main/account/update-skills",
+                          params: { userId: section.userId },
+                        }
+                      : "/main/account/update-skills",
+                  );
                   break;
               }
             }}

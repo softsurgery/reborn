@@ -1,4 +1,4 @@
-import { Paginated, QueryParams, ResponseRefTypeDto } from "~/types";
+import { Paginated, QueryParams, ResponseRefParamDto } from "~/types";
 import axios from "../axios";
 
 const findPaginated = async ({
@@ -8,7 +8,7 @@ const findPaginated = async ({
   search = "",
   filter = "",
   join = "",
-}: QueryParams): Promise<Paginated<ResponseRefTypeDto>> => {
+}: QueryParams): Promise<Paginated<ResponseRefParamDto>> => {
   const params: { [key: string]: any } = {
     page,
     limit,
@@ -19,7 +19,7 @@ const findPaginated = async ({
   if (filter) params.filter = filter;
   if (join) params.join = join;
 
-  const response = await axios.get<Paginated<ResponseRefTypeDto>>(
+  const response = await axios.get<Paginated<ResponseRefParamDto>>(
     `/ref-param/list`,
     {
       params,
@@ -34,7 +34,7 @@ const findAll = async ({
   search = "",
   filter = "",
   join = "",
-}: QueryParams): Promise<ResponseRefTypeDto[]> => {
+}: QueryParams): Promise<ResponseRefParamDto[]> => {
   const params: { [key: string]: string | undefined } = {
     sort,
   };
@@ -43,15 +43,15 @@ const findAll = async ({
   if (filter) params.filter = filter;
   if (join) params.join = join;
 
-  const response = await axios.get<ResponseRefTypeDto[]>(`/ref-param/all`, {
+  const response = await axios.get<ResponseRefParamDto[]>(`/ref-param/all`, {
     params,
   });
 
   return response.data;
 };
 
-const findById = async (id: string): Promise<ResponseRefTypeDto> => {
-  const response = await axios.get<ResponseRefTypeDto>(`/ref-param/${id}`);
+const findById = async (id: string): Promise<ResponseRefParamDto> => {
+  const response = await axios.get<ResponseRefParamDto>(`/ref-param/${id}`);
   return response.data;
 };
 

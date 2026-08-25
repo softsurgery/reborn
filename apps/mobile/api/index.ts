@@ -16,6 +16,7 @@ import { notifications } from "./notifications";
 import { education } from "./education";
 import { experience } from "./experience";
 import { referenceTypes } from "./reference-types";
+import { currentUser } from "./current-user";
 
 export const api = {
   auth,
@@ -32,6 +33,7 @@ export const api = {
   jobTag,
   store,
   chat,
+  currentUser,
   notifications,
   education,
   experience,

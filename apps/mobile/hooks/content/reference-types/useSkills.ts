@@ -6,16 +6,18 @@ interface useSkillsProps {
   enabled?: boolean;
 }
 
-export const useSkills = ({ enabled = true }: useSkillsProps = {}) => {
+export const useSkills = (
+  { enabled }: useSkillsProps = { enabled: true },
+) => {
   const {
-    isFetching: isFetchSkillsPending,
     data: skillsResp,
+    isPending: isSkillsPending,
     refetch: refetchSkills,
   } = useQuery({
     queryKey: ["skills"],
-    queryFn: () =>
+    queryFn: async () =>
       api.referenceTypes.refParam.findAll({
-        filter: `refType.label||$eq||Skill`,
+        filter: "refTypeId||$eq||skill",
       }),
     enabled,
   });
@@ -27,7 +29,7 @@ export const useSkills = ({ enabled = true }: useSkillsProps = {}) => {
 
   return {
     skills,
-    isFetchSkillsPending,
+    isSkillsPending,
     refetchSkills,
   };
 };

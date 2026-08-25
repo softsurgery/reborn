@@ -1,5 +1,5 @@
-import { View } from "react-native";
+import { SkillsManagement } from "@/components/profile/SkillsManagement";
 
 export default function Screen() {
-  return <View></View>;
+  return <SkillsManagement />;
 }

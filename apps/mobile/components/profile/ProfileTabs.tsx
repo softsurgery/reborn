@@ -102,6 +102,7 @@ export const ProfileTabs = ({
             {() => (
               <CareerTab
                 onRefresh={onRefresh}
+                userId={user?.id}
                 refreshing={refreshing}
                 renderSection={RenderSection}
                 profileSections={profileSections}
