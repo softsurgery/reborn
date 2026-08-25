@@ -1,9 +1,9 @@
 import React from "react";
-import { ColorValue, Image, View } from "react-native";
+import { ColorValue } from "react-native";
 import { User } from "lucide-react-native";
 import { useColorPalette } from "@/hooks/useColorPalette";
 import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
-import { useServerImage } from "~/hooks/content/useServerImage";
+import { useServerImages } from "@/hooks/content/useServerImages";
 import { identifyUserAvatar } from "~/lib/user.utils";
 import {
   Avatar,
@@ -20,60 +20,42 @@ export interface MenuTabAvatarProps {
 
 export const MenuTabAvatar = ({ color, focused }: MenuTabAvatarProps) => {
   const { palette } = useColorPalette();
-  const { currentUser } = useCurrentUser();
+  const { currentUser } = useCurrentUser({ join: ["picture"] });
+
   const avatarInitials = React.useMemo(
     () => identifyUserAvatar(currentUser),
     [currentUser],
   );
 
-  const { upload } = useServerImage({
-    id: currentUser?.pictureId,
-    enabled: !!currentUser?.pictureId,
+  const pictureId = currentUser?.pictureId ?? currentUser?.picture?.id;
+
+  const { uploads } = useServerImages({
+    ids: [pictureId],
+    enabled: !!pictureId,
   });
+  const upload = uploads?.[0];
 
   const size = focused ? 28 : 24;
 
-  if (upload) {
-    return (
-      <View
-        style={{
-          width: size,
-          height: size,
-          borderRadius: 9999,
-          borderWidth: focused ? 2 : 1,
-          borderColor: focused ? palette.primary : palette.border,
-          overflow: "hidden",
-        }}
-        className="items-center justify-center bg-muted"
-      >
-        <Image
-          source={upload}
-          style={{ width: "100%", height: "100%" }}
-          resizeMode="cover"
-        />
-      </View>
-    );
-  }
-
-  if (avatarInitials) {
-    return (
-      <Avatar
-        style={{
-          width: size,
-          height: size,
-          borderWidth: focused ? 2 : 1,
-          borderColor: focused ? palette.primary : palette.border,
-        }}
-      >
-        <AvatarImage />
-        <AvatarFallback>
+  return (
+    <Avatar
+      style={{
+        width: size,
+        height: size,
+        borderWidth: focused ? 2 : 1,
+        borderColor: focused ? palette.primary : palette.border,
+      }}
+    >
+      <AvatarImage source={upload} />
+      <AvatarFallback>
+        {avatarInitials && avatarInitials !== "?" ? (
           <Text style={{ fontSize: focused ? 11 : 10, fontWeight: "700" }}>
             {avatarInitials}
           </Text>
-        </AvatarFallback>
-      </Avatar>
-    );
-  }
-
-  return <Icon as={User} size={focused ? 28 : 24} color={color as string} />;
+        ) : (
+          <Icon as={User} size={focused ? 20 : 18} color={color as string} />
+        )}
+      </AvatarFallback>
+    </Avatar>
+  );
 };

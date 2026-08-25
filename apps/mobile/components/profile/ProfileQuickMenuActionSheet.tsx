@@ -15,7 +15,7 @@ import {
 import { Text } from "~/components/ui/text";
 import { Icon } from "~/components/ui/icon";
 import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
-import { useServerImage } from "~/hooks/content/useServerImage";
+import { useServerImages } from "@/hooks/content/useServerImages";
 import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
 import { useColorPalette } from "@/hooks/useColorPalette";
 import {
@@ -47,10 +47,11 @@ export const ProfileQuickMenuActionSheet = forwardRef<
     [currentUser],
   );
 
-  const { upload } = useServerImage({
-    id: currentUser?.pictureId,
+  const { uploads } = useServerImages({
+    ids: [currentUser?.pictureId],
     enabled: !!currentUser?.pictureId,
   });
+  const upload = uploads?.[0];
 
   const handleAction = async (action: () => void) => {
     await Haptics.selectionAsync();
@@ -113,7 +114,7 @@ export const ProfileQuickMenuActionSheet = forwardRef<
               style={{ width: 54, height: 54 }}
               className="border-2 border-primary"
             >
-              <AvatarImage source={{ uri: upload ?? "" }} />
+              <AvatarImage source={upload} />
               <AvatarFallback>
                 <Text className="text-base font-bold text-foreground">
                   {userAvatarInitials}
