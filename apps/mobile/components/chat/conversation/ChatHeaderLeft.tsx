@@ -55,7 +55,7 @@ export const ChatHeaderLeft = ({
           )}
         </View>
         <View className="flex flex-col justify-center">
-          <Text className="font-semibold text-[15px]" numberOfLines={1}>
+          <Text className="font-semibold text-sm truncate" numberOfLines={1}>
             {identifier}
           </Text>
           <Text className="text-xs text-muted-foreground" numberOfLines={1}>

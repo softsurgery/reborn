@@ -75,7 +75,7 @@ export const ChatBubble = ({
 
   const textClassName = cn(
     "text-[15px] leading-5",
-    right ? "text-primary-foreground" : "text-secondary-foreground",
+    right ? "text-primary-foreground" : "text-muted-foreground",
   );
 
   const linkClassName = cn(
@@ -91,7 +91,7 @@ export const ChatBubble = ({
           "max-w-[80%] mx-3 rounded-2xl mt-1.5",
           right
             ? "self-end rounded-br-sm bg-primary"
-            : "self-start rounded-bl-sm bg-secondary",
+            : "self-start rounded-bl-sm bg-muted",
         )}
       >
         <Pressable className="px-3 py-2 active:opacity-80">
@@ -106,7 +106,7 @@ export const ChatBubble = ({
               "text-[10px] text-right mt-1",
               right
                 ? "text-primary-foreground/70"
-                : "text-secondary-foreground/60",
+                : "text-muted-foreground/60",
             )}
           >
             {format(timestamp, "hh:mm a")}
