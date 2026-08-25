@@ -1,15 +1,15 @@
 import React from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { getSocket } from "@/lib/socket";
-import { useAuthPersistStore } from "@/hooks/useAuthPersistStore";
-import { useCurrentUser } from "../users/useCurrentUser";
-import { useChatPendingStore } from "@/stores/useChatPendingStore";
 import {
   conversationLinksMessagesQueryKey,
   prependMessageToConversationLinksCache,
 } from "@/lib/chat/chat";
 import { messageHasLinks } from "@/lib/chat/message-links";
 import { MessageVariant, ResponseMessageDto } from "@/types";
+import { useAuthPersistStore } from "@/hooks/stores/useAuthPersistStore";
+import { useCurrentUser } from "../user/useCurrentUser";
+import { useChatPendingStore } from "@/hooks/stores/useChatPendingStore";
 
 interface CachedConversationMessages {
   messages: ResponseMessageDto[];

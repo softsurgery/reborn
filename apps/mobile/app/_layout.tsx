@@ -13,7 +13,6 @@ import {
   SafeAreaProvider,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
-import { NotificationContext } from "@/contexts/NotificationContext";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import { useColorPalette } from "@/hooks/useColorPalette";
