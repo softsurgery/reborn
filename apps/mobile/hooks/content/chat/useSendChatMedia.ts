@@ -13,6 +13,7 @@ import { toast } from "sonner-native";
 import { useShallow } from "zustand/react/shallow";
 import { useChatPendingStore } from "@/hooks/stores/useChatPendingStore";
 import { waitForUiReady } from "@/lib/device";
+import { useLoader } from "@/contexts/LoaderContext";
 
 const MAX_SELECTION = 10;
 
@@ -52,6 +53,7 @@ export const useSendChatMedia = ({
   const updatePendingMedia = useChatPendingStore(
     (state) => state.updatePendingMedia,
   );
+  const { setLoading } = useLoader();
 
   const updatePending = React.useCallback(
     (clientId: string, patch: Partial<PendingMediaUpload>) => {
@@ -227,11 +229,15 @@ export const useSendChatMedia = ({
           : undefined);
 
       try {
+        setLoading(true);
         const result = await ImagePicker.launchImageLibraryAsync(
           buildPickerOptionsCallback(effectiveKind),
         );
 
-        if (result.canceled || result.assets.length === 0) return;
+        if (result.canceled || result.assets.length === 0) {
+          setLoading(false);
+          return;
+        }
 
         const incoming = result.assets.map(toStagedMedia);
 
@@ -249,9 +255,11 @@ export const useSendChatMedia = ({
           "Couldn't load media",
           "The selected item may still be downloading from iCloud. Try again in a moment.",
         );
+      } finally {
+        setLoading(false);
       }
     },
-    [buildPickerOptionsCallback, mergeStagedMedia],
+    [buildPickerOptionsCallback, mergeStagedMedia, setLoading],
   );
 
   /**

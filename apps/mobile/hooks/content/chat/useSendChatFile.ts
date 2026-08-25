@@ -8,6 +8,7 @@ import { waitForUiReady } from "@/lib/device";
 import { toast } from "sonner-native";
 import { useShallow } from "zustand/react/shallow";
 import { useChatPendingStore } from "@/hooks/stores/useChatPendingStore";
+import { useLoader } from "@/contexts/LoaderContext";
 
 const MAX_FILE_SELECTION = 10;
 
@@ -40,6 +41,7 @@ export const useSendChatFile = ({
   const updatePendingFile = useChatPendingStore(
     (state) => state.updatePendingFile,
   );
+  const { setLoading } = useLoader();
 
   const serverUploadIds = React.useMemo(
     () =>
@@ -142,6 +144,7 @@ export const useSendChatFile = ({
    */
   const pickFile = React.useCallback(async () => {
     await waitForUiReady();
+    setLoading(true);
 
     try {
       const result = await DocumentPicker.getDocumentAsync({
@@ -149,7 +152,10 @@ export const useSendChatFile = ({
         copyToCacheDirectory: true,
       });
 
-      if (result.canceled || result.assets.length === 0) return;
+      if (result.canceled || result.assets.length === 0) {
+        setLoading(false);
+        return;
+      }
 
       const files = result.assets.slice(0, MAX_FILE_SELECTION);
       if (result.assets.length > MAX_FILE_SELECTION) {
@@ -163,8 +169,10 @@ export const useSendChatFile = ({
     } catch (error) {
       console.error("Failed to pick file:", error);
       Alert.alert("Couldn't load file", "Please try again in a moment.");
+    } finally {
+      setLoading(false);
     }
-  }, [uploadFileBatch]);
+  }, [uploadFileBatch, setLoading]);
 
   return {
     pickFile,

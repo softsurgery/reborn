@@ -26,8 +26,8 @@ export const MediaUploadProgress = ({
   const offset = CIRCUMFERENCE * (1 - clamped / 100);
 
   return (
-    <View className="absolute inset-0 items-center justify-center bg-black/45 rounded-xl">
-      <View className="items-center justify-center">
+    <View className="absolute inset-0 w-full h-full items-center justify-center bg-black/45 rounded-xl z-50">
+      <View className="relative items-center justify-center">
         <Svg width={SIZE} height={SIZE}>
           <Circle
             cx={SIZE / 2}
