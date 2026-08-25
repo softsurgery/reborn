@@ -1,7 +1,6 @@
 import React from "react";
 import { View } from "react-native";
 import { FormBuilder } from "~/components/shared/form-builder/FormBuilder";
-import { useCreateJobFormStructure } from "./useCreateJobFormStructure";
 import { useJobStore } from "~/hooks/stores/useJobStore";
 import { useCurrencies } from "~/hooks/content/useCurrencies";
 import { mapToSelectOptions } from "~/components/shared/form-builder/utils/mapToSelectOptions";
@@ -10,7 +9,7 @@ import { useJobCategories } from "@/hooks/content/reference-types/useJobCategori
 import { Stepper } from "~/components/shared/Stepper";
 import { api } from "~/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { CreateJobDto, ServerErrorResponse, UpdateJobDto } from "~/types";
+import { ServerErrorResponse, UpdateJobDto } from "~/types";
 import { cn } from "~/lib/utils";
 import { router } from "expo-router";
 import { StableSafeAreaView } from "@/components/shared/stables/StableSafeAreaView";
@@ -46,13 +45,13 @@ export const JobUpdateForm = ({ className, id }: JobUpdateFormProps) => {
   } = useLiveGeolocation();
   const jobStore = useJobStore();
 
-  const { job, isJobPending, refetchJob } = useJob({
+  const { job } = useJob({
     id,
     join: ["uploads", "uploads.upload"],
   });
 
-  const { uploads, isPending: isUploadsPending } = useServerImages({
-    ids: job?.uploads?.map((upload) => upload.upload.id) || [],
+  const { uploads } = useServerImages({
+    ids: job?.uploads?.map((upload) => upload.upload?.id).filter(Boolean) as number[] || [],
     enabled: !!job?.uploads,
   });
 
@@ -65,10 +64,10 @@ export const JobUpdateForm = ({ className, id }: JobUpdateFormProps) => {
           const uri = uploads[index];
           return {
             id: jobUpload.id,
-            serverId: jobUpload.upload.id,
+            serverId: jobUpload.upload?.id,
             uri: uri as string,
-            name: jobUpload.upload.slug,
-            type: "image/jpeg",
+            name: jobUpload.upload?.slug,
+            type: jobUpload.upload?.mimetype || "image/jpeg",
             progress: 100,
             order: jobUpload.order,
           };
@@ -90,7 +89,7 @@ export const JobUpdateForm = ({ className, id }: JobUpdateFormProps) => {
         categoryId: job.categoryId,
         difficulty: job.difficulty,
         style: job.style,
-        tagIds: job.tags?.map((tag) => tag.id) || [],
+        tagIds: job.tags?.map((tag) => tag?.id).filter(Boolean) as number[] || [],
       });
     }
   }, [job]);

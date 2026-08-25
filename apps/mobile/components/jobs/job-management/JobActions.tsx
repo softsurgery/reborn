@@ -9,7 +9,6 @@ import { JobEvents, JobStatus } from "@/types";
 import { useJob } from "@/hooks/content/job/useJob";
 import {
   Edit,
-  Trash2,
   Share2,
   PauseCircle,
   Copy,
@@ -291,10 +290,12 @@ export const JobActions = ({ id, className }: JobActionsProps) => {
           try {
             const duplicatedJob = await duplicateJob(id);
             duplicateSheetRef.current?.hide();
-            router.push({
-              pathname: "/main/my-space/update-job",
-              params: { id: duplicatedJob.id },
-            });
+            if (duplicatedJob?.id) {
+              router.push({
+                pathname: "/main/my-space/update-job",
+                params: { id: duplicatedJob.id },
+              });
+            }
           } catch (e) {
             console.error(e);
           }
