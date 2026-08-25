@@ -2,7 +2,7 @@ import React from "react";
 import { useDebounce } from "@/hooks/useDebounce";
 import { LegendList } from "@legendapp/list";
 import { router, useFocusEffect } from "expo-router";
-import { Search } from "lucide-react-native";
+import { Search, Bell } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import { Pressable, RefreshControl, View } from "react-native";
 import { cn } from "~/lib/utils";
@@ -12,8 +12,7 @@ import { UserEntry } from "./UserEntry";
 import { MarkedInput } from "../shared/MarkedInput";
 import { Separator } from "../ui/separator";
 import { useChat } from "@/hooks/content/chat/useChat";
-
-import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
+import { useNotificationContext } from "~/contexts/NotificationContext";
 import { useCurrentUser } from "@/hooks/content/user/useCurrentUser";
 import { identifyUser, identifyUserAvatar } from "@/lib/user.utils";
 import { StableSafeAreaView } from "../shared/stables/StableSafeAreaView";
@@ -33,6 +32,7 @@ export const ChatPortal = ({ className }: ChatPortalProps) => {
   const { value: debouncedSearchQuery } = useDebounce(searchQuery, 500);
 
   const { currentUser } = useCurrentUser();
+  const { count } = useNotificationContext();
 
   const {
     conversations,
@@ -93,18 +93,17 @@ export const ChatPortal = ({ className }: ChatPortalProps) => {
   );
 
   return (
-    <StableSafeAreaView
-      className={cn("flex flex-1 flex-col bg-card", className)}
-    >
+    <StableSafeAreaView className={cn("flex flex-1 flex-col", className)}>
       <ApplicationHeader
-        classNames={{ wrapper: "border-b border-border pb-2" }}
         title={t("chat.title")}
-        titleVariant="large"
-        reverse
         shortcuts={[
           {
-            key: "back",
-            render: <AppHeaderBack />,
+            key: "notifications",
+            icon: Bell,
+            onPress: () => {
+              router.push("/main/notifications");
+            },
+            badgeText: count > 0 ? `${count}` : undefined,
           },
         ]}
       />

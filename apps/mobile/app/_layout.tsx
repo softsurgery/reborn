@@ -1,13 +1,11 @@
 import React from "react";
 import { Stack, useRootNavigationState } from "expo-router";
-import * as Notifications from "expo-notifications";
 import { ThemeProvider } from "@react-navigation/native";
 import { hslToHex, NAV_THEME, THEME } from "~/lib/theme";
 import "~/global.css";
 import "../i18n";
 import { Platform, View } from "react-native";
 import { cn } from "~/lib/utils";
-import { useNotifications } from "~/hooks/content/notifications/useNotification";
 import { StatusBar } from "expo-status-bar";
 import { PortalHost } from "@rn-primitives/portal";
 import { Toaster } from "sonner-native";
@@ -24,20 +22,9 @@ import * as SplashScreen from "expo-splash-screen";
 import { splashPrevented } from "@/lib/splash-screen";
 import { asyncStoragePersister, queryClient } from "@/lib/query-client";
 import { LoaderProvider } from "@/contexts/LoaderContext";
-import { NotificationType } from "@/types";
 import { KeyboardProvider } from "react-native-keyboard-controller";
 
 export { ErrorBoundary } from "expo-router";
-
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: true,
-    shouldSetBadge: false,
-    shouldShowBanner: true,
-    shouldShowList: true,
-  }),
-});
 
 interface RootLayoutContentProps {
   palette: typeof THEME.light | typeof THEME.dark;
@@ -46,25 +33,7 @@ interface RootLayoutContentProps {
 
 function RootLayoutContent({ palette, colorScheme }: RootLayoutContentProps) {
   const insets = useSafeAreaInsets();
-  const {
-    count: notificationCount,
-    notifications,
-    resetCount: resetNotificationCount,
-  } = useNotifications({
-    consequences: {
-      [NotificationType.TEST]: () => {},
-      [NotificationType.NEW_SIGNIN]: () => {},
-      [NotificationType.NEW_MESSAGE]: () => {},
-      [NotificationType.JOB_REQUEST_APPROVED]: () => {},
-      [NotificationType.JOB_REQUEST_REJECTED]: () => {},
-      [NotificationType.NEW_JOB_REQUEST]: () => {},
-      [NotificationType.NEW_FOLLOWER]: () => {
-        queryClient.invalidateQueries({ queryKey: ["followers"] });
-        queryClient.invalidateQueries({ queryKey: ["follow-data-count"] });
-        queryClient.invalidateQueries({ queryKey: ["social-data"] });
-      },
-    },
-  });
+
   const [ready, setReady] = React.useState(false);
 
   // Wait for navigation context to load
@@ -79,47 +48,39 @@ function RootLayoutContent({ palette, colorScheme }: RootLayoutContentProps) {
   return (
     <ThemeProvider value={NAV_THEME[colorScheme ?? "light"]}>
       <GestureHandlerRootView style={{ flex: 1 }}>
-        <NotificationContext.Provider
-          value={{
-            count: notificationCount,
-            notifications,
-            resetCount: resetNotificationCount,
+        <View
+          className={cn("flex-1 light dark:dark bg-background")}
+          style={{
+            paddingBottom: Platform.OS === "ios" ? 0 : insets.bottom,
           }}
         >
-          <View
-            className={cn("flex-1 light dark:dark bg-background")}
-            style={{
-              paddingBottom: Platform.OS === "ios" ? 0 : insets.bottom,
-            }}
-          >
-            <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
-            <Stack
-              screenOptions={{
-                headerShown: false,
-                contentStyle: {
-                  flex: 1,
-                  backgroundColor: hslToHex(palette.background),
-                },
-                headerStyle: {
-                  backgroundColor: hslToHex(palette.card),
-                },
-                headerTintColor: hslToHex(palette.foreground),
-                headerTitleStyle: {
-                  fontFamily: "Poppins-SemiBold",
-                  fontSize: 18,
-                  color: hslToHex(palette.foreground),
-                },
-              }}
-            />
-            <Toaster
-              duration={1000}
-              style={{
+          <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
+          <Stack
+            screenOptions={{
+              headerShown: false,
+              contentStyle: {
+                flex: 1,
+                backgroundColor: hslToHex(palette.background),
+              },
+              headerStyle: {
                 backgroundColor: hslToHex(palette.card),
-              }}
-            />
-            <PortalHost />
-          </View>
-        </NotificationContext.Provider>
+              },
+              headerTintColor: hslToHex(palette.foreground),
+              headerTitleStyle: {
+                fontFamily: "Poppins-SemiBold",
+                fontSize: 18,
+                color: hslToHex(palette.foreground),
+              },
+            }}
+          />
+          <Toaster
+            duration={1000}
+            style={{
+              backgroundColor: hslToHex(palette.card),
+            }}
+          />
+          <PortalHost />
+        </View>
       </GestureHandlerRootView>
     </ThemeProvider>
   );
