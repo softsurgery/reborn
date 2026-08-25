@@ -244,6 +244,14 @@ export default function MainLayout() {
             }}
           />
           <Stack.Screen
+            name="explore/job-apply"
+            options={{
+              title: "",
+              headerShown: false,
+              animation: "slide_from_right",
+            }}
+          />
+          <Stack.Screen
             name="explore/inspect-profile"
             options={{
               title: "",

@@ -485,6 +485,38 @@ export const RequestDetails = ({ id }: RequestDetailsProps) => {
             </Button>
           </View>
         </View>
+
+        {/* Application Details */}
+        {(request.message || request.proposedPrice) && (
+          <View className="mb-6">
+            <Text className="text-sm ml-2 font-extrabold uppercase tracking-widest text-muted-foreground/80 mb-2 px-1">
+              Application Details
+            </Text>
+            <View className="p-4 bg-card flex flex-col gap-4">
+              {request.proposedPrice && (
+                <View className="flex flex-col gap-1.5">
+                  <Text className="text-xs font-extrabold uppercase tracking-wider text-foreground">
+                    Proposed Price
+                  </Text>
+                  <Text className="text-sm font-semibold text-emerald-600">
+                    {request.proposedPrice}
+                  </Text>
+                </View>
+              )}
+
+              {request.message && (
+                <View className="flex flex-col gap-1.5 pt-3 border-t border-border/40">
+                  <Text className="text-xs font-extrabold uppercase tracking-wider text-foreground">
+                    Message
+                  </Text>
+                  <Text className="text-sm text-muted-foreground leading-relaxed italic">
+                    "{request.message}"
+                  </Text>
+                </View>
+              )}
+            </View>
+          </View>
+        )}
       </ScrollView>
 
       {/* Sticky Bottom Action Footer */}

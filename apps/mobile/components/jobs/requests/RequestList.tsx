@@ -24,7 +24,7 @@ interface RequestsListProps {
   className?: string;
   variant: "incoming" | "outgoing";
   jobId?: string;
-  embedded: boolean;
+  embedded?: boolean;
 }
 
 export const RequestsList = ({

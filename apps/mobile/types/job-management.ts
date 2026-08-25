@@ -116,10 +116,14 @@ export interface ResponseJobRequestDto extends DatabaseEntity {
   userId: string;
   user?: ResponseUserDto;
   status: JobRequestStatus;
+  message?: string;
+  proposedPrice?: number;
 }
 
 export interface CreateJobRequestDto {
   jobId: string;
+  message?: string;
+  proposedPrice?: number;
 }
 
 export interface UpdateJobRequestDto extends Partial<CreateJobRequestDto> {}

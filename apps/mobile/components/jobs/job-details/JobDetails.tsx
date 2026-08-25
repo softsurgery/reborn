@@ -12,22 +12,20 @@ import { Text } from "~/components/ui/text";
 import { Button } from "~/components/ui/button";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "~/api";
-import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
+import { identifyUser } from "~/lib/user.utils";
 import { cn } from "~/lib/utils";
 import { JobDetailsSkeleton } from "./JobDetailsSkeleton";
 import { ServerErrorResponse } from "~/types";
-import { useServerImages } from "~/hooks/content/useServerImages";
 import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
 import { useIsJobSaved } from "~/hooks/content/job/useIsJobSaved";
 import { useJobSaveActions } from "~/hooks/content/job/useJobSaveActions";
-import { useIsJobViewed } from "~/hooks/content/job/useIsJobViewed";
 import { useJobViewActions } from "~/hooks/content/job/useJobViewActions";
 import { JobDetailsTopBar } from "./JobDetailsTopBar";
 import { JobHero } from "./JobHero";
 import { JobClientInformation } from "./JobClientInformation";
 import { JobDetailsBody } from "./JobDetailsBody";
 import { type ActionSheetRef } from "react-native-actions-sheet";
-import { ApplyJobActionSheet } from "./ApplyJobActionSheet";
+
 import { CancelApplicationActionSheet } from "./CancelApplicationActionSheet";
 import { toast } from "sonner-native";
 
@@ -42,7 +40,6 @@ export const JobDetails = ({ className, id }: JobDetailsProps) => {
 
   const queryClient = useQueryClient();
 
-  const applySheetRef = React.useRef<ActionSheetRef>(null);
   const cancelSheetRef = React.useRef<ActionSheetRef>(null);
 
   // load data & metadata *******************************************************************************************************
@@ -92,20 +89,6 @@ export const JobDetails = ({ className, id }: JobDetailsProps) => {
     },
     enabled: !!id,
     retry: false,
-  });
-
-  const { mutate: sendRequest, isPending: isSendRequestPending } = useMutation({
-    mutationFn: () =>
-      api.jobRequest.create({
-        jobId: id as string,
-      }),
-    onSuccess: () => {
-      refetchJobRequested();
-      refetchJobMetadata();
-    },
-    onError: (error: ServerErrorResponse) => {
-      toast.error(error.response?.data.message || "Failed to send request");
-    },
   });
 
   const { mutate: cancelRequest, isPending: isCancelRequestPending } =
@@ -202,7 +185,7 @@ export const JobDetails = ({ className, id }: JobDetailsProps) => {
   const isOwner = job.postedBy?.id === currentUser?.id;
 
   return (
-    <View className="flex-1 bg-background">
+    <View className={cn("flex-1 bg-background", className)}>
       <JobDetailsTopBar
         title={job?.title}
         showTitle={isTitleScrolledAway}
@@ -255,13 +238,13 @@ export const JobDetails = ({ className, id }: JobDetailsProps) => {
               className={cn("rounded-xl", isJobRequested ? "flex-1" : "w-full")}
               onPress={() => {
                 if (isJobRequested) cancelSheetRef.current?.show();
-                else applySheetRef.current?.show();
+                else
+                  router.push({
+                    pathname: "/main/explore/job-apply",
+                    params: { id },
+                  });
               }}
-              disabled={
-                isJobRequestedPending ||
-                isCancelRequestPending ||
-                isSendRequestPending
-              }
+              disabled={isJobRequestedPending || isCancelRequestPending}
               variant={isJobRequested ? "destructive" : "default"}
             >
               <Text
@@ -286,12 +269,6 @@ export const JobDetails = ({ className, id }: JobDetailsProps) => {
             <Text className="font-semibold">Manage this job</Text>
           </Button>
         )}
-
-        <ApplyJobActionSheet
-          ref={applySheetRef}
-          onConfirm={() => sendRequest()}
-          isPending={isSendRequestPending}
-        />
 
         <CancelApplicationActionSheet
           ref={cancelSheetRef}
