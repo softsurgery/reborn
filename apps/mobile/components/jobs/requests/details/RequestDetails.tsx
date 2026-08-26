@@ -3,41 +3,22 @@ import { ActivityIndicator, ScrollView, View } from "react-native";
 import { router } from "expo-router";
 import { type ActionSheetRef } from "react-native-actions-sheet";
 import { useJobRequest } from "@/hooks/content/job/useJobRequest";
-import { format } from "date-fns";
 import {
-  ChevronLeft,
   AlertCircle,
   CheckCircle2,
   XCircle,
   Mail,
   Check,
   X,
-  Briefcase,
-  UserCheck,
-  CopyX,
-  ExternalLink,
-  ChevronRight,
-  Clock,
-  Sparkles,
-  BadgeDollarSign,
+  LucideIcon,
 } from "lucide-react-native";
 import * as Haptics from "expo-haptics";
 import { ApplicationHeader } from "@/components/shared/AppHeader";
 import { BottomButtonWrapper } from "@/components/shared/BottomButtonBlockWrapper";
 import { StableSafeAreaView } from "@/components/shared/stables/StableSafeAreaView";
-import { StablePressable } from "@/components/shared/stables/StablePressable";
 import { Text } from "@/components/ui/text";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Icon } from "@/components/ui/icon";
-import { Skeleton } from "@/components/ui/skeleton";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/shared/stables/StableAvatar";
-import { identifyUser, identifyUserAvatar } from "@/lib/user.utils";
-import { useServerImages } from "@/hooks/content/useServerImages";
 import { useJobRequestActions } from "@/hooks/content/job/useJobRequestActions";
 import { useCurrentUser } from "@/hooks/content/user/useCurrentUser";
 import {
@@ -47,14 +28,26 @@ import {
   ResponseJobRequestDto,
 } from "@/types";
 import { cn } from "@/lib/utils";
-import { timeAgo } from "@/lib/dates.utils";
-import { ImageSource } from "expo-image";
 import { useColorPalette } from "@/hooks/useColorPalette";
 import { ApproveJobRequestActionSheet } from "./ApproveJobRequestActionSheet";
 import { DeclineJobRequestActionSheet } from "./DeclineJobRequestActionSheet";
 import { WithdrawJobRequestActionSheet } from "./WithdrawJobRequestActionSheet";
+import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
+import { RequestBanner } from "./RequestBanner";
+import { RequestUserEntry } from "./RequestUserEntry";
+import { RequestJobEntry } from "./RequestJobEntry";
+
+export interface RequestStatus {
+  icon: LucideIcon;
+  badgeStyle: string;
+  cardBg: string;
+  iconBg: string;
+  label: string;
+  description: string;
+}
 
 interface RequestDetailsProps {
+  className?: string;
   id: string;
 }
 
@@ -62,9 +55,7 @@ const DEFAULT_CURRENCY = "TND";
 
 const formatPrice = (job?: ResponseJobDto) => {
   if (!job || job.price === undefined || job.price === null) return null;
-  const currencyExtras = job.currency?.extras as
-    | { code?: string; symbol?: string }
-    | undefined;
+  const currencyExtras = job.currency?.extras;
   const code =
     currencyExtras?.symbol ||
     currencyExtras?.code ||
@@ -74,7 +65,7 @@ const formatPrice = (job?: ResponseJobDto) => {
   return `${job.price} ${code}${pricingType}`;
 };
 
-export const RequestDetails = ({ id }: RequestDetailsProps) => {
+export const RequestDetails = ({ className, id }: RequestDetailsProps) => {
   const { currentUser } = useCurrentUser();
   const { palette } = useColorPalette();
 
@@ -92,50 +83,8 @@ export const RequestDetails = ({ id }: RequestDetailsProps) => {
 
   const counterpartyUser = isIncoming ? request?.user : request?.job?.postedBy;
 
-  // Counterparty avatar
-  const {
-    uploads: [counterpartyPicture],
-  } = useServerImages({
-    ids: [counterpartyUser?.pictureId],
-    enabled: !!counterpartyUser?.pictureId,
-  });
-
-  // Job cover image
-  const orderedUploads = React.useMemo(
-    () => request?.job?.uploads?.slice().sort((a, b) => a.order - b.order),
-    [request?.job?.uploads],
-  );
-  const coverUploadId = orderedUploads?.[0]?.uploadId;
-  const {
-    jsxArray: [coverJsx],
-  } = useServerImages({
-    ids: [coverUploadId],
-    enabled: !!coverUploadId,
-    size: { width: 120, height: 120 },
-    className: "rounded-2xl w-full h-full",
-  });
-
   if (isPending) {
-    return (
-      <StableSafeAreaView className="flex-1 bg-background">
-        <ApplicationHeader
-          classNames={{
-            wrapper: "border-b border-border/60 pb-2.5 bg-background",
-          }}
-          title={`Request #${id}`}
-          titleVariant="large"
-          reverse
-          shortcuts={[
-            { key: "back", icon: ChevronLeft, onPress: () => router.back() },
-          ]}
-        />
-        <View className="p-4 gap-4">
-          <Skeleton className="h-28 w-full rounded-3xl" />
-          <Skeleton className="h-24 w-full rounded-2xl" />
-          <Skeleton className="h-56 w-full rounded-3xl" />
-        </View>
-      </StableSafeAreaView>
-    );
+    return <ActivityIndicator className="flex-1" size="large" />;
   }
 
   if (isError || !request) {
@@ -161,7 +110,7 @@ export const RequestDetails = ({ id }: RequestDetailsProps) => {
     );
   }
 
-  const statusConfig = {
+  const statusConfig: Record<JobRequestStatus, RequestStatus> = {
     [JobRequestStatus.Pending]: {
       icon: AlertCircle,
       badgeStyle:
@@ -198,293 +147,38 @@ export const RequestDetails = ({ id }: RequestDetailsProps) => {
 
   const currentStatus =
     statusConfig[request.status] || statusConfig[JobRequestStatus.Pending];
-  const priceDisplay = formatPrice(request.job);
-
-  const navigateToJobDetails = () => {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    if (request.job?.id) {
-      router.push({
-        pathname: "/main/explore/job-details",
-        params: {
-          id: request.job.id,
-          uploads: JSON.stringify(
-            (request.job.uploads ?? []).map((u) => u.uploadId),
-          ),
-        },
-      });
-    }
-  };
-
-  const navigateToCounterpartyProfile = () => {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    if (counterpartyUser?.id) {
-      router.push({
-        pathname: "/main/explore/inspect-profile",
-        params: { id: counterpartyUser.id },
-      });
-    }
-  };
 
   return (
-    <StableSafeAreaView className="flex-1 bg-background">
+    <StableSafeAreaView className={cn("flex-1 bg-card", className)}>
       {/* Header */}
       <ApplicationHeader
         classNames={{
-          wrapper: "border-b border-border/50 pb-2.5 bg-background",
+          wrapper: "border-b border-border/50 pb-2",
         }}
-        title={`Request #${request.id}`}
+        title={`Request for ${request.job?.title}`}
         titleVariant="large"
         reverse
         shortcuts={[
           {
             key: "back",
-            icon: ChevronLeft,
-            onPress: () => {
-              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-              router.back();
-            },
+            render: <AppHeaderBack />,
           },
         ]}
       />
 
-      <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
-        {/* Status Card Banner */}
-        <View
-          className={cn(
-            "p-4 flex flex-col gap-3 mb-5 shadow-xs",
-            currentStatus.cardBg,
-          )}
-        >
-          <View className="flex flex-row items-center justify-between gap-2">
-            <View className="flex flex-row items-center gap-2 flex-1 min-w-0">
-              <View
-                className={cn(
-                  "w-8 h-8 rounded-full items-center justify-center shrink-0",
-                  currentStatus.iconBg,
-                )}
-              >
-                <Icon
-                  as={currentStatus.icon}
-                  size={18}
-                  className="currentColor"
-                />
-              </View>
-              <Text
-                className="text-sm font-extrabold text-foreground flex-1"
-                numberOfLines={1}
-              >
-                {currentStatus.label}
-              </Text>
-            </View>
+      <ScrollView
+        className="flex-1 bg-background"
+        showsVerticalScrollIndicator={false}
+      >
+        <RequestBanner status={currentStatus} request={request} />
 
-            <Badge
-              variant="outline"
-              className={cn("px-2.5 py-0.5 shrink-0", currentStatus.badgeStyle)}
-            >
-              <Text className="text-[11px] font-extrabold currentColor">
-                {request.createdAt ? timeAgo(request.createdAt) : "Recently"}
-              </Text>
-            </Badge>
-          </View>
+        <RequestUserEntry
+          className="px-4"
+          user={counterpartyUser}
+          isIncoming={isIncoming}
+        />
 
-          <Text className="text-xs text-muted-foreground leading-relaxed">
-            {currentStatus.description}
-          </Text>
-
-          {request.createdAt && (
-            <View className="flex flex-row items-center gap-1.5 pt-2 border-t border-border/20">
-              <Icon
-                as={Clock}
-                size={12}
-                color={palette?.mutedForeground || "#9CA3AF"}
-              />
-              <Text className="text-[11px] font-medium text-muted-foreground">
-                Submitted:{" "}
-                {format(
-                  new Date(request.createdAt),
-                  "MMM dd, yyyy 'at' hh:mm a",
-                )}
-              </Text>
-            </View>
-          )}
-        </View>
-
-        {/* Counterparty Profile Banner */}
-        <View className="mb-5">
-          <Text className="text-sm ml-2 font-extrabold uppercase tracking-widest text-muted-foreground/80 mb-2 px-1">
-            {isIncoming ? "Applicant Candidate" : "Job Client"}
-          </Text>
-
-          <StablePressable
-            className="flex flex-row ml-2 items-center justify-between p-3.5 active:bg-muted/40 gap-3"
-            onPress={navigateToCounterpartyProfile}
-          >
-            <View className="flex flex-row items-center gap-3.5 flex-1">
-              <Avatar
-                alt={identifyUser(counterpartyUser)}
-                style={{ width: 48, height: 48 }}
-                className="border-2 border-primary/20 shadow-xs shrink-0"
-              >
-                <AvatarImage source={counterpartyPicture as ImageSource} />
-                <AvatarFallback className="bg-primary/10">
-                  <Text className="font-extrabold text-sm text-primary">
-                    {identifyUserAvatar(counterpartyUser)}
-                  </Text>
-                </AvatarFallback>
-              </Avatar>
-
-              <View className="flex-1 min-w-0 justify-center gap-1">
-                <View className="flex flex-row items-center gap-2">
-                  <Text
-                    className="text-sm font-extrabold text-foreground flex-1 shrink min-w-0"
-                    numberOfLines={1}
-                  >
-                    {identifyUser(counterpartyUser)}
-                  </Text>
-
-                  <Badge
-                    variant="secondary"
-                    className="px-2 py-0.5 bg-primary/10 border-primary/20 shrink-0"
-                  >
-                    <Text className="text-[10px] font-extrabold text-primary uppercase">
-                      {isIncoming ? "Candidate" : "Client"}
-                    </Text>
-                  </Badge>
-                </View>
-
-                {counterpartyUser?.email ? (
-                  <Text
-                    className="text-xs text-muted-foreground font-medium"
-                    numberOfLines={1}
-                  >
-                    {counterpartyUser.email}
-                  </Text>
-                ) : (
-                  <Text className="text-xs text-muted-foreground font-medium">
-                    Tap to inspect profile
-                  </Text>
-                )}
-              </View>
-            </View>
-
-            <View className="w-8 h-8 items-center justify-center shrink-0">
-              <Icon as={ChevronRight} size={20} />
-            </View>
-          </StablePressable>
-        </View>
-
-        {/* Job Specifications Card */}
-        <View className="mb-6">
-          <Text className="text-sm ml-2 font-extrabold uppercase tracking-widest text-muted-foreground/80 mb-2 px-1">
-            Job Specifications
-          </Text>
-
-          <View className="p-4 bg-card flex flex-col gap-4">
-            {/* Top Row: Thumbnail + Title & Price */}
-            <View className="flex flex-row gap-3.5">
-              {coverUploadId ? (
-                <View className="w-20 h-20 rounded-2xl overflow-hidden bg-muted border border-border/50 shrink-0 items-center justify-center shadow-xs">
-                  {coverJsx}
-                </View>
-              ) : (
-                <View className="w-20 h-20 rounded-2xl bg-primary/10 items-center justify-center border border-primary/20 shrink-0 shadow-xs">
-                  <Icon as={Briefcase} size={30} className="text-primary" />
-                </View>
-              )}
-
-              <View className="flex-1 justify-between py-0.5">
-                <Text className="text-[11px] font-extrabold uppercase tracking-widest text-primary">
-                  {request.job?.category?.label ?? "Uncategorised"}
-                </Text>
-
-                <Text
-                  className="text-base font-extrabold leading-snug tracking-tight text-foreground"
-                  numberOfLines={2}
-                >
-                  {request.job?.title || "Untitled Job"}
-                </Text>
-
-                {priceDisplay && (
-                  <View className="flex flex-row items-center gap-1.5 mt-1">
-                    <Icon
-                      as={BadgeDollarSign}
-                      size={16}
-                      className="text-primary"
-                    />
-                    <Text className="text-base font-extrabold text-primary">
-                      {priceDisplay}
-                    </Text>
-                  </View>
-                )}
-              </View>
-            </View>
-
-            {/* Badges / Quick Specs Row */}
-            <View className="flex flex-row items-center flex-wrap gap-2 pt-3 border-t border-border/40">
-              {request.job?.style && (
-                <Badge
-                  variant="outline"
-                  className="gap-1.5 px-3 py-1 border-border/60 bg-muted/20"
-                >
-                  <Icon
-                    as={Briefcase}
-                    size={12}
-                    className="text-muted-foreground"
-                  />
-                  <Text className="text-xs font-semibold text-foreground">
-                    {request.job.style}
-                  </Text>
-                </Badge>
-              )}
-
-              {request.job?.difficulty && (
-                <Badge
-                  variant="outline"
-                  className="gap-1.5 px-3 py-1 border-border/60 bg-muted/20"
-                >
-                  <Icon as={Sparkles} size={12} className="text-amber-500" />
-                  <Text className="text-xs font-semibold text-foreground">
-                    {request.job.difficulty}
-                  </Text>
-                </Badge>
-              )}
-
-              {request.job?.pricingType && (
-                <Badge
-                  variant="outline"
-                  className="gap-1.5 px-3 py-1 border-border/60 bg-muted/20"
-                >
-                  <Text className="text-xs font-semibold text-muted-foreground uppercase">
-                    {request.job.pricingType}
-                  </Text>
-                </Badge>
-              )}
-            </View>
-
-            {/* Description */}
-            {request.job?.description ? (
-              <View className="pt-3 border-t border-border/40 gap-1.5">
-                <Text className="text-xs font-extrabold uppercase tracking-wider text-foreground">
-                  Job Description
-                </Text>
-                <Text className="text-xs text-muted-foreground leading-relaxed font-normal">
-                  {request.job.description}
-                </Text>
-              </View>
-            ) : null}
-
-            {/* View Full Job Button */}
-            <Button
-              size="sm"
-              variant="outline"
-              className="flex flex-row items-center justify-center gap-2 rounded-2xl mt-1 border-border/70 active:bg-muted/40"
-              onPress={navigateToJobDetails}
-            >
-              <Icon as={ExternalLink} size={14} className="text-foreground" />
-              <Text className="text-xs font-bold">View Full Job Listing</Text>
-            </Button>
-          </View>
-        </View>
+        <RequestJobEntry className="px-4" job={request.job} />
 
         {/* Application Details */}
         {(request.message || request.proposedPrice) && (
@@ -494,7 +188,7 @@ export const RequestDetails = ({ id }: RequestDetailsProps) => {
             </Text>
             <View className="p-4 bg-card flex flex-col gap-4">
               {request.proposedPrice && (
-                <View className="flex flex-col gap-1.5">
+                <View className="flex flex-col gap-1">
                   <Text className="text-xs font-extrabold uppercase tracking-wider text-foreground">
                     Proposed Price
                   </Text>
@@ -592,7 +286,7 @@ const IncomingDetailsActionBlock = ({
             disabled={isApprovePending || isRejectPending}
           >
             {isApprovePending ? (
-              <ActivityIndicator size="small" color="#ffffff" />
+              <ActivityIndicator size="small" />
             ) : (
               <Icon as={Check} size={18} className="text-primary-foreground" />
             )}

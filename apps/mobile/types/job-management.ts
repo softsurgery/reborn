@@ -1,4 +1,4 @@
-import { ResponseRefParamDto } from "./reference-types";
+import { CurrencyPayload, ResponseRefParamDto } from "./reference-types";
 import { Upload } from "./upload";
 import { ResponseUserDto } from "./user-management";
 import { DatabaseEntity } from "./utils";
@@ -47,7 +47,7 @@ export interface ResponseJobDto extends DatabaseEntity {
   price: number;
   pricingType: JobPricingType;
   currencyId: number;
-  currency: ResponseRefParamDto;
+  currency: ResponseRefParamDto<CurrencyPayload>;
 
   longitude: number;
   latitude: number;
