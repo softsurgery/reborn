@@ -13,9 +13,9 @@ export const OutgoingRequestSkeleton = ({
   return (
     <View className={cn("w-full p-2 py-2 flex flex-col", className)}>
       <View className="flex flex-row items-center gap-5 w-full">
-        <View className="relative shrink-0 w-[76px] h-[76px]">
+        <View className="relative shrink-0" style={{ width: 60, height: 60 }}>
           {/* Big Circle: Job Picture */}
-          <Skeleton className="w-[76px] h-[76px] rounded-full" />
+          <Skeleton className="rounded-full" style={{ width: 60, height: 60 }} />
 
           {/* Bottom Right Cluster: Client Avatar & Status Indicator side-by-side with overlap */}
           <View

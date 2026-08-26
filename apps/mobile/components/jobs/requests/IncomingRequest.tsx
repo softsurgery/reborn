@@ -69,7 +69,7 @@ export const IncomingRequestEntry = ({
   } = useServerImages({
     ids: [coverUploadId],
     enabled: !!coverUploadId,
-    size: { width: 76, height: 76 },
+    size: { width: 60, height: 60 },
     className: "rounded-full w-full h-full",
   });
 
@@ -189,12 +189,15 @@ export const IncomingRequestEntry = ({
       <View className="flex flex-row items-center gap-5">
         {/* Left Thumbnail Container */}
         {embedded ? (
-          <View className="relative shrink-0 w-[44px] h-[44px]">
+          <View className="relative shrink-0" style={{ width: 44, height: 44 }}>
             {/* Big Circle: Candidate Profile Picture */}
-            <View className="rounded-full overflow-hidden bg-muted/70 items-center justify-center border border-border/40 shadow-xs w-[44px] h-[44px]">
+            <View
+              className="rounded-full overflow-hidden bg-muted/70 items-center justify-center border border-border/40 shadow-xs"
+              style={{ width: 44, height: 44 }}
+            >
               <Avatar
                 alt={identifyUser(request.user)}
-                style={{ width: 76, height: 76 }}
+                style={{ width: 44, height: 44 }}
                 className="w-full h-full"
               >
                 <AvatarImage source={candidatePicture} />
@@ -235,9 +238,12 @@ export const IncomingRequestEntry = ({
             </View>
           </View>
         ) : (
-          <View className="relative shrink-0 w-[76px] h-[76px]">
+          <View className="relative shrink-0" style={{ width: 60, height: 60 }}>
             {/* Big Circle: Job Picture */}
-            <View className="rounded-full overflow-hidden bg-muted/70 items-center justify-center border border-border/40 shadow-xs w-[76px] h-[76px]">
+            <View
+              className="rounded-full overflow-hidden bg-muted/70 items-center justify-center border border-border/40 shadow-xs"
+              style={{ width: 60, height: 60 }}
+            >
               {coverUploadId ? (
                 coverJsx
               ) : (
@@ -328,7 +334,7 @@ export const IncomingRequestEntry = ({
             </Text>
           </View>
         </View>
-        
+
         {/* Right Arrow Chevron (Centered Vertically) */}
         <Icon as={ChevronRight} size={18} color={palette?.foreground} />
       </View>

@@ -68,7 +68,7 @@ export const OutgoingRequestEntry = ({
   } = useServerImages({
     ids: [coverUploadId],
     enabled: !!coverUploadId,
-    size: { width: 76, height: 76 },
+    size: { width: 60, height: 60 },
     className: "rounded-full w-full h-full",
   });
 
@@ -180,9 +180,12 @@ export const OutgoingRequestEntry = ({
       {/* Main Section: Job Cover Thumbnail (76x76 Big Circle) + 2 Bigger Indicators at Bottom Right (Client Avatar + Outgoing Status Badge) */}
       <View className="flex flex-row items-center gap-5">
         {/* Left Thumbnail Container with 2 Floating Circles at Bottom Right */}
-        <View className="relative shrink-0 w-[76px] h-[76px]">
+        <View className="relative shrink-0" style={{ width: 60, height: 60 }}>
           {/* Big Circle: Job First Picture */}
-          <View className="w-[76px] h-[76px] rounded-full overflow-hidden bg-muted/70 items-center justify-center border border-border/40 shadow-xs">
+          <View 
+            className="rounded-full overflow-hidden bg-muted/70 items-center justify-center border border-border/40 shadow-xs"
+            style={{ width: 60, height: 60 }}
+          >
             {coverUploadId ? (
               coverJsx
             ) : (
