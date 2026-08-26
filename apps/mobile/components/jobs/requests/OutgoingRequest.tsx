@@ -182,7 +182,7 @@ export const OutgoingRequestEntry = ({
         {/* Left Thumbnail Container with 2 Floating Circles at Bottom Right */}
         <View className="relative shrink-0" style={{ width: 60, height: 60 }}>
           {/* Big Circle: Job First Picture */}
-          <View 
+          <View
             className="rounded-full overflow-hidden bg-muted/70 items-center justify-center border border-border/40 shadow-xs"
             style={{ width: 60, height: 60 }}
           >
@@ -247,7 +247,7 @@ export const OutgoingRequestEntry = ({
         </View>
 
         {/* Right Info Column */}
-        <View className="flex-1 justify-center gap-2">
+        <View className="flex-1 justify-center gap-1">
           {/* Client Name */}
           <Text
             numberOfLines={1}

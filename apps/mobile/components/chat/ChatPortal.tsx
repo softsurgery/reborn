@@ -62,7 +62,7 @@ export const ChatPortal = ({ className }: ChatPortalProps) => {
       if (!user) return null;
       return (
         <Pressable
-          className="flex flex-col gap-4 active:bg-muted"
+          className="flex flex-col gap-4 active:opacity-50"
           onPress={() => {
             router.push({
               pathname: "/main/chat/conversation",

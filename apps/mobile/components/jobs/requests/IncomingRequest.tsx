@@ -189,15 +189,15 @@ export const IncomingRequestEntry = ({
       <View className="flex flex-row items-center gap-5">
         {/* Left Thumbnail Container */}
         {embedded ? (
-          <View className="relative shrink-0" style={{ width: 44, height: 44 }}>
+          <View className="relative shrink-0" style={{ width: 60, height: 60 }}>
             {/* Big Circle: Candidate Profile Picture */}
             <View
               className="rounded-full overflow-hidden bg-muted/70 items-center justify-center border border-border/40 shadow-xs"
-              style={{ width: 44, height: 44 }}
+              style={{ width: 60, height: 60 }}
             >
               <Avatar
                 alt={identifyUser(request.user)}
-                style={{ width: 44, height: 44 }}
+                style={{ width: 60, height: 60 }}
                 className="w-full h-full"
               >
                 <AvatarImage source={candidatePicture} />
@@ -310,7 +310,7 @@ export const IncomingRequestEntry = ({
         )}
 
         {/* Right Info Column */}
-        <View className="flex-1 justify-center gap-2">
+        <View className="flex-1 justify-center gap-1">
           {/* Candidate Name */}
           <Text
             numberOfLines={1}
