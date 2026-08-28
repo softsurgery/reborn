@@ -147,7 +147,7 @@ export const GalleryPictureUploader = ({
           <Sortable.Grid
             data={gridData}
             columns={cols}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => item.id.toString()}
             rowGap={GAP}
             columnGap={GAP}
             onDragEnd={({ data }) => {
