@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
-import { View, Text, ScrollView, Pressable } from "react-native";
+import { View, Text, ScrollView } from "react-native";
 import { ActionSheetRef } from "react-native-actions-sheet";
+import { ActionPressable } from "@/components/shared/ActionPressable";
 import { DuplicateJobActionSheet } from "./DuplicateJobActionSheet";
 import { ArchiveJobActionSheet } from "./ArchiveJobActionSheet";
 import { DeleteJobActionSheet } from "./DeleteJobActionSheet";
@@ -17,7 +18,6 @@ import {
   Calendar,
   Link,
   Archive,
-  ChevronRight,
   X,
 } from "lucide-react-native";
 import { useColorPalette } from "@/hooks/useColorPalette";
@@ -246,37 +246,20 @@ export const JobActions = ({ id, className }: JobActionsProps) => {
           {group.items.map((item, index) => {
             const isLast = index === group.items.length - 1;
             return (
-              <Pressable
+              <ActionPressable
                 key={item.id}
+                title={item.title}
+                description={item.description}
+                IconComp={item.Icon}
                 onPress={item.onPress}
                 disabled={item.disabled}
-                className={cn(
-                  "flex-row items-center justify-between p-4 active:opacity-50",
-                  !isLast ? "border-b border-border/40" : "",
-                  item.disabled ? "opacity-50" : "",
-                )}
-              >
-                <View className="flex-row items-center gap-3.5">
-                  <View
-                    className={`w-9 h-9 rounded-xl items-center justify-center ${item.iconBgClass}`}
-                  >
-                    <item.Icon size={18} color={palette.foreground} />
-                  </View>
-                  <View>
-                    <Text
-                      className={`text-sm ${
-                        item.titleClass || "text-foreground font-semibold"
-                      }`}
-                    >
-                      {item.title}
-                    </Text>
-                    <Text className="text-muted-foreground text-xs">
-                      {item.description}
-                    </Text>
-                  </View>
-                </View>
-                <ChevronRight size={18} color={palette.foreground} />
-              </Pressable>
+                isLast={isLast}
+                classNames={{
+                  wrapper: "p-4",
+                  icon: item.iconBgClass,
+                  title: item.titleClass,
+                }}
+              />
             );
           })}
         </View>
