@@ -43,7 +43,7 @@ export const Requests = ({
         ]}
       />
 
-      <View className="flex-1 bg-background px-3">
+      <View className="flex-1 bg-background">
         <Tab.Navigator
           initialRouteName={initialTab}
           screenOptions={{
@@ -52,7 +52,6 @@ export const Requests = ({
               fontSize: 13,
               fontWeight: "700",
               textTransform: "none",
-              letterSpacing: -0.1,
             },
             tabBarActiveTintColor: palette?.primary,
             tabBarInactiveTintColor: palette?.mutedForeground,
@@ -66,9 +65,7 @@ export const Requests = ({
               elevation: 0,
               shadowOpacity: 0,
               borderBottomWidth: 1,
-              borderBottomColor: palette?.border
-                ? `${palette.border}40`
-                : "rgba(0,0,0,0.05)",
+              borderBottomColor: palette?.border,
             },
           }}
           commonOptions={{
@@ -87,7 +84,7 @@ export const Requests = ({
               tabPress: () => onTabChange?.("incoming"),
             }}
           >
-            {() => <RequestsList variant="incoming" />}
+            {() => <RequestsList className="mx-3 my-2" variant="incoming" />}
           </Tab.Screen>
 
           <Tab.Screen
@@ -99,7 +96,7 @@ export const Requests = ({
               tabPress: () => onTabChange?.("outgoing"),
             }}
           >
-            {() => <RequestsList variant="outgoing" />}
+            {() => <RequestsList className="mx-3 my-2" variant="outgoing" />}
           </Tab.Screen>
         </Tab.Navigator>
       </View>

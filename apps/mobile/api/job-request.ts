@@ -139,6 +139,13 @@ const reject = async (id: number) => {
   return response.data;
 };
 
+const waitlist = async (id: number) => {
+  const response = await axios.put<ResponseJobRequestDto>(
+    `/job-request/${id}/waitlist`,
+  );
+  return response.data;
+};
+
 const cancel = async (id: number) => {
   const response = await axios.put<ResponseJobRequestDto>(
     `/job-request/${id}/cancel`,
@@ -156,5 +163,6 @@ export const jobRequest = {
   create,
   approve,
   reject,
+  waitlist,
   cancel,
 };

@@ -123,6 +123,9 @@ export const Home = ({ className }: HomeProps) => {
     if (status === JobRequestStatus.Rejected) {
       return "bg-destructive/10 text-destructive";
     }
+    if (status === JobRequestStatus.Waitlist) {
+      return "bg-blue-500/10 text-blue-500";
+    }
     return "bg-secondary text-secondary-foreground";
   };
 

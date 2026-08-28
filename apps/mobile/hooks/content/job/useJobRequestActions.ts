@@ -47,6 +47,15 @@ export const useJobRequestActions = ({
     },
   });
 
+  const { mutate: waitlistJobRequest, isPending: isWaitlistPending } = useMutation({
+    mutationFn: (id: number) => api.jobRequest.waitlist(id),
+    onSuccess: (...args) => handleSuccess("Job request moved to waitlist", ...args),
+    onError: (error: ServerErrorResponse) => {
+      if (onError) onError(error);
+      else defaultOnError(error, "Failed to waitlist job request");
+    },
+  });
+
   const { mutate: cancelJobRequest, isPending: isCancelPending } = useMutation({
     mutationFn: (id: number) => api.jobRequest.cancel(id),
     onSuccess: (...args) => handleSuccess("Job request cancelled", ...args),
@@ -61,6 +70,8 @@ export const useJobRequestActions = ({
     isApprovePending,
     rejectJobRequest,
     isRejectPending,
+    waitlistJobRequest,
+    isWaitlistPending,
     cancelJobRequest,
     isCancelPending,
   };

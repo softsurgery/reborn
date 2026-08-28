@@ -7,6 +7,7 @@ import {
   CheckCircle2,
   XCircle,
   AlertCircle,
+  Clock,
   Mail,
   FileText,
   User,
@@ -80,6 +81,12 @@ export const IncomingRequestEntry = ({
       badgeBg: "bg-amber-500",
       label: "Pending",
     },
+    [JobRequestStatus.Waitlist]: {
+      icon: Clock,
+      dotColor: "bg-blue-500",
+      badgeBg: "bg-blue-500",
+      label: "Waitlisted",
+    },
     [JobRequestStatus.Approved]: {
       icon: CheckCircle2,
       dotColor: "bg-emerald-500",
@@ -109,7 +116,10 @@ export const IncomingRequestEntry = ({
   const threeDotsOptions = React.useMemo(() => {
     const opts = [];
 
-    if (request.status === JobRequestStatus.Pending) {
+    if (
+      request.status === JobRequestStatus.Pending ||
+      request.status === JobRequestStatus.Waitlist
+    ) {
       opts.push(
         {
           label: "Approve Candidate",
@@ -175,10 +185,7 @@ export const IncomingRequestEntry = ({
     <Pressable
       onPress={navigateToRequestDetails}
       onLongPress={handleLongPress}
-      className={cn(
-        "w-full p-2 py-2 flex flex-col active:opacity-50",
-        className,
-      )}
+      className={cn("w-full flex flex-col active:opacity-50", className)}
     >
       <ThreeDotsActionSheet
         ref={actionSheetRef}
@@ -314,18 +321,20 @@ export const IncomingRequestEntry = ({
           {/* Candidate Name */}
           <Text
             numberOfLines={1}
-            className="text-base font-extrabold text-foreground tracking-tight"
+            className="text-base font-medium text-foreground tracking-tight"
           >
             {identifyUser(request.user)}
           </Text>
 
           {/* Job Title */}
-          <Text
-            numberOfLines={1}
-            className="text-[13px] font-semibold text-muted-foreground/80 leading-tight"
-          >
-            {request.job?.title || "Unknown Job"}
-          </Text>
+          {!embedded && (
+            <Text
+              numberOfLines={2}
+              className="text-sm text-muted-foreground leading-tight"
+            >
+              {request.job?.title || "Unknown Job"}
+            </Text>
+          )}
 
           {/* Time Sent & Status */}
           <View className="flex flex-row items-center gap-2 mt-1">

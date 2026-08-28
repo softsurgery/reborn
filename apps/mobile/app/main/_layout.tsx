@@ -41,9 +41,15 @@ export default function MainLayout() {
       [NotificationType.TEST]: () => {},
       [NotificationType.NEW_SIGNIN]: () => {},
       [NotificationType.NEW_MESSAGE]: () => {},
-      [NotificationType.JOB_REQUEST_APPROVED]: () => {},
-      [NotificationType.JOB_REQUEST_REJECTED]: () => {},
-      [NotificationType.NEW_JOB_REQUEST]: () => {},
+      [NotificationType.JOB_REQUEST_APPROVED]: () => {
+        queryClient.invalidateQueries({ queryKey: ["requests", "outgoing"] });
+      },
+      [NotificationType.JOB_REQUEST_REJECTED]: () => {
+        queryClient.invalidateQueries({ queryKey: ["requests", "outgoing"] });
+      },
+      [NotificationType.NEW_JOB_REQUEST]: () => {
+        queryClient.invalidateQueries({ queryKey: ["requests", "incoming"] });
+      },
       [NotificationType.NEW_FOLLOWER]: () => {
         queryClient.invalidateQueries({ queryKey: ["followers"] });
         queryClient.invalidateQueries({ queryKey: ["follow-data-count"] });

@@ -17,7 +17,11 @@ interface useJobRequestProps {
   enabled?: boolean;
 }
 
-export const useJobRequest = ({ id, join = DEFAULT_JOINS, enabled = true }: useJobRequestProps) => {
+export const useJobRequest = ({
+  id,
+  join = DEFAULT_JOINS,
+  enabled = true,
+}: useJobRequestProps) => {
   const {
     data: requestResp,
     isPending: isRequestPending,

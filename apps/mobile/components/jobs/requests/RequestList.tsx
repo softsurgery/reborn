@@ -60,10 +60,10 @@ export const RequestsList = ({
         <IncomingRequestEntry
           request={item}
           embedded={embedded}
-          className="mb-3"
+          className="mb-3 px-2"
         />
       ) : (
-        <OutgoingRequestEntry request={item} className="mb-3" />
+        <OutgoingRequestEntry request={item} className="mb-3 px-2" />
       ),
     [variant, refetchRequests],
   );
@@ -83,7 +83,7 @@ export const RequestsList = ({
     <View className={cn("flex-1 bg-background relative", className)}>
       {/* Animated Sticky Transparent Search Bar */}
       <Animated.View
-        className="absolute left-0 right-0 z-20 bg-background/90 py-2.5 px-0.5 border-b border-border/20 backdrop-blur-md"
+        className="absolute left-0 right-0 z-20 bg-background/90 py-2.5"
         style={stickyHeaderStyle}
         onLayout={(e) => setSearchBarHeight(e.nativeEvent.layout.height)}
       >

@@ -42,16 +42,16 @@ export const RequestUserEntry = ({
 
   return (
     <View className={cn(className)}>
-      <Text className="text-sm font-bold uppercase tracking-widest text-muted-foreground">
+      <Text className="text-base font-bold uppercase tracking-widest text-muted-foreground">
         {isIncoming ? "Applicant Candidate" : "Job Client"}
       </Text>
 
       <Pressable
-        className="flex flex-row items-center justify-between py-6 active:opacity-50 gap-3"
+        className="flex flex-row items-center justify-between pt-3 pb-6 active:opacity-50 gap-3"
         onPress={navigateToProfile}
       >
         <View className="flex flex-row items-center gap-3 flex-1">
-          <View className="w-12 h-12 bg-primary/10 rounded-full items-center justify-center shrink-0">
+          <View className="w-14 h-14 bg-primary/10 rounded-full items-center justify-center shrink-0">
             {profilePicture}
           </View>
 

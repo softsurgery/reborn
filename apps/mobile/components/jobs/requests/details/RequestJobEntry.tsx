@@ -45,12 +45,12 @@ export const RequestJobEntry = ({ job, className }: RequestJobEntryProps) => {
 
   return (
     <View className={cn(className)}>
-      <Text className="text-sm font-bold uppercase tracking-widest text-muted-foreground">
+      <Text className="text-base font-bold uppercase tracking-widest text-muted-foreground">
         Job Specifications
       </Text>
 
       <Pressable
-        className="flex flex-row items-center justify-between py-6 active:opacity-50 gap-3"
+        className="flex flex-row items-center justify-between pt-3 pb-6 active:opacity-50 gap-3"
         onPress={navigateToJobDetails}
       >
         <View className="flex flex-row items-center gap-3 flex-1">
@@ -67,14 +67,14 @@ export const RequestJobEntry = ({ job, className }: RequestJobEntryProps) => {
           <View className="flex-1 min-w-0 justify-center">
             <Text
               className="text-sm font-bold uppercase tracking-widest text-primary mb-0.5"
-              numberOfLines={1}
+              numberOfLines={2}
             >
               {job?.category?.label ?? "Uncategorised"}
             </Text>
 
             <Text
-              className="text-base font-medium text-foreground shrink min-w-0"
-              numberOfLines={1}
+              className="text-sm font-medium text-foreground shrink min-w-0"
+              numberOfLines={2}
             >
               {job?.title || "Untitled Job"}
             </Text>

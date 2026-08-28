@@ -35,7 +35,7 @@ export const useInfiniteJobRequests = ({
     isRefetching,
     isPending: isRequestsPending,
   } = useInfiniteQuery({
-    queryKey: ["requests", search, variant, statusFilter, jobId],
+    queryKey: ["requests", variant, search, statusFilter, jobId],
     initialPageParam: 1,
     queryFn: ({ pageParam = 1 }) => {
       const queryParams: Record<string, string | string[]> = {
@@ -46,11 +46,11 @@ export const useInfiniteJobRequests = ({
       };
 
       if (search) queryParams.search = search;
-      
+
       const filters: string[] = [];
       if (statusFilter) filters.push(`status||$eq||${statusFilter}`);
       if (jobId) filters.push(`job.id||$eq||${jobId}`);
-      
+
       if (filters.length > 0) {
         queryParams.filter = filters;
       }
