@@ -34,7 +34,9 @@ export const ProfilePortal = ({ className }: ProfilePortalProps) => {
           >
             <ApplicationHeader
               title={t("screens.menu")}
-              classNames={{ title: "text-foreground" }}
+              classNames={{
+                title: "text-slate-900 dark:text-foreground",
+              }}
               shortcuts={[
                 {
                   key: "settings",
@@ -56,7 +58,6 @@ export const ProfilePortal = ({ className }: ProfilePortalProps) => {
                       {
                         key: "flask",
                         color: hslToHex(palette.foreground),
-
                         icon: FlaskConical,
                         onPress: () => router.push("/main/test"),
                       },

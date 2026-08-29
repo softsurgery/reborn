@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import { ActionSheetRef } from "react-native-actions-sheet";
 import * as Haptics from "expo-haptics";
 import { Keyboard, View } from "react-native";
@@ -44,8 +44,8 @@ export const ProfileCover = ({
   const [isPickingCover, setIsPickingCover] = React.useState(false);
   const { setLoading } = useLoader();
 
-  const sheetRef = useRef<ActionSheetRef>(null);
-  const previewRef = useRef<PhotoPreviewRef>(null);
+  const sheetRef = React.useRef<ActionSheetRef>(null);
+  const previewRef = React.useRef<PhotoPreviewRef>(null);
 
   const isCurrentUser = currentUser?.id === user?.id;
 
