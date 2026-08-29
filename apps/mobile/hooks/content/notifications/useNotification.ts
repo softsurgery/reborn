@@ -34,7 +34,12 @@ export function useNotifications(
     ResponseNotificationDto[]
   >([]);
   const socketRef = React.useRef<Socket | null>(null);
+  const consequencesRef = React.useRef(consequences);
   const { accessToken, isAuthenticated } = useAuthPersistStore();
+
+  React.useEffect(() => {
+    consequencesRef.current = consequences;
+  }, [consequences]);
 
   const { data: count = 0 } = useQuery({
     queryKey: NOTIFICATIONS_UNREAD_COUNT_QUERY_KEY,
@@ -76,7 +81,7 @@ export function useNotifications(
         queryClient.invalidateQueries({ queryKey: ["user-devices"] });
       }
 
-      consequences?.[notification.type]?.(notification);
+      consequencesRef.current?.[notification.type]?.(notification);
       await Notifications.scheduleNotificationAsync({
         content: {
           title: sanitizeText(
@@ -98,7 +103,7 @@ export function useNotifications(
       disconnectSocket("notifications");
       socketRef.current = null;
     };
-  }, [accessToken, consequences, enabled, queryClient, t]);
+  }, [accessToken, enabled, queryClient, t]);
 
   const resetCount = React.useCallback(() => {
     markAllAsRead();
