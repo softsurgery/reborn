@@ -2,7 +2,12 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
-import { ResponseUserDto } from "@/types";
+import {
+  ResponseEducationDto,
+  ResponseExperienceDto,
+  ResponseRefParamDto,
+  ResponseUserDto,
+} from "@/types";
 import { useColorPalette } from "@/hooks/useColorPalette";
 import { hslToHex } from "@/lib/theme";
 import { useRTL } from "@/hooks/useRTL";
@@ -10,14 +15,16 @@ import { AboutTab } from "./sections/AboutTab";
 import { JobsTab } from "./sections/JobsTab";
 import { CareerTab } from "./sections/CareerTab";
 import { SnippetsTab } from "./sections/SnippetTab";
-import { ProfileSection, RenderSection } from "./sections/RenderSection";
 
 interface ProfileTabsProps {
   user: ResponseUserDto | null;
   currentUser?: ResponseUserDto | null;
   onRefresh?: () => void;
   refreshing?: boolean;
-  profileSections: ProfileSection[];
+  experiences?: ResponseExperienceDto[];
+  educations?: ResponseEducationDto[];
+  skills?: ResponseRefParamDto[];
+  userSkills?: number[];
   handleScroll?: (e: NativeSyntheticEvent<NativeScrollEvent>) => void;
   scrollRef?: React.RefObject<any>;
   scrollToTop?: () => void;
@@ -30,7 +37,10 @@ export const ProfileTabs = ({
   currentUser,
   onRefresh,
   refreshing,
-  profileSections,
+  experiences,
+  educations,
+  skills,
+  userSkills,
   handleScroll,
   scrollRef,
   scrollToTop,
@@ -85,8 +95,6 @@ export const ProfileTabs = ({
               <SnippetsTab
                 onRefresh={onRefresh}
                 refreshing={refreshing}
-                renderSection={RenderSection}
-                profileSections={profileSections}
                 onScroll={handleScroll}
                 scrollRef={scrollRef}
               />
@@ -103,9 +111,12 @@ export const ProfileTabs = ({
               <CareerTab
                 onRefresh={onRefresh}
                 userId={user?.id}
+                editable={currentUser?.id === user?.id}
                 refreshing={refreshing}
-                renderSection={RenderSection}
-                profileSections={profileSections}
+                experiences={experiences}
+                educations={educations}
+                skills={skills}
+                userSkills={userSkills}
                 onScroll={handleScroll}
                 scrollRef={scrollRef}
               />
@@ -195,9 +206,13 @@ export const ProfileTabs = ({
             {() => (
               <CareerTab
                 onRefresh={onRefresh}
+                userId={user?.id}
+                editable={currentUser?.id === user?.id}
                 refreshing={refreshing}
-                renderSection={RenderSection}
-                profileSections={profileSections}
+                experiences={experiences}
+                educations={educations}
+                skills={skills}
+                userSkills={userSkills}
                 onScroll={handleScroll}
                 scrollRef={scrollRef}
               />
@@ -214,8 +229,6 @@ export const ProfileTabs = ({
               <SnippetsTab
                 onRefresh={onRefresh}
                 refreshing={refreshing}
-                renderSection={RenderSection}
-                profileSections={profileSections}
                 onScroll={handleScroll}
                 scrollRef={scrollRef}
               />

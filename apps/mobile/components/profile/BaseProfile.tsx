@@ -1,5 +1,5 @@
 import React from "react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { router } from "expo-router";
 import { useStartConversation } from "~/hooks/content/chat/useStartConversation";
 import { View } from "react-native";
@@ -9,15 +9,8 @@ import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
 import { useIdentifiedUser } from "~/hooks/content/user/useIdentifiedUser";
 import { useSocialStat } from "~/hooks/content/user/useSocialStat";
 import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
-import {
-  ResponseEducationDto,
-  ResponseExperienceDto,
-  ResponseRefParamDto,
-  ServerErrorResponse,
-  UpdateUserDto,
-} from "~/types";
+import { ServerErrorResponse, UpdateUserDto } from "~/types";
 import { Text } from "../ui/text";
-import { Badge } from "../ui/badge";
 import { cn } from "~/lib/utils";
 import { useUserStore } from "~/hooks/stores/useUserStore";
 import { SocialStat } from "./social/SocialStat";
@@ -30,9 +23,6 @@ import { ProfileAvatar } from "./ProfileAvatar";
 import { ProfileCover } from "./ProfileCover";
 import { toast } from "sonner-native";
 import { BaseProfileSkeleton } from "./BaseProfileSkeleton";
-import { ProfileSection } from "./sections/RenderSection";
-import { ExperienceInstance } from "./forms/experience/ExperienceInstance";
-import { EducationInstance } from "./forms/education/EducationInstance";
 import { ProfileStat } from "./ProfileStat";
 import { ProfileTabs } from "./ProfileTabs";
 import { useScrollableElement } from "@/hooks/useScrollableElement";
@@ -218,45 +208,6 @@ export const InspectBaseProfile = ({
     };
   }, []);
 
-  const profileSections: ProfileSection[] = React.useMemo(
-    () => [
-      {
-        key: "experience",
-        title: t("menu.tabs.career.experience.title"),
-        data: experiences as unknown[],
-        editable: currentUser?.id === user?.id,
-        userId: user?.id,
-        renderItem: (experience: ResponseExperienceDto) => (
-          <ExperienceInstance experience={experience} />
-        ),
-      },
-      {
-        key: "education",
-        title: t("menu.tabs.career.education.title"),
-        data: educations as unknown[],
-        editable: currentUser?.id === user?.id,
-        userId: user?.id,
-        renderItem: (education: ResponseEducationDto) => (
-          <EducationInstance education={education} />
-        ),
-      },
-      {
-        key: "skills",
-        title: t("menu.skills.title"),
-        data: skills?.filter((skill) =>
-          userSkills?.some((id) => id === skill.id),
-        ) as unknown[],
-        editable: currentUser?.id === user?.id,
-        renderItem: (skill: ResponseRefParamDto) => (
-          <View className="rounded-full border border-border px-3 py-1.5">
-            <Text className="text-sm font-semibold">{skill.label}</Text>
-          </View>
-        ),
-      },
-    ],
-    [experiences, educations, skills, userSkills, currentUser?.id, user?.id, t],
-  );
-
   const onRefresh = async () => {
     await Promise.allSettled([
       refetchUser(),
@@ -385,7 +336,10 @@ export const InspectBaseProfile = ({
           currentUser={currentUser}
           onRefresh={onRefresh}
           refreshing={refreshing}
-          profileSections={profileSections}
+          experiences={experiences as any}
+          educations={educations as any}
+          skills={skills as any}
+          userSkills={userSkills as any}
           handleScroll={handleScroll}
           scrollRef={scrollRef}
           scrollToTop={scrollToTop}
