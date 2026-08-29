@@ -27,6 +27,7 @@ export const useJobRequest = ({
     isPending: isRequestPending,
     isError: isRequestError,
     refetch: refetchRequest,
+    isRefetching: isRequestRefetching,
   } = useQuery({
     queryKey: ["job-request-details", id, join],
     queryFn: () => api.jobRequest.findById(Number(id), join.join(",")),
@@ -43,5 +44,6 @@ export const useJobRequest = ({
     isRequestPending,
     isRequestError,
     refetchRequest,
+    isRequestRefetching,
   };
 };

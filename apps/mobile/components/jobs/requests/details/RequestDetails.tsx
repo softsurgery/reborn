@@ -1,5 +1,5 @@
 import React from "react";
-import { ActivityIndicator, ScrollView, View } from "react-native";
+import { ActivityIndicator, ScrollView, View, RefreshControl } from "react-native";
 import { router } from "expo-router";
 import { useJobRequest } from "@/hooks/content/job/useJobRequest";
 import {
@@ -46,6 +46,7 @@ export const RequestDetails = ({ className, id }: RequestDetailsProps) => {
     isRequestPending: isPending,
     isRequestError: isError,
     refetchRequest: refetch,
+    isRequestRefetching,
   } = useJobRequest({ id });
 
   const isIncoming = React.useMemo(() => {
@@ -152,9 +153,16 @@ export const RequestDetails = ({ className, id }: RequestDetailsProps) => {
       <ScrollView
         className="flex flex-col flex-1 bg-background"
         showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={isRequestRefetching} onRefresh={refetch} />
+        }
       >
         <View className="pb-8">
-          <RequestBanner status={currentStatus} request={request} />
+          <RequestBanner
+            className="mb-5"
+            status={currentStatus}
+            request={request}
+          />
 
           <RequestJobEntry className="px-4" job={request.job} />
 

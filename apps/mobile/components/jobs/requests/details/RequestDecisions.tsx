@@ -173,7 +173,7 @@ export const RequestDecisions = ({
           />
         ) : (
           <View className="w-full py-4 items-center justify-center">
-            <Text className="text-sm font-semibold text-muted-foreground text-center">
+            <Text className="text-sm font-semibold text-center text-destructive">
               This job application has been declined.
             </Text>
           </View>

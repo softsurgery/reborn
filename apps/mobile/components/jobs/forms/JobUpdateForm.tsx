@@ -2,7 +2,7 @@ import React from "react";
 import { View } from "react-native";
 import { FormBuilder } from "~/components/shared/form-builder/FormBuilder";
 import { useJobStore } from "~/hooks/stores/useJobStore";
-import { useCurrencies } from "~/hooks/content/useCurrencies";
+// import { useCurrencies } from "~/hooks/content/useCurrencies";
 import { mapToSelectOptions } from "~/components/shared/form-builder/utils/mapToSelectOptions";
 import { useJobTags } from "@/hooks/content/reference-types/useJobTags";
 import { useJobCategories } from "@/hooks/content/reference-types/useJobCategories";
@@ -108,7 +108,7 @@ export const JobUpdateForm = ({ className, id }: JobUpdateFormProps) => {
     },
   });
 
-  const { currencies, isCurrenciesPending } = useCurrencies();
+  // const { currencies, isCurrenciesPending } = useCurrencies();
   const { jobTags, isJobTagsPending } = useJobTags();
   const { jobCategories, isJobCategoriesPending } = useJobCategories();
 
@@ -204,7 +204,7 @@ export const JobUpdateForm = ({ className, id }: JobUpdateFormProps) => {
       <View className={cn("flex-1 px-2 bg-background", className)}>
         {isJobTagsPending ||
         isJobCategoriesPending ||
-        isCurrenciesPending ||
+        // isCurrenciesPending ||
         isLocationPending ||
         isJobPending ? (
           <Loader className="flex flex-1 justify-center items-center" />

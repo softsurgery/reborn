@@ -29,6 +29,9 @@ import {
   AvatarImage,
 } from "@/components/shared/stables/StableAvatar";
 import { ThreeDotsActionSheet } from "@/components/shared/ThreeDotsActionSheet";
+import { useJobRequestActions } from "@/hooks/content/job/useJobRequestActions";
+import { ApproveJobRequestActionSheet } from "./details/action-sheets/ApproveJobRequestActionSheet";
+import { DeclineJobRequestActionSheet } from "./details/action-sheets/DeclineJobRequestActionSheet";
 
 interface IncomingRequestEntryProps {
   className?: string;
@@ -43,8 +46,20 @@ export const IncomingRequestEntry = ({
 }: IncomingRequestEntryProps) => {
   const { palette } = useColorPalette();
   const actionSheetRef = React.useRef<ActionSheetRef>(null);
-  const [openApproveModal, setOpenApproveModal] = React.useState(false);
-  const [openRejectModal, setOpenRejectModal] = React.useState(false);
+  const approveSheetRef = React.useRef<ActionSheetRef>(null);
+  const rejectSheetRef = React.useRef<ActionSheetRef>(null);
+
+  const {
+    approveJobRequest,
+    isApprovePending,
+    rejectJobRequest,
+    isRejectPending,
+  } = useJobRequestActions({
+    onSuccess: () => {
+      approveSheetRef.current?.hide();
+      rejectSheetRef.current?.hide();
+    },
+  });
 
   const handleLongPress = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
@@ -124,13 +139,13 @@ export const IncomingRequestEntry = ({
         {
           label: "Approve Candidate",
           icon: CheckCircle2,
-          onPress: () => setOpenApproveModal(true),
+          onPress: () => approveSheetRef.current?.show(),
         },
         {
           label: "Decline Application",
           icon: XCircle,
           variant: "destructive" as const,
-          onPress: () => setOpenRejectModal(true),
+          onPress: () => rejectSheetRef.current?.show(),
         },
       );
     } else if (request.status === JobRequestStatus.Approved) {
@@ -199,7 +214,7 @@ export const IncomingRequestEntry = ({
           <View className="relative shrink-0" style={{ width: 60, height: 60 }}>
             {/* Big Circle: Candidate Profile Picture */}
             <View
-              className="rounded-full overflow-hidden bg-muted/70 items-center justify-center border border-border/40 shadow-xs"
+              className="rounded-full overflow-hidden items-center justify-center"
               style={{ width: 60, height: 60 }}
             >
               <Avatar
@@ -231,15 +246,15 @@ export const IncomingRequestEntry = ({
             >
               <View
                 className={cn(
-                  "rounded-full border-2 border-background shadow-md items-center justify-center",
+                  "rounded-full items-center justify-center",
                   currentStatus.badgeBg,
                 )}
                 style={{ width: 36, height: 36, zIndex: 20 }}
               >
                 <Icon
                   as={ArrowDownLeft}
-                  size={18}
-                  color={palette?.foreground}
+                  size={20}
+                  color={palette?.primaryForeground}
                 />
               </View>
             </View>
@@ -248,14 +263,18 @@ export const IncomingRequestEntry = ({
           <View className="relative shrink-0" style={{ width: 60, height: 60 }}>
             {/* Big Circle: Job Picture */}
             <View
-              className="rounded-full overflow-hidden bg-muted/70 items-center justify-center border border-border/40 shadow-xs"
+              className="rounded-full overflow-hidden items-center justify-center"
               style={{ width: 60, height: 60 }}
             >
               {coverUploadId ? (
                 coverJsx
               ) : (
                 <View className="w-full h-full items-center justify-center bg-muted/60">
-                  <Icon as={Briefcase} size={28} color={palette?.foreground} />
+                  <Icon
+                    as={Briefcase}
+                    size={20}
+                    color={palette?.primaryForeground}
+                  />
                 </View>
               )}
             </View>
@@ -284,14 +303,10 @@ export const IncomingRequestEntry = ({
                 <Avatar
                   alt={identifyUser(request.user)}
                   style={{ width: 36, height: 36 }}
-                  className="border-2 border-background shadow-md"
                 >
                   <AvatarImage source={candidatePicture} />
                   <AvatarFallback className="bg-muted">
-                    <Text
-                      style={{ fontSize: 11 }}
-                      className="font-extrabold text-foreground"
-                    >
+                    <Text className="font-extrabold text-foreground">
                       {identifyUserAvatar(request.user)}
                     </Text>
                   </AvatarFallback>
@@ -301,15 +316,15 @@ export const IncomingRequestEntry = ({
               {/* Circle 2: Status & Direction Indicator */}
               <View
                 className={cn(
-                  "rounded-full border-2 border-background shadow-md items-center justify-center",
+                  "rounded-full shadow-md items-center justify-center",
                   currentStatus.badgeBg,
                 )}
                 style={{ width: 36, height: 36, marginLeft: -12, zIndex: 20 }}
               >
                 <Icon
                   as={ArrowDownLeft}
-                  size={18}
-                  color={palette?.foreground}
+                  size={20}
+                  color={palette?.primaryForeground}
                 />
               </View>
             </View>
@@ -345,8 +360,24 @@ export const IncomingRequestEntry = ({
         </View>
 
         {/* Right Arrow Chevron (Centered Vertically) */}
-        <Icon as={ChevronRight} size={18} color={palette?.foreground} />
+        <Icon as={ChevronRight} size={18} color={palette?.primaryForeground} />
       </View>
+
+      <ApproveJobRequestActionSheet
+        ref={approveSheetRef}
+        request={request}
+        onConfirm={() => approveJobRequest(request.id)}
+        onClose={() => approveSheetRef.current?.hide()}
+        isPending={isApprovePending}
+      />
+
+      <DeclineJobRequestActionSheet
+        ref={rejectSheetRef}
+        request={request}
+        onConfirm={() => rejectJobRequest(request.id)}
+        onClose={() => rejectSheetRef.current?.hide()}
+        isPending={isRejectPending}
+      />
     </Pressable>
   );
 };

@@ -3,7 +3,7 @@ import { RefreshControl, View, FlatList } from "react-native";
 import Animated from "react-native-reanimated";
 import { Inbox, Send, Search } from "lucide-react-native";
 import { cn } from "@/lib/utils";
-import { ResponseJobRequestDto } from "@/types";
+import { ResponseJobRequestDto, JobRequestStatus } from "@/types";
 import { IncomingRequestEntry } from "./IncomingRequest";
 import { IncomingRequestSkeleton } from "./IncomingRequestSkeleton";
 import { OutgoingRequestEntry } from "./OutgoingRequest";
@@ -25,6 +25,7 @@ interface RequestsListProps {
   variant: "incoming" | "outgoing";
   jobId?: string;
   embedded?: boolean;
+  statusFilter?: string;
 }
 
 export const RequestsList = ({
@@ -32,6 +33,7 @@ export const RequestsList = ({
   variant,
   jobId,
   embedded = false,
+  statusFilter,
 }: RequestsListProps) => {
   const [searchValue, setSearchValue] = React.useState("");
   const { value: search, loading: searching } = useDebounce(searchValue, 300);
@@ -50,22 +52,63 @@ export const RequestsList = ({
     search,
     variant,
     jobId,
+    statusFilter,
   });
 
   const isInitialPending = isRequestsPending || searching;
 
+  const listData = React.useMemo(() => {
+    if (!requests || isInitialPending) return [];
+    if (embedded && variant === "incoming") {
+      const pending = requests.filter(
+        (r) => r.status === JobRequestStatus.Pending,
+      );
+      const waitlist = requests.filter(
+        (r) => r.status === JobRequestStatus.Waitlist,
+      );
+      const combined = [];
+      if (pending.length > 0) {
+        combined.push({
+          type: "header",
+          id: "header-pending",
+          title: "No Decision",
+        });
+        combined.push(...pending);
+      }
+      if (waitlist.length > 0) {
+        combined.push({
+          type: "header",
+          id: "header-waitlist",
+          title: "Waitlist",
+        });
+        combined.push(...waitlist);
+      }
+      return combined;
+    }
+    return requests;
+  }, [requests, isInitialPending, embedded, variant]);
+
   const renderItem = React.useCallback(
-    ({ item }: { item: ResponseJobRequestDto }) =>
-      variant === "incoming" ? (
+    ({ item }: { item: ResponseJobRequestDto | any }) => {
+      if (item.type === "header") {
+        return (
+          <Text className="text-sm font-bold text-muted-foreground uppercase tracking-wider px-2 pb-2 mb-2">
+            {item.title}
+          </Text>
+        );
+      }
+
+      return variant === "incoming" ? (
         <IncomingRequestEntry
           request={item}
           embedded={embedded}
-          className="mb-3 px-2"
+          className="mb-6 px-2"
         />
       ) : (
-        <OutgoingRequestEntry request={item} className="mb-3 px-2" />
-      ),
-    [variant, refetchRequests],
+        <OutgoingRequestEntry request={item} className="mb-6 px-2" />
+      );
+    },
+    [variant, refetchRequests, embedded],
   );
 
   const SkeletonComponent =
@@ -103,14 +146,14 @@ export const RequestsList = ({
       <AnimatedFlatList
         className="flex-1"
         contentContainerStyle={{
-          paddingTop: searchBarHeight + 8,
+          paddingTop: searchBarHeight,
           paddingBottom: 32,
         }}
         onScroll={handleScroll}
         scrollEventThrottle={16}
         scrollIndicatorInsets={{ top: searchBarHeight }}
-        data={isInitialPending ? [] : (requests as any)}
-        renderItem={renderItem as any}
+        data={listData}
+        renderItem={renderItem}
         keyExtractor={(item: any) => item.id.toString()}
         showsVerticalScrollIndicator={false}
         refreshControl={
@@ -153,12 +196,12 @@ export const RequestsList = ({
             dataLength={requests?.length || 0}
             loadingCount={isInitialPending ? 3 : 1}
             loadingComponent={
-              <View className="w-full mb-3.5">
+              <View className="w-full mb-3">
                 <SkeletonComponent />
               </View>
             }
             showEndMessage={true}
-            endMessage="No more requests to show"
+            endMessage=""
             className="pb-8 w-full px-0"
           />
         }

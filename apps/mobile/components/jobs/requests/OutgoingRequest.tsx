@@ -30,6 +30,8 @@ import {
   AvatarImage,
 } from "@/components/shared/stables/StableAvatar";
 import { ThreeDotsActionSheet } from "@/components/shared/ThreeDotsActionSheet";
+import { useJobRequestActions } from "@/hooks/content/job/useJobRequestActions";
+import { WithdrawJobRequestActionSheet } from "./details/action-sheets/WithdrawJobRequestActionSheet";
 
 interface OutgoingRequestEntryProps {
   className?: string;
@@ -42,7 +44,11 @@ export const OutgoingRequestEntry = ({
 }: OutgoingRequestEntryProps) => {
   const { palette } = useColorPalette();
   const actionSheetRef = React.useRef<ActionSheetRef>(null);
-  const [openCancelModal, setOpenCancelModal] = React.useState(false);
+  const cancelSheetRef = React.useRef<ActionSheetRef>(null);
+
+  const { cancelJobRequest, isCancelPending } = useJobRequestActions({
+    onSuccess: () => cancelSheetRef.current?.hide(),
+  });
   const clientUser = request.job?.postedBy;
 
   const handleLongPress = () => {
@@ -123,7 +129,7 @@ export const OutgoingRequestEntry = ({
         label: "Withdraw Application",
         icon: CopyX,
         variant: "destructive" as const,
-        onPress: () => setOpenCancelModal(true),
+        onPress: () => cancelSheetRef.current?.show(),
       });
     } else if (request.status === JobRequestStatus.Approved) {
       opts.push({
@@ -190,14 +196,18 @@ export const OutgoingRequestEntry = ({
         <View className="relative shrink-0" style={{ width: 60, height: 60 }}>
           {/* Big Circle: Job First Picture */}
           <View
-            className="rounded-full overflow-hidden bg-muted/70 items-center justify-center border border-border/40 shadow-xs"
+            className="rounded-full overflow-hidden items-center justify-center"
             style={{ width: 60, height: 60 }}
           >
             {coverUploadId ? (
               coverJsx
             ) : (
               <View className="w-full h-full items-center justify-center bg-muted/60">
-                <Icon as={Briefcase} size={28} color={palette?.foreground} />
+                <Icon
+                  as={Briefcase}
+                  size={20}
+                  color={palette?.primaryForeground}
+                />
               </View>
             )}
           </View>
@@ -226,14 +236,10 @@ export const OutgoingRequestEntry = ({
               <Avatar
                 alt={identifyUser(clientUser)}
                 style={{ width: 36, height: 36 }}
-                className="border-2 border-background shadow-md"
               >
                 <AvatarImage source={clientPicture} />
                 <AvatarFallback className="bg-muted">
-                  <Text
-                    style={{ fontSize: 11 }}
-                    className="font-extrabold text-foreground"
-                  >
+                  <Text className="font-extrabold text-foreground">
                     {identifyUserAvatar(clientUser)}
                   </Text>
                 </AvatarFallback>
@@ -243,12 +249,16 @@ export const OutgoingRequestEntry = ({
             {/* Circle 2: Status & Direction Indicator */}
             <View
               className={cn(
-                "rounded-full border-2 border-background shadow-md items-center justify-center",
+                "rounded-full shadow-md items-center justify-center",
                 currentStatus.badgeBg,
               )}
               style={{ width: 36, height: 36, marginLeft: -12, zIndex: 20 }}
             >
-              <Icon as={ArrowUpRight} size={18} color={palette?.foreground} />
+              <Icon
+                as={ArrowUpRight}
+                size={20}
+                color={palette?.primaryForeground}
+              />
             </View>
           </View>
         </View>
@@ -280,8 +290,16 @@ export const OutgoingRequestEntry = ({
         </View>
 
         {/* Right Arrow Chevron (Centered Vertically) */}
-        <Icon as={ChevronRight} size={18} color={palette?.foreground} />
+        <Icon as={ChevronRight} size={18} color={palette?.primaryForeground} />
       </View>
+
+      <WithdrawJobRequestActionSheet
+        ref={cancelSheetRef}
+        request={request}
+        onConfirm={() => cancelJobRequest(request.id)}
+        onClose={() => cancelSheetRef.current?.hide()}
+        isPending={isCancelPending}
+      />
     </Pressable>
   );
 };

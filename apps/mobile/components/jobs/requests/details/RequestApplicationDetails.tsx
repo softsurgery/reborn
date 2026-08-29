@@ -39,7 +39,7 @@ export const RequestApplicationDetails = ({
           <>
             <View className="flex flex-row items-center justify-between p-3 border-b border-border/40 bg-muted/20">
               <Text className="text-sm font-semibold text-muted-foreground">
-                Original Price {JSON.stringify(request.job?.currency)}
+                Original Price
               </Text>
               <Text className="text-sm font-bold text-foreground">
                 {originalPrice !== undefined ? `${originalPrice} ${unit}` : "-"}
@@ -50,17 +50,17 @@ export const RequestApplicationDetails = ({
                 Proposed Price
               </Text>
               <View className="flex flex-row items-center gap-2">
-                <Text className="text-sm font-bold text-emerald-600">
+                <Text className="text-sm font-bold">
                   {proposedPrice} {unit}
                 </Text>
                 {priceDiff !== null && priceDiff !== 0 && (
                   <Text
                     className={cn(
-                      "text-xs font-bold",
-                      priceDiff > 0 ? "text-rose-500" : "text-emerald-500",
+                      "text-sm font-bold",
+                      priceDiff < 0 ? "text-rose-500" : "text-emerald-500",
                     )}
                   >
-                    ({priceDiff > 0 ? "+" : ""}
+                    ({priceDiff > 0 ? "+" : "-"}
                     {priceDiff} {unit})
                   </Text>
                 )}
