@@ -13,3 +13,10 @@ export interface Upload extends DatabaseEntity {
   mimetype: string;
   size: number;
 }
+
+export interface ResponseGenericUploadDto extends DatabaseEntity {
+  id: number;
+  uploadId: number;
+  upload: Upload;
+  order: number;
+}

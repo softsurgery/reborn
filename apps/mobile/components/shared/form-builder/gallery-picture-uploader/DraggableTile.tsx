@@ -33,7 +33,7 @@ export const DraggableTile = ({
       }}
     >
       <Image
-        source={{ uri: item.uri }}
+        source={{ uri: item.uri, headers: item.headers }}
         style={{ width: "100%", height: "100%" }}
         contentFit="cover"
       />

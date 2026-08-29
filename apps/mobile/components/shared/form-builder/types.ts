@@ -159,6 +159,7 @@ export interface ImageFile {
   id: number | string;
   serverId?: number;
   uri: string;
+  headers?: Record<string, string>;
   name: string;
   type: string;
   progress: number;
