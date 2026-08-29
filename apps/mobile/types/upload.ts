@@ -20,3 +20,9 @@ export interface ResponseGenericUploadDto extends DatabaseEntity {
   upload: Upload;
   order: number;
 }
+
+export interface UpdateGenericUploadDto {
+  uploadId: number;
+  order: number;
+  id?: number;
+}
