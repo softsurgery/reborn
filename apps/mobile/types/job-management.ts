@@ -82,7 +82,7 @@ export interface CreateJobDto {
 }
 
 export interface UpdateJobDto extends Partial<CreateJobDto> {
-  uploads?: { id: number; uploadId: number; order: number }[];
+  uploads?: { id?: number; uploadId: number; order: number }[];
 }
 
 export interface ResponseJobWorkflowDto extends ResponseWorkflowDto {

@@ -28,7 +28,7 @@ import { Upload } from "@/types/upload";
 import { useJob } from "@/hooks/content/job/useJob";
 import { useUpdateJobFormStructure } from "./useUpdateJobFormStructure";
 import { useServerImages } from "@/hooks/content/useServerImages";
-import { ImageFile } from "~/components/shared/form-builder/types";
+import { extractImageFiles } from "@/lib/uploads";
 
 interface JobUpdateFormProps {
   className?: string;
@@ -45,36 +45,37 @@ export const JobUpdateForm = ({ className, id }: JobUpdateFormProps) => {
   } = useLiveGeolocation();
   const jobStore = useJobStore();
 
-  const { job } = useJob({
+  const { job, isJobPending } = useJob({
     id,
     join: ["uploads", "uploads.upload"],
   });
 
-  const { uploads } = useServerImages({
-    ids: job?.uploads?.map((upload) => upload.upload?.id).filter(Boolean) as number[] || [],
-    enabled: !!job?.uploads,
+  const uploadIds = React.useMemo(
+    () =>
+      [...(job?.uploads ?? [])]
+        .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+        .map((upload) => upload.uploadId),
+    [job?.uploads],
+  );
+
+  const { uploads, isPending: isImagesPending } = useServerImages({
+    ids: uploadIds,
+    enabled: uploadIds.length > 0,
   });
 
+  const extractedImages = React.useMemo(
+    () => extractImageFiles(job?.uploads || [], uploads),
+    [job?.uploads, uploads],
+  );
+
+  const hydratedJobId = React.useRef<string | null>(null);
+
   React.useEffect(() => {
-    if (job && uploads && uploads.length > 0 && job.uploads.length > 0) {
-      console.log(JSON.stringify(job, null, 2));
-      const imageFiles: ImageFile[] = job.uploads
-        .sort((a, b) => b.order - a.order)
-        .map((jobUpload, index) => {
-          const uri = uploads[index];
-          return {
-            id: jobUpload.id,
-            serverId: jobUpload.upload?.id,
-            uri: uri as string,
-            name: jobUpload.upload?.slug,
-            type: jobUpload.upload?.mimetype || "image/jpeg",
-            progress: 100,
-            order: jobUpload.order,
-          };
-        });
-      jobStore.set("images", imageFiles);
-    }
-  }, [job]);
+    if (!job?.id || isImagesPending) return;
+    if (hydratedJobId.current === job.id) return;
+    jobStore.set("images", extractedImages);
+    hydratedJobId.current = job.id;
+  }, [job?.id, extractedImages, isImagesPending]);
 
   React.useEffect(() => {
     if (job) {
@@ -85,11 +86,12 @@ export const JobUpdateForm = ({ className, id }: JobUpdateFormProps) => {
         pricingType: job.pricingType,
         latitude: job.latitude,
         longitude: job.longitude,
-
+        currencyId: job.currencyId,
         categoryId: job.categoryId,
         difficulty: job.difficulty,
         style: job.style,
-        tagIds: job.tags?.map((tag) => tag?.id).filter(Boolean) as number[] || [],
+        tagIds:
+          (job.tags?.map((tag) => tag?.id).filter(Boolean) as number[]) || [],
       });
     }
   }, [job]);
@@ -106,7 +108,7 @@ export const JobUpdateForm = ({ className, id }: JobUpdateFormProps) => {
     },
   });
 
-  const { currencies } = useCurrencies();
+  const { currencies, isCurrenciesPending } = useCurrencies();
   const { jobTags, isJobTagsPending } = useJobTags();
   const { jobCategories, isJobCategoriesPending } = useJobCategories();
 
@@ -116,7 +118,6 @@ export const JobUpdateForm = ({ className, id }: JobUpdateFormProps) => {
     jobImagePickerStructure,
   } = useUpdateJobFormStructure({
     jobStore,
-    currencies,
     jobTags: mapToSelectOptions({
       data: jobTags,
       labelKey: "label",
@@ -144,9 +145,8 @@ export const JobUpdateForm = ({ className, id }: JobUpdateFormProps) => {
   });
 
   React.useEffect(() => {
-    // jobStore.setNested("createDto.currencyId", "TND");
-    jobStore.setNested("createDto.latitude", latitude);
-    jobStore.setNested("createDto.longitude", longitude);
+    jobStore.setNested("updateDto.latitude", latitude);
+    jobStore.setNested("updateDto.longitude", longitude);
     jobStore.set("locationName", locationName);
   }, [latitude, longitude, locationName]);
 
@@ -156,7 +156,7 @@ export const JobUpdateForm = ({ className, id }: JobUpdateFormProps) => {
       .map((img, index) => ({
         id: img.id as number,
         uploadId: img.serverId as number,
-        order: img.order || index,
+        order: index,
       }));
 
     const data = {
@@ -196,7 +196,11 @@ export const JobUpdateForm = ({ className, id }: JobUpdateFormProps) => {
         ]}
       />
       <View className={cn("flex-1 px-2 bg-background", className)}>
-        {isJobTagsPending || isJobCategoriesPending || isLocationPending ? (
+        {isJobTagsPending ||
+        isJobCategoriesPending ||
+        isCurrenciesPending ||
+        isLocationPending ||
+        isJobPending ? (
           <Loader className="flex flex-1 justify-center items-center" />
         ) : (
           <Stepper

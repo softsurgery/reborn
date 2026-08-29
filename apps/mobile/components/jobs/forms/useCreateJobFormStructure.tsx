@@ -24,7 +24,6 @@ import {
 
 interface JobCreateFormStructureProps {
   jobStore: JobStore;
-  currencies: ResponseRefParamDto<CurrencyPayload>[];
   jobTags: SelectOption[];
   jobCategories: SelectOption[];
   uploadPicture: ReturnType<typeof useUploadMutation>["uploadFiles"];
@@ -32,17 +31,10 @@ interface JobCreateFormStructureProps {
 
 export const useCreateJobFormStructure = ({
   jobStore,
-  currencies,
   jobTags,
   jobCategories,
   uploadPicture,
 }: JobCreateFormStructureProps) => {
-  const selectedCurrency = React.useMemo(() => {
-    return currencies.find(
-      (currency) => currency.id === jobStore.createDto.currencyId,
-    );
-  }, [currencies, jobStore.createDto.currencyId]);
-
   const titleField: Field<TextFieldProps> = {
     id: "title",
     label: "Job Title",
