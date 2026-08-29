@@ -9,24 +9,17 @@ interface useRegionsProps {
 export const useRegions = (
   { enabled }: useRegionsProps = { enabled: true },
 ) => {
-  const { data: regionRefTypeResp, isPending: isRegionRefTypePending } =
-    useQuery({
-      queryKey: ["region-ref-type"],
-      queryFn: () => api.referenceTypes.refType.findById("region"),
-      enabled,
-    });
-
   const {
-    isFetching: isFetchRegionsPending,
     data: regionsResp,
+    isFetching: isRegionsPending,
     refetch: refetchRegions,
   } = useQuery({
     queryKey: ["regions"],
     queryFn: () =>
       api.referenceTypes.refParam.findAll({
-        filter: `refTypeId||$eq||${regionRefTypeResp?.id}`,
+        filter: `refTypeId||$eq||region`,
       }),
-    enabled: enabled && !!regionRefTypeResp,
+    enabled,
   });
 
   const regions = React.useMemo(() => {
@@ -36,7 +29,7 @@ export const useRegions = (
 
   return {
     regions,
-    isRegionsPending: isRegionRefTypePending || isFetchRegionsPending,
+    isRegionsPending,
     refetchRegions,
   };
 };

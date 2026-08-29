@@ -1,26 +1,36 @@
 import React from "react";
-import { api } from "~/api";
 import { useQuery } from "@tanstack/react-query";
+import { api } from "~/api";
+import { CurrencyPayload, ResponseRefParamDto } from "@/types";
 
-export const useCurrencies = (enabled?: boolean) => {
+interface useCurrenciesProps {
+  enabled?: boolean;
+}
+
+export const useCurrencies = (
+  { enabled }: useCurrenciesProps = { enabled: true },
+) => {
   const {
     data: currenciesResp,
-    isFetching: isFetchCurrenciesPending,
+    isFetching: isCurrenciesPending,
     refetch: refetchCurrencies,
   } = useQuery({
     queryKey: ["currencies"],
-    queryFn: () => api._public.currency.findAll(),
+    queryFn: () =>
+      api.referenceTypes.refParam.findAll({
+        filter: `refTypeId||$eq||currency`,
+      }),
     enabled,
   });
 
   const currencies = React.useMemo(() => {
     if (!currenciesResp) return [];
-    return currenciesResp;
+    return currenciesResp as ResponseRefParamDto<CurrencyPayload>[];
   }, [currenciesResp]);
 
   return {
     currencies,
-    isFetchCurrenciesPending,
+    isCurrenciesPending,
     refetchCurrencies,
   };
 };
