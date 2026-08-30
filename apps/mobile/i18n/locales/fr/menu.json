@@ -23,7 +23,8 @@
         }
       },
       "gallery": {
-        "title": "Galerie"
+        "title": "Galerie",
+        "empty":"Aucune biographie ajoutée pour le moment"
       }
     },
     "unverifiedEmail": "E-mail non vérifié",

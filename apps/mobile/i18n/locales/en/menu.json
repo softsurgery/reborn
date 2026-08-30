@@ -23,7 +23,8 @@
         }
       },
       "gallery": {
-        "title": "Gallery"
+        "title": "Gallery",
+        "empty": "No gallery added yet"
       }
     },
     "unverifiedEmail": "Unverified Email",
