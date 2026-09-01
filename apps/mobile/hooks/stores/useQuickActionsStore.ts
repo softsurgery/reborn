@@ -2,23 +2,17 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export type QuickActionId =
-  | "myJobs"
-  | "requests"
-  | "savedJobs"
-  | "reviews"
-  | "viewed";
-
 interface QuickActionsState {
-  activeIds: QuickActionId[];
+  activeIds: string[];
   isEditMode: boolean;
   setEditMode: (isEditMode: boolean) => void;
-  reorderActions: (newOrder: QuickActionId[]) => void;
-  addAction: (id: QuickActionId) => void;
-  removeAction: (id: QuickActionId) => void;
+  reorderActions: (newOrder: string[]) => void;
+  addAction: (id: string) => void;
+  removeAction: (id: string) => void;
 }
 
-const DEFAULT_ACTIVE_IDS: QuickActionId[] = [
+const DEFAULT_ACTIVE_IDS: string[] = [
+  "work",
   "myJobs",
   "requests",
   "savedJobs",
