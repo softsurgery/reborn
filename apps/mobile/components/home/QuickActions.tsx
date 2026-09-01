@@ -5,6 +5,7 @@ import {
   Bookmark,
   BriefcaseBusiness,
   Eye,
+  Hammer,
   Inbox,
   Star,
 } from "lucide-react-native";
@@ -102,7 +103,7 @@ export const QuickActions = ({ className }: QuickActionsProps) => {
     {
       id: "work",
       title: t("quickActions.items.work.title"),
-      icon: BriefcaseBusiness,
+      icon: Hammer,
       description: t("quickActions.items.work.description"),
       onPress: () => router.push("/main/my-space/quick-actions/work"),
     },
