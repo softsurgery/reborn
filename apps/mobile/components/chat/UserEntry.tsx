@@ -89,7 +89,7 @@ export const UserEntry = ({
     const defaultStyle = cn(
       "flex-1 text-sm",
       seen
-        ? "text-gray-500 dark:text-gray-400 font-normal"
+        ? "text-muted-foreground font-normal"
         : "font-bold text-black dark:text-white",
     );
 
@@ -194,14 +194,14 @@ export const UserEntry = ({
           {/* Top Row */}
           <View className="flex-row items-center justify-between gap-4">
             <Text
-              className="flex-1 text-base font-semibold text-black dark:text-white"
+              className="flex-1 text-base font-semibold text-foreground"
               numberOfLines={1}
             >
               {identifyUser(user)}
             </Text>
 
             {!!lastMessage && (
-              <Text className="text-[11px] text-gray-500 dark:text-gray-400">
+              <Text className="text-xs text-muted-foreground">
                 {formatSmartDate(lastMessage?.createdAt)}
               </Text>
             )}

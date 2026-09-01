@@ -92,25 +92,21 @@ export const IncomingRequestEntry = ({
   const statusConfig = {
     [JobRequestStatus.Pending]: {
       icon: AlertCircle,
-      dotColor: "bg-amber-500",
-      badgeBg: "bg-amber-500",
+      badgeBg: "bg-gray-500",
       label: "Pending",
     },
     [JobRequestStatus.Waitlist]: {
       icon: Clock,
-      dotColor: "bg-blue-500",
-      badgeBg: "bg-blue-500",
+      badgeBg: "bg-amber-500",
       label: "Waitlisted",
     },
     [JobRequestStatus.Approved]: {
       icon: CheckCircle2,
-      dotColor: "bg-emerald-500",
       badgeBg: "bg-emerald-500",
       label: "Accepted",
     },
     [JobRequestStatus.Rejected]: {
       icon: XCircle,
-      dotColor: "bg-rose-500",
       badgeBg: "bg-rose-500",
       label: "Declined",
     },
@@ -226,7 +222,7 @@ export const IncomingRequestEntry = ({
                 <AvatarFallback className="bg-muted">
                   <Text
                     style={{ fontSize: 14 }}
-                    className="font-extrabold text-foreground"
+                    className="font-bold text-xs text-foreground"
                   >
                     {identifyUserAvatar(request.user)}
                   </Text>
@@ -249,11 +245,11 @@ export const IncomingRequestEntry = ({
                   "rounded-full items-center justify-center",
                   currentStatus.badgeBg,
                 )}
-                style={{ width: 36, height: 36, zIndex: 20 }}
+                style={{ width: 28, height: 28, zIndex: 20 }}
               >
                 <Icon
                   as={ArrowDownLeft}
-                  size={20}
+                  size={16}
                   color={palette?.primaryForeground}
                 />
               </View>
@@ -302,11 +298,11 @@ export const IncomingRequestEntry = ({
               >
                 <Avatar
                   alt={identifyUser(request.user)}
-                  style={{ width: 36, height: 36 }}
+                  style={{ width: 28, height: 28 }}
                 >
                   <AvatarImage source={candidatePicture} />
                   <AvatarFallback className="bg-muted">
-                    <Text className="font-extrabold text-foreground">
+                    <Text className="font-bold text-xs text-foreground">
                       {identifyUserAvatar(request.user)}
                     </Text>
                   </AvatarFallback>
@@ -319,11 +315,11 @@ export const IncomingRequestEntry = ({
                   "rounded-full shadow-md items-center justify-center",
                   currentStatus.badgeBg,
                 )}
-                style={{ width: 36, height: 36, marginLeft: -12, zIndex: 20 }}
+                style={{ width: 28, height: 28, marginLeft: -8, zIndex: 20 }}
               >
                 <Icon
                   as={ArrowDownLeft}
-                  size={20}
+                  size={16}
                   color={palette?.primaryForeground}
                 />
               </View>

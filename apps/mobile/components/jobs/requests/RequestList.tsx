@@ -67,14 +67,6 @@ export const RequestsList = ({
         (r) => r.status === JobRequestStatus.Waitlist,
       );
       const combined = [];
-      if (pending.length > 0) {
-        combined.push({
-          type: "header",
-          id: "header-pending",
-          title: "No Decision",
-        });
-        combined.push(...pending);
-      }
       if (waitlist.length > 0) {
         combined.push({
           type: "header",
@@ -82,6 +74,14 @@ export const RequestsList = ({
           title: "Waitlist",
         });
         combined.push(...waitlist);
+      }
+      if (pending.length > 0) {
+        combined.push({
+          type: "header",
+          id: "header-pending",
+          title: "No Decision",
+        });
+        combined.push(...pending);
       }
       return combined;
     }
@@ -92,7 +92,7 @@ export const RequestsList = ({
     ({ item }: { item: ResponseJobRequestDto | any }) => {
       if (item.type === "header") {
         return (
-          <Text className="text-sm font-bold text-muted-foreground uppercase tracking-wider px-2 pb-2 mb-2">
+          <Text className="text-sm font-medium text-muted-foreground uppercase tracking-wider px-2 pb-2 mb-2">
             {item.title}
           </Text>
         );
@@ -146,7 +146,7 @@ export const RequestsList = ({
       <AnimatedFlatList
         className="flex-1"
         contentContainerStyle={{
-          paddingTop: searchBarHeight,
+          paddingTop: searchBarHeight + 8,
           paddingBottom: 32,
         }}
         onScroll={handleScroll}
@@ -154,7 +154,7 @@ export const RequestsList = ({
         scrollIndicatorInsets={{ top: searchBarHeight }}
         data={listData}
         renderItem={renderItem}
-        keyExtractor={(item: any) => item.id.toString()}
+        keyExtractor={(item) => item.id.toString()}
         showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl

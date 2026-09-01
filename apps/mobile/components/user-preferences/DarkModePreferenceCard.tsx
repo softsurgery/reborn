@@ -25,7 +25,7 @@ export const DarkModePreferenceCard = ({
         <Label className="text-2xl font-bold" onPress={toggleColorScheme}>
           Dark Mode
         </Label>
-        <Text className="text-xs text-gray-500 dark:text-gray-400">
+        <Text className="text-xs text-muted-foreground">
           Switch between light and dark themes
         </Text>
       </View>

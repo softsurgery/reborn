@@ -35,7 +35,7 @@ export const ProfilePortal = ({ className }: ProfilePortalProps) => {
             <ApplicationHeader
               title={t("screens.menu")}
               classNames={{
-                title: "text-slate-900 dark:text-foreground",
+                title: "text-foreground",
               }}
               shortcuts={[
                 {

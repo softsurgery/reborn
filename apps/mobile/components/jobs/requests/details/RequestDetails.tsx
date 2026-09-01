@@ -1,5 +1,10 @@
 import React from "react";
-import { ActivityIndicator, ScrollView, View, RefreshControl } from "react-native";
+import {
+  ActivityIndicator,
+  ScrollView,
+  View,
+  RefreshControl,
+} from "react-native";
 import { router } from "expo-router";
 import { useJobRequest } from "@/hooks/content/job/useJobRequest";
 import {
@@ -87,9 +92,9 @@ export const RequestDetails = ({ className, id }: RequestDetailsProps) => {
     [JobRequestStatus.Pending]: {
       icon: AlertCircle,
       badgeStyle:
-        "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/30",
-      cardBg: "bg-amber-500/5 border-amber-500/20 dark:bg-amber-500/10",
-      iconBg: "bg-amber-500/15 text-amber-600 dark:text-amber-400",
+        "bg-gray-500/10 text-gray-600 dark:text-gray-400 border-gray-500/30",
+      cardBg: "bg-gray-500/5 border-gray-500/20 dark:bg-gray-500/10",
+      iconBg: "bg-gray-500/15 text-gray-600 dark:text-gray-400",
       label: isIncoming
         ? "Pending Candidate Review"
         : "Pending Client Response",
@@ -100,9 +105,9 @@ export const RequestDetails = ({ className, id }: RequestDetailsProps) => {
     [JobRequestStatus.Waitlist]: {
       icon: Clock,
       badgeStyle:
-        "bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/30",
-      cardBg: "bg-blue-500/5 border-blue-500/20 dark:bg-blue-500/10",
-      iconBg: "bg-blue-500/15 text-blue-600 dark:text-blue-400",
+        "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/30",
+      cardBg: "bg-amber-500/5 border-amber-500/20 dark:bg-amber-500/10",
+      iconBg: "bg-amber-500/15 text-amber-600 dark:text-amber-400",
       label: isIncoming ? "Waitlisted Candidate" : "You're on the Waitlist",
       description: isIncoming
         ? "This candidate has been waitlisted."
@@ -154,7 +159,10 @@ export const RequestDetails = ({ className, id }: RequestDetailsProps) => {
         className="flex flex-col flex-1 bg-background"
         showsVerticalScrollIndicator={false}
         refreshControl={
-          <RefreshControl refreshing={isRequestRefetching} onRefresh={refetch} />
+          <RefreshControl
+            refreshing={isRequestRefetching}
+            onRefresh={refetch}
+          />
         }
       >
         <View className="pb-8">

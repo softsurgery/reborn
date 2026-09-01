@@ -82,25 +82,21 @@ export const OutgoingRequestEntry = ({
   const statusConfig = {
     [JobRequestStatus.Pending]: {
       icon: AlertCircle,
-      dotColor: "bg-amber-500",
-      badgeBg: "bg-amber-500",
+      badgeBg: "bg-gray-500",
       label: "Pending",
     },
     [JobRequestStatus.Waitlist]: {
       icon: Clock,
-      dotColor: "bg-blue-500",
-      badgeBg: "bg-blue-500",
+      badgeBg: "bg-amber-500",
       label: "Waitlisted",
     },
     [JobRequestStatus.Approved]: {
       icon: CheckCircle2,
-      dotColor: "bg-emerald-500",
       badgeBg: "bg-emerald-500",
       label: "Accepted",
     },
     [JobRequestStatus.Rejected]: {
       icon: XCircle,
-      dotColor: "bg-rose-500",
       badgeBg: "bg-rose-500",
       label: "Declined",
     },
@@ -235,11 +231,11 @@ export const OutgoingRequestEntry = ({
             >
               <Avatar
                 alt={identifyUser(clientUser)}
-                style={{ width: 36, height: 36 }}
+                style={{ width: 28, height: 28 }}
               >
                 <AvatarImage source={clientPicture} />
                 <AvatarFallback className="bg-muted">
-                  <Text className="font-extrabold text-foreground">
+                  <Text className="font-bold text-xs text-foreground">
                     {identifyUserAvatar(clientUser)}
                   </Text>
                 </AvatarFallback>
@@ -252,11 +248,11 @@ export const OutgoingRequestEntry = ({
                 "rounded-full shadow-md items-center justify-center",
                 currentStatus.badgeBg,
               )}
-              style={{ width: 36, height: 36, marginLeft: -12, zIndex: 20 }}
+              style={{ width: 28, height: 28, marginLeft: -8, zIndex: 20 }}
             >
               <Icon
                 as={ArrowUpRight}
-                size={20}
+                size={16}
                 color={palette?.primaryForeground}
               />
             </View>

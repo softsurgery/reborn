@@ -1,4 +1,5 @@
 const { hairlineWidth } = require("nativewind/theme");
+const colors = require("tailwindcss/colors");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -8,6 +9,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        ...colors,
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -50,7 +52,7 @@ module.exports = {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
-       fontSize: {
+      fontSize: {
         xs: ["10px", "14px"],
         sm: ["12px", "16px"],
         base: ["14px", "20px"],
