@@ -18,6 +18,7 @@ import { useJobApplyStore } from "@/hooks/stores/useJobApplyStore";
 import { StableKeyboardAwareScrollView } from "@/components/shared/stables/StableKeyboardAwareScrollView";
 import { useKeyboardVisible } from "@/hooks/useKeyboardVisible";
 import { cn } from "@/lib/utils";
+import { RequestJobEntry } from "../details/RequestJobEntry";
 
 interface JobApplyProps {
   className?: string;
@@ -34,14 +35,21 @@ export const JobApply = ({ className, id }: JobApplyProps) => {
     };
   }, []);
 
-  const { structure } = useJobApplyFormStructure({
-    store,
-  });
-
   const { data: job, isPending: isJobPending } = useQuery({
     queryKey: ["job", id],
     queryFn: () => api.job.findById(id, ["currency"].join(",")),
     enabled: !!id,
+  });
+
+  React.useEffect(() => {
+    if (job?.price !== undefined && store.createDto.proposedPrice === undefined) {
+      store.setNested("createDto.proposedPrice", job.price);
+    }
+  }, [job?.price]);
+
+  const { structure } = useJobApplyFormStructure({
+    store,
+    job: job,
   });
 
   const { mutate: sendRequest, isPending: isSendRequestPending } = useMutation({
@@ -91,9 +99,10 @@ export const JobApply = ({ className, id }: JobApplyProps) => {
           },
         ]}
       />
-      <StableKeyboardAwareScrollView className="flex-1 bg-background">
+      <View className="py-4 flex-1">
+        <RequestJobEntry job={job} className="px-4" />
         <FormBuilder structure={structure} className="px-2" />
-      </StableKeyboardAwareScrollView>
+      </View>
       {!isKeyboardVisible && (
         <BottomButtonWrapper>
           <Button
