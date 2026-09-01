@@ -240,11 +240,6 @@ export const Home = ({ className }: HomeProps) => {
           </View>
 
           <View className="rounded-2xl border border-border bg-card p-4 mt-3">
-            <View>
-              <Text className="text-lg font-semibold">
-                {t("quickActions.title")}
-              </Text>
-            </View>
             <QuickActions />
           </View>
 
