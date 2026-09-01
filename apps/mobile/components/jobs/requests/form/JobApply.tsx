@@ -42,7 +42,10 @@ export const JobApply = ({ className, id }: JobApplyProps) => {
   });
 
   React.useEffect(() => {
-    if (job?.price !== undefined && store.createDto.proposedPrice === undefined) {
+    if (
+      job?.price !== undefined &&
+      store.createDto.proposedPrice === undefined
+    ) {
       store.setNested("createDto.proposedPrice", job.price);
     }
   }, [job?.price]);
@@ -99,10 +102,10 @@ export const JobApply = ({ className, id }: JobApplyProps) => {
           },
         ]}
       />
-      <View className="py-4 flex-1">
+      <StableKeyboardAwareScrollView className="flex-1 bg-background">
         <RequestJobEntry job={job} className="px-4" />
         <FormBuilder structure={structure} className="px-2" />
-      </View>
+      </StableKeyboardAwareScrollView>
       {!isKeyboardVisible && (
         <BottomButtonWrapper>
           <Button
