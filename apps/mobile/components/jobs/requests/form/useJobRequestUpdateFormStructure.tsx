@@ -6,17 +6,24 @@ import {
   NumberFieldProps,
   SliderFieldProps,
   TextareaFieldProps,
+  CustomFieldProps,
 } from "@/components/shared/form-builder/types";
 import { ResponseJobDto } from "@/types";
+import { SegmentedToggle } from "@/components/shared/SegmentedToggle";
+import React from "react";
 
 interface UseJobRequestUpdateFormStructureProps {
   store: JobRequestUpdateStore;
   job?: ResponseJobDto;
+  priceType: "less" | "greater";
+  setPriceType: (type: "less" | "greater") => void;
 }
 
 export const useJobRequestUpdateFormStructure = ({
   store,
   job,
+  priceType,
+  setPriceType,
 }: UseJobRequestUpdateFormStructureProps) => {
   const messageField: Field<TextareaFieldProps> = {
     id: "job-request-update-message",
@@ -53,6 +60,7 @@ export const useJobRequestUpdateFormStructure = ({
     error: store.errors.proposedPrice?.[0],
     props: {
       value: store.updateDto.proposedPrice,
+      editable: priceType === "greater",
       onChangeText: (value: number) => {
         store.setNested("updateDto.proposedPrice", value);
         store.setNested("errors.proposedPrice", []);
@@ -79,6 +87,33 @@ export const useJobRequestUpdateFormStructure = ({
     },
   };
 
+  const toggleField: Field<CustomFieldProps> = {
+    id: "job-request-update-price-type",
+    label: "",
+    variant: FieldVariant.CUSTOM,
+    props: {
+      render: () => (
+        <SegmentedToggle
+          value={priceType}
+          onChange={(val) => setPriceType(val as "less" | "greater")}
+          options={[
+            { label: "Less Price", value: "less" },
+            { label: "Greater Price", value: "greater" },
+          ]}
+        />
+      ),
+    },
+  };
+
+  const pricingRows = [
+    { id: 2, fields: [toggleField] },
+    { id: 3, fields: [proposedPriceField] },
+  ];
+
+  if (priceType === "less") {
+    pricingRows.push({ id: 4, fields: [sliderField] });
+  }
+
   const structure: FormStructure = {
     title: "",
     isHeaderVisible: false,
@@ -91,10 +126,7 @@ export const useJobRequestUpdateFormStructure = ({
       {
         title: "Pricing",
         description: "Set your terms for this job.",
-        rows: [
-          { id: 2, fields: [proposedPriceField] },
-          { id: 3, fields: [sliderField] },
-        ],
+        rows: pricingRows,
       },
     ],
   };

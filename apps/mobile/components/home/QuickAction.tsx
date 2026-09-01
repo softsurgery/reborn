@@ -101,7 +101,7 @@ export const QuickAction = ({
     <View>
       <Pressable
         className={cn(
-          "w-full py-3 rounded-xl",
+          "w-full py-3 rounded-xl active:opacity-50",
           isDisabled && "opacity-60",
           isActive && "bg-muted/50",
         )}

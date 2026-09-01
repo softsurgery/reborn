@@ -76,7 +76,10 @@ export const useJobRequestActions = ({
       updateDto: UpdateJobRequestDto;
     }) => api.jobRequest.update(id, updateDto),
     onSuccess: (data, variables, context) => {
-      queryClient.invalidateQueries({ queryKey: ["job-request", variables.id] });
+      queryClient.invalidateQueries({
+        queryKey: ["job-request-details", String(variables.id)],
+      });
+
       handleSuccess("Job request updated", data, variables, context);
     },
     onError: (error: ServerErrorResponse) => {

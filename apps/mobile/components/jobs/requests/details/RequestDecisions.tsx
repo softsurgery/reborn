@@ -157,7 +157,7 @@ export const RequestDecisions = ({
 
   return (
     <View className={cn(className)}>
-      <Text className="text-base font-bold uppercase tracking-widest text-muted-foreground mb-2 px-1">
+      <Text className="text-sm font-bold uppercase tracking-widest text-muted-foreground mb-2 px-1">
         Decisions
       </Text>
       <View className="flex flex-col overflow-hidden">

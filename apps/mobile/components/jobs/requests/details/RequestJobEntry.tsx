@@ -51,7 +51,7 @@ export const RequestJobEntry = ({
   return (
     <View className={cn(className)}>
       {showTitle && (
-        <Text className="text-base font-bold uppercase tracking-widest text-muted-foreground">
+        <Text className="text-sm font-bold uppercase tracking-widest text-muted-foreground">
           Job Specifications
         </Text>
       )}

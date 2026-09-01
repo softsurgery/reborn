@@ -42,7 +42,7 @@ export const RequestUserEntry = ({
 
   return (
     <View className={cn(className)}>
-      <Text className="text-base font-bold uppercase tracking-widest text-muted-foreground">
+      <Text className="text-sm font-bold uppercase tracking-widest text-muted-foreground">
         {isIncoming ? "Applicant Candidate" : "Job Client"}
       </Text>
 

@@ -58,7 +58,7 @@ export function SegmentedToggle<T extends string>({
     <View
       onLayout={onLayout}
       className={cn(
-        "flex-row rounded-xl bg-muted/50 p-1",
+        "flex-row rounded-xl bg-muted/50 p-1 border border-primary",
         disabled && "opacity-50",
         className,
       )}
@@ -76,7 +76,9 @@ export function SegmentedToggle<T extends string>({
           <Pressable
             key={option.value}
             onPress={() => onChange(option.value)}
-            className="z-10 flex-1 flex-row items-center justify-center gap-2 rounded-lg px-4 py-2.5"
+            className={cn(
+              "z-10 flex-1 flex-row items-center justify-center gap-2 px-4 py-2.5",
+            )}
           >
             <Text
               className={cn(

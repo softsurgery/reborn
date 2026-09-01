@@ -60,6 +60,7 @@ export const useJobApplyFormStructure = ({
     error: store.errors.proposedPrice?.[0],
     props: {
       value: store.createDto.proposedPrice,
+      editable: priceType === "greater",
       onChangeText: (value: number) => {
         store.setNested("createDto.proposedPrice", value);
         store.setNested("errors.proposedPrice", []);

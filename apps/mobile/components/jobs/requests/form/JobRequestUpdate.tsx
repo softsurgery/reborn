@@ -18,22 +18,28 @@ import { useKeyboardVisible } from "@/hooks/useKeyboardVisible";
 import { cn } from "@/lib/utils";
 import { RequestJobEntry } from "../details/RequestJobEntry";
 import { useJobRequestActions } from "@/hooks/content/job/useJobRequestActions";
+import { StableKeyboardAwareScrollView } from "@/components/shared/stables/StableKeyboardAwareScrollView";
 
 interface JobRequestUpdateProps {
   className?: string;
-  id: string; // This is the jobRequest id
+  id: string;
 }
 
 export const JobRequestUpdate = ({ className, id }: JobRequestUpdateProps) => {
   const store = useJobRequestUpdateStore();
   const isKeyboardVisible = useKeyboardVisible();
+  const [priceType, setPriceType] = React.useState<"less" | "greater">("less");
   const { updateJobRequest, isUpdatePending } = useJobRequestActions({
     onSuccess: () => router.back(),
   });
 
   const { data: request, isPending: isRequestPending } = useQuery({
     queryKey: ["job-request", id],
-    queryFn: () => api.jobRequest.findById(Number(id), ["job"].join(",")),
+    queryFn: () =>
+      api.jobRequest.findById(
+        Number(id),
+        ["job", "job.uploads", "job.category", "job.currency"].join(","),
+      ),
     enabled: !!id,
   });
 
@@ -44,15 +50,31 @@ export const JobRequestUpdate = ({ className, id }: JobRequestUpdateProps) => {
   }, []);
 
   React.useEffect(() => {
-    if (request && store.updateDto.proposedPrice === undefined && store.updateDto.message === undefined) {
-      if (request.proposedPrice) store.setNested("updateDto.proposedPrice", request.proposedPrice);
-      if (request.message) store.setNested("updateDto.message", request.message);
+    if (
+      request &&
+      store.updateDto.proposedPrice === undefined &&
+      store.updateDto.message === undefined
+    ) {
+      if (request.proposedPrice)
+        store.setNested("updateDto.proposedPrice", request.proposedPrice);
+      if (request.message)
+        store.setNested("updateDto.message", request.message);
+
+      if (
+        request.proposedPrice &&
+        request.job?.price &&
+        Number(request.proposedPrice) > Number(request.job.price)
+      ) {
+        setPriceType("greater");
+      }
     }
   }, [request]);
 
   const { structure } = useJobRequestUpdateFormStructure({
     store,
     job: request?.job,
+    priceType,
+    setPriceType,
   });
 
   if (isRequestPending) {
@@ -86,10 +108,10 @@ export const JobRequestUpdate = ({ className, id }: JobRequestUpdateProps) => {
           },
         ]}
       />
-      <View className="py-4 flex-1">
+      <StableKeyboardAwareScrollView className="flex-1 bg-background">
         <RequestJobEntry job={request.job} className="px-4" />
         <FormBuilder structure={structure} className="px-2" />
-      </View>
+      </StableKeyboardAwareScrollView>
       {!isKeyboardVisible && (
         <BottomButtonWrapper>
           <Button

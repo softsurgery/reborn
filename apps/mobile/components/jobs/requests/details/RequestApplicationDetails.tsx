@@ -31,7 +31,7 @@ export const RequestApplicationDetails = ({
 
   return (
     <View className={cn(className)}>
-      <Text className="text-base font-bold uppercase tracking-widest text-muted-foreground mb-3">
+      <Text className="text-sm font-bold uppercase tracking-widest text-muted-foreground mb-3">
         Application Details
       </Text>
       <View className="flex flex-col border border-border/40 rounded-lg overflow-hidden">
@@ -60,7 +60,7 @@ export const RequestApplicationDetails = ({
                       priceDiff < 0 ? "text-rose-500" : "text-emerald-500",
                     )}
                   >
-                    ({priceDiff > 0 ? "+" : "-"}
+                    ({priceDiff > 0 ? "+" : ""}
                     {priceDiff} {unit})
                   </Text>
                 )}
