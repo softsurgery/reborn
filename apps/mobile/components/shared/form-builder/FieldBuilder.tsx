@@ -16,7 +16,7 @@ import MapPinField from "./components/MapPinField";
 import { GalleryPictureUploader } from "./gallery-picture-uploader/GalleryPictureUploader";
 import { PasswordField } from "./components/PasswordField";
 import { TimePicker } from "./components/TimePicker";
-import { AppSlider } from "../AppSlider";
+import { Slider } from "./components/Slider";
 
 interface FieldBuilderProps {
   field?: Field<any>;
@@ -243,7 +243,7 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
       );
     case "slider":
       return (
-        <AppSlider
+        <Slider
           initialValue={field?.props?.initialValue || 0}
           onValueChange={field?.props?.onValueChange!}
           rangeMinValue={field?.props?.rangeMinValue}

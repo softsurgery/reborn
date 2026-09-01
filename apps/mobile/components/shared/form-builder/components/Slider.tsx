@@ -1,14 +1,13 @@
 import { Badge } from "@/components/ui/badge";
 import { Text } from "@/components/ui/text";
 import { hslToHex } from "@/lib/theme";
-import { Slider } from "@miblanchard/react-native-slider";
+import { Slider as RNSlider } from "@miblanchard/react-native-slider";
 import React from "react";
 import { View } from "react-native";
 import * as Haptics from "expo-haptics";
-import { useTranslation } from "react-i18next";
 import { useColorPalette } from "@/hooks/useColorPalette";
 
-interface AppSliderProps {
+interface SliderProps {
   initialValue: number;
   onValueChange: (value: number) => void;
   rangeMaxValue?: number;
@@ -18,7 +17,7 @@ interface AppSliderProps {
   unit?: string;
 }
 
-export const AppSlider = ({
+export const Slider = ({
   initialValue,
   onValueChange,
   rangeMinValue = 0,
@@ -26,7 +25,7 @@ export const AppSlider = ({
   step = 50,
   label,
   unit = "",
-}: AppSliderProps) => {
+}: SliderProps) => {
   const { palette } = useColorPalette();
   const [localValue, setLocalValue] = React.useState(initialValue);
 
@@ -47,11 +46,7 @@ export const AppSlider = ({
     <View className="flex flex-col">
       <View className="flex flex-row justify-between items-center">
         <View>
-          {label && (
-            <Text className="font-semibold text-base">
-              {label}
-            </Text>
-          )}
+          {label && <Text className="font-semibold text-base">{label}</Text>}
         </View>
         <Badge variant="outline">
           <Text className="text-sm font-bold">
@@ -61,7 +56,7 @@ export const AppSlider = ({
       </View>
 
       <View className="flex flex-col">
-        <Slider
+        <RNSlider
           thumbTintColor={hslToHex(palette.primary)}
           minimumTrackTintColor={hslToHex(palette.primary)}
           maximumTrackTintColor={hslToHex(palette.foreground)}
