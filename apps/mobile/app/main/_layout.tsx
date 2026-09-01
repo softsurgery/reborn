@@ -301,6 +301,14 @@ export default function MainLayout() {
             }}
           />
           <Stack.Screen
+            name="my-space/quick-actions/work"
+            options={{
+              title: "Work",
+              headerShown: false,
+              animation: "slide_from_right",
+            }}
+          />
+          <Stack.Screen
             name="my-space/quick-actions/jobs"
             options={{
               title: "My Jobs",

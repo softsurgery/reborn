@@ -10,6 +10,7 @@ interface useInfiniteJobsProps {
   sortOrder?: "asc" | "desc";
   filter?: string;
   followings?: boolean;
+  work?: boolean;
   enabled?: boolean;
 }
 
@@ -22,6 +23,7 @@ export const useInfiniteJobs = (
     join = [],
     filter = "",
     followings = false,
+    work = false,
     enabled = true,
   }: useInfiniteJobsProps = {
     limit: 20,
@@ -31,6 +33,7 @@ export const useInfiniteJobs = (
     join: [],
     filter: "",
     followings: false,
+    work: false,
     enabled: true,
   },
 ) => {
@@ -43,7 +46,7 @@ export const useInfiniteJobs = (
     isRefetching,
     isPending: isJobsPending,
   } = useInfiniteQuery({
-    queryKey: ["jobs", search, filter, followings],
+    queryKey: ["jobs", search, filter, followings, work],
     initialPageParam: 1,
     queryFn: async ({ pageParam = 1 }) => {
       const query = {
@@ -54,6 +57,9 @@ export const useInfiniteJobs = (
         filter,
         sort: `${sortKey},${sortOrder}`,
       };
+      if (work) {
+        return api.job.current.findWorkPaginated(query);
+      }
       return followings
         ? api.job.current.findFollowedPaginated(query)
         : api.job.findPaginated(query);

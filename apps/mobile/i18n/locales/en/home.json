@@ -22,6 +22,10 @@
     "title": "Quick actions",
     "soon": "Soon",
     "items": {
+      "work": {
+        "title": "Work",
+        "description": "Jobs assigned to you"
+      },
       "myJobs": {
         "title": "My jobs",
         "description": "Preview your posted jobs"

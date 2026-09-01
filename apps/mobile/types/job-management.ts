@@ -55,6 +55,10 @@ export interface ResponseJobDto extends DatabaseEntity {
   postedBy: ResponseUserDto;
   postedById: string;
 
+  worker?: ResponseUserDto;
+  workerId?: string;
+  assignmentDate?: string;
+
   tags: ResponseRefParamDto[];
   categoryId: number;
   category: ResponseRefParamDto;

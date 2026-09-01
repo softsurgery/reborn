@@ -5,6 +5,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Eye,
+  Hammer,
   Inbox,
   Star,
 } from "lucide-react-native";
@@ -28,6 +29,13 @@ export const QuickActions = ({ className }: QuickActionsProps) => {
   const { t } = useTranslation("home");
 
   const portalItems = [
+    {
+      id: "work",
+      title: t("quickActions.items.work.title"),
+      icon: Hammer,
+      description: t("quickActions.items.work.description"),
+      onPress: () => router.push("/main/my-space/quick-actions/work"),
+    },
     {
       id: "myJobs",
       title: t("quickActions.items.myJobs.title"),
@@ -82,8 +90,18 @@ export const QuickActions = ({ className }: QuickActionsProps) => {
                 onPress={isDisabled ? undefined : item.onPress}
                 disabled={isDisabled}
               >
-                <View className={cn("flex-row items-center justify-between", isRTL && "flex-row-reverse")}>
-                  <View className={cn("flex-row items-center gap-3 flex-1", isRTL && "flex-row-reverse")}>
+                <View
+                  className={cn(
+                    "flex-row items-center justify-between",
+                    isRTL && "flex-row-reverse",
+                  )}
+                >
+                  <View
+                    className={cn(
+                      "flex-row items-center gap-3 flex-1",
+                      isRTL && "flex-row-reverse",
+                    )}
+                  >
                     <View className="h-10 w-10 items-center justify-center rounded-lg bg-primary">
                       <Icon
                         as={item.icon}
@@ -96,7 +114,7 @@ export const QuickActions = ({ className }: QuickActionsProps) => {
                       <Text className="text-base font-semibold">
                         {item.title}
                       </Text>
-                      <Text className="text-xs text-muted-foreground mt-0.5">
+                      <Text className="text-sm text-muted-foreground mt-0.5">
                         {item.description}
                       </Text>
                     </View>

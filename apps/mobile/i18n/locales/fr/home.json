@@ -22,6 +22,10 @@
     "title": "Actions rapides",
     "soon": "Bientôt",
     "items": {
+      "work": {
+        "title": "Travail",
+        "description": "Les tâches qui vous sont assignées"
+      },
       "myJobs": {
         "title": "Mes offres",
         "description": "Aperçu de vos offres publiées"
