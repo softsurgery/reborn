@@ -172,7 +172,7 @@ export const RequestDetails = ({ className, id }: RequestDetailsProps) => {
             request={request}
           />
 
-          <RequestJobEntry className="px-4" job={request.job} />
+          <RequestJobEntry className="px-4" job={request.job} showTitle />
 
           <RequestUserEntry
             className="px-4"

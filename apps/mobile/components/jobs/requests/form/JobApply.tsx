@@ -103,7 +103,7 @@ export const JobApply = ({ className, id }: JobApplyProps) => {
         ]}
       />
       <StableKeyboardAwareScrollView className="flex-1 bg-background">
-        <RequestJobEntry job={job} className="px-4" />
+        <RequestJobEntry job={job} className="p-4" />
         <FormBuilder structure={structure} className="px-2" />
       </StableKeyboardAwareScrollView>
       {!isKeyboardVisible && (

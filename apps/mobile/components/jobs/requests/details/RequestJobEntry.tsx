@@ -10,11 +10,16 @@ import { ResponseJobDto } from "@/types";
 import { cn } from "@/lib/utils";
 
 interface RequestJobEntryProps {
-  job?: ResponseJobDto;
   className?: string;
+  job?: ResponseJobDto;
+  showTitle?: boolean;
 }
 
-export const RequestJobEntry = ({ job, className }: RequestJobEntryProps) => {
+export const RequestJobEntry = ({
+  job,
+  className,
+  showTitle = false,
+}: RequestJobEntryProps) => {
   const orderedUploads = React.useMemo(
     () => job?.uploads?.slice().sort((a, b) => a.order - b.order),
     [job?.uploads],
@@ -45,9 +50,11 @@ export const RequestJobEntry = ({ job, className }: RequestJobEntryProps) => {
 
   return (
     <View className={cn(className)}>
-      <Text className="text-base font-bold uppercase tracking-widest text-muted-foreground">
-        Job Specifications
-      </Text>
+      {showTitle && (
+        <Text className="text-base font-bold uppercase tracking-widest text-muted-foreground">
+          Job Specifications
+        </Text>
+      )}
 
       <Pressable
         className="flex flex-row items-center justify-between pt-3 pb-6 active:opacity-50 gap-3"
