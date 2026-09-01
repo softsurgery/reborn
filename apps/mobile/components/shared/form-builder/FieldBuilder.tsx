@@ -16,15 +16,13 @@ import MapPinField from "./components/MapPinField";
 import { GalleryPictureUploader } from "./gallery-picture-uploader/GalleryPictureUploader";
 import { PasswordField } from "./components/PasswordField";
 import { TimePicker } from "./components/TimePicker";
-import { useColorPalette } from "@/hooks/useColorPalette";
-import { hslToHex } from "@/lib/theme";
+import { AppSlider } from "../AppSlider";
 
 interface FieldBuilderProps {
   field?: Field<any>;
 }
 
 export const FieldBuilder = ({ field }: FieldBuilderProps) => {
-  const { palette } = useColorPalette();
   const editable = field?.props?.editable ?? true;
 
   switch (field?.variant) {
@@ -241,6 +239,18 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
           locationName={field?.props?.locationName}
           onLocationChange={field?.props?.onLocationChange}
           editable={editable}
+        />
+      );
+    case "slider":
+      return (
+        <AppSlider
+          initialValue={field?.props?.initialValue || 0}
+          onValueChange={field?.props?.onValueChange!}
+          rangeMinValue={field?.props?.rangeMinValue}
+          rangeMaxValue={field?.props?.rangeMaxValue}
+          step={field?.props?.step}
+          label={field?.props?.label}
+          unit={field?.props?.unit}
         />
       );
     default:
