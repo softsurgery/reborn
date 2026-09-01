@@ -17,6 +17,7 @@ import { education } from "./education";
 import { experience } from "./experience";
 import { referenceTypes } from "./reference-types";
 import { currentUser } from "./current-user";
+import { configuration } from "./configuration";
 
 export const api = {
   auth,
@@ -38,4 +39,5 @@ export const api = {
   education,
   experience,
   referenceTypes,
+  configuration,
 };

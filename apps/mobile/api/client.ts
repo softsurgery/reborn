@@ -67,6 +67,18 @@ const getSkills = async (id: string): Promise<number[] | null> => {
   return response.data;
 };
 
+const getMobileAppSettings = async (): Promise<any> => {
+  const response = await axios.get(`/current-user/mobile-app-settings`);
+  return response.data;
+};
+
+const updateQuickActions = async (activeIds: string[]): Promise<any> => {
+  const response = await axios.put(`/current-user/mobile-app-settings/quick-actions`, {
+    activeIds,
+  });
+  return response.data;
+};
+
 export const client = {
   findCurrent,
   findById,
@@ -75,4 +87,6 @@ export const client = {
   getSkills,
   updateCover,
   updateCurrent,
+  getMobileAppSettings,
+  updateQuickActions,
 };
