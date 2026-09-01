@@ -347,6 +347,14 @@ export default function MainLayout() {
               animation: "slide_from_right",
             }}
           />
+          <Stack.Screen
+            name="my-space/request-update"
+            options={{
+              title: "Update Job Application",
+              headerShown: false,
+              animation: "slide_from_right",
+            }}
+          />
 
           <Stack.Screen
             name="explore/job-filters"

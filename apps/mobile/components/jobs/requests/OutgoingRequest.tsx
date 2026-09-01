@@ -15,6 +15,7 @@ import {
   Briefcase,
   ChevronRight,
   ArrowUpRight,
+  Pencil,
 } from "lucide-react-native";
 import * as Haptics from "expo-haptics";
 import { ActionSheetRef } from "react-native-actions-sheet";
@@ -121,12 +122,27 @@ export const OutgoingRequestEntry = ({
       request.status === JobRequestStatus.Pending ||
       request.status === JobRequestStatus.Waitlist
     ) {
-      opts.push({
-        label: "Withdraw Application",
-        icon: CopyX,
-        variant: "destructive" as const,
-        onPress: () => cancelSheetRef.current?.show(),
-      });
+      opts.push(
+        {
+          label: "Edit Application",
+          icon: Pencil,
+          onPress: () => {
+            actionSheetRef.current?.hide();
+            setTimeout(() => {
+              router.push({
+                pathname: "/main/my-space/request-update",
+                params: { id: request.id },
+              });
+            }, 300);
+          },
+        },
+        {
+          label: "Withdraw Application",
+          icon: CopyX,
+          variant: "destructive" as const,
+          onPress: () => cancelSheetRef.current?.show(),
+        }
+      );
     } else if (request.status === JobRequestStatus.Approved) {
       opts.push({
         label: "Send Message",

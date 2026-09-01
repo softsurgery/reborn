@@ -206,3 +206,14 @@ export interface SliderFieldProps {
   label?: string;
   unit?: string;
 }
+
+export interface SegmentedToggleFieldProps<T extends string = string> {
+  options: { label: string; value: T }[];
+  value: T;
+  onChange: (value: T) => void;
+  disabled?: boolean;
+}
+
+export interface CustomFieldProps {
+  render: () => React.ReactNode;
+}

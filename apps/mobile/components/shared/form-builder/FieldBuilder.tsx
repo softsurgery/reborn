@@ -253,6 +253,8 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
           unit={field?.props?.unit}
         />
       );
+    case "custom":
+      return <>{field?.props?.render?.()}</>;
     default:
       return (
         <Text style={{ color: "red", fontSize: 12 }}>

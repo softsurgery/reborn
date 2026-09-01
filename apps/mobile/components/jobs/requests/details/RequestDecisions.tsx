@@ -2,7 +2,7 @@ import React from "react";
 import { View } from "react-native";
 import { router } from "expo-router";
 import { type ActionSheetRef } from "react-native-actions-sheet";
-import { Check, Clock, Mail, X } from "lucide-react-native";
+import { Check, Clock, Mail, X, Pencil } from "lucide-react-native";
 import * as Haptics from "expo-haptics";
 import { Text } from "@/components/ui/text";
 import { useJobRequestActions } from "@/hooks/content/job/useJobRequestActions";
@@ -109,6 +109,28 @@ export const RequestDecisions = ({
       },
     ],
     outgoing: [
+      {
+        id: "edit",
+        title: "Edit Application",
+        description: "Update your message and proposed rate",
+        IconComp: Pencil,
+        classNames: {
+          icon: "bg-primary/10",
+          title: "text-primary font-bold",
+        },
+        onPress: () => {
+          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+          router.push({
+            pathname: "/main/my-space/request-update",
+            params: { id: request.id },
+          });
+        },
+        disabled: false,
+        isPending: false,
+        hidden:
+          request.status !== JobRequestStatus.Pending &&
+          request.status !== JobRequestStatus.Waitlist,
+      },
       {
         id: "withdraw",
         title: "Withdraw Application",

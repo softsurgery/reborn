@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner-native";
 import { api } from "@/api";
-import { ServerErrorResponse } from "@/types";
+import { ServerErrorResponse, UpdateJobRequestDto } from "@/types";
 
 interface useJobRequestActionsProps {
   onSuccess?: (...args: any[]) => void;
@@ -47,14 +47,16 @@ export const useJobRequestActions = ({
     },
   });
 
-  const { mutate: waitlistJobRequest, isPending: isWaitlistPending } = useMutation({
-    mutationFn: (id: number) => api.jobRequest.waitlist(id),
-    onSuccess: (...args) => handleSuccess("Job request moved to waitlist", ...args),
-    onError: (error: ServerErrorResponse) => {
-      if (onError) onError(error);
-      else defaultOnError(error, "Failed to waitlist job request");
-    },
-  });
+  const { mutate: waitlistJobRequest, isPending: isWaitlistPending } =
+    useMutation({
+      mutationFn: (id: number) => api.jobRequest.waitlist(id),
+      onSuccess: (...args) =>
+        handleSuccess("Job request moved to waitlist", ...args),
+      onError: (error: ServerErrorResponse) => {
+        if (onError) onError(error);
+        else defaultOnError(error, "Failed to waitlist job request");
+      },
+    });
 
   const { mutate: cancelJobRequest, isPending: isCancelPending } = useMutation({
     mutationFn: (id: number) => api.jobRequest.cancel(id),
@@ -66,8 +68,17 @@ export const useJobRequestActions = ({
   });
 
   const { mutate: updateJobRequest, isPending: isUpdatePending } = useMutation({
-    mutationFn: ({ id, dto }: { id: number; dto: any }) => api.jobRequest.update(id, dto),
-    onSuccess: (...args) => handleSuccess("Job request updated", ...args),
+    mutationFn: ({
+      id,
+      updateDto,
+    }: {
+      id: number;
+      updateDto: UpdateJobRequestDto;
+    }) => api.jobRequest.update(id, updateDto),
+    onSuccess: (data, variables, context) => {
+      queryClient.invalidateQueries({ queryKey: ["job-request", variables.id] });
+      handleSuccess("Job request updated", data, variables, context);
+    },
     onError: (error: ServerErrorResponse) => {
       if (onError) onError(error);
       else defaultOnError(error, "Failed to update job request");

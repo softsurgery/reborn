@@ -1,4 +1,4 @@
-import { JobApplyStore } from "@/hooks/stores/useJobApplyStore";
+import { JobRequestUpdateStore } from "@/hooks/stores/useJobRequestUpdateStore";
 import {
   Field,
   FieldVariant,
@@ -6,38 +6,31 @@ import {
   NumberFieldProps,
   SliderFieldProps,
   TextareaFieldProps,
-  CustomFieldProps,
 } from "@/components/shared/form-builder/types";
 import { ResponseJobDto } from "@/types";
-import { SegmentedToggle } from "@/components/shared/SegmentedToggle";
-import React from "react";
 
-interface UseJobApplyFormStructureProps {
-  store: JobApplyStore;
+interface UseJobRequestUpdateFormStructureProps {
+  store: JobRequestUpdateStore;
   job?: ResponseJobDto;
-  priceType: "less" | "greater";
-  setPriceType: (type: "less" | "greater") => void;
 }
 
-export const useJobApplyFormStructure = ({
+export const useJobRequestUpdateFormStructure = ({
   store,
   job,
-  priceType,
-  setPriceType,
-}: UseJobApplyFormStructureProps) => {
+}: UseJobRequestUpdateFormStructureProps) => {
   const messageField: Field<TextareaFieldProps> = {
-    id: "job-apply-message",
+    id: "job-request-update-message",
     label: "Cover Letter / Message",
     description:
       "Explain why you are the best fit for this job. Include your relevant experience and how you plan to complete the work.",
     variant: FieldVariant.TEXTAREA,
-    required: true,
+    required: false,
     placeholder: "Hi, I'm interested in this job because...",
     error: store.errors.message?.[0],
     props: {
-      value: store.createDto.message,
+      value: store.updateDto.message,
       onChangeText: (value) => {
-        store.setNested("createDto.message", value);
+        store.setNested("updateDto.message", value);
         store.setNested("errors.message", []);
       },
     },
@@ -50,7 +43,7 @@ export const useJobApplyFormStructure = ({
     "";
 
   const proposedPriceField: Field<NumberFieldProps> = {
-    id: "job-apply-proposed-price",
+    id: "job-request-update-proposed-price",
     label: "Your Proposed Rate",
     description:
       "What is your estimated cost to complete this job? Leave blank if you agree with the client's posted price.",
@@ -59,59 +52,32 @@ export const useJobApplyFormStructure = ({
     placeholder: "e.g. 150",
     error: store.errors.proposedPrice?.[0],
     props: {
-      value: store.createDto.proposedPrice,
+      value: store.updateDto.proposedPrice,
       onChangeText: (value: number) => {
-        store.setNested("createDto.proposedPrice", value);
+        store.setNested("updateDto.proposedPrice", value);
         store.setNested("errors.proposedPrice", []);
       },
     },
   };
 
   const sliderField: Field<SliderFieldProps> = {
-    id: "job-apply-proposed-price-slider",
+    id: "job-request-update-proposed-price-slider",
     label: "",
     variant: FieldVariant.SLIDER,
     required: false,
     props: {
-      initialValue: store.createDto.proposedPrice || Number(job?.price) || 0,
+      initialValue: store.updateDto.proposedPrice || Number(job?.price) || 0,
       rangeMinValue: 0,
       rangeMaxValue: (Number(job?.price) || 500) * 2,
       step: 10,
       label: "Adjust Rate",
       unit: unit,
       onValueChange: (val: number) => {
-        store.setNested("createDto.proposedPrice", val);
+        store.setNested("updateDto.proposedPrice", val);
         store.setNested("errors.proposedPrice", []);
       },
     },
   };
-
-  const toggleField: Field<CustomFieldProps> = {
-    id: "job-apply-price-type",
-    label: "",
-    variant: FieldVariant.CUSTOM,
-    props: {
-      render: () => (
-        <SegmentedToggle
-          value={priceType}
-          onChange={(val) => setPriceType(val as "less" | "greater")}
-          options={[
-            { label: "Less Price", value: "less" },
-            { label: "Greater Price", value: "greater" },
-          ]}
-        />
-      ),
-    },
-  };
-
-  const pricingRows = [
-    { id: 2, fields: [toggleField] },
-    { id: 3, fields: [proposedPriceField] },
-  ];
-
-  if (priceType === "less") {
-    pricingRows.push({ id: 4, fields: [sliderField] });
-  }
 
   const structure: FormStructure = {
     title: "",
@@ -125,7 +91,10 @@ export const useJobApplyFormStructure = ({
       {
         title: "Pricing",
         description: "Set your terms for this job.",
-        rows: pricingRows,
+        rows: [
+          { id: 2, fields: [proposedPriceField] },
+          { id: 3, fields: [sliderField] },
+        ],
       },
     ],
   };
