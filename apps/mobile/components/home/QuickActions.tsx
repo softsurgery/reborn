@@ -4,24 +4,17 @@ import { router } from "expo-router";
 import {
   Bookmark,
   BriefcaseBusiness,
-  ChevronLeft,
-  ChevronRight,
   Eye,
   Inbox,
   Star,
-  GripVertical,
-  MinusCircle,
-  PlusCircle,
 } from "lucide-react-native";
-import { Pressable, View, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity } from "react-native";
 import DraggableFlatList, {
   RenderItemParams,
 } from "react-native-draggable-flatlist";
 import { useTranslation } from "react-i18next";
 import { cn } from "~/lib/utils";
-import { Icon } from "~/components/ui/icon";
 import { Text } from "~/components/ui/text";
-import { Badge } from "~/components/ui/badge";
 import { Separator } from "~/components/ui/separator";
 import { QuickAction } from "./QuickAction";
 import { QuickActionsSkeleton } from "./QuickActionsSkeleton";
@@ -207,20 +200,35 @@ export const QuickActions = ({ className }: QuickActionsProps) => {
               No quick actions added. Tap "Edit" then "Add" to add some!
             </Text>
           </View>
-        ) : (
+        ) : isEditMode ? (
           <DraggableFlatList
             data={activeItems}
             onDragEnd={({ data }) => reorderActions(data.map((d) => d.id))}
             keyExtractor={(item) => item.id}
             renderItem={renderItem}
             contentContainerStyle={
-              !isEditMode || inactiveItems.length === 0
-                ? { paddingBottom: 20 }
-                : undefined
+              inactiveItems.length === 0 ? { paddingBottom: 20 } : undefined
             }
             showsVerticalScrollIndicator={false}
             scrollEnabled={false}
           />
+        ) : (
+          <View style={{ paddingBottom: 20 }}>
+            {activeItems.map((item, index) => {
+              const isLast = index === activeItems.length - 1;
+              return (
+                <QuickAction
+                  key={item.id}
+                  type="active"
+                  item={item}
+                  isActive={false}
+                  isEditMode={isEditMode}
+                  isLast={isLast}
+                  onRemove={removeAction}
+                />
+              );
+            })}
+          </View>
         )}
 
         {isEditMode && inactiveItems.length > 0 && (
