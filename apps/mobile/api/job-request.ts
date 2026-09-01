@@ -125,6 +125,17 @@ const create = async (createJobRequestDto: CreateJobRequestDto) => {
   return response.data;
 };
 
+const update = async (
+  id: number,
+  updateJobRequestDto: Partial<CreateJobRequestDto>,
+) => {
+  const response = await axios.put<ResponseJobRequestDto>(
+    `/job-request/${id}`,
+    updateJobRequestDto,
+  );
+  return response.data;
+};
+
 const approve = async (id: number) => {
   const response = await axios.put<ResponseJobRequestDto>(
     `/job-request/${id}/approve`,
@@ -161,6 +172,7 @@ export const jobRequest = {
   findById,
   findRequested,
   create,
+  update,
   approve,
   reject,
   waitlist,

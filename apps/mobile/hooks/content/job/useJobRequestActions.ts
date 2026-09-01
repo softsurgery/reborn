@@ -65,6 +65,15 @@ export const useJobRequestActions = ({
     },
   });
 
+  const { mutate: updateJobRequest, isPending: isUpdatePending } = useMutation({
+    mutationFn: ({ id, dto }: { id: number; dto: any }) => api.jobRequest.update(id, dto),
+    onSuccess: (...args) => handleSuccess("Job request updated", ...args),
+    onError: (error: ServerErrorResponse) => {
+      if (onError) onError(error);
+      else defaultOnError(error, "Failed to update job request");
+    },
+  });
+
   return {
     approveJobRequest,
     isApprovePending,
@@ -74,5 +83,7 @@ export const useJobRequestActions = ({
     isWaitlistPending,
     cancelJobRequest,
     isCancelPending,
+    updateJobRequest,
+    isUpdatePending,
   };
 };
