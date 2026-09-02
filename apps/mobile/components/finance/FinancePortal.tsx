@@ -7,7 +7,7 @@ import { ApplicationHeader } from "../shared/AppHeader";
 import { router } from "expo-router";
 import { useNotificationContext } from "~/contexts/NotificationContext";
 import { useTranslation } from "react-i18next";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { createMaterialTopTabNavigator } from "expo-router/js-top-tabs";
 import { useColorPalette } from "~/hooks/useColorPalette";
 import { hslToHex } from "~/lib/theme";
 import { FinanceOverviewTab } from "./FinanceOverviewTab";
@@ -67,7 +67,10 @@ export const FinancePortal = ({ className }: FinancePortalProps) => {
             },
           }}
         >
-          <Tab.Screen name="overview" options={{ tabBarLabel: t("finance:overview", "Overview") }}>
+          <Tab.Screen
+            name="overview"
+            options={{ tabBarLabel: t("finance:overview", "Overview") }}
+          >
             {() => <FinanceOverviewTab />}
           </Tab.Screen>
           <Tab.Screen

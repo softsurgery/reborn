@@ -1,6 +1,5 @@
 import React from "react";
-import { Stack, useRootNavigationState } from "expo-router";
-import { ThemeProvider } from "@react-navigation/native";
+import { Stack, ThemeProvider, useRootNavigationState } from "expo-router";
 import { hslToHex, NAV_THEME, THEME } from "~/lib/theme";
 import "~/global.css";
 import "../i18n";

@@ -1,5 +1,5 @@
 import { ApplicationHeader } from "@/components/shared/AppHeader";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { createMaterialTopTabNavigator } from "expo-router/js-top-tabs";
 import { ConversationMediaDetails } from "./ConversationMediaDetails";
 import { ConversationFilesDetails } from "./ConversationFilesDetails";
 import { ConversationLinksDetails } from "./ConversationLinksDetails";

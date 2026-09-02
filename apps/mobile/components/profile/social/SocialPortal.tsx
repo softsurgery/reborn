@@ -1,6 +1,6 @@
 import { View } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { createMaterialTopTabNavigator } from "expo-router/js-top-tabs";
 import { ChevronLeft } from "lucide-react-native";
 import { ApplicationHeader } from "~/components/shared/AppHeader";
 import { StableSafeAreaView } from "@/components/shared/stables/StableSafeAreaView";

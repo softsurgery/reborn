@@ -3,7 +3,7 @@ import { Loader } from "@/components/shared/lotties/Loader";
 import { StableSafeAreaView } from "@/components/shared/stables/StableSafeAreaView";
 import { useJob } from "@/hooks/content/job/useJob";
 import { cn } from "@/lib/utils";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { createMaterialTopTabNavigator } from "expo-router/js-top-tabs";
 import { View } from "react-native";
 import { JobSummary } from "./JobSummary";
 import { JobStatistics } from "./JobStatistics";
