@@ -47,7 +47,12 @@
       "@react-native-community/datetimepicker",
       "expo-audio",
       "expo-splash-screen",
-      "expo-video"
+      "expo-video",
+      "expo-asset",
+      "expo-image",
+      "expo-sharing",
+      "expo-status-bar",
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true
