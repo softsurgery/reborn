@@ -374,6 +374,22 @@ export default function MainLayout() {
               animation: "slide_from_bottom",
             }}
           />
+          <Stack.Screen
+            name="finance/transactions"
+            options={{
+              title: "Transactions",
+              headerShown: false,
+              animation: "slide_from_right",
+            }}
+          />
+          <Stack.Screen
+            name="finance/transaction"
+            options={{
+              title: "Transaction Details",
+              headerShown: false,
+              animation: "slide_from_right",
+            }}
+          />
 
           {/* Notifications *********************************************************************************************************************/}
           <Stack.Screen

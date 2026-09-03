@@ -185,11 +185,9 @@ export const QuickActions = ({ className }: QuickActionsProps) => {
         <Text className="text-lg font-bold">Quick Actions</Text>
         <View className="flex-row items-center gap-2">
           <TouchableOpacity onPress={() => setEditMode(!isEditMode)}>
-            <View className="flex-row gap-1.5 px-2">
-              <Text className="text-base font-bold text-primary">
-                {isEditMode ? "Done" : "Edit"}
-              </Text>
-            </View>
+            <Text className="text-base font-bold text-primary">
+              {isEditMode ? "Done" : "Edit"}
+            </Text>
           </TouchableOpacity>
         </View>
       </View>

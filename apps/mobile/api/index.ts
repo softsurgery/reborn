@@ -18,6 +18,7 @@ import { experience } from "./experience";
 import { referenceTypes } from "./reference-types";
 import { currentUser } from "./current-user";
 import { configuration } from "./configuration";
+import { finance } from "./finance";
 
 export const api = {
   auth,
@@ -40,4 +41,5 @@ export const api = {
   experience,
   referenceTypes,
   configuration,
+  finance,
 };
