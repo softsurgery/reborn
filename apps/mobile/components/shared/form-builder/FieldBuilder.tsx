@@ -137,7 +137,7 @@ export const FieldBuilder = ({ field }: FieldBuilderProps) => {
       );
     case "checkbox":
       return (
-        <View className="flex-row items-center gap-2">
+        <View className="flex-row items-center gap-2 pt-2">
           <Checkbox
             {...field?.props}
             disabled={!editable}
