@@ -1,13 +1,8 @@
 import React from "react";
 import { ResponseJobViewDto } from "~/types";
-import { LegendList } from "@legendapp/list";
+import { AnimatedLegendList } from "@legendapp/list/reanimated";
 import { InfiniteListFooter } from "@/components/shared/InfiniteListFooter";
 import Animated from "react-native-reanimated";
-
-const AnimatedLegendList = Animated.createAnimatedComponent(
-  LegendList,
-) as typeof LegendList;
-
 import { cn } from "~/lib/utils";
 import { RefreshControl, View } from "react-native";
 import { Text } from "~/components/ui/text";
@@ -72,7 +67,9 @@ export const JobViewedList = ({ className }: JobViewedListProps) => {
 
     viewedJobs.forEach((viewedJob) => {
       // Use updatedAt because a user might view the job again, updating the timestamp
-      const date = parseISO(new Date(viewedJob.updatedAt || viewedJob.createdAt).toISOString());
+      const date = parseISO(
+        new Date(viewedJob.updatedAt || viewedJob.createdAt).toISOString(),
+      );
 
       let title = format(date, "MMMM d, yyyy");
 
@@ -155,6 +152,7 @@ export const JobViewedList = ({ className }: JobViewedListProps) => {
             <RefreshControl
               refreshing={isRefetching}
               onRefresh={refetchViewedJobs}
+              progressViewOffset={searchBarHeight}
               tintColor={palette.primary}
               colors={[palette.primary]}
             />

@@ -1,13 +1,12 @@
 import React from "react";
 import { View } from "react-native";
-import { ChevronLeft } from "lucide-react-native";
 import { cn } from "@/lib/utils";
 import { RequestsList } from "./RequestList";
 import { StableSafeAreaView } from "@/components/shared/stables/StableSafeAreaView";
-import { router } from "expo-router";
 import { ApplicationHeader } from "@/components/shared/AppHeader";
 import { createMaterialTopTabNavigator } from "expo-router/js-top-tabs";
 import { useColorPalette } from "@/hooks/useColorPalette";
+import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
 
 type TabType = "incoming" | "outgoing";
 
@@ -37,8 +36,7 @@ export const Requests = ({
         shortcuts={[
           {
             key: "back",
-            icon: ChevronLeft,
-            onPress: () => router.back(),
+            render: <AppHeaderBack />,
           },
         ]}
       />

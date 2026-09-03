@@ -3,16 +3,15 @@ import Animated, {
   useAnimatedStyle,
   withTiming,
 } from "react-native-reanimated";
-import { LegendList } from "@legendapp/list";
+import { AnimatedLegendList } from "@legendapp/list/reanimated";
 import { InfiniteListFooter } from "@/components/shared/InfiniteListFooter";
-
 import {
   RefreshControl,
   View,
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import { Search, Plus, Briefcase } from "lucide-react-native";
+import { Search, Briefcase } from "lucide-react-native";
 import { ResponseJobDto, JobStatus } from "~/types";
 import { cn } from "~/lib/utils";
 import { ApplicationHeader } from "~/components/shared/AppHeader";
@@ -26,11 +25,8 @@ import { Icon } from "@/components/ui/icon";
 import { Text } from "@/components/ui/text";
 import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
 import { useStickyElement } from "@/hooks/useStickyElement";
+import { useColorPalette } from "@/hooks/useColorPalette";
 import { MyJobPreviewModal } from "@/components/jobs/job-management/MyJobPreviewModal";
-
-const AnimatedLegendList = Animated.createAnimatedComponent(
-  LegendList,
-) as typeof LegendList;
 
 interface UserWorkListProps {
   className?: string;
@@ -54,6 +50,7 @@ export const UserWorkList = ({
 }: UserWorkListProps) => {
   const { currentUser } = useCurrentUser();
   const [search, setSearch] = React.useState("");
+  const { palette } = useColorPalette();
   const [selectedFilter, setSelectedFilter] = React.useState("all");
   const [previewJob, setPreviewJob] = React.useState<ResponseJobDto | null>(
     null,
@@ -199,7 +196,13 @@ export const UserWorkList = ({
             <View style={{ height: searchBarHeight + 16 }} />
           }
           refreshControl={
-            <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
+            <RefreshControl 
+              refreshing={isRefetching} 
+              onRefresh={refetch} 
+              progressViewOffset={searchBarHeight}
+              tintColor={palette.primary}
+              colors={[palette.primary]}
+            />
           }
           onEndReached={() => {
             if (hasNextPage && !isFetchingNextPage) {

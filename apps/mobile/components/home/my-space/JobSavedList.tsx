@@ -1,12 +1,8 @@
 import React from "react";
 import { ResponseJobSaveDto } from "~/types";
 import { InfiniteListFooter } from "@/components/shared/InfiniteListFooter";
-import { LegendList } from "@legendapp/list";
 import Animated from "react-native-reanimated";
-
-const AnimatedLegendList = Animated.createAnimatedComponent(
-  LegendList,
-) as typeof LegendList;
+import { AnimatedLegendList } from "@legendapp/list/reanimated";
 
 import { cn } from "~/lib/utils";
 import { RefreshControl, View } from "react-native";
@@ -125,7 +121,7 @@ export const JobSavedList = ({ className }: JobSavedListProps) => {
         <Animated.View
           className="absolute left-0 right-0 z-20 bg-background/90 px-3 pt-4 pb-2"
           style={stickyHeaderStyle}
-          onLayout={(e) => setSearchBarHeight(e.nativeEvent.layout.height)}
+          onLayout={(e: any) => setSearchBarHeight(e.nativeEvent.layout.height)}
         >
           <MarkedInput
             icon={Search}
@@ -154,6 +150,7 @@ export const JobSavedList = ({ className }: JobSavedListProps) => {
             <RefreshControl
               refreshing={isRefetching}
               onRefresh={refetchSavedJobs}
+              progressViewOffset={searchBarHeight}
               tintColor={palette.primary}
               colors={[palette.primary]}
             />

@@ -1,5 +1,6 @@
 import React from "react";
-import { RefreshControl, View, FlatList } from "react-native";
+import { RefreshControl, View } from "react-native";
+import { AnimatedLegendList } from "@legendapp/list/reanimated";
 import Animated from "react-native-reanimated";
 import { Inbox, Send, Search } from "lucide-react-native";
 import { cn } from "@/lib/utils";
@@ -14,11 +15,8 @@ import { MarkedInput } from "@/components/shared/MarkedInput";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useInfiniteJobRequests } from "@/hooks/content/job/useInfiniteJobRequests";
 import { useStickyElement } from "@/hooks/useStickyElement";
+import { useColorPalette } from "@/hooks/useColorPalette";
 import { InfiniteListFooter } from "@/components/shared/InfiniteListFooter";
-
-const AnimatedFlatList = Animated.createAnimatedComponent(
-  FlatList,
-) as typeof FlatList;
 
 interface RequestsListProps {
   className?: string;
@@ -39,6 +37,7 @@ export const RequestsList = ({
   const { value: search, loading: searching } = useDebounce(searchValue, 300);
   const [searchBarHeight, setSearchBarHeight] = React.useState(60);
   const { handleScroll, stickyHeaderStyle } = useStickyElement(0);
+  const { palette } = useColorPalette();
 
   const {
     requests,
@@ -143,7 +142,7 @@ export const RequestsList = ({
         />
       </Animated.View>
 
-      <AnimatedFlatList
+      <AnimatedLegendList
         className="flex-1"
         contentContainerStyle={{
           paddingTop: searchBarHeight + 8,
@@ -160,8 +159,9 @@ export const RequestsList = ({
           <RefreshControl
             refreshing={isRefetching}
             onRefresh={refetchRequests}
-            tintColor="transparent"
-            colors={["transparent"]}
+            progressViewOffset={searchBarHeight}
+            tintColor={palette.primary}
+            colors={[palette.primary]}
           />
         }
         onEndReached={() => {
