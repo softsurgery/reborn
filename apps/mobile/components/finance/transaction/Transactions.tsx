@@ -27,8 +27,8 @@ export const Transactions = ({ className }: TransactionsProps) => {
         reverse
       />
 
-      <View className="flex-1 bg-background p-4">
-        <TransactionList />
+      <View className="flex-1 bg-background">
+        <TransactionList className="flex-1 p-2" />
       </View>
     </StableSafeAreaView>
   );

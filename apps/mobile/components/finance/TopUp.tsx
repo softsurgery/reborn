@@ -54,6 +54,7 @@ export const TopUp = ({ className }: TopUpProps) => {
       <ApplicationHeader
         classNames={{ wrapper: "border-b border-border pb-2" }}
         title={"Top Up Balance"}
+        titleVariant="large"
         reverse
         shortcuts={[
           {

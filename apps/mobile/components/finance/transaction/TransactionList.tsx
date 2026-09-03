@@ -16,8 +16,6 @@ interface TransactionListProps {
 }
 
 export const TransactionList = ({ className, limit }: TransactionListProps) => {
-  const { t } = useTranslation(["common", "finance"]);
-
   const {
     data: txData,
     isLoading: isLoadingTx,
@@ -35,6 +33,13 @@ export const TransactionList = ({ className, limit }: TransactionListProps) => {
   } = useFundTransactions();
 
   const [internalRefreshing, setInternalRefreshing] = React.useState(false);
+
+  const handleRefresh = React.useCallback(async () => {
+    if (limit) return;
+    setInternalRefreshing(true);
+    await Promise.all([refetchTx(), refetchFundTx()]);
+    setInternalRefreshing(false);
+  }, [limit, refetchTx, refetchFundTx]);
 
   const pointTransactions: PointTransaction[] = (
     txData?.pages.flatMap((page) => page.data) || []
@@ -61,6 +66,8 @@ export const TransactionList = ({ className, limit }: TransactionListProps) => {
   return (
     <View className={className}>
       <LegendList
+        refreshing={internalRefreshing}
+        onRefresh={limit ? undefined : handleRefresh}
         data={transactions}
         keyExtractor={(item) =>
           `${item instanceof FundTransaction ? "FUNDS" : "POINTS"}-${item.id}`
@@ -76,7 +83,7 @@ export const TransactionList = ({ className, limit }: TransactionListProps) => {
         ListEmptyComponent={() => (
           <View className="items-center justify-center py-8">
             <Text className="text-muted-foreground">
-              {t("finance:no_transactions", "No transactions found.")}
+              No transactions found.
             </Text>
           </View>
         )}

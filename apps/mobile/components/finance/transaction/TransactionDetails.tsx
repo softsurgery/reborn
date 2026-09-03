@@ -66,7 +66,7 @@ export const TransactionDetails = ({ className }: TransactionDetailsProps) => {
       <ApplicationHeader
         title="Transaction Details"
         titleVariant="large"
-        classNames={{ wrapper: "border-b border-border pb-2" }}
+        classNames={{ wrapper: "border-b border-border pb-2 bg-transparent" }}
         shortcuts={[
           {
             key: "back",
@@ -76,7 +76,7 @@ export const TransactionDetails = ({ className }: TransactionDetailsProps) => {
         reverse
       />
 
-      <ScrollView className="flex-1 p-4">
+      <ScrollView className="flex-1 p-4 bg-background">
         <View className="items-center py-6">
           <Text className="text-sm text-muted-foreground uppercase mb-2">
             Amount
