@@ -365,6 +365,16 @@ export default function MainLayout() {
             }}
           />
 
+          {/* Finance *********************************************************************************************************************/}
+          <Stack.Screen
+            name="finance/topup"
+            options={{
+              title: "Top Up Balance",
+              headerShown: false,
+              animation: "slide_from_bottom",
+            }}
+          />
+
           {/* Notifications *********************************************************************************************************************/}
           <Stack.Screen
             name="notifications"
