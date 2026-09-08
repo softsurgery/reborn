@@ -76,7 +76,7 @@ export const TransactionDetails = ({ className }: TransactionDetailsProps) => {
         reverse
       />
 
-      <ScrollView className="flex-1 p-4 bg-background">
+      <ScrollView className="flex-1 p-4 bg-background" showsVerticalScrollIndicator={false}>
         <View className="items-center py-6">
           <Text className="text-sm text-muted-foreground uppercase mb-2">
             Amount

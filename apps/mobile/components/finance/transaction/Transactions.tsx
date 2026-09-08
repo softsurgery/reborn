@@ -28,7 +28,9 @@ export const Transactions = ({ className }: TransactionsProps) => {
       />
 
       <View className="flex-1 bg-background">
-        <TransactionList className="flex-1 p-2" />
+        <TransactionList
+          classNames={{ wrapper: "flex-1 py-2", item: "mx-4" }}
+        />
       </View>
     </StableSafeAreaView>
   );

@@ -1,7 +1,6 @@
 import React from "react";
-import { View, ActivityIndicator, TouchableOpacity } from "react-native";
+import { View, ActivityIndicator, Pressable } from "react-native";
 import { router } from "expo-router";
-import { useTranslation } from "react-i18next";
 import { Separator } from "~/components/ui/separator";
 import { Text } from "~/components/ui/text";
 import { usePointTransactions } from "@/hooks/content/finance/usePointTransactions";
@@ -9,13 +8,20 @@ import { useFundTransactions } from "@/hooks/content/finance/useFundTransactions
 import { LegendList } from "@legendapp/list";
 import { TransactionListItem } from "./TransactionListItem";
 import { FundTransaction, PointTransaction } from "@/types";
+import { cn } from "@/lib/utils";
 
 interface TransactionListProps {
-  className?: string;
+  classNames?: {
+    wrapper?: string;
+    item?: string;
+  };
   limit?: number;
 }
 
-export const TransactionList = ({ className, limit }: TransactionListProps) => {
+export const TransactionList = ({
+  classNames,
+  limit,
+}: TransactionListProps) => {
   const {
     data: txData,
     isLoading: isLoadingTx,
@@ -64,10 +70,11 @@ export const TransactionList = ({ className, limit }: TransactionListProps) => {
   }
 
   return (
-    <View className={className}>
+    <View className={cn(classNames?.wrapper)}>
       <LegendList
         refreshing={internalRefreshing}
         onRefresh={limit ? undefined : handleRefresh}
+        showsVerticalScrollIndicator={false}
         data={transactions}
         keyExtractor={(item) =>
           `${item instanceof FundTransaction ? "FUNDS" : "POINTS"}-${item.id}`
@@ -79,7 +86,9 @@ export const TransactionList = ({ className, limit }: TransactionListProps) => {
             if (hasNextFundPage) fetchNextFundPage();
           }
         }}
-        renderItem={({ item }) => <TransactionListItem item={item} />}
+        renderItem={({ item }) => (
+          <TransactionListItem className={cn(classNames?.item)} item={item} />
+        )}
         ListEmptyComponent={() => (
           <View className="items-center justify-center py-8">
             <Text className="text-muted-foreground">
@@ -90,14 +99,12 @@ export const TransactionList = ({ className, limit }: TransactionListProps) => {
         ListFooterComponent={
           <React.Fragment>
             {limit && (
-              <TouchableOpacity
-                className="mx-auto mt-4"
+              <Pressable
+                className="mx-auto mt-4 active:opacity-50"
                 onPress={() => router.push("/main/finance/transactions")}
               >
-                <Text className="text-base font-bold text-primary">
-                  Show More
-                </Text>
-              </TouchableOpacity>
+                <Text className="text-base text-primary">Show More</Text>
+              </Pressable>
             )}
           </React.Fragment>
         }

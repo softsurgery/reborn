@@ -127,9 +127,7 @@ export const FinancePortal = ({ className }: FinancePortalProps) => {
       return <ActivityIndicator size="small" />;
     }
 
-    return (
-      <Text className="text-2xl font-bold text-foreground">{value}</Text>
-    );
+    return <Text className="text-2xl font-bold text-foreground">{value}</Text>;
   };
 
   return (
@@ -150,12 +148,12 @@ export const FinancePortal = ({ className }: FinancePortalProps) => {
 
       <ScrollView
         className="flex-1 bg-background"
-        contentContainerClassName="pt-4 px-4 pb-8"
+        contentContainerClassName="pt-4 pb-8"
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
-        <View className="flex-1">
+        <View className="flex-1 px-4">
           <View className="flex-row justify-between items-center mb-4">
             <View className="flex-row items-center gap-2">
               <Wallet size={20} color={palette.primary} />
@@ -184,7 +182,7 @@ export const FinancePortal = ({ className }: FinancePortalProps) => {
               )}
             </Pressable>
           </View>
-          <View className="flex-row flex-1 bg-background px-0 pt-0 pb-6 gap-2">
+          <View className="flex-row flex-1 bg-background pb-6 gap-2">
             {/* Wallet Balance */}
             <Pressable
               className="flex-1 rounded-xl p-4 border border-border items-center justify-center active:opacity-50"
@@ -212,7 +210,7 @@ export const FinancePortal = ({ className }: FinancePortalProps) => {
             </Pressable>
           </View>
         </View>
-        <View>
+        <View className="px-4">
           <View className="flex-row justify-between items-center mb-4">
             <View className="flex-row items-center gap-2">
               <TrendingUp size={20} color={palette.primary} />
@@ -221,7 +219,12 @@ export const FinancePortal = ({ className }: FinancePortalProps) => {
               </Text>
             </View>
           </View>
-          <TransactionList limit={5} />
+          <TransactionList
+            classNames={{
+              item: "-px-4",
+            }}
+            limit={5}
+          />
         </View>
       </ScrollView>
     </StableSafeAreaView>

@@ -9,13 +9,17 @@ import {
   Calendar,
   MoreHorizontal,
 } from "lucide-react-native";
-import { TouchableOpacity, View } from "react-native";
+import { Pressable, View } from "react-native";
 
 interface TransactionListItemProps {
+  className?: string;
   item: PointTransaction | FundTransaction;
 }
 
-export const TransactionListItem = ({ item }: TransactionListItemProps) => {
+export const TransactionListItem = ({
+  className,
+  item,
+}: TransactionListItemProps) => {
   const { palette } = useColorPalette();
   const isCredit = (type?: string) => {
     if (!type) return false;
@@ -43,8 +47,11 @@ export const TransactionListItem = ({ item }: TransactionListItemProps) => {
   };
 
   return (
-    <TouchableOpacity
-      className="flex-row justify-between items-center py-2"
+    <Pressable
+      className={cn(
+        "flex-row gap-4 justify-between items-center py-2 active:opacity-50",
+        className,
+      )}
       onPress={() =>
         router.push({
           pathname: "/main/finance/transaction",
@@ -94,6 +101,6 @@ export const TransactionListItem = ({ item }: TransactionListItemProps) => {
         {isCredit(item.type) ? "+" : "-"}
         {item.amount} {item instanceof FundTransaction ? "TND" : "Pts"}
       </Text>
-    </TouchableOpacity>
+    </Pressable>
   );
 };
