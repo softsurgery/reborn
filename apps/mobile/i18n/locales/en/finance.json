@@ -10,5 +10,13 @@
   "primary": "Primary",
   "add_new_method": "Add new method",
   "transaction_history": "Transaction History",
-  "no_transactions": "No transactions found."
+  "no_transactions": "No transactions found.",
+  "show_details": "Show details",
+  "hide_details": "Hide details",
+  "biometric_prompt": "Authenticate to view your financial details",
+  "biometric_prompt_description": "Use Face ID, fingerprint, or your device passcode",
+  "biometric_unavailable": "Set up Face ID, fingerprint, or a device passcode to view your details.",
+  "biometric_failed": "Authentication failed. Please try again.",
+  "biometric_faceid_not_configured": "Face ID isn’t enabled in this app build. Rebuild the iOS app to use it.",
+  "cancel": "Cancel"
 }

@@ -20,6 +20,7 @@
       "bundleIdentifier": "reborn-mobile-app",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
+        "NSFaceIDUsageDescription": "Allow Reborn to use Face ID to reveal your financial details.",
         "NSAppTransportSecurity": {
           "NSAllowsArbitraryLoads": true
         }
@@ -52,7 +53,13 @@
       "expo-image",
       "expo-sharing",
       "expo-status-bar",
-      "expo-web-browser"
+      "expo-web-browser",
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "Allow Reborn to use Face ID to reveal your financial details."
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true

@@ -10,5 +10,13 @@
   "primary": "أساسي",
   "add_new_method": "إضافة طريقة جديدة",
   "transaction_history": "تاريخ المعاملات",
-  "no_transactions": "لم يتم العثور على معاملات."
+  "no_transactions": "لم يتم العثور على معاملات.",
+  "show_details": "إظهار التفاصيل",
+  "hide_details": "إخفاء التفاصيل",
+  "biometric_prompt": "قم بالمصادقة لعرض تفاصيلك المالية",
+  "biometric_prompt_description": "استخدم Face ID أو بصمة الإصبع أو رمز الجهاز",
+  "biometric_unavailable": "قم بإعداد Face ID أو بصمة الإصبع أو رمز الجهاز لعرض تفاصيلك.",
+  "biometric_failed": "فشلت المصادقة. يرجى المحاولة مرة أخرى.",
+  "biometric_faceid_not_configured": "Face ID غير مفعّل في هذا الإصدار. أعد بناء تطبيق iOS لاستخدامه.",
+  "cancel": "إلغاء"
 }

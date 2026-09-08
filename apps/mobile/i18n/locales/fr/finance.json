@@ -10,5 +10,13 @@
   "primary": "Principal",
   "add_new_method": "Ajouter une nouvelle méthode",
   "transaction_history": "Historique des transactions",
-  "no_transactions": "Aucune transaction trouvée."
+  "no_transactions": "Aucune transaction trouvée.",
+  "show_details": "Afficher les détails",
+  "hide_details": "Masquer les détails",
+  "biometric_prompt": "Authentifiez-vous pour voir vos informations financières",
+  "biometric_prompt_description": "Utilisez Face ID, l'empreinte digitale ou le code de l'appareil",
+  "biometric_unavailable": "Configurez Face ID, l'empreinte digitale ou un code appareil pour voir vos détails.",
+  "biometric_failed": "L'authentification a échoué. Veuillez réessayer.",
+  "biometric_faceid_not_configured": "Face ID n’est pas activé dans cette version de l’app. Recompilez l’app iOS pour l’utiliser.",
+  "cancel": "Annuler"
 }
