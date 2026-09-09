@@ -19,6 +19,7 @@ import { StableKeyboardAwareScrollView } from "@/components/shared/stables/Stabl
 import { useKeyboardVisible } from "@/hooks/useKeyboardVisible";
 import { cn } from "@/lib/utils";
 import { RequestJobEntry } from "../details/RequestJobEntry";
+import { ServerErrorResponse } from "@/types";
 
 interface JobApplyProps {
   className?: string;
@@ -63,13 +64,16 @@ export const JobApply = ({ className, id }: JobApplyProps) => {
       api.jobRequest.create({
         jobId: id,
         message: store.createDto.message?.trim() || undefined,
-        proposedPrice: store.createDto.proposedPrice,
+        proposedPrice:
+          job?.negotiablePrice === false
+            ? Number(job?.price)
+            : store.createDto.proposedPrice,
       }),
     onSuccess: () => {
       toast.success("Application sent successfully");
       router.back();
     },
-    onError: (error: any) => {
+    onError: (error: ServerErrorResponse) => {
       toast.error(error.response?.data?.message || "Failed to send request");
     },
   });

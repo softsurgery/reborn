@@ -10,7 +10,8 @@ import {
 } from "@/components/shared/form-builder/types";
 import { ResponseJobDto } from "@/types";
 import { SegmentedToggle } from "@/components/shared/SegmentedToggle";
-import React from "react";
+import { View } from "react-native";
+import { Text } from "@/components/ui/text";
 
 interface UseJobRequestUpdateFormStructureProps {
   store: JobRequestUpdateStore;
@@ -105,13 +106,49 @@ export const useJobRequestUpdateFormStructure = ({
     },
   };
 
-  const pricingRows = [
-    { id: 2, fields: [toggleField] },
-    { id: 3, fields: [proposedPriceField] },
-  ];
+  const nonNegotiableField: Field<CustomFieldProps> = {
+    id: "job-request-update-non-negotiable",
+    label: "",
+    variant: FieldVariant.CUSTOM,
+    props: {
+      render: () => (
+        <View className="bg-muted p-4 rounded-xl border border-border">
+          <Text className="text-sm text-muted-foreground text-center">
+            The client has indicated that the price for this job is not negotiable.
+          </Text>
+        </View>
+      ),
+    },
+  };
 
-  if (priceType === "less") {
-    pricingRows.push({ id: 4, fields: [sliderField] });
+  let pricingRows: any[] = [];
+
+  if (job?.negotiablePrice === false) {
+    pricingRows = [
+      { id: 2, fields: [nonNegotiableField] },
+      {
+        id: 3,
+        fields: [
+          {
+            ...proposedPriceField,
+            description: "The price for this job is fixed and cannot be changed.",
+            props: {
+              ...proposedPriceField.props,
+              value: Number(job?.price) || store.updateDto.proposedPrice,
+              editable: false,
+            },
+          },
+        ],
+      },
+    ];
+  } else {
+    pricingRows = [
+      { id: 2, fields: [toggleField] },
+      { id: 3, fields: [proposedPriceField] },
+    ];
+    if (priceType === "less") {
+      pricingRows.push({ id: 4, fields: [sliderField] });
+    }
   }
 
   const structure: FormStructure = {

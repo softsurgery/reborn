@@ -123,7 +123,7 @@ export const JobRequestUpdate = ({ className, id }: JobRequestUpdateProps) => {
                 id: Number(id),
                 updateDto: {
                   message: store.updateDto.message?.trim() || undefined,
-                  proposedPrice: store.updateDto.proposedPrice,
+                  proposedPrice: request.job?.negotiablePrice === false ? Number(request.job.price) : store.updateDto.proposedPrice,
                 },
               });
             }}

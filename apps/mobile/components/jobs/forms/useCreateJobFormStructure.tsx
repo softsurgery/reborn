@@ -1,5 +1,4 @@
 import { useUploadMutation } from "@/hooks/content/useUploadMutation";
-import React from "react";
 import {
   Field,
   FieldVariant,
@@ -13,14 +12,10 @@ import {
   SelectOption,
   TextareaFieldProps,
   TextFieldProps,
+  CheckboxFieldProps,
 } from "~/components/shared/form-builder/types";
 import { JobStore } from "~/hooks/stores/useJobStore";
-import {
-  CurrencyPayload,
-  JobDifficulty,
-  JobStyle,
-  ResponseRefParamDto,
-} from "~/types";
+import { JobDifficulty, JobStyle } from "~/types";
 
 interface JobCreateFormStructureProps {
   jobStore: JobStore;
@@ -104,6 +99,22 @@ export const useCreateJobFormStructure = ({
       onSelect: (value) => {
         jobStore.setNested("createDto.pricingType", value);
         jobStore.setNested("createDtoErrors.pricingType", []);
+      },
+    },
+  };
+
+  const negotiablePriceField: Field<CheckboxFieldProps> = {
+    id: "negotiablePrice",
+    label: "Negotiable Price",
+    variant: FieldVariant.CHECKBOX,
+    required: false,
+    description: "Allow freelancers to negotiate the price.",
+    error: jobStore.createDtoErrors?.negotiablePrice?.[0],
+    props: {
+      checked: jobStore.createDto?.negotiablePrice || false,
+      onCheckedChange: (checked) => {
+        jobStore.setNested("createDto.negotiablePrice", checked);
+        jobStore.setNested("createDtoErrors.negotiablePrice", []);
       },
     },
   };
@@ -219,9 +230,11 @@ export const useCreateJobFormStructure = ({
         rows: [
           { id: 1, fields: [titleField] },
           { id: 2, fields: [descriptionField] },
-          { id: 3, fields: [priceField] },
-          { id: 4, fields: [pricingTypeField] },
-          { id: 5, fields: [locationField] },
+          {
+            id: 3,
+            fields: [priceField, pricingTypeField, negotiablePriceField],
+          },
+          { id: 4, fields: [locationField] },
         ],
       },
     ],

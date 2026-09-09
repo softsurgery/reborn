@@ -88,7 +88,8 @@ export const JobDetailsBody = ({ className, job }: JobDetailsBodyProps) => {
         <Fact label="Category" value={job?.category?.label} />
         <Fact label="Work style" value={job?.style} />
         <Fact label="Experience level" value={job?.difficulty} />
-        <Fact label="Payment type" value={pricingTypeLabel} isLast />
+        <Fact label="Payment type" value={pricingTypeLabel} />
+        <Fact label="Negotiable" value={job?.negotiablePrice ? "Yes" : "No"} isLast />
       </View>
 
       {tags.length > 0 && (

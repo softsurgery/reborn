@@ -84,6 +84,7 @@ export const JobUpdateForm = ({ className, id }: JobUpdateFormProps) => {
         description: job.description,
         price: job.price,
         pricingType: job.pricingType,
+        negotiablePrice: job.negotiablePrice,
         latitude: job.latitude,
         longitude: job.longitude,
         currencyId: job.currencyId,
