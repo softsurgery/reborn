@@ -106,6 +106,52 @@ export interface ResponseJobMetadataDto {
   hireRate: number;
 }
 
+// Job Statistics *************************************************************
+
+export interface DailyActivityItem {
+  day: string;
+  date: string;
+  views: number;
+  apps: number;
+  height: string;
+}
+
+export interface FunnelStageItem {
+  label: string;
+  value: string;
+  percent: number;
+  color: string;
+}
+
+export interface ExperienceDistributionItem {
+  level: string;
+  percent: number;
+  color: string;
+}
+
+export interface TrafficSourceItem {
+  source: string;
+  percent: string;
+  count: string;
+}
+
+export interface ResponseJobStatisticsDto {
+  id: string;
+  totalViews: number;
+  totalSaves: number;
+  totalApplications: number;
+  shortlistedCandidates: number;
+  viewsTrend: number;
+  savesTrend: number;
+  applicationsTrend: number;
+  shortlistedTrend: number;
+  aiInsight: string;
+  dailyActivity: DailyActivityItem[];
+  funnelStages: FunnelStageItem[];
+  experienceDistribution: ExperienceDistributionItem[];
+  trafficSources: TrafficSourceItem[];
+}
+
 export interface ResponseJobUploadDto extends DatabaseEntity {
   id: number;
   jobId: string;

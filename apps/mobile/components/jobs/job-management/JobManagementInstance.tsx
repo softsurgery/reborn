@@ -75,7 +75,7 @@ export const JobManagementInstance = ({
               tabBarLabel: "Statistics",
             }}
           >
-            {() => <JobStatistics />}
+            {() => <JobStatistics jobId={id} />}
           </Tab.Screen>
           <Tab.Screen
             name="requests"

@@ -12,6 +12,7 @@ import { jobRequest } from "./job-request";
 import { chat } from "./chat";
 import { jobSave } from "./job-save";
 import { jobView } from "./job-view";
+import { jobStatistics } from "./job-statistics";
 import { notifications } from "./notifications";
 import { education } from "./education";
 import { experience } from "./experience";
@@ -32,6 +33,7 @@ export const api = {
   jobRequest,
   jobSave,
   jobView,
+  jobStatistics,
   jobTag,
   store,
   chat,
