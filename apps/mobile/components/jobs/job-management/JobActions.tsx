@@ -5,6 +5,7 @@ import { ActionPressable } from "@/components/shared/ActionPressable";
 import { DuplicateJobActionSheet } from "./DuplicateJobActionSheet";
 import { ArchiveJobActionSheet } from "./ArchiveJobActionSheet";
 import { DeleteJobActionSheet } from "./DeleteJobActionSheet";
+import { PauseJobActionSheet } from "./PauseJobActionSheet";
 import { useNextWorkflowJob } from "@/hooks/content/job/workflow/useNextWorkflowJob";
 import { JobEvents, JobStatus } from "@/types";
 import { useJob } from "@/hooks/content/job/useJob";
@@ -25,6 +26,9 @@ import { cn } from "@/lib/utils";
 import { useRouter } from "expo-router";
 import { useDuplicateJob } from "@/hooks/content/job/useDuplicateJob";
 import { useDeleteJob } from "@/hooks/content/job/useDeleteJob";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { api } from "@/api";
+import { toast } from "sonner-native";
 
 type ActionItem = {
   id: string;
@@ -59,8 +63,31 @@ export const JobActions = ({ id, className }: JobActionsProps) => {
   const duplicateSheetRef = useRef<ActionSheetRef>(null);
   const archiveSheetRef = useRef<ActionSheetRef>(null);
   const deleteSheetRef = useRef<ActionSheetRef>(null);
+  const pauseSheetRef = useRef<ActionSheetRef>(null);
+  const queryClient = useQueryClient();
 
   const { job, refetchJob } = useJob({ id });
+
+  const { mutate: togglePauseJob, isPending: isTogglePausePending } =
+    useMutation({
+      mutationFn: (pauseStatus: boolean) => {
+        if (pauseStatus) {
+          return api.job.pause(id);
+        } else {
+          return api.job.unpause(id);
+        }
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["jobs"] });
+        queryClient.invalidateQueries({ queryKey: ["job", id] });
+        refetchJob();
+      },
+      onError: (error: any) => {
+        toast.error(
+          `Failed to update job status: ${error.response?.data?.message || "Unknown error"}`,
+        );
+      },
+    });
 
   const { nextJobWorkflow, isNextJobWorkflowPending } = useNextWorkflowJob({
     id,
@@ -110,10 +137,20 @@ export const JobActions = ({ id, className }: JobActionsProps) => {
         },
         {
           id: "pause",
-          title: "Pause Applications",
-          description: "Stop accepting new candidate submissions",
+          title: job?.pausedApplication
+            ? "Resume Applications"
+            : "Pause Applications",
+          description: job?.pausedApplication
+            ? "Start accepting new candidate submissions again"
+            : "Stop accepting new candidate submissions",
           Icon: PauseCircle,
-          iconBgClass: "bg-amber-500/10",
+          iconBgClass: job?.pausedApplication
+            ? "bg-emerald-500/10"
+            : "bg-amber-500/10",
+          onPress: () => {
+            pauseSheetRef.current?.show();
+          },
+          disabled: isTogglePausePending,
         },
       ],
     },
@@ -304,6 +341,16 @@ export const JobActions = ({ id, className }: JobActionsProps) => {
           } catch (e) {
             console.error(e);
           }
+        }}
+      />
+      <PauseJobActionSheet
+        ref={pauseSheetRef}
+        isPending={isTogglePausePending}
+        isPaused={!!job?.pausedApplication}
+        onClose={() => pauseSheetRef.current?.hide()}
+        onConfirm={() => {
+          togglePauseJob(!job?.pausedApplication);
+          pauseSheetRef.current?.hide();
         }}
       />
     </ScrollView>

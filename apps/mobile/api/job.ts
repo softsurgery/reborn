@@ -180,6 +180,16 @@ const remove = async (id?: string): Promise<ResponseJobDto> => {
   return response.data;
 };
 
+const pause = async (id: string): Promise<ResponseJobDto> => {
+  const response = await axios.post<ResponseJobDto>(`/job/${id}/pause`);
+  return response.data;
+};
+
+const unpause = async (id: string): Promise<ResponseJobDto> => {
+  const response = await axios.post<ResponseJobDto>(`/job/${id}/unpause`);
+  return response.data;
+};
+
 const next = async (
   id: string,
   event: string,
@@ -198,6 +208,8 @@ export const job = {
   save,
   update,
   duplicate,
+  pause,
+  unpause,
   remove,
   delete: remove,
   current: {
