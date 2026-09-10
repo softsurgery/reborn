@@ -11,9 +11,10 @@ import { Separator } from "~/components/ui/separator";
 import { cn } from "~/lib/utils";
 import { Text } from "~/components/ui/text";
 import { usePointTransactions } from "~/hooks/content/finance/useFinance";
-import { PointTransaction } from "~/api/finance";
+import { PointTransaction } from "@/types";
 import { useColorPalette } from "~/hooks/useColorPalette";
 import { useTranslation } from "react-i18next";
+import { useFinanceStore } from "@/hooks/stores/useFinanceStore";
 
 interface FinanceTransactionsTabProps {
   className?: string;
@@ -24,6 +25,7 @@ export const FinanceTransactionsTab = ({
 }: FinanceTransactionsTabProps) => {
   const { palette } = useColorPalette();
   const { t } = useTranslation("finance");
+  const { detailsVisible } = useFinanceStore();
   const {
     data: txData,
     isLoading: isLoadingTx,
@@ -95,8 +97,14 @@ export const FinanceTransactionsTab = ({
                   item.type === "DEBIT" && "text-red-600",
                 )}
               >
-                {item.type === "CREDIT" ? "+" : "-"}
-                {item.amount}
+                {detailsVisible ? (
+                  <React.Fragment>
+                    {item.type === "CREDIT" ? "+" : "-"}
+                    {item.amount}
+                  </React.Fragment>
+                ) : (
+                  "••••"
+                )}
               </Text>
             </View>
           )}

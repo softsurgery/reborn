@@ -12,6 +12,9 @@ import { Pressable, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useRTL } from "~/hooks/useRTL";
 
+import { useFinanceStore } from "@/hooks/stores/useFinanceStore";
+import { useFinanceAuth } from "@/hooks/content/finance/useFinanceAuth";
+
 interface TransactionListItemProps {
   className?: string;
   item: PointTransaction | FundTransaction;
@@ -23,6 +26,24 @@ export const TransactionListItem = ({
 }: TransactionListItemProps) => {
   const { t } = useTranslation("finance");
   const isRTL = useRTL();
+  const { detailsVisible } = useFinanceStore();
+  const { authenticateSession, isAuthenticating } = useFinanceAuth();
+
+  const handlePress = async () => {
+    const success = await authenticateSession();
+    if (success) {
+      router.push({
+        pathname: "/main/finance/transaction",
+        params: {
+          transaction: JSON.stringify(item),
+          type:
+            item instanceof FundTransaction
+              ? "FundTransaction"
+              : "PointTransaction",
+        },
+      });
+    }
+  };
 
   const isCredit = (type?: string) => {
     if (!type) return false;
@@ -56,18 +77,8 @@ export const TransactionListItem = ({
         isRTL && "flex-row-reverse",
         className,
       )}
-      onPress={() =>
-        router.push({
-          pathname: "/main/finance/transaction",
-          params: {
-            transaction: JSON.stringify(item),
-            type:
-              item instanceof FundTransaction
-                ? "FundTransaction"
-                : "PointTransaction",
-          },
-        })
-      }
+      onPress={handlePress}
+      disabled={isAuthenticating}
     >
       <View
         className={cn(
@@ -112,8 +123,14 @@ export const TransactionListItem = ({
           isDebit(item.type) && "text-red-600",
         )}
       >
-        {isCredit(item.type) ? "+" : "-"}
-        {item.amount} {item instanceof FundTransaction ? t("tnd") : t("pts")}
+        {detailsVisible ? (
+          <>
+            {isCredit(item.type) ? "+" : "-"}
+            {item.amount} {item instanceof FundTransaction ? t("tnd") : t("pts")}
+          </>
+        ) : (
+          "••••"
+        )}
       </Text>
     </Pressable>
   );

@@ -10,6 +10,7 @@ import { TransactionListItem } from "./TransactionListItem";
 import { FundTransaction, PointTransaction } from "@/types";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
+import { useFinanceAuth } from "@/hooks/content/finance/useFinanceAuth";
 
 interface TransactionListProps {
   classNames?: {
@@ -25,6 +26,14 @@ export const TransactionList = ({
 }: TransactionListProps) => {
   const { t } = useTranslation("finance");
   const { t: tCommon } = useTranslation("common");
+  const { authenticateSession, isAuthenticating } = useFinanceAuth();
+
+  const handleSeeMore = React.useCallback(async () => {
+    const success = await authenticateSession();
+    if (success) {
+      router.push("/main/finance/transactions");
+    }
+  }, [authenticateSession]);
 
   const {
     data: txData,
@@ -123,7 +132,8 @@ export const TransactionList = ({
             {limit && (
               <Pressable
                 className="mx-auto mt-4 active:opacity-50"
-                onPress={() => router.push("/main/finance/transactions")}
+                onPress={handleSeeMore}
+                disabled={isAuthenticating}
               >
                 <Text className="text-base text-primary">
                   {tCommon("see_more")}

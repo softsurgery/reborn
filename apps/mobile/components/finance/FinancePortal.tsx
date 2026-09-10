@@ -19,16 +19,16 @@ import {
 import { cn } from "~/lib/utils";
 import { StableSafeAreaView } from "../shared/stables/StableSafeAreaView";
 import { ApplicationHeader } from "../shared/AppHeader";
-import { router, useFocusEffect } from "expo-router";
+import { router } from "expo-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNotificationContext } from "~/contexts/NotificationContext";
 import { useColorPalette } from "~/hooks/useColorPalette";
 import { Text } from "~/components/ui/text";
 import { TransactionList } from "./transaction/TransactionList";
 import { useBalance } from "@/hooks/content/finance/useBalance";
-import { useBiometricAuth } from "@/hooks/useBiometricAuth";
+import { useFinanceAuth } from "@/hooks/content/finance/useFinanceAuth";
+import { useFinanceStore } from "@/hooks/stores/useFinanceStore";
 import { useTranslation } from "react-i18next";
-import { toast } from "sonner-native";
 import { triggerHaptic } from "~/lib/haptics";
 import { Icon } from "~/components/ui/icon";
 import { useRTL } from "~/hooks/useRTL";
@@ -45,34 +45,22 @@ export const FinancePortal = ({ className }: FinancePortalProps) => {
   const { palette } = useColorPalette();
   const queryClient = useQueryClient();
   const isRTL = useRTL();
-  const { authenticate } = useBiometricAuth();
+  const { isAuthenticatedInSession, isAuthenticating, authenticateSession } =
+    useFinanceAuth();
+  const { detailsVisible, setDetailsVisible, resetSession } = useFinanceStore();
   const [refreshing, setRefreshing] = React.useState(false);
-  const [detailsVisible, setDetailsVisible] = React.useState(false);
-  const [isAuthenticating, setIsAuthenticating] = React.useState(false);
 
   const { data: balanceData, isLoading: isLoadingBalance } = useBalance();
-
-  const hideDetails = React.useCallback(() => {
-    setDetailsVisible(false);
-  }, []);
-
-  useFocusEffect(
-    React.useCallback(() => {
-      return () => {
-        hideDetails();
-      };
-    }, [hideDetails]),
-  );
 
   React.useEffect(() => {
     const subscription = AppState.addEventListener("change", (nextState) => {
       if (nextState !== "active") {
-        hideDetails();
+        resetSession();
       }
     });
 
     return () => subscription.remove();
-  }, [hideDetails]);
+  }, [resetSession]);
 
   const onRefresh = React.useCallback(async () => {
     setRefreshing(true);
@@ -81,37 +69,14 @@ export const FinancePortal = ({ className }: FinancePortalProps) => {
   }, [queryClient]);
 
   const toggleDetails = React.useCallback(async () => {
-    if (isAuthenticating) return;
-
-    if (detailsVisible) {
-      hideDetails();
-      return;
-    }
-
-    setIsAuthenticating(true);
-    const result = await authenticate({
-      promptMessage: t("biometric_prompt"),
-      promptDescription: t("biometric_prompt_description"),
-      cancelLabel: t("cancel"),
-    });
-    setIsAuthenticating(false);
-
-    if (result.success) {
-      setDetailsVisible(true);
+    if (isAuthenticatedInSession) {
+      setDetailsVisible(!detailsVisible);
       triggerHaptic();
       return;
     }
 
-    if (result.cancelled) return;
-
-    toast.error(
-      result.error === "not_enrolled"
-        ? t("biometric_unavailable")
-        : result.error === "missing_usage_description"
-          ? t("biometric_faceid_not_configured")
-          : t("biometric_failed"),
-    );
-  }, [authenticate, detailsVisible, hideDetails, isAuthenticating, t]);
+    await authenticateSession();
+  }, [authenticateSession, detailsVisible, isAuthenticatedInSession, setDetailsVisible]);
 
   const currentPoints = Number(balanceData?.points || 0);
   const currentBalance = Number(balanceData?.balance || 0);

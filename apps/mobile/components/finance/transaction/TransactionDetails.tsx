@@ -8,6 +8,8 @@ import { PointTransaction, FundTransaction } from "@/types";
 import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
 import { useTranslation } from "react-i18next";
 import { useRTL } from "~/hooks/useRTL";
+import { useFinanceStore } from "@/hooks/stores/useFinanceStore";
+import React from "react";
 
 interface TransactionDetailsProps {
   className?: string;
@@ -19,6 +21,7 @@ export const TransactionDetails = ({ className }: TransactionDetailsProps) => {
   const transactionString = params.transaction as string;
   const { t } = useTranslation("finance");
   const isRTL = useRTL();
+  const { detailsVisible } = useFinanceStore();
   let transaction: PointTransaction | FundTransaction | null = null;
 
   try {
@@ -41,9 +44,7 @@ export const TransactionDetails = ({ className }: TransactionDetailsProps) => {
       >
         <ApplicationHeader title={t("transaction_details_title")} />
         <View className="flex-1 items-center justify-center p-4">
-          <Text className="text-muted-foreground">
-            {t("not_found")}
-          </Text>
+          <Text className="text-muted-foreground">{t("not_found")}</Text>
         </View>
       </StableSafeAreaView>
     );
@@ -80,7 +81,10 @@ export const TransactionDetails = ({ className }: TransactionDetailsProps) => {
         reverse
       />
 
-      <ScrollView className="flex-1 p-4 bg-background" showsVerticalScrollIndicator={false}>
+      <ScrollView
+        className="flex-1 p-4 bg-background"
+        showsVerticalScrollIndicator={false}
+      >
         <View className="items-center py-6">
           <Text className="text-sm text-muted-foreground uppercase mb-2">
             {t("amount")}
@@ -92,32 +96,58 @@ export const TransactionDetails = ({ className }: TransactionDetailsProps) => {
               debit && "text-red-600",
             )}
           >
-            {credit ? "+" : "-"}
-            {transaction.amount}{" "}
-            {transaction instanceof FundTransaction ? t("tnd") : t("pts")}
+            {detailsVisible ? (
+              <React.Fragment>
+                {credit ? "+" : "-"}
+                {transaction.amount}{" "}
+                {transaction instanceof FundTransaction ? t("tnd") : t("pts")}
+              </React.Fragment>
+            ) : (
+              "••••"
+            )}
           </Text>
         </View>
 
         <View className="bg-card border border-border rounded-xl p-4 mb-4 shadow-sm">
-          <View className={cn("flex-row justify-between py-3 border-b border-border/50", isRTL && "flex-row-reverse")}>
+          <View
+            className={cn(
+              "flex-row justify-between py-3 border-b border-border/50",
+              isRTL && "flex-row-reverse",
+            )}
+          >
             <Text className="text-muted-foreground">{t("id")}</Text>
             <Text className="font-medium text-foreground">
               {transaction.id}
             </Text>
           </View>
-          <View className={cn("flex-row justify-between py-3 border-b border-border/50", isRTL && "flex-row-reverse")}>
+          <View
+            className={cn(
+              "flex-row justify-between py-3 border-b border-border/50",
+              isRTL && "flex-row-reverse",
+            )}
+          >
             <Text className="text-muted-foreground">{t("type")}</Text>
             <Text className="font-medium text-foreground">
               {transaction.type}
             </Text>
           </View>
-          <View className={cn("flex-row justify-between py-3 border-b border-border/50", isRTL && "flex-row-reverse")}>
+          <View
+            className={cn(
+              "flex-row justify-between py-3 border-b border-border/50",
+              isRTL && "flex-row-reverse",
+            )}
+          >
             <Text className="text-muted-foreground">{t("date")}</Text>
             <Text className="font-medium text-foreground">
               {new Date(transaction.createdAt).toLocaleString()}
             </Text>
           </View>
-          <View className={cn("flex-row justify-between py-3", isRTL && "flex-row-reverse")}>
+          <View
+            className={cn(
+              "flex-row justify-between py-3",
+              isRTL && "flex-row-reverse",
+            )}
+          >
             <Text className="text-muted-foreground">{t("description")}</Text>
             <Text className="font-medium text-foreground text-right flex-1 ml-4">
               {(transaction instanceof PointTransaction &&
