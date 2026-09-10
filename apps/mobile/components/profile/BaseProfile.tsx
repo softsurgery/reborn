@@ -262,7 +262,10 @@ export const InspectBaseProfile = ({
             {/* Identity */}
             <Animated.View
               entering={FadeInUp.duration(400).delay(150)}
-              className="flex flex-row items-start justify-between mt-3 w-full gap-3"
+              className={cn(
+                "flex items-start justify-between mt-3 w-full gap-3",
+                isRTL ? "flex-row-reverse" : "flex-row",
+              )}
             >
               <View className="flex-1 min-w-0 pr-2">
                 <Text
@@ -314,14 +317,12 @@ export const InspectBaseProfile = ({
           </View>
 
           <Animated.View entering={FadeInUp.duration(400).delay(220)}>
-            <SocialStat className="w-[70vw] mx-auto" userId={user?.id} />
+            <SocialStat className="w-[70vw] mx-auto mt-4" userId={user?.id} />
           </Animated.View>
 
           {/* Bio + Sections */}
           <View className="flex flex-col">
-            <View>
-              {overrideContent && customContent ? customContent : null}
-            </View>
+            {overrideContent && customContent ? customContent : null}
           </View>
         </View>
       </Animated.View>

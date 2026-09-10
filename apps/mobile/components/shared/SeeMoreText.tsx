@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { Pressable, View } from "react-native";
 import { Text } from "../ui/text";
+import { useRTL } from "@/hooks/useRTL";
+import { useTranslation } from "react-i18next";
+import { cn } from "@/lib/utils";
 
 interface SeeMoreTextProps {
   children: string;
@@ -17,9 +20,11 @@ export const SeeMoreText = ({
   textClassname,
   pressableClassname,
 }: SeeMoreTextProps) => {
-  const [expanded, setExpanded] = useState(false);
-  const [showButton, setShowButton] = useState(false);
-  const [measured, setMeasured] = useState(false);
+  const [expanded, setExpanded] = React.useState(false);
+  const [showButton, setShowButton] = React.useState(false);
+  const [measured, setMeasured] = React.useState(false);
+  const isRTL = useRTL();
+  const { t } = useTranslation();
 
   return (
     <View className={className}>
@@ -39,11 +44,14 @@ export const SeeMoreText = ({
       </Text>
       {showButton && (
         <Pressable
-          className={pressableClassname}
+          className={cn(
+            isRTL ? "items-end" : "items-start",
+            pressableClassname,
+          )}
           onPress={() => setExpanded(!expanded)}
         >
-          <Text className="text-primary text-sm">
-            {expanded ? "See less" : "See more"}
+          <Text className="text-primary text-sm font-medium pt-1">
+            {expanded ? t("see_less") : t("see_more")}
           </Text>
         </Pressable>
       )}
