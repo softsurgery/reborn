@@ -1,5 +1,5 @@
 import React from "react";
-import { ChevronLeft } from "lucide-react-native";
+import { ChevronLeft, ChevronRight } from "lucide-react-native";
 import { TouchableOpacity, Dimensions } from "react-native";
 import { Icon } from "../ui/icon";
 import { router, useNavigation } from "expo-router";
@@ -7,6 +7,7 @@ import { Text } from "../ui/text";
 import { cn } from "@/lib/utils";
 import { useColorPalette } from "@/hooks/useColorPalette";
 import { useTranslation } from "react-i18next";
+import { useRTL } from "@/hooks/useRTL";
 
 interface AppHeaderBackProps {
   className?: string;
@@ -49,6 +50,7 @@ export const AppHeaderBack = ({ className }: AppHeaderBackProps) => {
   const { t, i18n } = useTranslation("screens");
   const { palette } = useColorPalette();
   const navigation = useNavigation();
+  const isRTL = useRTL();
   const [routes, setRoutes] = React.useState(
     () => navigation.getState()?.routes,
   );
@@ -152,7 +154,7 @@ export const AppHeaderBack = ({ className }: AppHeaderBackProps) => {
       }}
     >
       <Icon
-        as={ChevronLeft}
+        as={isRTL ? ChevronRight : ChevronLeft}
         size={28}
         color={palette.foreground}
         style={{

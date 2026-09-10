@@ -51,7 +51,7 @@ export const ApplicationHeader = ({
           variant={titleVariant}
           className={cn(
             "mx-2 flex-1 self-center",
-            isRTL || reverse ? "text-right" : "text-left",
+            isRTL !== reverse ? "text-right" : "text-left",
             classNames?.title,
           )}
           numberOfLines={1}
@@ -68,15 +68,15 @@ export const ApplicationHeader = ({
     <View
       className={cn(
         "flex flex-row justify-between items-center gap-2 px-2",
-        isRTL || reverse ? "flex-row-reverse" : "flex-row",
+        isRTL !== reverse ? "flex-row-reverse" : "flex-row",
         classNames?.wrapper,
       )}
     >
       {renderTitle()}
       <View
         className={cn(
-          "flex flex-row items-center gap-2",
-          reverse ? "flex-row-reverse" : "flex-row",
+          "flex items-center gap-2",
+          isRTL !== reverse ? "flex-row-reverse" : "flex-row",
         )}
       >
         {shortcuts?.map((shortcut) => {

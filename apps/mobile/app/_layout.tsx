@@ -21,8 +21,8 @@ import { splashPrevented } from "@/lib/splash-screen";
 import { asyncStoragePersister, queryClient } from "@/lib/query-client";
 import { LoaderProvider } from "@/contexts/LoaderContext";
 import { KeyboardProvider } from "react-native-keyboard-controller";
-
-export { ErrorBoundary } from "expo-router";
+export { ErrorBoundary } from "@/components/shared/ErrorBoundary";
+import { useRTL } from "@/hooks/useRTL";
 
 interface RootLayoutContentProps {
   palette: typeof THEME.light | typeof THEME.dark;
@@ -31,6 +31,7 @@ interface RootLayoutContentProps {
 
 function RootLayoutContent({ palette, colorScheme }: RootLayoutContentProps) {
   const insets = useSafeAreaInsets();
+  const isRTL = useRTL();
 
   const [ready, setReady] = React.useState(false);
 
@@ -56,6 +57,7 @@ function RootLayoutContent({ palette, colorScheme }: RootLayoutContentProps) {
           <Stack
             screenOptions={{
               headerShown: false,
+              animation: isRTL ? "slide_from_left" : "slide_from_right",
               contentStyle: {
                 flex: 1,
                 backgroundColor: hslToHex(palette.background),
