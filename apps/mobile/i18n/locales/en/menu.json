@@ -117,7 +117,8 @@
         "institution": "The name of the school, college, or university you attended.",
         "description": "A brief description of your studies, achievements, relevant coursework, or extracurricular activities.",
         "startDate": "The date you started this education program.",
-        "endDate": "The date you completed or expect to complete this program. Leave blank if currently enrolled."
+        "endDate": "The date you completed or expect to complete this program. Leave blank if currently enrolled.",
+        "stillStudyHere": "Currently study here? If checked, the end date will be set to 'Present'"
       },
       "actions": {
         "create": "Create Education",

@@ -1,4 +1,5 @@
 import {
+  CheckboxFieldProps,
   DateFieldProps,
   Field,
   FieldVariant,
@@ -96,6 +97,23 @@ export const useCreateEducationFormStructure = ({
     },
   };
 
+  const stillStudyHereField: Field<CheckboxFieldProps> = {
+    id: "stillStudyHere",
+    label: "",
+    variant: FieldVariant.CHECKBOX,
+    required: false,
+    description: t("education.form.descriptions.stillStudyHere"),
+    props: {
+      editable: !isPending,
+      checked: store.present,
+      onCheckedChange: (value) => {
+        store.set("present", value);
+        store.setNested("createEducationDto.endDate", null);
+        store.setNested("educationErrors.endDate", []);
+      },
+    },
+  };
+
   const endDate: Field<DateFieldProps> = {
     id: "endDate",
     label: t("education.form.labels.endDate"),
@@ -103,6 +121,7 @@ export const useCreateEducationFormStructure = ({
     required: false,
     description: t("education.form.descriptions.endDate"),
     error: store.educationErrors?.endDate?.[0],
+    hidden: store.present,
     props: {
       editable: !isPending,
       value: store.createEducationDto?.endDate
@@ -138,7 +157,7 @@ export const useCreateEducationFormStructure = ({
           },
           {
             id: 4,
-            fields: [startDate, endDate],
+            fields: [startDate, stillStudyHereField, endDate],
           },
         ],
       },

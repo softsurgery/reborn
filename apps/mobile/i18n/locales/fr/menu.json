@@ -117,7 +117,8 @@
         "institution": "Le nom de l'école, du collège ou de l'université fréquenté.",
         "description": "Une brève description de vos études, réalisations, cours pertinents ou activités extrascolaires.",
         "startDate": "La date à laquelle vous avez commencé cette formation.",
-        "endDate": "La date à laquelle vous avez terminé ou prévoyez de terminer cette formation. Laissez vide si vous y êtes actuellement inscrit."
+        "endDate": "La date à laquelle vous avez terminé ou prévoyez de terminer cette formation. Laissez vide si vous y êtes actuellement inscrit.",
+        "stillStudyHere": "Étudiez-vous toujours ici ? Si cette option est cochée, la date de fin sera définie sur « Présent »."
       },
       "actions": {
         "create": "Créer une formation",

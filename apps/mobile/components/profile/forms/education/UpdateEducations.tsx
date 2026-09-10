@@ -35,6 +35,7 @@ export const UpdateEducations = ({ className }: UpdateEducationsProps) => {
 
   const onUpdateEducationPress = (edu: ResponseEducationDto) => {
     userStore.set("responseEducation", edu);
+    userStore.set("present", edu.endDate === null);
     userStore.set("updateEducationDto", {
       title: edu.title,
       institution: edu.institution,
