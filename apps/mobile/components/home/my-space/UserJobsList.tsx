@@ -215,6 +215,9 @@ export const UserJobsList = ({
               colors={[palette.primary]}
             />
           }
+          refreshControl={
+            <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
+          }
           onEndReached={() => {
             if (hasNextPage && !isFetchingNextPage) {
               fetchNextPage();
@@ -270,3 +273,4 @@ export const UserJobsList = ({
     </StableSafeAreaView>
   );
 };
+

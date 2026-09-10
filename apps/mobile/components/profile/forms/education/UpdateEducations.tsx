@@ -22,6 +22,8 @@ import { useTranslation } from "react-i18next";
 import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
 import { useUserStore } from "@/hooks/stores/useUserStore";
 
+import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
+import { useUserStore } from "@/hooks/stores/useUserStore";
 interface UpdateEducationsProps {
   className?: string;
 }

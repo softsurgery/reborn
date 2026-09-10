@@ -1,3 +1,7 @@
+import { splashPrevented } from "@/lib/splash-screen";
+import { hslToHex, NAV_THEME, THEME } from "@/lib/theme";
+import { cn } from "@/lib/utils";
+import { ThemeProvider } from "expo-router/react-navigation";
 import React from "react";
 import { Stack, ThemeProvider, useRootNavigationState } from "expo-router";
 import { hslToHex, NAV_THEME, THEME } from "~/lib/theme";
@@ -44,6 +48,7 @@ function RootLayoutContent({ palette, colorScheme }: RootLayoutContentProps) {
   }, [navigationState]);
 
   if (!ready) return null;
+
   return (
     <ThemeProvider value={NAV_THEME[colorScheme ?? "light"]}>
       <GestureHandlerRootView style={{ flex: 1 }}>
@@ -124,3 +129,43 @@ export default function RootLayout() {
     </ThemeProvider>
   );
 }
+
+export default function RootLayout() {
+  const { colorScheme, palette } = useColorPalette();
+  const isPreferenceReady = usePreferencePersistStore((state) => state.isReady);
+
+  React.useEffect(() => {
+    if (!isPreferenceReady) return;
+
+    void (async () => {
+      try {
+        await splashPrevented;
+        await SplashScreen.hideAsync();
+      } catch {
+        // Splash may already be hidden (e.g. dev fast refresh).
+      }
+    })();
+  }, [isPreferenceReady]);
+
+  return (
+    <ThemeProvider value={NAV_THEME[colorScheme ?? "light"]}>
+      <PersistQueryClientProvider
+        client={queryClient}
+        persistOptions={{
+          persister: asyncStoragePersister,
+          maxAge: 1000 * 60 * 60 * 24,
+        }}
+      >
+        <SafeAreaProvider>
+          <LoaderProvider>
+            <RootLayoutContent
+              colorScheme={colorScheme ?? "light"}
+              palette={palette}
+            />
+          </LoaderProvider>
+        </SafeAreaProvider>
+      </PersistQueryClientProvider>
+    </ThemeProvider>
+  );
+}
+

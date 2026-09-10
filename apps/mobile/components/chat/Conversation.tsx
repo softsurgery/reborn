@@ -527,11 +527,13 @@ export const Conversation = ({
                   }, 100);
                 }}
                 ListFooterComponent={
-                  isMoreMessagesLoading ? (
-                    <View className="py-4 items-center">
-                      <ActivityIndicator size="small" />
-                    </View>
-                  ) : null
+                  <InfiniteListFooter
+                    isPending={isMoreMessagesLoading}
+                    hasNextPage={false}
+                    dataLength={0}
+                    showEndMessage={false}
+                    loadingComponent={<ActivityIndicator size="small" />}
+                  />
                 }
                 ListEmptyComponent={
                   <View className="flex-1 justify-center items-center py-20">
