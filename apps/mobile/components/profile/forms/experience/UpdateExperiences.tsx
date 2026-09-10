@@ -10,22 +10,19 @@ import { Text } from "@/components/ui/text";
 import { cn } from "@/lib/utils";
 import { ResponseExperienceDto, ServerErrorResponse } from "@/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { format } from "date-fns";
 import { router } from "expo-router";
-import { Briefcase, Building2, Calendar, FileText } from "lucide-react-native";
+import { Briefcase } from "lucide-react-native";
 import { View } from "react-native";
 import { toast } from "sonner-native";
 import { ActionSheetRef } from "react-native-actions-sheet";
 import { DeleteExperienceActionSheet } from "./DeleteExperienceActionSheet";
 import { useTranslation } from "react-i18next";
 import { useRTL } from "@/hooks/useRTL";
-import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
-import { useUserStore } from "@/hooks/stores/useUserStore";
 import { ExperienceInstance } from "./ExperienceInstance";
 
 import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
 import { useUserStore } from "@/hooks/stores/useUserStore";
-import { getExperienceYears } from "@/lib/dates.utils";
+
 interface UpdateExperiencesProps {
   className?: string;
 }
