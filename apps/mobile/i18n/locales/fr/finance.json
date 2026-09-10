@@ -18,5 +18,22 @@
   "biometric_unavailable": "Configurez Face ID, l'empreinte digitale ou un code appareil pour voir vos détails.",
   "biometric_failed": "L'authentification a échoué. Veuillez réessayer.",
   "biometric_faceid_not_configured": "Face ID n’est pas activé dans cette version de l’app. Recompilez l’app iOS pour l’utiliser.",
-  "cancel": "Annuler"
+  "cancel": "Annuler",
+  "title": "Finance",
+  "assets": "Actifs",
+  "balance": "Solde",
+  "all_transactions": "Toutes les transactions",
+  "fund_transaction": "Transaction de fonds",
+  "point_transaction": "Transaction de points",
+  "transaction_details_title": "Détails de la transaction",
+  "not_found": "Détails de la transaction non trouvés.",
+  "amount": "Montant",
+  "id": "ID",
+  "type": "Type",
+  "date": "Date",
+  "description": "Description",
+  "na": "N/A",
+  "additional_details": "Détails supplémentaires",
+  "tnd": "TND",
+  "pts": "Pts"
 }

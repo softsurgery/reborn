@@ -18,5 +18,22 @@
   "biometric_unavailable": "قم بإعداد Face ID أو بصمة الإصبع أو رمز الجهاز لعرض تفاصيلك.",
   "biometric_failed": "فشلت المصادقة. يرجى المحاولة مرة أخرى.",
   "biometric_faceid_not_configured": "Face ID غير مفعّل في هذا الإصدار. أعد بناء تطبيق iOS لاستخدامه.",
-  "cancel": "إلغاء"
+  "cancel": "إلغاء",
+  "title": "المالية",
+  "assets": "الأصول",
+  "balance": "الرصيد",
+  "all_transactions": "جميع المعاملات",
+  "fund_transaction": "معاملة أموال",
+  "point_transaction": "معاملة نقاط",
+  "transaction_details_title": "تفاصيل المعاملة",
+  "not_found": "لم يتم العثور على تفاصيل المعاملة.",
+  "amount": "المبلغ",
+  "id": "المعرف",
+  "type": "النوع",
+  "date": "التاريخ",
+  "description": "الوصف",
+  "na": "غير متوفر",
+  "additional_details": "تفاصيل إضافية",
+  "tnd": "د.ت",
+  "pts": "نقطة"
 }

@@ -6,6 +6,8 @@ import { Text } from "~/components/ui/text";
 import { cn } from "~/lib/utils";
 import { PointTransaction, FundTransaction } from "@/types";
 import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
+import { useTranslation } from "react-i18next";
+import { useRTL } from "~/hooks/useRTL";
 
 interface TransactionDetailsProps {
   className?: string;
@@ -15,6 +17,8 @@ interface TransactionDetailsProps {
 export const TransactionDetails = ({ className }: TransactionDetailsProps) => {
   const params = useLocalSearchParams();
   const transactionString = params.transaction as string;
+  const { t } = useTranslation("finance");
+  const isRTL = useRTL();
   let transaction: PointTransaction | FundTransaction | null = null;
 
   try {
@@ -35,10 +39,10 @@ export const TransactionDetails = ({ className }: TransactionDetailsProps) => {
       <StableSafeAreaView
         className={cn("flex flex-1 flex-col bg-background", className)}
       >
-        <ApplicationHeader title="Transaction Details" />
+        <ApplicationHeader title={t("transaction_details_title")} />
         <View className="flex-1 items-center justify-center p-4">
           <Text className="text-muted-foreground">
-            Transaction details not found.
+            {t("not_found")}
           </Text>
         </View>
       </StableSafeAreaView>
@@ -64,7 +68,7 @@ export const TransactionDetails = ({ className }: TransactionDetailsProps) => {
   return (
     <StableSafeAreaView className="flex flex-1 flex-col bg-card">
       <ApplicationHeader
-        title="Transaction Details"
+        title={t("transaction_details_title")}
         titleVariant="large"
         classNames={{ wrapper: "border-b border-border pb-2 bg-transparent" }}
         shortcuts={[
@@ -79,7 +83,7 @@ export const TransactionDetails = ({ className }: TransactionDetailsProps) => {
       <ScrollView className="flex-1 p-4 bg-background" showsVerticalScrollIndicator={false}>
         <View className="items-center py-6">
           <Text className="text-sm text-muted-foreground uppercase mb-2">
-            Amount
+            {t("amount")}
           </Text>
           <Text
             className={cn(
@@ -90,35 +94,35 @@ export const TransactionDetails = ({ className }: TransactionDetailsProps) => {
           >
             {credit ? "+" : "-"}
             {transaction.amount}{" "}
-            {transaction instanceof FundTransaction ? "TND" : "Pts"}
+            {transaction instanceof FundTransaction ? t("tnd") : t("pts")}
           </Text>
         </View>
 
         <View className="bg-card border border-border rounded-xl p-4 mb-4 shadow-sm">
-          <View className="flex-row justify-between py-3 border-b border-border/50">
-            <Text className="text-muted-foreground">ID</Text>
+          <View className={cn("flex-row justify-between py-3 border-b border-border/50", isRTL && "flex-row-reverse")}>
+            <Text className="text-muted-foreground">{t("id")}</Text>
             <Text className="font-medium text-foreground">
               {transaction.id}
             </Text>
           </View>
-          <View className="flex-row justify-between py-3 border-b border-border/50">
-            <Text className="text-muted-foreground">Type</Text>
+          <View className={cn("flex-row justify-between py-3 border-b border-border/50", isRTL && "flex-row-reverse")}>
+            <Text className="text-muted-foreground">{t("type")}</Text>
             <Text className="font-medium text-foreground">
               {transaction.type}
             </Text>
           </View>
-          <View className="flex-row justify-between py-3 border-b border-border/50">
-            <Text className="text-muted-foreground">Date</Text>
+          <View className={cn("flex-row justify-between py-3 border-b border-border/50", isRTL && "flex-row-reverse")}>
+            <Text className="text-muted-foreground">{t("date")}</Text>
             <Text className="font-medium text-foreground">
               {new Date(transaction.createdAt).toLocaleString()}
             </Text>
           </View>
-          <View className="flex-row justify-between py-3">
-            <Text className="text-muted-foreground">Description</Text>
+          <View className={cn("flex-row justify-between py-3", isRTL && "flex-row-reverse")}>
+            <Text className="text-muted-foreground">{t("description")}</Text>
             <Text className="font-medium text-foreground text-right flex-1 ml-4">
               {(transaction instanceof PointTransaction &&
                 transaction.description) ||
-                "N/A"}
+                t("na")}
             </Text>
           </View>
         </View>
@@ -127,7 +131,7 @@ export const TransactionDetails = ({ className }: TransactionDetailsProps) => {
           Object.keys(transaction.metadata).length > 0 && (
             <View className="bg-card border border-border rounded-xl p-4 mb-4 shadow-sm">
               <Text className="text-lg font-semibold text-foreground mb-4">
-                Additional Details
+                {t("additional_details")}
               </Text>
               {Object.entries(transaction.metadata).map(
                 ([key, value], index) => {
@@ -139,6 +143,7 @@ export const TransactionDetails = ({ className }: TransactionDetailsProps) => {
                       className={cn(
                         "flex-row justify-between py-3",
                         !isLast && "border-b border-border/50",
+                        isRTL && "flex-row-reverse",
                       )}
                     >
                       <Text className="text-muted-foreground capitalize">

@@ -18,5 +18,22 @@
   "biometric_unavailable": "Set up Face ID, fingerprint, or a device passcode to view your details.",
   "biometric_failed": "Authentication failed. Please try again.",
   "biometric_faceid_not_configured": "Face ID isn’t enabled in this app build. Rebuild the iOS app to use it.",
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "title": "Finance",
+  "assets": "Assets",
+  "balance": "Balance",
+  "all_transactions": "All Transactions",
+  "fund_transaction": "Fund Transaction",
+  "point_transaction": "Point Transaction",
+  "transaction_details_title": "Transaction Details",
+  "not_found": "Transaction details not found.",
+  "amount": "Amount",
+  "id": "ID",
+  "type": "Type",
+  "date": "Date",
+  "description": "Description",
+  "na": "N/A",
+  "additional_details": "Additional Details",
+  "tnd": "TND",
+  "pts": "Pts"
 }

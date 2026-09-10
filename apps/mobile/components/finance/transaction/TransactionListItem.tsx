@@ -1,5 +1,4 @@
 import { Text } from "@/components/ui/text";
-import { useColorPalette } from "@/hooks/useColorPalette";
 import { cn } from "@/lib/utils";
 import { FundTransaction, PointTransaction } from "@/types";
 import { router } from "expo-router";
@@ -10,6 +9,8 @@ import {
   MoreHorizontal,
 } from "lucide-react-native";
 import { Pressable, View } from "react-native";
+import { useTranslation } from "react-i18next";
+import { useRTL } from "~/hooks/useRTL";
 
 interface TransactionListItemProps {
   className?: string;
@@ -20,7 +21,9 @@ export const TransactionListItem = ({
   className,
   item,
 }: TransactionListItemProps) => {
-  const { palette } = useColorPalette();
+  const { t } = useTranslation("finance");
+  const isRTL = useRTL();
+
   const isCredit = (type?: string) => {
     if (!type) return false;
     return [
@@ -50,6 +53,7 @@ export const TransactionListItem = ({
     <Pressable
       className={cn(
         "flex-row gap-4 justify-between items-center py-2 active:opacity-50",
+        isRTL && "flex-row-reverse",
         className,
       )}
       onPress={() =>
@@ -65,7 +69,12 @@ export const TransactionListItem = ({
         })
       }
     >
-      <View className="flex-row items-center gap-3 flex-1">
+      <View
+        className={cn(
+          "flex-row items-center gap-3 flex-1",
+          isRTL && "flex-row-reverse",
+        )}
+      >
         <View className="p-2 rounded-full bg-muted">
           {getTransactionIcon(item.type)}
         </View>
@@ -75,15 +84,20 @@ export const TransactionListItem = ({
             numberOfLines={1}
           >
             {item.metadata?.title
-              ? `${item instanceof PointTransaction && item.description ? item.description : item instanceof FundTransaction ? "Fund Transaction" : "Point Transaction"} - ${item.metadata.title}`
+              ? `${item instanceof PointTransaction && item.description ? item.description : item instanceof FundTransaction ? t("fund_transaction") : t("point_transaction")} - ${item.metadata.title}`
               : (item instanceof PointTransaction && item.description
                   ? item.description
                   : null) ||
                 (item instanceof FundTransaction
-                  ? "Fund Transaction"
-                  : "Point Transaction")}
+                  ? t("fund_transaction")
+                  : t("point_transaction"))}
           </Text>
-          <View className="flex-row items-center gap-2 mt-1">
+          <View
+            className={cn(
+              "flex-row items-center gap-2 mt-1",
+              isRTL && "flex-row-reverse",
+            )}
+          >
             <Calendar size={12} color="#6b7280" />
             <Text className="text-xs text-muted-foreground">
               {new Date(item.createdAt).toLocaleDateString()}
@@ -99,7 +113,7 @@ export const TransactionListItem = ({
         )}
       >
         {isCredit(item.type) ? "+" : "-"}
-        {item.amount} {item instanceof FundTransaction ? "TND" : "Pts"}
+        {item.amount} {item instanceof FundTransaction ? t("tnd") : t("pts")}
       </Text>
     </Pressable>
   );

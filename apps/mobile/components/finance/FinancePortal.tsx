@@ -31,6 +31,7 @@ import { useTranslation } from "react-i18next";
 import { toast } from "sonner-native";
 import { triggerHaptic } from "~/lib/haptics";
 import { Icon } from "~/components/ui/icon";
+import { useRTL } from "~/hooks/useRTL";
 
 const MASKED_VALUE = "••••";
 
@@ -43,6 +44,7 @@ export const FinancePortal = ({ className }: FinancePortalProps) => {
   const { count } = useNotificationContext();
   const { palette } = useColorPalette();
   const queryClient = useQueryClient();
+  const isRTL = useRTL();
   const { authenticate } = useBiometricAuth();
   const [refreshing, setRefreshing] = React.useState(false);
   const [detailsVisible, setDetailsVisible] = React.useState(false);
@@ -133,7 +135,7 @@ export const FinancePortal = ({ className }: FinancePortalProps) => {
   return (
     <StableSafeAreaView className={cn("flex flex-1 flex-col", className)}>
       <ApplicationHeader
-        title={"Finance"}
+        title={t("title")}
         shortcuts={[
           {
             key: "notifications",
@@ -154,11 +156,21 @@ export const FinancePortal = ({ className }: FinancePortalProps) => {
         }
       >
         <View className="flex-1 px-4">
-          <View className="flex-row justify-between items-center mb-4">
-            <View className="flex-row items-center gap-2">
+          <View
+            className={cn(
+              "flex justify-between items-center mb-4",
+              isRTL ? "flex-row-reverse" : "flex-row",
+            )}
+          >
+            <View
+              className={cn(
+                "flex items-center gap-2",
+                isRTL ? "flex-row-reverse" : "flex-row",
+              )}
+            >
               <Wallet size={20} color={palette.primary} />
               <Text className="text-lg font-semibold text-foreground">
-                Assets
+                {t("assets")}
               </Text>
             </View>
             <Pressable
@@ -182,7 +194,12 @@ export const FinancePortal = ({ className }: FinancePortalProps) => {
               )}
             </Pressable>
           </View>
-          <View className="flex-row flex-1 bg-background pb-6 gap-2">
+          <View
+            className={cn(
+              "flex flex-1 bg-background pb-6 gap-2",
+              isRTL ? "flex-row-reverse" : "flex-row",
+            )}
+          >
             {/* Wallet Balance */}
             <Pressable
               className="flex-1 rounded-xl p-4 border border-border items-center justify-center active:opacity-50"
@@ -193,7 +210,7 @@ export const FinancePortal = ({ className }: FinancePortalProps) => {
               </View>
               {renderAmount(`${currentBalance.toFixed(2)} TND`)}
               <Text className="text-xs text-muted-foreground mt-1">
-                Balance
+                {t("balance")}
               </Text>
             </Pressable>
 
@@ -206,16 +223,26 @@ export const FinancePortal = ({ className }: FinancePortalProps) => {
                 <Coins size={24} color={palette.secondary} />
               </View>
               {renderAmount(`${currentPoints}`)}
-              <Text className="text-xs text-muted-foreground mt-1">Points</Text>
+              <Text className="text-xs text-muted-foreground mt-1">{t("points")}</Text>
             </Pressable>
           </View>
         </View>
         <View className="px-4">
-          <View className="flex-row justify-between items-center mb-4">
-            <View className="flex-row items-center gap-2">
+          <View
+            className={cn(
+              "flex justify-between items-center mb-4",
+              isRTL ? "flex-row-reverse" : "flex-row",
+            )}
+          >
+            <View
+              className={cn(
+                "flex items-center gap-2",
+                isRTL ? "flex-row-reverse" : "flex-row",
+              )}
+            >
               <TrendingUp size={20} color={palette.primary} />
               <Text className="text-lg font-semibold text-foreground">
-                Transaction History
+                {t("transaction_history")}
               </Text>
             </View>
           </View>
