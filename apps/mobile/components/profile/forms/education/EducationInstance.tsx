@@ -48,7 +48,7 @@ export const EducationInstance = ({
       </View>
 
       <View className="flex-1">
-        <Text className="text-[15px] font-bold text-foreground">
+        <Text className="text-base font-bold text-foreground">
           {education.title}
         </Text>
         {!!education.institution && (
@@ -66,7 +66,7 @@ export const EducationInstance = ({
               )}
             >
               <Icon as={CalendarDays} size={12} color={primary} />
-              <Text className="text-[11px] font-medium text-muted-foreground">
+              <Text className="text-sm font-medium text-muted-foreground">
                 {range}
               </Text>
             </View>

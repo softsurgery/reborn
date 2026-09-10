@@ -34,9 +34,7 @@ const MetaChip = ({
     )}
   >
     <Icon as={icon} size={12} color={color} />
-    <Text className="text-[11px] font-medium text-muted-foreground">
-      {label}
-    </Text>
+    <Text className="text-sm font-medium text-muted-foreground">{label}</Text>
   </View>
 );
 
@@ -79,7 +77,7 @@ export const ExperienceInstance = ({
       </View>
 
       <View className="flex-1">
-        <Text className="text-[15px] font-bold text-foreground">
+        <Text className="text-base font-bold text-foreground">
           {experience.title}
         </Text>
         {!!experience.company && (
@@ -96,7 +94,12 @@ export const ExperienceInstance = ({
             )}
           >
             {range && (
-              <MetaChip icon={CalendarDays} label={range} color={primary} isRTL={isRTL} />
+              <MetaChip
+                icon={CalendarDays}
+                label={range}
+                color={primary}
+                isRTL={isRTL}
+              />
             )}
             {!!experience.workType && (
               <MetaChip
@@ -109,7 +112,12 @@ export const ExperienceInstance = ({
               />
             )}
             {!!place && (
-              <MetaChip icon={MapPin} label={place} color={primary} isRTL={isRTL} />
+              <MetaChip
+                icon={MapPin}
+                label={place}
+                color={primary}
+                isRTL={isRTL}
+              />
             )}
           </View>
         )}

@@ -18,10 +18,11 @@ import { toast } from "sonner-native";
 import { ActionSheetRef } from "react-native-actions-sheet";
 import { DeleteExperienceActionSheet } from "./DeleteExperienceActionSheet";
 import { useTranslation } from "react-i18next";
-
+import { useRTL } from "@/hooks/useRTL";
 import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
 import { useUserStore } from "@/hooks/stores/useUserStore";
-import { getExperienceYears } from "@/lib/dates.utils";
+import { ExperienceInstance } from "./ExperienceInstance";
+
 interface UpdateExperiencesProps {
   className?: string;
 }
@@ -30,6 +31,7 @@ export const UpdateExperiences = ({ className }: UpdateExperiencesProps) => {
   const { t } = useTranslation("menu");
   const userStore = useUserStore();
   const queryClient = useQueryClient();
+  const isRTL = useRTL();
   const deleteSheetRef = React.useRef<ActionSheetRef>(null);
   const [selectedExperienceId, setSelectedExperienceId] = React.useState<
     number | null
@@ -115,72 +117,18 @@ export const UpdateExperiences = ({ className }: UpdateExperiencesProps) => {
                     className="bg-card border border-border overflow-hidden shadow-sm"
                   >
                     {/* Content */}
-                    <View className="px-4 py-4 gap-3.5">
-                      {/* Job Title */}
-                      <View className="flex flex-row justify-between">
-                        <View className="gap-1.5">
-                          <Text className="text-xs font-semibold uppercase text-muted-foreground tracking-wide">
-                            {t("experience.list.jobTitleLabel")}
-                          </Text>
-                          <Text className="text-lg font-bold text-foreground">
-                            {exp.title}
-                          </Text>
-                        </View>
-                        <View className="flex flex-row items-center justify-between px-4">
-                          {exp.endDate === null && (
-                            <View className="bg-green-500/20 px-2.5 py-1 rounded-full">
-                              <Text className="text-xs font-medium">
-                                {t("experience.list.current")}
-                              </Text>
-                            </View>
-                          )}
-                        </View>
-                      </View>
-
-                      {/* Company */}
-                      <View className="flex flex-row items-center gap-3">
-                        <Icon as={Building2} size={18} />
-                        <Text className="text-base text-muted-foreground flex-1">
-                          {exp.company}
-                        </Text>
-                      </View>
-
-                      {/* Duration */}
-                      <View className="flex flex-row items-center gap-3">
-                        <Icon as={Calendar} size={18} />
-                        <View>
-                          <Text className="text-sm text-foreground font-medium">
-                            {format(new Date(exp.startDate!), "MMM yyyy")} -{" "}
-                            {exp.endDate
-                              ? format(new Date(exp.endDate), "MMM yyyy")
-                              : t("experience.instance.present")}
-                          </Text>
-                          <Text className="text-xs text-muted-foreground">
-                            {t("experience.list.yearsCount", {
-                              years: getExperienceYears(
-                                exp.startDate!,
-                                exp.endDate,
-                              ),
-                            })}
-                          </Text>
-                        </View>
-                      </View>
-
-                      {/* Description */}
-                      {!!exp.description && (
-                        <View className="flex flex-row gap-3 mt-1">
-                          <Icon as={FileText} size={18} />
-                          <Text className="text-sm text-foreground flex-1 leading-5">
-                            {exp.description}
-                          </Text>
-                        </View>
-                      )}
-                    </View>
+                    <ExperienceInstance
+                      experience={exp}
+                      className="px-4 py-4"
+                    />
 
                     {/* Action Buttons */}
                     <View className="flex flex-col border-t border-border">
                       <Tappable
-                        className="p-4 flex flex-row border-b border-border"
+                        className={cn(
+                          "p-4 flex border-b border-border",
+                          isRTL ? "flex-row-reverse" : "flex-row",
+                        )}
                         classNames={{
                           content: "font-semibold text-sm",
                           pressable: "bg-primary/20",
@@ -190,7 +138,10 @@ export const UpdateExperiences = ({ className }: UpdateExperiencesProps) => {
                         {t("experience.list.actions.edit")}
                       </Tappable>
                       <Tappable
-                        className="p-4 flex flex-row"
+                        className={cn(
+                          "p-4 flex",
+                          isRTL ? "flex-row-reverse" : "flex-row",
+                        )}
                         classNames={{
                           content: "font-semibold text-sm",
                           pressable: "bg-destructive/50",
