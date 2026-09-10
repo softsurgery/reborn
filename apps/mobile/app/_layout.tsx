@@ -1,12 +1,8 @@
-import { splashPrevented } from "@/lib/splash-screen";
 import { hslToHex, NAV_THEME, THEME } from "@/lib/theme";
-import { cn } from "@/lib/utils";
-import { ThemeProvider } from "expo-router/react-navigation";
 import React from "react";
 import { Stack, ThemeProvider, useRootNavigationState } from "expo-router";
-import { hslToHex, NAV_THEME, THEME } from "~/lib/theme";
 import "~/global.css";
-import "../i18n";
+import i18n from "../i18n";
 import { Platform, View } from "react-native";
 import { cn } from "~/lib/utils";
 import { StatusBar } from "expo-status-bar";
@@ -94,6 +90,15 @@ function RootLayoutContent({ palette, colorScheme }: RootLayoutContentProps) {
 export default function RootLayout() {
   const { colorScheme, palette } = useColorPalette();
   const isPreferenceReady = usePreferencePersistStore((state) => state.isReady);
+  const language = usePreferencePersistStore((state) => state.language);
+
+  React.useEffect(() => {
+    if (isPreferenceReady && language && language !== "system") {
+      if (i18n.language !== language) {
+        i18n.changeLanguage(language);
+      }
+    }
+  }, [isPreferenceReady, language]);
 
   React.useEffect(() => {
     if (!isPreferenceReady) return;
@@ -129,43 +134,3 @@ export default function RootLayout() {
     </ThemeProvider>
   );
 }
-
-export default function RootLayout() {
-  const { colorScheme, palette } = useColorPalette();
-  const isPreferenceReady = usePreferencePersistStore((state) => state.isReady);
-
-  React.useEffect(() => {
-    if (!isPreferenceReady) return;
-
-    void (async () => {
-      try {
-        await splashPrevented;
-        await SplashScreen.hideAsync();
-      } catch {
-        // Splash may already be hidden (e.g. dev fast refresh).
-      }
-    })();
-  }, [isPreferenceReady]);
-
-  return (
-    <ThemeProvider value={NAV_THEME[colorScheme ?? "light"]}>
-      <PersistQueryClientProvider
-        client={queryClient}
-        persistOptions={{
-          persister: asyncStoragePersister,
-          maxAge: 1000 * 60 * 60 * 24,
-        }}
-      >
-        <SafeAreaProvider>
-          <LoaderProvider>
-            <RootLayoutContent
-              colorScheme={colorScheme ?? "light"}
-              palette={palette}
-            />
-          </LoaderProvider>
-        </SafeAreaProvider>
-      </PersistQueryClientProvider>
-    </ThemeProvider>
-  );
-}
-
