@@ -48,6 +48,7 @@ import { ConversationMessagesSkeleton } from "./ConversationMessagesSkeleton";
 import { ConversationSearchOverlay } from "./conversation/search/ConversationSearchOverlay";
 import { ChatBubble } from "./conversation/bubbles/ChatBubble";
 import { ConversationInput } from "./conversation/input/ConversationInput";
+import { InfiniteListFooter } from "../shared/InfiniteListFooter";
 
 interface ConversationProps {
   id: number;
