@@ -85,11 +85,20 @@ export const JobStatisticsKPIs = ({
                 </View>
               </View>
               <View className="flex-1">
-                <View className="flex flex-row justify-between">
+                <View className="flex flex-row items-center gap-2">
                   <Text className="text-xl font-bold text-foreground">
                     {item.value.toLocaleString()}
                   </Text>
-                  <KPITrendBadge trend={item.trend} />
+                  <Text
+                    className={cn(
+                      "text-xs font-bold",
+                      item.trend > 0
+                        ? "text-emerald-600 dark:text-emerald-400"
+                        : "text-rose-600 dark:text-rose-400",
+                    )}
+                  >
+                    ({item.trend}%)
+                  </Text>
                 </View>
                 <Text className="text-muted-foreground text-xs mt-0.5">
                   {item.label}
@@ -99,35 +108,6 @@ export const JobStatisticsKPIs = ({
           </Pressable>
         );
       })}
-    </View>
-  );
-};
-
-interface KPITrendBadgeProps {
-  className?: string;
-  trend: number;
-}
-
-const KPITrendBadge = ({ className, trend }: KPITrendBadgeProps) => {
-  const { palette } = useColorPalette();
-  const isPositive = trend >= 0;
-  return (
-    <View className={cn("flex-row items-center gap-1", className)}>
-      <Text
-        className={cn(
-          isPositive
-            ? "text-emerald-600 dark:text-emerald-400"
-            : "text-rose-600 dark:text-rose-400",
-          "text-xs font-bold",
-        )}
-      >
-        {isPositive ? `+${trend}%` : `${trend}%`}
-      </Text>
-      {isPositive ? (
-        <ArrowUpRight size={12} color={palette.foreground} />
-      ) : (
-        <ArrowDownRight size={12} color={palette.foreground} />
-      )}
     </View>
   );
 };
