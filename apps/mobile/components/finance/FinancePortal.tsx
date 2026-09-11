@@ -2,11 +2,11 @@ import {
   View,
   ActivityIndicator,
   Pressable,
-  ScrollView,
   RefreshControl,
   AppState,
 } from "react-native";
 import React from "react";
+import Animated from "react-native-reanimated";
 import {
   Bell,
   TrendingUp,
@@ -31,9 +31,9 @@ import { useFinanceStore } from "@/hooks/stores/useFinanceStore";
 import { useTranslation } from "react-i18next";
 import { triggerHaptic } from "~/lib/haptics";
 import { Icon } from "~/components/ui/icon";
-import { useRTL } from "~/hooks/useRTL";
-
-const MASKED_VALUE = "••••";
+import { useRTL } from "@/hooks/useRTL";
+import { useScrollableElement } from "~/hooks/useScrollableElement";
+import { useDynamicListLimit } from "~/hooks/useDynamicListLimit";
 
 interface FinancePortalProps {
   className?: string;
@@ -76,18 +76,19 @@ export const FinancePortal = ({ className }: FinancePortalProps) => {
     }
 
     await authenticateSession();
-  }, [authenticateSession, detailsVisible, isAuthenticatedInSession, setDetailsVisible]);
+  }, [
+    authenticateSession,
+    detailsVisible,
+    isAuthenticatedInSession,
+    setDetailsVisible,
+  ]);
 
   const currentPoints = Number(balanceData?.points || 0);
   const currentBalance = Number(balanceData?.balance || 0);
 
   const renderAmount = (value: string) => {
     if (!detailsVisible) {
-      return (
-        <Text className="text-2xl font-bold text-foreground">
-          {MASKED_VALUE}
-        </Text>
-      );
+      return <Text className="text-2xl font-bold text-foreground">••••</Text>;
     }
 
     if (isLoadingBalance) {
@@ -97,25 +98,45 @@ export const FinancePortal = ({ className }: FinancePortalProps) => {
     return <Text className="text-2xl font-bold text-foreground">{value}</Text>;
   };
 
+  const dynamicLimit = useDynamicListLimit({
+    staticHeight: 100 + 200 + 40 + 48 + 40,
+    itemHeight: 72,
+    minItems: 1,
+    maxItems: 10,
+  });
+
+  const { animatedHeaderStyle, contentAnimatedStyle, handleScroll } =
+    useScrollableElement({
+      duration: 250,
+      deltaThreshold: 40,
+      checkScrollable: true,
+    });
+
   return (
     <StableSafeAreaView className={cn("flex flex-1 flex-col", className)}>
-      <ApplicationHeader
-        title={t("title")}
-        shortcuts={[
-          {
-            key: "notifications",
-            icon: Bell,
-            onPress: () => {
-              router.push("/main/notifications");
+      <Animated.View style={animatedHeaderStyle}>
+        <ApplicationHeader
+          title={t("title")}
+          shortcuts={[
+            {
+              key: "notifications",
+              icon: Bell,
+              onPress: () => {
+                router.push("/main/notifications");
+              },
+              badgeText: count > 0 ? `${count}` : undefined,
             },
-            badgeText: count > 0 ? `${count}` : undefined,
-          },
-        ]}
-      />
+          ]}
+        />
+      </Animated.View>
 
-      <ScrollView
+      <Animated.ScrollView
         className="flex-1 bg-background"
         contentContainerClassName="pt-4 pb-8"
+        showsVerticalScrollIndicator={false}
+        onScroll={handleScroll}
+        scrollEventThrottle={16}
+        style={contentAnimatedStyle}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
@@ -188,11 +209,13 @@ export const FinancePortal = ({ className }: FinancePortalProps) => {
                 <Coins size={24} color={palette.secondary} />
               </View>
               {renderAmount(`${currentPoints}`)}
-              <Text className="text-xs text-muted-foreground mt-1">{t("points")}</Text>
+              <Text className="text-xs text-muted-foreground mt-1">
+                {t("points")}
+              </Text>
             </Pressable>
           </View>
         </View>
-        <View className="px-4">
+        <View className="px-4 flex-1">
           <View
             className={cn(
               "flex justify-between items-center mb-4",
@@ -215,10 +238,10 @@ export const FinancePortal = ({ className }: FinancePortalProps) => {
             classNames={{
               item: "-px-4",
             }}
-            limit={5}
+            limit={dynamicLimit}
           />
         </View>
-      </ScrollView>
+      </Animated.ScrollView>
     </StableSafeAreaView>
   );
 };
