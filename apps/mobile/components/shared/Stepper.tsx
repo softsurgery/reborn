@@ -4,6 +4,7 @@ import { Button } from "../ui/button";
 import { Text } from "../ui/text";
 import { StableKeyboardAwareScrollView } from "./stables/StableKeyboardAwareScrollView";
 import { useKeyboardVisible } from "~/hooks/useKeyboardVisible";
+import { useRTL } from "~/hooks/useRTL";
 import { cn } from "~/lib/utils";
 import { Icon } from "../ui/icon";
 import { ChevronLeft, ChevronRight } from "lucide-react-native";
@@ -51,6 +52,7 @@ export const Stepper = ({
 }: StepperProps) => {
   const { t } = useTranslation("common");
   const isKeyboardVisible = useKeyboardVisible();
+  const isRTL = useRTL();
   const [currentStep, setCurrentStep] = React.useState(initialStep);
 
   const runValidation = React.useCallback(
@@ -122,7 +124,8 @@ export const Stepper = ({
       {!isKeyboardVisible && (
         <View
           className={cn(
-            "flex-row p-4 bg-muted border-t border-border",
+            isRTL ? "flex-row-reverse" : "flex-row",
+            "p-4 bg-muted border-t border-border",
             currentStep === 0 ? "justify-end" : "justify-between",
             classNames?.controlsWrapper,
           )}
@@ -138,16 +141,29 @@ export const Stepper = ({
               currentStep === 0 ? "hidden" : "block",
             )}
           >
-            <Icon as={ChevronLeft} size={20} />
-            <Text className="font-semibold">
-              {placeholders?.previousLabel || t("actions.previous")}
-            </Text>
+            {isRTL ? (
+              <>
+                <Text className="font-semibold">
+                  {placeholders?.previousLabel || t("actions.previous")}
+                </Text>
+                <Icon as={ChevronRight} size={20} />
+              </>
+            ) : (
+              <>
+                <Icon as={ChevronLeft} size={20} />
+                <Text className="font-semibold">
+                  {placeholders?.previousLabel || t("actions.previous")}
+                </Text>
+              </>
+            )}
           </Button>
 
           {/* Next / Finish */}
 
           {isLastStep && closingActions.length > 0 ? (
-            <View className="flex-row gap-2">
+            <View
+              className={cn(isRTL ? "flex-row-reverse" : "flex-row", "gap-2")}
+            >
               {closingActions.map((closingAction, index) => (
                 <Button
                   key={closingAction.id ?? `closing-action-${index}`}
@@ -171,10 +187,21 @@ export const Stepper = ({
               className={cn("px-4 py-2 rounded-xl")}
               disabled={pending || !isCurrentStepReady}
             >
-              <Text className="font-semibold">
-                {placeholders?.nextLabel || t("actions.next")}
-              </Text>
-              <Icon as={ChevronRight} size={20} />
+              {isRTL ? (
+                <>
+                  <Icon as={ChevronLeft} size={20} />
+                  <Text className="font-semibold">
+                    {placeholders?.nextLabel || t("actions.next")}
+                  </Text>
+                </>
+              ) : (
+                <>
+                  <Text className="font-semibold">
+                    {placeholders?.nextLabel || t("actions.next")}
+                  </Text>
+                  <Icon as={ChevronRight} size={20} />
+                </>
+              )}
             </Button>
           )}
         </View>
