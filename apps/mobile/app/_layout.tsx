@@ -59,6 +59,9 @@ function RootLayoutContent({ palette, colorScheme }: RootLayoutContentProps) {
             screenOptions={{
               headerShown: false,
               animation: isRTL ? "slide_from_left" : "slide_from_right",
+              // @ts-ignore: customAnimationOnGesture is supported by react-native-screens on iOS
+              customAnimationOnGesture: true,
+              fullScreenGestureEnabled: true,
               contentStyle: {
                 flex: 1,
                 backgroundColor: hslToHex(palette.background),

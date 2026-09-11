@@ -11,6 +11,7 @@ import { ChatContext } from "@/contexts/ChatContext";
 import { useChatPendingSync } from "@/hooks/content/chat/useChatPendingSync";
 import { useChat } from "@/hooks/content/chat/useChat";
 import * as Notifications from "expo-notifications";
+import { useRTL } from "@/hooks/useRTL";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -29,6 +30,7 @@ export default function MainLayout() {
   useCheckHealth({
     enabled: authPersistStore.isAuthenticated,
   });
+  const isRTL = useRTL();
 
   const { count: chatCount, resetCount: resetChatCount } = useChat({});
   useChatPendingSync();
@@ -76,7 +78,13 @@ export default function MainLayout() {
           resetCount: resetChatCount,
         }}
       >
-        <Stack>
+        <Stack
+          screenOptions={{
+            // @ts-ignore: customAnimationOnGesture is supported by react-native-screens on iOS
+            customAnimationOnGesture: true,
+            fullScreenGestureEnabled: true,
+          }}
+        >
           <Stack.Screen
             name="index"
             options={{
@@ -111,7 +119,7 @@ export default function MainLayout() {
             options={{
               title: "My Profile",
               headerShown: false,
-              animation: "slide_from_right",
+              animation: isRTL ? "slide_from_left" : "slide_from_right",
             }}
           />
           <Stack.Screen
@@ -119,7 +127,7 @@ export default function MainLayout() {
             options={{
               headerShown: false,
               title: "Update Profile",
-              animation: "slide_from_right",
+              animation: isRTL ? "slide_from_left" : "slide_from_right",
             }}
           />
           <Stack.Screen
@@ -127,7 +135,7 @@ export default function MainLayout() {
             options={{
               title: "User Preferences",
               headerShown: false,
-              animation: "slide_from_right",
+              animation: isRTL ? "slide_from_left" : "slide_from_right",
             }}
           />
           <Stack.Screen
@@ -135,7 +143,7 @@ export default function MainLayout() {
             options={{
               headerShown: false,
               title: "Report a Bug",
-              animation: "slide_from_right",
+              animation: isRTL ? "slide_from_left" : "slide_from_right",
             }}
           />
           <Stack.Screen
@@ -143,7 +151,7 @@ export default function MainLayout() {
             options={{
               headerShown: false,
               title: "Send us feedback",
-              animation: "slide_from_right",
+              animation: isRTL ? "slide_from_left" : "slide_from_right",
             }}
           />
           <Stack.Screen
@@ -151,7 +159,7 @@ export default function MainLayout() {
             options={{
               headerShown: false,
               title: "FAQs",
-              animation: "slide_from_right",
+              animation: isRTL ? "slide_from_left" : "slide_from_right",
             }}
           />
           {/* Career *********************************************************************************************************************/}
@@ -246,7 +254,7 @@ export default function MainLayout() {
             options={{
               title: "",
               headerShown: false,
-              animation: "slide_from_right",
+              animation: isRTL ? "slide_from_left" : "slide_from_right",
             }}
           />
           <Stack.Screen
@@ -254,7 +262,7 @@ export default function MainLayout() {
             options={{
               title: "",
               headerShown: false,
-              animation: "slide_from_right",
+              animation: isRTL ? "slide_from_left" : "slide_from_right",
             }}
           />
           <Stack.Screen
@@ -262,7 +270,7 @@ export default function MainLayout() {
             options={{
               title: "",
               headerShown: false,
-              animation: "slide_from_right",
+              animation: isRTL ? "slide_from_left" : "slide_from_right",
             }}
           />
 
@@ -271,7 +279,7 @@ export default function MainLayout() {
             options={{
               title: "",
               headerShown: false,
-              animation: "slide_from_right",
+              animation: isRTL ? "slide_from_left" : "slide_from_right",
             }}
           />
 
@@ -281,7 +289,7 @@ export default function MainLayout() {
             options={{
               title: "Requests",
               headerShown: false,
-              animation: "slide_from_right",
+              animation: isRTL ? "slide_from_left" : "slide_from_right",
             }}
           />
           <Stack.Screen
@@ -289,7 +297,7 @@ export default function MainLayout() {
             options={{
               title: "Request Details",
               headerShown: false,
-              animation: "slide_from_right",
+              animation: isRTL ? "slide_from_left" : "slide_from_right",
             }}
           />
           <Stack.Screen
@@ -297,7 +305,7 @@ export default function MainLayout() {
             options={{
               title: "saved",
               headerShown: false,
-              animation: "slide_from_right",
+              animation: isRTL ? "slide_from_left" : "slide_from_right",
             }}
           />
           <Stack.Screen
@@ -305,7 +313,7 @@ export default function MainLayout() {
             options={{
               title: "Work",
               headerShown: false,
-              animation: "slide_from_right",
+              animation: isRTL ? "slide_from_left" : "slide_from_right",
             }}
           />
           <Stack.Screen
@@ -313,7 +321,7 @@ export default function MainLayout() {
             options={{
               title: "My Jobs",
               headerShown: false,
-              animation: "slide_from_right",
+              animation: isRTL ? "slide_from_left" : "slide_from_right",
             }}
           />
           <Stack.Screen
@@ -321,7 +329,7 @@ export default function MainLayout() {
             options={{
               title: "Viewed",
               headerShown: false,
-              animation: "slide_from_right",
+              animation: isRTL ? "slide_from_left" : "slide_from_right",
             }}
           />
           <Stack.Screen
@@ -336,7 +344,7 @@ export default function MainLayout() {
             options={{
               title: "Update Job",
               headerShown: false,
-              animation: "slide_from_right",
+              animation: isRTL ? "slide_from_left" : "slide_from_right",
             }}
           />
           <Stack.Screen
@@ -344,7 +352,7 @@ export default function MainLayout() {
             options={{
               title: "Manage Job",
               headerShown: false,
-              animation: "slide_from_right",
+              animation: isRTL ? "slide_from_left" : "slide_from_right",
             }}
           />
           <Stack.Screen
@@ -352,7 +360,7 @@ export default function MainLayout() {
             options={{
               title: "Update Job Application",
               headerShown: false,
-              animation: "slide_from_right",
+              animation: isRTL ? "slide_from_left" : "slide_from_right",
             }}
           />
 
@@ -379,7 +387,7 @@ export default function MainLayout() {
             options={{
               title: "Transactions",
               headerShown: false,
-              animation: "slide_from_right",
+              animation: isRTL ? "slide_from_left" : "slide_from_right",
             }}
           />
           <Stack.Screen
@@ -387,7 +395,7 @@ export default function MainLayout() {
             options={{
               title: "Transaction Details",
               headerShown: false,
-              animation: "slide_from_right",
+              animation: isRTL ? "slide_from_left" : "slide_from_right",
             }}
           />
 
@@ -397,7 +405,7 @@ export default function MainLayout() {
             options={{
               title: "Notifications",
               headerShown: false,
-              animation: "slide_from_right",
+              animation: isRTL ? "slide_from_left" : "slide_from_right",
             }}
           />
           <Stack.Screen
@@ -441,7 +449,7 @@ export default function MainLayout() {
             options={{
               title: "Privacy & Security",
               headerShown: false,
-              animation: "slide_from_right",
+              animation: isRTL ? "slide_from_left" : "slide_from_right",
             }}
           />
           <Stack.Screen
@@ -467,7 +475,7 @@ export default function MainLayout() {
             options={{
               title: "Change Email",
               headerShown: false,
-              animation: "slide_from_right",
+              animation: isRTL ? "slide_from_left" : "slide_from_right",
             }}
           />
           <Stack.Screen
@@ -475,7 +483,7 @@ export default function MainLayout() {
             options={{
               title: "Change Password",
               headerShown: false,
-              animation: "slide_from_right",
+              animation: isRTL ? "slide_from_left" : "slide_from_right",
             }}
           />
           <Stack.Screen
@@ -483,7 +491,7 @@ export default function MainLayout() {
             options={{
               title: "Verify Email",
               headerShown: false,
-              animation: "slide_from_right",
+              animation: isRTL ? "slide_from_left" : "slide_from_right",
             }}
           />
           {/* Chat  ********************************************************************************************* */}
@@ -521,7 +529,7 @@ export default function MainLayout() {
             name="test"
             options={{
               title: "TEST",
-              animation: "slide_from_right",
+              animation: isRTL ? "slide_from_left" : "slide_from_right",
             }}
           />
         </Stack>

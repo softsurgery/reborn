@@ -1,10 +1,18 @@
 import React from "react";
 import { Stack } from "expo-router";
 import { ThemeToggle } from "@/components/shared/ThemeToggle";
+import { useRTL } from "@/hooks/useRTL";
 
 export default function AuthLayout() {
+  const isRTL = useRTL();
   return (
-    <Stack>
+    <Stack
+      screenOptions={{
+        // @ts-ignore: customAnimationOnGesture is supported by react-native-screens on iOS
+        customAnimationOnGesture: true,
+        fullScreenGestureEnabled: true,
+      }}
+    >
       <Stack.Screen
         name="sign-in"
         options={{
@@ -30,7 +38,7 @@ export default function AuthLayout() {
         options={{
           title: "Legal",
           headerShown: false,
-          animation: "slide_from_right",
+          animation: isRTL ? "slide_from_left" : "slide_from_right",
           animationDuration: 200,
         }}
       />
