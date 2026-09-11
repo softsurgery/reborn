@@ -57,8 +57,12 @@ export function useNotifications(
 
   React.useEffect(() => {
     (async () => {
-      await requestNotificationPermissions();
-      await createAndroidChannel();
+      try {
+        await requestNotificationPermissions();
+        await createAndroidChannel();
+      } catch (err) {
+        console.warn("Failed to initialize notifications:", err);
+      }
     })();
   }, []);
 
