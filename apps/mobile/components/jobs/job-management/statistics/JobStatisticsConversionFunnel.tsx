@@ -1,6 +1,4 @@
-import React from "react";
 import { View, Text } from "react-native";
-import { Target } from "lucide-react-native";
 import { FunnelStageItem } from "~/types";
 import { cn } from "@/lib/utils";
 
@@ -15,18 +13,6 @@ export const JobStatisticsConversionFunnel = ({
 }: JobStatisticsConversionFunnelProps) => {
   return (
     <View className={cn(className)}>
-      <View className="flex-row items-center justify-between mb-4">
-        <View>
-          <Text className="text-foreground font-bold text-base">
-            Application Funnel
-          </Text>
-          <Text className="text-muted-foreground text-xs">
-            Conversion rates across recruitment stages
-          </Text>
-        </View>
-        <Target size={20} className="text-muted-foreground" />
-      </View>
-
       {funnelStages.map((stage, idx) => (
         <View key={idx} className="mb-3.5">
           <View className="flex-row justify-between mb-1.5">

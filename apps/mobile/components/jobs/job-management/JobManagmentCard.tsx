@@ -20,14 +20,11 @@ import {
   Telescope,
   Trash2,
   ImageOff,
-  MapPin,
-  Signal,
 } from "lucide-react-native";
 import { router } from "expo-router";
 import { Badge } from "@/components/ui/badge";
 import { useNextWorkflowJob } from "@/hooks/content/job/workflow/useNextWorkflowJob";
 import { useQueryClient, InfiniteData } from "@tanstack/react-query";
-import { timeAgo } from "@/lib/dates.utils";
 import { useColorPalette } from "@/hooks/useColorPalette";
 import { toast } from "sonner-native";
 import { useLoader } from "@/contexts/LoaderContext";
@@ -128,7 +125,10 @@ export const JobManagementCard = ({
   const coverId = orderedUploads?.[0]?.uploadId;
   const extraPhotos = Math.max((orderedUploads?.length ?? 0) - 1, 0);
 
-  const { uploads: [coverUpload], isPending: isUploadPending } = useServerImages({
+  const {
+    uploads: [coverUpload],
+    isPending: isUploadPending,
+  } = useServerImages({
     ids: [coverId],
     enabled: !!coverId,
   });
@@ -201,10 +201,7 @@ export const JobManagementCard = ({
         }
       }}
       delayLongPress={300}
-      className={cn(
-        "w-full py-3.5 px-1 border-b border-border/40 flex-col gap-2.5",
-        className,
-      )}
+      className={cn("w-full py-3.5 px-1 flex-col gap-2.5", className)}
     >
       {/* Header Row: Category Tag, Status Badge & Positioned Action Menu */}
       <View
@@ -369,52 +366,6 @@ export const JobManagementCard = ({
         </View>
       </View>
 
-      {/* Footer Info: Date Ago & Metadata Pills */}
-      <View
-        className={cn(
-          "flex-row items-center justify-between pt-0.5",
-          isRTL && "flex-row-reverse",
-        )}
-      >
-        <Text className="text-[11px] font-medium text-muted-foreground">
-          {timeAgo(job?.createdAt || new Date())}
-        </Text>
-
-        <View
-          className={cn(
-            "flex-row items-center gap-1.5",
-            isRTL && "flex-row-reverse",
-          )}
-        >
-          {job.style ? (
-            <View
-              className={cn(
-                "flex-row items-center gap-1 rounded-full bg-muted/60 px-2 py-0.5",
-                isRTL && "flex-row-reverse",
-              )}
-            >
-              <MapPin size={10} color={palette.mutedForeground} />
-              <Text className="text-[10px] font-medium text-muted-foreground">
-                {job.style}
-              </Text>
-            </View>
-          ) : null}
-
-          {job.difficulty ? (
-            <View
-              className={cn(
-                "flex-row items-center gap-1 rounded-full bg-muted/60 px-2 py-0.5",
-                isRTL && "flex-row-reverse",
-              )}
-            >
-              <Signal size={10} color={palette.mutedForeground} />
-              <Text className="text-[10px] font-medium text-muted-foreground">
-                {job.difficulty}
-              </Text>
-            </View>
-          ) : null}
-        </View>
-      </View>
       <DeleteJobActionSheet
         ref={deleteSheetRef}
         isPending={isDeletingJob}

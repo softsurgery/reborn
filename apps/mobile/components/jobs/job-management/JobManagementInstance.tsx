@@ -60,14 +60,14 @@ export const JobManagementInstance = ({
             },
           }}
         >
-          <Tab.Screen
+          {/* <Tab.Screen
             name="about"
             options={{
               tabBarLabel: "Summary",
             }}
           >
             {() => <JobSummary job={job} />}
-          </Tab.Screen>
+          </Tab.Screen> */}
 
           <Tab.Screen
             name="career"

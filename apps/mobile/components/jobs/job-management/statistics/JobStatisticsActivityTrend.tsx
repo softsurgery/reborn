@@ -1,6 +1,4 @@
-import React from "react";
 import { View, Text } from "react-native";
-import { BarChart2 } from "lucide-react-native";
 import { DailyActivityItem } from "~/types";
 import { cn } from "@/lib/utils";
 
@@ -15,18 +13,6 @@ export const JobStatisticsActivityTrend = ({
 }: JobStatisticsActivityTrendProps) => {
   return (
     <View className={cn(className)}>
-      <View className="flex-row items-center justify-between mb-4">
-        <View>
-          <Text className="text-foreground font-bold text-base">
-            Weekly Activity Trend
-          </Text>
-          <Text className="text-muted-foreground text-xs">
-            Daily views & application distribution
-          </Text>
-        </View>
-        <BarChart2 size={20} className="text-muted-foreground" />
-      </View>
-
       <View className="flex-row items-end justify-between h-36 pt-4 pb-2 border-b border-border/50 px-2">
         {dailyActivity.map((item, idx) => (
           <View key={idx} className="items-center flex-1">

@@ -1,9 +1,6 @@
-import React from "react";
 import { View, Text } from "react-native";
-import { Globe2 } from "lucide-react-native";
 import { TrafficSourceItem } from "~/types";
 import { cn } from "@/lib/utils";
-import { useColorPalette } from "@/hooks/useColorPalette";
 
 interface JobStatisticsAcquisitionChannelsProps {
   className?: string;
@@ -14,16 +11,8 @@ export const JobStatisticsAcquisitionChannels = ({
   className,
   trafficSources,
 }: JobStatisticsAcquisitionChannelsProps) => {
-  const { palette } = useColorPalette();
   return (
     <View className={cn(className)}>
-      <View className="flex-row items-center gap-2 mb-3">
-        <Globe2 size={18} color={palette.foreground} />
-        <Text className="text-foreground font-bold text-base">
-          Top Acquisition Channels
-        </Text>
-      </View>
-
       {trafficSources.map((source, idx) => (
         <View
           key={idx}

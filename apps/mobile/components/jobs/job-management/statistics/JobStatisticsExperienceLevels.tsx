@@ -1,8 +1,6 @@
 import { View, Text } from "react-native";
-import { Briefcase } from "lucide-react-native";
 import { ExperienceDistributionItem } from "~/types";
 import { cn } from "@/lib/utils";
-import { useColorPalette } from "@/hooks/useColorPalette";
 
 interface JobStatisticsExperienceLevelsProps {
   className?: string;
@@ -13,16 +11,8 @@ export const JobStatisticsExperienceLevels = ({
   className,
   experienceDistribution,
 }: JobStatisticsExperienceLevelsProps) => {
-  const { palette } = useColorPalette();
   return (
     <View className={cn(className)}>
-      <View className="flex-row items-center gap-2 mb-3">
-        <Briefcase size={18} color={palette.foreground} />
-        <Text className="text-foreground font-bold text-base">
-          Applicant Experience Levels
-        </Text>
-      </View>
-
       {experienceDistribution.map((item, idx) => (
         <View key={idx} className="mb-3">
           <View className="flex-row justify-between mb-1">

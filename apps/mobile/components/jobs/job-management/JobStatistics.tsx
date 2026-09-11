@@ -1,7 +1,13 @@
-import React from "react";
 import { ScrollView, View } from "react-native";
 import { useJobStatistics } from "@/hooks/content/job/useJobStatistics";
 import { Loader } from "@/components/shared/lotties/Loader";
+import { Text } from "@/components/ui/text";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import {
   JobStatisticsKPIs,
   JobStatisticsActivityTrend,
@@ -10,6 +16,8 @@ import {
   JobStatisticsAcquisitionChannels,
 } from "./statistics";
 import { cn } from "@/lib/utils";
+import { BarChart2, Briefcase, Globe2, Target } from "lucide-react-native";
+import { useColorPalette } from "@/hooks/useColorPalette";
 
 interface JobStatisticsProps {
   className?: string;
@@ -17,6 +25,7 @@ interface JobStatisticsProps {
 }
 
 export const JobStatistics = ({ className, jobId }: JobStatisticsProps) => {
+  const { palette } = useColorPalette();
   const { statistics, isStatisticsPending } = useJobStatistics({ id: jobId });
 
   if (isStatisticsPending) {
@@ -99,6 +108,47 @@ export const JobStatistics = ({ className, jobId }: JobStatisticsProps) => {
   const applicationsTrend = statistics?.applicationsTrend ?? 0;
   const shortlistedTrend = statistics?.shortlistedTrend ?? 0;
 
+  const accordionItems = [
+    {
+      value: "item-2",
+      icon: BarChart2,
+      iconSize: 20,
+      title: "Weekly Activity Trend",
+      subtitle: "Daily views & application distribution",
+      content: <JobStatisticsActivityTrend dailyActivity={dailyActivity} />,
+    },
+    {
+      value: "item-3",
+      icon: Target,
+      iconSize: 20,
+      title: "Application Funnel",
+      subtitle: "Conversion rates across recruitment stages",
+      content: <JobStatisticsConversionFunnel funnelStages={funnelStages} />,
+    },
+    {
+      value: "item-4",
+      icon: Briefcase,
+      iconSize: 18,
+      title: "Applicant Experience Levels",
+      subtitle: "Breakdown of candidate seniority levels",
+      content: (
+        <JobStatisticsExperienceLevels
+          experienceDistribution={experienceDistribution}
+        />
+      ),
+    },
+    {
+      value: "item-5",
+      icon: Globe2,
+      iconSize: 18,
+      title: "Top Acquisition Channels",
+      subtitle: "Sources driving candidate traffic to your job",
+      content: (
+        <JobStatisticsAcquisitionChannels trafficSources={trafficSources} />
+      ),
+    },
+  ];
+
   return (
     <ScrollView
       className={cn("flex-1 bg-background px-4 pt-4", className)}
@@ -116,15 +166,36 @@ export const JobStatistics = ({ className, jobId }: JobStatisticsProps) => {
           shortlistedTrend={shortlistedTrend}
         />
 
-        <JobStatisticsActivityTrend dailyActivity={dailyActivity} />
-
-        <JobStatisticsConversionFunnel funnelStages={funnelStages} />
-
-        <JobStatisticsExperienceLevels
-          experienceDistribution={experienceDistribution}
-        />
-
-        <JobStatisticsAcquisitionChannels trafficSources={trafficSources} />
+        <Accordion
+          type="multiple"
+          collapsible
+          defaultValue={accordionItems.map((item) => item.value)}
+          className="w-full"
+        >
+          {accordionItems.map((item) => {
+            const Icon = item.icon;
+            return (
+              <AccordionItem key={item.value} value={item.value}>
+                <AccordionTrigger className="py-4">
+                  <View className="flex-row items-center gap-3 pr-4">
+                    <Icon size={item.iconSize} color={palette.foreground} />
+                    <View>
+                      <Text className="text-foreground font-bold text-base">
+                        {item.title}
+                      </Text>
+                      {item.subtitle && (
+                        <Text className="text-muted-foreground text-xs mt-0.5">
+                          {item.subtitle}
+                        </Text>
+                      )}
+                    </View>
+                  </View>
+                </AccordionTrigger>
+                <AccordionContent>{item.content}</AccordionContent>
+              </AccordionItem>
+            );
+          })}
+        </Accordion>
       </View>
     </ScrollView>
   );
