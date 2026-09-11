@@ -29,6 +29,7 @@ import { useStickyElement } from "@/hooks/useStickyElement";
 import { useColorPalette } from "@/hooks/useColorPalette";
 import { JobCreateActionBanner } from "./JobCreateActionBanner";
 import { MyJobPreviewModal } from "@/components/jobs/job-management/MyJobPreviewModal";
+import { Separator } from "@/components/ui/separator";
 
 interface UserJobsListProps {
   className?: string;
@@ -193,6 +194,7 @@ export const UserJobsList = ({
           onScroll={handleScroll}
           scrollIndicatorInsets={{ top: searchBarHeight }}
           renderItem={renderItem}
+          ItemSeparatorComponent={() => <Separator className="mt-4" />}
           keyExtractor={(item) => item.id}
           showsVerticalScrollIndicator={false}
           recycleItems={true}
@@ -200,7 +202,7 @@ export const UserJobsList = ({
           scrollEnabled={!isPreviewing}
           ListHeaderComponent={
             <JobCreateActionBanner
-              className="py-4"
+              className="pt-6"
               searchBarHeight={searchBarHeight}
               setBannerHeight={setBannerHeight}
             />

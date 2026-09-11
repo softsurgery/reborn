@@ -33,13 +33,18 @@ export const JobCreateActionBanner = ({
             router.push("/main/my-space/new-job");
           }}
           className={cn(
-            "flex flex-row items-center justify-between rounded-2xl px-4 shadow-xs",
+            "flex flex-row items-center justify-between rounded-2xl px-2",
             isRTL && "flex-row-reverse",
           )}
         >
-          <View className={cn("flex-row items-center gap-3 flex-1", isRTL && "flex-row-reverse")}>
-            <View className="w-10 h-10 rounded-xl bg-background items-center justify-center">
-              <Icon as={Briefcase} size={20} color={palette.foreground} />
+          <View
+            className={cn(
+              "flex-row items-center gap-3 flex-1",
+              isRTL && "flex-row-reverse",
+            )}
+          >
+            <View className="w-8 h-8 rounded-full bg-primary items-center justify-center">
+              <Icon as={Plus} size={18} color={palette.primaryForeground} />
             </View>
             <View className="flex-1">
               <Text className="text-base font-semibold text-foreground">
@@ -49,9 +54,6 @@ export const JobCreateActionBanner = ({
                 Create a listing to hire talented workers
               </Text>
             </View>
-          </View>
-          <View className="w-8 h-8 rounded-full bg-primary items-center justify-center">
-            <Icon as={Plus} size={18} color={palette.primaryForeground} />
           </View>
         </TouchableOpacity>
       </View>

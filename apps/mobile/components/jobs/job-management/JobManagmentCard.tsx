@@ -10,7 +10,7 @@ import {
   ResponseJobDto,
   Paginated,
 } from "@/types";
-import { View, TouchableOpacity } from "react-native";
+import { View, Pressable } from "react-native";
 import { Image, ImageSource } from "expo-image";
 import {
   ExternalLink,
@@ -191,8 +191,7 @@ export const JobManagementCard = ({
   };
 
   return (
-    <TouchableOpacity
-      activeOpacity={0.75}
+    <Pressable
       onPress={navigateToManage}
       onLongPress={() => {
         if (onLongPress) {
@@ -201,7 +200,10 @@ export const JobManagementCard = ({
         }
       }}
       delayLongPress={300}
-      className={cn("w-full py-3.5 px-1 flex-col gap-2.5", className)}
+      className={cn(
+        "w-full py-1 px-1 flex-col gap-2.5 active:opacity-50",
+        className,
+      )}
     >
       {/* Header Row: Category Tag, Status Badge & Positioned Action Menu */}
       <View
@@ -210,30 +212,18 @@ export const JobManagementCard = ({
           isRTL && "flex-row-reverse",
         )}
       >
-        <Text
-          numberOfLines={1}
-          className={cn(
-            "flex-1 text-[10px] font-bold uppercase tracking-widest text-primary",
-          )}
+        <Badge
+          variant="secondary"
+          className={cn("px-2.5 py-0.5 rounded-full border", statusStyle.badge)}
         >
-          {job.category?.label ?? "Uncategorised"}
-        </Text>
+          <Text className={cn("text-[10px] capitalize", statusStyle.text)}>
+            {job.status}
+          </Text>
+        </Badge>
 
         <View className={cn("flex-row items-center gap-2")}>
-          <Badge
-            variant="secondary"
-            className={cn(
-              "px-2.5 py-0.5 rounded-full border",
-              statusStyle.badge,
-            )}
-          >
-            <Text className={cn("text-[10px] capitalize", statusStyle.text)}>
-              {job.status}
-            </Text>
-          </Badge>
-
           <ThreeDotsActionSheet
-            size={20}
+            size={26}
             options={[
               {
                 label: "Manage Job",
@@ -319,11 +309,11 @@ export const JobManagementCard = ({
           {extraPhotos > 0 && (
             <View
               className={cn(
-                "absolute bottom-1 rounded-md bg-black/70 px-1.5 py-0.5",
+                "absolute bottom-1 rounded-md bg-background/70 px-1.5 py-0.5",
                 isRTL ? "left-1" : "right-1",
               )}
             >
-              <Text className="text-[9px] font-semibold text-white">
+              <Text className="text-[9px] font-semibold text-foreground">
                 +{extraPhotos}
               </Text>
             </View>
@@ -379,6 +369,6 @@ export const JobManagementCard = ({
           }
         }}
       />
-    </TouchableOpacity>
+    </Pressable>
   );
 };

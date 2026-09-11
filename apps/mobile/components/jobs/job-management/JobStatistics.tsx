@@ -166,12 +166,7 @@ export const JobStatistics = ({ className, jobId }: JobStatisticsProps) => {
           shortlistedTrend={shortlistedTrend}
         />
 
-        <Accordion
-          type="multiple"
-          collapsible
-          defaultValue={accordionItems.map((item) => item.value)}
-          className="w-full"
-        >
+        <Accordion type="multiple" collapsible className="w-full">
           {accordionItems.map((item) => {
             const Icon = item.icon;
             return (
