@@ -33,8 +33,11 @@ export function useFollowSystem({
   });
 
   const isFollowing = React.useMemo(
-    () => isFollowingResp?.isFollowing as boolean,
-    [isFollowingResp]
+    () =>
+      isFollowingResp?.isFollowing !== undefined
+        ? (isFollowingResp.isFollowing as boolean)
+        : true,
+    [isFollowingResp],
   );
 
   const {
@@ -61,14 +64,17 @@ export function useFollowSystem({
 
   const followings = React.useMemo(
     () => followingsResp || [],
-    [followingsResp]
+    [followingsResp],
   );
 
   const { mutate: followUser, isPending: isFollowPending } = useMutation({
     mutationFn: () => api.follow.followUser(id),
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: ["is-following", id] });
-      const previousIsFollowing = queryClient.getQueryData(["is-following", id]);
+      const previousIsFollowing = queryClient.getQueryData([
+        "is-following",
+        id,
+      ]);
       queryClient.setQueryData(["is-following", id], { isFollowing: true });
       return { previousIsFollowing };
     },
@@ -82,7 +88,10 @@ export function useFollowSystem({
     },
     onError: (err, variables, context) => {
       if (context?.previousIsFollowing !== undefined) {
-        queryClient.setQueryData(["is-following", id], context.previousIsFollowing);
+        queryClient.setQueryData(
+          ["is-following", id],
+          context.previousIsFollowing,
+        );
       }
       if (follow?.onError) follow.onError(err, variables, context);
     },
@@ -97,7 +106,10 @@ export function useFollowSystem({
     mutationFn: () => api.follow.unfollowUser(id!),
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: ["is-following", id] });
-      const previousIsFollowing = queryClient.getQueryData(["is-following", id]);
+      const previousIsFollowing = queryClient.getQueryData([
+        "is-following",
+        id,
+      ]);
       queryClient.setQueryData(["is-following", id], { isFollowing: false });
       return { previousIsFollowing };
     },
@@ -111,7 +123,10 @@ export function useFollowSystem({
     },
     onError: (err, variables, context) => {
       if (context?.previousIsFollowing !== undefined) {
-        queryClient.setQueryData(["is-following", id], context.previousIsFollowing);
+        queryClient.setQueryData(
+          ["is-following", id],
+          context.previousIsFollowing,
+        );
       }
       if (unfollow?.onError) unfollow.onError(err, variables, context);
     },
