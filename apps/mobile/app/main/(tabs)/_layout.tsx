@@ -1,13 +1,12 @@
 import { Tabs } from "expo-router";
 import * as Haptics from "expo-haptics";
 import {
-  Home,
+  LayoutGrid,
   LucideIcon,
   MessageCircle,
   Telescope,
   Wallet,
 } from "lucide-react-native";
-import { Button } from "~/components/ui/button";
 import { useTranslation } from "react-i18next";
 import { useRTL } from "~/hooks/useRTL";
 import { ColorValue, GestureResponderEvent } from "react-native";
@@ -16,9 +15,9 @@ import { Icon } from "@/components/ui/icon";
 import { ActionSheetRef } from "react-native-actions-sheet";
 import { ProfileQuickMenuActionSheet } from "~/components/profile/ProfileQuickMenuActionSheet";
 import { MenuTabAvatar } from "~/components/shared/MenuTabAvatar";
-import type { BottomTabBarButtonProps } from "@react-navigation/bottom-tabs";
 import React from "react";
 import TabButton, { TabButtonProps } from "@/components/shared/TabButton";
+import { BottomTabBarButtonProps } from "expo-router/build/react-navigation/bottom-tabs";
 
 export default function TabLayout() {
   const { palette } = useColorPalette();
@@ -42,35 +41,41 @@ export default function TabLayout() {
       name: "explore",
       title: t("screens.explore"),
       icon: Telescope,
-      iconSize: 34,
+      iconSize: 28,
     },
     {
       name: "chat",
       title: t("screens.chat"),
       icon: MessageCircle,
-      iconSize: 34,
+      iconSize: 28,
     },
+    // {
+    //   name: "index",
+    //   customButton: (props: BottomTabBarButtonProps) => {
+    //     const { onPress } = props;
+    //     return (
+    //       <Button
+    //         variant="default"
+    //         className="w-16 h-16 -top-4 rounded-full flex items-center justify-center shadow-lg mx-auto"
+    //         onPress={withHaptic(onPress)}
+    //       >
+    //         <Icon as={Home} size={32} color="white" />
+    //       </Button>
+    //     );
+    //   },
+    //   hideLabel: true,
+    // },
     {
       name: "index",
-      customButton: (props: BottomTabBarButtonProps) => {
-        const { onPress } = props;
-        return (
-          <Button
-            variant="default"
-            className="w-16 h-16 -top-4 rounded-full flex items-center justify-center shadow-lg mx-auto"
-            onPress={withHaptic(onPress)}
-          >
-            <Icon as={Home} size={32} color="white" />
-          </Button>
-        );
-      },
-      hideLabel: true,
+      title: t("screens.primary"),
+      icon: LayoutGrid,
+      iconSize: 34,
     },
     {
       name: "finance",
       title: t("screens.finance"),
       icon: Wallet,
-      iconSize: 34,
+      iconSize: 28,
     },
     {
       name: "menu",
@@ -81,7 +86,7 @@ export default function TabLayout() {
       }: {
         color: ColorValue;
         focused: boolean;
-      }) => <MenuTabAvatar color={color} focused={focused} />,
+      }) => <MenuTabAvatar size={32} color={color} focused={focused} />,
       onLongPress: () => actionSheetRef.current?.show(),
     },
   ];
@@ -133,12 +138,16 @@ export default function TabLayout() {
                   ),
               tabBarIcon: tab.customIcon
                 ? ({ color, focused }) =>
-                    tab.customIcon!({ color, focused, size: 28 })
+                    tab.customIcon!({
+                      color,
+                      focused,
+                      size: tab.iconSize || 28,
+                    })
                 : tab.icon
                   ? ({ color, focused }) => (
                       <Icon
                         as={tab.icon as LucideIcon}
-                        size={focused ? 28 : 24}
+                        size={tab.iconSize || (focused ? 28 : 24)}
                         color={color}
                       />
                     )

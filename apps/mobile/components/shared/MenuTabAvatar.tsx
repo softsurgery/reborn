@@ -12,13 +12,21 @@ import {
 } from "@/components/shared/stables/StableAvatar";
 import { Text } from "~/components/ui/text";
 import { Icon } from "@/components/ui/icon";
+import { cn } from "@/lib/utils";
 
 export interface MenuTabAvatarProps {
+  className?: string;
+  size?: number;
   color?: ColorValue;
   focused: boolean;
 }
 
-export const MenuTabAvatar = ({ color, focused }: MenuTabAvatarProps) => {
+export const MenuTabAvatar = ({
+  className,
+  size = 28,
+  color,
+  focused,
+}: MenuTabAvatarProps) => {
   const { palette } = useColorPalette();
   const { currentUser } = useCurrentUser({ join: ["picture"] });
 
@@ -33,12 +41,16 @@ export const MenuTabAvatar = ({ color, focused }: MenuTabAvatarProps) => {
     ids: [pictureId],
     enabled: !!pictureId,
   });
+
   const upload = uploads?.[0];
 
-  const size = focused ? 28 : 24;
+  // Scale fallback content relative to avatar size.
+  const initialsFontSize = Math.max(8, Math.round(size * 0.38));
+  const iconSize = Math.max(12, Math.round(size * 0.65));
 
   return (
     <Avatar
+      className={cn(className)}
       style={{
         width: size,
         height: size,
@@ -47,13 +59,19 @@ export const MenuTabAvatar = ({ color, focused }: MenuTabAvatarProps) => {
       }}
     >
       <AvatarImage source={upload} />
+
       <AvatarFallback>
         {avatarInitials && avatarInitials !== "?" ? (
-          <Text style={{ fontSize: focused ? 11 : 10, fontWeight: "700" }}>
+          <Text
+            style={{
+              fontSize: initialsFontSize,
+              fontWeight: "700",
+            }}
+          >
             {avatarInitials}
           </Text>
         ) : (
-          <Icon as={User} size={focused ? 20 : 18} color={color as string} />
+          <Icon as={User} size={iconSize} color={color as string} />
         )}
       </AvatarFallback>
     </Avatar>

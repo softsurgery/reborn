@@ -17,7 +17,8 @@
     "myspace": "Mon Espace",
     "profile": "Profile",
     "job_details": "Détails du Job",
-    "menu": "Menu"
+    "menu": "Menu",
+    "primary": "Accueil"
   },
   "auth": {
     "welcome": "Bienvenue"

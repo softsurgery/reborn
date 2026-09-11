@@ -17,7 +17,8 @@
     "myspace": "My Space",
     "profile": "Profile",
     "job_details": "Job Details",
-    "menu": "Menu"
+    "menu": "Menu",
+    "primary": "Home"
   },
   "auth": {
     "welcome": "Welcome"
