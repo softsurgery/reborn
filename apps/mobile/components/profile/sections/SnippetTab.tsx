@@ -1,3 +1,4 @@
+import { useColorPalette } from "@/hooks/useColorPalette";
 import {
   NativeScrollEvent,
   NativeSyntheticEvent,
@@ -24,15 +25,21 @@ export const SnippetsTab = ({
   onScroll,
   scrollRef,
 }: SnippetsTabProps) => {
+  const { palette } = useColorPalette();
   const { t } = useTranslation("menu");
-  
+
   return (
     <ScrollView
       ref={scrollRef}
       onScroll={onScroll}
       className={cn("flex-1 bg-background", className)}
       refreshControl={
-        <RefreshControl refreshing={!!refreshing} onRefresh={onRefresh} />
+        <RefreshControl
+          refreshing={!!refreshing}
+          onRefresh={onRefresh}
+          tintColor={palette.primary}
+          colors={[palette.primary]}
+        />
       }
     >
       <View className="flex flex-col gap-4 pb-8 pt-8 px-4">

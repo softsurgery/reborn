@@ -1,3 +1,4 @@
+import { useColorPalette } from "@/hooks/useColorPalette";
 import React from "react";
 import {
   View,
@@ -33,6 +34,8 @@ export const JobsTab = ({
   onScroll,
   scrollRef,
 }: JobsTabProps) => {
+  const { palette } = useColorPalette();
+
   const filterExpression = React.useMemo(() => {
     if (!user?.id) return "";
     return `postedById||$eq||${user.id}`;
@@ -76,7 +79,12 @@ export const JobsTab = ({
       recycleItems={true}
       maintainVisibleContentPosition
       refreshControl={
-        <RefreshControl refreshing={!!refreshing} onRefresh={onRefresh} />
+        <RefreshControl
+          refreshing={!!refreshing}
+          onRefresh={onRefresh}
+          tintColor={palette.primary}
+          colors={[palette.primary]}
+        />
       }
       onEndReached={() => {
         if (hasNextPage && !isFetchingNextPage) {

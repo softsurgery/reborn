@@ -1,3 +1,4 @@
+import { useColorPalette } from "@/hooks/useColorPalette";
 import { LegendList } from "@legendapp/list";
 import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import React from "react";
@@ -20,6 +21,7 @@ interface NotificationPortalProps {
 }
 
 export const NotificationsPortal = ({ className }: NotificationPortalProps) => {
+  const { palette } = useColorPalette();
   const queryClient = useQueryClient();
   const { t } = useTranslation("common");
   const { resetCount } = useNotificationContext();
@@ -126,7 +128,12 @@ export const NotificationsPortal = ({ className }: NotificationPortalProps) => {
           }}
           onEndReachedThreshold={0.5}
           refreshControl={
-            <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
+            <RefreshControl
+              refreshing={isRefetching}
+              onRefresh={refetch}
+              tintColor={palette.primary}
+              colors={[palette.primary]}
+            />
           }
           ListEmptyComponent={
             !isPending ? (

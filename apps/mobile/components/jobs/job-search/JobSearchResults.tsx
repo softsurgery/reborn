@@ -1,3 +1,4 @@
+import { useColorPalette } from "@/hooks/useColorPalette";
 import { InfiniteListFooter } from "@/components/shared/InfiniteListFooter";
 import { LegendList } from "@legendapp/list";
 import { useQuery } from "@tanstack/react-query";
@@ -5,7 +6,6 @@ import React from "react";
 import { RefreshControl, View } from "react-native";
 import { api } from "~/api";
 import { Text } from "~/components/ui/text";
-import { NAV_THEME } from "~/lib/theme";
 import { cn } from "~/lib/utils";
 import { ResponseJobDto } from "~/types";
 import { router } from "expo-router";
@@ -24,6 +24,7 @@ export const JobSearchResults = ({
   search,
   searching,
 }: JobSearchResultsProps) => {
+  const { palette } = useColorPalette();
   const jobStore = useJobStore();
   const {
     data,
@@ -58,7 +59,7 @@ export const JobSearchResults = ({
         }}
       />
     ),
-    []
+    [],
   );
 
   return (
@@ -74,8 +75,8 @@ export const JobSearchResults = ({
         <RefreshControl
           refreshing={isPending}
           onRefresh={refetch}
-          tintColor={NAV_THEME.light.colors.primary}
-          colors={[NAV_THEME.light.colors.primary]}
+          tintColor={palette.primary}
+          colors={[palette.primary]}
         />
       }
       ListEmptyComponent={

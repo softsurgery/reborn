@@ -1,3 +1,4 @@
+import { useColorPalette } from "@/hooks/useColorPalette";
 import React from "react";
 import { useDebounce } from "@/hooks/useDebounce";
 import { LegendList } from "@legendapp/list";
@@ -27,6 +28,7 @@ interface ChatPortalProps {
  * Main chat portal component rendering the search input and virtualized list of active conversations.
  */
 export const ChatPortal = ({ className }: ChatPortalProps) => {
+  const { palette } = useColorPalette();
   const { t } = useTranslation("chat");
   const [searchQuery, setSearchQuery] = React.useState("");
   const { value: debouncedSearchQuery } = useDebounce(searchQuery, 500);
@@ -134,6 +136,8 @@ export const ChatPortal = ({ className }: ChatPortalProps) => {
                 onRefresh={refetch}
                 progressViewOffset={0}
                 enabled={true}
+                tintColor={palette.primary}
+                colors={[palette.primary]}
               />
             }
             onEndReached={() => {

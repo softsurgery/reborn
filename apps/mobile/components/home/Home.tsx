@@ -174,6 +174,8 @@ export const Home = ({ className }: HomeProps) => {
             <RefreshControl
               refreshing={isRefreshing}
               onRefresh={handleRefresh}
+              tintColor={palette.primary}
+              colors={[palette.primary]}
             />
           }
         >

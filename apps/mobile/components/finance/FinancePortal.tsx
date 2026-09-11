@@ -138,7 +138,12 @@ export const FinancePortal = ({ className }: FinancePortalProps) => {
         scrollEventThrottle={16}
         style={contentAnimatedStyle}
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            tintColor={palette.primary}
+            colors={[palette.primary]}
+          />
         }
       >
         <View className="flex-1 px-4">

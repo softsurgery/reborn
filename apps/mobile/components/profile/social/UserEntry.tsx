@@ -1,9 +1,7 @@
-import React from "react";
 import { Pressable, View } from "react-native";
 import { useQueryClient } from "@tanstack/react-query";
-import { Star, UserPlus } from "lucide-react-native";
+import { Star, UserCheck, UserPlus } from "lucide-react-native";
 import { router } from "expo-router";
-import { Button } from "~/components/ui/button";
 import { Text } from "~/components/ui/text";
 import { UserStore } from "~/hooks/stores/useUserStore";
 import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
@@ -14,7 +12,7 @@ import { ResponseUserDto, ServerErrorResponse } from "~/types";
 import { useServerImages } from "~/hooks/content/useServerImages";
 import { Icon } from "~/components/ui/icon";
 import { toast } from "sonner-native";
-import { useTranslation } from "react-i18next";
+import { useColorPalette } from "~/hooks/useColorPalette";
 
 interface UserEntryProps {
   className?: string;
@@ -31,7 +29,7 @@ export const UserEntry = ({
   profileId,
   closeDialog,
 }: UserEntryProps) => {
-  const { t } = useTranslation("menu");
+  const { palette } = useColorPalette();
   const { currentUser } = useCurrentUser();
   const queryClient = useQueryClient();
 
@@ -81,7 +79,9 @@ export const UserEntry = ({
       use: ["is-following"],
     });
 
-  const { jsxArray: [profilePicture] } = useServerImages({
+  const {
+    jsxArray: [profilePicture],
+  } = useServerImages({
     ids: [user?.pictureId],
     fallbacks: [identifyUserAvatar(user)],
     size: { width: 50, height: 50 },
@@ -119,19 +119,17 @@ export const UserEntry = ({
           </View>
         </View>
         {currentUser?.id != user.id && (
-          <Button
-            size="sm"
+          <Pressable
+            hitSlop={8}
             onPress={() => (isFollowing ? unfollowUser() : followUser())}
-            variant={isFollowing ? "outline" : "default"}
-            className="flex flex-row gap-2"
+            className="p-2 rounded-full active:opacity-60"
           >
-            {!isFollowing && <Icon as={UserPlus} size={20} />}
-            <Text>
-              {isFollowing
-                ? t("menu.actions.following")
-                : t("menu.actions.follow")}
-            </Text>
-          </Button>
+            <Icon
+              as={isFollowing ? UserCheck : UserPlus}
+              size={22}
+              color={isFollowing ? palette?.primary : palette?.mutedForeground}
+            />
+          </Pressable>
         )}
       </View>
     </Pressable>

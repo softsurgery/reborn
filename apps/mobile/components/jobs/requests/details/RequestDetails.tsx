@@ -1,3 +1,4 @@
+import { useColorPalette } from "@/hooks/useColorPalette";
 import React from "react";
 import {
   ActivityIndicator,
@@ -44,6 +45,7 @@ interface RequestDetailsProps {
 }
 
 export const RequestDetails = ({ className, id }: RequestDetailsProps) => {
+  const { palette } = useColorPalette();
   const { currentUser } = useCurrentUser();
 
   const {
@@ -162,6 +164,8 @@ export const RequestDetails = ({ className, id }: RequestDetailsProps) => {
           <RefreshControl
             refreshing={isRequestRefetching}
             onRefresh={refetch}
+            tintColor={palette.primary}
+            colors={[palette.primary]}
           />
         }
       >

@@ -12,7 +12,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import { Search, Plus, Briefcase } from "lucide-react-native";
+import { Search, Briefcase } from "lucide-react-native";
 import { ResponseJobDto, JobStatus } from "~/types";
 import { cn } from "~/lib/utils";
 import { ApplicationHeader } from "~/components/shared/AppHeader";
@@ -29,7 +29,6 @@ import { useStickyElement } from "@/hooks/useStickyElement";
 import { useColorPalette } from "@/hooks/useColorPalette";
 import { JobCreateActionBanner } from "./JobCreateActionBanner";
 import { MyJobPreviewModal } from "@/components/jobs/job-management/MyJobPreviewModal";
-
 
 interface UserJobsListProps {
   className?: string;
@@ -207,16 +206,13 @@ export const UserJobsList = ({
             />
           }
           refreshControl={
-            <RefreshControl 
-              refreshing={isRefetching} 
-              onRefresh={refetch} 
+            <RefreshControl
+              refreshing={isRefetching}
+              onRefresh={refetch}
               progressViewOffset={searchBarHeight}
               tintColor={palette.primary}
               colors={[palette.primary]}
             />
-          }
-          refreshControl={
-            <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
           }
           onEndReached={() => {
             if (hasNextPage && !isFetchingNextPage) {
@@ -273,4 +269,3 @@ export const UserJobsList = ({
     </StableSafeAreaView>
   );
 };
-

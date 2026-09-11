@@ -1,3 +1,4 @@
+import { useColorPalette } from "@/hooks/useColorPalette";
 import React from "react";
 import {
   NativeScrollEvent,
@@ -35,6 +36,7 @@ interface JobDetailsProps {
 }
 
 export const JobDetails = ({ className, id }: JobDetailsProps) => {
+  const { palette } = useColorPalette();
   const insets = useSafeAreaInsets();
   const { currentUser } = useCurrentUser();
 
@@ -200,7 +202,12 @@ export const JobDetails = ({ className, id }: JobDetailsProps) => {
         onScroll={handleScroll}
         showsVerticalScrollIndicator={false}
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            tintColor={palette.primary}
+            colors={[palette.primary]}
+          />
         }
       >
         <JobHero job={job} metadata={jobMetadata} />

@@ -1,3 +1,4 @@
+import { useColorPalette } from "@/hooks/useColorPalette";
 import { SeeMoreText } from "@/components/shared/SeeMoreText";
 import { Icon } from "@/components/ui/icon";
 import { Text } from "@/components/ui/text";
@@ -36,7 +37,12 @@ const SectionHeader = ({
   color?: string;
   isRTL?: boolean;
 }) => (
-  <View className={cn("mb-3 items-center gap-2", isRTL ? "flex-row-reverse" : "flex-row")}>
+  <View
+    className={cn(
+      "mb-3 items-center gap-2",
+      isRTL ? "flex-row-reverse" : "flex-row",
+    )}
+  >
     <Icon as={icon} size={18} color={color} />
     <Text className="text-base font-bold text-foreground">{title}</Text>
   </View>
@@ -50,6 +56,7 @@ export const AboutTab = ({
   onScroll,
   scrollRef,
 }: AboutTabProps) => {
+  const { palette } = useColorPalette();
   const { t } = useTranslation("menu");
   const isRTL = useRTL();
 
@@ -60,13 +67,22 @@ export const AboutTab = ({
       onScroll={onScroll}
       contentContainerStyle={{ paddingTop: 20, paddingBottom: 32 }}
       refreshControl={
-        <RefreshControl refreshing={!!refreshing} onRefresh={onRefresh} />
+        <RefreshControl
+          refreshing={!!refreshing}
+          onRefresh={onRefresh}
+          tintColor={palette.primary}
+          colors={[palette.primary]}
+        />
       }
     >
       <View className="flex flex-col gap-6 px-4">
         {/* Bio */}
         <View>
-          <SectionHeader icon={UserRound} title={t("menu.tabs.about.title")} isRTL={isRTL} />
+          <SectionHeader
+            icon={UserRound}
+            title={t("menu.tabs.about.title")}
+            isRTL={isRTL}
+          />
           {user?.bio ? (
             <SeeMoreText
               textClassname="text-sm leading-6 text-foreground"

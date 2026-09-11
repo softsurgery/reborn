@@ -67,7 +67,12 @@ export const CareerTab = ({
       className={cn("flex-1 bg-background", className)}
       contentContainerStyle={{ paddingTop: 20, paddingBottom: 32 }}
       refreshControl={
-        <RefreshControl refreshing={!!refreshing} onRefresh={onRefresh} />
+        <RefreshControl
+          refreshing={!!refreshing}
+          onRefresh={onRefresh}
+          tintColor={palette.primary}
+          colors={[palette.primary]}
+        />
       }
     >
       <View className="flex flex-col gap-6">
