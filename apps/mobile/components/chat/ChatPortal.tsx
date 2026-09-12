@@ -20,6 +20,12 @@ import { StableSafeAreaView } from "../shared/stables/StableSafeAreaView";
 import { NotFound } from "../shared/lotties/NotFound";
 import { UserEntrySkeleton } from "./UserEntrySkeleton";
 import { CONVERSATION_LIST_JOIN } from "@/lib/chat/chat";
+import { ConversationPreviewModal } from "./ConversationPreviewModal";
+import Animated, {
+  useAnimatedStyle,
+  withTiming,
+} from "react-native-reanimated";
+import { InfiniteListFooter } from "@/components/shared/InfiniteListFooter";
 interface ChatPortalProps {
   className?: string;
 }
@@ -35,6 +41,19 @@ export const ChatPortal = ({ className }: ChatPortalProps) => {
 
   const { currentUser } = useCurrentUser();
   const { count } = useNotificationContext();
+
+  const [previewConversation, setPreviewConversation] =
+    React.useState<ResponseConversationDto | null>(null);
+
+  const isPreviewing = !!previewConversation;
+
+  const animatedBlurStyle = useAnimatedStyle(() => {
+    return {
+      opacity: withTiming(isPreviewing ? 0.35 : 1, {
+        duration: 250,
+      }),
+    };
+  }, [isPreviewing]);
 
   const {
     conversations,
@@ -78,6 +97,10 @@ export const ChatPortal = ({ className }: ChatPortalProps) => {
             });
             seeConversation(item.id);
           }}
+          onLongPress={() => {
+            setPreviewConversation(item);
+          }}
+          delayLongPress={300}
         >
           <UserEntry className="py-2 px-5" conversation={item} />
         </Pressable>
@@ -96,21 +119,30 @@ export const ChatPortal = ({ className }: ChatPortalProps) => {
 
   return (
     <StableSafeAreaView className={cn("flex flex-1 flex-col", className)}>
-      <ApplicationHeader
-        title={t("chat.title")}
-        shortcuts={[
-          {
-            key: "notifications",
-            icon: Bell,
-            onPress: () => {
-              router.push("/main/notifications");
+      <Animated.View
+        pointerEvents={isPreviewing ? "none" : "auto"}
+        style={animatedBlurStyle}
+      >
+        <ApplicationHeader
+          title={t("chat.title")}
+          shortcuts={[
+            {
+              key: "notifications",
+              icon: Bell,
+              onPress: () => {
+                router.push("/main/notifications");
+              },
+              badgeText: count > 0 ? `${count}` : undefined,
             },
-            badgeText: count > 0 ? `${count}` : undefined,
-          },
-        ]}
-      />
+          ]}
+        />
+      </Animated.View>
 
-      <View className="flex-1 bg-background">
+      <Animated.View
+        pointerEvents={isPreviewing ? "none" : "auto"}
+        className="flex-1 bg-background"
+        style={animatedBlurStyle}
+      >
         {/* Search Bar */}
         <MarkedInput
           icon={Search}
@@ -152,7 +184,16 @@ export const ChatPortal = ({ className }: ChatPortalProps) => {
               flexGrow: 1,
             }}
             ListEmptyComponent={
-              !isPending ? (
+              isPending ? (
+                <View className="items-center w-full">
+                  <UserEntrySkeleton className="py-2" />
+                  <UserEntrySkeleton className="py-2" />
+                  <UserEntrySkeleton className="py-2" />
+                  <UserEntrySkeleton className="py-2" />
+                  <UserEntrySkeleton className="py-2" />
+                  <UserEntrySkeleton className="py-2" />
+                </View>
+              ) : (
                 <View className="flex flex-col flex-1">
                   <NotFound
                     className="justify-center items-center"
@@ -162,25 +203,29 @@ export const ChatPortal = ({ className }: ChatPortalProps) => {
                     ]}
                   />
                 </View>
-              ) : null
+              )
             }
             ListFooterComponent={
-              <View className="items-center mb-8 w-full">
-                {isPending ? (
-                  <>
+              <InfiniteListFooter
+                isPending={isFetchingNextPage}
+                hasNextPage={!!hasNextPage}
+                dataLength={conversations?.length ?? 0}
+                endMessage={""}
+                loadingComponent={
+                  <View className="items-center mb-8 w-full mt-2">
                     <UserEntrySkeleton className="py-2" />
-                    <UserEntrySkeleton className="py-2" />
-                    <UserEntrySkeleton className="py-2" />
-                    <UserEntrySkeleton className="py-2" />
-                    <UserEntrySkeleton className="py-2" />
-                    <UserEntrySkeleton className="py-2" />
-                  </>
-                ) : null}
-              </View>
+                  </View>
+                }
+              />
             }
           />
         </View>
-      </View>
+      </Animated.View>
+      <ConversationPreviewModal
+        visible={!!previewConversation}
+        conversation={previewConversation}
+        onClose={() => setPreviewConversation(null)}
+      />
     </StableSafeAreaView>
   );
 };
