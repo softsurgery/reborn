@@ -1,0 +1,180 @@
+{
+  "management": {
+    "title": "Gestion de l'offre",
+    "tabs": {
+      "statistics": "Statistiques",
+      "requests": "Demandes",
+      "actions": "Actions"
+    },
+    "common": {
+      "cancel": "Annuler",
+      "confirm": "Confirmer",
+      "delete": "Supprimer"
+    },
+    "statistics": {
+      "kpis": {
+        "totalViews": "Vues de l'offre",
+        "saves": "Sauvegardes / Intérêt",
+        "applications": "Candidatures",
+        "shortlisted": "Candidats présélectionnés"
+      },
+      "sections": {
+        "weeklyActivity": {
+          "title": "Tendance d'activité hebdomadaire",
+          "subtitle": "Répartition quotidienne des vues et candidatures"
+        },
+        "funnel": {
+          "title": "Entonnoir de candidature",
+          "subtitle": "Taux de conversion aux différentes étapes"
+        },
+        "experience": {
+          "title": "Niveaux d'expérience des candidats",
+          "subtitle": "Répartition par séniorité"
+        },
+        "channels": {
+          "title": "Principaux canaux d'acquisition",
+          "subtitle": "Sources de trafic vers votre offre"
+        }
+      },
+      "days": {
+        "Mon": "Lun",
+        "Tue": "Mar",
+        "Wed": "Mer",
+        "Thu": "Jeu",
+        "Fri": "Ven",
+        "Sat": "Sam",
+        "Sun": "Dim"
+      },
+      "legend": {
+        "pageViews": "Vues de page",
+        "applications": "Candidatures"
+      },
+      "funnel": {
+        "Job Views": "Vues de l'offre",
+        "Saved / Interest": "Sauvegardes / Intérêt",
+        "Applications": "Candidatures",
+        "Shortlisted": "Présélectionnés",
+        "Assigned Worker": "Travailleur assigné"
+      },
+      "experience": {
+        "Senior (5-8 yrs)": "Senior (5-8 ans)",
+        "Mid-Level (3-5 yrs)": "Intermédiaire (3-5 ans)",
+        "Lead / Entry (0-3 yrs)": "Junior / Débutant (0-3 ans)"
+      },
+      "channels": {
+        "Direct App Applications": "Candidatures via l'application",
+        "Saved Jobs Interest": "Intérêt via offres sauvegardées",
+        "candidates": "{{count}} candidats",
+        "usersSaved": "{{count}} utilisateurs ont sauvegardé"
+      }
+    },
+    "requests": {
+      "searchIncoming": "Rechercher des candidats...",
+      "searchOutgoing": "Rechercher des candidatures envoyées...",
+      "waitlist": "Liste d'attente",
+      "noDecision": "Sans décision",
+      "emptyIncomingTitle": "Aucune demande reçue",
+      "emptyIncomingSubtitle": "Les candidatures des candidats apparaîtront ici.",
+      "emptyOutgoingTitle": "Aucune candidature envoyée",
+      "emptyOutgoingSubtitle": "Les candidatures que vous avez envoyées apparaîtront ici.",
+      "status": {
+        "pending": "En attente",
+        "waitlisted": "Liste d'attente",
+        "accepted": "Acceptée",
+        "declined": "Refusée"
+      },
+      "menu": {
+        "approve": "Approuver le candidat",
+        "decline": "Refuser la candidature",
+        "sendMessage": "Envoyer un message",
+        "specifications": "Voir les spécifications",
+        "inspectCandidate": "Voir le profil du candidat",
+        "viewJob": "Voir l'offre complète"
+      },
+      "unknownJob": "Offre inconnue",
+      "recently": "Récemment"
+    },
+    "actions": {
+      "groups": {
+        "core": "Actions principales",
+        "pipeline": "Outils du pipeline",
+        "distribution": "Diffusion et partage",
+        "danger": "Zone de danger"
+      },
+      "items": {
+        "edit": {
+          "title": "Modifier l'offre",
+          "description": "Mettre à jour le titre, les exigences et le salaire"
+        },
+        "duplicate": {
+          "title": "Dupliquer l'offre",
+          "description": "Créer une copie pour une offre similaire"
+        },
+        "pause": {
+          "title": "Suspendre les candidatures",
+          "description": "Arrêter d'accepter de nouvelles candidatures"
+        },
+        "resume": {
+          "title": "Reprendre les candidatures",
+          "description": "Accepter à nouveau les candidatures"
+        },
+        "export": {
+          "title": "Exporter les candidats (CSV/PDF)",
+          "description": "Télécharger la base complète des candidatures"
+        },
+        "broadcast": {
+          "title": "Message groupé",
+          "description": "Envoyer une mise à jour à tous les candidats"
+        },
+        "interview": {
+          "title": "Planificateur d'entretiens",
+          "description": "Définir des créneaux pour les entretiens"
+        },
+        "copyLink": {
+          "title": "Copier le lien direct",
+          "description": "Partager un lien de parrainage ou de destination"
+        },
+        "shareSocial": {
+          "title": "Partager sur les réseaux",
+          "description": "Publier sur LinkedIn, X ou Facebook"
+        },
+        "archive": {
+          "title": "Archiver l'offre",
+          "description": "Déplacer vers les archives sans supprimer les données",
+          "disabledDescription": "L'offre doit être en brouillon, échouée ou réussie pour être archivée"
+        },
+        "delete": {
+          "title": "Supprimer définitivement",
+          "description": "Supprimer irréversiblement l'offre et les candidatures",
+          "disabledDescription": "L'offre doit être en brouillon pour être supprimée"
+        }
+      },
+      "errors": {
+        "updateStatus": "Échec de la mise à jour du statut : {{message}}",
+        "unknown": "Erreur inconnue"
+      },
+      "sheets": {
+        "duplicate": {
+          "title": "Dupliquer l'offre",
+          "description": "Voulez-vous vraiment dupliquer cette offre ?"
+        },
+        "archive": {
+          "title": "Archiver l'offre",
+          "description": "Voulez-vous vraiment archiver cette offre ? Elle sera déplacée vers les archives sans supprimer les données."
+        },
+        "delete": {
+          "title": "Supprimer l'offre",
+          "description": "Voulez-vous vraiment supprimer ce brouillon ? Cette action est irréversible."
+        },
+        "pause": {
+          "title": "Suspendre les candidatures",
+          "description": "Voulez-vous vraiment suspendre les candidatures ? Aucune nouvelle soumission ne sera acceptée."
+        },
+        "resume": {
+          "title": "Reprendre les candidatures",
+          "description": "Voulez-vous vraiment reprendre les candidatures ? Les candidats pourront à nouveau postuler."
+        }
+      }
+    }
+  }
+}

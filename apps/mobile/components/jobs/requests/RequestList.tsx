@@ -17,6 +17,7 @@ import { useInfiniteJobRequests } from "@/hooks/content/job/useInfiniteJobReques
 import { useStickyElement } from "@/hooks/useStickyElement";
 import { useColorPalette } from "@/hooks/useColorPalette";
 import { InfiniteListFooter } from "@/components/shared/InfiniteListFooter";
+import { useTranslation } from "react-i18next";
 
 interface RequestsListProps {
   className?: string;
@@ -33,6 +34,7 @@ export const RequestsList = ({
   embedded = false,
   statusFilter,
 }: RequestsListProps) => {
+  const { t } = useTranslation("jobs");
   const [searchValue, setSearchValue] = React.useState("");
   const { value: search, loading: searching } = useDebounce(searchValue, 300);
   const [searchBarHeight, setSearchBarHeight] = React.useState(60);
@@ -70,7 +72,7 @@ export const RequestsList = ({
         combined.push({
           type: "header",
           id: "header-waitlist",
-          title: "Waitlist",
+          title: t("management.requests.waitlist"),
         });
         combined.push(...waitlist);
       }
@@ -78,14 +80,14 @@ export const RequestsList = ({
         combined.push({
           type: "header",
           id: "header-pending",
-          title: "No Decision",
+          title: t("management.requests.noDecision"),
         });
         combined.push(...pending);
       }
       return combined;
     }
     return requests;
-  }, [requests, isInitialPending, embedded, variant]);
+  }, [requests, isInitialPending, embedded, variant, t]);
 
   const renderItem = React.useCallback(
     ({ item }: { item: ResponseJobRequestDto | any }) => {
@@ -115,11 +117,13 @@ export const RequestsList = ({
 
   const EmptyIcon = variant === "incoming" ? Inbox : Send;
   const emptyTitle =
-    variant === "incoming" ? "No Incoming Requests" : "No Sent Applications";
+    variant === "incoming"
+      ? t("management.requests.emptyIncomingTitle")
+      : t("management.requests.emptyOutgoingTitle");
   const emptySubtitle =
     variant === "incoming"
-      ? "Applications from candidates will appear here."
-      : "Job applications you've submitted will appear here.";
+      ? t("management.requests.emptyIncomingSubtitle")
+      : t("management.requests.emptyOutgoingSubtitle");
 
   return (
     <View className={cn("flex-1 bg-background relative", className)}>
@@ -134,8 +138,8 @@ export const RequestsList = ({
           onChangeText={setSearchValue}
           placeholder={
             variant === "incoming"
-              ? "Search incoming candidates..."
-              : "Search sent applications..."
+              ? t("management.requests.searchIncoming")
+              : t("management.requests.searchOutgoing")
           }
           icon={Search}
           enableClear

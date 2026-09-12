@@ -30,6 +30,10 @@ import enChat from "./locales/en/chat.json";
 import frChat from "./locales/fr/chat.json";
 import arChat from "./locales/ar/chat.json";
 
+import enJobs from "./locales/en/jobs.json";
+import frJobs from "./locales/fr/jobs.json";
+import arJobs from "./locales/ar/jobs.json";
+
 const resources = {
   en: {
     common: enCommon,
@@ -39,6 +43,7 @@ const resources = {
     finance: enFinance,
     home: enHome,
     chat: enChat,
+    jobs: enJobs,
   },
   fr: {
     common: frCommon,
@@ -48,6 +53,7 @@ const resources = {
     finance: frFinance,
     home: frHome,
     chat: frChat,
+    jobs: frJobs,
   },
   ar: {
     common: arCommon,
@@ -57,6 +63,7 @@ const resources = {
     finance: arFinance,
     home: arHome,
     chat: arChat,
+    jobs: arJobs,
   },
 };
 
@@ -71,7 +78,7 @@ i18n.use(initReactI18next).init({
   resources,
   lng: languageCode,
   fallbackLng: "en",
-  ns: ["common", "notifications", "settings", "menu", "home", "finance", "chat"],
+  ns: ["common", "notifications", "settings", "menu", "home", "finance", "chat", "jobs"],
   defaultNS: "common",
   interpolation: { escapeValue: false },
 });

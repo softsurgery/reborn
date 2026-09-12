@@ -6,6 +6,7 @@ import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/icon";
 import { PauseCircle } from "lucide-react-native";
 import { useColorPalette } from "@/hooks/useColorPalette";
+import { useTranslation } from "react-i18next";
 
 interface PauseJobActionSheetProps {
   onConfirm: () => void;
@@ -19,6 +20,7 @@ export const PauseJobActionSheet = React.forwardRef<
   PauseJobActionSheetProps
 >(({ onConfirm, onClose, isPending, isPaused }, ref) => {
   const { palette } = useColorPalette();
+  const { t } = useTranslation("jobs");
 
   return (
     <ActionSheet
@@ -41,15 +43,17 @@ export const PauseJobActionSheet = React.forwardRef<
             <View className="flex-row items-center gap-2">
               <Icon as={PauseCircle} size={20} className="text-foreground" />
               <Text variant="large" className="text-foreground">
-                {isPaused ? "Resume Applications" : "Pause Applications"}
+                {isPaused
+                  ? t("management.actions.sheets.resume.title")
+                  : t("management.actions.sheets.pause.title")}
               </Text>
             </View>
           </View>
 
           <Text className="mt-1 mb-4 text-sm text-muted-foreground">
             {isPaused
-              ? "Are you sure you want to resume applications? Candidates will be able to submit their applications again."
-              : "Are you sure you want to pause applications? No new candidate submissions will be accepted."}
+              ? t("management.actions.sheets.resume.description")
+              : t("management.actions.sheets.pause.description")}
           </Text>
 
           <View className="flex-row items-center gap-2 mt-2">
@@ -60,7 +64,7 @@ export const PauseJobActionSheet = React.forwardRef<
               disabled={isPending}
             >
               <Text className="text-base font-semibold">
-                Confirm
+                {t("management.common.confirm")}
               </Text>
             </Button>
             <Button
@@ -70,7 +74,7 @@ export const PauseJobActionSheet = React.forwardRef<
               onPress={onClose}
               disabled={isPending}
             >
-              <Text>Cancel</Text>
+              <Text>{t("management.common.cancel")}</Text>
             </Button>
           </View>
         </View>

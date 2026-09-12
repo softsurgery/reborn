@@ -5,12 +5,12 @@ import { useJob } from "@/hooks/content/job/useJob";
 import { cn } from "@/lib/utils";
 import { createMaterialTopTabNavigator } from "expo-router/js-top-tabs";
 import { View } from "react-native";
-import { JobSummary } from "./JobSummary";
 import { JobStatistics } from "./JobStatistics";
 import { JobActions } from "./JobActions";
 import { useColorPalette } from "@/hooks/useColorPalette";
 import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
 import { RequestsList } from "@/components/jobs/requests/RequestList";
+import { useTranslation } from "react-i18next";
 
 interface JobManagementInstanceProps {
   id: string;
@@ -24,6 +24,7 @@ export const JobManagementInstance = ({
   className,
 }: JobManagementInstanceProps) => {
   const { palette } = useColorPalette();
+  const { t } = useTranslation("jobs");
   const { job, isJobPending } = useJob({ id });
 
   if (isJobPending)
@@ -32,7 +33,7 @@ export const JobManagementInstance = ({
     <StableSafeAreaView className={cn("flex flex-1 bg-card", className)}>
       <ApplicationHeader
         classNames={{ wrapper: "border-b border-border pb-2" }}
-        title={job?.title || "Job Management"}
+        title={job?.title || t("management.title")}
         titleVariant="large"
         reverse
         shortcuts={[
@@ -72,7 +73,7 @@ export const JobManagementInstance = ({
           <Tab.Screen
             name="career"
             options={{
-              tabBarLabel: "Statistics",
+              tabBarLabel: t("management.tabs.statistics"),
             }}
           >
             {() => <JobStatistics jobId={id} />}
@@ -80,7 +81,7 @@ export const JobManagementInstance = ({
           <Tab.Screen
             name="requests"
             options={{
-              tabBarLabel: "Requests",
+              tabBarLabel: t("management.tabs.requests"),
             }}
           >
             {() => (
@@ -95,7 +96,7 @@ export const JobManagementInstance = ({
           <Tab.Screen
             name="gallery"
             options={{
-              tabBarLabel: "Actions",
+              tabBarLabel: t("management.tabs.actions"),
             }}
           >
             {() => <JobActions id={id} className="p-2" />}

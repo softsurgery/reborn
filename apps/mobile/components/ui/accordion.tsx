@@ -12,6 +12,7 @@ import Animated, {
 import { TextClassContext } from "./text";
 import { cn } from "~/lib/utils";
 import { Icon } from "./icon";
+import { useRTL } from "~/hooks/useRTL";
 
 function Accordion({
   children,
@@ -70,6 +71,7 @@ function AccordionTrigger({
   children?: React.ReactNode;
 } & React.RefAttributes<AccordionPrimitive.TriggerRef>) {
   const { isExpanded } = AccordionPrimitive.useItemContext();
+  const isRTL = useRTL();
 
   const progress = useDerivedValue(
     () =>
@@ -88,7 +90,8 @@ function AccordionTrigger({
   return (
     <TextClassContext.Provider
       value={cn(
-        "text-left text-sm font-medium",
+        "text-sm font-medium",
+        isRTL ? "text-right" : "text-left",
         Platform.select({ web: "group-hover:underline" })
       )}
     >
@@ -97,6 +100,7 @@ function AccordionTrigger({
           <Trigger
             className={cn(
               "flex-row items-center justify-between gap-4 rounded-md py-4 disabled:opacity-50",
+              isRTL && "flex-row-reverse",
               Platform.select({
                 web: "focus-visible:border-ring focus-visible:ring-ring/50 flex flex-1 outline-none transition-all hover:underline focus-visible:ring-[3px] disabled:pointer-events-none [&[data-state=open]>svg]:rotate-180",
               }),

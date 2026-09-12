@@ -32,6 +32,7 @@ import { ThreeDotsActionSheet } from "@/components/shared/ThreeDotsActionSheet";
 import { useJobRequestActions } from "@/hooks/content/job/useJobRequestActions";
 import { ApproveJobRequestActionSheet } from "./details/action-sheets/ApproveJobRequestActionSheet";
 import { DeclineJobRequestActionSheet } from "./details/action-sheets/DeclineJobRequestActionSheet";
+import { useTranslation } from "react-i18next";
 
 interface IncomingRequestEntryProps {
   className?: string;
@@ -45,6 +46,7 @@ export const IncomingRequestEntry = ({
   embedded,
 }: IncomingRequestEntryProps) => {
   const { palette } = useColorPalette();
+  const { t } = useTranslation("jobs");
   const actionSheetRef = React.useRef<ActionSheetRef>(null);
   const approveSheetRef = React.useRef<ActionSheetRef>(null);
   const rejectSheetRef = React.useRef<ActionSheetRef>(null);
@@ -93,22 +95,22 @@ export const IncomingRequestEntry = ({
     [JobRequestStatus.Pending]: {
       icon: AlertCircle,
       badgeBg: "bg-gray-500",
-      label: "Pending",
+      label: t("management.requests.status.pending"),
     },
     [JobRequestStatus.Waitlist]: {
       icon: Clock,
       badgeBg: "bg-amber-500",
-      label: "Waitlisted",
+      label: t("management.requests.status.waitlisted"),
     },
     [JobRequestStatus.Approved]: {
       icon: CheckCircle2,
       badgeBg: "bg-emerald-500",
-      label: "Accepted",
+      label: t("management.requests.status.accepted"),
     },
     [JobRequestStatus.Rejected]: {
       icon: XCircle,
       badgeBg: "bg-rose-500",
-      label: "Declined",
+      label: t("management.requests.status.declined"),
     },
   };
 
@@ -133,12 +135,12 @@ export const IncomingRequestEntry = ({
     ) {
       opts.push(
         {
-          label: "Approve Candidate",
+          label: t("management.requests.menu.approve"),
           icon: CheckCircle2,
           onPress: () => approveSheetRef.current?.show(),
         },
         {
-          label: "Decline Application",
+          label: t("management.requests.menu.decline"),
           icon: XCircle,
           variant: "destructive" as const,
           onPress: () => rejectSheetRef.current?.show(),
@@ -146,7 +148,7 @@ export const IncomingRequestEntry = ({
       );
     } else if (request.status === JobRequestStatus.Approved) {
       opts.push({
-        label: "Send Message",
+        label: t("management.requests.menu.sendMessage"),
         icon: Mail,
         onPress: () => router.push("/main/(tabs)/chat"),
       });
@@ -154,12 +156,12 @@ export const IncomingRequestEntry = ({
 
     opts.push(
       {
-        label: "Request Specifications",
+        label: t("management.requests.menu.specifications"),
         icon: FileText,
         onPress: navigateToRequestDetails,
       },
       {
-        label: "Inspect Candidate Profile",
+        label: t("management.requests.menu.inspectCandidate"),
         icon: User,
         onPress: () => {
           if (request.userId) {
@@ -171,7 +173,7 @@ export const IncomingRequestEntry = ({
         },
       },
       {
-        label: "View Full Job Listing",
+        label: t("management.requests.menu.viewJob"),
         icon: Briefcase,
         onPress: () => {
           if (request.job?.id) {
@@ -190,7 +192,7 @@ export const IncomingRequestEntry = ({
     );
 
     return opts;
-  }, [request]);
+  }, [request, t]);
 
   return (
     <Pressable
@@ -343,14 +345,16 @@ export const IncomingRequestEntry = ({
               numberOfLines={2}
               className="text-sm text-muted-foreground leading-tight"
             >
-              {request.job?.title || "Unknown Job"}
+              {request.job?.title || t("management.requests.unknownJob")}
             </Text>
           )}
 
           {/* Time Sent & Status */}
           <View className="flex flex-row items-center gap-2 mt-1">
             <Text className="text-xs font-medium text-muted-foreground">
-              {request.createdAt ? timeAgo(request.createdAt) : "Recently"}
+              {request.createdAt
+                ? timeAgo(request.createdAt)
+                : t("management.requests.recently")}
             </Text>
           </View>
         </View>

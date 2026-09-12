@@ -1,5 +1,6 @@
-import React, { useRef } from "react";
-import { View, Text, ScrollView } from "react-native";
+import React from "react";
+import { View, ScrollView } from "react-native";
+import { Text } from "@/components/ui/text";
 import { ActionSheetRef } from "react-native-actions-sheet";
 import { ActionPressable } from "@/components/shared/ActionPressable";
 import { DuplicateJobActionSheet } from "./DuplicateJobActionSheet";
@@ -21,7 +22,6 @@ import {
   Archive,
   X,
 } from "lucide-react-native";
-import { useColorPalette } from "@/hooks/useColorPalette";
 import { cn } from "@/lib/utils";
 import { useRouter } from "expo-router";
 import { useDuplicateJob } from "@/hooks/content/job/useDuplicateJob";
@@ -29,6 +29,7 @@ import { useDeleteJob } from "@/hooks/content/job/useDeleteJob";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/api";
 import { toast } from "sonner-native";
+import { useTranslation } from "react-i18next";
 
 type ActionItem = {
   id: string;
@@ -56,14 +57,14 @@ interface JobActionsProps {
 }
 
 export const JobActions = ({ id, className }: JobActionsProps) => {
-  const { palette } = useColorPalette();
+  const { t } = useTranslation("jobs");
   const router = useRouter();
   const { duplicateJob, isDuplicatingJob } = useDuplicateJob();
   const { deleteJob, isDeletingJob } = useDeleteJob();
-  const duplicateSheetRef = useRef<ActionSheetRef>(null);
-  const archiveSheetRef = useRef<ActionSheetRef>(null);
-  const deleteSheetRef = useRef<ActionSheetRef>(null);
-  const pauseSheetRef = useRef<ActionSheetRef>(null);
+  const duplicateSheetRef = React.useRef<ActionSheetRef>(null);
+  const archiveSheetRef = React.useRef<ActionSheetRef>(null);
+  const deleteSheetRef = React.useRef<ActionSheetRef>(null);
+  const pauseSheetRef = React.useRef<ActionSheetRef>(null);
   const queryClient = useQueryClient();
 
   const { job, refetchJob } = useJob({ id });
@@ -84,7 +85,11 @@ export const JobActions = ({ id, className }: JobActionsProps) => {
       },
       onError: (error: any) => {
         toast.error(
-          `Failed to update job status: ${error.response?.data?.message || "Unknown error"}`,
+          t("management.actions.errors.updateStatus", {
+            message:
+              error.response?.data?.message ||
+              t("management.actions.errors.unknown"),
+          }),
         );
       },
     });
@@ -110,12 +115,12 @@ export const JobActions = ({ id, className }: JobActionsProps) => {
   const ACTION_GROUPS: ActionGroup[] = [
     {
       id: "core-actions",
-      title: "Core Actions",
+      title: t("management.actions.groups.core"),
       items: [
         {
           id: "edit",
-          title: "Edit Job Posting",
-          description: "Update title, requirements & salary",
+          title: t("management.actions.items.edit.title"),
+          description: t("management.actions.items.edit.description"),
           Icon: Edit,
           iconBgClass: "bg-blue-500/10",
           onPress: () => {
@@ -127,8 +132,8 @@ export const JobActions = ({ id, className }: JobActionsProps) => {
         },
         {
           id: "duplicate",
-          title: "Duplicate Job",
-          description: "Create a copy for a similar opening",
+          title: t("management.actions.items.duplicate.title"),
+          description: t("management.actions.items.duplicate.description"),
           Icon: Copy,
           iconBgClass: "bg-purple-500/10",
           onPress: () => {
@@ -138,11 +143,11 @@ export const JobActions = ({ id, className }: JobActionsProps) => {
         {
           id: "pause",
           title: job?.pausedApplication
-            ? "Resume Applications"
-            : "Pause Applications",
+            ? t("management.actions.items.resume.title")
+            : t("management.actions.items.pause.title"),
           description: job?.pausedApplication
-            ? "Start accepting new candidate submissions again"
-            : "Stop accepting new candidate submissions",
+            ? t("management.actions.items.resume.description")
+            : t("management.actions.items.pause.description"),
           Icon: PauseCircle,
           iconBgClass: job?.pausedApplication
             ? "bg-emerald-500/10"
@@ -156,26 +161,26 @@ export const JobActions = ({ id, className }: JobActionsProps) => {
     },
     {
       id: "pipeline-tools",
-      title: "Candidate Pipeline Tools",
+      title: t("management.actions.groups.pipeline"),
       items: [
         {
           id: "export",
-          title: "Export Applicants (CSV/PDF)",
-          description: "Download full application database",
+          title: t("management.actions.items.export.title"),
+          description: t("management.actions.items.export.description"),
           Icon: Download,
           iconBgClass: "bg-emerald-500/10",
         },
         {
           id: "broadcast",
-          title: "Broadcast Message",
-          description: "Send updates to all 58 applicants",
+          title: t("management.actions.items.broadcast.title"),
+          description: t("management.actions.items.broadcast.description"),
           Icon: Mail,
           iconBgClass: "bg-sky-500/10",
         },
         {
           id: "interview",
-          title: "Interview Batch Scheduler",
-          description: "Set available calendar slots for interviews",
+          title: t("management.actions.items.interview.title"),
+          description: t("management.actions.items.interview.description"),
           Icon: Calendar,
           iconBgClass: "bg-indigo-500/10",
         },
@@ -183,19 +188,19 @@ export const JobActions = ({ id, className }: JobActionsProps) => {
     },
     {
       id: "distribution",
-      title: "Distribution & Share",
+      title: t("management.actions.groups.distribution"),
       items: [
         {
           id: "copy-link",
-          title: "Copy Direct Link",
-          description: "Share custom referral or landing page link",
+          title: t("management.actions.items.copyLink.title"),
+          description: t("management.actions.items.copyLink.description"),
           Icon: Link,
           iconBgClass: "bg-primary/10",
         },
         {
           id: "share-social",
-          title: "Share on Social Media",
-          description: "Publish post to LinkedIn, X, or Facebook",
+          title: t("management.actions.items.shareSocial.title"),
+          description: t("management.actions.items.shareSocial.description"),
           Icon: Share2,
           iconBgClass: "bg-primary/10",
         },
@@ -203,16 +208,16 @@ export const JobActions = ({ id, className }: JobActionsProps) => {
     },
     {
       id: "danger-zone",
-      title: "Danger Zone",
+      title: t("management.actions.groups.danger"),
       containerClass: "border-destructive/30 mb-6",
       titleClass: "text-destructive",
       items: [
         {
           id: "archive",
-          title: "Archive Job Listing",
+          title: t("management.actions.items.archive.title"),
           description: canArchive
-            ? "Move to archive without deleting data"
-            : "Job must be in Draft, Failed, or Successful status to be archived",
+            ? t("management.actions.items.archive.description")
+            : t("management.actions.items.archive.disabledDescription"),
           Icon: Archive,
           iconBgClass: "bg-muted",
           activeBgClass: "active:bg-destructive/10",
@@ -223,10 +228,10 @@ export const JobActions = ({ id, className }: JobActionsProps) => {
         },
         {
           id: "delete",
-          title: "Delete Job Permanently",
+          title: t("management.actions.items.delete.title"),
           description: canDelete
-            ? "Irreversibly remove listing & applicant records"
-            : "Job must be in Draft status to be deleted",
+            ? t("management.actions.items.delete.description")
+            : t("management.actions.items.delete.disabledDescription"),
           Icon: X,
           iconBgClass: "bg-destructive",
           titleClass: "text-destructive font-bold",

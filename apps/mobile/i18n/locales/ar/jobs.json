@@ -1,0 +1,180 @@
+{
+  "management": {
+    "title": "إدارة الوظيفة",
+    "tabs": {
+      "statistics": "الإحصائيات",
+      "requests": "الطلبات",
+      "actions": "الإجراءات"
+    },
+    "common": {
+      "cancel": "إلغاء",
+      "confirm": "تأكيد",
+      "delete": "حذف"
+    },
+    "statistics": {
+      "kpis": {
+        "totalViews": "إجمالي المشاهدات",
+        "saves": "الحفظ / الاهتمام",
+        "applications": "إجمالي الطلبات",
+        "shortlisted": "المرشحون المختارون"
+      },
+      "sections": {
+        "weeklyActivity": {
+          "title": "اتجاه النشاط الأسبوعي",
+          "subtitle": "توزيع المشاهدات والطلبات يومياً"
+        },
+        "funnel": {
+          "title": "قمع التقديم",
+          "subtitle": "معدلات التحويل عبر مراحل التوظيف"
+        },
+        "experience": {
+          "title": "مستويات خبرة المتقدمين",
+          "subtitle": "توزيع المرشحين حسب الأقدمية"
+        },
+        "channels": {
+          "title": "أهم قنوات الاستقطاب",
+          "subtitle": "المصادر التي تجلب المرشحين لوظيفتك"
+        }
+      },
+      "days": {
+        "Mon": "الإثنين",
+        "Tue": "الثلاثاء",
+        "Wed": "الأربعاء",
+        "Thu": "الخميس",
+        "Fri": "الجمعة",
+        "Sat": "السبت",
+        "Sun": "الأحد"
+      },
+      "legend": {
+        "pageViews": "مشاهدات الصفحة",
+        "applications": "الطلبات"
+      },
+      "funnel": {
+        "Job Views": "مشاهدات الوظيفة",
+        "Saved / Interest": "الحفظ / الاهتمام",
+        "Applications": "الطلبات",
+        "Shortlisted": "القائمة المختصرة",
+        "Assigned Worker": "العامل المعيّن"
+      },
+      "experience": {
+        "Senior (5-8 yrs)": "خبير (5-8 سنوات)",
+        "Mid-Level (3-5 yrs)": "متوسط (3-5 سنوات)",
+        "Lead / Entry (0-3 yrs)": "مبتدئ / قيادة (0-3 سنوات)"
+      },
+      "channels": {
+        "Direct App Applications": "طلبات مباشرة من التطبيق",
+        "Saved Jobs Interest": "اهتمام عبر الوظائف المحفوظة",
+        "candidates": "{{count}} مرشحون",
+        "usersSaved": "{{count}} مستخدمون حفظوا"
+      }
+    },
+    "requests": {
+      "searchIncoming": "ابحث عن المرشحين...",
+      "searchOutgoing": "ابحث في الطلبات المرسلة...",
+      "waitlist": "قائمة الانتظار",
+      "noDecision": "بدون قرار",
+      "emptyIncomingTitle": "لا توجد طلبات واردة",
+      "emptyIncomingSubtitle": "ستظهر هنا طلبات المرشحين.",
+      "emptyOutgoingTitle": "لا توجد طلبات مرسلة",
+      "emptyOutgoingSubtitle": "ستظهر هنا الطلبات التي أرسلتها.",
+      "status": {
+        "pending": "قيد الانتظار",
+        "waitlisted": "في قائمة الانتظار",
+        "accepted": "مقبول",
+        "declined": "مرفوض"
+      },
+      "menu": {
+        "approve": "قبول المرشح",
+        "decline": "رفض الطلب",
+        "sendMessage": "إرسال رسالة",
+        "specifications": "مواصفات الطلب",
+        "inspectCandidate": "عرض ملف المرشح",
+        "viewJob": "عرض إعلان الوظيفة"
+      },
+      "unknownJob": "وظيفة غير معروفة",
+      "recently": "مؤخراً"
+    },
+    "actions": {
+      "groups": {
+        "core": "الإجراءات الأساسية",
+        "pipeline": "أدوات مسار المرشحين",
+        "distribution": "النشر والمشاركة",
+        "danger": "منطقة الخطر"
+      },
+      "items": {
+        "edit": {
+          "title": "تعديل إعلان الوظيفة",
+          "description": "تحديث العنوان والمتطلبات والراتب"
+        },
+        "duplicate": {
+          "title": "تكرار الوظيفة",
+          "description": "إنشاء نسخة لفرصة مشابهة"
+        },
+        "pause": {
+          "title": "إيقاف استقبال الطلبات",
+          "description": "التوقف عن قبول طلبات جديدة"
+        },
+        "resume": {
+          "title": "استئناف استقبال الطلبات",
+          "description": "السماح للمرشحين بالتقديم مجدداً"
+        },
+        "export": {
+          "title": "تصدير المتقدمين (CSV/PDF)",
+          "description": "تنزيل قاعدة بيانات الطلبات كاملة"
+        },
+        "broadcast": {
+          "title": "رسالة جماعية",
+          "description": "إرسال تحديث إلى جميع المتقدمين"
+        },
+        "interview": {
+          "title": "جدولة المقابلات",
+          "description": "تحديد مواعيد المقابلات المتاحة"
+        },
+        "copyLink": {
+          "title": "نسخ الرابط المباشر",
+          "description": "مشاركة رابط الإحالة أو الصفحة المخصصة"
+        },
+        "shareSocial": {
+          "title": "المشاركة على وسائل التواصل",
+          "description": "النشر على LinkedIn أو X أو Facebook"
+        },
+        "archive": {
+          "title": "أرشفة إعلان الوظيفة",
+          "description": "نقل إلى الأرشيف دون حذف البيانات",
+          "disabledDescription": "يجب أن تكون الوظيفة مسودة أو فاشلة أو مكتملة ليتم أرشفتها"
+        },
+        "delete": {
+          "title": "حذف الوظيفة نهائياً",
+          "description": "إزالة الإعلان وسجلات المتقدمين بشكل نهائي",
+          "disabledDescription": "يجب أن تكون الوظيفة مسودة ليتم حذفها"
+        }
+      },
+      "errors": {
+        "updateStatus": "فشل تحديث حالة الوظيفة: {{message}}",
+        "unknown": "خطأ غير معروف"
+      },
+      "sheets": {
+        "duplicate": {
+          "title": "تكرار الوظيفة",
+          "description": "هل أنت متأكد أنك تريد تكرار هذه الوظيفة؟"
+        },
+        "archive": {
+          "title": "أرشفة الوظيفة",
+          "description": "هل أنت متأكد أنك تريد أرشفة هذه الوظيفة؟ سيتم نقلها إلى الأرشيف دون حذف البيانات."
+        },
+        "delete": {
+          "title": "حذف الوظيفة",
+          "description": "هل أنت متأكد أنك تريد حذف مسودة الوظيفة؟ لا يمكن التراجع عن هذا الإجراء."
+        },
+        "pause": {
+          "title": "إيقاف استقبال الطلبات",
+          "description": "هل أنت متأكد أنك تريد إيقاف استقبال الطلبات؟ لن يتم قبول أي تقديمات جديدة."
+        },
+        "resume": {
+          "title": "استئناف استقبال الطلبات",
+          "description": "هل أنت متأكد أنك تريد استئناف استقبال الطلبات؟ سيتمكن المرشحون من التقديم مجدداً."
+        }
+      }
+    }
+  }
+}

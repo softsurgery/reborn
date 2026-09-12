@@ -6,6 +6,9 @@ import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/icon";
 import { Trash2 } from "lucide-react-native";
 import { useColorPalette } from "@/hooks/useColorPalette";
+import { useRTL } from "@/hooks/useRTL";
+import { cn } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
 
 interface DeleteJobActionSheetProps {
   onConfirm: () => void;
@@ -18,6 +21,8 @@ export const DeleteJobActionSheet = React.forwardRef<
   DeleteJobActionSheetProps
 >(({ onConfirm, onClose, isPending }, ref) => {
   const { palette } = useColorPalette();
+  const isRTL = useRTL();
+  const { t } = useTranslation("jobs");
 
   return (
     <ActionSheet
@@ -36,20 +41,35 @@ export const DeleteJobActionSheet = React.forwardRef<
     >
       <View>
         <View className="p-4">
-          <View className="flex-row items-center justify-between mb-2">
-            <View className="flex-row items-center gap-2">
+          <View
+            className={cn(
+              "flex-row items-center justify-between mb-2",
+              isRTL && "flex-row-reverse",
+            )}
+          >
+            <View
+              className={cn(
+                "flex-row items-center gap-2",
+                isRTL && "flex-row-reverse",
+              )}
+            >
               <Icon as={Trash2} size={20} className="text-destructive" />
               <Text variant="large" className="text-destructive font-bold">
-                Delete Job
+                {t("management.actions.sheets.delete.title")}
               </Text>
             </View>
           </View>
 
           <Text className="mt-1 mb-4 text-sm text-muted-foreground">
-            Are you sure you want to delete this job draft? This action cannot be undone.
+            {t("management.actions.sheets.delete.description")}
           </Text>
 
-          <View className="flex-row items-center gap-2 mt-2">
+          <View
+            className={cn(
+              "flex-row items-center gap-2 mt-2",
+              isRTL && "flex-row-reverse",
+            )}
+          >
             <Button
               onPress={onConfirm}
               variant="destructive"
@@ -58,7 +78,7 @@ export const DeleteJobActionSheet = React.forwardRef<
               disabled={isPending}
             >
               <Text className="text-base font-semibold text-destructive-foreground">
-                Delete
+                {t("management.common.delete")}
               </Text>
             </Button>
             <Button
@@ -68,7 +88,7 @@ export const DeleteJobActionSheet = React.forwardRef<
               onPress={onClose}
               disabled={isPending}
             >
-              <Text>Cancel</Text>
+              <Text>{t("management.common.cancel")}</Text>
             </Button>
           </View>
         </View>

@@ -6,6 +6,7 @@ import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/icon";
 import { Archive } from "lucide-react-native";
 import { useColorPalette } from "@/hooks/useColorPalette";
+import { useTranslation } from "react-i18next";
 
 interface ArchiveJobActionSheetProps {
   onConfirm: () => void;
@@ -18,6 +19,7 @@ export const ArchiveJobActionSheet = React.forwardRef<
   ArchiveJobActionSheetProps
 >(({ onConfirm, onClose, isPending }, ref) => {
   const { palette } = useColorPalette();
+  const { t } = useTranslation("jobs");
 
   return (
     <ActionSheet
@@ -40,13 +42,13 @@ export const ArchiveJobActionSheet = React.forwardRef<
             <View className="flex-row items-center gap-2">
               <Icon as={Archive} size={20} className="text-foreground" />
               <Text variant="large" className="text-foreground">
-                Archive Job
+                {t("management.actions.sheets.archive.title")}
               </Text>
             </View>
           </View>
 
           <Text className="mt-1 mb-4 text-sm text-muted-foreground">
-            Are you sure you want to archive this job? It will be moved to the archive without deleting the data.
+            {t("management.actions.sheets.archive.description")}
           </Text>
 
           <View className="flex-row items-center gap-2 mt-2">
@@ -57,7 +59,7 @@ export const ArchiveJobActionSheet = React.forwardRef<
               disabled={isPending}
             >
               <Text className="text-base font-semibold">
-                Confirm
+                {t("management.common.confirm")}
               </Text>
             </Button>
             <Button
@@ -67,7 +69,7 @@ export const ArchiveJobActionSheet = React.forwardRef<
               onPress={onClose}
               disabled={isPending}
             >
-              <Text>Cancel</Text>
+              <Text>{t("management.common.cancel")}</Text>
             </Button>
           </View>
         </View>

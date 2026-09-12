@@ -1,15 +1,13 @@
-import React from "react";
 import { View, Text, Pressable } from "react-native";
 import {
   Users,
   Eye,
   MousePointerClick,
   CheckCircle2,
-  ArrowUpRight,
-  ArrowDownRight,
 } from "lucide-react-native";
 import { useColorPalette } from "@/hooks/useColorPalette";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
 
 interface JobStatisticsKPIsProps {
   className?: string;
@@ -35,31 +33,32 @@ export const JobStatisticsKPIs = ({
   shortlistedTrend,
 }: JobStatisticsKPIsProps) => {
   const { palette } = useColorPalette();
+  const { t } = useTranslation("jobs");
 
   const kpiItems = [
     {
-      label: "Total Job Views",
+      label: t("management.statistics.kpis.totalViews"),
       value: totalViews,
       trend: viewsTrend,
       icon: Eye,
       iconBg: "bg-blue-500/10",
     },
     {
-      label: "Job Saves / Interest",
+      label: t("management.statistics.kpis.saves"),
       value: totalSaves,
       trend: savesTrend,
       icon: MousePointerClick,
       iconBg: "bg-purple-500/10",
     },
     {
-      label: "Total Applications",
+      label: t("management.statistics.kpis.applications"),
       value: totalApplications,
       trend: applicationsTrend,
       icon: Users,
       iconBg: "bg-emerald-500/10",
     },
     {
-      label: "Shortlisted Candidates",
+      label: t("management.statistics.kpis.shortlisted"),
       value: shortlistedCandidates,
       trend: shortlistedTrend,
       icon: CheckCircle2,

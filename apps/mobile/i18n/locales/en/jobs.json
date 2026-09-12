@@ -1,0 +1,180 @@
+{
+  "management": {
+    "title": "Job Management",
+    "tabs": {
+      "statistics": "Statistics",
+      "requests": "Requests",
+      "actions": "Actions"
+    },
+    "common": {
+      "cancel": "Cancel",
+      "confirm": "Confirm",
+      "delete": "Delete"
+    },
+    "statistics": {
+      "kpis": {
+        "totalViews": "Total Job Views",
+        "saves": "Job Saves / Interest",
+        "applications": "Total Applications",
+        "shortlisted": "Shortlisted Candidates"
+      },
+      "sections": {
+        "weeklyActivity": {
+          "title": "Weekly Activity Trend",
+          "subtitle": "Daily views & application distribution"
+        },
+        "funnel": {
+          "title": "Application Funnel",
+          "subtitle": "Conversion rates across recruitment stages"
+        },
+        "experience": {
+          "title": "Applicant Experience Levels",
+          "subtitle": "Breakdown of candidate seniority levels"
+        },
+        "channels": {
+          "title": "Top Acquisition Channels",
+          "subtitle": "Sources driving candidate traffic to your job"
+        }
+      },
+      "days": {
+        "Mon": "Mon",
+        "Tue": "Tue",
+        "Wed": "Wed",
+        "Thu": "Thu",
+        "Fri": "Fri",
+        "Sat": "Sat",
+        "Sun": "Sun"
+      },
+      "legend": {
+        "pageViews": "Page Views",
+        "applications": "Applications"
+      },
+      "funnel": {
+        "Job Views": "Job Views",
+        "Saved / Interest": "Saved / Interest",
+        "Applications": "Applications",
+        "Shortlisted": "Shortlisted",
+        "Assigned Worker": "Assigned Worker"
+      },
+      "experience": {
+        "Senior (5-8 yrs)": "Senior (5-8 yrs)",
+        "Mid-Level (3-5 yrs)": "Mid-Level (3-5 yrs)",
+        "Lead / Entry (0-3 yrs)": "Lead / Entry (0-3 yrs)"
+      },
+      "channels": {
+        "Direct App Applications": "Direct App Applications",
+        "Saved Jobs Interest": "Saved Jobs Interest",
+        "candidates": "{{count}} candidates",
+        "usersSaved": "{{count}} users saved"
+      }
+    },
+    "requests": {
+      "searchIncoming": "Search incoming candidates...",
+      "searchOutgoing": "Search sent applications...",
+      "waitlist": "Waitlist",
+      "noDecision": "No Decision",
+      "emptyIncomingTitle": "No Incoming Requests",
+      "emptyIncomingSubtitle": "Applications from candidates will appear here.",
+      "emptyOutgoingTitle": "No Sent Applications",
+      "emptyOutgoingSubtitle": "Job applications you've submitted will appear here.",
+      "status": {
+        "pending": "Pending",
+        "waitlisted": "Waitlisted",
+        "accepted": "Accepted",
+        "declined": "Declined"
+      },
+      "menu": {
+        "approve": "Approve Candidate",
+        "decline": "Decline Application",
+        "sendMessage": "Send Message",
+        "specifications": "Request Specifications",
+        "inspectCandidate": "Inspect Candidate Profile",
+        "viewJob": "View Full Job Listing"
+      },
+      "unknownJob": "Unknown Job",
+      "recently": "Recently"
+    },
+    "actions": {
+      "groups": {
+        "core": "Core Actions",
+        "pipeline": "Candidate Pipeline Tools",
+        "distribution": "Distribution & Share",
+        "danger": "Danger Zone"
+      },
+      "items": {
+        "edit": {
+          "title": "Edit Job Posting",
+          "description": "Update title, requirements & salary"
+        },
+        "duplicate": {
+          "title": "Duplicate Job",
+          "description": "Create a copy for a similar opening"
+        },
+        "pause": {
+          "title": "Pause Applications",
+          "description": "Stop accepting new candidate submissions"
+        },
+        "resume": {
+          "title": "Resume Applications",
+          "description": "Start accepting new candidate submissions again"
+        },
+        "export": {
+          "title": "Export Applicants (CSV/PDF)",
+          "description": "Download full application database"
+        },
+        "broadcast": {
+          "title": "Broadcast Message",
+          "description": "Send updates to all applicants"
+        },
+        "interview": {
+          "title": "Interview Batch Scheduler",
+          "description": "Set available calendar slots for interviews"
+        },
+        "copyLink": {
+          "title": "Copy Direct Link",
+          "description": "Share custom referral or landing page link"
+        },
+        "shareSocial": {
+          "title": "Share on Social Media",
+          "description": "Publish post to LinkedIn, X, or Facebook"
+        },
+        "archive": {
+          "title": "Archive Job Listing",
+          "description": "Move to archive without deleting data",
+          "disabledDescription": "Job must be in Draft, Failed, or Successful status to be archived"
+        },
+        "delete": {
+          "title": "Delete Job Permanently",
+          "description": "Irreversibly remove listing & applicant records",
+          "disabledDescription": "Job must be in Draft status to be deleted"
+        }
+      },
+      "errors": {
+        "updateStatus": "Failed to update job status: {{message}}",
+        "unknown": "Unknown error"
+      },
+      "sheets": {
+        "duplicate": {
+          "title": "Duplicate Job",
+          "description": "Are you sure you want to duplicate this job?"
+        },
+        "archive": {
+          "title": "Archive Job",
+          "description": "Are you sure you want to archive this job? It will be moved to the archive without deleting the data."
+        },
+        "delete": {
+          "title": "Delete Job",
+          "description": "Are you sure you want to delete this job draft? This action cannot be undone."
+        },
+        "pause": {
+          "title": "Pause Applications",
+          "description": "Are you sure you want to pause applications? No new candidate submissions will be accepted."
+        },
+        "resume": {
+          "title": "Resume Applications",
+          "description": "Are you sure you want to resume applications? Candidates will be able to submit their applications again."
+        }
+      }
+    }
+  }
+}
