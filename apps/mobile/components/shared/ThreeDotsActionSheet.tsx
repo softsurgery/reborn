@@ -9,6 +9,7 @@ import { Text } from "../ui/text";
 import { VariantProps } from "class-variance-authority";
 import { Button } from "@/components/ui/button";
 import { useColorPalette } from "@/hooks/useColorPalette";
+import { useRTL } from "@/hooks/useRTL";
 
 interface ThreeDotsActionSheetProps {
   icon?: LucideIcon;
@@ -29,6 +30,7 @@ export const ThreeDotsActionSheet = forwardRef<
   ThreeDotsActionSheetProps
 >(({ icon, disabled, size, options, renderTrigger = true }, ref) => {
   const { palette } = useColorPalette();
+  const isRTL = useRTL();
   const sheetRef = React.useRef<ActionSheetRef>(null);
 
   React.useImperativeHandle(ref, () => sheetRef.current as ActionSheetRef);
@@ -83,6 +85,7 @@ export const ThreeDotsActionSheet = forwardRef<
               }}
               className={cn(
                 "flex flex-row items-center gap-2 rounded-2xl h-12 active:opacity-50",
+                isRTL && "flex-row-reverse",
                 option.disabled && "opacity-50",
               )}
             >

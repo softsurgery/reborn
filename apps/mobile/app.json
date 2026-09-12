@@ -66,7 +66,9 @@
     },
     "newArchEnabled": true,
     "extra": {
-      "router": {}
+      "router": {},
+      "supportsRTL": false,
+      "forcesRTL": false
     }
   }
 }

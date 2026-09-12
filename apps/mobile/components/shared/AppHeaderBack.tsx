@@ -147,7 +147,11 @@ export const AppHeaderBack = ({ className }: AppHeaderBackProps) => {
   return (
     <TouchableOpacity
       onPress={router.back}
-      className={cn("flex-row items-center h-9", className)}
+      className={cn(
+        "flex-row items-center h-9",
+        isRTL && "flex-row-reverse",
+        className,
+      )}
       style={{
         maxWidth: SCREEN_WIDTH * 0.4,
         flexShrink: 1,
@@ -173,7 +177,7 @@ export const AppHeaderBack = ({ className }: AppHeaderBackProps) => {
           flexShrink: 1,
           minWidth: 0,
 
-          marginLeft: 4,
+          ...(isRTL ? { marginRight: 4 } : { marginLeft: 4 }),
         }}
         numberOfLines={1}
         ellipsizeMode="tail"

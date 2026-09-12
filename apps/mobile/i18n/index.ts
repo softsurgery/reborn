@@ -61,7 +61,10 @@ const resources = {
 };
 
 const locales = Localization.getLocales();
-const languageCode = locales[0]?.languageCode || "en";
+const languageCode =
+  locales[0]?.languageCode ||
+  locales[0]?.languageTag?.split("-")[0] ||
+  "en";
 
 i18n.use(initReactI18next).init({
   compatibilityJSON: "v4",

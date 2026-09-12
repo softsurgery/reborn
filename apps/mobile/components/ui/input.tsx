@@ -5,9 +5,11 @@ import { cn } from "~/lib/utils";
 
 const Input = React.forwardRef<TextInput, TextInputProps>(
   ({ className, ...props }, ref) => {
+    const isRTL = useRTL();
     return (
       <TextInput
         ref={ref}
+        textAlign={isRTL ? "right" : "left"}
         className={cn(
           "dark:bg-input/30 border-input bg-background text-foreground flex h-12 w-full min-w-0 flex-row items-center rounded-xl border px-3 text-sm leading-5 shadow-sm shadow-black/5",
           props.editable === false &&

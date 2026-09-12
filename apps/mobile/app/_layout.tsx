@@ -22,7 +22,7 @@ import { asyncStoragePersister, queryClient } from "@/lib/query-client";
 import { LoaderProvider } from "@/contexts/LoaderContext";
 import { KeyboardProvider } from "react-native-keyboard-controller";
 export { ErrorBoundary } from "@/components/shared/ErrorBoundary";
-import { useRTL } from "@/hooks/useRTL";
+import { resolveAppLanguage, useRTL } from "@/hooks/useRTL";
 
 interface RootLayoutContentProps {
   palette: typeof THEME.light | typeof THEME.dark;
@@ -47,10 +47,11 @@ function RootLayoutContent({ palette, colorScheme }: RootLayoutContentProps) {
 
   return (
     <ThemeProvider value={NAV_THEME[colorScheme ?? "light"]}>
-      <GestureHandlerRootView style={{ flex: 1 }}>
+      <GestureHandlerRootView style={{ flex: 1, direction: "ltr" }}>
         <View
           className={cn("flex-1 light dark:dark bg-background")}
           style={{
+            direction: "ltr",
             paddingBottom: Platform.OS === "ios" ? 0 : insets.bottom,
           }}
         >
@@ -95,13 +96,11 @@ export default function RootLayout() {
   const isPreferenceReady = usePreferencePersistStore((state) => state.isReady);
   const language = usePreferencePersistStore((state) => state.language);
 
-  React.useEffect(() => {
-    if (isPreferenceReady && language && language !== "system") {
-      if (i18n.language !== language) {
-        i18n.changeLanguage(language);
-      }
-    }
-  }, [isPreferenceReady, language]);
+  const resolvedLanguage = resolveAppLanguage(language);
+
+  if (isPreferenceReady && i18n.language !== resolvedLanguage) {
+    void i18n.changeLanguage(resolvedLanguage);
+  }
 
   React.useEffect(() => {
     if (!isPreferenceReady) return;
@@ -113,6 +112,8 @@ export default function RootLayout() {
       } catch {}
     })();
   }, [isPreferenceReady]);
+
+  if (!isPreferenceReady) return null;
 
   return (
     <ThemeProvider value={NAV_THEME[colorScheme ?? "light"]}>

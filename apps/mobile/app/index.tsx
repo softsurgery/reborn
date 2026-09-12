@@ -6,6 +6,7 @@ import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
 import { ActivityIndicator, Platform } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
 import { usePreferencePersistStore } from "~/hooks/stores/usePreferencePersistStore";
+import { resolveAppLanguage } from "~/hooks/useRTL";
 import { useTranslation } from "react-i18next";
 
 SplashScreen.preventAutoHideAsync();
@@ -46,7 +47,7 @@ export default function ScreenRedirect() {
       setColorScheme(preferencePersistStore.theme);
       if (Platform.OS === "android")
         setAndroidNavigationBar(preferencePersistStore.theme);
-      i18n.changeLanguage(preferencePersistStore.language);
+      i18n.changeLanguage(resolveAppLanguage(preferencePersistStore.language));
       router.replace("/main");
     }, 100);
   }, [preferencePersistStore.isReady]);
