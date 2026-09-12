@@ -30,6 +30,8 @@ import { useColorPalette } from "@/hooks/useColorPalette";
 import { JobCreateActionBanner } from "./JobCreateActionBanner";
 import { MyJobPreviewModal } from "@/components/jobs/job-management/MyJobPreviewModal";
 import { Separator } from "@/components/ui/separator";
+import { useTranslation } from "react-i18next";
+import { useRTL } from "@/hooks/useRTL";
 
 interface UserJobsListProps {
   className?: string;
@@ -37,22 +39,29 @@ interface UserJobsListProps {
 }
 
 interface FilterOption {
-  label: string;
+  labelKey:
+    | "userJobs.filters.all"
+    | "userJobs.filters.published"
+    | "userJobs.filters.drafts"
+    | "userJobs.filters.inProgress"
+    | "userJobs.filters.finished";
   value: string;
 }
 
 const FILTER_OPTIONS: FilterOption[] = [
-  { label: "All", value: "all" },
-  { label: "Published", value: JobStatus.POSTED },
-  { label: "Drafts", value: JobStatus.DRAFT },
-  { label: "In Progress", value: "in_progress" },
-  { label: "Finished", value: JobStatus.FINISHED },
+  { labelKey: "userJobs.filters.all", value: "all" },
+  { labelKey: "userJobs.filters.published", value: JobStatus.POSTED },
+  { labelKey: "userJobs.filters.drafts", value: JobStatus.DRAFT },
+  { labelKey: "userJobs.filters.inProgress", value: "in_progress" },
+  { labelKey: "userJobs.filters.finished", value: JobStatus.FINISHED },
 ];
 
 export const UserJobsList = ({
   className,
   searching = false,
 }: UserJobsListProps) => {
+  const { t } = useTranslation("home");
+  const isRTL = useRTL();
   const { currentUser } = useCurrentUser();
   const [search, setSearch] = React.useState("");
   const { palette } = useColorPalette();
@@ -118,7 +127,7 @@ export const UserJobsList = ({
         style={[animatedBlurStyle]}
       >
         <ApplicationHeader
-          title="My Jobs"
+          title={t("userJobs.title")}
           classNames={{ wrapper: "border-b border-border/60 pb-2.5 bg-card" }}
           titleVariant="large"
           reverse
@@ -146,8 +155,9 @@ export const UserJobsList = ({
               icon={Search}
               value={search}
               onChangeText={setSearch}
-              placeholder="Search jobs by title or keyword..."
+              placeholder={t("userJobs.searchPlaceholder")}
               enableClear
+              reverseIcon={isRTL}
             />
           </View>
 
@@ -155,6 +165,7 @@ export const UserJobsList = ({
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
+            style={isRTL ? { transform: [{ scaleX: -1 }] } : undefined}
             contentContainerStyle={{ gap: 8 }}
           >
             {FILTER_OPTIONS.map((filter) => {
@@ -164,6 +175,7 @@ export const UserJobsList = ({
                   key={filter.value}
                   activeOpacity={0.7}
                   onPress={() => setSelectedFilter(filter.value)}
+                  style={isRTL ? { transform: [{ scaleX: -1 }] } : undefined}
                   className={cn(
                     "px-4 py-2 rounded-full border flex-row items-center gap-1.5",
                     isActive
@@ -179,7 +191,7 @@ export const UserJobsList = ({
                         : "text-muted-foreground",
                     )}
                   >
-                    {filter.label}
+                    {t(filter.labelKey)}
                   </Text>
                 </TouchableOpacity>
               );
@@ -244,13 +256,13 @@ export const UserJobsList = ({
                 <View className="items-center gap-1">
                   <Text className="text-base font-semibold text-foreground text-center">
                     {search || selectedFilter !== "all"
-                      ? "No jobs found"
-                      : "No jobs posted yet"}
+                      ? t("userJobs.empty.noResultsTitle")
+                      : t("userJobs.empty.noJobsTitle")}
                   </Text>
                   <Text className="text-sm text-muted-foreground text-center max-w-[240px]">
                     {search || selectedFilter !== "all"
-                      ? "Try adjusting your search keywords or clearing filter tabs."
-                      : "Start hiring by posting your first job listing today."}
+                      ? t("userJobs.empty.noResultsSubtitle")
+                      : t("userJobs.empty.noJobsSubtitle")}
                   </Text>
                 </View>
               </View>

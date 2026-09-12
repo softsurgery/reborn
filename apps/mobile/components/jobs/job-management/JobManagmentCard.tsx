@@ -221,7 +221,12 @@ export const JobManagementCard = ({
           </Text>
         </Badge>
 
-        <View className={cn("flex-row items-center gap-2")}>
+        <View
+          className={cn(
+            "flex-row items-center gap-2",
+            isRTL && "flex-row-reverse",
+          )}
+        >
           <ThreeDotsActionSheet
             size={26}
             options={[

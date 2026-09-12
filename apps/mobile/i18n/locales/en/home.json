@@ -48,6 +48,27 @@
       }
     }
   },
+  "userJobs": {
+    "title": "My Jobs",
+    "searchPlaceholder": "Search jobs by title or keyword...",
+    "filters": {
+      "all": "All",
+      "published": "Published",
+      "drafts": "Drafts",
+      "inProgress": "In Progress",
+      "finished": "Finished"
+    },
+    "empty": {
+      "noResultsTitle": "No jobs found",
+      "noResultsSubtitle": "Try adjusting your search keywords or clearing filter tabs.",
+      "noJobsTitle": "No jobs posted yet",
+      "noJobsSubtitle": "Start hiring by posting your first job listing today."
+    },
+    "createBanner": {
+      "title": "Post a New Job",
+      "subtitle": "Create a listing to hire talented workers"
+    }
+  },
   "recentActivity": {
     "title": "Recent activity",
     "viewAll": "View all",

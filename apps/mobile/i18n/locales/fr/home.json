@@ -48,6 +48,27 @@
       }
     }
   },
+  "userJobs": {
+    "title": "Mes offres",
+    "searchPlaceholder": "Rechercher des offres par titre ou mot-clé...",
+    "filters": {
+      "all": "Toutes",
+      "published": "Publiées",
+      "drafts": "Brouillons",
+      "inProgress": "En cours",
+      "finished": "Terminées"
+    },
+    "empty": {
+      "noResultsTitle": "Aucune offre trouvée",
+      "noResultsSubtitle": "Essayez de modifier vos mots-clés ou de réinitialiser les filtres.",
+      "noJobsTitle": "Aucune offre publiée",
+      "noJobsSubtitle": "Commencez à recruter en publiant votre première offre dès aujourd'hui."
+    },
+    "createBanner": {
+      "title": "Publier une nouvelle offre",
+      "subtitle": "Créez une annonce pour recruter des talents"
+    }
+  },
   "recentActivity": {
     "title": "Activité récente",
     "viewAll": "Voir tout",

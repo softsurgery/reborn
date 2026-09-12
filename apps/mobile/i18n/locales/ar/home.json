@@ -48,6 +48,27 @@
       }
     }
   },
+  "userJobs": {
+    "title": "وظائفي",
+    "searchPlaceholder": "ابحث عن الوظائف بالعنوان أو الكلمة المفتاحية...",
+    "filters": {
+      "all": "الكل",
+      "published": "منشورة",
+      "drafts": "مسودات",
+      "inProgress": "قيد التنفيذ",
+      "finished": "منتهية"
+    },
+    "empty": {
+      "noResultsTitle": "لم يتم العثور على وظائف",
+      "noResultsSubtitle": "جرّب تعديل كلمات البحث أو مسح عوامل التصفية.",
+      "noJobsTitle": "لم يتم نشر أي وظائف بعد",
+      "noJobsSubtitle": "ابدأ التوظيف بنشر إعلان وظيفتك الأولى اليوم."
+    },
+    "createBanner": {
+      "title": "نشر وظيفة جديدة",
+      "subtitle": "أنشئ إعلاناً لتوظيف المواهب"
+    }
+  },
   "recentActivity": {
     "title": "النشاط الحديث",
     "viewAll": "عرض الكل",

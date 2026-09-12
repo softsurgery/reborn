@@ -4,8 +4,9 @@ import { useColorPalette } from "@/hooks/useColorPalette";
 import { useRTL } from "@/hooks/useRTL";
 import { cn } from "@/lib/utils";
 import { router } from "expo-router";
-import { Briefcase, Plus } from "lucide-react-native";
+import { Plus } from "lucide-react-native";
 import { TouchableOpacity, View } from "react-native";
+import { useTranslation } from "react-i18next";
 
 interface JobCreateActionBannerProps {
   className?: string;
@@ -20,6 +21,7 @@ export const JobCreateActionBanner = ({
 }: JobCreateActionBannerProps) => {
   const { palette } = useColorPalette();
   const isRTL = useRTL();
+  const { t } = useTranslation("home");
   return (
     <View>
       <View
@@ -46,12 +48,12 @@ export const JobCreateActionBanner = ({
             <View className="w-8 h-8 rounded-full bg-primary items-center justify-center">
               <Icon as={Plus} size={18} color={palette.primaryForeground} />
             </View>
-            <View className="flex-1">
+            <View className={cn("flex-1", isRTL && "items-end")}>
               <Text className="text-base font-semibold text-foreground">
-                Post a New Job
+                {t("userJobs.createBanner.title")}
               </Text>
               <Text className="text-xs text-muted-foreground">
-                Create a listing to hire talented workers
+                {t("userJobs.createBanner.subtitle")}
               </Text>
             </View>
           </View>

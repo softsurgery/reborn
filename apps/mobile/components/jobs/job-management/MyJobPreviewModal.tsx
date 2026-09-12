@@ -35,6 +35,7 @@ import { useNextWorkflowJob } from "@/hooks/content/job/workflow/useNextWorkflow
 import { useDeleteJob } from "@/hooks/content/job/useDeleteJob";
 import { useQueryClient } from "@tanstack/react-query";
 import { cn } from "@/lib/utils";
+import { useRTL } from "@/hooks/useRTL";
 
 interface MyJobPreviewModalProps {
   visible: boolean;
@@ -96,6 +97,7 @@ export const MyJobPreviewModal = ({
   onClose,
 }: MyJobPreviewModalProps) => {
   const { palette } = useColorPalette();
+  const isRTL = useRTL();
   const queryClient = useQueryClient();
 
   const { deleteJob } = useDeleteJob();
@@ -270,8 +272,18 @@ export const MyJobPreviewModal = ({
           {/* Main Floating Preview Card */}
           <View className="w-full bg-card border border-border p-4 shadow-2xl overflow-hidden rounded-xl">
             {/* Header: Category + Status Badge + Close Button */}
-            <View className="flex-row items-center justify-between mb-3 pb-2 border-b border-border/60">
-              <View className="flex-row items-center gap-2 flex-1">
+            <View
+              className={cn(
+                "flex-row items-center justify-between mb-3 pb-2 border-b border-border/60",
+                isRTL && "flex-row-reverse",
+              )}
+            >
+              <View
+                className={cn(
+                  "flex-row items-center gap-2 flex-1",
+                  isRTL && "flex-row-reverse",
+                )}
+              >
                 <Text
                   numberOfLines={1}
                   className="text-xs font-bold uppercase tracking-wider text-primary flex-1"
@@ -292,7 +304,10 @@ export const MyJobPreviewModal = ({
               </View>
               <TouchableOpacity
                 onPress={() => handleDismiss()}
-                className="p-1 rounded-full bg-muted/80 ml-2"
+                className={cn(
+                  "p-1 rounded-full bg-muted/80",
+                  isRTL ? "mr-2" : "ml-2",
+                )}
                 hitSlop={8}
               >
                 <X size={16} color={palette.foreground} />
@@ -315,7 +330,12 @@ export const MyJobPreviewModal = ({
               )}
 
               {extraPhotos > 0 && (
-                <View className="absolute bottom-2 right-2 rounded-md bg-black/70 px-2 py-0.5">
+                <View
+                  className={cn(
+                    "absolute bottom-2 rounded-md bg-black/70 px-2 py-0.5",
+                    isRTL ? "left-2" : "right-2",
+                  )}
+                >
                   <Text className="text-[10px] font-semibold text-white">
                     +{extraPhotos} photos
                   </Text>
@@ -342,8 +362,18 @@ export const MyJobPreviewModal = ({
               ) : null}
 
               {/* Price & Meta Badges */}
-              <View className="flex-row items-center justify-between mt-2 pt-2 border-t border-border/50">
-                <View className="flex-row items-baseline gap-1">
+              <View
+                className={cn(
+                  "flex-row items-center justify-between mt-2 pt-2 border-t border-border/50",
+                  isRTL && "flex-row-reverse",
+                )}
+              >
+                <View
+                  className={cn(
+                    "flex-row items-baseline gap-1",
+                    isRTL && "flex-row-reverse",
+                  )}
+                >
                   <Text className="text-xl font-extrabold text-foreground">
                     {job.price?.toFixed(2)}
                   </Text>
@@ -353,9 +383,19 @@ export const MyJobPreviewModal = ({
                   </Text>
                 </View>
 
-                <View className="flex-row items-center gap-1.5">
+                <View
+                  className={cn(
+                    "flex-row items-center gap-1.5",
+                    isRTL && "flex-row-reverse",
+                  )}
+                >
                   {job.style && (
-                    <View className="flex-row items-center gap-1 rounded-full bg-muted px-2 py-1">
+                    <View
+                      className={cn(
+                        "flex-row items-center gap-1 rounded-full bg-muted px-2 py-1",
+                        isRTL && "flex-row-reverse",
+                      )}
+                    >
                       <MapPin size={10} color={palette.mutedForeground} />
                       <Text style={{ fontSize: 10 }} className="font-medium text-muted-foreground">
                         {job.style}
@@ -363,7 +403,12 @@ export const MyJobPreviewModal = ({
                     </View>
                   )}
                   {job.difficulty && (
-                    <View className="flex-row items-center gap-1 rounded-full bg-muted px-2 py-1">
+                    <View
+                      className={cn(
+                        "flex-row items-center gap-1 rounded-full bg-muted px-2 py-1",
+                        isRTL && "flex-row-reverse",
+                      )}
+                    >
                       <Signal size={10} color={palette.mutedForeground} />
                       <Text style={{ fontSize: 10 }} className="font-medium text-muted-foreground">
                         {job.difficulty}
@@ -383,7 +428,10 @@ export const MyJobPreviewModal = ({
           <View className="w-full bg-card border border-border rounded-2xl mt-3 overflow-hidden shadow-2xl">
             <TouchableOpacity
               onPress={handleManage}
-              className="flex-row items-center justify-between px-4 py-3.5 border-b border-border/50 active:bg-accent/40"
+              className={cn(
+                "flex-row items-center justify-between px-4 py-3.5 border-b border-border/50 active:bg-accent/40",
+                isRTL && "flex-row-reverse",
+              )}
             >
               <Text className="text-sm font-semibold text-foreground">
                 Manage Job & Applicants
@@ -393,7 +441,10 @@ export const MyJobPreviewModal = ({
 
             <TouchableOpacity
               onPress={handleEdit}
-              className="flex-row items-center justify-between px-4 py-3.5 border-b border-border/50 active:bg-accent/40"
+              className={cn(
+                "flex-row items-center justify-between px-4 py-3.5 border-b border-border/50 active:bg-accent/40",
+                isRTL && "flex-row-reverse",
+              )}
             >
               <Text className="text-sm font-semibold text-foreground">
                 Edit Listing
@@ -404,7 +455,10 @@ export const MyJobPreviewModal = ({
             {(isDraft || isPosted) && (
               <TouchableOpacity
                 onPress={handleToggleWorkflow}
-                className="flex-row items-center justify-between px-4 py-3.5 border-b border-border/50 active:bg-accent/40"
+                className={cn(
+                  "flex-row items-center justify-between px-4 py-3.5 border-b border-border/50 active:bg-accent/40",
+                  isRTL && "flex-row-reverse",
+                )}
               >
                 <Text className="text-sm font-semibold text-foreground">
                   {isDraft ? "Publish Listing" : "Unpublish Listing"}
@@ -415,7 +469,10 @@ export const MyJobPreviewModal = ({
 
             <TouchableOpacity
               onPress={handleViewPublicDetails}
-              className="flex-row items-center justify-between px-4 py-3.5 border-b border-border/50 active:bg-accent/40"
+              className={cn(
+                "flex-row items-center justify-between px-4 py-3.5 border-b border-border/50 active:bg-accent/40",
+                isRTL && "flex-row-reverse",
+              )}
             >
               <Text className="text-sm font-semibold text-foreground">
                 View Public Details
@@ -425,7 +482,10 @@ export const MyJobPreviewModal = ({
 
             <TouchableOpacity
               onPress={handleShare}
-              className="flex-row items-center justify-between px-4 py-3.5 border-b border-border/50 active:bg-accent/40"
+              className={cn(
+                "flex-row items-center justify-between px-4 py-3.5 border-b border-border/50 active:bg-accent/40",
+                isRTL && "flex-row-reverse",
+              )}
             >
               <Text className="text-sm font-semibold text-foreground">
                 Share Job
@@ -436,7 +496,10 @@ export const MyJobPreviewModal = ({
             {isDraft && (
               <TouchableOpacity
                 onPress={handleDelete}
-                className="flex-row items-center justify-between px-4 py-3.5 active:bg-destructive/10"
+                className={cn(
+                  "flex-row items-center justify-between px-4 py-3.5 active:bg-destructive/10",
+                  isRTL && "flex-row-reverse",
+                )}
               >
                 <Text className="text-sm font-semibold text-destructive">
                   Delete Listing
