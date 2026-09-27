@@ -1,0 +1,22 @@
+{
+  "name": "reborn",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:web": "yarn workspace reborn-back-office dev",
+    "dev:mobile": "yarn workspace reborn-mobile-app-v2 dev",
+    "dev:api": "yarn workspace reborn-api start:dev",
+    "build:web": "yarn workspace reborn-back-office build",
+    "build:mobile": "yarn workspace reborn-mobile-app-v2 dev",
+    "build:api": "yarn workspace reborn-api build",
+    "lint:web": "yarn workspace reborn-back-office lint",
+    "lint:api": "yarn workspace reborn-api lint"
+  },
+  "packageManager": "yarn@1.22.22",
+  "engines": {
+    "node": ">=18"
+  }
+}
