@@ -1,0 +1,145 @@
+```html
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Email Notification</title>
+</head>
+
+<body style="
+      font-family: Arial, Helvetica, sans-serif;
+      color: #343a40;
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+      line-height: 1.6;
+    ">
+
+  <!-- Header -->
+  <div style="text-align: center; margin-bottom: 30px;">
+    <img src="<%= logo %>" alt="<%= name %>" style="max-height: 64px; margin-bottom: 20px;" />
+
+    <h1 style="
+        color: #b91c1c;
+        font-size: 28px;
+        font-weight: bold;
+        margin: 0;
+      ">
+      <%= name %>
+    </h1>
+  </div>
+
+  <!-- Content -->
+  <div style="
+      background-color: #f8f9fa;
+      padding: 30px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+      border: 1px solid #e9ecef;
+    ">
+
+    <h2 style="
+        font-size: 20px;
+        font-weight: 600;
+        margin-top: 0;
+        margin-bottom: 20px;
+      ">
+      Hello <%= client %>,
+    </h2>
+
+    <p style="margin-bottom: 16px;">
+      We hope this email finds you well. Please verify your email address to
+      complete your registration.
+    </p>
+
+    <p style="margin-bottom: 16px;">
+      To verify your email address, please click the button below:
+    </p>
+
+    <div style="text-align: center; margin: 30px 0;">
+      <a href="<%= url %>" style="
+          background-color: #b91c1c;
+          color: #ffffff;
+          padding: 14px 28px;
+          text-decoration: none;
+          border-radius: 6px;
+          display: inline-block;
+          font-weight: bold;
+          font-size: 16px;
+        ">
+        Verify Email Address
+      </a>
+    </div>
+
+    <p style="margin-bottom: 8px;">
+      If the button above doesn't work, you can also copy and paste this link
+      into your browser:
+    </p>
+
+    <p style="
+        color: #b91c1c;
+        word-break: break-word;
+        margin-bottom: 0;
+      ">
+      <%= url %>
+    </p>
+  </div>
+
+  <!-- Footer -->
+  <div style="
+      border-top: 1px solid #dee2e6;
+      padding-top: 24px;
+      color: #6c757d;
+      font-size: 14px;
+    ">
+
+    <p style="
+        font-weight: 600;
+        color: #343a40;
+        margin-bottom: 8px;
+      ">
+      Need Help?
+    </p>
+
+    <p style="margin-bottom: 24px;">
+      If you have any questions or need assistance, please don't hesitate to
+      contact our support team at
+      <a href="mailto:<%= support %>" style="
+          color: #b91c1c;
+          text-decoration: none;
+          font-weight: 500;
+        ">
+        <%= support %>
+      </a>
+    </p>
+
+    <p style="margin-bottom: 24px;">
+      Best regards,<br />
+      The <%= name %> Team
+    </p>
+
+    <div style="
+        padding-top: 16px;
+        border-top: 1px solid #dee2e6;
+        color: #6c757d;
+        font-size: 13px;
+      ">
+      <p>
+        <%= name %><br />
+          <%= address %>
+      </p>
+
+      <p style="margin-top: 16px;">
+        This email was sent to <%= email %>. If you received this email in
+          error, please ignore it.
+      </p>
+    </div>
+
+  </div>
+
+</body>
+
+</html>
+```

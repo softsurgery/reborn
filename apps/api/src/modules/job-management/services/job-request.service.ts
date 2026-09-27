@@ -1,0 +1,294 @@
+import { Transactional } from '@nestjs-cls/transactional';
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { FindManyOptions, In } from 'typeorm';
+import { IQueryObject } from 'src/shared/database/interfaces/database-query-options.interface';
+import {
+  QueryBuilder,
+  mergeWhereConditions,
+} from 'src/shared/database/utils/database-query-builder';
+import { PageDto } from 'src/shared/database/dtos/database.page.dto';
+import { PageMetaDto } from 'src/shared/database/dtos/database.page-meta.dto';
+import { JobRequestRepository } from '../repositories/job-request.repository';
+import { JobRequestEntity } from '../entities/job-request.entity';
+import { JobRequestNotFoundException } from '../errors/job-request/job-request.notfound.error';
+import { CreateJobRequestDto } from '../dtos/job-request/create-job-request.dto';
+import { UpdateJobRequestDto } from '../dtos/job-request/update-job-request.dto';
+import { JobRepository } from '../repositories/job.repository';
+import { JobRequestStatus } from '../enums/job-request-status.enum';
+import { JobRequestCannotRequestOwnJobException } from '../errors/job-request/job-request.cannotrequestownjob.error';
+import { ConversationService } from 'src/shared/chat/services/conversation.service';
+import { UserNotFoundException } from 'src/shared/abstract-user-management/errors/user/user.notfound.error';
+import { AbstractCrudService } from 'src/shared/database/services/abstract-crud.service';
+import { PointsService } from 'src/modules/finance/services/points.service';
+import { TransactionType } from 'src/modules/finance/enums/transaction-type.enum';
+import { JobNotFoundException } from '../errors/job/job.notfound.error';
+
+@Injectable()
+export class JobRequestService extends AbstractCrudService<JobRequestEntity> {
+  constructor(
+    private readonly jobRequestRepository: JobRequestRepository,
+    private readonly jobRepository: JobRepository,
+    private readonly conversationService: ConversationService,
+    private readonly pointsService: PointsService,
+  ) {
+    super(jobRequestRepository);
+  }
+
+  @Transactional()
+  async save(
+    createJobRequestDto: CreateJobRequestDto,
+    userId?: string,
+  ): Promise<JobRequestEntity> {
+    if (!userId) {
+      throw new BadRequestException('User id is required');
+    }
+    const job = await this.jobRepository.findOneById(createJobRequestDto.jobId);
+    if (job?.postedById == userId) {
+      throw new JobRequestCannotRequestOwnJobException();
+    }
+
+    const saved = await this.jobRequestRepository.save({
+      ...createJobRequestDto,
+      userId,
+    });
+
+    await this.pointsService.deductPoints(
+      userId,
+      10,
+      TransactionType.APPLYING_FOR_JOB,
+      {
+        jobId: job?.id,
+        title: job?.title,
+        jobRequestId: saved.id,
+      },
+    );
+    return (await this.jobRequestRepository.findOne({
+      where: { id: saved.id },
+    })) as JobRequestEntity;
+  }
+
+  @Transactional()
+  async update(
+    id: number,
+    updateJobRequestDto: UpdateJobRequestDto,
+  ): Promise<JobRequestEntity | null> {
+    return this.jobRequestRepository.update(id, updateJobRequestDto);
+  }
+
+  @Transactional()
+  async softDelete(id: number): Promise<JobRequestEntity | null> {
+    const jobRequest = await this.jobRequestRepository.findOne({
+      where: { id },
+    });
+
+    if (!jobRequest) {
+      throw new JobRequestNotFoundException();
+    }
+
+    const job = await this.jobRepository.findOne({
+      where: { id: jobRequest.jobId },
+    });
+
+    if (!job) {
+      throw new JobNotFoundException();
+    }
+
+    if (job.postedById !== jobRequest.userId) {
+      throw new UnauthorizedException();
+    }
+
+    await this.pointsService.addPoints(
+      jobRequest.userId,
+      10,
+      TransactionType.APPLICATION_FEE_REFUNDED,
+      {
+        jobId: job.id,
+        title: job.title,
+        jobRequestId: jobRequest.id,
+      },
+    );
+
+    return this.jobRequestRepository.softDelete(jobRequest.id);
+  }
+
+  //Extended Methods ===========================================================================
+
+  async isJobRequestAlreadyExists(
+    jobId: string,
+    userId?: string,
+  ): Promise<JobRequestEntity | null> {
+    if (!userId) {
+      throw new UserNotFoundException();
+    }
+    const jobRequest = await this.jobRequestRepository.findOne({
+      where: { userId, jobId },
+    });
+    return jobRequest;
+  }
+
+  @Transactional()
+  async approveJobRequest(id: number): Promise<JobRequestEntity | null> {
+    const jobRequest = await this.jobRequestRepository.findOne({
+      where: { id },
+      relations: ['job'],
+    });
+    if (!jobRequest) {
+      throw new JobRequestNotFoundException();
+    }
+    const conversation = await this.conversationService.findConversationByUsers(
+      [jobRequest.userId, jobRequest.job.postedById],
+    );
+    if (!conversation) {
+      await this.conversationService.createConversation(
+        jobRequest.userId,
+        jobRequest?.job?.postedById,
+      );
+    }
+
+    await this.jobRepository.update(jobRequest.jobId, {
+      workerId: jobRequest.userId,
+      assignmentDate: new Date(),
+    });
+
+    return this.jobRequestRepository.update(jobRequest.id, {
+      status: JobRequestStatus.Approved,
+    });
+  }
+
+  async rejectJobRequest(id: number): Promise<JobRequestEntity | null> {
+    const jobRequest = await this.jobRequestRepository.findOneById(id);
+    if (!jobRequest) {
+      throw new JobRequestNotFoundException();
+    }
+    return this.jobRequestRepository.update(jobRequest.id, {
+      status: JobRequestStatus.Rejected,
+    });
+  }
+
+  async waitlistJobRequest(id: number): Promise<JobRequestEntity | null> {
+    const jobRequest = await this.jobRequestRepository.findOneById(id);
+    if (!jobRequest) {
+      throw new JobRequestNotFoundException();
+    }
+    return this.jobRequestRepository.update(jobRequest.id, {
+      status: JobRequestStatus.Waitlist,
+    });
+  }
+
+  @Transactional()
+  async cancelJobRequest(id: number): Promise<JobRequestEntity | null> {
+    const jobRequest = await this.jobRequestRepository.findOneById(id);
+    if (!jobRequest) {
+      throw new JobRequestNotFoundException();
+    }
+    const job = await this.jobRepository.findOneById(jobRequest.jobId);
+    await this.pointsService.addPoints(
+      jobRequest.userId,
+      10,
+      TransactionType.APPLICATION_FEE_REFUNDED,
+      {
+        jobRequestId: id,
+        jobId: job?.id,
+        title: job?.title,
+      },
+    );
+    return this.jobRequestRepository.softDelete(jobRequest.id);
+  }
+
+  async findPaginatedUserOngoingJobRequests(
+    query: IQueryObject,
+    userId?: string,
+  ): Promise<PageDto<JobRequestEntity>> {
+    if (!userId) {
+      throw new UserNotFoundException();
+    }
+    const queryBuilder = new QueryBuilder(
+      this.jobRequestRepository.getMetadata(),
+    );
+
+    const queryOptions = queryBuilder.build(query);
+
+    queryOptions.where = mergeWhereConditions(queryOptions.where, { userId });
+
+    const count = await this.jobRequestRepository.getTotalCount({
+      where: queryOptions.where,
+    });
+
+    const entities = await this.jobRequestRepository.findAll(
+      queryOptions as FindManyOptions<JobRequestEntity>,
+    );
+
+    const pageMetaDto = new PageMetaDto({
+      pageOptionsDto: {
+        page: Number(query.page),
+        take: Number(query.limit),
+      },
+      itemCount: count,
+    });
+
+    return new PageDto(entities, pageMetaDto);
+  }
+
+  async findPaginatedUserIncomingJobRequests(
+    query: IQueryObject,
+    userId?: string,
+  ): Promise<PageDto<JobRequestEntity>> {
+    if (!userId) {
+      throw new UserNotFoundException();
+    }
+    const userPostedJobs = await this.jobRepository.findAll({
+      where: { postedById: userId },
+    });
+
+    if (userPostedJobs.length === 0) {
+      return new PageDto(
+        [],
+        new PageMetaDto({
+          pageOptionsDto: {
+            page: Number(query.page),
+            take: Number(query.limit),
+          },
+          itemCount: 0,
+        }),
+      );
+    }
+
+    const queryBuilder = new QueryBuilder(
+      this.jobRequestRepository.getMetadata(),
+    );
+
+    const queryOptions = queryBuilder.build(query);
+
+    queryOptions.where = mergeWhereConditions(queryOptions.where, {
+      jobId: In(userPostedJobs.map((j) => j.id)),
+    });
+
+    const count = await this.jobRequestRepository.getTotalCount({
+      where: queryOptions.where,
+    });
+
+    const entities = await this.jobRequestRepository.findAll(
+      queryOptions as FindManyOptions<JobRequestEntity>,
+    );
+
+    const pageMetaDto = new PageMetaDto({
+      pageOptionsDto: {
+        page: Number(query.page),
+        take: Number(query.limit),
+      },
+      itemCount: count,
+    });
+
+    return new PageDto(entities, pageMetaDto);
+  }
+
+  async findRequestCount(id: string): Promise<number> {
+    return this.jobRequestRepository.getTotalCount({
+      where: { jobId: id },
+    });
+  }
+}

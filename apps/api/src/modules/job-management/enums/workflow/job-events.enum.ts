@@ -1,0 +1,16 @@
+export enum JobEvents {
+  POST = 'Post',
+  UNPUBLISH = 'Unpublish',
+  CHOOSE_CANDIDATE = 'Choose Candidate',
+  REFUSE_CANDIDATE = 'Refuse Candidate',
+  ACCEPT_CANDIDATE = 'Accept Candidate',
+  START = 'Start',
+  FINISH = 'Finish',
+  WORKER_REVIEW = 'Worker Review',
+  CLIENT_REVIEW = 'Client Review',
+  MARK_SUCCESSFUL = 'Mark Successful',
+  HOLD = 'Hold',
+  STOP_HOLD = 'Stop Hold',
+  MARK_FAILED = 'Mark Failed',
+  ARCHIVE = 'Archive',
+}

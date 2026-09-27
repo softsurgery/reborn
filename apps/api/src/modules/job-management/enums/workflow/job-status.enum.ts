@@ -1,0 +1,15 @@
+export enum JobStatus {
+  DRAFT = 'Draft',
+  POSTED = 'Posted',
+  CANDIDATE_PENDING = 'Candidate Pending',
+  NOT_STARTED = 'Not Started',
+  PENDING = 'Pending',
+  FINISHED = 'Finished',
+  ON_HOLD = 'On Hold',
+  REVIEWED_BY_WORKER = 'Reviewed By Worker',
+  REVIEWED_BY_WORKER_AND_CLIENT = 'Reviewed By Worker & Client',
+  FAILED = 'Failed',
+  SUCCESSFUL = 'Successfull',
+  ARCHIVED = 'Archived',
+  DELETED = 'Deleted',
+}

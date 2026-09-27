@@ -1,0 +1,125 @@
+import { ApiProperty } from '@nestjs/swagger';
+import { Expose, Type } from 'class-transformer';
+import { ResponseDtoHelper } from 'src/shared/database/dtos/database.response.dto';
+import { ResponseJobTagDto } from '../job-tag/response-job-tag.dto';
+import { ResponseJobUploadDto } from '../job-upload/response-job-upload.dto';
+import { JobStyle } from '../../enums/job-style.enum';
+import { JobDifficulty } from '../../enums/job-difficulty.enum';
+import { ResponseJobRequestDto } from '../job-request/response-job-request.dto';
+import { ResponseJobViewDto } from '../job-view/response-job-view.dto';
+import { ResponseJobSaveDto } from '../job-save/response-job-save.dto';
+import { ResponseRefParamDto } from 'src/shared/reference-types/dtos/ref-param/response-ref-param.dto';
+import { ResponseUserDto } from 'src/modules/users/dtos/user/response-user.dto';
+import { JobPricingType } from '../../enums/job-pricing-type.enum';
+
+export class ResponseJobDto extends ResponseDtoHelper {
+  @ApiProperty({ type: String })
+  @Expose()
+  id: string;
+
+  @ApiProperty({ type: String })
+  @Expose()
+  status: string;
+
+  @ApiProperty({ type: String })
+  @Expose()
+  title: string;
+
+  @ApiProperty({ type: String })
+  @Expose()
+  description: string;
+
+  @ApiProperty({ type: Number })
+  @Expose()
+  price: number;
+
+  @ApiProperty({ enum: JobPricingType })
+  @Expose()
+  pricingType: JobPricingType;
+
+  @ApiProperty({ type: Boolean })
+  @Expose()
+  negotiablePrice: boolean;
+
+  @ApiProperty({ type: Boolean })
+  @Expose()
+  pausedApplication: boolean;
+
+  @ApiProperty({ type: Number })
+  @Expose()
+  latitude: number;
+
+  @ApiProperty({ type: Number })
+  @Expose()
+  longitude: number;
+
+  @ApiProperty({ type: ResponseUserDto })
+  @Expose()
+  @Type(() => ResponseUserDto)
+  postedBy: ResponseUserDto;
+
+  @ApiProperty({ type: ResponseUserDto })
+  @Expose()
+  @Type(() => ResponseUserDto)
+  worker: ResponseUserDto;
+
+  @ApiProperty({ type: String })
+  @Expose()
+  workerId: string;
+
+  @ApiProperty({ type: Date })
+  @Expose()
+  @Type(() => Date)
+  assignmentDate: Date;
+
+  @ApiProperty({ type: String })
+  @Expose()
+  currencyId: string;
+
+  @ApiProperty({ type: ResponseRefParamDto })
+  @Expose()
+  @Type(() => ResponseRefParamDto)
+  currency: ResponseRefParamDto;
+
+  @ApiProperty({ type: [ResponseJobTagDto] })
+  @Expose()
+  @Type(() => ResponseJobTagDto)
+  tags: ResponseJobTagDto[];
+
+  @ApiProperty({ type: Number })
+  @Expose()
+  categoryId: number;
+
+  @ApiProperty({ type: ResponseRefParamDto })
+  @Expose()
+  @Type(() => ResponseRefParamDto)
+  category: ResponseRefParamDto;
+
+  @ApiProperty({ type: String, enum: JobStyle })
+  @Expose()
+  style: JobStyle;
+
+  @ApiProperty({ type: String, enum: JobDifficulty })
+  @Expose()
+  difficulty: JobDifficulty;
+
+  @ApiProperty({ type: [ResponseJobUploadDto] })
+  @Expose()
+  @Type(() => ResponseJobUploadDto)
+  uploads: ResponseJobUploadDto[];
+
+  @ApiProperty({ type: [ResponseJobRequestDto] })
+  @Expose()
+  @Type(() => ResponseJobRequestDto)
+  requests: ResponseJobRequestDto[];
+
+  @ApiProperty({ type: [ResponseJobViewDto] })
+  @Expose()
+  @Type(() => ResponseJobViewDto)
+  views: ResponseJobViewDto[];
+
+  @ApiProperty({ type: [ResponseJobSaveDto] })
+  @Expose()
+  @Type(() => ResponseJobSaveDto)
+  saves: ResponseJobSaveDto[];
+}

@@ -1,0 +1,332 @@
+import { Transactional } from '@nestjs-cls/transactional';
+import { Injectable } from '@nestjs/common';
+import { DeepPartial, FindManyOptions, In } from 'typeorm';
+import { IQueryObject } from 'src/shared/database/interfaces/database-query-options.interface';
+import {
+  QueryBuilder,
+  mergeWhereConditions,
+} from 'src/shared/database/utils/database-query-builder';
+import { PageDto } from 'src/shared/database/dtos/database.page.dto';
+import { PageMetaDto } from 'src/shared/database/dtos/database.page-meta.dto';
+import { JobRepository } from '../repositories/job.repository';
+import { JobEntity } from '../entities/job.entity';
+import { JobNotFoundException } from '../errors/job/job.notfound.error';
+import { JobUploadService } from './job-upload.service';
+import { JobUploadEntity } from '../entities/job-upload.entity';
+import { CreateJobUploadDto } from '../dtos/job-upload/create-job-upload.dto';
+import { UpdateJobUploadDto } from '../dtos/job-upload/update-job-upload.dto';
+import { ResponseJobMetadataDto } from '../dtos/job/response-job-metadata.dto';
+import { JobRequestService } from './job-request.service';
+import { RefParamService } from 'src/shared/reference-types/services/ref-param.service';
+import { RefParamEntity } from 'src/shared/reference-types/entities/ref-param.entity';
+import { FollowService } from 'src/shared/abstract-user-management/services/follow.service';
+import { UserNotFoundException } from 'src/shared/abstract-user-management/errors/user/user.notfound.error';
+import { AbstractCrudService } from 'src/shared/database/services/abstract-crud.service';
+import { JobStorageFolderService } from './job-storage-folder.service';
+import { JobStatus } from '../enums/workflow/job-status.enum';
+
+@Injectable()
+export class JobService extends AbstractCrudService<JobEntity> {
+  constructor(
+    private readonly jobRepository: JobRepository,
+    private readonly jobRequestService: JobRequestService,
+    private readonly refParamService: RefParamService,
+    private readonly jobUploadService: JobUploadService,
+    private readonly followService: FollowService,
+    private readonly jobStorageFolderService: JobStorageFolderService,
+  ) {
+    super(jobRepository);
+  }
+
+  async findJobsByUserId(
+    query: IQueryObject,
+    userId?: string,
+  ): Promise<PageDto<JobEntity>> {
+    const queryBuilder = new QueryBuilder(this.jobRepository.getMetadata());
+    const queryOptions = queryBuilder.build(query);
+    queryOptions.where = mergeWhereConditions(queryOptions.where, {
+      postedById: userId,
+    });
+
+    const count = await this.jobRepository.getTotalCount({
+      where: queryOptions.where,
+    });
+
+    const entities = await this.jobRepository.findAll(
+      queryOptions as FindManyOptions<JobEntity>,
+    );
+
+    const pageMetaDto = new PageMetaDto({
+      pageOptionsDto: {
+        page: Number(query.page),
+        take: Number(query.limit),
+      },
+      itemCount: count,
+    });
+
+    return new PageDto(entities, pageMetaDto);
+  }
+
+  async findJobsByWorkerId(
+    query: IQueryObject,
+    workerId?: string,
+  ): Promise<PageDto<JobEntity>> {
+    const queryBuilder = new QueryBuilder(this.jobRepository.getMetadata());
+    const queryOptions = queryBuilder.build(query);
+    queryOptions.where = mergeWhereConditions(queryOptions.where, {
+      workerId: workerId,
+    });
+
+    const count = await this.jobRepository.getTotalCount({
+      where: queryOptions.where,
+    });
+
+    const entities = await this.jobRepository.findAll(
+      queryOptions as FindManyOptions<JobEntity>,
+    );
+
+    const pageMetaDto = new PageMetaDto({
+      pageOptionsDto: {
+        page: Number(query.page),
+        take: Number(query.limit),
+      },
+      itemCount: count,
+    });
+
+    return new PageDto(entities, pageMetaDto);
+  }
+
+  async findAllFollowedPaginated(
+    query: IQueryObject,
+    userId?: string,
+  ): Promise<PageDto<JobEntity>> {
+    if (!userId) {
+      throw new UserNotFoundException();
+    }
+    //find all followings
+    const followingsIds = (await this.followService.getFollowing(userId)).map(
+      (f) => f.followingId,
+    );
+
+    const queryBuilder = new QueryBuilder(this.jobRepository.getMetadata());
+    const queryOptions = queryBuilder.build(query);
+    queryOptions.where = mergeWhereConditions(queryOptions.where, {
+      postedById: In(followingsIds),
+    });
+
+    const count = await this.jobRepository.getTotalCount({
+      where: queryOptions.where,
+    });
+
+    const entities = await this.jobRepository.findAll(
+      queryOptions as FindManyOptions<JobEntity>,
+    );
+
+    const pageMetaDto = new PageMetaDto({
+      pageOptionsDto: {
+        page: Number(query.page),
+        take: Number(query.limit),
+      },
+      itemCount: count,
+    });
+
+    return new PageDto(entities, pageMetaDto);
+  }
+
+  async findJobMetadataById(id: string): Promise<ResponseJobMetadataDto> {
+    const requestCount = await this.jobRequestService.findRequestCount(id);
+    return {
+      id,
+      requestCount,
+      paymentVerified: false,
+      reviewCount: 0,
+      rating: 0,
+      hireRate: 0,
+    };
+  }
+
+  @Transactional()
+  async extendedSave(
+    dto: DeepPartial<JobEntity>,
+    tagIds?: number[],
+    postedBy?: string,
+  ): Promise<JobEntity> {
+    const { uploads, ...rest } = dto;
+    let tags: RefParamEntity[] = [];
+
+    if (tagIds && Array.isArray(tagIds)) {
+      tags = (await Promise.all(
+        tagIds.map((tagId) => this.refParamService.findOneById(tagId)),
+      )) as RefParamEntity[];
+    }
+
+    const job = await this.jobRepository.save({
+      ...rest,
+      tags,
+      postedById: postedBy,
+    });
+
+    await this.jobUploadService.saveMany(
+      uploads?.map((upload: DeepPartial<JobUploadEntity>, index: number) => ({
+        jobId: job.id,
+        uploadId: upload.uploadId,
+        order: index,
+      })) || [],
+    );
+
+    if (uploads?.length) {
+      await this.jobStorageFolderService.assignJobUploads(
+        uploads
+          .map((upload: DeepPartial<JobUploadEntity>) => upload.uploadId)
+          .filter((uploadId): uploadId is number => Boolean(uploadId)),
+        job.id,
+      );
+    }
+
+    return job;
+  }
+
+  @Transactional()
+  async extendedUpdate(
+    id: string,
+    updateJobDto: DeepPartial<JobEntity>,
+    tagIds?: number[],
+  ): Promise<JobEntity | null> {
+    const { uploads, ...rest } = updateJobDto;
+    let tags: RefParamEntity[] = [];
+
+    if (tagIds && Array.isArray(tagIds)) {
+      tags = (await Promise.all(
+        tagIds.map((tagId) => this.refParamService.findOneById(tagId)),
+      )) as RefParamEntity[];
+    }
+    const existingJob = await this.jobRepository.findOneById(id);
+    if (!existingJob) throw new JobNotFoundException();
+
+    existingJob.tags = tags;
+    Object.assign(existingJob, rest);
+
+    await this.jobRepository.save(existingJob);
+
+    const updatedJob = await this.jobRepository.findOne({
+      where: { id },
+      relations: ['tags', 'uploads'],
+    });
+
+    if (!updatedJob) throw new JobNotFoundException();
+
+    const existingUploads = updatedJob?.uploads?.map((j: JobUploadEntity) => {
+      return {
+        id: j.id,
+        jobId: j.jobId,
+        uploadId: j.uploadId,
+        order: j.order,
+      };
+    });
+
+    await this.jobRepository.updateJunctionAssociations<
+      Pick<JobUploadEntity, 'id' | 'jobId' | 'uploadId' | 'order'>
+    >({
+      existingItems: existingUploads || [],
+      updatedItems:
+        uploads?.map((upload: DeepPartial<JobUploadEntity>, index: number) => ({
+          id: upload.id as number,
+          jobId: id,
+          uploadId: upload.uploadId as number,
+          order: index,
+        })) || [],
+      keys: ['jobId', 'uploadId'],
+      onDelete: async (id: number) => this.jobUploadService.softDelete(id),
+      onCreate: async (j: CreateJobUploadDto) =>
+        this.jobUploadService.save({
+          jobId: id,
+          uploadId: j.uploadId,
+          order: j.order,
+        }),
+      onUpdate: async (id: number, item: UpdateJobUploadDto) =>
+        this.jobUploadService.update(id, item),
+    });
+
+    if (uploads?.length) {
+      await this.jobStorageFolderService.assignJobUploads(
+        uploads
+          .map((upload: DeepPartial<JobUploadEntity>) => upload.uploadId)
+          .filter((uploadId): uploadId is number => Boolean(uploadId)),
+        id,
+      );
+    }
+
+    return updatedJob;
+  }
+
+  @Transactional()
+  async duplicate(id: string, postedBy?: string): Promise<JobEntity> {
+    const existingJob = await this.jobRepository.findOne({
+      where: { id },
+      relations: ['tags', 'uploads'],
+    });
+
+    if (!existingJob) {
+      throw new JobNotFoundException();
+    }
+
+    const {
+      id: _id,
+      createdAt: _createdAt,
+      updatedAt: _updatedAt,
+      deletedAt: _deletedAt,
+      status: _status,
+      requests: _requests,
+      views: _views,
+      saves: _saves,
+      ...rest
+    } = existingJob;
+
+    const duplicateDto: DeepPartial<JobEntity> = {
+      ...rest,
+      title: existingJob.title,
+      status: JobStatus.DRAFT,
+      uploads:
+        existingJob.uploads?.map((u) => ({
+          uploadId: u.uploadId,
+          order: u.order,
+        })) || [],
+    };
+
+    return this.extendedSave(
+      duplicateDto,
+      existingJob.tags?.map((t) => t.id) || [],
+      postedBy || existingJob.postedById,
+    );
+  }
+
+  @Transactional()
+  async pause(id: string): Promise<JobEntity> {
+    const job = await this.jobRepository.findOneById(id);
+    if (!job) throw new JobNotFoundException();
+
+    job.pausedApplication = true;
+    return this.jobRepository.save(job);
+  }
+
+  @Transactional()
+  async unpause(id: string): Promise<JobEntity> {
+    const job = await this.jobRepository.findOneById(id);
+    if (!job) throw new JobNotFoundException();
+
+    job.pausedApplication = false;
+    return this.jobRepository.save(job);
+  }
+
+  @Transactional()
+  async applyWorkflowPatch(
+    id: string,
+    patch: {
+      status: JobStatus;
+      workerId?: string | null;
+      assignmentDate?: Date | null;
+    },
+  ): Promise<void> {
+    await this.jobRepository.update(id, patch);
+  }
+}

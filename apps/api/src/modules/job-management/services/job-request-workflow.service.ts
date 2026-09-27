@@ -1,0 +1,75 @@
+import { AbstractWorkflowService } from 'src/shared/workflows/services/workflow.service';
+import { JobRequestService } from './job-request.service';
+import { JobWorkflowService } from './job-workflow.service';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { JobRequestStatus } from '../enums/job-request-status.enum';
+import { JobRequestEvents } from '../enums/workflow/job-request-events.enum';
+import { jobRequestMachine } from '../workflows/job-request.workflow';
+import { JobStatus } from '../enums/workflow/job-status.enum';
+import { JobEvents } from '../enums/workflow/job-events.enum';
+
+@Injectable()
+export class JobRequestWorkflowService extends AbstractWorkflowService<
+  JobRequestStatus,
+  JobRequestEvents
+> {
+  constructor(
+    private readonly jobRequestService: JobRequestService,
+    private readonly jobWorkflowService: JobWorkflowService,
+  ) {
+    super(jobRequestMachine, JobRequestEvents);
+  }
+
+  async findOneById(id: number, join?: string) {
+    const jobRequest = await this.jobRequestService.findOneById(id, join);
+    if (!jobRequest) {
+      throw new BadRequestException(`Job request with ID ${id} not found`);
+    }
+    return {
+      status: jobRequest.status,
+      isUpdatable: this.isUpdatable(jobRequest.status),
+      nextSteps: this.getNextSteps(jobRequest.status),
+      jobRequest,
+    };
+  }
+
+  async next(id: number, event: JobRequestEvents) {
+    const jobRequest = await this.jobRequestService.findOneById(id);
+    if (!jobRequest) {
+      throw new BadRequestException(`Job request with ID ${id} not found`);
+    }
+
+    this.transition(jobRequest.status, event);
+
+    if (event === JobRequestEvents.Approve) {
+      await this.jobRequestService.approveJobRequest(id);
+      const jobWorkflow = await this.jobWorkflowService.findOneById(
+        jobRequest.jobId,
+      );
+      if (jobWorkflow.status === JobStatus.POSTED) {
+        await this.jobWorkflowService.next(
+          jobRequest.jobId,
+          JobEvents.CHOOSE_CANDIDATE,
+        );
+      }
+    } else if (event === JobRequestEvents.Reject) {
+      await this.jobRequestService.rejectJobRequest(id);
+    } else if (event === JobRequestEvents.Waitlist) {
+      await this.jobRequestService.waitlistJobRequest(id);
+    } else if (event === JobRequestEvents.Cancel) {
+      await this.jobRequestService.cancelJobRequest(id);
+      return {
+        status: JobRequestStatus.Rejected,
+        isUpdatable: this.isUpdatable(JobRequestStatus.Rejected),
+        nextSteps: this.getNextSteps(JobRequestStatus.Rejected),
+        jobRequest: { ...jobRequest, status: JobRequestStatus.Rejected },
+      };
+    }
+
+    return this.findOneById(id);
+  }
+
+  getMachine(): Record<string, unknown> {
+    return this.getMachineConfig();
+  }
+}
