@@ -12,18 +12,18 @@ Monorepo for the Reborn platform.
 
 ## Package manager
 
-Yarn Classic (`1.22.22`) workspaces. Each app previously used Yarn; this monorepo continues with Yarn workspaces.
+[pnpm](https://pnpm.io) workspaces. The three apps originally used Yarn Classic; the monorepo standardizes on pnpm.
 
 ```sh
-yarn install
+pnpm install
 ```
 
 ## Develop
 
 ```sh
-yarn dev:web
-yarn dev:mobile
-yarn dev:api
+pnpm dev:web
+pnpm dev:mobile
+pnpm dev:api
 ```
 
 Shared libraries can be added under `packages/` as needed.
