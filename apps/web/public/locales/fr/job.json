@@ -1,0 +1,168 @@
+{
+    "job": {
+        "intro": "Gestion des services",
+        "introTitle": "Postes",
+        "introDescription": "Visualisation des postes de l'application",
+        "singularName": "Poste",
+        "pluralName": "Postes",
+        "validation": {
+            "titleRequired": "Le titre du poste est requis.",
+            "titleTooShort": "Le titre du poste doit contenir au moins 3 caractères.",
+            "titleTooLong": "Le titre du poste ne doit pas dépasser 100 caractères.",
+            "invalidTitleFormat": "Le titre du poste contient des caractères invalides.",
+            "descriptionRequired": "La description du poste est requise.",
+            "descriptionTooShort": "La description du poste doit contenir au moins 10 caractères.",
+            "descriptionTooLong": "La description du poste ne doit pas dépasser 1000 caractères.",
+            "priceRequired": "Le prix du poste est requis.",
+            "invalidPrice": "Le prix du poste doit être un nombre positif.",
+            "currencyRequired": "La devise du poste est requise.",
+            "categoryRequired": "La catégorie du poste est requise.",
+            "stylesRequired": "Le style du poste est requis.",
+            "difficultyRequired": "La difficulté du poste est requise."
+        },
+        "forms": {
+            "generalInformationTitle": "Informations générales",
+            "generalInformationDescription": "Informations générales sur le poste.",
+            "detailedInformationTitle": "Informations détaillées",
+            "detailedInformationDescription": "Informations supplémentaires sur le poste.",
+            "locationInformationTitle": "Localisation",
+            "locationInformationDescription": "Sélectionnez la position géographique sur la carte interactive.",
+            "titleLabel": "Titre du poste",
+            "titlePlaceholder": "Saisissez le titre du poste",
+            "titleDescription": "Le titre du poste.",
+            "descriptionLabel": "Description du poste",
+            "descriptionPlaceholder": "Saisissez la description du poste",
+            "descriptionDescription": "La description du poste.",
+            "priceLabel": "Prix du poste",
+            "pricePlaceholder": "Saisissez le prix du poste",
+            "priceDescription": "Le prix du poste.",
+            "currencyLabel": "Devise",
+            "currencyPlaceholder": "Sélectionnez une devise",
+            "currencyDescription": "Choisissez la devise pour le poste.",
+            "tagsLabel": "Étiquettes",
+            "tagsPlaceholder": "Sélectionnez des étiquettes",
+            "tagsDescription": "Choisissez des étiquettes pour le poste.",
+            "categoriesLabel": "Catégorie",
+            "categoriesPlaceholder": "Sélectionnez une catégorie",
+            "categoriesDescription": "Choisissez une catégorie pour le poste.",
+            "stylesLabel": "Style",
+            "stylesPlaceholder": "Sélectionnez un style",
+            "stylesDescription": "Choisissez un style pour le poste.",
+            "difficultyLabel": "Difficulté",
+            "difficultyPlaceholder": "Sélectionnez une difficulté",
+            "difficultyDescription": "Choisissez un niveau de difficulté pour le poste.",
+            "statusLabel": "Statut",
+            "statusPlaceholder": "Sélectionnez un statut",
+            "statusDescription": "Choisissez le statut actuel du poste.",
+            "pricingTypeLabel": "Type de tarification",
+            "pricingTypePlaceholder": "Sélectionnez un type de tarification",
+            "pricingTypeDescription": "Choisissez la manière dont le poste est tarifé.",
+            "latitudeLabel": "Latitude",
+            "latitudePlaceholder": "Saisissez la coordonnée de latitude",
+            "latitudeDescription": "Coordonnée géographique de latitude.",
+            "longitudeLabel": "Longitude",
+            "longitudePlaceholder": "Saisissez la coordonnée de longitude",
+            "longitudeDescription": "Coordonnée géographique de longitude.",
+            "uploadsLabel": "Téléversements"
+        },
+        "columns": {
+            "title": "Titre",
+            "description": "Description",
+            "pictures": "Photos",
+            "price": "Prix",
+            "currency": "Devise",
+            "status": "Statut",
+            "pricingType": "Type de tarification",
+            "category": "Catégorie",
+            "tags": "Étiquettes",
+            "noTags": "Aucune étiquette",
+            "style": "Style",
+            "noStyle": "Aucun style",
+            "difficulty": "Difficulté",
+            "noDifficulty": "Aucune difficulté",
+            "postedBy": "Publié par",
+            "createdAt": "Créé le",
+            "updatedAt": "Mis à jour le",
+            "actions": "Actions"
+        },
+        "sheet": {
+            "createTitle": "Créer un poste",
+            "createDescription": "Remplissez les détails du poste ci-dessous.",
+            "updateTitle": "Mettre à jour le poste",
+            "updateDescription": "Modifiez les détails du poste ci-dessous."
+        },
+        "dialog": {
+            "deleteTitle": "Supprimer le poste",
+            "deleteDescription": "Cette action est irréversible et permanente. Veuillez procéder avec prudence."
+        },
+        "toast": {
+            "created": "Poste créé avec succès",
+            "updated": "Poste mis à jour avec succès",
+            "deleted": "Poste supprimé avec succès"
+        }
+    },
+    "jobTags": {
+        "intro": "Gestion des services",
+        "introTitle": "Étiquettes de poste",
+        "singularName": "Étiquette de poste",
+        "pluralName": "Étiquettes de poste",
+        "introDescription": "Gérez les étiquettes associées aux postes pour une meilleure organisation et un meilleur filtrage.",
+        "columns": {
+            "label": "Libellé",
+            "createdAt": "Créé le",
+            "updatedAt": "Mis à jour le"
+        },
+        "forms": {
+            "label": "Libellé",
+            "labelPlaceholder": "Saisissez le libellé de l'étiquette",
+            "labelDescription": "Le libellé de l'étiquette de poste."
+        },
+        "sheet": {
+            "createTitle": "Créer une étiquette de poste",
+            "createDescription": "Remplissez les détails de l'étiquette de poste ci-dessous.",
+            "updateTitle": "Mettre à jour l'étiquette de poste",
+            "updateDescription": "Modifiez les détails de l'étiquette de poste ci-dessous."
+        },
+        "dialog": {
+            "deleteTitle": "Supprimer l’étiquette de poste",
+            "deleteDescription": "Cette action est irréversible et permanente. Veuillez procéder avec prudence."
+        },
+        "toast": {
+            "created": "Étiquette de poste créée avec succès",
+            "updated": "Étiquette de poste mise à jour avec succès",
+            "deleted": "Étiquette de poste supprimée avec succès"
+        }
+    },
+    "jobCategory": {
+        "intro": "Gestion des services",
+        "introTitle": "Catégories de postes",
+        "introDescription": "Gérez les catégories de postes pour une meilleure organisation et un filtrage efficace.",
+        "singularName": "Catégorie de poste",
+        "pluralName": "Catégories de poste",
+        "columns": {
+            "label": "Libellé",
+            "createdAt": "Créé le",
+            "updatedAt": "Mis à jour le"
+        },
+        "forms": {
+            "label": "Libellé",
+            "labelPlaceholder": "Entrez le libellé de la catégorie de poste",
+            "labelDescription": "Le libellé de la catégorie de poste."
+        },
+        "sheet": {
+            "createTitle": "Créer une catégorie de poste",
+            "createDescription": "Remplissez les détails de la catégorie de poste ci-dessous.",
+            "updateTitle": "Mettre à jour la catégorie de poste",
+            "updateDescription": "Modifiez les détails de la catégorie de poste ci-dessous."
+        },
+        "dialog": {
+            "deleteTitle": "Supprimer la catégorie de poste",
+            "deleteDescription": "Cette action est irréversible et permanente. Veuillez procéder avec prudence."
+        },
+        "toast": {
+            "created": "Catégorie de poste créée avec succès",
+            "updated": "Catégorie de poste mise à jour avec succès",
+            "deleted": "Catégorie de poste supprimée avec succès"
+        }
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "bug": {
+        "intro": "Rapports Système",
+        "introTitle": "Bugs",
+        "introDescription": "Gérer les bugs signalés pour améliorer la stabilité de la plateforme et l'expérience utilisateur.",
+        "columns": {
+            "title": "Titre",
+            "description": "Description",
+            "variant": "Variante",
+            "createdAt": "Créé le",
+            "user": "Utilisateur",
+            "noDescription": "Pas de description",
+            "noVariant": "Pas de variante",
+            "actions": "Actions"
+        },
+        "dialog": {
+            "title": "Supprimer le bug",
+            "description": "Cette action est permanente et ne peut pas être annulée."
+        }
+    }
+}

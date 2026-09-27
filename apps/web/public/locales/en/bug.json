@@ -1,0 +1,21 @@
+{
+  "bug": {
+    "intro": "System Reports",
+    "introTitle": "Bugs",
+    "introDescription": "Manage reported bugs to improve platform stability and user experience.",
+    "columns": {
+      "title": "Title",
+      "description": "Description",
+      "variant": "Variant",
+      "createdAt": "Created At",
+      "user": "User",
+      "noDescription": "No description",
+      "noVariant": "No Variant",
+      "actions": "Actions"
+    },
+    "dialog": {
+      "title": "Delete Bug",
+      "description": "This action is permanent and cannot be undone."
+    }
+  }
+}

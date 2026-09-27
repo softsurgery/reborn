@@ -1,0 +1,158 @@
+import React from "react";
+import { api } from "@/api";
+import { useDebounce } from "@/hooks/useDebounce";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useBreadcrumb } from "@/contexts/BreadcrumbContext";
+import { useFeedbackDeleteDialog } from "./modals/FeedbackDeleteDialog";
+import { toast } from "sonner";
+import { useIntro } from "@/contexts/IntroContext";
+import { cn } from "@/lib/utils";
+import { useFeedbackColumns } from "./columns";
+import { ResponseFeedbackDto } from "@/types";
+import { useFeedbackStore } from "@/hooks/stores/useFeedbackStore";
+import { DataTable } from "@/components/shared/data-tables/data-table";
+import { useTranslation } from "react-i18next";
+import { DataTableConfig } from "@/components/shared/data-tables/types";
+
+interface BugsProps {
+  className?: string;
+}
+
+export default function Feedbacks({ className }: BugsProps) {
+  const { t, ready } = useTranslation("feedback");
+  const { setIntro, clearIntro } = useIntro();
+  const { setRoutes, clearRoutes } = useBreadcrumb();
+  React.useEffect(() => {
+    setRoutes?.([
+      { title: `${t("feedback.intro")}` },
+      {
+        title: `${t("feedback.introTitle")}`,
+        href: "/system-reports/Feedbacks",
+      },
+    ]);
+    setIntro?.(
+      `${t("feedback.introTitle")}`,
+      `${t("feedback.introDescription")}`
+    );
+    return () => {
+      clearRoutes?.();
+      clearIntro?.();
+    };
+  }, [t, ready]);
+
+  const feedbackStore = useFeedbackStore();
+  const [page, setPage] = React.useState(1);
+  const { value: debouncedPage, loading: paging } = useDebounce<number>(
+    page,
+    500
+  );
+
+  const [size, setSize] = React.useState(10);
+  const { value: debouncedSize, loading: resizing } = useDebounce<number>(
+    size,
+    500
+  );
+
+  const [sortDetails, setSortDetails] = React.useState({
+    order: true,
+    sortKey: "id",
+  });
+  const { value: debouncedSortDetails, loading: sorting } = useDebounce<
+    typeof sortDetails
+  >(sortDetails, 500);
+
+  const [searchTerm, setSearchTerm] = React.useState("");
+  const { value: debouncedSearchTerm, loading: searching } =
+    useDebounce<string>(searchTerm, 500);
+
+  const {
+    data: feedbacksResponse,
+    isFetching: isFeedbacksPending,
+    refetch: refetchFeedbacks,
+  } = useQuery({
+    queryKey: [
+      "feedbacks",
+      debouncedPage,
+      debouncedSize,
+      debouncedSortDetails.order,
+      debouncedSortDetails.sortKey,
+      debouncedSearchTerm,
+    ],
+    queryFn: () =>
+      api.feedback.findPaginated({
+        page: debouncedPage.toString(),
+        limit: debouncedSize.toString(),
+        sort: `${debouncedSortDetails.sortKey},${
+          debouncedSortDetails.order ? "ASC" : "DESC"
+        }`,
+        search: debouncedSearchTerm,
+      }),
+  });
+
+  const feedbacks = React.useMemo(() => {
+    if (!feedbacksResponse) return [];
+    return feedbacksResponse.data;
+  }, [feedbacksResponse]);
+
+  const { mutate: deleteFeedback, isPending: isDeletionPending } = useMutation({
+    mutationFn: (id: number) => api.feedback.remove(id),
+    onSuccess: () => {
+      toast("Feedback Deleted Successfully");
+      refetchFeedbacks();
+      feedbackStore.reset();
+      closeDeleteFeedbackDialog();
+    },
+    onError: (error) => {
+      toast(error.message);
+    },
+  });
+
+  const {
+    deleteFeedbackDialog,
+    openDeleteFeedbackDialog,
+    closeDeleteFeedbackDialog,
+  } = useFeedbackDeleteDialog({
+    feedbackMessage: feedbackStore.response?.message,
+    deleteFeedback: () => deleteFeedback(feedbackStore.response?.id!),
+    isDeletionPending,
+    resetFeedback: () => feedbackStore.reset(),
+  });
+
+  const context: DataTableConfig<ResponseFeedbackDto> = {
+    singularName: "Feedback",
+    pluralName: "Feedbacks",
+    deleteCallback: openDeleteFeedbackDialog,
+    //search, filtering, sorting & paging
+    searchTerm,
+    setSearchTerm,
+    page,
+    totalPageCount: feedbacksResponse?.meta.pageCount || 0,
+    setPage,
+    size,
+    setSize,
+    order: sortDetails.order,
+    sortKey: sortDetails.sortKey,
+    setSortDetails: (order: boolean, sortKey: string) =>
+      setSortDetails({ order, sortKey }),
+    targetEntity: (feedback: ResponseFeedbackDto) =>
+      feedbackStore.set("response", feedback),
+  };
+
+  const columns = useFeedbackColumns(context);
+
+  const isPending =
+    isFeedbacksPending || paging || resizing || searching || sorting;
+  return (
+    <div className={cn("flex flex-col flex-1 overflow-hidden", className)}>
+      <DataTable
+        className="flex flex-col flex-1 overflow-hidden p-1"
+        containerClassName="overflow-auto"
+        columns={columns}
+        data={feedbacks}
+        context={context}
+        isPending={isPending}
+      />
+      {deleteFeedbackDialog}
+    </div>
+  );
+}

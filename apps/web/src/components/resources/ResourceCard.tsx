@@ -1,0 +1,114 @@
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
+import { Download, Eye, X } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { format } from "date-fns";
+import { Button } from "../ui/button";
+import { cn } from "@/lib/utils";
+import { formatFileSize, getMediaTypeLabel } from "@/lib/file.utils";
+import { FileIcon } from "./FileIcon";
+import { ResourceCardSkeleton } from "./ResourceCardSkeleton";
+import { api } from "@/api";
+import { identifyUser } from "@/lib/users-management/utils/identify-user.util";
+
+interface ResourceCardProps {
+  className?: string;
+  resource: any;
+  previewResource?: () => void;
+  deleteResource?: () => void;
+  isPending?: boolean;
+}
+
+export const ResourceCard = ({
+  className,
+  resource,
+  previewResource,
+  deleteResource,
+  isPending,
+}: ResourceCardProps) => {
+  if (isPending) {
+    return <ResourceCardSkeleton className={className} />;
+  }
+
+  return (
+    <Card
+      key={resource.id}
+      className={cn("overflow-hidden flex flex-col h-full", className)}
+    >
+      <CardHeader className="rounded-md flex flex-row gap-4 items-center justify-between overflow-hidden py-4">
+        <div>
+          <FileIcon type={resource.mimetype || ""} size={32} />
+        </div>
+        <h3 className="font-bold truncate" title={resource.filename}>
+          {resource.filename}
+        </h3>
+
+        <Badge variant="outline" className="my-2">
+          {getMediaTypeLabel(resource.mimetype || "")}
+        </Badge>
+      </CardHeader>
+      <CardContent className="px-6 flex-1">
+        <div className="text-sm text-muted-foreground space-y-1">
+          <p>
+            <span className="font-bold">Size:</span>{" "}
+            {formatFileSize(resource.size)}
+          </p>
+          <p>
+            <span className="font-bold">Uploaded:</span>{" "}
+            {format(resource.createdAt, "PPpp")}
+          </p>
+          <p>
+            <span className="font-bold">By:</span>{" "}
+            {identifyUser(resource.user!)}
+          </p>
+          <p className="flex flex-row gap-2 items-center">
+            <span className="font-bold">Public:</span>
+            <span
+              className={cn(
+                "text-xl",
+                resource.isPublic ? "text-green-500" : "text-red-500"
+              )}
+            >
+              •
+            </span>
+          </p>
+        </div>
+      </CardContent>
+      <CardFooter className="flex flex-col gap-2 bg-muted/50">
+        <div className="flex flex-row gap-2 justify-between w-full">
+          <Button
+            className="w-full"
+            variant="outline"
+            onClick={previewResource}
+          >
+            <Eye />
+            Preview
+          </Button>
+          <Button
+            className="w-full"
+            variant="destructive"
+            onClick={deleteResource}
+          >
+            <X />
+            Delete
+          </Button>
+        </div>
+
+        <Button
+          className="w-full"
+          variant="outline"
+          onClick={() =>
+            api.admin.upload.downloadFile(resource.slug, resource.filename)
+          }
+        >
+          <Download />
+          Download
+        </Button>
+      </CardFooter>
+    </Card>
+  );
+};
