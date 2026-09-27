@@ -10,6 +10,8 @@ export interface ResponseJobDto extends DatabaseEntity {
   description: string;
   price: number;
   pricingType: JobPricingType;
+  negotiablePrice: boolean;
+  pausedApplication: boolean;
   postedBy: ResponseUserDto;
   currency: ResponseRefParamDto;
   currencyId: number;
@@ -27,6 +29,8 @@ export interface CreateJobDto {
   title: string;
   description: string;
   price: number;
+  negotiablePrice?: boolean;
+  pausedApplication?: boolean;
   tagIds: number[];
   currencyId?: number;
   categoryId?: number;

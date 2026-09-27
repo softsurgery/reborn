@@ -10,6 +10,7 @@ import {
   SelectOption,
   TextareaFieldProps,
   TextFieldProps,
+  SwitchFieldProps,
 } from "@/components/shared/form-builder/types";
 import { JobStore } from "@/hooks/stores/useJobStore";
 import { useUploadMutation } from "@/hooks/useUploadMutation";
@@ -163,6 +164,21 @@ export const useUpdateJobFormStructure = ({
     },
   };
 
+  const negotiablePriceField: Field<SwitchFieldProps> = {
+    id: "negotiablePrice",
+    label: `${t("job.forms.negotiablePriceLabel", "Negotiable Price")}`,
+    variant: FieldVariant.SWITCH,
+    description: `${t("job.forms.negotiablePriceDescription", "Allow freelancers to negotiate the price.")}`,
+    error: t(jobStore.updateDtoErrors?.negotiablePrice?.[0]),
+    props: {
+      checked: jobStore.updateDto?.negotiablePrice || false,
+      onCheckedChange: (checked: boolean) => {
+        jobStore.setNested("updateDto.negotiablePrice", checked);
+        jobStore.setNested("updateDtoErrors.negotiablePrice", []);
+      },
+    },
+  };
+
   const jobTagsField: Field<MultiSelectFieldProps> = {
     id: "tags",
     label: `${t("job.forms.tagsLabel")}`,
@@ -281,7 +297,7 @@ export const useUpdateJobFormStructure = ({
             fields: [descriptionField],
           },
           {
-            fields: [priceField, currencyField, pricingTypeField],
+            fields: [priceField, negotiablePriceField, currencyField, pricingTypeField],
           },
           {
             fields: [jobCategoriesField, jobStylesField],

@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { CardContent } from "@/components/ui/card";
 import { useBreadcrumb } from "@/contexts/BreadcrumbContext";
 import { useIntro } from "@/contexts/IntroContext";
 import { useConfigurations } from "@/hooks/content/configuration/useConfigurations";
@@ -14,14 +13,9 @@ import { toast } from "sonner";
 import { api } from "@/api";
 import { Loader2, Search } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import SidebarNav from "@/components/shared/SidebarNav";
 
 interface ConfigurationPortalProps {
   className?: string;
@@ -39,6 +33,7 @@ export const ConfigurationPortal = ({
 
   const originalValuesRef = React.useRef<{ id: number; value: string }[]>([]);
   const [searchQuery, setSearchQuery] = React.useState("");
+  const [activeConfigId, setActiveConfigId] = React.useState<string | null>(null);
 
   React.useEffect(() => {
     if (configurations && configStore.updateDtos.length === 0) {
@@ -96,28 +91,9 @@ export const ConfigurationPortal = ({
       t("configuration.page.description"),
     );
 
-    setFloating?.(
-      <div className="flex gap-2 justify-center">
-        <Button onClick={handleSave} disabled={isSaving}>
-          {isSaving ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              {t("configuration.actions.saving")}
-            </>
-          ) : (
-            t("configuration.actions.saveChanges")
-          )}
-        </Button>
-        <Button variant={"secondary"} onClick={handleReset} disabled={isSaving}>
-          {t("configuration.actions.resetAll")}
-        </Button>
-      </div>,
-    );
-
     return () => {
       clearRoutes?.();
       clearIntro?.();
-      clearFloating?.();
     };
   }, []);
 
@@ -134,6 +110,25 @@ export const ConfigurationPortal = ({
     [configurations, searchQuery],
   );
 
+  React.useEffect(() => {
+    if (filteredConfigs && filteredConfigs.length > 0) {
+      if (!activeConfigId || !filteredConfigs.find((c) => c.id.toString() === activeConfigId)) {
+        setActiveConfigId(filteredConfigs[0].id.toString());
+      }
+    } else {
+      setActiveConfigId(null);
+    }
+  }, [filteredConfigs, activeConfigId]);
+
+  const sidebarItems = React.useMemo(() => {
+    return (filteredConfigs || []).map((config) => ({
+      href: `#${config.id}`,
+      title: _.capitalize(config.name),
+    }));
+  }, [filteredConfigs]);
+
+  const activeConfig = filteredConfigs?.find((c) => c.id.toString() === activeConfigId);
+
   if (isConfigurationsPending) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -148,12 +143,12 @@ export const ConfigurationPortal = ({
   return (
     <div
       className={cn(
-        "flex flex-col flex-1 gap-4 overflow-hidden  container mx-auto p-1 mt-4",
+        "flex flex-col flex-1 gap-4 overflow-hidden container mx-auto p-1 mt-4",
         className,
       )}
     >
-      {/* searsh bar */}
-      <div className="relative">
+      {/* search bar */}
+      <div className="relative shrink-0">
         <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
         <Input
           type="text"
@@ -163,95 +158,113 @@ export const ConfigurationPortal = ({
           className="pl-9"
         />
       </div>
-      <Separator />
+      <Separator className="shrink-0" />
 
-      <Accordion
-        type="multiple"
-        className="flex flex-col gap-4 no-scrollbar overflow-auto pb-4"
-      >
-        {filteredConfigs?.length ? (
-          filteredConfigs.map((configuration) => (
-            <AccordionItem
-              key={configuration.id}
-              value={configuration.id}
-              className="border-none bg-card px-2 rounded-lg"
-            >
-              <AccordionTrigger className="pr-6 cursor-pointer flex items-center gap-2">
-                <div className="px-4">
-                  <p className="text-lg font-bold">
-                    {_.capitalize(configuration.name)}
+      <div className="flex flex-1 gap-6 overflow-hidden">
+        <div className="w-1/4 min-w-[250px] overflow-y-auto no-scrollbar pb-4">
+          <SidebarNav
+            items={sidebarItems}
+            activeHref={`#${activeConfigId}`}
+            onSelect={(item) => setActiveConfigId(item.href.replace("#", ""))}
+          />
+        </div>
+        
+        <div className="flex-1 overflow-y-auto pr-2 no-scrollbar pb-4">
+          {activeConfig ? (
+            <div className="flex flex-col gap-6">
+              <div>
+                <h2 className="text-2xl font-bold tracking-tight">
+                  {_.capitalize(activeConfig.name)}
+                </h2>
+                {activeConfig.description && (
+                  <p className="text-muted-foreground mt-1">
+                    {activeConfig.description}
                   </p>
-                  <p className="text-xs text-muted-foreground">
-                    {configuration.description}
-                  </p>
-                </div>
-              </AccordionTrigger>
-
-              <AccordionContent>
-                <CardContent className="flex flex-col gap-8 pt-0">
-                  {Object.entries(
-                    _.groupBy(
-                      configuration.params,
-                      (param) => param.name?.split(".")[0],
-                    ),
-                  ).map(([groupKey, params]) => (
-                    <div
-                      key={groupKey}
-                      className="rounded-md border bg-muted/30 p-4"
-                    >
-                      <div className="mb-3 flex items-center gap-2">
-                        <h3 className="text-sm font-semibold capitalize tracking-tight">
-                          {groupKey}
-                        </h3>
-                        <span className="text-xs text-muted-foreground">
-                          {t("configuration.groups.count", {
-                            count: params.length,
-                          })}
-                        </span>
-                      </div>
-
-                      <div className="space-y-4">
-                        {params
-                          .sort((a, b) => a.variant.localeCompare(b.variant))
-                          .map((param) => (
-                            <div
-                              key={param.id}
-                              className="flex flex-col gap-3 lg:flex-row lg:items-start"
-                            >
-                              <div className="lg:w-1/4">
-                                <Label className="text-sm font-medium">
-                                  {_.startCase(
-                                    _.camelCase(param.name?.split(".")[1]),
-                                  )}
-                                </Label>
-                                {param.description && (
-                                  <p className="text-xs text-muted-foreground">
-                                    {param.description}
-                                  </p>
-                                )}
-                              </div>
-                              <div className="lg:w-3/4">
-                                <ConfigurationInput
-                                  configurationParam={param}
-                                />
-                              </div>
-                            </div>
-                          ))}
-                      </div>
+                )}
+              </div>
+              <Separator />
+              <div className="flex flex-col gap-10">
+                {Object.entries(
+                  _.groupBy(
+                    activeConfig.params,
+                    (param) => param.name?.split(".")[0],
+                  ),
+                ).map(([groupKey, params]) => (
+                  <div
+                    key={groupKey}
+                    className="flex flex-col gap-4"
+                  >
+                    <div className="mb-2">
+                      <h3 className="text-lg font-medium capitalize tracking-tight">
+                        {groupKey}
+                      </h3>
+                      <p className="text-sm text-muted-foreground">
+                        {t("configuration.groups.count", {
+                          count: params.length,
+                        })}
+                      </p>
                     </div>
-                  ))}
-                </CardContent>
-              </AccordionContent>
-            </AccordionItem>
-          ))
-        ) : (
-          <p className="text-sm text-muted-foreground w-full text-center py-6">
-            {searchQuery
-              ? "No configutation params match your search"
-              : configurations?.length === 0}
-          </p>
-        )}
-      </Accordion>
+
+                    <div className="flex flex-col gap-6">
+                      {params
+                        .sort((a, b) => a.variant.localeCompare(b.variant))
+                        .map((param) => (
+                          <div
+                            key={param.id}
+                            className="flex flex-col gap-3 lg:flex-row lg:items-start justify-between"
+                          >
+                            <div className="lg:w-1/2">
+                              <Label className="text-sm font-medium">
+                                {_.startCase(
+                                  _.camelCase(param.name?.split(".")[1]),
+                                )}
+                              </Label>
+                              {param.description && (
+                                <p className="text-xs text-muted-foreground mt-1">
+                                  {param.description}
+                                </p>
+                              )}
+                            </div>
+                            <div className="lg:w-1/2 lg:max-w-md">
+                              <ConfigurationInput
+                                configurationParam={param}
+                              />
+                            </div>
+                          </div>
+                        ))}
+                    </div>
+                    <Separator className="mt-4" />
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div className="flex items-center justify-center h-full text-muted-foreground">
+              {searchQuery
+                ? "No configuration params match your search"
+                : configurations?.length === 0
+                  ? "No configurations available"
+                  : "Select a configuration"}
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div className="shrink-0 pt-4 pb-2 mt-auto border-t flex justify-end gap-2">
+        <Button variant={"secondary"} onClick={handleReset} disabled={isSaving}>
+          {t("configuration.actions.resetAll")}
+        </Button>
+        <Button onClick={handleSave} disabled={isSaving}>
+          {isSaving ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              {t("configuration.actions.saving")}
+            </>
+          ) : (
+            t("configuration.actions.saveChanges")
+          )}
+        </Button>
+      </div>
     </div>
   );
 };

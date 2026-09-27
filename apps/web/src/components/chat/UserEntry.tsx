@@ -1,9 +1,7 @@
-import React from "react";
 import { cn } from "@/lib/utils";
-import Icon from "@/lib/Icon";
 import { MessageCircleMoreIcon } from "lucide-react";
 import { ResponseUserDto } from "@/types";
-import { useServerImage } from "@/hooks/content/useServerImage";
+import { useServerImages } from "@/hooks/content/useServerImages";
 import { identifyUser, identifyUserAvatar } from "@/lib/user.utils";
 
 interface UserEntryProps {
@@ -23,9 +21,11 @@ export const UserEntry = ({
   seen,
   isPending,
 }: UserEntryProps) => {
-  const { jsx: profilePicture } = useServerImage({
-    id: user?.pictureId,
-    fallback: identifyUserAvatar(user),
+  const {
+    jsxArray: [profilePicture],
+  } = useServerImages({
+    ids: [user?.pictureId],
+    fallbacks: [identifyUserAvatar(user)],
     size: { width: 60, height: 60 },
   });
 
