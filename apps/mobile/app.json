@@ -1,0 +1,74 @@
+{
+  "expo": {
+    "name": "Reborn",
+    "slug": "reborn-mobile-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "assets/images/reborn.png",
+    "scheme": "rebornmobileapp",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "assets/images/reborn.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "reborn-mobile-app",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false,
+        "NSFaceIDUsageDescription": "Allow Reborn to use Face ID to reveal your financial details.",
+        "NSAppTransportSecurity": {
+          "NSAllowsArbitraryLoads": true
+        }
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.softsurgery.rebornmobileappv2"
+    },
+    "web": {
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-image-picker",
+      "expo-font",
+      "react-native-localize",
+      "expo-localization",
+      "@react-native-community/datetimepicker",
+      "expo-audio",
+      "expo-splash-screen",
+      "expo-video",
+      "expo-asset",
+      "expo-image",
+      "expo-sharing",
+      "expo-status-bar",
+      "expo-web-browser",
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "Allow Reborn to use Face ID to reveal your financial details."
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "newArchEnabled": true,
+    "extra": {
+      "router": {},
+      "supportsRTL": false,
+      "forcesRTL": false
+    }
+  }
+}

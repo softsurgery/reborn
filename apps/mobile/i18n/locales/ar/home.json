@@ -1,0 +1,84 @@
+{
+  "title": "الرئيسية",
+  "welcomeBack": "مرحباً بعودتك",
+  "welcomeSubtitle": "حافظ على زخمك اليوم مع الفرص والاستجابات الجديدة.",
+  "postJob": "نشر وظيفة",
+  "explore": "استكشف",
+  "stats": {
+    "myJobs": {
+      "title": "وظائفي",
+      "subtitle": "المنشورات النشطة"
+    },
+    "incoming": {
+      "title": "الواردة",
+      "subtitle": "الطلبات المستلمة"
+    },
+    "pending": {
+      "title": "قيد الانتظار",
+      "subtitle": "في انتظار الموافقة"
+    }
+  },
+  "quickActions": {
+    "title": "الإجراءات السريعة",
+    "soon": "قريباً",
+    "items": {
+      "work": {
+        "title": "العمل",
+        "description": "الوظائف المعينة لك"
+      },
+      "myJobs": {
+        "title": "وظائفي",
+        "description": "معاينة الوظائف التي قمت بنشرها"
+      },
+      "requests": {
+        "title": "الطلبات",
+        "description": "إدارة الطلبات الواردة والصادرة"
+      },
+      "savedJobs": {
+        "title": "الوظائف المحفوظة",
+        "description": "متابعة الوظائف التي قمت بحفظها"
+      },
+      "reviews": {
+        "title": "التقييمات",
+        "description": "عرض تقييماتك وآرائك"
+      },
+      "viewed": {
+        "title": "المشاهدة مؤخراً",
+        "description": "إعادة زيارة الفرص المشاهدة مؤخراً"
+      }
+    }
+  },
+  "userJobs": {
+    "title": "وظائفي",
+    "searchPlaceholder": "ابحث عن الوظائف بالعنوان أو الكلمة المفتاحية...",
+    "filters": {
+      "all": "الكل",
+      "published": "منشورة",
+      "drafts": "مسودات",
+      "inProgress": "قيد التنفيذ",
+      "finished": "منتهية"
+    },
+    "empty": {
+      "noResultsTitle": "لم يتم العثور على وظائف",
+      "noResultsSubtitle": "جرّب تعديل كلمات البحث أو مسح عوامل التصفية.",
+      "noJobsTitle": "لم يتم نشر أي وظائف بعد",
+      "noJobsSubtitle": "ابدأ التوظيف بنشر إعلان وظيفتك الأولى اليوم."
+    },
+    "createBanner": {
+      "title": "نشر وظيفة جديدة",
+      "subtitle": "أنشئ إعلاناً لتوظيف المواهب"
+    }
+  },
+  "recentActivity": {
+    "title": "النشاط الحديث",
+    "viewAll": "عرض الكل",
+    "incomingRequest": "طلب وارد",
+    "outgoingRequest": "طلب صادر",
+    "empty": "لا يوجد نشاط طلبات حديث حتى الآن.",
+    "status": {
+      "pending": "قيد الانتظار",
+      "approved": "مقبول",
+      "rejected": "مرفوض"
+    }
+  }
+}

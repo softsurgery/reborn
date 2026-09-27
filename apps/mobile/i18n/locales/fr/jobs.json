@@ -1,0 +1,509 @@
+{
+  "management": {
+    "title": "Gestion de l'offre",
+    "tabs": {
+      "statistics": "Statistiques",
+      "requests": "Demandes",
+      "actions": "Actions",
+      "progress": "Suivi"
+    },
+    "common": {
+      "cancel": "Annuler",
+      "confirm": "Confirmer",
+      "delete": "Supprimer"
+    },
+    "statistics": {
+      "kpis": {
+        "totalViews": "Vues de l'offre",
+        "saves": "Sauvegardes / Intérêt",
+        "applications": "Candidatures",
+        "shortlisted": "Candidats présélectionnés"
+      },
+      "sections": {
+        "weeklyActivity": {
+          "title": "Tendance d'activité hebdomadaire",
+          "subtitle": "Répartition quotidienne des vues et candidatures"
+        },
+        "funnel": {
+          "title": "Entonnoir de candidature",
+          "subtitle": "Taux de conversion aux différentes étapes"
+        },
+        "experience": {
+          "title": "Niveaux d'expérience des candidats",
+          "subtitle": "Répartition par séniorité"
+        },
+        "channels": {
+          "title": "Principaux canaux d'acquisition",
+          "subtitle": "Sources de trafic vers votre offre"
+        }
+      },
+      "days": {
+        "Mon": "Lun",
+        "Tue": "Mar",
+        "Wed": "Mer",
+        "Thu": "Jeu",
+        "Fri": "Ven",
+        "Sat": "Sam",
+        "Sun": "Dim"
+      },
+      "legend": {
+        "pageViews": "Vues de page",
+        "applications": "Candidatures"
+      },
+      "funnel": {
+        "Job Views": "Vues de l'offre",
+        "Saved / Interest": "Sauvegardes / Intérêt",
+        "Applications": "Candidatures",
+        "Shortlisted": "Présélectionnés",
+        "Assigned Worker": "Travailleur assigné"
+      },
+      "experience": {
+        "Senior (5-8 yrs)": "Senior (5-8 ans)",
+        "Mid-Level (3-5 yrs)": "Intermédiaire (3-5 ans)",
+        "Lead / Entry (0-3 yrs)": "Junior / Débutant (0-3 ans)"
+      },
+      "channels": {
+        "Direct App Applications": "Candidatures via l'application",
+        "Saved Jobs Interest": "Intérêt via offres sauvegardées",
+        "candidates": "{{count}} candidats",
+        "usersSaved": "{{count}} utilisateurs ont sauvegardé"
+      }
+    },
+    "requests": {
+      "searchIncoming": "Rechercher des candidats...",
+      "searchOutgoing": "Rechercher des candidatures envoyées...",
+      "waitlist": "Liste d'attente",
+      "noDecision": "Sans décision",
+      "emptyIncomingTitle": "Aucune demande reçue",
+      "emptyIncomingSubtitle": "Les candidatures des candidats apparaîtront ici.",
+      "emptyOutgoingTitle": "Aucune candidature envoyée",
+      "emptyOutgoingSubtitle": "Les candidatures que vous avez envoyées apparaîtront ici.",
+      "status": {
+        "pending": "En attente",
+        "waitlisted": "Liste d'attente",
+        "accepted": "Acceptée",
+        "declined": "Refusée"
+      },
+      "menu": {
+        "approve": "Approuver le candidat",
+        "decline": "Refuser la candidature",
+        "sendMessage": "Envoyer un message",
+        "specifications": "Voir les spécifications",
+        "inspectCandidate": "Voir le profil du candidat",
+        "viewJob": "Voir l'offre complète"
+      },
+      "unknownJob": "Offre inconnue",
+      "recently": "Récemment"
+    },
+    "actions": {
+      "groups": {
+        "core": "Actions principales",
+        "pipeline": "Outils du pipeline",
+        "distribution": "Diffusion et partage",
+        "danger": "Zone de danger"
+      },
+      "items": {
+        "edit": {
+          "title": "Modifier l'offre",
+          "description": "Mettre à jour le titre, les exigences et le salaire"
+        },
+        "duplicate": {
+          "title": "Dupliquer l'offre",
+          "description": "Créer une copie pour une offre similaire"
+        },
+        "pause": {
+          "title": "Suspendre les candidatures",
+          "description": "Arrêter d'accepter de nouvelles candidatures"
+        },
+        "resume": {
+          "title": "Reprendre les candidatures",
+          "description": "Accepter à nouveau les candidatures"
+        },
+        "export": {
+          "title": "Exporter les candidats (CSV/PDF)",
+          "description": "Télécharger la base complète des candidatures"
+        },
+        "broadcast": {
+          "title": "Message groupé",
+          "description": "Envoyer une mise à jour à tous les candidats"
+        },
+        "interview": {
+          "title": "Planificateur d'entretiens",
+          "description": "Définir des créneaux pour les entretiens"
+        },
+        "copyLink": {
+          "title": "Copier le lien direct",
+          "description": "Partager un lien de parrainage ou de destination"
+        },
+        "shareSocial": {
+          "title": "Partager sur les réseaux",
+          "description": "Publier sur LinkedIn, X ou Facebook"
+        },
+        "archive": {
+          "title": "Archiver l'offre",
+          "description": "Déplacer vers les archives sans supprimer les données",
+          "disabledDescription": "L'offre doit être en brouillon, échouée ou réussie pour être archivée"
+        },
+        "delete": {
+          "title": "Supprimer définitivement",
+          "description": "Supprimer irréversiblement l'offre et les candidatures",
+          "disabledDescription": "L'offre doit être en brouillon pour être supprimée"
+        }
+      },
+      "errors": {
+        "updateStatus": "Échec de la mise à jour du statut : {{message}}",
+        "unknown": "Erreur inconnue"
+      },
+      "sheets": {
+        "duplicate": {
+          "title": "Dupliquer l'offre",
+          "description": "Voulez-vous vraiment dupliquer cette offre ?"
+        },
+        "archive": {
+          "title": "Archiver l'offre",
+          "description": "Voulez-vous vraiment archiver cette offre ? Elle sera déplacée vers les archives sans supprimer les données."
+        },
+        "delete": {
+          "title": "Supprimer l'offre",
+          "description": "Voulez-vous vraiment supprimer ce brouillon ? Cette action est irréversible."
+        },
+        "pause": {
+          "title": "Suspendre les candidatures",
+          "description": "Voulez-vous vraiment suspendre les candidatures ? Aucune nouvelle soumission ne sera acceptée."
+        },
+        "resume": {
+          "title": "Reprendre les candidatures",
+          "description": "Voulez-vous vraiment reprendre les candidatures ? Les candidats pourront à nouveau postuler."
+        }
+      }
+    },
+    "lifecycle": {
+      "currentStatus": "Statut actuel",
+      "availableActions": "Étapes suivantes",
+      "assignedWorker": "Travailleur assigné : {{name}}",
+      "toast": {
+        "success": "Statut de l'offre mis à jour"
+      },
+      "role": {
+        "client": "Vous êtes le client de cette offre",
+        "worker": "Vous êtes le travailleur assigné à cette offre",
+        "other": "Vous consultez cette offre"
+      },
+      "waiting": {
+        "workerAccept": "En attente de l'acceptation du travailleur.",
+        "workerStart": "En attente du démarrage du travail.",
+        "workerFinish": "Le travailleur est en cours. En attente de la fin du travail.",
+        "workerReview": "En attente de l'avis du travailleur.",
+        "clientReview": "En attente de l'avis du client.",
+        "clientSuccess": "En attente que le client marque l'offre comme réussie.",
+        "onHold": "Cette offre est en pause.",
+        "successful": "Cette offre a été menée à bien.",
+        "failed": "Cette offre a été marquée comme échouée.",
+        "archived": "Cette offre a été archivée."
+      },
+      "status": {
+        "Draft": "Brouillon",
+        "Posted": "Publiée",
+        "Candidate Pending": "Candidat en attente",
+        "Not Started": "Non commencée",
+        "Pending": "En cours",
+        "Finished": "Terminée",
+        "On Hold": "En pause",
+        "Reviewed By Worker": "Avis du travailleur",
+        "Reviewed By Worker & Client": "Avis des deux parties",
+        "Failed": "Échouée",
+        "Successfull": "Réussie",
+        "Archived": "Archivée",
+        "Deleted": "Supprimée"
+      },
+      "events": {
+        "Choose Candidate": {
+          "title": "Confirmer le candidat choisi",
+          "description": "Passer l'offre en candidat en attente avec le travailleur assigné",
+          "confirm": "Confirmer ce travailleur comme candidat choisi ?"
+        },
+        "Refuse Candidate": {
+          "title": "Refuser le candidat",
+          "description": "Renvoyer l'offre en publication et retirer l'assignation",
+          "confirm": "Refuser ce candidat et rouvrir l'offre ?"
+        },
+        "Accept Candidate": {
+          "title": "Accepter l'assignation",
+          "description": "Accepter cette offre et vous préparer à commencer",
+          "confirm": "Accepter cette assignation ?"
+        },
+        "Start": {
+          "title": "Commencer le travail",
+          "description": "Marquer l'offre comme en cours",
+          "confirm": "Commencer à travailler sur cette offre ?"
+        },
+        "Finish": {
+          "title": "Terminer le travail",
+          "description": "Marquer le travail comme fini et l'envoyer en avis",
+          "confirm": "Marquer cette offre comme terminée ?"
+        },
+        "Hold": {
+          "title": "Mettre en pause",
+          "description": "Suspendre le travail sans échouer l'offre",
+          "confirm": "Mettre cette offre en pause ?"
+        },
+        "Stop Hold": {
+          "title": "Reprendre le travail",
+          "description": "Remettre l'offre en cours",
+          "confirm": "Reprendre cette offre ?"
+        },
+        "Mark Failed": {
+          "title": "Marquer comme échouée",
+          "description": "Clôturer l'offre comme échouée depuis la pause",
+          "confirm": "Marquer cette offre comme échouée ?"
+        },
+        "Worker Review": {
+          "title": "Envoyer l'avis du travailleur",
+          "description": "Laisser votre avis pour que le client puisse continuer",
+          "confirm": "Envoyer votre avis pour cette offre ?"
+        },
+        "Client Review": {
+          "title": "Envoyer l'avis du client",
+          "description": "Laisser votre avis après celui du travailleur",
+          "confirm": "Envoyer votre avis pour cette offre ?"
+        },
+        "Mark Successful": {
+          "title": "Marquer comme réussie",
+          "description": "Clôturer l'offre comme menée à bien",
+          "confirm": "Marquer cette offre comme réussie ?"
+        },
+        "Archive": {
+          "title": "Archiver l'offre",
+          "description": "Déplacer une offre terminée ou échouée vers les archives",
+          "confirm": "Archiver cette offre ?"
+        }
+      }
+    },
+    "work": {
+      "title": "Votre mission",
+      "listTitle": "Mes missions",
+      "assignment": "Votre mission",
+      "client": "Client : {{name}}",
+      "budget": "Budget : {{amount}} {{currency}}",
+      "otherActions": "Autres actions",
+      "yourProgress": "Votre avancement",
+      "shortcuts": "Raccourcis",
+      "openAssignment": "Ouvrir la mission",
+      "viewListing": "Voir l'offre",
+      "viewListingDescription": "Consulter la description et les médias",
+      "viewClient": "Voir le profil du client",
+      "viewClientDescription": "Ouvrir le profil public du client",
+      "messageClient": "Écrire au client",
+      "messageClientDescription": "Continuer la conversation dans le chat",
+      "manageJob": "Gérer l'offre",
+      "editListing": "Modifier l'offre",
+      "shareJob": "Partager l'offre",
+      "deleteListing": "Supprimer l'offre",
+      "searchPlaceholder": "Rechercher vos missions...",
+      "emptyTitle": "Aucune mission assignée",
+      "emptySubtitle": "Quand un client vous choisit, l'offre apparaîtra ici.",
+      "emptyFilteredTitle": "Aucune mission correspondante",
+      "emptyFilteredSubtitle": "Essayez un autre filtre ou un autre mot-clé.",
+      "filters": {
+        "all": "Toutes",
+        "inProgress": "En cours",
+        "finished": "Terminées"
+      },
+      "guidance": {
+        "accept": "Le client vous a choisi. Acceptez la mission pour prendre cette offre.",
+        "start": "Vous avez accepté. Commencez le travail quand vous êtes prêt.",
+        "progress": "Le travail est en cours. Terminez-le ou mettez-le en pause.",
+        "hold": "Cette offre est en pause. Reprenez quand vous pouvez continuer.",
+        "review": "Le travail est terminé. Envoyez votre avis pour que le client puisse continuer.",
+        "waitClientReview": "Vous avez déjà donné votre avis. En attente de l'avis du client.",
+        "waitSuccess": "Les deux avis sont donnés. En attente que le client clôture l'offre.",
+        "done": "Cette offre est terminée.",
+        "failed": "Cette offre a été marquée comme échouée.",
+        "archived": "Cette mission a été archivée.",
+        "generic": "Ouvrez cette mission pour voir la prochaine étape."
+      },
+      "next": {
+        "accept": "Suivant : accepter la mission",
+        "start": "Suivant : commencer le travail",
+        "progress": "Suivant : terminer ou mettre en pause",
+        "hold": "Suivant : reprendre le travail",
+        "review": "Suivant : envoyer votre avis",
+        "waitClientReview": "En attente de l'avis du client",
+        "waitSuccess": "En attente de la clôture par le client",
+        "done": "Mission terminée",
+        "failed": "Mission échouée",
+        "archived": "Mission archivée",
+        "generic": "Ouvrir pour voir la suite"
+      },
+      "steps": {
+        "Candidate Pending": "Offre reçue",
+        "Not Started": "Acceptée — pas commencée",
+        "Pending": "En cours",
+        "Finished": "Travail terminé",
+        "Reviewed By Worker": "Vous avez donné votre avis",
+        "Reviewed By Worker & Client": "Les deux avis sont donnés",
+        "Successfull": "Terminée"
+      }
+    }
+  },
+  "details": {
+    "cta": {
+      "apply": "Postuler à cette offre",
+      "cancelApplication": "Annuler la candidature",
+      "viewRequest": "Voir la candidature",
+      "manage": "Gérer cette offre",
+      "openProgress": "Continuer cette offre",
+      "assignedHint": "Vous êtes le travailleur assigné. Ouvrez le suivi pour accepter, commencer ou terminer le travail.",
+      "chatHint": "Vous pourrez discuter avec {{name}} avant de commencer"
+    }
+  },
+  "form": {
+    "createTitle": "Nouvelle offre",
+    "updateTitle": "Modifier l'offre",
+    "successTitle": "Succès",
+    "successMessage": "Votre offre a été créée avec succès",
+    "viewJob": "Voir l'offre",
+    "backToExplore": "Retour à l'exploration",
+    "saveDraft": "Enregistrer le brouillon",
+    "publish": "Publier",
+    "update": "Mettre à jour",
+    "errors": {
+      "createFailed": "Échec de la création de l'offre : {{message}}",
+      "updateFailed": "Échec de la mise à jour de l'offre : {{message}}",
+      "updateSuccess": "Offre mise à jour avec succès"
+    },
+    "steps": {
+      "define": {
+        "title": "Définir l'offre",
+        "description": "Commencez par renseigner les informations de base."
+      },
+      "details": {
+        "title": "Ajouter des détails",
+        "description": "Enrichissez l'annonce avec des informations plus précises."
+      },
+      "images": {
+        "title": "Ajouter des images",
+        "description": "Téléversez des images liées à l'offre."
+      }
+    },
+    "sections": {
+      "define": {
+        "title": "Définir l'offre",
+        "description": "Informations de base pour créer une nouvelle offre."
+      },
+      "general": "Informations générales",
+      "details": {
+        "title": "Détails de l'offre",
+        "description": "Enrichissez l'annonce avec des informations plus précises.",
+        "fieldset": "Détails de l'offre"
+      },
+      "images": {
+        "title": "Ajouter des images",
+        "description": "Téléversez des images liées à l'offre.",
+        "fieldset": "Images de l'offre"
+      }
+    },
+    "fields": {
+      "title": {
+        "label": "Titre de l'offre",
+        "placeholder": "Saisir le titre de l'offre",
+        "description": "Un titre court et clair pour l'annonce."
+      },
+      "description": {
+        "label": "Description",
+        "placeholder": "Rédigez une description détaillée de l'offre",
+        "description": "Décrivez pleinement le projet ou le rôle."
+      },
+      "budget": {
+        "label": "Budget",
+        "placeholder": "Saisir le montant du budget",
+        "description": "Définissez le budget de cette offre."
+      },
+      "pricingType": {
+        "label": "Type de tarification",
+        "placeholder": "Sélectionner le type de tarification",
+        "description": "Choisissez comment cette offre sera facturée.",
+        "fixed": "Prix fixe",
+        "hourly": "Taux horaire"
+      },
+      "negotiable": {
+        "label": "Prix négociable",
+        "description": "Autoriser les freelances à négocier le prix."
+      },
+      "category": {
+        "label": "Catégorie",
+        "placeholder": "Choisir une catégorie",
+        "description": "Sélectionnez une catégorie pour l'offre."
+      },
+      "style": {
+        "label": "Style",
+        "placeholder": "Choisir un style",
+        "description": "Sélectionnez un style pour l'offre."
+      },
+      "difficulty": {
+        "label": "Difficulté",
+        "placeholder": "Choisir une difficulté",
+        "description": "Sélectionnez le niveau de difficulté."
+      },
+      "tags": {
+        "label": "Tags",
+        "placeholder": "Sélectionner des tags pertinents",
+        "description": "Ajoutez des tags pour aider les freelances à trouver votre offre."
+      },
+      "location": {
+        "label": "Lieu de l'offre",
+        "description": "Indiquez le lieu de l'offre (facultatif)."
+      },
+      "images": {
+        "label": "Images de l'offre",
+        "description": "Ajoutez des images liées à l'offre."
+      }
+    },
+    "options": {
+      "style": {
+        "Remote": "Télétravail",
+        "On-site": "Sur site",
+        "Flexible Hours": "Horaires flexibles",
+        "Full-time": "Temps plein",
+        "Part-time": "Temps partiel",
+        "Freelance": "Freelance",
+        "Weekend Job": "Week-end",
+        "Night Shift": "Nuit",
+        "Day Shift": "Jour"
+      },
+      "difficulty": {
+        "Entry Level": "Débutant",
+        "Mid Level": "Intermédiaire",
+        "Senior Level": "Senior",
+        "Internship": "Stage"
+      }
+    },
+    "budget": {
+      "sufficientTitle": "Solde suffisant",
+      "insufficientTitle": "Solde insuffisant",
+      "sufficient": "Votre solde couvre le montant requis de {{amount}} TND.",
+      "insufficient": "Il vous faut {{required}} TND mais vous n'avez que {{current}} TND.",
+      "topUp": "Recharger"
+    },
+    "validation": {
+      "titleRequired": "Le titre est requis",
+      "titleMin": "Le titre doit contenir au moins 10 caractères",
+      "titleMax": "Le titre ne doit pas dépasser 255 caractères",
+      "descriptionRequired": "La description est requise",
+      "priceRequired": "Le prix est requis",
+      "pricePositive": "Le prix doit être supérieur à 0",
+      "longitudeNumber": "La longitude doit être un nombre",
+      "latitudeNumber": "La latitude doit être un nombre",
+      "tagIdNumber": "Chaque identifiant de tag doit être un nombre",
+      "tagsRequired": "Les tags sont requis",
+      "tagsMin": "Au moins un tag est requis",
+      "categoryRequired": "La catégorie est requise",
+      "categoryPositive": "L'identifiant de catégorie doit être positif",
+      "invalidStyle": "Style d'offre invalide",
+      "invalidDifficulty": "Difficulté d'offre invalide",
+      "uploadIdRequired": "L'identifiant de fichier est requis",
+      "uploadsRequired": "Les fichiers sont requis",
+      "imagesMin": "Au moins une image est requise"
+    }
+  }
+}

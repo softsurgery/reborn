@@ -1,0 +1,84 @@
+{
+  "title": "Home",
+  "welcomeBack": "Welcome back",
+  "welcomeSubtitle": "Keep your momentum today with new opportunities and responses.",
+  "postJob": "Post Job",
+  "explore": "Explore",
+  "stats": {
+    "myJobs": {
+      "title": "My Jobs",
+      "subtitle": "Active posts"
+    },
+    "incoming": {
+      "title": "Incoming",
+      "subtitle": "Requests received"
+    },
+    "pending": {
+      "title": "Pending",
+      "subtitle": "Awaiting approval"
+    }
+  },
+  "quickActions": {
+    "title": "Quick actions",
+    "soon": "Soon",
+    "items": {
+      "work": {
+        "title": "Work",
+        "description": "Jobs assigned to you"
+      },
+      "myJobs": {
+        "title": "My jobs",
+        "description": "Preview your posted jobs"
+      },
+      "requests": {
+        "title": "Requests",
+        "description": "Manage incoming and outgoing requests"
+      },
+      "savedJobs": {
+        "title": "Saved jobs",
+        "description": "Keep track of jobs you bookmarked"
+      },
+      "reviews": {
+        "title": "Reviews",
+        "description": "See your ratings and feedback"
+      },
+      "viewed": {
+        "title": "Viewed",
+        "description": "Revisit recently viewed opportunities"
+      }
+    }
+  },
+  "userJobs": {
+    "title": "My Jobs",
+    "searchPlaceholder": "Search jobs by title or keyword...",
+    "filters": {
+      "all": "All",
+      "published": "Published",
+      "drafts": "Drafts",
+      "inProgress": "In Progress",
+      "finished": "Finished"
+    },
+    "empty": {
+      "noResultsTitle": "No jobs found",
+      "noResultsSubtitle": "Try adjusting your search keywords or clearing filter tabs.",
+      "noJobsTitle": "No jobs posted yet",
+      "noJobsSubtitle": "Start hiring by posting your first job listing today."
+    },
+    "createBanner": {
+      "title": "Post a New Job",
+      "subtitle": "Create a listing to hire talented workers"
+    }
+  },
+  "recentActivity": {
+    "title": "Recent activity",
+    "viewAll": "View all",
+    "incomingRequest": "Incoming request",
+    "outgoingRequest": "Outgoing request",
+    "empty": "No recent request activity yet.",
+    "status": {
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected"
+    }
+  }
+}

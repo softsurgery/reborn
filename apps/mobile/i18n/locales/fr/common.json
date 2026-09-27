@@ -1,0 +1,65 @@
+{
+  "app_name": "Reborn",
+  "select_language": "Personnalisez votre expérience en sélectionnant votre langue",
+  "screens": {
+    "explore": "Explorer",
+    "chat": "Chat",
+    "finance": "Finance",
+    "userPreferences": "Préférences Utilisateur",
+    "reportBug": "Signaler un Bug",
+    "faqs": "FAQ",
+    "sendFeedback": "Envoyer des commentaires",
+    "experience": "Expérience",
+    "education": "Éducation",
+    "settings": "Paramètres",
+    "notifications": "Notifications",
+    "messages": "Messages",
+    "myspace": "Mon Espace",
+    "profile": "Profile",
+    "job_details": "Détails du Job",
+    "menu": "Menu",
+    "primary": "Accueil"
+  },
+  "auth": {
+    "welcome": "Bienvenue"
+  },
+  "language": {
+    "select": {
+      "title": "Sélectionnez la langue",
+      "description": "Sélectionnez la langue que vous souhaitez utiliser dans l'application",
+      "placeholder": "Sélectionnez la langue"
+    },
+    "options": {
+      "en": "Anglais",
+      "fr": "Français",
+      "ar": "Arabe",
+      "system": "Système"
+    }
+  },
+  "theme": {
+    "title": "Thème",
+    "description": "Choisissez votre thème préféré",
+    "light": "Clair",
+    "dark": "Sombre",
+    "system": "Système"
+  },
+  "formBuilder": {
+    "mapPinField": {
+      "title": "Sélectionner un emplacement",
+      "hint": "Appuyez sur la carte pour déposer un repère",
+      "confirm": "Confirmer l'emplacement",
+      "placeholder": "Sélectionner un emplacement"
+    },
+    "timePicker": {
+      "placeholder": "Sélectionner une heure",
+      "remove": "Supprimer l'heure",
+      "done": "Terminé"
+    }
+  },
+  "actions": {
+    "previous": "Précédent",
+    "next": "Suivant"
+  },
+  "see_more": "Voir plus",
+  "see_less": "Voir moins"
+}

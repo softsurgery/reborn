@@ -1,0 +1,100 @@
+import { useColorPalette } from "@/hooks/useColorPalette";
+import { InfiniteListFooter } from "@/components/shared/InfiniteListFooter";
+import { LegendList } from "@legendapp/list";
+import { useQuery } from "@tanstack/react-query";
+import React from "react";
+import { RefreshControl, View } from "react-native";
+import { api } from "~/api";
+import { Text } from "~/components/ui/text";
+import { cn } from "~/lib/utils";
+import { ResponseJobDto } from "~/types";
+import { router } from "expo-router";
+import { useJobStore } from "~/hooks/stores/useJobStore";
+import { JobSearchResultEntry } from "./JobSearchResultEntry";
+import { JobSearchResultEntrySkeleton } from "./JobSearchResultEntrySkeleton";
+
+interface JobSearchResultsProps {
+  className?: string;
+  search: string;
+  searching: boolean;
+}
+
+export const JobSearchResults = ({
+  className,
+  search,
+  searching,
+}: JobSearchResultsProps) => {
+  const { palette } = useColorPalette();
+  const jobStore = useJobStore();
+  const {
+    data,
+    refetch,
+    isPending: isJobPending,
+  } = useQuery({
+    queryKey: ["jobs", search],
+    queryFn: () =>
+      api.job.findPaginated({
+        page: "1",
+        limit: "5",
+        sort: "createdAt,desc",
+        search,
+        join: "uploads",
+      }),
+  });
+
+  const jobs = React.useMemo(() => data?.data ?? [], [data]);
+
+  const isPending = searching || isJobPending;
+
+  const renderItem = React.useCallback(
+    ({ item }: { item: ResponseJobDto }) => (
+      <JobSearchResultEntry
+        item={item}
+        onPress={() => {
+          jobStore.addJobToSearchHistory(item);
+          router.push({
+            pathname: "/main/explore/job-details",
+            params: { id: item.id },
+          });
+        }}
+      />
+    ),
+    [],
+  );
+
+  return (
+    <LegendList
+      className={cn("flex-1", className)}
+      data={jobs}
+      renderItem={renderItem}
+      keyExtractor={(item) => item.id}
+      showsVerticalScrollIndicator={false}
+      recycleItems={true}
+      maintainVisibleContentPosition
+      refreshControl={
+        <RefreshControl
+          refreshing={isPending}
+          onRefresh={refetch}
+          tintColor={palette.primary}
+          colors={[palette.primary]}
+        />
+      }
+      ListEmptyComponent={
+        !isPending ? (
+          <View className="p-6 items-center">
+            <Text className="text-muted-foreground">No jobs available</Text>
+          </View>
+        ) : null
+      }
+      ListFooterComponent={
+        <InfiniteListFooter
+          isPending={isPending}
+          hasNextPage={false}
+          dataLength={0}
+          showEndMessage={false}
+          loadingComponent={<JobSearchResultEntrySkeleton />}
+        />
+      }
+    />
+  );
+};

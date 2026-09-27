@@ -1,0 +1,84 @@
+{
+  "title": "Accueil",
+  "welcomeBack": "Bon retour",
+  "welcomeSubtitle": "Maintenez votre dynamique aujourd'hui avec de nouvelles opportunités et réponses.",
+  "postJob": "Publier une offre",
+  "explore": "Explorer",
+  "stats": {
+    "myJobs": {
+      "title": "Mes offres",
+      "subtitle": "Annonces actives"
+    },
+    "incoming": {
+      "title": "Reçues",
+      "subtitle": "Demandes reçues"
+    },
+    "pending": {
+      "title": "En attente",
+      "subtitle": "En attente d'approbation"
+    }
+  },
+  "quickActions": {
+    "title": "Actions rapides",
+    "soon": "Bientôt",
+    "items": {
+      "work": {
+        "title": "Travail",
+        "description": "Les tâches qui vous sont assignées"
+      },
+      "myJobs": {
+        "title": "Mes offres",
+        "description": "Aperçu de vos offres publiées"
+      },
+      "requests": {
+        "title": "Demandes",
+        "description": "Gérer les demandes entrantes et sortantes"
+      },
+      "savedJobs": {
+        "title": "Offres sauvegardées",
+        "description": "Suivez les offres mises en favoris"
+      },
+      "reviews": {
+        "title": "Avis",
+        "description": "Consultez vos évaluations et commentaires"
+      },
+      "viewed": {
+        "title": "Consultées",
+        "description": "Revoir les opportunités récemment consultées"
+      }
+    }
+  },
+  "userJobs": {
+    "title": "Mes offres",
+    "searchPlaceholder": "Rechercher des offres par titre ou mot-clé...",
+    "filters": {
+      "all": "Toutes",
+      "published": "Publiées",
+      "drafts": "Brouillons",
+      "inProgress": "En cours",
+      "finished": "Terminées"
+    },
+    "empty": {
+      "noResultsTitle": "Aucune offre trouvée",
+      "noResultsSubtitle": "Essayez de modifier vos mots-clés ou de réinitialiser les filtres.",
+      "noJobsTitle": "Aucune offre publiée",
+      "noJobsSubtitle": "Commencez à recruter en publiant votre première offre dès aujourd'hui."
+    },
+    "createBanner": {
+      "title": "Publier une nouvelle offre",
+      "subtitle": "Créez une annonce pour recruter des talents"
+    }
+  },
+  "recentActivity": {
+    "title": "Activité récente",
+    "viewAll": "Voir tout",
+    "incomingRequest": "Demande entrante",
+    "outgoingRequest": "Demande sortante",
+    "empty": "Aucune activité de demande récente pour le moment.",
+    "status": {
+      "pending": "En attente",
+      "approved": "Approuvé",
+      "rejected": "Refusé"
+    }
+  }
+}

@@ -1,0 +1,137 @@
+import { Pressable, View } from "react-native";
+import { useQueryClient } from "@tanstack/react-query";
+import { Star, UserCheck, UserPlus } from "lucide-react-native";
+import { router } from "expo-router";
+import { Text } from "~/components/ui/text";
+import { UserStore } from "~/hooks/stores/useUserStore";
+import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
+import { useFollowSystem } from "~/hooks/content/useFollowSystem";
+import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
+import { cn } from "~/lib/utils";
+import { ResponseUserDto, ServerErrorResponse } from "~/types";
+import { useServerImages } from "~/hooks/content/useServerImages";
+import { Icon } from "~/components/ui/icon";
+import { toast } from "sonner-native";
+import { useColorPalette } from "~/hooks/useColorPalette";
+
+interface UserEntryProps {
+  className?: string;
+  user: ResponseUserDto;
+  userStore?: UserStore;
+  profileId?: string;
+  closeDialog?: () => void;
+}
+
+export const UserEntry = ({
+  className,
+  user,
+  userStore,
+  profileId,
+  closeDialog,
+}: UserEntryProps) => {
+  const { palette } = useColorPalette();
+  const { currentUser } = useCurrentUser();
+  const queryClient = useQueryClient();
+
+  const invalidateOwnerId = profileId ?? userStore?.response?.id;
+
+  const { isFollowing, refetchIsFollowing, followUser, unfollowUser } =
+    useFollowSystem({
+      id: user?.id,
+      follow: {
+        onSuccess: () => {
+          refetchIsFollowing();
+          if (invalidateOwnerId) {
+            queryClient.invalidateQueries({
+              queryKey: ["follow-data-count", invalidateOwnerId],
+            });
+            queryClient.invalidateQueries({
+              queryKey: ["social-data", invalidateOwnerId],
+            });
+            queryClient.invalidateQueries({
+              queryKey: ["followings", invalidateOwnerId],
+            });
+          }
+        },
+        onError: (err: ServerErrorResponse) => {
+          toast.error(err.response?.data.message || "Failed to follow user");
+        },
+      },
+      unfollow: {
+        onSuccess: () => {
+          refetchIsFollowing();
+          if (invalidateOwnerId) {
+            queryClient.invalidateQueries({
+              queryKey: ["follow-data-count", invalidateOwnerId],
+            });
+            queryClient.invalidateQueries({
+              queryKey: ["social-data", invalidateOwnerId],
+            });
+            queryClient.invalidateQueries({
+              queryKey: ["followers", invalidateOwnerId],
+            });
+          }
+        },
+        onError: (err: ServerErrorResponse) => {
+          toast.error(err.response?.data.message || "Failed to unfollow user");
+        },
+      },
+      use: ["is-following"],
+    });
+
+  const {
+    jsxArray: [profilePicture],
+  } = useServerImages({
+    ids: [user?.pictureId],
+    fallbacks: [identifyUserAvatar(user)],
+    size: { width: 50, height: 50 },
+    className: "rounded-full",
+  });
+
+  return (
+    <Pressable
+      className={cn("p-2 active:opacity-50", className)}
+      onPress={() => {
+        router.push({
+          pathname: "/main/explore/inspect-profile",
+          params: { id: user.id },
+        });
+        closeDialog?.();
+      }}
+    >
+      <View className="flex-row items-center justify-between">
+        <View className="flex flex-row justify-between items-center gap-3">
+          <View className="w-10 h-10 bg-accent/20 rounded-full items-center justify-center">
+            {profilePicture}
+          </View>
+          <View>
+            <Text className="text-base font-medium text-card-foreground">
+              {identifyUser(user)}
+            </Text>
+            <View className="flex-row items-center gap-4 mt-1">
+              <View className="flex-row items-center gap-1">
+                <Star size={12} color="#fbbf24" fill="#fbbf24" />
+                <Text className="text-xs text-muted-foreground">
+                  4.9 (127 reviews)
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+        {currentUser?.id != user.id && (
+          <Pressable
+            hitSlop={8}
+            onPress={() => (isFollowing ? unfollowUser() : followUser())}
+            className="p-2 rounded-full active:opacity-60"
+          >
+            <Icon
+              as={isFollowing ? UserCheck : UserPlus}
+              size={22}
+              color={isFollowing ? palette?.primary : palette?.mutedForeground}
+            />
+          </Pressable>
+        )}
+      </View>
+    </Pressable>
+  );
+};

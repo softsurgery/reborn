@@ -1,0 +1,65 @@
+{
+  "app_name": "Reborn",
+  "select_language": "Customize your experience by selecting your language",
+  "screens": {
+    "explore": "Explore",
+    "chat": "Chat",
+    "finance": "Finance",
+    "userPreferences": "User Preferences",
+    "reportBug": "Report a Bug",
+    "faqs": "FAQs",
+    "sendFeedback": "Send Feedback",
+    "experience": "Experience",
+    "education": "Education",
+    "settings": "Settings",
+    "notifications": "Notifications",
+    "messages": "Messages",
+    "myspace": "My Space",
+    "profile": "Profile",
+    "job_details": "Job Details",
+    "menu": "Menu",
+    "primary": "Home"
+  },
+  "auth": {
+    "welcome": "Welcome"
+  },
+  "language": {
+    "select": {
+      "title": "Select Language",
+      "description": "Select the language you want to use in the app",
+      "placeholder": "Select Language"
+    },
+    "options": {
+      "en": "English",
+      "fr": "French",
+      "ar": "Arabic",
+      "system": "System"
+    }
+  },
+  "theme": {
+    "title": "Theme",
+    "description": "Choose your preferred theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "formBuilder": {
+    "mapPinField": {
+      "title": "Select Location",
+      "hint": "Tap on the map to drop a pin",
+      "confirm": "Confirm Location",
+      "placeholder": "Select a location"
+    },
+    "timePicker": {
+      "placeholder": "Select a time",
+      "remove": "Remove Time",
+      "done": "Done"
+    }
+  },
+  "actions": {
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "see_more": "See more",
+  "see_less": "See less"
+}

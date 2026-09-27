@@ -1,0 +1,65 @@
+{
+  "app_name": "Reborn",
+  "select_language": "خصص تجربةك باختيار لغتك",
+  "screens": {
+    "explore": "الاستكشاف",
+    "chat": "الدردشة",
+    "finance": "المالية",
+    "userPreferences": "تفضيلات المستخدم",
+    "reportBug": "الإبلاغ عن خطأ",
+    "faqs": "الأسئلة الشائعة",
+    "sendFeedback": "إرسال الملاحظات",
+    "experience": "الخبرة",
+    "education": "التعليم",
+    "settings": "الإعدادات",
+    "notifications": "الإشعارات",
+    "messages": "الرسائل",
+    "myspace": "مساحتي",
+    "profile": "الملف الشخصي",
+    "job_details": "تفاصيل الوظيفة",
+    "menu": "القائمة",
+    "primary": "الرئيسية"
+  },
+  "auth": {
+    "welcome": "مرحبا"
+  },
+  "language": {
+    "select": {
+      "title": "اختر اللغة",
+      "description": "اختر اللغة التي تريد استخدامها في التطبيق",
+      "placeholder": "اختر اللغة"
+    },
+    "options": {
+      "en": "الإنجليزية",
+      "fr": "الفرنسية",
+      "ar": "العربية",
+      "system": "لغة النظام"
+    }
+  },
+  "theme": {
+    "title": "المظهر",
+    "description": "اختر المظهر المفضل لديك",
+    "light": "فاتح",
+    "dark": "داكن",
+    "system": "النظام"
+  },
+  "formBuilder": {
+    "mapPinField": {
+      "title": "حدد الموقع",
+      "hint": "اضغط على الخريطة لإسقاط دبوس",
+      "confirm": "تأكيد الموقع",
+      "placeholder": "حدد موقعًا"
+    },
+    "timePicker": {
+      "placeholder": "حدد الوقت",
+      "remove": "إزالة الوقت",
+      "done": "تم"
+    }
+  },
+  "actions": {
+    "previous": "السابق",
+    "next": "التالي"
+  },
+  "see_more": "عرض المزيد",
+  "see_less": "عرض أقل"
+}
