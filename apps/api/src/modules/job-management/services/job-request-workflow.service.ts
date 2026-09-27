@@ -1,16 +1,22 @@
 import { AbstractWorkflowService } from 'src/shared/workflows/services/workflow.service';
 import { JobRequestService } from './job-request.service';
+import { JobWorkflowService } from './job-workflow.service';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { JobRequestStatus } from '../enums/job-request-status.enum';
 import { JobRequestEvents } from '../enums/workflow/job-request-events.enum';
 import { jobRequestMachine } from '../workflows/job-request.workflow';
+import { JobStatus } from '../enums/workflow/job-status.enum';
+import { JobEvents } from '../enums/workflow/job-events.enum';
 
 @Injectable()
 export class JobRequestWorkflowService extends AbstractWorkflowService<
   JobRequestStatus,
   JobRequestEvents
 > {
-  constructor(private readonly jobRequestService: JobRequestService) {
+  constructor(
+    private readonly jobRequestService: JobRequestService,
+    private readonly jobWorkflowService: JobWorkflowService,
+  ) {
     super(jobRequestMachine, JobRequestEvents);
   }
 
@@ -37,6 +43,15 @@ export class JobRequestWorkflowService extends AbstractWorkflowService<
 
     if (event === JobRequestEvents.Approve) {
       await this.jobRequestService.approveJobRequest(id);
+      const jobWorkflow = await this.jobWorkflowService.findOneById(
+        jobRequest.jobId,
+      );
+      if (jobWorkflow.status === JobStatus.POSTED) {
+        await this.jobWorkflowService.next(
+          jobRequest.jobId,
+          JobEvents.CHOOSE_CANDIDATE,
+        );
+      }
     } else if (event === JobRequestEvents.Reject) {
       await this.jobRequestService.rejectJobRequest(id);
     } else if (event === JobRequestEvents.Waitlist) {

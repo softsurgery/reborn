@@ -317,4 +317,16 @@ export class JobService extends AbstractCrudService<JobEntity> {
     job.pausedApplication = false;
     return this.jobRepository.save(job);
   }
+
+  @Transactional()
+  async applyWorkflowPatch(
+    id: string,
+    patch: {
+      status: JobStatus;
+      workerId?: string | null;
+      assignmentDate?: Date | null;
+    },
+  ): Promise<void> {
+    await this.jobRepository.update(id, patch);
+  }
 }

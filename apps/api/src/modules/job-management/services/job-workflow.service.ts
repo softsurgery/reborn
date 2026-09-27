@@ -33,7 +33,18 @@ export class JobWorkflowService extends AbstractWorkflowService<
       throw new BadRequestException(`Job with ID ${id} not found`);
     }
     const newStatus = this.transition(job.status, event);
-    await this.jobService.save({ id: job.id, status: newStatus });
+    const patch: {
+      status: JobStatus;
+      workerId?: string | null;
+      assignmentDate?: Date | null;
+    } = { status: newStatus };
+
+    if (event === JobEvents.REFUSE_CANDIDATE) {
+      patch.workerId = null;
+      patch.assignmentDate = null;
+    }
+
+    await this.jobService.applyWorkflowPatch(job.id, patch);
     return this.findOneById(id);
   }
 
