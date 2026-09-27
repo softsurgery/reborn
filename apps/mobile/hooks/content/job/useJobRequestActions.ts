@@ -19,6 +19,9 @@ export const useJobRequestActions = ({
     queryClient.invalidateQueries({ queryKey: ["requests"] });
     queryClient.invalidateQueries({ queryKey: ["job-request"] });
     queryClient.invalidateQueries({ queryKey: ["job-metadata"] });
+    queryClient.invalidateQueries({ queryKey: ["job"] });
+    queryClient.invalidateQueries({ queryKey: ["job-workflow"] });
+    queryClient.invalidateQueries({ queryKey: ["jobs"] });
     onSuccess?.(...args);
   };
 

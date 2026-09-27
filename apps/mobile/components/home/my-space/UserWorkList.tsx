@@ -27,6 +27,7 @@ import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
 import { useStickyElement } from "@/hooks/useStickyElement";
 import { useColorPalette } from "@/hooks/useColorPalette";
 import { MyJobPreviewModal } from "@/components/jobs/job-management/MyJobPreviewModal";
+import { useTranslation } from "react-i18next";
 
 interface UserWorkListProps {
   className?: string;
@@ -38,16 +39,11 @@ interface FilterOption {
   value: string;
 }
 
-const FILTER_OPTIONS: FilterOption[] = [
-  { label: "All", value: "all" },
-  { label: "In Progress", value: "in_progress" },
-  { label: "Finished", value: JobStatus.FINISHED },
-];
-
 export const UserWorkList = ({
   className,
   searching = false,
 }: UserWorkListProps) => {
+  const { t } = useTranslation("jobs");
   const { currentUser } = useCurrentUser();
   const [search, setSearch] = React.useState("");
   const { palette } = useColorPalette();
@@ -69,10 +65,16 @@ export const UserWorkList = ({
   const [searchBarHeight, setSearchBarHeight] = React.useState(110);
   const { handleScroll, stickyHeaderStyle } = useStickyElement(0);
 
+  const FILTER_OPTIONS: FilterOption[] = [
+    { label: t("management.work.filters.all"), value: "all" },
+    { label: t("management.work.filters.inProgress"), value: "in_progress" },
+    { label: t("management.work.filters.finished"), value: JobStatus.FINISHED },
+  ];
+
   const filterExpression = React.useMemo(() => {
     if (selectedFilter === "all") return "";
     if (selectedFilter === "in_progress") {
-      return `status||$in||Candidate Pending,Not Started,Pending,Reviewed By Worker,Reviewed By Worker & Client`;
+      return `status||$in||Candidate Pending,Not Started,Pending,On Hold,Reviewed By Worker,Reviewed By Worker & Client`;
     }
     return `status||$eq||${selectedFilter}`;
   }, [selectedFilter]);
@@ -99,7 +101,13 @@ export const UserWorkList = ({
 
   const renderItem = React.useCallback(
     ({ item }: { item: ResponseJobDto }) => {
-      return <JobManagementCard job={item} onLongPress={setPreviewJob} />;
+      return (
+        <JobManagementCard
+          job={item}
+          perspective="worker"
+          onLongPress={setPreviewJob}
+        />
+      );
     },
     [setPreviewJob],
   );
@@ -111,7 +119,7 @@ export const UserWorkList = ({
         style={[animatedBlurStyle]}
       >
         <ApplicationHeader
-          title="My Work"
+          title={t("management.work.listTitle")}
           classNames={{ wrapper: "border-b border-border/60 pb-2.5 bg-card" }}
           titleVariant="large"
           reverse
@@ -139,7 +147,7 @@ export const UserWorkList = ({
               icon={Search}
               value={search}
               onChangeText={setSearch}
-              placeholder="Search jobs by title or keyword..."
+              placeholder={t("management.work.searchPlaceholder")}
               enableClear
             />
           </View>
@@ -232,13 +240,13 @@ export const UserWorkList = ({
                 <View className="items-center gap-1">
                   <Text className="text-base font-semibold text-foreground text-center">
                     {search || selectedFilter !== "all"
-                      ? "No work jobs found"
-                      : "No work assigned yet"}
+                      ? t("management.work.emptyFilteredTitle")
+                      : t("management.work.emptyTitle")}
                   </Text>
                   <Text className="text-sm text-muted-foreground text-center max-w-[240px]">
                     {search || selectedFilter !== "all"
-                      ? "Try adjusting your search keywords or clearing filter tabs."
-                      : "You have not been assigned to any jobs yet."}
+                      ? t("management.work.emptyFilteredSubtitle")
+                      : t("management.work.emptySubtitle")}
                   </Text>
                 </View>
               </View>
@@ -254,6 +262,7 @@ export const UserWorkList = ({
       <MyJobPreviewModal
         visible={!!previewJob}
         job={previewJob}
+        perspective="worker"
         onClose={() => setPreviewJob(null)}
       />
     </StableSafeAreaView>

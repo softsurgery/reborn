@@ -15,6 +15,7 @@ import { Image, ImageSource } from "expo-image";
 import {
   ExternalLink,
   Folder,
+  MessageCircle,
   PencilLine,
   Send,
   Telescope,
@@ -23,6 +24,8 @@ import {
 } from "lucide-react-native";
 import { router } from "expo-router";
 import { Badge } from "@/components/ui/badge";
+import { useTranslation } from "react-i18next";
+import { getWorkerGuidanceKey } from "@/lib/job-lifecycle";
 import { useNextWorkflowJob } from "@/hooks/content/job/workflow/useNextWorkflowJob";
 import { useQueryClient, InfiniteData } from "@tanstack/react-query";
 import { useColorPalette } from "@/hooks/useColorPalette";
@@ -39,6 +42,7 @@ interface JobManagementCardProps {
   className?: string;
   job: ResponseJobDto;
   onLongPress?: (job: ResponseJobDto) => void;
+  perspective?: "client" | "worker";
 }
 
 export const THUMBNAIL_SIZE = 76;
@@ -109,8 +113,11 @@ export const JobManagementCard = ({
   className,
   job,
   onLongPress,
+  perspective = "client",
 }: JobManagementCardProps) => {
+  const { t } = useTranslation("jobs");
   const { palette } = useColorPalette();
+  const isWorkerView = perspective === "worker";
   const queryClient = useQueryClient();
   const { setLoading } = useLoader();
   const isRTL = useRTL();
@@ -217,7 +224,7 @@ export const JobManagementCard = ({
           className={cn("px-2.5 py-0.5 rounded-full border", statusStyle.badge)}
         >
           <Text className={cn("text-[10px] capitalize", statusStyle.text)}>
-            {job.status}
+            {t(`management.lifecycle.status.${job.status}`)}
           </Text>
         </Badge>
 
@@ -229,58 +236,83 @@ export const JobManagementCard = ({
         >
           <ThreeDotsActionSheet
             size={26}
-            options={[
-              {
-                label: "Manage Job",
-                icon: Folder,
-                onPress: navigateToManage,
-              },
-              {
-                label: "Edit Listing",
-                icon: PencilLine,
-                onPress: () => {
-                  router.push({
-                    pathname: "/main/my-space/update-job",
-                    params: { id: job.id },
-                  });
-                },
-              },
-              {
-                label: primaryActionLabel,
-                icon: Send,
-                onPress: () => {
-                  if (job.status === JobStatus.DRAFT) {
-                    nextJobWorkflow(JobEvents.POST);
-                  } else if (job.status === JobStatus.POSTED) {
-                    nextJobWorkflow(JobEvents.UNPUBLISH);
-                  }
-                },
-              },
-              {
-                label: "View Public Details",
-                icon: Telescope,
-                onPress: () => {
-                  router.push({
-                    pathname: "/main/explore/job-details",
-                    params: { id: job.id },
-                  });
-                },
-              },
-              {
-                label: "Share Job",
-                icon: ExternalLink,
-                onPress: () => {},
-              },
-              {
-                label: "Delete Listing",
-                icon: Trash2,
-                variant: "destructive",
-                disabled: job.status !== JobStatus.DRAFT,
-                onPress: () => {
-                  deleteSheetRef.current?.show();
-                },
-              },
-            ]}
+            options={
+              isWorkerView
+                ? [
+                    {
+                      label: t("management.work.openAssignment"),
+                      icon: Folder,
+                      onPress: navigateToManage,
+                    },
+                    {
+                      label: t("management.work.viewListing"),
+                      icon: Telescope,
+                      onPress: () => {
+                        router.push({
+                          pathname: "/main/explore/job-details",
+                          params: { id: job.id },
+                        });
+                      },
+                    },
+                    {
+                      label: t("management.work.messageClient"),
+                      icon: MessageCircle,
+                      onPress: () => router.push("/main/(tabs)/chat"),
+                    },
+                  ]
+                : [
+                    {
+                      label: t("management.work.manageJob"),
+                      icon: Folder,
+                      onPress: navigateToManage,
+                    },
+                    {
+                      label: t("management.work.editListing"),
+                      icon: PencilLine,
+                      onPress: () => {
+                        router.push({
+                          pathname: "/main/my-space/update-job",
+                          params: { id: job.id },
+                        });
+                      },
+                    },
+                    {
+                      label: primaryActionLabel,
+                      icon: Send,
+                      onPress: () => {
+                        if (job.status === JobStatus.DRAFT) {
+                          nextJobWorkflow(JobEvents.POST);
+                        } else if (job.status === JobStatus.POSTED) {
+                          nextJobWorkflow(JobEvents.UNPUBLISH);
+                        }
+                      },
+                    },
+                    {
+                      label: t("management.work.viewListing"),
+                      icon: Telescope,
+                      onPress: () => {
+                        router.push({
+                          pathname: "/main/explore/job-details",
+                          params: { id: job.id },
+                        });
+                      },
+                    },
+                    {
+                      label: t("management.work.shareJob"),
+                      icon: ExternalLink,
+                      onPress: () => {},
+                    },
+                    {
+                      label: t("management.work.deleteListing"),
+                      icon: Trash2,
+                      variant: "destructive",
+                      disabled: job.status !== JobStatus.DRAFT,
+                      onPress: () => {
+                        deleteSheetRef.current?.show();
+                      },
+                    },
+                  ]
+            }
           />
         </View>
       </View>
@@ -341,6 +373,17 @@ export const JobManagementCard = ({
               className={cn("text-xs text-muted-foreground leading-4")}
             >
               {job.description}
+            </Text>
+          ) : null}
+
+          {isWorkerView ? (
+            <Text
+              numberOfLines={2}
+              className="text-xs font-medium text-primary leading-4 mt-0.5"
+            >
+              {t(
+                `management.work.next.${getWorkerGuidanceKey(job.status)}`,
+              )}
             </Text>
           ) : null}
 

@@ -36,11 +36,14 @@ import { useDeleteJob } from "@/hooks/content/job/useDeleteJob";
 import { useQueryClient } from "@tanstack/react-query";
 import { cn } from "@/lib/utils";
 import { useRTL } from "@/hooks/useRTL";
+import { useTranslation } from "react-i18next";
+import { MessageCircle } from "lucide-react-native";
 
 interface MyJobPreviewModalProps {
   visible: boolean;
   job: ResponseJobDto | null;
   onClose: () => void;
+  perspective?: "client" | "worker";
 }
 
 const DEFAULT_CURRENCY = "TND";
@@ -95,9 +98,12 @@ export const MyJobPreviewModal = ({
   visible,
   job,
   onClose,
+  perspective = "client",
 }: MyJobPreviewModalProps) => {
   const { palette } = useColorPalette();
   const isRTL = useRTL();
+  const { t } = useTranslation("jobs");
+  const isWorkerView = perspective === "worker";
   const queryClient = useQueryClient();
 
   const { deleteJob } = useDeleteJob();
@@ -434,25 +440,44 @@ export const MyJobPreviewModal = ({
               )}
             >
               <Text className="text-sm font-semibold text-foreground">
-                Manage Job & Applicants
+                {isWorkerView
+                  ? t("management.work.openAssignment")
+                  : t("management.work.manageJob")}
               </Text>
               <Folder size={18} color={palette.primary} />
             </TouchableOpacity>
 
-            <TouchableOpacity
-              onPress={handleEdit}
-              className={cn(
-                "flex-row items-center justify-between px-4 py-3.5 border-b border-border/50 active:bg-accent/40",
-                isRTL && "flex-row-reverse",
-              )}
-            >
-              <Text className="text-sm font-semibold text-foreground">
-                Edit Listing
-              </Text>
-              <PencilLine size={18} color={palette.foreground} />
-            </TouchableOpacity>
+            {isWorkerView ? (
+              <TouchableOpacity
+                onPress={() =>
+                  handleDismiss(() => router.push("/main/(tabs)/chat"))
+                }
+                className={cn(
+                  "flex-row items-center justify-between px-4 py-3.5 border-b border-border/50 active:bg-accent/40",
+                  isRTL && "flex-row-reverse",
+                )}
+              >
+                <Text className="text-sm font-semibold text-foreground">
+                  {t("management.work.messageClient")}
+                </Text>
+                <MessageCircle size={18} color={palette.foreground} />
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                onPress={handleEdit}
+                className={cn(
+                  "flex-row items-center justify-between px-4 py-3.5 border-b border-border/50 active:bg-accent/40",
+                  isRTL && "flex-row-reverse",
+                )}
+              >
+                <Text className="text-sm font-semibold text-foreground">
+                  {t("management.work.editListing")}
+                </Text>
+                <PencilLine size={18} color={palette.foreground} />
+              </TouchableOpacity>
+            )}
 
-            {(isDraft || isPosted) && (
+            {!isWorkerView && (isDraft || isPosted) && (
               <TouchableOpacity
                 onPress={handleToggleWorkflow}
                 className={cn(
@@ -475,25 +500,27 @@ export const MyJobPreviewModal = ({
               )}
             >
               <Text className="text-sm font-semibold text-foreground">
-                View Public Details
+                {t("management.work.viewListing")}
               </Text>
               <Telescope size={18} color={palette.foreground} />
             </TouchableOpacity>
 
-            <TouchableOpacity
-              onPress={handleShare}
-              className={cn(
-                "flex-row items-center justify-between px-4 py-3.5 border-b border-border/50 active:bg-accent/40",
-                isRTL && "flex-row-reverse",
-              )}
-            >
-              <Text className="text-sm font-semibold text-foreground">
-                Share Job
-              </Text>
-              <Share2 size={18} color={palette.foreground} />
-            </TouchableOpacity>
+            {!isWorkerView ? (
+              <TouchableOpacity
+                onPress={handleShare}
+                className={cn(
+                  "flex-row items-center justify-between px-4 py-3.5 border-b border-border/50 active:bg-accent/40",
+                  isRTL && "flex-row-reverse",
+                )}
+              >
+                <Text className="text-sm font-semibold text-foreground">
+                  {t("management.work.shareJob")}
+                </Text>
+                <Share2 size={18} color={palette.foreground} />
+              </TouchableOpacity>
+            ) : null}
 
-            {isDraft && (
+            {!isWorkerView && isDraft && (
               <TouchableOpacity
                 onPress={handleDelete}
                 className={cn(
@@ -502,7 +529,7 @@ export const MyJobPreviewModal = ({
                 )}
               >
                 <Text className="text-sm font-semibold text-destructive">
-                  Delete Listing
+                  {t("management.work.deleteListing")}
                 </Text>
                 <Trash2 size={18} color={palette.destructive} />
               </TouchableOpacity>

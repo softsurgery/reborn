@@ -20,9 +20,9 @@ import { useLiveGeolocation } from "@/hooks/useLiveGeolocation";
 import * as Location from "expo-location";
 import { toast } from "sonner-native";
 import {
-  defineJobValidationSchemas,
-  detailedJobValidationSchemas,
-  imagesJobValidationSchemas,
+  getDefineJobValidationSchemas,
+  getDetailedJobValidationSchemas,
+  getImagesJobValidationSchemas,
 } from "@/types/validations/job.validation";
 import { useUploadMutation } from "@/hooks/content/useUploadMutation";
 import { UpdateGenericUploadDto, Upload } from "@/types/upload";
@@ -30,6 +30,9 @@ import { useJob } from "@/hooks/content/job/useJob";
 import { useUpdateJobFormStructure } from "./useUpdateJobFormStructure";
 import { useServerImages } from "@/hooks/content/useServerImages";
 import { extractImageFiles } from "@/lib/uploads";
+import { useBalance } from "@/hooks/content/finance/useBalance";
+import { BudgetWarning } from "./BudgetWarning";
+import { useTranslation } from "react-i18next";
 
 interface JobUpdateFormProps {
   className?: string;
@@ -37,6 +40,7 @@ interface JobUpdateFormProps {
 }
 
 export const JobUpdateForm = ({ className, id }: JobUpdateFormProps) => {
+  const { t } = useTranslation("jobs");
   const queryClient = useQueryClient();
   const {
     latitude,
@@ -45,6 +49,8 @@ export const JobUpdateForm = ({ className, id }: JobUpdateFormProps) => {
     isPending: isLocationPending,
   } = useLiveGeolocation();
   const jobStore = useJobStore();
+  
+  const { data: balanceData, isPending: isBalancePending } = useBalance();
 
   const { job, isJobPending } = useJob({
     id,
@@ -171,11 +177,15 @@ export const JobUpdateForm = ({ className, id }: JobUpdateFormProps) => {
       queryClient.invalidateQueries({ queryKey: ["jobs"] });
       queryClient.invalidateQueries({ queryKey: ["job", id] });
       jobStore.reset();
-      toast.success("Job updated successfully");
+      toast.success(t("form.errors.updateSuccess"));
       router.push("/main/(tabs)");
     },
     onError: (error: ServerErrorResponse) => {
-      toast.error(`Failed to update job: ${error.response?.data.message}`);
+      toast.error(
+        t("form.errors.updateFailed", {
+          message: error.response?.data.message,
+        }),
+      );
     },
   });
 
@@ -203,7 +213,7 @@ export const JobUpdateForm = ({ className, id }: JobUpdateFormProps) => {
       ...jobStore.updateDto,
       uploads,
     };
-    const result = imagesJobValidationSchemas.safeParse(data);
+    const result = getImagesJobValidationSchemas(t).safeParse(data);
     if (!result.success) {
       jobStore.set("updateDtoErrors", result.error.flatten().fieldErrors);
       return;
@@ -222,7 +232,7 @@ export const JobUpdateForm = ({ className, id }: JobUpdateFormProps) => {
     <StableSafeAreaView className="flex-1 bg-card">
       <ApplicationHeader
         classNames={{ wrapper: "border-b border-border pb-2" }}
-        title={"Update Job"}
+        title={t("form.updateTitle")}
         reverse
         titleVariant="large"
         shortcuts={[
@@ -249,11 +259,11 @@ export const JobUpdateForm = ({ className, id }: JobUpdateFormProps) => {
             }}
             steps={[
               {
-                title: "Define the job",
-                description: "Start by providing the basic details of the job.",
+                title: t("form.steps.define.title"),
+                description: t("form.steps.define.description"),
                 component: <FormBuilder structure={jobCreateFormStructure} />,
                 validation: () => {
-                  const result = defineJobValidationSchemas.safeParse(
+                  const result = getDefineJobValidationSchemas(t).safeParse(
                     jobStore.updateDto,
                   );
                   if (!result.success) {
@@ -267,12 +277,11 @@ export const JobUpdateForm = ({ className, id }: JobUpdateFormProps) => {
                 },
               },
               {
-                title: "Add Details",
-                description:
-                  "Enrich the job listing with more specific information.",
+                title: t("form.steps.details.title"),
+                description: t("form.steps.details.description"),
                 component: <FormBuilder structure={jobDetailsFormStructure} />,
                 validation: () => {
-                  const result = detailedJobValidationSchemas.safeParse(
+                  const result = getDetailedJobValidationSchemas(t).safeParse(
                     jobStore.updateDto,
                   );
                   if (!result.success) {
@@ -286,21 +295,34 @@ export const JobUpdateForm = ({ className, id }: JobUpdateFormProps) => {
                 },
               },
               {
-                title: "Add Images",
-                description: "Upload images related to the job.",
-                component: <FormBuilder structure={jobImagePickerStructure} />,
+                title: t("form.steps.images.title"),
+                description: t("form.steps.images.description"),
+                component: (
+                  <View className="flex-1">
+                    <FormBuilder structure={jobImagePickerStructure} />
+                    <BudgetWarning
+                      requiredAmount={jobStore.updateDto?.price}
+                      currentBalance={balanceData?.balance}
+                      isPending={isBalancePending}
+                    />
+                  </View>
+                ),
                 validation: true,
               },
             ]}
             closingActions={[
               {
                 id: "update",
-                label: "Update",
+                label: t("form.update"),
                 variant: "default",
                 onPress: () => {
                   handleSubmit();
                 },
-                disabled: isUploadPending,
+                disabled:
+                  isUploadPending ||
+                  (jobStore.updateDto?.price
+                    ? (balanceData?.balance ?? 0) < jobStore.updateDto.price
+                    : false),
               },
             ]}
             pending={isUpdatePending || isUploadPending}

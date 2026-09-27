@@ -16,6 +16,7 @@ import {
 } from "~/components/shared/form-builder/types";
 import { JobStore } from "~/hooks/stores/useJobStore";
 import { JobDifficulty, JobStyle } from "~/types";
+import { useTranslation } from "react-i18next";
 
 interface JobCreateFormStructureProps {
   jobStore: JobStore;
@@ -30,13 +31,15 @@ export const useCreateJobFormStructure = ({
   jobCategories,
   uploadPicture,
 }: JobCreateFormStructureProps) => {
+  const { t } = useTranslation("jobs");
+
   const titleField: Field<TextFieldProps> = {
     id: "title",
-    label: "Job Title",
+    label: t("form.fields.title.label"),
     variant: FieldVariant.TEXT,
     required: true,
-    placeholder: "Enter job title",
-    description: "A short and clear title for the job post.",
+    placeholder: t("form.fields.title.placeholder"),
+    description: t("form.fields.title.description"),
     error: jobStore.createDtoErrors?.title?.[0],
     props: {
       value: jobStore.createDto.title,
@@ -49,11 +52,11 @@ export const useCreateJobFormStructure = ({
 
   const descriptionField: Field<TextareaFieldProps> = {
     id: "description",
-    label: "Description",
+    label: t("form.fields.description.label"),
     variant: FieldVariant.TEXTAREA,
     required: true,
-    placeholder: "Write a detailed description of the job",
-    description: "Provide a full description of the project or role.",
+    placeholder: t("form.fields.description.placeholder"),
+    description: t("form.fields.description.description"),
     error: jobStore.createDtoErrors?.description?.[0],
     props: {
       value: jobStore.createDto.description,
@@ -67,11 +70,11 @@ export const useCreateJobFormStructure = ({
 
   const priceField: Field<NumberFieldProps> = {
     id: "price",
-    label: "Budget",
+    label: t("form.fields.budget.label"),
     variant: FieldVariant.NUMBER,
     required: true,
-    placeholder: "Enter budget amount",
-    description: "Set the budget for this job.",
+    placeholder: t("form.fields.budget.placeholder"),
+    description: t("form.fields.budget.description"),
     error: jobStore.createDtoErrors?.price?.[0],
     props: {
       value: jobStore.createDto?.price,
@@ -84,16 +87,16 @@ export const useCreateJobFormStructure = ({
 
   const pricingTypeField: Field<SelectFieldProps> = {
     id: "pricingType",
-    label: "Pricing Type",
+    label: t("form.fields.pricingType.label"),
     variant: FieldVariant.SELECT,
     required: true,
-    placeholder: "Select pricing type",
-    description: "Choose how you want to be charged for this job.",
+    placeholder: t("form.fields.pricingType.placeholder"),
+    description: t("form.fields.pricingType.description"),
     error: jobStore.createDtoErrors?.pricingType?.[0],
     props: {
       options: [
-        { label: "Fixed Price", value: "fixed" },
-        { label: "Hourly Rate", value: "hourly" },
+        { label: t("form.fields.pricingType.fixed"), value: "fixed" },
+        { label: t("form.fields.pricingType.hourly"), value: "hourly" },
       ],
       value: jobStore.createDto?.pricingType,
       onSelect: (value) => {
@@ -105,10 +108,10 @@ export const useCreateJobFormStructure = ({
 
   const negotiablePriceField: Field<CheckboxFieldProps> = {
     id: "negotiablePrice",
-    label: "Negotiable Price",
+    label: t("form.fields.negotiable.label"),
     variant: FieldVariant.CHECKBOX,
     required: false,
-    description: "Allow freelancers to negotiate the price.",
+    description: t("form.fields.negotiable.description"),
     error: jobStore.createDtoErrors?.negotiablePrice?.[0],
     props: {
       checked: jobStore.createDto?.negotiablePrice || false,
@@ -121,11 +124,11 @@ export const useCreateJobFormStructure = ({
 
   const jobCategoryField: Field<SelectFieldProps> = {
     id: "category",
-    label: "Category",
+    label: t("form.fields.category.label"),
     variant: FieldVariant.SELECT,
     required: true,
-    description: "Select a category for the job.",
-    placeholder: "Choose category",
+    description: t("form.fields.category.description"),
+    placeholder: t("form.fields.category.placeholder"),
     error: jobStore.createDtoErrors?.categoryId?.[0],
     props: {
       options: jobCategories,
@@ -139,15 +142,15 @@ export const useCreateJobFormStructure = ({
 
   const jobStyleField: Field<SelectFieldProps> = {
     id: "style",
-    label: "Style",
+    label: t("form.fields.style.label"),
     variant: FieldVariant.SELECT,
     required: true,
-    placeholder: "Choose style",
-    description: "Select a style for the job.",
+    placeholder: t("form.fields.style.placeholder"),
+    description: t("form.fields.style.description"),
     error: jobStore.createDtoErrors?.style?.[0],
     props: {
       options: Object.entries(JobStyle).map(([_key, value]) => ({
-        label: value,
+        label: t(`form.options.style.${value}`, { defaultValue: value }),
         value: value,
       })),
       value: jobStore.createDto?.style,
@@ -160,15 +163,15 @@ export const useCreateJobFormStructure = ({
 
   const jobDifficultyField: Field<SelectFieldProps> = {
     id: "difficulty",
-    label: "Difficulty",
+    label: t("form.fields.difficulty.label"),
     variant: FieldVariant.SELECT,
     required: true,
-    placeholder: "Choose difficulty",
-    description: "Select a difficulty for the job.",
+    placeholder: t("form.fields.difficulty.placeholder"),
+    description: t("form.fields.difficulty.description"),
     error: jobStore.createDtoErrors?.difficulty?.[0],
     props: {
       options: Object.entries(JobDifficulty).map(([_key, value]) => ({
-        label: value,
+        label: t(`form.options.difficulty.${value}`, { defaultValue: value }),
         value: value,
       })),
       value: jobStore.createDto?.difficulty,
@@ -181,11 +184,11 @@ export const useCreateJobFormStructure = ({
 
   const jobTagsField: Field<MultiSelectFieldProps> = {
     id: "tags",
-    label: "Tags",
+    label: t("form.fields.tags.label"),
     variant: FieldVariant.MULTISELECT,
     required: true,
-    placeholder: "Select relevant tags",
-    description: "Add tags to help freelancers find your job.",
+    placeholder: t("form.fields.tags.placeholder"),
+    description: t("form.fields.tags.description"),
     error: jobStore.createDtoErrors?.tagIds?.[0],
     props: {
       options: jobTags,
@@ -200,10 +203,10 @@ export const useCreateJobFormStructure = ({
 
   const locationField: Field<MapPinFieldProps> = {
     id: "location",
-    label: "Job Location",
+    label: t("form.fields.location.label"),
     variant: FieldVariant.MAPPIN,
     required: false,
-    description: "Specify the job location (optional).",
+    description: t("form.fields.location.description"),
     error: jobStore.createDtoErrors?.location?.[0],
     props: {
       locationName: jobStore.locationName,
@@ -221,12 +224,12 @@ export const useCreateJobFormStructure = ({
   };
 
   const jobCreateFormStructure: FormStructure = {
-    title: "Define The Job",
-    description: "Basic information for creating a new job.",
+    title: t("form.sections.define.title"),
+    description: t("form.sections.define.description"),
     orientation: "horizontal",
     fieldsets: [
       {
-        title: "General Information",
+        title: t("form.sections.general"),
         rows: [
           { id: 1, fields: [titleField] },
           { id: 2, fields: [descriptionField] },
@@ -241,12 +244,12 @@ export const useCreateJobFormStructure = ({
   };
 
   const jobDetailsFormStructure: FormStructure = {
-    title: "Add Job Details",
-    description: "Enrich the job listing with more specific information.",
+    title: t("form.sections.details.title"),
+    description: t("form.sections.details.description"),
     orientation: "horizontal",
     fieldsets: [
       {
-        title: "Job Details",
+        title: t("form.sections.details.fieldset"),
         rows: [
           { id: 4, fields: [jobCategoryField] },
           { id: 5, fields: [jobStyleField] },
@@ -261,11 +264,11 @@ export const useCreateJobFormStructure = ({
 
   const pictureField: Field<GalleryFieldProps> = {
     id: "pictures",
-    label: "Job Images",
+    label: t("form.fields.images.label"),
     variant: FieldVariant.GALLERY,
     required: true,
     error: jobStore.createDtoErrors?.uploads?.[0],
-    description: "Add images related to the job.",
+    description: t("form.fields.images.description"),
     props: {
       images: jobStore.images,
       onChange: (images: ImageFile[]) => {
@@ -287,12 +290,12 @@ export const useCreateJobFormStructure = ({
   };
 
   const jobImagePickerStructure: FormStructure = {
-    title: "Add Images",
-    description: "Upload images related to the job.",
+    title: t("form.sections.images.title"),
+    description: t("form.sections.images.description"),
     orientation: "horizontal",
     fieldsets: [
       {
-        title: "Job Images",
+        title: t("form.sections.images.fieldset"),
         rows: [
           {
             id: 1,

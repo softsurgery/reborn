@@ -18,6 +18,7 @@ import { Loader } from "@/components/shared/lotties/Loader";
 import { Icon } from "@/components/ui/icon";
 
 import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
+import { useRTL } from "@/hooks/useRTL";
 import StableScrollView from "@/components/shared/stables/StableScrollView";
 interface Faq {
   question: string;
@@ -63,6 +64,7 @@ interface FaqsPortalProps {
 
 export const FaqsPortal = ({ className }: FaqsPortalProps) => {
   const { t } = useTranslation("settings");
+  const isRTL = useRTL();
 
   const { dataStore, isDataStorePending } = useDataStore<Faq[]>({
     id: StoreIDs.FAQS,
@@ -125,7 +127,12 @@ export const FaqsPortal = ({ className }: FaqsPortalProps) => {
                   className="overflow-hidden"
                 >
                   <AccordionTrigger className="py-4">
-                    <Text className="flex-1 pr-3 text-base font-medium leading-snug text-foreground">
+                    <Text
+                      className={cn(
+                        "flex-1 text-base font-medium leading-snug text-foreground",
+                        isRTL ? "pl-3" : "pr-3",
+                      )}
+                    >
                       {faq.question}
                     </Text>
                   </AccordionTrigger>

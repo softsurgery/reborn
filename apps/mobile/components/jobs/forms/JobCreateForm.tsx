@@ -20,19 +20,24 @@ import { Loader } from "@/components/shared/lotties/Loader";
 import { useLiveGeolocation } from "@/hooks/useLiveGeolocation";
 import { toast } from "sonner-native";
 import {
-  defineJobValidationSchemas,
-  detailedJobValidationSchemas,
-  imagesJobValidationSchemas,
+  getDefineJobValidationSchemas,
+  getDetailedJobValidationSchemas,
+  getImagesJobValidationSchemas,
 } from "@/types/validations/job.validation";
 import { useUploadMutation } from "@/hooks/content/useUploadMutation";
 import { Upload } from "@/types/upload";
 import { JobCreatedSuccess } from "./JobCreatedSuccess";
+import { useBalance } from "@/hooks/content/finance/useBalance";
+import { BudgetWarning } from "./BudgetWarning";
+import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
+import { useTranslation } from "react-i18next";
 
 interface JobCreateFormProps {
   className?: string;
 }
 
 export const JobCreateForm = ({ className }: JobCreateFormProps) => {
+  const { t } = useTranslation("jobs");
   const queryClient = useQueryClient();
   const [createdJobId, setCreatedJobId] = React.useState<string | null>(null);
   const {
@@ -42,6 +47,8 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
     isPending: isLocationPending,
   } = useLiveGeolocation();
   const jobStore = useJobStore();
+
+  const { data: balanceData, isPending: isBalancePending } = useBalance();
 
   const { uploadFiles: uploadPicture, isUploadPending } = useUploadMutation({
     onSuccess: (response: Upload[], variables) => {
@@ -86,7 +93,11 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
       setCreatedJobId(data.id);
     },
     onError: (error: ServerErrorResponse) => {
-      toast.error(`Failed to create job: ${error.response?.data.message}`);
+      toast.error(
+        t("form.errors.createFailed", {
+          message: error.response?.data.message,
+        }),
+      );
     },
   });
 
@@ -114,7 +125,7 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
       status,
       uploads,
     };
-    const result = imagesJobValidationSchemas.safeParse(data);
+    const result = getImagesJobValidationSchemas(t).safeParse(data);
     if (!result.success) {
       jobStore.set("createDtoErrors", result.error.flatten().fieldErrors);
       return;
@@ -134,7 +145,7 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
       <StableSafeAreaView className="flex-1 bg-card">
         <ApplicationHeader
           classNames={{ wrapper: "border-b border-border pb-2" }}
-          title={"Success"}
+          title={t("form.successTitle")}
           reverse
           titleVariant="large"
           shortcuts={[
@@ -158,16 +169,13 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
     <StableSafeAreaView className="flex-1 bg-card">
       <ApplicationHeader
         classNames={{ wrapper: "border-b border-border pb-2" }}
-        title={"New Job"}
+        title={t("form.createTitle")}
         reverse
         titleVariant="large"
         shortcuts={[
           {
             key: "back",
-            icon: ChevronLeft,
-            onPress: () => {
-              router.back();
-            },
+            render: <AppHeaderBack />,
           },
         ]}
       />
@@ -184,11 +192,11 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
             }}
             steps={[
               {
-                title: "Define the job",
-                description: "Start by providing the basic details of the job.",
+                title: t("form.steps.define.title"),
+                description: t("form.steps.define.description"),
                 component: <FormBuilder structure={jobCreateFormStructure} />,
                 validation: () => {
-                  const result = defineJobValidationSchemas.safeParse(
+                  const result = getDefineJobValidationSchemas(t).safeParse(
                     jobStore.createDto,
                   );
                   if (!result.success) {
@@ -202,12 +210,11 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
                 },
               },
               {
-                title: "Add Details",
-                description:
-                  "Enrich the job listing with more specific information.",
+                title: t("form.steps.details.title"),
+                description: t("form.steps.details.description"),
                 component: <FormBuilder structure={jobDetailsFormStructure} />,
                 validation: () => {
-                  const result = detailedJobValidationSchemas.safeParse(
+                  const result = getDetailedJobValidationSchemas(t).safeParse(
                     jobStore.createDto,
                   );
                   if (!result.success) {
@@ -221,16 +228,25 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
                 },
               },
               {
-                title: "Add Images",
-                description: "Upload images related to the job.",
-                component: <FormBuilder structure={jobImagePickerStructure} />,
+                title: t("form.steps.images.title"),
+                description: t("form.steps.images.description"),
+                component: (
+                  <View className="flex-1">
+                    <FormBuilder structure={jobImagePickerStructure} />
+                    <BudgetWarning
+                      requiredAmount={jobStore.createDto.price}
+                      currentBalance={balanceData?.balance}
+                      isPending={isBalancePending}
+                    />
+                  </View>
+                ),
                 validation: true,
               },
             ]}
             closingActions={[
               {
                 id: "save-draft",
-                label: "Save Draft",
+                label: t("form.saveDraft"),
                 variant: "outline",
                 onPress: () => {
                   handleSubmit("Draft");
@@ -239,12 +255,16 @@ export const JobCreateForm = ({ className }: JobCreateFormProps) => {
               },
               {
                 id: "publish",
-                label: "Publish",
+                label: t("form.publish"),
                 className: "bg-green-600",
                 onPress: () => {
                   handleSubmit("Posted");
                 },
-                disabled: isUploadPending,
+                disabled:
+                  isUploadPending ||
+                  (jobStore.createDto.price
+                    ? (balanceData?.balance ?? 0) < jobStore.createDto.price
+                    : false),
               },
             ]}
             pending={isCreationPending || isUploadPending}

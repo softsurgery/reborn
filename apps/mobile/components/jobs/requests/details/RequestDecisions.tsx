@@ -229,7 +229,14 @@ export const RequestDecisions = ({
       <WithdrawJobRequestActionSheet
         ref={cancelSheetRef}
         request={request}
-        onConfirm={() => cancelJobRequest(request.id)}
+        onConfirm={() => {
+          cancelJobRequest(request.id, {
+            onSuccess: () => {
+              cancelSheetRef.current?.hide();
+              router.back();
+            },
+          });
+        }}
         onClose={() => cancelSheetRef.current?.hide()}
         isPending={isCancelPending}
       />

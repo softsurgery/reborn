@@ -29,6 +29,8 @@ import { type ActionSheetRef } from "react-native-actions-sheet";
 
 import { CancelApplicationActionSheet } from "./CancelApplicationActionSheet";
 import { toast } from "sonner-native";
+import { useTranslation } from "react-i18next";
+import { getJobLifecycleRole } from "@/lib/job-lifecycle";
 
 interface JobDetailsProps {
   className?: string;
@@ -38,6 +40,7 @@ interface JobDetailsProps {
 export const JobDetails = ({ className, id }: JobDetailsProps) => {
   const { palette } = useColorPalette();
   const insets = useSafeAreaInsets();
+  const { t } = useTranslation("jobs");
   const { currentUser } = useCurrentUser();
 
   const queryClient = useQueryClient();
@@ -55,7 +58,9 @@ export const JobDetails = ({ className, id }: JobDetailsProps) => {
     queryFn: () =>
       api.job.findById(
         id as string,
-        ["uploads", "postedBy", "currency", "category", "tags"].join(","),
+        ["uploads", "postedBy", "worker", "currency", "category", "tags"].join(
+          ",",
+        ),
       ),
     enabled: !!id,
   });
@@ -185,6 +190,18 @@ export const JobDetails = ({ className, id }: JobDetailsProps) => {
   }
 
   const isOwner = job.postedBy?.id === currentUser?.id;
+  const lifecycleRole = getJobLifecycleRole({
+    userId: currentUser?.id,
+    postedById: job.postedById ?? job.postedBy?.id,
+    workerId: job.workerId,
+  });
+  const isAssignedWorker = lifecycleRole === "worker";
+  const openManageJob = () => {
+    router.push({
+      pathname: "/main/my-space/manage-job",
+      params: { id },
+    });
+  };
 
   return (
     <View className={cn("flex-1 bg-background", className)}>
@@ -222,7 +239,13 @@ export const JobDetails = ({ className, id }: JobDetailsProps) => {
         style={{ paddingBottom: Math.max(insets.bottom, 16) }}
         className="px-6 pt-5 bg-card border-t border-border"
       >
-        {!isOwner ? (
+        {isAssignedWorker ? (
+          <Button className="w-full rounded-xl" onPress={openManageJob}>
+            <Text className="font-semibold">
+              {t("details.cta.openProgress")}
+            </Text>
+          </Button>
+        ) : !isOwner ? (
           <View className="flex-row items-center gap-2">
             {isJobRequested ? (
               <Button
@@ -236,7 +259,7 @@ export const JobDetails = ({ className, id }: JobDetailsProps) => {
                 }
               >
                 <Text ellipsizeMode="tail" numberOfLines={1}>
-                  View request
+                  {t("details.cta.viewRequest")}
                 </Text>
               </Button>
             ) : null}
@@ -259,21 +282,15 @@ export const JobDetails = ({ className, id }: JobDetailsProps) => {
                 ellipsizeMode="tail"
                 className="font-semibold"
               >
-                {isJobRequested ? "Cancel application" : "Apply for this job"}
+                {isJobRequested
+                  ? t("details.cta.cancelApplication")
+                  : t("details.cta.apply")}
               </Text>
             </Button>
           </View>
         ) : (
-          <Button
-            className="w-full rounded-xl"
-            onPress={() => {
-              router.push({
-                pathname: "/main/my-space/manage-job",
-                params: { id },
-              });
-            }}
-          >
-            <Text className="font-semibold">Manage this job</Text>
+          <Button className="w-full rounded-xl" onPress={openManageJob}>
+            <Text className="font-semibold">{t("details.cta.manage")}</Text>
           </Button>
         )}
 
@@ -283,14 +300,18 @@ export const JobDetails = ({ className, id }: JobDetailsProps) => {
           isPending={isCancelRequestPending}
         />
 
-        {!isOwner ? (
+        {isAssignedWorker ? (
           <View className="mt-3">
             <Text className="text-center text-xs text-muted-foreground">
-              You'll be able to chat with{" "}
-              <Text className="text-xs font-semibold text-foreground">
-                {identifyUser(job?.postedBy)}
-              </Text>{" "}
-              before starting work
+              {t("details.cta.assignedHint")}
+            </Text>
+          </View>
+        ) : !isOwner ? (
+          <View className="mt-3">
+            <Text className="text-center text-xs text-muted-foreground">
+              {t("details.cta.chatHint", {
+                name: identifyUser(job?.postedBy),
+              })}
             </Text>
           </View>
         ) : null}

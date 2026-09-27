@@ -16,10 +16,10 @@ import { View } from "react-native";
 import { useKeyboardVisible } from "@/hooks/useKeyboardVisible";
 import { toast } from "sonner-native";
 import React from "react";
-
 import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
 import { BottomButtonWrapper } from "@/components/shared/BottomButtonBlockWrapper";
 import { useUserStore } from "@/hooks/stores/useUserStore";
+
 interface CreateEducationProps {
   className?: string;
 }
@@ -30,8 +30,6 @@ export const CreateEducation = ({ className }: CreateEducationProps) => {
   const userStore = useUserStore();
   const queryClient = useQueryClient();
   const isKeyboardVisible = useKeyboardVisible();
-
-
 
   const { mutate: createEducation, isPending } = useMutation({
     mutationFn: (education: CreateEducationDto) =>
@@ -98,7 +96,12 @@ export const CreateEducation = ({ className }: CreateEducationProps) => {
       </StableKeyboardAwareScrollView>
       {!isKeyboardVisible && (
         <BottomButtonWrapper>
-          <Button size="lg" className="rounded-xl" onPress={handleCreateSubmit} disabled={isPending}>
+          <Button
+            size="lg"
+            className="rounded-xl"
+            onPress={handleCreateSubmit}
+            disabled={isPending}
+          >
             <Text className="text-md font-bold">
               {tMenu("education.form.actions.create")}
             </Text>

@@ -4,18 +4,20 @@ import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
 import { useRouter } from "expo-router";
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 interface JobCreatedSuccessProps {
   jobId: string;
 }
 
 export const JobCreatedSuccess = ({ jobId }: JobCreatedSuccessProps) => {
+  const { t } = useTranslation("jobs");
   const router = useRouter();
 
   return (
     <View className="flex-1 items-center justify-center gap-4">
       <Success
-        message="Your job has been created successfully"
+        message={t("form.successMessage")}
         size={300}
         className="flex flex-col justify-center items-center"
         textProps={{
@@ -31,13 +33,13 @@ export const JobCreatedSuccess = ({ jobId }: JobCreatedSuccessProps) => {
             })
           }
         >
-          <Text className="text-white text-center">View Job</Text>
+          <Text className="text-white text-center">{t("form.viewJob")}</Text>
         </Button>
         <Button
           variant="outline"
           onPress={() => router.replace("/main/(tabs)")}
         >
-          <Text className="text-center">Go back to explore</Text>
+          <Text className="text-center">{t("form.backToExplore")}</Text>
         </Button>
       </View>
     </View>

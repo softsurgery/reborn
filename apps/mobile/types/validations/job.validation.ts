@@ -1,74 +1,80 @@
 import { z } from "zod";
 import { JobDifficulty, JobStyle } from "../job-management";
 
-export const defineJobValidationSchemas = z.object({
-  title: z
-    .string({
-      error: "Title is required",
-    })
-    .min(10, { message: "Title must be at least 10 characters" })
-    .max(255, { message: "Title must not exceed 255 characters" }),
+type Translate = (key: string) => string;
 
-  description: z.string({
-    error: "Description is required",
-  }),
+export const getDefineJobValidationSchemas = (t: Translate) =>
+  z.object({
+    title: z
+      .string({
+        error: t("form.validation.titleRequired"),
+      })
+      .min(10, { message: t("form.validation.titleMin") })
+      .max(255, { message: t("form.validation.titleMax") }),
 
-  price: z
-    .number({
-      error: "Price is required",
-    })
-    .positive({ message: "Price must be greater than 0" }),
-  longitude: z
-    .number({
-      error: "Longitude must be a number",
-    })
-    .optional(),
+    description: z.string({
+      error: t("form.validation.descriptionRequired"),
+    }),
 
-  latitude: z
-    .number({
-      error: "Latitude must be a number",
-    })
-    .optional(),
-});
+    price: z
+      .number({
+        error: t("form.validation.priceRequired"),
+      })
+      .positive({ message: t("form.validation.pricePositive") }),
+    longitude: z
+      .number({
+        error: t("form.validation.longitudeNumber"),
+      })
+      .optional(),
 
-export const detailedJobValidationSchemas = z.object({
-  tagIds: z
-    .array(
-      z.number({
-        error: "Each tag ID must be a number",
-      }),
-      {
-        error: "Tags are required",
-      },
-    )
-    .min(1, { message: "At least one tag is required" }),
+    latitude: z
+      .number({
+        error: t("form.validation.latitudeNumber"),
+      })
+      .optional(),
+  });
 
-  categoryId: z
-    .number({
-      error: "Category is required",
-    })
-    .positive({ message: "Category ID must be positive" }),
-
-  style: z.nativeEnum(JobStyle, {
-    error: () => ({ message: "Invalid job style" }),
-  }),
-
-  difficulty: z.nativeEnum(JobDifficulty, {
-    error: () => ({ message: "Invalid job difficulty" }),
-  }),
-});
-
-export const imagesJobValidationSchemas = z.object({
-  uploads: z
-    .array(
-      z.object({
-        uploadId: z.number({
-          error: "Upload ID is required",
+export const getDetailedJobValidationSchemas = (t: Translate) =>
+  z.object({
+    tagIds: z
+      .array(
+        z.number({
+          error: t("form.validation.tagIdNumber"),
         }),
-      }),
-      {
-        error: "Uploads are required",
-      },
-    )
-    .min(1, { message: "At least one image is required" }),
-});
+        {
+          error: t("form.validation.tagsRequired"),
+        },
+      )
+      .min(1, { message: t("form.validation.tagsMin") }),
+
+    categoryId: z
+      .number({
+        error: t("form.validation.categoryRequired"),
+      })
+      .positive({ message: t("form.validation.categoryPositive") }),
+
+    style: z.nativeEnum(JobStyle, {
+      error: () => ({ message: t("form.validation.invalidStyle") }),
+    }),
+
+    difficulty: z.nativeEnum(JobDifficulty, {
+      error: () => ({ message: t("form.validation.invalidDifficulty") }),
+    }),
+  });
+
+export const getImagesJobValidationSchemas = (t: Translate) =>
+  z.object({
+    uploads: z
+      .array(
+        z.object({
+          uploadId: z.number({
+            error: t("form.validation.uploadIdRequired"),
+          }),
+        }),
+        {
+          error: t("form.validation.uploadsRequired"),
+        },
+      )
+      .min(1, { message: t("form.validation.imagesMin") }),
+  });
+

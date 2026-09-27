@@ -4,7 +4,8 @@
     "tabs": {
       "statistics": "الإحصائيات",
       "requests": "الطلبات",
-      "actions": "الإجراءات"
+      "actions": "الإجراءات",
+      "progress": "التقدم"
     },
     "common": {
       "cancel": "إلغاء",
@@ -175,6 +176,334 @@
           "description": "هل أنت متأكد أنك تريد استئناف استقبال الطلبات؟ سيتمكن المرشحون من التقديم مجدداً."
         }
       }
+    },
+    "lifecycle": {
+      "currentStatus": "الحالة الحالية",
+      "availableActions": "الخطوات التالية",
+      "assignedWorker": "العامل المعيّن: {{name}}",
+      "toast": {
+        "success": "تم تحديث حالة الوظيفة"
+      },
+      "role": {
+        "client": "أنت العميل في هذه الوظيفة",
+        "worker": "أنت العامل المعيّن لهذه الوظيفة",
+        "other": "أنت تطّلع على هذه الوظيفة"
+      },
+      "waiting": {
+        "workerAccept": "بانتظار قبول العامل لهذا التعيين.",
+        "workerStart": "بانتظار بدء العامل للعمل.",
+        "workerFinish": "العامل قيد التنفيذ. بانتظار إنهاء العمل.",
+        "workerReview": "بانتظار تقييم العامل.",
+        "clientReview": "بانتظار تقييم العميل.",
+        "clientSuccess": "بانتظار أن يعلّم العميل الوظيفة بأنها ناجحة.",
+        "onHold": "هذه الوظيفة معلّقة.",
+        "successful": "اكتملت هذه الوظيفة بنجاح.",
+        "failed": "تم تعليم هذه الوظيفة كفاشلة.",
+        "archived": "تم أرشفة هذه الوظيفة."
+      },
+      "status": {
+        "Draft": "مسودة",
+        "Posted": "منشورة",
+        "Candidate Pending": "مرشح قيد الانتظار",
+        "Not Started": "لم تبدأ",
+        "Pending": "قيد التنفيذ",
+        "Finished": "منتهية",
+        "On Hold": "معلّقة",
+        "Reviewed By Worker": "قيّمها العامل",
+        "Reviewed By Worker & Client": "قيّمها الطرفان",
+        "Failed": "فاشلة",
+        "Successfull": "ناجحة",
+        "Archived": "مؤرشفة",
+        "Deleted": "محذوفة"
+      },
+      "events": {
+        "Choose Candidate": {
+          "title": "تأكيد المرشح المختار",
+          "description": "نقل الوظيفة إلى مرشح قيد الانتظار مع العامل المعيّن",
+          "confirm": "تأكيد هذا العامل كمرشح مختار؟"
+        },
+        "Refuse Candidate": {
+          "title": "رفض المرشح",
+          "description": "إعادة الوظيفة إلى منشورة وإلغاء التعيين",
+          "confirm": "رفض هذا المرشح وإعادة فتح الوظيفة؟"
+        },
+        "Accept Candidate": {
+          "title": "قبول التعيين",
+          "description": "قبول هذه الوظيفة والاستعداد لبدء العمل",
+          "confirm": "قبول هذا التعيين؟"
+        },
+        "Start": {
+          "title": "بدء العمل",
+          "description": "تعليم الوظيفة بأنها قيد التنفيذ",
+          "confirm": "بدء العمل على هذه الوظيفة؟"
+        },
+        "Finish": {
+          "title": "إنهاء العمل",
+          "description": "تعليم العمل بأنه منتهٍ وإرساله للتقييم",
+          "confirm": "تعليم هذه الوظيفة بأنها منتهية؟"
+        },
+        "Hold": {
+          "title": "تعليق العمل",
+          "description": "إيقاف العمل مؤقتاً دون اعتبار الوظيفة فاشلة",
+          "confirm": "تعليق هذه الوظيفة؟"
+        },
+        "Stop Hold": {
+          "title": "استئناف العمل",
+          "description": "إعادة الوظيفة إلى قيد التنفيذ",
+          "confirm": "استئناف هذه الوظيفة؟"
+        },
+        "Mark Failed": {
+          "title": "تعليم كفاشلة",
+          "description": "إنهاء الوظيفة كفاشلة من حالة التعليق",
+          "confirm": "تعليم هذه الوظيفة كفاشلة؟"
+        },
+        "Worker Review": {
+          "title": "إرسال تقييم العامل",
+          "description": "اترك تقييمك حتى يتمكن العميل من المتابعة",
+          "confirm": "إرسال تقييمك لهذه الوظيفة؟"
+        },
+        "Client Review": {
+          "title": "إرسال تقييم العميل",
+          "description": "اترك تقييمك بعد تقييم العامل",
+          "confirm": "إرسال تقييمك لهذه الوظيفة؟"
+        },
+        "Mark Successful": {
+          "title": "تعليم كناجحة",
+          "description": "إغلاق الوظيفة باعتبارها مكتملة بنجاح",
+          "confirm": "تعليم هذه الوظيفة كناجحة؟"
+        },
+        "Archive": {
+          "title": "أرشفة الوظيفة",
+          "description": "نقل وظيفة مكتملة أو فاشلة إلى الأرشيف",
+          "confirm": "أرشفة هذه الوظيفة؟"
+        }
+      }
+    },
+    "work": {
+      "title": "مهمتك",
+      "listTitle": "أعمالي",
+      "assignment": "مهمتك",
+      "client": "العميل: {{name}}",
+      "budget": "الميزانية: {{amount}} {{currency}}",
+      "otherActions": "إجراءات أخرى",
+      "yourProgress": "تقدمك",
+      "shortcuts": "اختصارات",
+      "openAssignment": "فتح المهمة",
+      "viewListing": "عرض الوظيفة",
+      "viewListingDescription": "عرض الوصف والوسائط",
+      "viewClient": "عرض ملف العميل",
+      "viewClientDescription": "فتح الملف العام للعميل",
+      "messageClient": "مراسلة العميل",
+      "messageClientDescription": "متابعة المحادثة في الدردشة",
+      "manageJob": "إدارة الوظيفة",
+      "editListing": "تعديل الإعلان",
+      "shareJob": "مشاركة الوظيفة",
+      "deleteListing": "حذف الإعلان",
+      "searchPlaceholder": "ابحث في مهامك...",
+      "emptyTitle": "لا توجد مهام معيّنة بعد",
+      "emptySubtitle": "عندما يختارك عميل، ستظهر الوظيفة هنا.",
+      "emptyFilteredTitle": "لا توجد مهام مطابقة",
+      "emptyFilteredSubtitle": "جرّب عامل تصفية أو كلمة بحث أخرى.",
+      "filters": {
+        "all": "الكل",
+        "inProgress": "قيد التنفيذ",
+        "finished": "منتهية"
+      },
+      "guidance": {
+        "accept": "اختارك العميل. اقبل المهمة لتولي هذه الوظيفة.",
+        "start": "لقد قبلت. ابدأ العمل عندما تكون جاهزاً.",
+        "progress": "العمل جارٍ. أنهِ عند الانتهاء أو علّق الوظيفة.",
+        "hold": "هذه الوظيفة معلّقة. استأنف عندما تتمكن من المتابعة.",
+        "review": "انتهى العمل. أرسل تقييمك حتى يتمكن العميل من المتابعة.",
+        "waitClientReview": "لقد قيّمت. بانتظار تقييم العميل.",
+        "waitSuccess": "قيّم الطرفان. بانتظار أن يغلق العميل الوظيفة.",
+        "done": "اكتملت هذه الوظيفة.",
+        "failed": "تم تعليم هذه الوظيفة كفاشلة.",
+        "archived": "تمت أرشفة هذه المهمة.",
+        "generic": "افتح هذه المهمة لمعرفة الخطوة التالية."
+      },
+      "next": {
+        "accept": "التالي: قبول المهمة",
+        "start": "التالي: بدء العمل",
+        "progress": "التالي: إنهاء العمل أو التعليق",
+        "hold": "التالي: استئناف العمل",
+        "review": "التالي: إرسال تقييمك",
+        "waitClientReview": "بانتظار تقييم العميل",
+        "waitSuccess": "بانتظار إغلاق العميل للوظيفة",
+        "done": "اكتملت المهمة",
+        "failed": "فشلت المهمة",
+        "archived": "تمت أرشفة المهمة",
+        "generic": "افتح لرؤية الخطوات التالية"
+      },
+      "steps": {
+        "Candidate Pending": "تم استلام العرض",
+        "Not Started": "مقبولة — لم تبدأ",
+        "Pending": "قيد التنفيذ",
+        "Finished": "انتهى العمل",
+        "Reviewed By Worker": "قيّمت أنت",
+        "Reviewed By Worker & Client": "قيّم الطرفان",
+        "Successfull": "مكتملة"
+      }
+    }
+  },
+  "details": {
+    "cta": {
+      "apply": "التقديم على هذه الوظيفة",
+      "cancelApplication": "إلغاء الطلب",
+      "viewRequest": "عرض الطلب",
+      "manage": "إدارة هذه الوظيفة",
+      "openProgress": "متابعة هذه الوظيفة",
+      "assignedHint": "أنت العامل المعيّن. افتح التقدم للقبول أو البدء أو إنهاء العمل.",
+      "chatHint": "ستتمكن من الدردشة مع {{name}} قبل بدء العمل"
+    }
+  },
+  "form": {
+    "createTitle": "وظيفة جديدة",
+    "updateTitle": "تحديث الوظيفة",
+    "successTitle": "تم بنجاح",
+    "successMessage": "تم إنشاء وظيفتك بنجاح",
+    "viewJob": "عرض الوظيفة",
+    "backToExplore": "العودة إلى الاستكشاف",
+    "saveDraft": "حفظ المسودة",
+    "publish": "نشر",
+    "update": "تحديث",
+    "errors": {
+      "createFailed": "فشل إنشاء الوظيفة: {{message}}",
+      "updateFailed": "فشل تحديث الوظيفة: {{message}}",
+      "updateSuccess": "تم تحديث الوظيفة بنجاح"
+    },
+    "steps": {
+      "define": {
+        "title": "تحديد الوظيفة",
+        "description": "ابدأ بإدخال المعلومات الأساسية للوظيفة."
+      },
+      "details": {
+        "title": "إضافة التفاصيل",
+        "description": "أثْرِ الإعلان بمعلومات أكثر دقة."
+      },
+      "images": {
+        "title": "إضافة الصور",
+        "description": "ارفع صوراً متعلقة بالوظيفة."
+      }
+    },
+    "sections": {
+      "define": {
+        "title": "تحديد الوظيفة",
+        "description": "المعلومات الأساسية لإنشاء وظيفة جديدة."
+      },
+      "general": "معلومات عامة",
+      "details": {
+        "title": "تفاصيل الوظيفة",
+        "description": "أثْرِ الإعلان بمعلومات أكثر دقة.",
+        "fieldset": "تفاصيل الوظيفة"
+      },
+      "images": {
+        "title": "إضافة الصور",
+        "description": "ارفع صوراً متعلقة بالوظيفة.",
+        "fieldset": "صور الوظيفة"
+      }
+    },
+    "fields": {
+      "title": {
+        "label": "عنوان الوظيفة",
+        "placeholder": "أدخل عنوان الوظيفة",
+        "description": "عنوان قصير وواضح لإعلان الوظيفة."
+      },
+      "description": {
+        "label": "الوصف",
+        "placeholder": "اكتب وصفاً تفصيلياً للوظيفة",
+        "description": "قدّم وصفاً كاملاً للمشروع أو الدور."
+      },
+      "budget": {
+        "label": "الميزانية",
+        "placeholder": "أدخل مبلغ الميزانية",
+        "description": "حدد ميزانية هذه الوظيفة."
+      },
+      "pricingType": {
+        "label": "نوع التسعير",
+        "placeholder": "اختر نوع التسعير",
+        "description": "اختر كيفية احتساب تكلفة هذه الوظيفة.",
+        "fixed": "سعر ثابت",
+        "hourly": "سعر بالساعة"
+      },
+      "negotiable": {
+        "label": "سعر قابل للتفاوض",
+        "description": "السماح للمستقلين بالتفاوض على السعر."
+      },
+      "category": {
+        "label": "الفئة",
+        "placeholder": "اختر الفئة",
+        "description": "حدد فئة الوظيفة."
+      },
+      "style": {
+        "label": "الأسلوب",
+        "placeholder": "اختر الأسلوب",
+        "description": "حدد أسلوب الوظيفة."
+      },
+      "difficulty": {
+        "label": "الصعوبة",
+        "placeholder": "اختر مستوى الصعوبة",
+        "description": "حدد مستوى صعوبة الوظيفة."
+      },
+      "tags": {
+        "label": "الوسوم",
+        "placeholder": "اختر وسوماً مناسبة",
+        "description": "أضف وسوماً لمساعدة المستقلين على العثور على وظيفتك."
+      },
+      "location": {
+        "label": "موقع الوظيفة",
+        "description": "حدد موقع الوظيفة (اختياري)."
+      },
+      "images": {
+        "label": "صور الوظيفة",
+        "description": "أضف صوراً متعلقة بالوظيفة."
+      }
+    },
+    "options": {
+      "style": {
+        "Remote": "عن بُعد",
+        "On-site": "في الموقع",
+        "Flexible Hours": "ساعات مرنة",
+        "Full-time": "دوام كامل",
+        "Part-time": "دوام جزئي",
+        "Freelance": "عمل حر",
+        "Weekend Job": "عمل في عطلة نهاية الأسبوع",
+        "Night Shift": "وردية ليلية",
+        "Day Shift": "وردية نهارية"
+      },
+      "difficulty": {
+        "Entry Level": "مبتدئ",
+        "Mid Level": "متوسط",
+        "Senior Level": "خبير",
+        "Internship": "تدريب"
+      }
+    },
+    "budget": {
+      "sufficientTitle": "رصيد كافٍ",
+      "insufficientTitle": "رصيد غير كافٍ",
+      "sufficient": "رصيدك يكفي لتغطية المبلغ المطلوب وهو {{amount}} د.ت.",
+      "insufficient": "تحتاج إلى {{required}} د.ت لكن رصيدك {{current}} د.ت فقط.",
+      "topUp": "شحن الرصيد"
+    },
+    "validation": {
+      "titleRequired": "العنوان مطلوب",
+      "titleMin": "يجب أن يحتوي العنوان على 10 أحرف على الأقل",
+      "titleMax": "يجب ألا يتجاوز العنوان 255 حرفاً",
+      "descriptionRequired": "الوصف مطلوب",
+      "priceRequired": "السعر مطلوب",
+      "pricePositive": "يجب أن يكون السعر أكبر من 0",
+      "longitudeNumber": "يجب أن يكون خط الطول رقماً",
+      "latitudeNumber": "يجب أن يكون خط العرض رقماً",
+      "tagIdNumber": "يجب أن يكون كل معرّف وسم رقماً",
+      "tagsRequired": "الوسوم مطلوبة",
+      "tagsMin": "يجب اختيار وسم واحد على الأقل",
+      "categoryRequired": "الفئة مطلوبة",
+      "categoryPositive": "يجب أن يكون معرّف الفئة موجباً",
+      "invalidStyle": "أسلوب الوظيفة غير صالح",
+      "invalidDifficulty": "مستوى صعوبة الوظيفة غير صالح",
+      "uploadIdRequired": "معرّف الملف مطلوب",
+      "uploadsRequired": "الملفات مطلوبة",
+      "imagesMin": "يجب إضافة صورة واحدة على الأقل"
     }
   }
 }

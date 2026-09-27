@@ -32,6 +32,9 @@ export const useWorkflowJob = (
 
   return {
     jobWorkflow,
+    workflowStatus: jobWorkflowResp?.status ?? null,
+    nextSteps: jobWorkflowResp?.nextSteps ?? [],
+    isUpdatable: jobWorkflowResp?.isUpdatable ?? false,
     isjobWorkflowPending,
     refetchJobWorkflow,
   };
