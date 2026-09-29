@@ -1,6 +1,6 @@
 import React from "react";
 import ActionSheet, { type ActionSheetRef } from "react-native-actions-sheet";
-import { THEME } from "~/lib/theme";
+import { THEME } from "@/lib/theme";
 import { useColorScheme } from "nativewind";
 import { Image, View } from "react-native";
 import type { ImageSourcePropType } from "react-native";

@@ -1,5 +1,5 @@
 import { ImageSourcePropType } from "react-native";
-import { NotificationType } from "~/types/notifications";
+import { NotificationType } from "@/types/notifications";
 
 /**
  * Defines how the notification picture is resolved.

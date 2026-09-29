@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner-native";
-import { api } from "~/api";
-import { ServerErrorResponse } from "~/types";
+import { api } from "@/api";
+import { ServerErrorResponse } from "@/types";
 
 interface useJobSaveActionsProps {
   onSuccess?: (...args: any) => void;

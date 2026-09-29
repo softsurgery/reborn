@@ -1,6 +1,6 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
-import { api } from "~/api";
+import { api } from "@/api";
 import { CurrencyPayload, ResponseRefParamDto } from "@/types";
 
 interface useCurrenciesProps {

@@ -4,7 +4,7 @@ import {
   Paginated,
   QueryParams,
   ResponseConversationDto,
-} from "~/types";
+} from "@/types";
 import axios from "../axios";
 
 /**

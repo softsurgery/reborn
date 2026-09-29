@@ -1,6 +1,6 @@
 import { setDeepValue } from "@/lib/object.lib";
 import { create } from "zustand";
-import { CreateConversationReportDto } from "~/types";
+import { CreateConversationReportDto } from "@/types";
 
 interface ConversationReportData {
   createDto: CreateConversationReportDto;

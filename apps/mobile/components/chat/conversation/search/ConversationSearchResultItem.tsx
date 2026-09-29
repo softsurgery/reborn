@@ -1,10 +1,10 @@
 import React from "react";
 import { TouchableOpacity, View } from "react-native";
 import { Text } from "@reborn/mobile-ui";
-import { ResponseMessageDto, ResponseUserDto } from "~/types";
+import { ResponseMessageDto, ResponseUserDto } from "@/types";
 import { MessageTextContent } from "../bubbles/MessageTextContent";
 import { useServerImages } from "@/hooks/content/useServerImages";
-import { identifyUser, identifyUserAvatar } from "@/lib/user.utils";
+import { identifyUser, identifyUserAvatar } from "@reborn/lib";
 
 interface SearchResultAvatarProps {
   user?: ResponseUserDto | null;

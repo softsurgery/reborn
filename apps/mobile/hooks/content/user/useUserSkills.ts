@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
-import { api } from "~/api";
+import { api } from "@/api";
 
 interface UseUserSkillsProps {
   userId?: string;

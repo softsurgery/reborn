@@ -9,7 +9,7 @@ import { Image, ImageSource } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { UseQueryResult } from "@tanstack/react-query";
 import { cn } from "@reborn/lib";
-import { Loader } from "../lotties/Loader";
+import { Loader } from "@reborn/mobile-components";
 import { PhotoPreview } from "../PhotoPreview";
 import { useColorPalette } from "@reborn/mobile-components";
 

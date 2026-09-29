@@ -3,7 +3,7 @@ import {
   Paginated,
   QueryParams,
   ResponseJobViewDto,
-} from "~/types";
+} from "@/types";
 import axios from "./axios";
 
 const findPaginated = async ({

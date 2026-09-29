@@ -2,12 +2,12 @@ import React from "react";
 import { router } from "expo-router";
 import { useColorScheme } from "nativewind";
 import * as Font from "expo-font";
-import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
-import { ActivityIndicator, Platform } from "react-native";
+import { setAndroidNavigationBar } from "@reborn/mobile-components";
+import { ActivityIndicator, Appearance, Platform } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
 import { usePreferencePersistStore } from "@reborn/hooks/stores";
-import { resolveAppLanguage } from "~/hooks/useRTL";
 import { useTranslation } from "react-i18next";
+import * as Localization from "expo-localization";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -45,12 +45,24 @@ export default function ScreenRedirect() {
 
     setTimeout(() => {
       setColorScheme(preferencePersistStore.theme);
-      if (Platform.OS === "android")
-        setAndroidNavigationBar(preferencePersistStore.theme);
-      i18n.changeLanguage(resolveAppLanguage(preferencePersistStore.language));
+      if (Platform.OS === "android") {
+        const activeTheme =
+          preferencePersistStore.theme === "system"
+            ? (Appearance.getColorScheme() ?? "light")
+            : preferencePersistStore.theme;
+        setAndroidNavigationBar(activeTheme === "dark" ? "dark" : "light");
+      }
+
+      let lang = preferencePersistStore.language;
+      if (lang === "system") {
+        lang =
+          (Localization.getLocales()[0]?.languageCode as "en" | "fr" | "ar") ||
+          "en";
+      }
+      i18n.changeLanguage(lang);
       router.replace("/main");
     }, 100);
-  }, [preferencePersistStore.isReady]);
+  }, [preferencePersistStore.isReady, fontsLoaded]);
 
   return <ActivityIndicator className="flex-1" size="large" />;
 }

@@ -4,7 +4,7 @@ import { ApplicationHeader } from "@reborn/mobile-components";
 import { Tappable } from "@reborn/mobile-components";
 import { StablePressable } from "@reborn/mobile-components";
 import { StableSafeAreaView } from "@reborn/mobile-components";
-import StableScrollView from "@reborn/mobile-components";
+import { StableScrollView } from "@reborn/mobile-components";
 import { Icon } from "@reborn/mobile-ui";
 import { Text } from "@reborn/mobile-ui";
 import { cn } from "@reborn/lib";

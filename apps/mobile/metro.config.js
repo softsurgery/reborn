@@ -7,13 +7,8 @@ const workspaceRoot = path.resolve(projectRoot, "../..");
 
 const config = getDefaultConfig(projectRoot);
 
-config.watchFolders = [
-  path.resolve(workspaceRoot, "packages/mobile-components"),
-  path.resolve(workspaceRoot, "packages/mobile-ui"),
-  path.resolve(workspaceRoot, "packages/hooks"),
-  path.resolve(workspaceRoot, "packages/lib"),
-  path.resolve(workspaceRoot, "packages/mobile-form-builder"),
-];
+// Watch monorepo packages (source + assets such as Lottie JSON in mobile-components).
+config.watchFolders = [workspaceRoot];
 
 config.transformer = {
   ...config.transformer,
@@ -22,24 +17,6 @@ config.transformer = {
 
 config.resolver = {
   ...config.resolver,
-  nodeModulesPaths: [
-    path.resolve(projectRoot, "node_modules"),
-    path.resolve(workspaceRoot, "node_modules"),
-  ],
-  extraNodeModules: {
-    "@reborn/mobile-components": path.resolve(
-      workspaceRoot,
-      "packages/mobile-components",
-    ),
-    "@reborn/mobile-ui": path.resolve(workspaceRoot, "packages/mobile-ui"),
-    "@reborn/hooks": path.resolve(workspaceRoot, "packages/hooks"),
-    "@reborn/lib": path.resolve(workspaceRoot, "packages/lib"),
-    "@reborn/mobile-form-builder": path.resolve(
-      workspaceRoot,
-      "packages/mobile-form-builder",
-    ),
-  },
-  disableHierarchicalLookup: true,
   assetExts: config.resolver.assetExts.filter((ext) => ext !== "svg"),
   sourceExts: [...config.resolver.sourceExts, "svg"],
 };

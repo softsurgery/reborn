@@ -8,16 +8,16 @@ import { ExploreCommon } from "./ExploreCommon";
 import { ExploreFollowing } from "./ExploreFollowing";
 import { cn } from "@reborn/lib";
 import { StableSafeAreaView } from "@reborn/mobile-components";
-import { ApplicationHeader } from "../shared/AppHeader";
+import { ApplicationHeader } from "@reborn/mobile-components";
 import { ArrowDownNarrowWide, Bell, Search } from "lucide-react-native";
-import { useNotificationContext } from "~/contexts/NotificationContext";
+import { useNotificationContext } from "@/contexts/NotificationContext";
 import { router } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { createMaterialTopTabNavigator } from "expo-router/js-top-tabs";
-import { useScrollableElement } from "~/hooks/useScrollableElement";
+import { useScrollableElement } from "@/hooks/useScrollableElement";
 import { useColorPalette } from "@reborn/mobile-components";
-import { hslToHex } from "@/lib/theme";
-import { ResponseJobDto } from "~/types";
+import { hslToHex } from "@reborn/mobile-components";
+import { ResponseJobDto } from "@/types";
 import { JobPreviewModal } from "../jobs/JobPreviewModal";
 
 interface ExploreProps {

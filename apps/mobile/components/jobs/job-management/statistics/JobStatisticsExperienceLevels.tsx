@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import { ExperienceDistributionItem } from "~/types";
+import { ExperienceDistributionItem } from "@/types";
 import { cn } from "@reborn/lib";
 
 interface JobStatisticsExperienceLevelsProps {

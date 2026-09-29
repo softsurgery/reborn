@@ -1,6 +1,6 @@
 import { create } from "zustand";
-import { setDeepValue } from "~/lib/object.lib";
-import { RequestClientSignInDto, RequestClientSignUpDto } from "~/types/auth";
+import { setDeepValue } from "@/lib/object.lib";
+import { RequestClientSignInDto, RequestClientSignUpDto } from "@/types/auth";
 
 interface AuthData {
   signInRequest: RequestClientSignInDto;

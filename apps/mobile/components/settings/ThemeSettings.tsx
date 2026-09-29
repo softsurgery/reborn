@@ -5,8 +5,8 @@ import { cn } from "@reborn/lib";
 import { StableKeyboardAwareScrollView } from "@reborn/mobile-components";
 import { StableSafeAreaView } from "@reborn/mobile-components";
 import { useTranslation } from "react-i18next";
-import { ApplicationHeader } from "~/components/shared/AppHeader";
-import { ThemeSwitcher } from "../shared/ThemeSwitcher";
+import { ApplicationHeader } from "@reborn/mobile-components";
+import { ThemeSwitcher } from "@reborn/mobile-components";
 
 import { AppHeaderBack } from "@reborn/mobile-components";
 interface ThemeSettingsPortalProps {

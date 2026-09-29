@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { Skeleton } from "@reborn/mobile-ui";
 import { cn } from "@reborn/lib";
 import { THUMBNAIL_SIZE } from "./JobCard";
-import { useRTL } from "~/hooks/useRTL";
+import { useRTL } from "@reborn/mobile-components";
 
 interface JobCardSkeletonProps {
   className?: string;

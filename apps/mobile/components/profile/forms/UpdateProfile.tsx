@@ -1,28 +1,28 @@
 import React from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@reborn/mobile-ui";
-import { useUserStore } from "~/hooks/stores/useUserStore";
-import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
-import { ServerErrorResponse, UpdateUserDto } from "~/types";
+import { useUserStore } from "@/hooks/stores/useUserStore";
+import { useCurrentUser } from "@/hooks/content/user/useCurrentUser";
+import { ServerErrorResponse, UpdateUserDto } from "@/types";
 import { Text } from "@reborn/mobile-ui";
 import { FormBuilder } from "@reborn/mobile-form-builder";
 import { useUpdateProfileFormStructure } from "./useUpdateProfileFormStructure";
-import { useRegions } from "~/hooks/content/useRegions";
+import { useRegions } from "@/hooks/content/useRegions";
 import { mapToSelectOptions } from "@reborn/mobile-form-builder";
 import {
   updateClientSchema,
   updateProfileSchema,
-} from "~/types/validations/client.validation";
-import { api } from "~/api";
-import { useUploadMutation } from "~/hooks/content/useUploadMutation";
-import { Upload } from "~/types/upload";
-import { identifyUserAvatar } from "~/lib/user.utils";
+} from "@/types/validations/client.validation";
+import { api } from "@/api";
+import { useUploadMutation } from "@/hooks/content/useUploadMutation";
+import { Upload } from "@/types/upload";
+import { identifyUserAvatar } from "@reborn/lib";
 import { StableKeyboardAwareScrollView } from "@reborn/mobile-components";
 import { router } from "expo-router";
-import { ApplicationHeader } from "../../shared/AppHeader";
+import { ApplicationHeader } from "@reborn/mobile-components";
 import { cn } from "@reborn/lib";
 import { StableSafeAreaView } from "@reborn/mobile-components";
-import { useKeyboardVisible } from "~/hooks/useKeyboardVisible";
+import { useKeyboardVisible } from "@reborn/mobile-components";
 import { toast } from "sonner-native";
 import { AppHeaderBack } from "@reborn/mobile-components";
 import { BottomButtonWrapper } from "@reborn/mobile-components";

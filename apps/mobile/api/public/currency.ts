@@ -1,5 +1,5 @@
 import axios from "../axios";
-import { Paginated, QueryParams, ResponseCurrencyDto } from "~/types";
+import { Paginated, QueryParams, ResponseCurrencyDto } from "@/types";
 
 const findPaginated = async ({
   page = "1",

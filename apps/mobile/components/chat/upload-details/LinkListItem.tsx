@@ -1,6 +1,6 @@
 import { Text } from "@reborn/mobile-ui";
 import { normalizeMessageLinkUrl } from "@/lib/chat/message-links";
-import { identifyUser } from "@/lib/user.utils";
+import { identifyUser } from "@reborn/lib";
 import { ResponseMessageDto, ResponseMessageLinkDto } from "@/types";
 import { format } from "date-fns";
 import { Link2 } from "lucide-react-native";

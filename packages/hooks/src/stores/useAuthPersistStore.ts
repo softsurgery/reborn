@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
+import { getPersistStorage } from "./persistStorage";
 
 export interface AuthPersistData {
   accessToken: string;
@@ -20,14 +21,6 @@ const initialAuth: AuthPersistData = {
   accessToken: "",
   refreshToken: "",
   isAuthenticated: false,
-};
-
-const isClient = typeof window !== "undefined";
-
-const fallbackStorage = {
-  getItem: () => null,
-  setItem: () => {},
-  removeItem: () => {},
 };
 
 export const useAuthPersistStore = create<AuthPersistStore>()(
@@ -53,9 +46,7 @@ export const useAuthPersistStore = create<AuthPersistStore>()(
     }),
     {
       name: "auth-storage",
-      storage: createJSONStorage(() =>
-        isClient ? localStorage : fallbackStorage,
-      ),
+      storage: createJSONStorage(() => getPersistStorage()),
       partialize: (state) => ({
         accessToken: state.accessToken,
         refreshToken: state.refreshToken,
@@ -68,6 +59,12 @@ export const useAuthPersistStore = create<AuthPersistStore>()(
   ),
 );
 
-if (useAuthPersistStore.persist?.hasHydrated()) {
+const markAuthPersistReady = () => {
   useAuthPersistStore.setState({ isReady: true });
+};
+
+if (useAuthPersistStore.persist?.hasHydrated()) {
+  markAuthPersistReady();
+} else {
+  useAuthPersistStore.persist?.onFinishHydration(markAuthPersistReady);
 }

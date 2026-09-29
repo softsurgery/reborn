@@ -1,4 +1,4 @@
-import { ResponseMessageDto } from "~/types";
+import { ResponseMessageDto } from "@/types";
 
 export const messageContentMatchesQuery = (
   message: ResponseMessageDto,

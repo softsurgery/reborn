@@ -12,7 +12,7 @@ import { ApproveJobRequestActionSheet } from "./action-sheets/ApproveJobRequestA
 import { DeclineJobRequestActionSheet } from "./action-sheets/DeclineJobRequestActionSheet";
 import { WaitlistJobRequestActionSheet } from "./action-sheets/WaitlistJobRequestActionSheet";
 import { WithdrawJobRequestActionSheet } from "./action-sheets/WithdrawJobRequestActionSheet";
-import { ActionPressable } from "@reborn/mobile-components";
+import { ActionPressable } from "@/components/shared/ActionPressable";
 
 interface RequestDecisionsProps {
   className?: string;

@@ -1,6 +1,6 @@
 import { SendFeedbackStore } from "@/hooks/stores/useFeedbackManager";
 import { useColorPalette } from "@reborn/mobile-components";
-import { hslToHex } from "@/lib/theme";
+import { hslToHex } from "@reborn/mobile-components";
 import { useTranslation } from "react-i18next";
 import {
   Field,
@@ -10,7 +10,7 @@ import {
   SelectFieldProps,
   TextareaFieldProps,
 } from "@reborn/mobile-form-builder";
-import { FeedbackCategory } from "~/types";
+import { FeedbackCategory } from "@/types";
 
 interface useSendFeedbackFormStructureProps {
   store: SendFeedbackStore;

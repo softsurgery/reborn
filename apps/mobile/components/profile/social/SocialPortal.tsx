@@ -2,7 +2,7 @@ import { View } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import { createMaterialTopTabNavigator } from "expo-router/js-top-tabs";
 import { ChevronLeft } from "lucide-react-native";
-import { ApplicationHeader } from "~/components/shared/AppHeader";
+import { ApplicationHeader } from "@reborn/mobile-components";
 import { StableSafeAreaView } from "@reborn/mobile-components";
 import { cn } from "@reborn/lib";
 import { FollowingTab } from "./FollowingTab";

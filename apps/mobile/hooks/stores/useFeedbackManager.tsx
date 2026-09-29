@@ -1,7 +1,7 @@
 import { create } from "zustand";
-import { generateDeviceInfo } from "~/lib/device-info";
-import { setDeepValue } from "~/lib/object.lib";
-import {  CreateFeedbackDto } from "~/types";
+import { generateDeviceInfo } from "@/lib/device-info";
+import { setDeepValue } from "@/lib/object.lib";
+import {  CreateFeedbackDto } from "@/types";
 
 interface SendFeedbackData {
   createDto: CreateFeedbackDto;

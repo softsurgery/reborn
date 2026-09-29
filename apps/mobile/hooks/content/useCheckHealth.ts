@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "~/api/axios";
+import axios from "@/api/axios";
 
 interface useCheckHealthProps {
   enabled?: boolean;

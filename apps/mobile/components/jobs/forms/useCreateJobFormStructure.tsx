@@ -14,8 +14,8 @@ import {
   TextFieldProps,
   CheckboxFieldProps,
 } from "@reborn/mobile-form-builder";
-import { JobStore } from "~/hooks/stores/useJobStore";
-import { JobDifficulty, JobStyle } from "~/types";
+import { JobStore } from "@/hooks/stores/useJobStore";
+import { JobDifficulty, JobStyle } from "@/types";
 import { useTranslation } from "react-i18next";
 
 interface JobCreateFormStructureProps {

@@ -1,4 +1,4 @@
-import { onThumbnailPlayerStatusChange, setThumbnailPlayer } from "@/lib/video";
+import { onThumbnailPlayerStatusChange, setThumbnailPlayer } from "@reborn/mobile-components";
 import { useEvent } from "expo";
 import { useVideoPlayer } from "expo-video";
 import React from "react";

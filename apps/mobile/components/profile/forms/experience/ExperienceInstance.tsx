@@ -2,7 +2,7 @@ import { SeeMoreText } from "@reborn/mobile-components";
 import { Icon } from "@reborn/mobile-ui";
 import { Text } from "@reborn/mobile-ui";
 import { useColorPalette } from "@reborn/mobile-components";
-import { hslToHex } from "@/lib/theme";
+import { hslToHex } from "@reborn/mobile-components";
 import { cn } from "@reborn/lib";
 import { ResponseExperienceDto } from "@/types";
 import { format } from "date-fns";

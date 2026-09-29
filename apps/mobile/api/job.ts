@@ -7,7 +7,7 @@ import {
   ResponseJobMetadataDto,
   ResponseJobWorkflowDto,
   UpdateJobDto,
-} from "~/types";
+} from "@/types";
 
 const findPaginated = async ({
   page = "1",

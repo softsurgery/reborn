@@ -1,7 +1,7 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import React from "react";
-import { api } from "~/api";
-import { MessageVariant, QueryParams } from "~/types";
+import { api } from "@/api";
+import { MessageVariant, QueryParams } from "@/types";
 
 interface useConversationMessagesProps {
   id: number;

@@ -5,11 +5,11 @@ import React, { JSX } from "react";
 import { View } from "react-native";
 import { StablePressable } from "@reborn/mobile-components";
 import { Text } from "@reborn/mobile-ui";
-import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
+import { identifyUser, identifyUserAvatar } from "@reborn/lib";
 import { cn } from "@reborn/lib";
 import { useColorPalette } from "@reborn/mobile-components";
-import { useServerImages } from "~/hooks/content/useServerImages";
-import { ResponseJobDto, ResponseJobMetadataDto } from "~/types";
+import { useServerImages } from "@/hooks/content/useServerImages";
+import { ResponseJobDto, ResponseJobMetadataDto } from "@/types";
 
 interface JobClientInformationProps {
   className?: string;

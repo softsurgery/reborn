@@ -9,7 +9,7 @@ import { Separator } from "@reborn/mobile-ui";
 import { cn } from "@reborn/lib";
 import { X, Search, ChevronRight } from "lucide-react-native";
 import * as Haptics from "expo-haptics";
-import { Loader } from "./lotties/Loader";
+import { Loader } from "@reborn/mobile-components";
 import { StableKeyboardAwareScrollView } from "./stables/StableKeyboardAwareScrollView";
 
 export interface SelectOption {

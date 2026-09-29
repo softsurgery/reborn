@@ -27,7 +27,7 @@ import { Badge } from "@reborn/mobile-ui";
 import { JobEvents, JobPricingType, JobStatus, ResponseJobDto } from "@/types";
 import { useColorPalette } from "@reborn/mobile-components";
 import { useServerImages } from "@/hooks/content/useServerImages";
-import { timeAgo } from "@/lib/dates.utils";
+import { timeAgo } from "@reborn/mobile-components";
 import { router } from "expo-router";
 import * as Haptics from "expo-haptics";
 import { toast } from "sonner-native";

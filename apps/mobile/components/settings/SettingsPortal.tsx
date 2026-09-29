@@ -6,19 +6,19 @@ import { LogOut, Trash2 } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import { cn } from "@reborn/lib";
 import { useAuthPersistStore } from "@reborn/hooks/stores";
-import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
-import { useRTL } from "~/hooks/useRTL";
-import { identifyUser } from "~/lib/user.utils";
-import { ApplicationHeader } from "../shared/AppHeader";
+import { useCurrentUser } from "@/hooks/content/user/useCurrentUser";
+import { useRTL } from "@reborn/mobile-components";
+import { identifyUser } from "@reborn/lib";
+import { ApplicationHeader } from "@reborn/mobile-components";
 import { StableSafeAreaView } from "@reborn/mobile-components";
-import StableScrollView from "@reborn/mobile-components";
+import { StableScrollView } from "@reborn/mobile-components";
 import { Badge } from "@reborn/mobile-ui";
 import { Button } from "@reborn/mobile-ui";
 import { Icon } from "@reborn/mobile-ui";
 import { Separator } from "@reborn/mobile-ui";
 import { Text } from "@reborn/mobile-ui";
 import { SettingRow, SettingRowProps } from "./SettingsRow";
-import { AppHeaderBack } from "../shared/AppHeaderBack";
+import { AppHeaderBack } from "@reborn/mobile-components";
 
 interface SettingsPortalProps {
   className?: string;

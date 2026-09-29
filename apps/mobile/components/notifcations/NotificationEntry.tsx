@@ -5,11 +5,11 @@ import { cn } from "@reborn/lib";
 import {
   NotificationType,
   ResponseNotificationDto,
-} from "~/types/notifications";
-import { HTMLText } from "../shared/HTMLText";
+} from "@/types/notifications";
+import { HTMLText } from "@reborn/mobile-components";
 import { Text } from "@reborn/mobile-ui";
-import { timeAgo } from "~/lib/dates.utils";
-import { useNotificationPicture } from "~/hooks/content/notifications/useNotificationPicture";
+import { timeAgo } from "@reborn/mobile-components";
+import { useNotificationPicture } from "@/hooks/content/notifications/useNotificationPicture";
 import { router } from "expo-router";
 
 interface NotificationEntryProps {

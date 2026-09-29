@@ -1,7 +1,7 @@
 import { useColorScheme } from "nativewind";
 import { Image, Platform, View } from "react-native";
 import { cn } from "@reborn/lib";
-import DividedText from "../shared/DividedText";
+import { DividedText } from "@reborn/mobile-components";
 import { Button } from "@reborn/mobile-ui";
 import { Text } from "@reborn/mobile-ui";
 import { useSSO } from "@/hooks/useSSO";
@@ -56,8 +56,8 @@ export const SSOButtons = ({
               className="w-6 h-6"
               source={
                 colorScheme === "dark"
-                  ? require("~/assets/images/apple-dark.png")
-                  : require("~/assets/images/apple.png")
+                  ? require("@/assets/images/apple-dark.png")
+                  : require("@/assets/images/apple.png")
               }
             />
           </IconSlot>
@@ -78,7 +78,7 @@ export const SSOButtons = ({
         <IconSlot>
           <Image
             className="w-6 h-6"
-            source={require("~/assets/images/google.png")}
+            source={require("@/assets/images/google.png")}
           />
         </IconSlot>
 
@@ -97,7 +97,7 @@ export const SSOButtons = ({
         <IconSlot>
           <Image
             className="w-6 h-6"
-            source={require("~/assets/images/linkedIn.png")}
+            source={require("@/assets/images/linkedIn.png")}
           />
         </IconSlot>
 

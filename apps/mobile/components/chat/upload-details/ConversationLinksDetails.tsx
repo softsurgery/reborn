@@ -1,7 +1,7 @@
 import { Text } from "@reborn/mobile-ui";
 import { useConversationMessages } from "@/hooks/content/chat/useConversationMessages";
 import { useColorPalette } from "@reborn/mobile-components";
-import { hslToHex } from "@/lib/theme";
+import { hslToHex } from "@reborn/mobile-components";
 import { CONVERSATION_LINKS_MESSAGES_QUERY } from "@/lib/chat/chat";
 import { ResponseMessageDto, ResponseMessageLinkDto } from "@/types";
 import { LegendList } from "@legendapp/list";

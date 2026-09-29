@@ -4,7 +4,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { AnimatedLegendList } from "@legendapp/list/reanimated";
-import { InfiniteListFooter } from "@reborn/mobile-components";
+import { InfiniteListFooter } from "@/components/shared/InfiniteListFooter";
 
 import {
   RefreshControl,
@@ -13,9 +13,9 @@ import {
   ScrollView,
 } from "react-native";
 import { Search, Briefcase } from "lucide-react-native";
-import { ResponseJobDto, JobStatus } from "~/types";
+import { ResponseJobDto, JobStatus } from "@/types";
 import { cn } from "@reborn/lib";
-import { ApplicationHeader } from "~/components/shared/AppHeader";
+import { ApplicationHeader } from "@reborn/mobile-components";
 import { StableSafeAreaView } from "@reborn/mobile-components";
 import { MarkedInput } from "@reborn/mobile-components";
 import { useInfiniteJobs } from "@/hooks/content/job/useInfiniteJobs";

@@ -33,9 +33,9 @@ import { useSendChatMedia } from "@/hooks/content/chat/useSendChatMedia";
 import { useSendChatFile } from "@/hooks/content/chat/useSendChatFile";
 import { useCurrentUser } from "@/hooks/content/user/useCurrentUser";
 import { useLastSeenMessageId } from "@/hooks/content/chat/useLastSeenMessageId";
-import { identifyUser, identifyUserAvatar } from "@/lib/user.utils";
+import { identifyUser, identifyUserAvatar } from "@reborn/lib";
 import { useUserPresence } from "@/hooks/content/chat/useUserPresence";
-import { formatLastSeen } from "@/lib/dates.utils";
+import { formatLastSeen } from "@reborn/mobile-components";
 import { setConversationMessageParam } from "@/lib/chat/chat";
 import { StableSafeAreaView } from "@reborn/mobile-components";
 import { ImageBackground } from "expo-image";
@@ -48,7 +48,7 @@ import { ConversationMessagesSkeleton } from "./ConversationMessagesSkeleton";
 import { ConversationSearchOverlay } from "./conversation/search/ConversationSearchOverlay";
 import { ChatBubble } from "./conversation/bubbles/ChatBubble";
 import { ConversationInput } from "./conversation/input/ConversationInput";
-import { InfiniteListFooter } from "../shared/InfiniteListFooter";
+import { InfiniteListFooter } from "@/components/shared/InfiniteListFooter";
 
 interface ConversationProps {
   id: number;
@@ -381,8 +381,8 @@ export const Conversation = ({
       <ImageBackground
         source={
           colorScheme === "dark"
-            ? require("~/assets/images/message-background-dark.jpg")
-            : require("~/assets/images/message-background.jpg")
+            ? require("@/assets/images/message-background-dark.jpg")
+            : require("@/assets/images/message-background.jpg")
         }
         style={{
           flex: 1,

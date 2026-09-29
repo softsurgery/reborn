@@ -5,7 +5,7 @@ import { Keyboard } from "react-native";
 import Animated, { ZoomIn } from "react-native-reanimated";
 import { AnimatedPressable } from "../shared/AnimatedPressable";
 import { Eye, Camera } from "lucide-react-native";
-import { PhotoPreview, PhotoPreviewRef } from "../shared/PhotoPreview";
+import { PhotoPreview, PhotoPreviewRef } from "@reborn/mobile-components";
 import { api } from "@/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import * as ImagePicker from "expo-image-picker";
@@ -19,9 +19,9 @@ import {
 } from "@/types";
 import { useLoader } from "@/contexts/LoaderContext";
 import { useServerImages } from "@/hooks/content/useServerImages";
-import { identifyUserAvatar } from "@/lib/user.utils";
+import { identifyUserAvatar } from "@reborn/lib";
 import { useUploadMutation } from "@/hooks/content/useUploadMutation";
-import { ThreeDotsActionSheet } from "../shared/ThreeDotsActionSheet";
+import { ThreeDotsActionSheet } from "@reborn/mobile-components";
 import { cn } from "@reborn/lib";
 
 interface ProfileAvatarProps {

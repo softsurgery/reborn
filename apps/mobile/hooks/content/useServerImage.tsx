@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { Image, View } from "react-native";
-import { api } from "~/api";
+import { api } from "@/api";
 import {
   Avatar,
   AvatarFallback,

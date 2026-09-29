@@ -6,7 +6,7 @@ import { Input } from "@reborn/mobile-ui";
 import { Text } from "@reborn/mobile-ui";
 import { Tabs, TabsList, TabsTrigger } from "@reborn/mobile-ui";
 import { useTranslation } from "react-i18next";
-import { ApplicationHeader } from "~/components/shared/AppHeader";
+import { ApplicationHeader } from "@reborn/mobile-components";
 import { StableSafeAreaView } from "@reborn/mobile-components";
 import { StableKeyboardAwareScrollView } from "@reborn/mobile-components";
 import { BottomButtonWrapper } from "@reborn/mobile-components";

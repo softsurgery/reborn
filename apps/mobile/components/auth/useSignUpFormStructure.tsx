@@ -7,7 +7,7 @@ import {
   PasswordFieldProps,
   TextFieldProps,
 } from "@reborn/mobile-form-builder";
-import { AuthStore } from "~/hooks/stores/useAuthStore";
+import { AuthStore } from "@/hooks/stores/useAuthStore";
 
 interface useSignUpFormStructureProps {
   store: AuthStore;

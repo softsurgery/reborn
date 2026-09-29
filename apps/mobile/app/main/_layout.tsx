@@ -1,6 +1,6 @@
 import React from "react";
 import { Stack } from "expo-router";
-import { useCheckHealth } from "~/hooks/content/useCheckHealth";
+import { useCheckHealth } from "@/hooks/content/useCheckHealth";
 import { useAuthPersistStore } from "@reborn/hooks/stores";
 import { useColorPalette } from "@reborn/mobile-components";
 import { NotificationType } from "@/types";

@@ -18,10 +18,10 @@ import {
 } from "lucide-react-native";
 import { cn } from "@reborn/lib";
 import { StableSafeAreaView } from "@reborn/mobile-components";
-import { ApplicationHeader } from "../shared/AppHeader";
+import { ApplicationHeader } from "@reborn/mobile-components";
 import { router } from "expo-router";
 import { useQueryClient } from "@tanstack/react-query";
-import { useNotificationContext } from "~/contexts/NotificationContext";
+import { useNotificationContext } from "@/contexts/NotificationContext";
 import { useColorPalette } from "@reborn/mobile-components";
 import { Text } from "@reborn/mobile-ui";
 import { TransactionList } from "./transaction/TransactionList";
@@ -29,11 +29,11 @@ import { useBalance } from "@/hooks/content/finance/useBalance";
 import { useFinanceAuth } from "@/hooks/content/finance/useFinanceAuth";
 import { useFinanceStore } from "@/hooks/stores/useFinanceStore";
 import { useTranslation } from "react-i18next";
-import { triggerHaptic } from "~/lib/haptics";
+import { triggerHaptic } from "@reborn/mobile-components";
 import { Icon } from "@reborn/mobile-ui";
 import { useRTL } from "@reborn/mobile-components";
-import { useScrollableElement } from "~/hooks/useScrollableElement";
-import { useDynamicListLimit } from "~/hooks/useDynamicListLimit";
+import { useScrollableElement } from "@/hooks/useScrollableElement";
+import { useDynamicListLimit } from "@/hooks/useDynamicListLimit";
 
 interface FinancePortalProps {
   className?: string;

@@ -10,10 +10,10 @@
     "cssVariables": true
   },
   "aliases": {
-    "components": "~/components",
+    "components": "@/components",
     "utils": "@reborn/lib",
     "ui": "@reborn/mobile-ui",
-    "lib": "~/lib",
-    "hooks": "~/hooks"
+    "lib": "@/lib",
+    "hooks": "@/hooks"
   }
 }

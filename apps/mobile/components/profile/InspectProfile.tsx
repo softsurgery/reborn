@@ -1,16 +1,16 @@
 import { cn } from "@reborn/lib";
 import { View } from "react-native";
 import { InspectBaseProfile } from "../profile/BaseProfile";
-import { ApplicationHeader } from "../shared/AppHeader";
+import { ApplicationHeader } from "@reborn/mobile-components";
 import { StableSafeAreaView } from "@reborn/mobile-components";
-import { AppHeaderBack } from "../shared/AppHeaderBack";
+import { AppHeaderBack } from "@reborn/mobile-components";
 
 interface InspectProfileProps {
   className?: string;
   id: string;
 }
 
-import { UserStoreProvider } from "~/hooks/stores/useUserStore";
+import { UserStoreProvider } from "@/hooks/stores/useUserStore";
 
 export const InspectProfile = ({ className, id }: InspectProfileProps) => {
   return (

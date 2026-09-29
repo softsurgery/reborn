@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import { TrafficSourceItem } from "~/types";
+import { TrafficSourceItem } from "@/types";
 import { cn } from "@reborn/lib";
 
 interface JobStatisticsAcquisitionChannelsProps {

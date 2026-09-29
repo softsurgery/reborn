@@ -1,4 +1,4 @@
-import { Upload } from "~/types/upload";
+import { Upload } from "@/types/upload";
 import {
   FileSystemUploadType,
   createUploadTask,

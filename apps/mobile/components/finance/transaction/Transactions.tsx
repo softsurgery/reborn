@@ -1,8 +1,8 @@
 import { View } from "react-native";
 import { StableSafeAreaView } from "@reborn/mobile-components";
-import { ApplicationHeader } from "~/components/shared/AppHeader";
+import { ApplicationHeader } from "@reborn/mobile-components";
 import { TransactionList } from "@/components/finance/transaction/TransactionList";
-import { AppHeaderBack } from "../../shared/AppHeaderBack";
+import { AppHeaderBack } from "@reborn/mobile-components";
 import { cn } from "@reborn/lib";
 import { useTranslation } from "react-i18next";
 

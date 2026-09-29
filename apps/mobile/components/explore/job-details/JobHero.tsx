@@ -4,23 +4,23 @@ import { ImageSource } from "expo-image";
 import { UseQueryResult } from "@tanstack/react-query";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { BadgeCheck, ShieldOff, Star, Users } from "lucide-react-native";
-import { ImageCarousel } from "~/components/shared/image-carousel/ImageCarouselWithModal";
+import { ImageCarousel } from "@/components/shared/image-carousel/ImageCarouselWithModal";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from "@reborn/mobile-components";
 import { Text } from "@reborn/mobile-ui";
-import { useServerImages } from "~/hooks/content/useServerImages";
+import { useServerImages } from "@/hooks/content/useServerImages";
 import { useColorPalette } from "@reborn/mobile-components";
-import { timeAgo } from "~/lib/dates.utils";
-import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
+import { timeAgo } from "@reborn/mobile-components";
+import { identifyUser, identifyUserAvatar } from "@reborn/lib";
 import { cn } from "@reborn/lib";
 import {
   JobPricingType,
   ResponseJobDto,
   ResponseJobMetadataDto,
-} from "~/types";
+} from "@/types";
 
 interface JobHeroProps {
   className?: string;

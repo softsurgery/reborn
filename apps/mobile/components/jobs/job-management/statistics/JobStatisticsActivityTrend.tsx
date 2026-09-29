@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import { DailyActivityItem } from "~/types";
+import { DailyActivityItem } from "@/types";
 import { cn } from "@reborn/lib";
 import { useTranslation } from "react-i18next";
 

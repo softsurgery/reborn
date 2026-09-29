@@ -2,9 +2,9 @@ import React from "react";
 import { ColorValue } from "react-native";
 import { User } from "lucide-react-native";
 import { useColorPalette } from "@reborn/mobile-components";
-import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
+import { useCurrentUser } from "@/hooks/content/user/useCurrentUser";
 import { useServerImages } from "@/hooks/content/useServerImages";
-import { identifyUserAvatar } from "~/lib/user.utils";
+import { identifyUserAvatar } from "@reborn/lib";
 import {
   Avatar,
   AvatarFallback,

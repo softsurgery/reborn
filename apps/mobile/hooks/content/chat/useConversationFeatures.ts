@@ -57,7 +57,7 @@ export const useConversationFeatures = ({
   enabled = true,
 }: useConversationFeaturesProps) => {
   const soundPlayer = useAudioPlayer(
-    require("~/assets/sounds/receive-message.wav"),
+    require("@/assets/sounds/receive-message.wav"),
   );
 
   const queryClient = useQueryClient();

@@ -2,7 +2,7 @@ import {
   CreateExperienceDto,
   ResponseExperienceDto,
   UpdateExperienceDto,
-} from "~/types";
+} from "@/types";
 import axios from "./axios";
 
 const findByUserId = async (

@@ -1,5 +1,5 @@
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import { finance, PointTransaction } from "~/api/finance";
+import { finance, PointTransaction } from "@/api/finance";
 
 export const useBalance = () => {
   return useQuery({

@@ -6,7 +6,7 @@ import { CopyX } from "lucide-react-native";
 import { Icon } from "@reborn/mobile-ui";
 import ActionSheet, { type ActionSheetRef } from "react-native-actions-sheet";
 import { useColorScheme } from "nativewind";
-import { THEME } from "~/lib/theme";
+import { THEME } from "@/lib/theme";
 
 interface CancelApplicationActionSheetProps {
   onConfirm: () => void;

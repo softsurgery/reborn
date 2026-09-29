@@ -2,7 +2,7 @@ import { Badge } from "@reborn/mobile-ui";
 import { Icon } from "@reborn/mobile-ui";
 import { Text } from "@reborn/mobile-ui";
 import { useColorPalette } from "@reborn/mobile-components";
-import { timeAgo } from "@/lib/dates.utils";
+import { timeAgo } from "@reborn/mobile-components";
 import { cn } from "@reborn/lib";
 import { ResponseJobRequestDto } from "@/types";
 import { format } from "date-fns";

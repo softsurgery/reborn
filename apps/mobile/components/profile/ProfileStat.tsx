@@ -9,7 +9,7 @@ import { ResponseUserDto } from "@/types";
 import { useTranslation } from "react-i18next";
 import { useColorPalette } from "@reborn/mobile-components";
 import { Button } from "@reborn/mobile-ui";
-import { useRTL } from "~/hooks/useRTL";
+import { useRTL } from "@reborn/mobile-components";
 
 interface ProfileStatProps {
   className?: string;

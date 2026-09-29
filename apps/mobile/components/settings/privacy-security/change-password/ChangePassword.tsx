@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { Lock, Loader2 } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import { cn } from "@reborn/lib";
-import { ApplicationHeader } from "~/components/shared/AppHeader";
+import { ApplicationHeader } from "@reborn/mobile-components";
 import { StableSafeAreaView } from "@reborn/mobile-components";
 import { StableKeyboardAwareScrollView } from "@reborn/mobile-components";
 import { Button } from "@reborn/mobile-ui";

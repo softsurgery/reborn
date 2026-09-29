@@ -1,6 +1,6 @@
 import { LegendList } from "@legendapp/list";
 import React from "react";
-import { JobStatus, ResponseJobDto } from "~/types";
+import { JobStatus, ResponseJobDto } from "@/types";
 import { JobCard } from "../jobs/JobCard";
 import {
   NativeScrollEvent,
@@ -10,9 +10,9 @@ import {
 } from "react-native";
 import { JobCardSkeleton } from "../jobs/JobCardSkeleton";
 import { cn } from "@reborn/lib";
-import { InfiniteListFooter } from "@reborn/mobile-components";
+import { InfiniteListFooter } from "@/components/shared/InfiniteListFooter";
 import { useInfiniteJobs } from "@/hooks/content/job/useInfiniteJobs";
-import { NotFound } from "../shared/lotties/NotFound";
+import { NotFound } from "@reborn/mobile-components";
 import { useExploreFilterStore } from "@/hooks/stores/userExploreFilterStore";
 import { useColorPalette } from "@reborn/mobile-components";
 

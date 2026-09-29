@@ -11,14 +11,14 @@ import {
   MapPin,
 } from "lucide-react-native";
 import { router } from "expo-router";
-import { JobPricingType, ResponseJobDto } from "~/types";
+import { JobPricingType, ResponseJobDto } from "@/types";
 import { useQueryClient } from "@tanstack/react-query";
 import * as Haptics from "expo-haptics";
 import { Skeleton } from "@reborn/mobile-ui";
-import { timeAgo } from "~/lib/dates.utils";
+import { timeAgo } from "@reborn/mobile-components";
 import { Text } from "@reborn/mobile-ui";
-import { useJobSaveActions } from "~/hooks/content/job/useJobSaveActions";
-import { useIsJobSaved } from "~/hooks/content/job/useIsJobSaved";
+import { useJobSaveActions } from "@/hooks/content/job/useJobSaveActions";
+import { useIsJobSaved } from "@/hooks/content/job/useIsJobSaved";
 import { Button } from "@reborn/mobile-ui";
 import { Icon } from "@reborn/mobile-ui";
 import { Badge } from "@reborn/mobile-ui";
@@ -30,7 +30,7 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@reborn/mobile-components";
-import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
+import { identifyUser, identifyUserAvatar } from "@reborn/lib";
 
 interface JobCardProps {
   className?: string;

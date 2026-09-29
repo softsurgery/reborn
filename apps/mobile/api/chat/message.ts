@@ -1,4 +1,4 @@
-import { Paginated, QueryParams, ResponseMessageDto } from "~/types";
+import { Paginated, QueryParams, ResponseMessageDto } from "@/types";
 import axios from "../axios";
 
 /**

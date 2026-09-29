@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import { FunnelStageItem } from "~/types";
+import { FunnelStageItem } from "@/types";
 import { cn } from "@reborn/lib";
 
 interface JobStatisticsConversionFunnelProps {

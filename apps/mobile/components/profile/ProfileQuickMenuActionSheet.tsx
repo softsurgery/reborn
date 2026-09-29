@@ -14,9 +14,9 @@ import {
 } from "lucide-react-native";
 import { Text } from "@reborn/mobile-ui";
 import { Icon } from "@reborn/mobile-ui";
-import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
+import { useCurrentUser } from "@/hooks/content/user/useCurrentUser";
 import { useServerImages } from "@/hooks/content/useServerImages";
-import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
+import { identifyUser, identifyUserAvatar } from "@reborn/lib";
 import { useColorPalette } from "@reborn/mobile-components";
 import {
   Avatar,

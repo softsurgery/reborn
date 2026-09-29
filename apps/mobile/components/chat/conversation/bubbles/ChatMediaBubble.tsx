@@ -11,8 +11,8 @@ import {
   ResponseMessageDto,
   PendingMediaUpload,
 } from "@/types";
-import { PhotoPreview } from "~/components/shared/PhotoPreview";
-import { useServerImages } from "~/hooks/content/useServerImages";
+import { PhotoPreview } from "@reborn/mobile-components";
+import { useServerImages } from "@/hooks/content/useServerImages";
 import { MessageTextContent } from "./MessageTextContent";
 import { MediaImageGrid } from "./ChatMediaImageGrid";
 import { MediaUploadProgress } from "../staging/MediaUploadProgress";

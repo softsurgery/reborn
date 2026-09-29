@@ -5,7 +5,7 @@ import * as Haptics from "expo-haptics";
 import { ChevronRight } from "lucide-react-native";
 import { Text } from "@reborn/mobile-ui";
 import { Icon } from "@reborn/mobile-ui";
-import { identifyUser, identifyUserAvatar } from "@/lib/user.utils";
+import { identifyUser, identifyUserAvatar } from "@reborn/lib";
 import { useServerImages } from "@/hooks/content/useServerImages";
 import { ResponseUserDto } from "@/types";
 import { cn } from "@reborn/lib";

@@ -1,6 +1,6 @@
 import { createStore, useStore } from "zustand";
 import React, { createContext, useContext, useRef } from "react";
-import { setDeepValue } from "~/lib/object.lib";
+import { setDeepValue } from "@/lib/object.lib";
 import {
   CreateEducationDto,
   CreateExperienceDto,
@@ -10,7 +10,7 @@ import {
   UpdateEducationDto,
   UpdateExperienceDto,
   UpdateUserDto,
-} from "~/types";
+} from "@/types";
 
 interface UserData {
   response?: ResponseUserDto;

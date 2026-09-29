@@ -2,23 +2,22 @@ import React from "react";
 import { cn } from "@reborn/lib";
 import { useMutation } from "@tanstack/react-query";
 import { View } from "react-native";
-import { api } from "~/api";
-import { useAuthStore } from "~/hooks/stores/useAuthStore";
+import { api } from "@/api";
+import { useAuthStore } from "@/hooks/stores/useAuthStore";
 import { Text } from "@reborn/mobile-ui";
 import { FormBuilder } from "@reborn/mobile-form-builder";
 import { useSignInFormStructure } from "./useSignInFormStructure";
 import { Button } from "@reborn/mobile-ui";
 import { ChevronLeft } from "lucide-react-native";
-import { DividedText } from "@reborn/mobile-components";
-import { requestSignInDtoSchema } from "~/types/validations/auth.validation";
-import { ServerErrorResponse } from "~/types";
+import { ApplicationHeader, DividedText } from "@reborn/mobile-components";
+import { requestSignInDtoSchema } from "@/types/validations/auth.validation";
+import { ServerErrorResponse } from "@/types";
 import { StableKeyboardAwareScrollView } from "@reborn/mobile-components";
 import { router } from "expo-router";
 import { SSOButtons } from "./SSOButtons";
 import { StableSafeAreaView } from "@reborn/mobile-components";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner-native";
-import { ApplicationHeader } from "../shared/AppHeader";
 
 interface SignInLayoutProps {
   className?: string;

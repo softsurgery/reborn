@@ -1,5 +1,5 @@
 import axios from "./axios";
-import { Paginated, QueryParams, ResponseJobTagDto } from "~/types";
+import { Paginated, QueryParams, ResponseJobTagDto } from "@/types";
 
 const findPaginated = async ({
   page = "1",

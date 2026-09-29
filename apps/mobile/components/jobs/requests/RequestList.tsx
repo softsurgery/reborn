@@ -16,7 +16,7 @@ import { useDebounce } from "@reborn/hooks/utils";
 import { useInfiniteJobRequests } from "@/hooks/content/job/useInfiniteJobRequests";
 import { useStickyElement } from "@/hooks/useStickyElement";
 import { useColorPalette } from "@reborn/mobile-components";
-import { InfiniteListFooter } from "@reborn/mobile-components";
+import { InfiniteListFooter } from "@/components/shared/InfiniteListFooter";
 import { useTranslation } from "react-i18next";
 
 interface RequestsListProps {

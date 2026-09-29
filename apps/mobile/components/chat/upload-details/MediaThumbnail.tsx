@@ -6,9 +6,9 @@ import { ImageSource } from "expo-image";
 import { Play } from "lucide-react-native";
 import React from "react";
 import { Pressable, View } from "react-native";
-import { api } from "~/api";
-import { VideoPreview } from "~/components/shared/VideoPreview";
-import { VideoThumbnailPreview } from "~/components/shared/VideoThumbnailPreview";
+import { api } from "@/api";
+import { VideoPreview } from "@reborn/mobile-components";
+import { VideoThumbnailPreview } from "@reborn/mobile-components";
 import { useTranslation } from "react-i18next";
 import { useAuthPersistStore } from "@reborn/hooks/stores";
 

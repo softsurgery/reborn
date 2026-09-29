@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { createBaseSlice, BaseActions } from "./useBaseStore";
-import { CreateJobDto, ResponseJobDto, UpdateJobDto } from "~/types";
+import { CreateJobDto, ResponseJobDto, UpdateJobDto } from "@/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ImageFile } from "@reborn/mobile-form-builder";
 

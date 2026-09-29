@@ -1,7 +1,7 @@
 import React from "react";
 import { useMutation } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react-native";
-import { api } from "~/api";
+import { api } from "@/api";
 import { Button } from "@reborn/mobile-ui";
 import { Text } from "@reborn/mobile-ui";
 import { View } from "react-native";
@@ -11,7 +11,7 @@ import { cn } from "@reborn/lib";
 import { StableKeyboardAwareScrollView } from "@reborn/mobile-components";
 import { router } from "expo-router";
 import { StableSafeAreaView } from "@reborn/mobile-components";
-import { ApplicationHeader } from "~/components/shared/AppHeader";
+import { ApplicationHeader } from "@reborn/mobile-components";
 import { useTranslation } from "react-i18next";
 import { createBugSchema } from "@/types/validations/system-reports.validation";
 import { useKeyboardVisible } from "@reborn/mobile-components";

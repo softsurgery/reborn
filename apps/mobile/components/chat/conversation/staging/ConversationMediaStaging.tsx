@@ -17,7 +17,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Icon } from "@reborn/mobile-ui";
 import { Text } from "@reborn/mobile-ui";
 import { cn } from "@reborn/lib";
-import { VideoThumbnailPreview } from "~/components/shared/VideoThumbnailPreview";
+import { VideoThumbnailPreview } from "@reborn/mobile-components";
 import { StagedMedia } from "@/types";
 import { useTranslation } from "react-i18next";
 

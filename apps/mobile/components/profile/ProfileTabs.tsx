@@ -9,7 +9,7 @@ import {
   ResponseUserDto,
 } from "@/types";
 import { useColorPalette } from "@reborn/mobile-components";
-import { hslToHex } from "@/lib/theme";
+import { hslToHex } from "@reborn/mobile-components";
 import { useRTL } from "@reborn/mobile-components";
 import { AboutTab } from "./sections/AboutTab";
 import { JobsTab } from "./sections/JobsTab";

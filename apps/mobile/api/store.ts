@@ -1,4 +1,4 @@
-import { Store } from "~/types";
+import { Store } from "@/types";
 import axios from "./axios";
 
 const findById = async (id: string): Promise<Store> => {

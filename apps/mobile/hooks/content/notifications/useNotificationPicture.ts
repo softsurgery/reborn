@@ -1,9 +1,9 @@
 import { ImageSourcePropType } from "react-native";
 import { useQuery } from "@tanstack/react-query";
 import { ImageSource } from "expo-image";
-import { api } from "~/api";
+import { api } from "@/api";
 import { useServerImages } from "@/hooks/content/useServerImages";
-import { ResponseNotificationDto } from "~/types/notifications";
+import { ResponseNotificationDto } from "@/types/notifications";
 import {
   getNotificationPictureConfig,
   NotificationPictureConfig,

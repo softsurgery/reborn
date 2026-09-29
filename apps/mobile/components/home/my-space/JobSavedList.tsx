@@ -1,21 +1,21 @@
 import React from "react";
-import { ResponseJobSaveDto } from "~/types";
-import { InfiniteListFooter } from "@reborn/mobile-components";
+import { ResponseJobSaveDto } from "@/types";
+import { InfiniteListFooter } from "@/components/shared/InfiniteListFooter";
 import Animated from "react-native-reanimated";
 import { AnimatedLegendList } from "@legendapp/list/reanimated";
 
 import { cn } from "@reborn/lib";
 import { RefreshControl, View } from "react-native";
 import { Text } from "@reborn/mobile-ui";
-import { useInfiniteSavedJobs } from "~/hooks/content/job/useInfiniteSavedJobs";
+import { useInfiniteSavedJobs } from "@/hooks/content/job/useInfiniteSavedJobs";
 import { JobCard } from "../../jobs/JobCard";
 import { StableSafeAreaView } from "@reborn/mobile-components";
-import { ApplicationHeader } from "~/components/shared/AppHeader";
+import { ApplicationHeader } from "@reborn/mobile-components";
 import { useColorPalette } from "@reborn/mobile-components";
 import { Search } from "lucide-react-native";
 import { format, isToday, isYesterday, parseISO } from "date-fns";
 import { JobCardSkeleton } from "@/components/jobs/JobCardSkeleton";
-import { MarkedInput } from "~/components/shared/MarkedInput";
+import { MarkedInput } from "@reborn/mobile-components";
 import { useDebounce } from "@reborn/hooks/utils";
 import { AppHeaderBack } from "@reborn/mobile-components";
 import { useStickyElement } from "@/hooks/useStickyElement";

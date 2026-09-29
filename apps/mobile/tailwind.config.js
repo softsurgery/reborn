@@ -4,7 +4,13 @@ const colors = require("tailwindcss/colors");
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: "media",
-  content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}"],
+  content: [
+    "./app/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "../../packages/mobile-ui/src/**/*.{ts,tsx}",
+    "../../packages/mobile-components/src/**/*.{ts,tsx}",
+    "../../packages/mobile-form-builder/src/**/*.{ts,tsx}",
+  ],
   presets: [require("nativewind/preset")],
   theme: {
     extend: {

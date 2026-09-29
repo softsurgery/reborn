@@ -10,7 +10,7 @@ import {
 } from "lucide-react-native";
 import { Pressable, View } from "react-native";
 import { useTranslation } from "react-i18next";
-import { useRTL } from "~/hooks/useRTL";
+import { useRTL } from "@reborn/mobile-components";
 
 import { useFinanceStore } from "@/hooks/stores/useFinanceStore";
 import { useFinanceAuth } from "@/hooks/content/finance/useFinanceAuth";

@@ -5,7 +5,7 @@
     "build": "turbo run build",
     "dev": "turbo run dev --filter=./apps/* --continue",
     "dev:web": "turbo run dev --filter=reborn-back-office",
-    "dev:mobile": "turbo run dev --filter=reborn-mobile-app-v2",
+    "dev:mobile": "turbo run dev --filter=reborn-mobile-app",
     "dev:api": "turbo run start:dev --filter=reborn-api",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",

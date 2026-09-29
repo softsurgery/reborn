@@ -1,4 +1,4 @@
-import { ResponseUserDto } from "~/types";
+import { ResponseUserDto } from "@/types";
 
 export const identifyUser = (user?: ResponseUserDto | null) => {
   if (!user) return "Unknown User";

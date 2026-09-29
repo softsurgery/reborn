@@ -20,17 +20,17 @@ import {
 import * as Haptics from "expo-haptics";
 import { ActionSheetRef } from "react-native-actions-sheet";
 import { cn } from "@reborn/lib";
-import { identifyUser, identifyUserAvatar } from "@/lib/user.utils";
+import { identifyUser, identifyUserAvatar } from "@reborn/lib";
 import { useServerImages } from "@/hooks/content/useServerImages";
 import { JobRequestStatus, ResponseJobRequestDto } from "@/types";
-import { timeAgo } from "@/lib/dates.utils";
+import { timeAgo } from "@reborn/mobile-components";
 import { useColorPalette } from "@reborn/mobile-components";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from "@reborn/mobile-components";
-import { ThreeDotsActionSheet } from "@/components/shared/ThreeDotsActionSheet";
+import { ThreeDotsActionSheet } from "@reborn/mobile-components";
 import { useJobRequestActions } from "@/hooks/content/job/useJobRequestActions";
 import { WithdrawJobRequestActionSheet } from "./details/action-sheets/WithdrawJobRequestActionSheet";
 

@@ -2,7 +2,7 @@ import {
   ResponseFollowCountsDto,
   ResponseFollowDto,
   ResponseIsFollowingDto,
-} from "~/types";
+} from "@/types";
 import axios from "./axios";
 
 const findFollowers = async (id: string): Promise<ResponseFollowDto[]> => {

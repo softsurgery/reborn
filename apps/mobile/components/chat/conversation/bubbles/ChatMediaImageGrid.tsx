@@ -1,6 +1,6 @@
 import { Icon } from "@reborn/mobile-ui";
 import { Text } from "@reborn/mobile-ui";
-import { PhotoPreview } from "@/components/shared/PhotoPreview";
+import { PhotoPreview } from "@reborn/mobile-components";
 import {
   toVideoSource,
   VideoPreview,

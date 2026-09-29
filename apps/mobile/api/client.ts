@@ -3,7 +3,7 @@ import {
   ResponseUserDto,
   UpdateUserCoverDto,
   UpdateUserDto,
-} from "~/types";
+} from "@/types";
 import axios from "./axios";
 
 const findCurrent = async (join: string[] = []): Promise<ResponseUserDto> => {

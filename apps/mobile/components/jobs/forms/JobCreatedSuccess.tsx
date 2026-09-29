@@ -1,4 +1,4 @@
-import { Success } from "@/components/shared/lotties/Success";
+import { Success } from "@reborn/mobile-components";
 import { View } from "react-native";
 import { Button } from "@reborn/mobile-ui";
 import { Text } from "@reborn/mobile-ui";

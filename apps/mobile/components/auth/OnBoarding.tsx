@@ -12,8 +12,8 @@ import { StableSafeAreaView } from "@reborn/mobile-components";
 import { SSOButtons } from "./SSOButtons";
 import { Rocket, Zap, ShieldCheck, Languages } from "lucide-react-native";
 import { useColorPalette } from "@reborn/mobile-components";
-import { ThemeToggle } from "../shared/ThemeToggle";
-import { LanguageSwitcher } from "../shared/LanguageSwitcher";
+import { ThemeToggle } from "@reborn/mobile-components";
+import { LanguageSwitcher } from "@reborn/mobile-components";
 import { Icon } from "@reborn/mobile-ui";
 import { AcceptTerms } from "./AcceptTerms";
 
@@ -65,7 +65,7 @@ export default function OnBoarding({ className }: OnBoardingProps) {
         <View className="flex flex-row items-center justify-between">
           <View className="flex flex-row gap-3 px-6 items-center">
             <Image
-              source={require("~/assets/images/reborn.png")}
+              source={require("@/assets/images/reborn.png")}
               style={{ width: 60, height: 60, borderRadius: 12 }}
               contentFit="cover"
             />

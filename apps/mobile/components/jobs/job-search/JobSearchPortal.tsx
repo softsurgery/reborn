@@ -1,6 +1,6 @@
 import React from "react";
 import { View } from "react-native";
-import { MarkedInput } from "~/components/shared/MarkedInput";
+import { MarkedInput } from "@reborn/mobile-components";
 import { Search } from "lucide-react-native";
 import { router, useNavigation } from "expo-router";
 import { Text } from "@reborn/mobile-ui";
@@ -8,8 +8,8 @@ import { JobSearchResults } from "./JobSearchResults";
 import { useDebounce } from "@reborn/hooks/utils";
 import { LegendList } from "@legendapp/list";
 import { cn } from "@reborn/lib";
-import { useJobStore } from "~/hooks/stores/useJobStore";
-import { ResponseJobDto } from "~/types";
+import { useJobStore } from "@/hooks/stores/useJobStore";
+import { ResponseJobDto } from "@/types";
 import { JobSearchResultEntry } from "./JobSearchResultEntry";
 
 interface JobSearchPortalProps {

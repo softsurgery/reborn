@@ -4,8 +4,8 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import { toast } from "sonner-native";
-import { api } from "~/api";
-import { Paginated, ResponseJobSaveDto, ServerErrorResponse } from "~/types";
+import { api } from "@/api";
+import { Paginated, ResponseJobSaveDto, ServerErrorResponse } from "@/types";
 
 interface useJobSaveActionsProps {
   onSuccess?: (data: ResponseJobSaveDto, id: string, context: unknown) => void;

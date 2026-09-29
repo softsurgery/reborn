@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { router } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { cn } from "@reborn/lib";
-import { ApplicationHeader } from "~/components/shared/AppHeader";
+import { ApplicationHeader } from "@reborn/mobile-components";
 import { StableSafeAreaView } from "@reborn/mobile-components";
 import { SettingRow, SettingRowProps } from "../SettingsRow";
 import { Text } from "@reborn/mobile-ui";
@@ -11,7 +11,7 @@ import { Separator } from "@reborn/mobile-ui";
 import { Badge } from "@reborn/mobile-ui";
 
 import { AppHeaderBack } from "@reborn/mobile-components";
-import StableScrollView from "@reborn/mobile-components";
+import { StableScrollView } from "@reborn/mobile-components";
 
 interface PrivacySecurityPortalProps {
   className?: string;

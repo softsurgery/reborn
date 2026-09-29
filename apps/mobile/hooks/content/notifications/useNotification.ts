@@ -10,11 +10,11 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import * as Notifications from "expo-notifications";
 import { useTranslation } from "react-i18next";
 import { Socket } from "socket.io-client";
-import { api } from "~/api";
+import { api } from "@/api";
 import {
   NotificationType,
   ResponseNotificationDto,
-} from "~/types/notifications";
+} from "@/types/notifications";
 
 export const NOTIFICATIONS_UNREAD_COUNT_QUERY_KEY = [
   "notifications-unread-count",

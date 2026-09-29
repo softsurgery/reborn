@@ -7,7 +7,7 @@ import { Icon } from "@reborn/mobile-ui";
 import { Clock } from "lucide-react-native";
 import { useColorPalette } from "@reborn/mobile-components";
 import { ResponseJobRequestDto } from "@/types";
-import { identifyUser } from "@/lib/user.utils";
+import { identifyUser } from "@reborn/lib";
 
 interface WaitlistJobRequestActionSheetProps {
   request: ResponseJobRequestDto;

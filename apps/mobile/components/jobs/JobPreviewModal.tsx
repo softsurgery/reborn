@@ -20,11 +20,11 @@ import {
   X,
 } from "lucide-react-native";
 import { Text } from "@reborn/mobile-ui";
-import { JobPricingType, ResponseJobDto } from "~/types";
+import { JobPricingType, ResponseJobDto } from "@/types";
 import { useColorPalette } from "@reborn/mobile-components";
 import { useServerImages } from "@/hooks/content/useServerImages";
-import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
-import { timeAgo } from "~/lib/dates.utils";
+import { identifyUser, identifyUserAvatar } from "@reborn/lib";
+import { timeAgo } from "@reborn/mobile-components";
 import {
   Avatar,
   AvatarFallback,
@@ -33,8 +33,8 @@ import {
 import { router } from "expo-router";
 import * as Haptics from "expo-haptics";
 import { toast } from "sonner-native";
-import { useJobSaveActions } from "~/hooks/content/job/useJobSaveActions";
-import { useIsJobSaved } from "~/hooks/content/job/useIsJobSaved";
+import { useJobSaveActions } from "@/hooks/content/job/useJobSaveActions";
+import { useIsJobSaved } from "@/hooks/content/job/useIsJobSaved";
 import { useQueryClient } from "@tanstack/react-query";
 
 interface JobPreviewModalProps {

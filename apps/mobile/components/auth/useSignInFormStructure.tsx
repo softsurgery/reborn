@@ -4,7 +4,7 @@ import {
   FieldVariant,
   FormStructure,
 } from "@reborn/mobile-form-builder";
-import { AuthStore } from "~/hooks/stores/useAuthStore";
+import { AuthStore } from "@/hooks/stores/useAuthStore";
 
 interface useSignInFormStructureProps {
   store: AuthStore;

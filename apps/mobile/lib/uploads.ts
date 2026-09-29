@@ -1,6 +1,6 @@
 import { ImageSource } from "expo-image";
 import { ImageFile } from "@reborn/mobile-form-builder";
-import { ResponseGenericUploadDto } from "~/types";
+import { ResponseGenericUploadDto } from "@/types";
 
 export const extractImageFiles = (
   uploads: (ResponseGenericUploadDto & Record<string, any>)[],

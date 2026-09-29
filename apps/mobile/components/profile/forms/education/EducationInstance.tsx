@@ -2,7 +2,7 @@ import { SeeMoreText } from "@reborn/mobile-components";
 import { Icon } from "@reborn/mobile-ui";
 import { Text } from "@reborn/mobile-ui";
 import { cn } from "@reborn/lib";
-import { hslToHex } from "@/lib/theme";
+import { hslToHex } from "@reborn/mobile-components";
 import { ResponseEducationDto } from "@/types";
 import { format } from "date-fns";
 import { CalendarDays, GraduationCap } from "lucide-react-native";

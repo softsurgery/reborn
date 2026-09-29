@@ -10,7 +10,7 @@ import {
 import { cn } from "@reborn/lib";
 import { useTranslation } from "react-i18next";
 import { useColorPalette } from "@reborn/mobile-components";
-import { hslToHex } from "@/lib/theme";
+import { hslToHex } from "@reborn/mobile-components";
 import { useRTL } from "@reborn/mobile-components";
 import { router } from "expo-router";
 import { Briefcase, GraduationCap, Pen, Plus, Tag } from "lucide-react-native";

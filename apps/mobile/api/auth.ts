@@ -7,7 +7,7 @@ import {
   RequestClientUpdateMailDto,
   RequestClientUpdatePasswordDto,
   ResponseClientSigninDto,
-} from "~/types/auth";
+} from "@/types/auth";
 
 const saveToken = (access_token: string, refresh_token: string) => {
   const authPersistStore = useAuthPersistStore.getState();

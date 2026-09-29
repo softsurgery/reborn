@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { toast } from "sonner-native";
 import { useBiometricAuth } from "@/hooks/useBiometricAuth";
 import { useFinanceStore } from "@/hooks/stores/useFinanceStore";
-import { triggerHaptic } from "~/lib/haptics";
+import { triggerHaptic } from "@reborn/mobile-components";
 
 export const useFinanceAuth = () => {
   const { t } = useTranslation("finance");

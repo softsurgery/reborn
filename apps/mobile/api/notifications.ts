@@ -1,5 +1,5 @@
-import { Paginated, QueryParams } from "~/types";
-import { ResponseNotificationDto } from "~/types/notifications";
+import { Paginated, QueryParams } from "@/types";
+import { ResponseNotificationDto } from "@/types/notifications";
 import axios from "./axios";
 
 const findPaginatedUserConversations = async ({

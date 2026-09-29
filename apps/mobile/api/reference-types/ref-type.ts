@@ -1,4 +1,4 @@
-import { Paginated, QueryParams, ResponseRefTypeDto } from "~/types";
+import { Paginated, QueryParams, ResponseRefTypeDto } from "@/types";
 import axios from "../axios";
 
 const findPaginated = async ({

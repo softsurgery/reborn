@@ -38,7 +38,7 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@reborn/mobile-components";
-import { identifyUser, identifyUserAvatar } from "@/lib/user.utils";
+import { identifyUser, identifyUserAvatar } from "@reborn/lib";
 import { useServerImage } from "@/hooks/content/useServerImage";
 import { useJobRequestActions } from "@/hooks/content/job/useJobRequestActions";
 import { useCurrentUser } from "@/hooks/content/user/useCurrentUser";
@@ -49,7 +49,7 @@ import {
   ResponseJobRequestDto,
 } from "@/types";
 import { cn } from "@reborn/lib";
-import { timeAgo } from "@/lib/dates.utils";
+import { timeAgo } from "@reborn/mobile-components";
 
 interface RequestDetailsProps {
   id: string;

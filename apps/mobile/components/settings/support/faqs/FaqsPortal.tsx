@@ -9,9 +9,9 @@ import {
 } from "@reborn/mobile-ui";
 import { Text } from "@reborn/mobile-ui";
 import { cn } from "@reborn/lib";
-import { StoreIDs } from "~/types";
+import { StoreIDs } from "@/types";
 import { StableSafeAreaView } from "@reborn/mobile-components";
-import { ApplicationHeader } from "~/components/shared/AppHeader";
+import { ApplicationHeader } from "@reborn/mobile-components";
 import { useTranslation } from "react-i18next";
 import { useDataStore } from "@/hooks/content/useDataStore";
 import { Loader } from "@reborn/mobile-components";
@@ -19,7 +19,7 @@ import { Icon } from "@reborn/mobile-ui";
 
 import { AppHeaderBack } from "@reborn/mobile-components";
 import { useRTL } from "@reborn/mobile-components";
-import StableScrollView from "@reborn/mobile-components";
+import { StableScrollView } from "@reborn/mobile-components";
 interface Faq {
   question: string;
   answer: string;

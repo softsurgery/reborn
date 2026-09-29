@@ -10,9 +10,9 @@ import {
 } from "lucide-react-native";
 import { router } from "expo-router";
 import { toast } from "sonner-native";
-import { api } from "~/api";
-import { ResponseMessageDto, ServerErrorResponse } from "~/types";
-import { ApplicationHeader } from "../../shared/AppHeader";
+import { api } from "@/api";
+import { ResponseMessageDto, ServerErrorResponse } from "@/types";
+import { ApplicationHeader } from "@reborn/mobile-components";
 import { useServerImages } from "@/hooks/content/useServerImages";
 import {
   CONVERSATION_LIST_JOIN,
@@ -29,7 +29,7 @@ import { DeleteConversationActionSheet } from "./DeleteConversationActionSheet";
 import { BlockUserActionSheet } from "./BlockUserActionSheet";
 import { useChatContext } from "@/contexts/ChatContext";
 import { useCurrentUser } from "@/hooks/content/user/useCurrentUser";
-import { identifyUser, identifyUserAvatar } from "@/lib/user.utils";
+import { identifyUser, identifyUserAvatar } from "@reborn/lib";
 import { StableSafeAreaView } from "@reborn/mobile-components";
 import { ConversationSearchOverlay } from "../conversation/search/ConversationSearchOverlay";
 

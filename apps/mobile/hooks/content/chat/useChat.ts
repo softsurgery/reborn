@@ -27,7 +27,7 @@ import {
 import { useSegments, useGlobalSearchParams } from "expo-router";
 import { useCurrentUser } from "../user/useCurrentUser";
 import { useAuthPersistStore } from "@reborn/hooks/stores";
-import { identifyUser } from "@/lib/user.utils";
+import { identifyUser } from "@reborn/lib";
 
 export const CONVERSATIONS_UNREAD_COUNT_QUERY_KEY = [
   "conversations-unread-count",

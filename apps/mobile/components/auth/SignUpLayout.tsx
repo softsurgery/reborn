@@ -2,10 +2,12 @@ import { cn } from "@reborn/lib";
 import { router } from "expo-router";
 import { View } from "react-native";
 import { FormBuilder } from "@reborn/mobile-form-builder";
-import { StableSafeAreaView } from "@reborn/mobile-components";
-import { ApplicationHeader } from "../shared/AppHeader";
+import {
+  ApplicationHeader,
+  StableSafeAreaView,
+} from "@reborn/mobile-components";
 import { ChevronLeft } from "lucide-react-native";
-import { Stepper } from "../shared/Stepper";
+import { Stepper } from "@reborn/mobile-components";
 import React from "react";
 import { ServerErrorResponse, Upload } from "@/types";
 import { toast } from "sonner-native";

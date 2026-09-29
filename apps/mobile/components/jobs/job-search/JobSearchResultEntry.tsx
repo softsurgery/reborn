@@ -4,8 +4,8 @@ import {
   StablePressableProps,
 } from "@reborn/mobile-components";
 import { Text } from "@reborn/mobile-ui";
-import { timeAgo } from "~/lib/dates.utils";
-import { ResponseJobDto } from "~/types";
+import { timeAgo } from "@reborn/mobile-components";
+import { ResponseJobDto } from "@/types";
 
 interface JobSearchResultEntryProps extends StablePressableProps {
   className?: string;

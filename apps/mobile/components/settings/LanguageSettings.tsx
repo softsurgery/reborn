@@ -5,8 +5,8 @@ import { cn } from "@reborn/lib";
 import { StableKeyboardAwareScrollView } from "@reborn/mobile-components";
 import { StableSafeAreaView } from "@reborn/mobile-components";
 import { useTranslation } from "react-i18next";
-import { ApplicationHeader } from "~/components/shared/AppHeader";
-import { LanguageSwitcher } from "../shared/LanguageSwitcher";
+import { ApplicationHeader } from "@reborn/mobile-components";
+import { LanguageSwitcher } from "@reborn/mobile-components";
 
 import { AppHeaderBack } from "@reborn/mobile-components";
 interface LanguageSettingsPortalProps {

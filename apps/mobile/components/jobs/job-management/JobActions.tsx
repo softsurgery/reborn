@@ -2,7 +2,7 @@ import React from "react";
 import { View, ScrollView } from "react-native";
 import { Text } from "@reborn/mobile-ui";
 import { ActionSheetRef } from "react-native-actions-sheet";
-import { ActionPressable } from "@reborn/mobile-components";
+import { ActionPressable } from "@/components/shared/ActionPressable";
 import { DuplicateJobActionSheet } from "./DuplicateJobActionSheet";
 import { ArchiveJobActionSheet } from "./ArchiveJobActionSheet";
 import { DeleteJobActionSheet } from "./DeleteJobActionSheet";

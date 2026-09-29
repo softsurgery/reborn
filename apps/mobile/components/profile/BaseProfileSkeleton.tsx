@@ -2,7 +2,7 @@ import React from "react";
 import { View } from "react-native";
 import { Skeleton } from "@reborn/mobile-ui";
 import { cn } from "@reborn/lib";
-import { useRTL } from "~/hooks/useRTL";
+import { useRTL } from "@reborn/mobile-components";
 
 interface BaseProfileSkeletonProps {
   className?: string;

@@ -1,6 +1,6 @@
 import { setDeepValue } from "@/lib/object.lib";
 import { create } from "zustand";
-import { CreateJobRequestDto } from "~/types";
+import { CreateJobRequestDto } from "@/types";
 
 interface JobApplyData {
   createDto: CreateJobRequestDto;

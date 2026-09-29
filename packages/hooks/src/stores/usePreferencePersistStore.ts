@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
+import { getPersistStorage } from "./persistStorage";
 
 interface PreferencePersistData {
   language: "en" | "fr" | "ar" | "system";
@@ -18,39 +19,37 @@ const preferencePersistStore: PreferencePersistData = {
   theme: "system",
 };
 
-let _set: (fn: Partial<PreferencePersistStore>) => void;
-
-const isClient = typeof window !== "undefined";
-
 export const usePreferencePersistStore = create<PreferencePersistStore>()(
   persist(
-    (set, get) => {
-      _set = set;
+    (set, get) => ({
+      ...preferencePersistStore,
+      isReady: false,
 
-      return {
-        ...preferencePersistStore,
-        isReady: false,
-
-        setTheme: (theme) => set({ theme }),
-        setLanguage: (language) => set({ language }),
-        toggleTheme: () =>
-          set((state) => ({
-            theme: state.theme === "light" ? "dark" : "light",
-          })),
-      };
-    },
+      setTheme: (theme) => set({ theme }),
+      setLanguage: (language) => set({ language }),
+      toggleTheme: () =>
+        set((state) => ({
+          theme: state.theme === "light" ? "dark" : "light",
+        })),
+    }),
     {
       name: "preference-storage",
-      storage: createJSONStorage(() =>
-        isClient
-          ? require("@react-native-async-storage/async-storage").default
-          : undefined,
-      ),
-      onRehydrateStorage: () => {
-        return () => {
-          _set({ isReady: true });
-        };
+      storage: createJSONStorage(() => getPersistStorage()),
+      onRehydrateStorage: () => () => {
+        usePreferencePersistStore.setState({ isReady: true });
       },
     },
   ),
 );
+
+const markPreferencePersistReady = () => {
+  usePreferencePersistStore.setState({ isReady: true });
+};
+
+if (usePreferencePersistStore.persist?.hasHydrated()) {
+  markPreferencePersistReady();
+} else {
+  usePreferencePersistStore.persist?.onFinishHydration(
+    markPreferencePersistReady,
+  );
+}

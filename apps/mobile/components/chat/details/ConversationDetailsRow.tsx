@@ -3,7 +3,7 @@ import { Icon } from "@reborn/mobile-ui";
 import { Switch } from "@reborn/mobile-ui";
 import { Text } from "@reborn/mobile-ui";
 import { useColorPalette } from "@reborn/mobile-components";
-import { hslToHex } from "@/lib/theme";
+import { hslToHex } from "@reborn/mobile-components";
 import { cn } from "@reborn/lib";
 import { ChevronRight, LucideIcon } from "lucide-react-native";
 import { TouchableOpacity, View } from "react-native";

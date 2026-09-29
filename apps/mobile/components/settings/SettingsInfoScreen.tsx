@@ -3,9 +3,9 @@ import { router } from "expo-router";
 import { ChevronLeft } from "lucide-react-native";
 import React from "react";
 import { View } from "react-native";
-import { ApplicationHeader } from "../shared/AppHeader";
+import { ApplicationHeader } from "@reborn/mobile-components";
 import { StableSafeAreaView } from "@reborn/mobile-components";
-import StableScrollView from "@reborn/mobile-components";
+import { StableScrollView } from "@reborn/mobile-components";
 import { Badge } from "@reborn/mobile-ui";
 import {
   Card,

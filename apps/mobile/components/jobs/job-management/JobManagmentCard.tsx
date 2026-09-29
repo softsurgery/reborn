@@ -1,5 +1,5 @@
 import React from "react";
-import { ThreeDotsActionSheet } from "@/components/shared/ThreeDotsActionSheet";
+import { ThreeDotsActionSheet } from "@reborn/mobile-components";
 import { Text } from "@reborn/mobile-ui";
 import { useServerImages } from "@/hooks/content/useServerImages";
 import { cn } from "@reborn/lib";

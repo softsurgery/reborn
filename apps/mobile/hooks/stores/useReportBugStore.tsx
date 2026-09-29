@@ -1,7 +1,7 @@
 import { create } from "zustand";
-import { generateDeviceInfo } from "~/lib/device-info";
-import { setDeepValue } from "~/lib/object.lib";
-import { CreateBugDto } from "~/types";
+import { generateDeviceInfo } from "@/lib/device-info";
+import { setDeepValue } from "@/lib/object.lib";
+import { CreateBugDto } from "@/types";
 
 interface ReportBugData {
   createDto: CreateBugDto;

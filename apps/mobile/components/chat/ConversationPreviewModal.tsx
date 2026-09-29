@@ -15,7 +15,7 @@ import { useServerImages } from "@/hooks/content/useServerImages";
 import { router } from "expo-router";
 import * as Haptics from "expo-haptics";
 import { ResponseConversationDto, ServerErrorResponse } from "@/types";
-import { identifyUser, identifyUserAvatar } from "@/lib/user.utils";
+import { identifyUser, identifyUserAvatar } from "@reborn/lib";
 import { useCurrentUser } from "@/hooks/content/user/useCurrentUser";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQueryClient } from "@tanstack/react-query";

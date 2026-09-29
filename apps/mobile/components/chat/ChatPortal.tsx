@@ -7,17 +7,17 @@ import { Search, Bell } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import { Pressable, RefreshControl, View } from "react-native";
 import { cn } from "@reborn/lib";
-import { ResponseConversationDto } from "~/types";
-import { ApplicationHeader } from "../shared/AppHeader";
+import { ResponseConversationDto } from "@/types";
+import { ApplicationHeader } from "@reborn/mobile-components";
 import { UserEntry } from "./UserEntry";
-import { MarkedInput } from "../shared/MarkedInput";
+import { MarkedInput } from "@reborn/mobile-components";
 import { Separator } from "@reborn/mobile-ui";
 import { useChat } from "@/hooks/content/chat/useChat";
-import { useNotificationContext } from "~/contexts/NotificationContext";
+import { useNotificationContext } from "@/contexts/NotificationContext";
 import { useCurrentUser } from "@/hooks/content/user/useCurrentUser";
-import { identifyUser, identifyUserAvatar } from "@/lib/user.utils";
+import { identifyUser, identifyUserAvatar } from "@reborn/lib";
 import { StableSafeAreaView } from "@reborn/mobile-components";
-import { NotFound } from "../shared/lotties/NotFound";
+import { NotFound } from "@reborn/mobile-components";
 import { UserEntrySkeleton } from "./UserEntrySkeleton";
 import { CONVERSATION_LIST_JOIN } from "@/lib/chat/chat";
 import { ConversationPreviewModal } from "./ConversationPreviewModal";
@@ -25,7 +25,7 @@ import Animated, {
   useAnimatedStyle,
   withTiming,
 } from "react-native-reanimated";
-import { InfiniteListFooter } from "@reborn/mobile-components";
+import { InfiniteListFooter } from "@/components/shared/InfiniteListFooter";
 interface ChatPortalProps {
   className?: string;
 }

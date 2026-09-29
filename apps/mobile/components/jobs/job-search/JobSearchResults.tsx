@@ -1,15 +1,15 @@
 import { useColorPalette } from "@reborn/mobile-components";
-import { InfiniteListFooter } from "@reborn/mobile-components";
+import { InfiniteListFooter } from "@/components/shared/InfiniteListFooter";
 import { LegendList } from "@legendapp/list";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { RefreshControl, View } from "react-native";
-import { api } from "~/api";
+import { api } from "@/api";
 import { Text } from "@reborn/mobile-ui";
 import { cn } from "@reborn/lib";
-import { ResponseJobDto } from "~/types";
+import { ResponseJobDto } from "@/types";
 import { router } from "expo-router";
-import { useJobStore } from "~/hooks/stores/useJobStore";
+import { useJobStore } from "@/hooks/stores/useJobStore";
 import { JobSearchResultEntry } from "./JobSearchResultEntry";
 import { JobSearchResultEntrySkeleton } from "./JobSearchResultEntrySkeleton";
 

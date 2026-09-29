@@ -5,7 +5,7 @@ import { Text } from "@reborn/mobile-ui";
 import { Button } from "@reborn/mobile-ui";
 import { Icon } from "@reborn/mobile-ui";
 import { useColorPalette } from "@reborn/mobile-components";
-import { hslToHex } from "@/lib/theme";
+import { hslToHex } from "@reborn/mobile-components";
 import { Ban } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 

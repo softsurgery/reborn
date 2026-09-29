@@ -5,7 +5,7 @@ import { StablePressable } from "@reborn/mobile-components";
 import { Text } from "@reborn/mobile-ui";
 import { cn } from "@reborn/lib";
 import { useColorPalette } from "@reborn/mobile-components";
-import { JobPricingType, ResponseJobDto } from "~/types";
+import { JobPricingType, ResponseJobDto } from "@/types";
 import { SeeMoreText } from "@reborn/mobile-components";
 
 interface JobDetailsBodyProps {

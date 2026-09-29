@@ -2,7 +2,7 @@ import {
   CreateEducationDto,
   ResponseEducationDto,
   UpdateEducationDto,
-} from "~/types";
+} from "@/types";
 import axios from "./axios";
 
 const findByUserId = async (

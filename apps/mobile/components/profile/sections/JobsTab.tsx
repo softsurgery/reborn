@@ -7,7 +7,7 @@ import {
   NativeScrollEvent,
 } from "react-native";
 import { LegendList } from "@legendapp/list";
-import { InfiniteListFooter } from "@reborn/mobile-components";
+import { InfiniteListFooter } from "@/components/shared/InfiniteListFooter";
 import { useInfiniteJobs } from "@/hooks/content/job/useInfiniteJobs";
 import { ResponseJobDto, ResponseUserDto } from "@/types";
 import { JobCard } from "@/components/jobs/JobCard";

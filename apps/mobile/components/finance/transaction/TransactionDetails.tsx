@@ -1,13 +1,13 @@
 import { View, ScrollView } from "react-native";
 import { useLocalSearchParams } from "expo-router";
-import { ApplicationHeader } from "~/components/shared/AppHeader";
+import { ApplicationHeader } from "@reborn/mobile-components";
 import { StableSafeAreaView } from "@reborn/mobile-components";
 import { Text } from "@reborn/mobile-ui";
 import { cn } from "@reborn/lib";
 import { PointTransaction, FundTransaction } from "@/types";
 import { AppHeaderBack } from "@reborn/mobile-components";
 import { useTranslation } from "react-i18next";
-import { useRTL } from "~/hooks/useRTL";
+import { useRTL } from "@reborn/mobile-components";
 import { useFinanceStore } from "@/hooks/stores/useFinanceStore";
 import React from "react";
 
