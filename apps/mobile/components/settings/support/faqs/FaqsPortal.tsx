@@ -6,20 +6,20 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "~/components/ui/accordion";
-import { Text } from "~/components/ui/text";
-import { cn } from "~/lib/utils";
+} from "@reborn/mobile-ui";
+import { Text } from "@reborn/mobile-ui";
+import { cn } from "@reborn/lib";
 import { StoreIDs } from "~/types";
-import { StableSafeAreaView } from "@/components/shared/stables/StableSafeAreaView";
+import { StableSafeAreaView } from "@reborn/mobile-components";
 import { ApplicationHeader } from "~/components/shared/AppHeader";
 import { useTranslation } from "react-i18next";
 import { useDataStore } from "@/hooks/content/useDataStore";
-import { Loader } from "@/components/shared/lotties/Loader";
-import { Icon } from "@/components/ui/icon";
+import { Loader } from "@reborn/mobile-components";
+import { Icon } from "@reborn/mobile-ui";
 
-import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
-import { useRTL } from "@/hooks/useRTL";
-import StableScrollView from "@/components/shared/stables/StableScrollView";
+import { AppHeaderBack } from "@reborn/mobile-components";
+import { useRTL } from "@reborn/mobile-components";
+import StableScrollView from "@reborn/mobile-components";
 interface Faq {
   question: string;
   answer: string;

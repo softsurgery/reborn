@@ -1,5 +1,5 @@
 import { ImageSource } from "expo-image";
-import { ImageFile } from "~/components/shared/form-builder/types";
+import { ImageFile } from "@reborn/mobile-form-builder";
 import { ResponseGenericUploadDto } from "~/types";
 
 export const extractImageFiles = (

@@ -1,14 +1,14 @@
 import React from "react";
-import StableScrollView from "../shared/stables/StableScrollView";
+import StableScrollView from "@reborn/mobile-components";
 import { DarkModePreferenceCard } from "./DarkModePreferenceCard";
 import { useTranslation } from "react-i18next";
 import { LanguageSwitcher } from "./LanguageSwitcher";
-import { Separator } from "../ui/separator";
+import { Separator } from "@reborn/mobile-ui";
 import { ChevronLeft, View } from "lucide-react-native";
 import { ApplicationHeader } from "../shared/AppHeader";
 import { router } from "expo-router";
-import { StableSafeAreaView } from "../shared/stables/StableSafeAreaView";
-import { cn } from "~/lib/utils";
+import { StableSafeAreaView } from "@reborn/mobile-components";
+import { cn } from "@reborn/lib";
 
 interface UserPreferencesPortalProps {
   className?: string;

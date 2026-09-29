@@ -5,9 +5,9 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion";
-import { Label } from "@/components/ui/label";
-import { Toggle } from "@/components/ui/toggle";
+} from "@reborn/ui";
+import { Label } from "@reborn/ui";
+import { Toggle } from "@reborn/ui";
 import { useRoleStore } from "@/hooks/stores/useRoleStore";
 
 interface PermissionAccordionsProps {

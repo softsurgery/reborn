@@ -1,12 +1,12 @@
 import React from "react";
 import { View } from "react-native";
-import { Button } from "../ui/button";
-import { Text } from "../ui/text";
+import { Button } from "@reborn/mobile-ui";
+import { Text } from "@reborn/mobile-ui";
 import { StableKeyboardAwareScrollView } from "./stables/StableKeyboardAwareScrollView";
 import { useKeyboardVisible } from "~/hooks/useKeyboardVisible";
 import { useRTL } from "~/hooks/useRTL";
-import { cn } from "~/lib/utils";
-import { Icon } from "../ui/icon";
+import { cn } from "@reborn/lib";
+import { Icon } from "@reborn/mobile-ui";
 import { ChevronLeft, ChevronRight } from "lucide-react-native";
 import { type VariantProps } from "class-variance-authority";
 import { useTranslation } from "react-i18next";

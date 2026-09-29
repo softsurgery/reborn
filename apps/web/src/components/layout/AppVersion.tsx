@@ -1,5 +1,5 @@
-import { Label } from "@/components/ui/label";
-import { cn } from "@/lib/utils";
+import { Label } from "@reborn/ui";
+import { cn } from "@reborn/lib";
 
 interface AppVersionProps {
   className?: string;

@@ -12,7 +12,7 @@ import {
   CardHeader,
   CardTitle,
   CardContent,
-} from "@/components/ui/card";
+} from "@reborn/ui";
 import { ResponseJobDto } from "@/types";
 
 interface JobOverviewCardProps {

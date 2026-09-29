@@ -1,11 +1,11 @@
 import { View, ScrollView } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { ApplicationHeader } from "~/components/shared/AppHeader";
-import { StableSafeAreaView } from "~/components/shared/stables/StableSafeAreaView";
-import { Text } from "~/components/ui/text";
-import { cn } from "~/lib/utils";
+import { StableSafeAreaView } from "@reborn/mobile-components";
+import { Text } from "@reborn/mobile-ui";
+import { cn } from "@reborn/lib";
 import { PointTransaction, FundTransaction } from "@/types";
-import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
+import { AppHeaderBack } from "@reborn/mobile-components";
 import { useTranslation } from "react-i18next";
 import { useRTL } from "~/hooks/useRTL";
 import { useFinanceStore } from "@/hooks/stores/useFinanceStore";

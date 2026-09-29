@@ -17,27 +17,27 @@ import {
   ExternalLink,
   ChevronRight,
 } from "lucide-react-native";
-import { ApplicationHeader } from "@/components/shared/AppHeader";
-import { BottomButtonWrapper } from "@/components/shared/BottomButtonBlockWrapper";
-import { StableSafeAreaView } from "@/components/shared/stables/StableSafeAreaView";
-import { StablePressable } from "@/components/shared/stables/StablePressable";
-import { Text } from "@/components/ui/text";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Icon } from "@/components/ui/icon";
-import { Skeleton } from "@/components/ui/skeleton";
+import { ApplicationHeader } from "@reborn/mobile-components";
+import { BottomButtonWrapper } from "@reborn/mobile-components";
+import { StableSafeAreaView } from "@reborn/mobile-components";
+import { StablePressable } from "@reborn/mobile-components";
+import { Text } from "@reborn/mobile-ui";
+import { Button } from "@reborn/mobile-ui";
+import { Badge } from "@reborn/mobile-ui";
+import { Icon } from "@reborn/mobile-ui";
+import { Skeleton } from "@reborn/mobile-ui";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from "@reborn/mobile-ui";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "@/components/shared/stables/StableAvatar";
+} from "@reborn/mobile-components";
 import { identifyUser, identifyUserAvatar } from "@/lib/user.utils";
 import { useServerImage } from "@/hooks/content/useServerImage";
 import { useJobRequestActions } from "@/hooks/content/job/useJobRequestActions";
@@ -48,7 +48,7 @@ import {
   ResponseJobDto,
   ResponseJobRequestDto,
 } from "@/types";
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 import { timeAgo } from "@/lib/dates.utils";
 
 interface RequestDetailsProps {

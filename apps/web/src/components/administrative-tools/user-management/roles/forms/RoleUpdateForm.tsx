@@ -1,9 +1,9 @@
 import React, { use } from "react";
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 import { useRoleStore } from "@/hooks/stores/useRoleStore";
 import { useUpdateRoleFormStructure } from "./useUpdateRoleFormStructure";
-import { FormBuilder } from "@/components/shared/form-builder/FormBuilder";
-import { Button } from "@/components/ui/button";
+import { FormBuilder } from "@reborn/form-builder";
+import { Button } from "@reborn/ui";
 import { Save } from "lucide-react";
 import { usePermissions } from "@/hooks/content/usePermissions";
 

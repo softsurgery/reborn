@@ -5,10 +5,10 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "@reborn/ui";
 import { Edit, Settings as SettingsIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
+import { Button } from "@reborn/ui";
+import { Separator } from "@reborn/ui";
 
 interface SettingsProps {
   className?: string;

@@ -5,7 +5,7 @@ import Animated, {
   useAnimatedStyle,
   withTiming,
 } from "react-native-reanimated";
-import { Text } from "@/components/ui/text";
+import { Text } from "@reborn/mobile-ui";
 import { View } from "react-native";
 
 interface NotFoundProps {

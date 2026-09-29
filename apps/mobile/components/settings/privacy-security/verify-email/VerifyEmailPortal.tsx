@@ -1,10 +1,10 @@
-import { cn } from "@/lib/utils";
-import { StableSafeAreaView } from "@/components/shared/stables/StableSafeAreaView";
-import { ApplicationHeader } from "@/components/shared/AppHeader";
+import { cn } from "@reborn/lib";
+import { StableSafeAreaView } from "@reborn/mobile-components";
+import { ApplicationHeader } from "@reborn/mobile-components";
 import { useTranslation } from "react-i18next";
-import { StableKeyboardAwareScrollView } from "@/components/shared/stables/StableKeyboardAwareScrollView";
+import { StableKeyboardAwareScrollView } from "@reborn/mobile-components";
 
-import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
+import { AppHeaderBack } from "@reborn/mobile-components";
 interface VerifyEmailPortalProps {
   className?: string;
 }

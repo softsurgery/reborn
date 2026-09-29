@@ -6,10 +6,10 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "@/components/shared/stables/StableAvatar";
-import { Skeleton } from "~/components/ui/skeleton";
-import { Text } from "~/components/ui/text";
-import { cn } from "~/lib/utils";
+} from "@reborn/mobile-components";
+import { Skeleton } from "@reborn/mobile-ui";
+import { Text } from "@reborn/mobile-ui";
+import { cn } from "@reborn/lib";
 
 interface UseServerImageProps {
   id?: number;

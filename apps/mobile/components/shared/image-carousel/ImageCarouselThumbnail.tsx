@@ -1,7 +1,7 @@
 import React from "react";
 import { TouchableOpacity, View, type ViewStyle } from "react-native";
 import { Image, ImageStyle } from "expo-image";
-import { cn } from "~/lib/utils";
+import { cn } from "@reborn/lib";
 import { ImageCarouselModal } from "./ImageCarouselModal";
 import { useImageCarouselModal } from "~/hooks/useImageCarouselModal";
 

@@ -2,14 +2,14 @@ import React, { forwardRef } from "react";
 import ActionSheet, { ActionSheetRef } from "react-native-actions-sheet";
 import * as Haptics from "expo-haptics";
 import { Keyboard, Pressable, View } from "react-native";
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 import { Ellipsis, type LucideIcon } from "lucide-react-native";
-import { Icon } from "../ui/icon";
-import { Text } from "../ui/text";
+import { Icon } from "@reborn/mobile-ui";
+import { Text } from "@reborn/mobile-ui";
 import { VariantProps } from "class-variance-authority";
-import { Button } from "@/components/ui/button";
-import { useColorPalette } from "@/hooks/useColorPalette";
-import { useRTL } from "@/hooks/useRTL";
+import { Button } from "@reborn/mobile-ui";
+import { useColorPalette } from "@reborn/mobile-components";
+import { useRTL } from "@reborn/mobile-components";
 
 interface ThreeDotsActionSheetProps {
   icon?: LucideIcon;

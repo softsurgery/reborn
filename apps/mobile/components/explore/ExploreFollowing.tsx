@@ -9,11 +9,11 @@ import {
   View,
 } from "react-native";
 import { JobCardSkeleton } from "../jobs/JobCardSkeleton";
-import { cn } from "~/lib/utils";
-import { InfiniteListFooter } from "@/components/shared/InfiniteListFooter";
+import { cn } from "@reborn/lib";
+import { InfiniteListFooter } from "@reborn/mobile-components";
 import { useInfiniteJobs } from "@/hooks/content/job/useInfiniteJobs";
 import { NotFound } from "../shared/lotties/NotFound";
-import { useColorPalette } from "@/hooks/useColorPalette";
+import { useColorPalette } from "@reborn/mobile-components";
 
 interface ExploreFollowingProps {
   className?: string;

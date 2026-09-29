@@ -5,7 +5,7 @@ import {
   FormStructure,
   TextFieldProps,
   TextareaFieldProps,
-} from "@/components/shared/form-builder/types";
+} from "@reborn/form-builder";
 import { ExperienceStore } from "@/hooks/stores/useExperienceStore";
 import { useTranslation } from "react-i18next";
 

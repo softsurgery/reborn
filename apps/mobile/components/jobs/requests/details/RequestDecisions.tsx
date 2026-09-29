@@ -4,15 +4,15 @@ import { router } from "expo-router";
 import { type ActionSheetRef } from "react-native-actions-sheet";
 import { Check, Clock, Mail, X, Pencil } from "lucide-react-native";
 import * as Haptics from "expo-haptics";
-import { Text } from "@/components/ui/text";
+import { Text } from "@reborn/mobile-ui";
 import { useJobRequestActions } from "@/hooks/content/job/useJobRequestActions";
 import { JobRequestStatus, ResponseJobRequestDto } from "@/types";
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 import { ApproveJobRequestActionSheet } from "./action-sheets/ApproveJobRequestActionSheet";
 import { DeclineJobRequestActionSheet } from "./action-sheets/DeclineJobRequestActionSheet";
 import { WaitlistJobRequestActionSheet } from "./action-sheets/WaitlistJobRequestActionSheet";
 import { WithdrawJobRequestActionSheet } from "./action-sheets/WithdrawJobRequestActionSheet";
-import { ActionPressable } from "@/components/shared/ActionPressable";
+import { ActionPressable } from "@reborn/mobile-components";
 
 interface RequestDecisionsProps {
   className?: string;

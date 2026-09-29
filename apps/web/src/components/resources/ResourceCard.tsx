@@ -3,12 +3,12 @@ import {
   CardContent,
   CardFooter,
   CardHeader,
-} from "@/components/ui/card";
+} from "@reborn/ui";
 import { Download, Eye, X } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import { Badge } from "@reborn/ui";
 import { format } from "date-fns";
-import { Button } from "../ui/button";
-import { cn } from "@/lib/utils";
+import { Button } from "@reborn/ui";
+import { cn } from "@reborn/lib";
 import { formatFileSize, getMediaTypeLabel } from "@/lib/file.utils";
 import { FileIcon } from "./FileIcon";
 import { ResourceCardSkeleton } from "./ResourceCardSkeleton";

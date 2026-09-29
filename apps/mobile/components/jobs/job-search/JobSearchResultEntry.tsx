@@ -2,8 +2,8 @@ import { View } from "react-native";
 import {
   StablePressable,
   StablePressableProps,
-} from "@/components/shared/stables/StablePressable";
-import { Text } from "~/components/ui/text";
+} from "@reborn/mobile-components";
+import { Text } from "@reborn/mobile-ui";
 import { timeAgo } from "~/lib/dates.utils";
 import { ResponseJobDto } from "~/types";
 

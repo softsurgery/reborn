@@ -22,10 +22,10 @@ import {
   X,
   Telescope,
 } from "lucide-react-native";
-import { Text } from "@/components/ui/text";
-import { Badge } from "@/components/ui/badge";
+import { Text } from "@reborn/mobile-ui";
+import { Badge } from "@reborn/mobile-ui";
 import { JobEvents, JobPricingType, JobStatus, ResponseJobDto } from "@/types";
-import { useColorPalette } from "@/hooks/useColorPalette";
+import { useColorPalette } from "@reborn/mobile-components";
 import { useServerImages } from "@/hooks/content/useServerImages";
 import { timeAgo } from "@/lib/dates.utils";
 import { router } from "expo-router";
@@ -34,8 +34,8 @@ import { toast } from "sonner-native";
 import { useNextWorkflowJob } from "@/hooks/content/job/workflow/useNextWorkflowJob";
 import { useDeleteJob } from "@/hooks/content/job/useDeleteJob";
 import { useQueryClient } from "@tanstack/react-query";
-import { cn } from "@/lib/utils";
-import { useRTL } from "@/hooks/useRTL";
+import { cn } from "@reborn/lib";
+import { useRTL } from "@reborn/mobile-components";
 import { useTranslation } from "react-i18next";
 import { MessageCircle } from "lucide-react-native";
 

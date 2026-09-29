@@ -1,9 +1,9 @@
-import Select from "./form-builder/components/Select";
+import { Select } from "@reborn/mobile-form-builder";
 import { useColorScheme } from "nativewind";
 import { setAndroidNavigationBar } from "@/lib/android-navigation-bar";
 import { Platform, Appearance } from "react-native";
 import { useTranslation } from "react-i18next";
-import { usePreferencePersistStore } from "@/hooks/stores/usePreferencePersistStore";
+import { usePreferencePersistStore } from "@reborn/hooks/stores";
 
 interface ThemeSwitcherProps {
   classNames?: {

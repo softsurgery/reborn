@@ -7,7 +7,7 @@ import {
   UpdateUserDto,
 } from "@/types";
 import { setDeepValue } from "@/lib/object.util";
-import { ImageFile } from "@/components/shared/form-builder/types";
+import { ImageFile } from "@reborn/form-builder";
 
 interface UserStoreData {
   response?: ResponseUserDto;

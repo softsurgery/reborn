@@ -75,10 +75,10 @@ export class JobEntity extends EntityHelper {
   worker: UserEntity;
 
   @Column({ nullable: true })
-  workerId: string;
+  workerId: string | null;
 
   @Column({ type: 'timestamp', nullable: true })
-  assignmentDate: Date;
+  assignmentDate: Date | null;
 
   @ManyToMany(() => RefParamEntity, {
     cascade: true,

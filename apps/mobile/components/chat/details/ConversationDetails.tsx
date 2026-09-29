@@ -22,7 +22,7 @@ import {
 import { ScrollView } from "react-native-gesture-handler";
 import { ConversationDetailsRow } from "./ConversationDetailsRow";
 import { useUserPresence } from "@/hooks/content/chat/useUserPresence";
-import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
+import { AppHeaderBack } from "@reborn/mobile-components";
 import { useTranslation } from "react-i18next";
 import { type ActionSheetRef } from "react-native-actions-sheet";
 import { DeleteConversationActionSheet } from "./DeleteConversationActionSheet";
@@ -30,7 +30,7 @@ import { BlockUserActionSheet } from "./BlockUserActionSheet";
 import { useChatContext } from "@/contexts/ChatContext";
 import { useCurrentUser } from "@/hooks/content/user/useCurrentUser";
 import { identifyUser, identifyUserAvatar } from "@/lib/user.utils";
-import { StableSafeAreaView } from "@/components/shared/stables/StableSafeAreaView";
+import { StableSafeAreaView } from "@reborn/mobile-components";
 import { ConversationSearchOverlay } from "../conversation/search/ConversationSearchOverlay";
 
 interface ConversationDetailsProps {

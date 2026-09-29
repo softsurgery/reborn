@@ -1,9 +1,9 @@
 import React from "react";
 import { ScrollView, View } from "react-native";
-import { Text } from "@/components/ui/text";
-import { Badge } from "@/components/ui/badge";
-import { ActionPressable } from "@/components/shared/ActionPressable";
-import { Loader } from "@/components/shared/lotties/Loader";
+import { Text } from "@reborn/mobile-ui";
+import { Badge } from "@reborn/mobile-ui";
+import { ActionPressable } from "@reborn/mobile-components";
+import { Loader } from "@reborn/mobile-components";
 import { useWorkflowJob } from "@/hooks/content/job/workflow/useWorkflowJob";
 import { useNextWorkflowJob } from "@/hooks/content/job/workflow/useNextWorkflowJob";
 import { useJob } from "@/hooks/content/job/useJob";
@@ -13,7 +13,7 @@ import { useTranslation } from "react-i18next";
 import { toast } from "sonner-native";
 import { ActionSheetRef } from "react-native-actions-sheet";
 import { JobEvents, ServerErrorResponse } from "@/types";
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 import { identifyUser } from "@/lib/user.utils";
 import {
   getAvailableLifecycleEvents,

@@ -1,8 +1,8 @@
 import React from "react";
 import { View } from "react-native";
-import { Text } from "@/components/ui/text";
+import { Text } from "@reborn/mobile-ui";
 import { ResponseJobRequestDto } from "@/types";
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 
 interface RequestApplicationDetailsProps {
   className?: string;

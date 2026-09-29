@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { message as messageApi } from "~/api/chat/message";
-import { useDebounce } from "@/hooks/useDebounce";
+import { useDebounce } from "@reborn/hooks/utils";
 import { filterMessagesByContentQuery } from "@/lib/chat/message-search";
 import { MESSAGE_SEARCH_JOIN } from "@/lib/chat/chat";
 

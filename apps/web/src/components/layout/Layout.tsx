@@ -1,20 +1,20 @@
 import React from "react";
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 import { Header } from "./Header";
 import {
   BreadcrumbContext,
-  BreadcrumbRoute,
-} from "../../contexts/BreadcrumbContext";
+  type BreadcrumbRoute,
+} from "@reborn/contexts";
 import { cacheBreadcrumbTitle } from "@/hooks/useAutoBreadcrumbs";
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { SidebarInset, SidebarProvider } from "@reborn/ui";
 import { AppVersion } from "./AppVersion";
 import { AppSidebar } from "./sidebar/AppSidebar";
 import { Footer } from "./Footer";
-import { FooterContext } from "@/contexts/FooterContext";
-import { IntroContext } from "@/contexts/IntroContext";
+import { FooterContext } from "@reborn/contexts";
+import { IntroContext } from "@reborn/contexts";
 import { useUi } from "@/contexts/UiContext";
 import { PageHeader } from "./PageHeader";
-import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { useMediaQuery } from "@reborn/ui";
 
 interface LayoutProps {
   children: React.ReactNode;

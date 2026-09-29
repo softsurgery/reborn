@@ -4,7 +4,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { AnimatedLegendList } from "@legendapp/list/reanimated";
-import { InfiniteListFooter } from "@/components/shared/InfiniteListFooter";
+import { InfiniteListFooter } from "@reborn/mobile-components";
 import {
   RefreshControl,
   View,
@@ -13,19 +13,19 @@ import {
 } from "react-native";
 import { Search, Briefcase } from "lucide-react-native";
 import { ResponseJobDto, JobStatus } from "~/types";
-import { cn } from "~/lib/utils";
+import { cn } from "@reborn/lib";
 import { ApplicationHeader } from "~/components/shared/AppHeader";
-import { StableSafeAreaView } from "@/components/shared/stables/StableSafeAreaView";
-import { MarkedInput } from "@/components/shared/MarkedInput";
+import { StableSafeAreaView } from "@reborn/mobile-components";
+import { MarkedInput } from "@reborn/mobile-components";
 import { useInfiniteJobs } from "@/hooks/content/job/useInfiniteJobs";
 import { useCurrentUser } from "@/hooks/content/user/useCurrentUser";
-import { Loader } from "@/components/shared/lotties/Loader";
+import { Loader } from "@reborn/mobile-components";
 import { JobManagementCard } from "@/components/jobs/job-management/JobManagmentCard";
-import { Icon } from "@/components/ui/icon";
-import { Text } from "@/components/ui/text";
-import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
+import { Icon } from "@reborn/mobile-ui";
+import { Text } from "@reborn/mobile-ui";
+import { AppHeaderBack } from "@reborn/mobile-components";
 import { useStickyElement } from "@/hooks/useStickyElement";
-import { useColorPalette } from "@/hooks/useColorPalette";
+import { useColorPalette } from "@reborn/mobile-components";
 import { MyJobPreviewModal } from "@/components/jobs/job-management/MyJobPreviewModal";
 import { useTranslation } from "react-i18next";
 

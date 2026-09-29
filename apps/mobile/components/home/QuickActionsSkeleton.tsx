@@ -1,8 +1,8 @@
 import React from "react";
 import { View } from "react-native";
-import { Skeleton } from "~/components/ui/skeleton";
-import { Separator } from "~/components/ui/separator";
-import { cn } from "~/lib/utils";
+import { Skeleton } from "@reborn/mobile-ui";
+import { Separator } from "@reborn/mobile-ui";
+import { cn } from "@reborn/lib";
 
 interface QuickActionsSkeletonProps {
   className?: string;

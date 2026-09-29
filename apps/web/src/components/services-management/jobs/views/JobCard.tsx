@@ -1,13 +1,13 @@
 import React from "react";
 import { useServerImages } from "@/hooks/content/useServerImages";
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 import { ResponseJobDto } from "@/types";
-import { DataTableConfig } from "@/components/shared/data-tables/types";
+import { DataTableConfig } from "@reborn/datatable-builder";
 import { identifyUser, identifyUserAvatar } from "@/lib/user.utils";
 import { timeAgo } from "@/lib/date.lib";
 import { getStyleBadgeColor, getDifficultyBadgeColor } from "../job-details";
 import { Image as ImageIcon, Tag as TagIcon, Layers } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@reborn/ui";
 import { useTranslation } from "react-i18next";
 import Link from "next/link";
 import Image from "next/image";

@@ -1,10 +1,10 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { useServerImages } from "@/hooks/content/useServerImages";
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 import { identifyUser, identifyUserAvatar } from "@/lib/user.utils";
 import { ResponseUserDto } from "@/types";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@reborn/ui";
 
 interface UserEntryProps {
   className?: string;

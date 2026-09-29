@@ -1,7 +1,7 @@
 import { View, Pressable } from "react-native";
-import { Text } from "~/components/ui/text";
+import { Text } from "@reborn/mobile-ui";
 import type { ErrorBoundaryProps as EBP } from "expo-router";
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 
 interface ErrorBoundaryProps extends EBP {
   className?: string;

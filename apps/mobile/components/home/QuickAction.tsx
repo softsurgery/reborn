@@ -9,13 +9,13 @@ import {
   ChevronRight,
   LucideIcon,
 } from "lucide-react-native";
-import { Icon } from "~/components/ui/icon";
-import { Text } from "~/components/ui/text";
-import { Badge } from "~/components/ui/badge";
-import { Separator } from "~/components/ui/separator";
-import { cn } from "~/lib/utils";
-import { useColorPalette } from "@/hooks/useColorPalette";
-import { useRTL } from "@/hooks/useRTL";
+import { Icon } from "@reborn/mobile-ui";
+import { Text } from "@reborn/mobile-ui";
+import { Badge } from "@reborn/mobile-ui";
+import { Separator } from "@reborn/mobile-ui";
+import { cn } from "@reborn/lib";
+import { useColorPalette } from "@reborn/mobile-components";
+import { useRTL } from "@reborn/mobile-components";
 import { useTranslation } from "react-i18next";
 
 export interface QuickActionProps {

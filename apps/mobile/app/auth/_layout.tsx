@@ -1,7 +1,7 @@
 import React from "react";
 import { Stack } from "expo-router";
-import { ThemeToggle } from "@/components/shared/ThemeToggle";
-import { useRTL } from "@/hooks/useRTL";
+import { ThemeToggle } from "@reborn/mobile-components";
+import { useRTL } from "@reborn/mobile-components";
 
 export default function AuthLayout() {
   const isRTL = useRTL();

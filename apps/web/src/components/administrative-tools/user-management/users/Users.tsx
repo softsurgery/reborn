@@ -1,12 +1,12 @@
 import React from "react";
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 import { api } from "@/api";
-import { useBreadcrumb } from "@/contexts/BreadcrumbContext";
-import { useDebounce } from "@/hooks/useDebounce";
+import { useBreadcrumb } from "@reborn/contexts";
+import { useDebounce } from "@reborn/hooks/utils";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useUserColumns } from "./columns";
-import { DataTable } from "@/components/shared/data-tables/data-table";
+import { DataTable } from "@reborn/datatable-builder";
 import { useUserDeleteDialog } from "./modals/UserDeleteDialog";
 import { useActivateUserDialog } from "./modals/UserActivateDialog";
 import { useDeactivateUserDialog } from "./modals/UserDeactivateDialog";
@@ -17,13 +17,13 @@ import {
   ServerErrorResponse,
   UpdateUserDto,
 } from "@/types";
-import { useIntro } from "@/contexts/IntroContext";
+import { useIntro } from "@reborn/contexts";
 import { ArrowDown, ArrowUp, BellPlus } from "lucide-react";
 import { useApproveUserDialog } from "./modals/UserApproveDialog";
 import { useDisapproveUserDialog } from "./modals/UserDisapproveDialog";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "next/router";
-import { DataTableConfig } from "@/components/shared/data-tables/types";
+import { DataTableConfig } from "@reborn/datatable-builder";
 import { useUploads } from "@/hooks/content/useUploads";
 import { useUpload } from "@/hooks/content/useUpload";
 

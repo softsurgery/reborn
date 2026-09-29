@@ -3,9 +3,9 @@ import {
   CardContent,
   CardFooter,
   CardHeader,
-} from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
-import { cn } from "@/lib/utils";
+} from "@reborn/ui";
+import { Skeleton } from "@reborn/ui";
+import { cn } from "@reborn/lib";
 
 interface ResourceCardSkeletonProps {
   className?: string;

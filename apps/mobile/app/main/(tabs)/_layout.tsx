@@ -10,13 +10,13 @@ import {
 import { useTranslation } from "react-i18next";
 import { useRTL } from "~/hooks/useRTL";
 import { ColorValue, GestureResponderEvent } from "react-native";
-import { useColorPalette } from "@/hooks/useColorPalette";
-import { Icon } from "@/components/ui/icon";
+import { useColorPalette } from "@reborn/mobile-components";
+import { Icon } from "@reborn/mobile-ui";
 import { ActionSheetRef } from "react-native-actions-sheet";
 import { ProfileQuickMenuActionSheet } from "~/components/profile/ProfileQuickMenuActionSheet";
 import { MenuTabAvatar } from "~/components/shared/MenuTabAvatar";
 import React from "react";
-import TabButton, { TabButtonProps } from "@/components/shared/TabButton";
+import TabButton, { TabButtonProps } from "@reborn/mobile-components";
 import { BottomTabBarButtonProps } from "expo-router/build/react-navigation/bottom-tabs";
 
 export default function TabLayout() {

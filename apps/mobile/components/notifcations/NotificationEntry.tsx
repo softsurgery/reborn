@@ -1,13 +1,13 @@
 import { useTranslation } from "react-i18next";
 import { Pressable, View } from "react-native";
-import { Image } from "@/components/ui/image";
-import { cn } from "~/lib/utils";
+import { Image } from "@reborn/mobile-ui";
+import { cn } from "@reborn/lib";
 import {
   NotificationType,
   ResponseNotificationDto,
 } from "~/types/notifications";
 import { HTMLText } from "../shared/HTMLText";
-import { Text } from "../ui/text";
+import { Text } from "@reborn/mobile-ui";
 import { timeAgo } from "~/lib/dates.utils";
 import { useNotificationPicture } from "~/hooks/content/notifications/useNotificationPicture";
 import { router } from "expo-router";

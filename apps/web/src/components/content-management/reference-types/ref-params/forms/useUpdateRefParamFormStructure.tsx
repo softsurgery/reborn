@@ -7,10 +7,10 @@ import {
   SelectOption,
   TextareaFieldProps,
   TextFieldProps,
-} from "@/components/shared/form-builder/types";
+} from "@reborn/form-builder";
 import { ReferenceTypesStore } from "@/hooks/stores/useReferenceTypesStore";
 import { RefParamExtras } from "../../../../shared/JSONExtras";
-import { JSONValue } from "@/components/shared/JsonEditor";
+import { JSONValue } from "@reborn/components";
 
 interface RefParamUpdateFormStructureProps {
   referenceTypesStore?: ReferenceTypesStore;

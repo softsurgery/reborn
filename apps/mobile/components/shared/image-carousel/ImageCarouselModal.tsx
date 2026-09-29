@@ -9,7 +9,7 @@ import { useSharedValue } from "react-native-reanimated";
 import { Image, ImageSource } from "expo-image";
 import { useColorScheme } from "nativewind";
 import { THEME } from "~/lib/theme";
-import { Text } from "~/components/ui/text";
+import { Text } from "@reborn/mobile-ui";
 
 interface ImageCarouselModalProps {
   visible: boolean;

@@ -1,21 +1,21 @@
 import React from "react";
-import { cn } from "~/lib/utils";
+import { cn } from "@reborn/lib";
 import { useMutation } from "@tanstack/react-query";
 import { View } from "react-native";
 import { api } from "~/api";
 import { useAuthStore } from "~/hooks/stores/useAuthStore";
-import { Text } from "../ui/text";
-import { FormBuilder } from "../shared/form-builder/FormBuilder";
+import { Text } from "@reborn/mobile-ui";
+import { FormBuilder } from "@reborn/mobile-form-builder";
 import { useSignInFormStructure } from "./useSignInFormStructure";
-import { Button } from "../ui/button";
+import { Button } from "@reborn/mobile-ui";
 import { ChevronLeft } from "lucide-react-native";
-import DividerWithText from "../ui/divider-with-text";
+import { DividedText } from "@reborn/mobile-components";
 import { requestSignInDtoSchema } from "~/types/validations/auth.validation";
 import { ServerErrorResponse } from "~/types";
-import { StableKeyboardAwareScrollView } from "../shared/stables/StableKeyboardAwareScrollView";
+import { StableKeyboardAwareScrollView } from "@reborn/mobile-components";
 import { router } from "expo-router";
 import { SSOButtons } from "./SSOButtons";
-import { StableSafeAreaView } from "../shared/stables/StableSafeAreaView";
+import { StableSafeAreaView } from "@reborn/mobile-components";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner-native";
 import { ApplicationHeader } from "../shared/AppHeader";
@@ -106,7 +106,7 @@ export const SignInLayout = ({ className }: SignInLayoutProps) => {
                 </Text>
               </Button>
 
-              <DividerWithText text="OR" />
+              <DividedText text="OR" />
 
               <SSOButtons className="my-1" isSignInPending={isSignInPending} />
             </View>

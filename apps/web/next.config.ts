@@ -1,8 +1,27 @@
-/** @type {import('next').NextConfig} */
+import type { NextConfig } from "next";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const dir = path.dirname(fileURLToPath(import.meta.url));
+const monorepoRoot = path.resolve(dir, "../..");
 const { version } = require("./package.json");
 
-const nextConfig = {
+const nextConfig: NextConfig = {
   reactStrictMode: true,
+  transpilePackages: [
+    "@reborn/ui",
+    "@reborn/components",
+    "@reborn/form-builder",
+    "@reborn/datatable-builder",
+    "@reborn/hooks",
+    "@reborn/contexts",
+    "@reborn/lib",
+    "@reborn/api-client",
+  ],
+  outputFileTracingRoot: monorepoRoot,
+  turbopack: {
+    root: monorepoRoot,
+  },
   images: {
     unoptimized: true,
     remotePatterns: [
@@ -21,4 +40,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+export default nextConfig;

@@ -5,7 +5,7 @@ import {
   FieldVariant,
   FormStructure,
   PasswordFieldProps,
-} from "~/components/shared/form-builder/types";
+} from "@reborn/mobile-form-builder";
 
 interface UseChangePasswordFormStructureProps {
   store: UserStore;

@@ -7,7 +7,7 @@ import {
   CardDescription,
   CardAction,
   CardContent,
-} from "@/components/ui/card";
+} from "@reborn/ui";
 import { AbstractGoogleMap } from "@/components/shared/maps/AbstractGoogleMap";
 import { ResponseJobDto } from "@/types";
 

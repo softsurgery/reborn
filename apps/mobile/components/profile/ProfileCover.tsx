@@ -4,7 +4,7 @@ import * as Haptics from "expo-haptics";
 import { Keyboard, View } from "react-native";
 import { FadeIn } from "react-native-reanimated";
 import { AnimatedPressable } from "../shared/AnimatedPressable";
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 import { Eye, Camera } from "lucide-react-native";
 import { PhotoPreview, PhotoPreviewRef } from "../shared/PhotoPreview";
 import { api } from "@/api";

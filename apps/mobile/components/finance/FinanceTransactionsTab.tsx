@@ -7,12 +7,12 @@ import {
   Calendar,
   MoreHorizontal,
 } from "lucide-react-native";
-import { Separator } from "~/components/ui/separator";
-import { cn } from "~/lib/utils";
-import { Text } from "~/components/ui/text";
+import { Separator } from "@reborn/mobile-ui";
+import { cn } from "@reborn/lib";
+import { Text } from "@reborn/mobile-ui";
 import { usePointTransactions } from "~/hooks/content/finance/useFinance";
 import { PointTransaction } from "@/types";
-import { useColorPalette } from "~/hooks/useColorPalette";
+import { useColorPalette } from "@reborn/mobile-components";
 import { useTranslation } from "react-i18next";
 import { useFinanceStore } from "@/hooks/stores/useFinanceStore";
 

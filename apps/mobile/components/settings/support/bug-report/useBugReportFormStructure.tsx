@@ -6,7 +6,7 @@ import {
   SelectFieldProps,
   TextareaFieldProps,
   TextFieldProps,
-} from "@/components/shared/form-builder/types";
+} from "@reborn/mobile-form-builder";
 import { useTranslation } from "react-i18next";
 import { ReportBugStore } from "@/hooks/stores/useReportBugStore";
 

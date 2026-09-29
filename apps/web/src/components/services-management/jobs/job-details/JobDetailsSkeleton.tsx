@@ -1,6 +1,6 @@
 import React from "react";
-import { Skeleton } from "@/components/ui/skeleton";
-import { cn } from "@/lib/utils";
+import { Skeleton } from "@reborn/ui";
+import { cn } from "@reborn/lib";
 
 interface JobDetailsSkeletonProps {
   className?: string;

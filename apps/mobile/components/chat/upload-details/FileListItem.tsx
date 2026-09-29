@@ -1,4 +1,4 @@
-import { Text } from "@/components/ui/text";
+import { Text } from "@reborn/mobile-ui";
 
 import { ResponseMessageDto, ResponseMessageUploadFileDto } from "@/types";
 import { Upload } from "@/types/upload";
@@ -13,7 +13,7 @@ import {
   openUploadFile,
 } from "@/lib/files/files";
 import { useServerUploads } from "@/hooks/content/useServerUploads";
-import { FileTypeIcon } from "@/components/shared/FileTypeIcon";
+import { FileTypeIcon } from "@reborn/mobile-components";
 
 interface FileListItemProps {
   message: ResponseMessageDto;

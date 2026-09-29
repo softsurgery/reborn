@@ -5,25 +5,25 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/api";
 import { useSkills } from "@/hooks/content/reference-types/useSkills";
 import { useUserSkills } from "@/hooks/content/user/useUserSkills";
-import { cn } from "@/lib/utils";
-import { StableSafeAreaView } from "@/components/shared/stables/StableSafeAreaView";
-import { ApplicationHeader } from "@/components/shared/AppHeader";
-import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
-import { Text } from "@/components/ui/text";
+import { cn } from "@reborn/lib";
+import { StableSafeAreaView } from "@reborn/mobile-components";
+import { ApplicationHeader } from "@reborn/mobile-components";
+import { AppHeaderBack } from "@reborn/mobile-components";
+import { Text } from "@reborn/mobile-ui";
 import { Loader2 } from "lucide-react-native";
-import { Icon } from "@/components/ui/icon";
+import { Icon } from "@reborn/mobile-ui";
 import * as Haptics from "expo-haptics";
-import { Button } from "@/components/ui/button";
-import { useKeyboardVisible } from "@/hooks/useKeyboardVisible";
+import { Button } from "@reborn/mobile-ui";
+import { useKeyboardVisible } from "@reborn/mobile-components";
 import { toast } from "sonner-native";
-import { FormBuilder } from "@/components/shared/form-builder/FormBuilder";
+import { FormBuilder } from "@reborn/mobile-form-builder";
 import {
   FieldVariant,
   FormStructure,
   MultiSelectFieldProps,
-} from "@/components/shared/form-builder/types";
-import { StableKeyboardAwareScrollView } from "@/components/shared/stables/StableKeyboardAwareScrollView";
-import { BottomButtonWrapper } from "@/components/shared/BottomButtonBlockWrapper";
+} from "@reborn/mobile-form-builder";
+import { StableKeyboardAwareScrollView } from "@reborn/mobile-components";
+import { BottomButtonWrapper } from "@reborn/mobile-components";
 import { useTranslation } from "react-i18next";
 import { useCurrentUser } from "@/hooks/content/user/useCurrentUser";
 

@@ -1,10 +1,10 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Card, CardContent } from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@reborn/ui";
+import { Card, CardContent } from "@reborn/ui";
 import {
   identifyUser,
   identifyUserAvatar,
 } from "@/lib/users-management/utils/identify-user.util";
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 import { ResponseUserDto } from "@/types";
 
 interface UserCardProps {

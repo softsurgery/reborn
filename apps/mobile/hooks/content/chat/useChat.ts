@@ -26,7 +26,7 @@ import {
 } from "@/lib/chat/chat";
 import { useSegments, useGlobalSearchParams } from "expo-router";
 import { useCurrentUser } from "../user/useCurrentUser";
-import { useAuthPersistStore } from "@/hooks/stores/useAuthPersistStore";
+import { useAuthPersistStore } from "@reborn/hooks/stores";
 import { identifyUser } from "@/lib/user.utils";
 
 export const CONVERSATIONS_UNREAD_COUNT_QUERY_KEY = [

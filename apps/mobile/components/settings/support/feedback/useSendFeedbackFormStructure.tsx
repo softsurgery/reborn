@@ -1,5 +1,5 @@
 import { SendFeedbackStore } from "@/hooks/stores/useFeedbackManager";
-import { useColorPalette } from "@/hooks/useColorPalette";
+import { useColorPalette } from "@reborn/mobile-components";
 import { hslToHex } from "@/lib/theme";
 import { useTranslation } from "react-i18next";
 import {
@@ -9,7 +9,7 @@ import {
   RatingFieldProps,
   SelectFieldProps,
   TextareaFieldProps,
-} from "~/components/shared/form-builder/types";
+} from "@reborn/mobile-form-builder";
 import { FeedbackCategory } from "~/types";
 
 interface useSendFeedbackFormStructureProps {

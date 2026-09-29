@@ -28,7 +28,7 @@ import {
   SidebarHeader,
   SidebarRail,
   useSidebar,
-} from "@/components/ui/sidebar";
+} from "@reborn/ui";
 import { MainNav } from "./MainNav";
 import { TeamSwitcher } from "./TeamSwitcher";
 import { useTranslation } from "react-i18next";

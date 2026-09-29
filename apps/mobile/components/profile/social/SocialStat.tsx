@@ -1,9 +1,9 @@
 import React from "react";
 import { Pressable, View } from "react-native";
 import { router } from "expo-router";
-import { Text } from "~/components/ui/text";
+import { Text } from "@reborn/mobile-ui";
 import { useUserStore } from "~/hooks/stores/useUserStore";
-import { cn } from "~/lib/utils";
+import { cn } from "@reborn/lib";
 import { useTranslation } from "react-i18next";
 import { useRTL } from "~/hooks/useRTL";
 import { useSocialStat } from "~/hooks/content/user/useSocialStat";

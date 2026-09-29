@@ -6,7 +6,7 @@ import {
 } from "./xstate-machine";
 
 import { ResponseJobDto, JobStatus, ResponseJobWorkflowDto } from "@/types";
-import { Button } from "@/components/ui/button";
+import { Button } from "@reborn/ui";
 import {
   X,
   ArrowRight,
@@ -21,12 +21,12 @@ import {
   Zap,
   Server,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 import { toast } from "sonner";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/api";
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@reborn/ui";
 
 export interface JobWorkflowInspectorProps {
   selectedConfig: StateNodeConfig | null;

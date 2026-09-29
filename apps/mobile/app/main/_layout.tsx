@@ -1,8 +1,8 @@
 import React from "react";
 import { Stack } from "expo-router";
 import { useCheckHealth } from "~/hooks/content/useCheckHealth";
-import { useAuthPersistStore } from "~/hooks/stores/useAuthPersistStore";
-import { useColorPalette } from "@/hooks/useColorPalette";
+import { useAuthPersistStore } from "@reborn/hooks/stores";
+import { useColorPalette } from "@reborn/mobile-components";
 import { NotificationType } from "@/types";
 import { useNotifications } from "@/hooks/content/notifications/useNotification";
 import { useQueryClient } from "@tanstack/react-query";
@@ -11,7 +11,7 @@ import { ChatContext } from "@/contexts/ChatContext";
 import { useChatPendingSync } from "@/hooks/content/chat/useChatPendingSync";
 import { useChat } from "@/hooks/content/chat/useChat";
 import * as Notifications from "expo-notifications";
-import { useRTL } from "@/hooks/useRTL";
+import { useRTL } from "@reborn/mobile-components";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({

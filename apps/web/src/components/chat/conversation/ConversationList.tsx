@@ -5,8 +5,8 @@ import { ResponseConversationDto, ResponseMessageDto } from "@/types";
 import ConversationItem from "./ConversationItem";
 import { useUserStore } from "@/hooks/stores/useUserStore";
 import { useTranslation } from "react-i18next";
-import { Spinner } from "@/components/shared/Spinner";
-import { cn } from "@/lib/utils";
+import { Spinner } from "@reborn/components";
+import { cn } from "@reborn/lib";
 import { identifyUser } from "@/lib/user.utils";
 import { formatMessageTime } from "@/lib/date.lib";
 import {
@@ -16,8 +16,8 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+} from "@reborn/ui";
+import { Button } from "@reborn/ui";
 import { useConversationComposeDialog } from "./modals/ConversationComposeDialog";
 import { useUsers } from "@/hooks/content/User/useUsers";
 import { toast } from "sonner";

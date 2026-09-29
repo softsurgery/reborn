@@ -1,8 +1,8 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { ResponseDeviceInfoDto } from "@/types";
-import { DataTableColumnHeader } from "@/components/shared/data-tables/data-table-column-header";
+import { DataTableColumnHeader } from "@reborn/datatable-builder";
 import { useTranslation } from "react-i18next";
-import { DataTableConfig } from "@/components/shared/data-tables/types";
+import { DataTableConfig } from "@reborn/datatable-builder";
 
 export const useDeviceInfoColumns = (
   context: DataTableConfig<ResponseDeviceInfoDto>

@@ -19,9 +19,9 @@ import {
   Signal,
   X,
 } from "lucide-react-native";
-import { Text } from "../ui/text";
+import { Text } from "@reborn/mobile-ui";
 import { JobPricingType, ResponseJobDto } from "~/types";
-import { useColorPalette } from "@/hooks/useColorPalette";
+import { useColorPalette } from "@reborn/mobile-components";
 import { useServerImages } from "@/hooks/content/useServerImages";
 import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
 import { timeAgo } from "~/lib/dates.utils";
@@ -29,7 +29,7 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "../shared/stables/StableAvatar";
+} from "@reborn/mobile-components";
 import { router } from "expo-router";
 import * as Haptics from "expo-haptics";
 import { toast } from "sonner-native";

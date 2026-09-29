@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { Button } from "@reborn/ui";
+import { cn } from "@reborn/lib";
 import { useRouter } from "next/router";
 
 interface StillPendingProps {

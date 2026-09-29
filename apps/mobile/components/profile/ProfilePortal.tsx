@@ -2,14 +2,14 @@ import React from "react";
 import { Bell, FlaskConical, Settings, User } from "lucide-react-native";
 import { ApplicationHeader } from "../shared/AppHeader";
 import { router } from "expo-router";
-import { StableSafeAreaView } from "../shared/stables/StableSafeAreaView";
-import { cn } from "~/lib/utils";
+import { StableSafeAreaView } from "@reborn/mobile-components";
+import { cn } from "@reborn/lib";
 import { useNotificationContext } from "~/contexts/NotificationContext";
 import { useTranslation } from "react-i18next";
 import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
 import { View } from "react-native";
 import { InspectBaseProfile } from "./BaseProfile";
-import { useColorPalette } from "@/hooks/useColorPalette";
+import { useColorPalette } from "@reborn/mobile-components";
 import { hslToHex } from "@/lib/theme";
 
 interface ProfilePortalProps {

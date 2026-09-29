@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 import {
   EmailFieldProps,
   Field,
@@ -6,7 +6,7 @@ import {
   FormStructure,
   PasswordFieldProps,
   TextFieldProps,
-} from "~/components/shared/form-builder/types";
+} from "@reborn/mobile-form-builder";
 import { AuthStore } from "~/hooks/stores/useAuthStore";
 
 interface useSignUpFormStructureProps {

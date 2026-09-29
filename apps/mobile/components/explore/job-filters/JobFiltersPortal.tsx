@@ -1,21 +1,21 @@
 import React from "react";
 import { View } from "react-native";
-import { Text } from "~/components/ui/text";
-import { cn } from "~/lib/utils";
+import { Text } from "@reborn/mobile-ui";
+import { cn } from "@reborn/lib";
 import { ChevronLeft } from "lucide-react-native";
 import { router } from "expo-router";
-import { useKeyboardVisible } from "@/hooks/useKeyboardVisible";
+import { useKeyboardVisible } from "@reborn/mobile-components";
 import { useExploreFilterStore } from "@/hooks/stores/userExploreFilterStore";
-import { StableKeyboardAwareScrollView } from "@/components/shared/stables/StableKeyboardAwareScrollView";
-import { FormBuilder } from "@/components/shared/form-builder/FormBuilder";
+import { StableKeyboardAwareScrollView } from "@reborn/mobile-components";
+import { FormBuilder } from "@reborn/mobile-form-builder";
 import { useJobCategories } from "@/hooks/content/reference-types/useJobCategories";
 import { useJobTags } from "@/hooks/content/reference-types/useJobTags";
 import { useExploreFilterFormStructure } from "./useExploreFiltersFormStructure";
-import { mapToSelectOptions } from "@/components/shared/form-builder/utils/mapToSelectOptions";
+import { mapToSelectOptions } from "@reborn/mobile-form-builder";
 import { useSkills } from "@/hooks/content/reference-types/useSkills";
-import { Button } from "@/components/ui/button";
-import { StableSafeAreaView } from "@/components/shared/stables/StableSafeAreaView";
-import { ApplicationHeader } from "@/components/shared/AppHeader";
+import { Button } from "@reborn/mobile-ui";
+import { StableSafeAreaView } from "@reborn/mobile-components";
+import { ApplicationHeader } from "@reborn/mobile-components";
 
 interface JobFiltersProps {
   className?: string;

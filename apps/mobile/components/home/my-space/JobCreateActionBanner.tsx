@@ -1,8 +1,8 @@
-import { Icon } from "@/components/ui/icon";
-import { Text } from "@/components/ui/text";
-import { useColorPalette } from "@/hooks/useColorPalette";
-import { useRTL } from "@/hooks/useRTL";
-import { cn } from "@/lib/utils";
+import { Icon } from "@reborn/mobile-ui";
+import { Text } from "@reborn/mobile-ui";
+import { useColorPalette } from "@reborn/mobile-components";
+import { useRTL } from "@reborn/mobile-components";
+import { cn } from "@reborn/lib";
 import { router } from "expo-router";
 import { Plus } from "lucide-react-native";
 import { TouchableOpacity, View } from "react-native";

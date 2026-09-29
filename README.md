@@ -21,9 +21,14 @@ pnpm install
 ## Develop
 
 ```sh
+pnpm dev              # all apps (web, mobile, api)
 pnpm dev:web
 pnpm dev:mobile
 pnpm dev:api
+pnpm build
+pnpm lint
+pnpm check-types
+pnpm format
 ```
 
 Shared libraries can be added under `packages/` as needed.

@@ -1,5 +1,5 @@
-import { Image } from "@/components/ui/image";
-import { cn } from "@/lib/utils";
+import { Image } from "@reborn/mobile-ui";
+import { cn } from "@reborn/lib";
 import { useQueries } from "@tanstack/react-query";
 import { ImageSource } from "expo-image";
 import React from "react";
@@ -9,9 +9,9 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "@/components/shared/stables/StableAvatar";
-import { Skeleton } from "~/components/ui/skeleton";
-import { Text } from "~/components/ui/text";
+} from "@reborn/mobile-components";
+import { Skeleton } from "@reborn/mobile-ui";
+import { Text } from "@reborn/mobile-ui";
 
 interface UseServerImagesProps {
   ids: (number | undefined)[];

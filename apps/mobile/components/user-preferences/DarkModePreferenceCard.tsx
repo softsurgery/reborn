@@ -1,9 +1,9 @@
 import React from "react";
-import { Text } from "~/components/ui/text";
+import { Text } from "@reborn/mobile-ui";
 import { View } from "react-native";
-import { Switch } from "~/components/ui/switch";
-import { Label } from "~/components/ui/label";
-import { cn } from "~/lib/utils";
+import { Switch } from "@reborn/mobile-ui";
+import { Label } from "@reborn/mobile-ui";
+import { cn } from "@reborn/lib";
 import { useColorScheme } from "nativewind";
 
 interface DarkModePreferenceCardProps {

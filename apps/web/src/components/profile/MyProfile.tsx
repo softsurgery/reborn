@@ -4,7 +4,7 @@ import { BaseProfile } from "./BaseProfile";
 import { useUserStore } from "@/hooks/stores/useUserStore";
 import { useTranslation } from "react-i18next";
 import { Spinner } from "../shared/Spinner";
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 
 interface MyProfileProps {
   className?: string;

@@ -1,5 +1,5 @@
-import { cn } from "@/lib/utils";
-import { Separator } from "../ui/separator";
+import { cn } from "@reborn/lib";
+import { Separator } from "@reborn/ui";
 
 interface ContentSectionProps {
   className?: string;

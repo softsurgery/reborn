@@ -3,26 +3,26 @@ import { useMutation } from "@tanstack/react-query";
 import { api } from "~/api";
 import { View } from "react-native";
 import { Loader2 } from "lucide-react-native";
-import { Text } from "~/components/ui/text";
+import { Text } from "@reborn/mobile-ui";
 import { createFeedbackSchema } from "~/types/validations/system-reports.validation";
-import { Button } from "~/components/ui/button";
-import { FormBuilder } from "~/components/shared/form-builder/FormBuilder";
+import { Button } from "@reborn/mobile-ui";
+import { FormBuilder } from "@reborn/mobile-form-builder";
 import { useSendFeedbackFormStructure } from "./useSendFeedbackFormStructure";
-import { cn } from "~/lib/utils";
-import { StableKeyboardAwareScrollView } from "@/components/shared/stables/StableKeyboardAwareScrollView";
+import { cn } from "@reborn/lib";
+import { StableKeyboardAwareScrollView } from "@reborn/mobile-components";
 import { router } from "expo-router";
-import { StableSafeAreaView } from "@/components/shared/stables/StableSafeAreaView";
+import { StableSafeAreaView } from "@reborn/mobile-components";
 import { useTranslation } from "react-i18next";
 import { ApplicationHeader } from "~/components/shared/AppHeader";
-import { useKeyboardVisible } from "@/hooks/useKeyboardVisible";
+import { useKeyboardVisible } from "@reborn/mobile-components";
 import { ServerErrorResponse } from "@/types/utils/server.interfaces";
 import { toast } from "sonner-native";
-import { Icon } from "@/components/ui/icon";
+import { Icon } from "@reborn/mobile-ui";
 import * as Haptics from "expo-haptics";
 
-import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
+import { AppHeaderBack } from "@reborn/mobile-components";
 import { useSendFeedbackStore } from "@/hooks/stores/useFeedbackManager";
-import { BottomButtonWrapper } from "@/components/shared/BottomButtonBlockWrapper";
+import { BottomButtonWrapper } from "@reborn/mobile-components";
 interface SendFeedbackPortalProps {
   className?: string;
 }

@@ -1,12 +1,12 @@
 import React from "react";
 import { View, TouchableOpacity, ActivityIndicator } from "react-native";
 import { CreditCard, Building2, Coins, Wallet } from "lucide-react-native";
-import { Button } from "~/components/ui/button";
-import { Badge } from "~/components/ui/badge";
-import { Text } from "~/components/ui/text";
+import { Button } from "@reborn/mobile-ui";
+import { Badge } from "@reborn/mobile-ui";
+import { Text } from "@reborn/mobile-ui";
 import { useBalance } from "~/hooks/content/finance/useFinance";
-import { useColorPalette } from "~/hooks/useColorPalette";
-import { cn } from "@/lib/utils";
+import { useColorPalette } from "@reborn/mobile-components";
+import { cn } from "@reborn/lib";
 import { useTranslation } from "react-i18next";
 
 interface FinanceOverviewTabProps {

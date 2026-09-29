@@ -1,6 +1,6 @@
 import { View } from "react-native";
-import { Skeleton } from "~/components/ui/skeleton";
-import { cn } from "~/lib/utils";
+import { Skeleton } from "@reborn/mobile-ui";
+import { cn } from "@reborn/lib";
 
 interface UserEntrySkeletonProps {
   className?: string;

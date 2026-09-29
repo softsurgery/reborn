@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 import Link from "next/link";
 
 interface ComingSoonProps {

@@ -1,11 +1,11 @@
-import { ApplicationHeader } from "@/components/shared/AppHeader";
-import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
-import { StableSafeAreaView } from "@/components/shared/stables/StableSafeAreaView";
-import { Text } from "@/components/ui/text";
-import { cn } from "@/lib/utils";
+import { ApplicationHeader } from "@reborn/mobile-components";
+import { AppHeaderBack } from "@reborn/mobile-components";
+import { StableSafeAreaView } from "@reborn/mobile-components";
+import { Text } from "@reborn/mobile-ui";
+import { cn } from "@reborn/lib";
 import { View } from "react-native";
 import { useTranslation } from "react-i18next";
-import StableScrollView from "../shared/stables/StableScrollView";
+import StableScrollView from "@reborn/mobile-components";
 
 export type LegalDocument = "terms" | "privacy";
 

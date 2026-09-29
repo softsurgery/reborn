@@ -1,7 +1,7 @@
 import React from "react";
 import { ColorValue } from "react-native";
 import { User } from "lucide-react-native";
-import { useColorPalette } from "@/hooks/useColorPalette";
+import { useColorPalette } from "@reborn/mobile-components";
 import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
 import { useServerImages } from "@/hooks/content/useServerImages";
 import { identifyUserAvatar } from "~/lib/user.utils";
@@ -9,10 +9,10 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "@/components/shared/stables/StableAvatar";
-import { Text } from "~/components/ui/text";
-import { Icon } from "@/components/ui/icon";
-import { cn } from "@/lib/utils";
+} from "@reborn/mobile-components";
+import { Text } from "@reborn/mobile-ui";
+import { Icon } from "@reborn/mobile-ui";
+import { cn } from "@reborn/lib";
 
 export interface MenuTabAvatarProps {
   className?: string;

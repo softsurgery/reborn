@@ -1,6 +1,6 @@
-import { Text } from "@/components/ui/text";
+import { Text } from "@reborn/mobile-ui";
 import { useConversationMessages } from "@/hooks/content/chat/useConversationMessages";
-import { useColorPalette } from "@/hooks/useColorPalette";
+import { useColorPalette } from "@reborn/mobile-components";
 import { hslToHex } from "@/lib/theme";
 import { MessageVariant, ResponseMessageDto } from "@/types";
 import { LegendList } from "@legendapp/list";

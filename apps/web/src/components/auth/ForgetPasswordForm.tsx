@@ -1,10 +1,10 @@
 //@ts-nocheck
 import React from "react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
+import { Input } from "@reborn/ui";
+import { Button } from "@reborn/ui";
+import { Label } from "@reborn/ui";
 import { toast } from "sonner";
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 import { useMutation } from "@tanstack/react-query";
 import { api } from "@/api";
 import { ServerErrorResponse, ServerResponse } from "@/types";

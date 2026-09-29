@@ -3,12 +3,12 @@ import * as React from "react";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@reborn/ui";
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar";
+} from "@reborn/ui";
 
 export function TeamSwitcher({
   teams,

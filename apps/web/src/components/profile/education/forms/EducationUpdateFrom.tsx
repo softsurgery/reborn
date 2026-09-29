@@ -1,12 +1,12 @@
 import React from "react";
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 import { useEducationStore } from "../../../../hooks/stores/useEducationStore";
-import { FormBuilder } from "@/components/shared/form-builder/FormBuilder";
-import { Button } from "@/components/ui/button";
+import { FormBuilder } from "@reborn/form-builder";
+import { Button } from "@reborn/ui";
 import { useUpdateEducationFormStructure } from "./useUpdateEducationFormStructure";
 import { Save } from "lucide-react";
 import { updateEducationSchema } from "@/types/validations/education.validation";
-import { Spinner } from "@/components/shared/Spinner";
+import { Spinner } from "@reborn/components";
 import { UpdateEducationDto } from "@/types";
 import { useTranslation } from "react-i18next";
 

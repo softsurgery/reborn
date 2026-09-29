@@ -21,8 +21,7 @@
     "next-env.d.ts",
     "next-auth.d.ts",
     "**/*.ts",
-    "**/*.tsx",
-    "../reborn-mobile-app-v2/components/shared/SegmentedToggle.tsx"
+    "**/*.tsx"
   ],
   "exclude": ["node_modules"]
 }

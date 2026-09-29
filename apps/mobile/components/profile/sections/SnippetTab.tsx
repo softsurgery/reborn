@@ -1,14 +1,14 @@
-import { useColorPalette } from "@/hooks/useColorPalette";
+import { useColorPalette } from "@reborn/mobile-components";
 import {
   NativeScrollEvent,
   NativeSyntheticEvent,
   ScrollView,
   View,
 } from "react-native";
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 import { RefreshControl } from "react-native";
 import { useTranslation } from "react-i18next";
-import { Text } from "@/components/ui/text";
+import { Text } from "@reborn/mobile-ui";
 
 interface SnippetsTabProps {
   className?: string;

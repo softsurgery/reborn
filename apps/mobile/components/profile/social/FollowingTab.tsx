@@ -1,6 +1,6 @@
 import { UserEntry } from "@/components/profile/social/UserEntry";
-import { Loader } from "@/components/shared/lotties/Loader";
-import { Text } from "@/components/ui/text";
+import { Loader } from "@reborn/mobile-components";
+import { Text } from "@reborn/mobile-ui";
 import { useFollowSystem } from "@/hooks/content/useFollowSystem";
 import { ScrollView, View } from "react-native";
 import { useTranslation } from "react-i18next";

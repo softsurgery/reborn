@@ -1,6 +1,6 @@
-import { Icon } from "@/components/ui/icon";
-import { Text } from "@/components/ui/text";
-import { cn } from "@/lib/utils";
+import { Icon } from "@reborn/mobile-ui";
+import { Text } from "@reborn/mobile-ui";
+import { cn } from "@reborn/lib";
 import { LucideIcon } from "lucide-react-native";
 import React from "react";
 import { Pressable, View } from "react-native";

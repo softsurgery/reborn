@@ -5,9 +5,11 @@
   "version": "1.0.1",
   "scripts": {
     "dev": "expo start --dev-client",
+    "start": "expo start",
     "android": "expo start -c --android",
     "ios": "expo start -c --ios",
     "web": "expo start -c --web",
+    "lint": "expo lint",
     "clean": "rm -rf .expo node_modules",
     "postinstall": "npx tailwindcss -i ./global.css -o ./node_modules/.cache/nativewind/global.css"
   },
@@ -15,6 +17,11 @@
     "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
     "@babel/runtime": "^7.28.3",
     "@expo/vector-icons": "^15.0.2",
+    "@reborn/hooks": "workspace:*",
+    "@reborn/lib": "workspace:*",
+    "@reborn/mobile-components": "workspace:*",
+    "@reborn/mobile-form-builder": "workspace:*",
+    "@reborn/mobile-ui": "workspace:*",
     "@legendapp/list": "^1.1.4",
     "@lottiefiles/dotlottie-react": "^0.19.13",
     "@miblanchard/react-native-slider": "^2.6.0",
@@ -153,6 +160,5 @@
     "prettier-plugin-tailwindcss": "^0.5.11",
     "typescript": "~6.0.3"
   },
-  "private": true,
-  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
+  "private": true
 }

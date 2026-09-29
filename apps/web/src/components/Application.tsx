@@ -2,10 +2,10 @@ import React from "react";
 import { AppProps } from "next/app";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
-import { Spinner } from "./shared/Spinner";
+import { Spinner } from "@reborn/components";
 import { Layout } from "./layout/Layout";
-import { cn } from "@/lib/utils";
-import { Toaster } from "@/components/ui/sonner";
+import { cn } from "@reborn/lib";
+import { Toaster } from "@reborn/ui";
 import { useUi } from "@/contexts/UiContext";
 
 interface ApplicationProps {

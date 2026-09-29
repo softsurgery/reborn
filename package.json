@@ -2,16 +2,23 @@
   "name": "reborn",
   "private": true,
   "scripts": {
-    "dev:web": "pnpm --filter reborn-back-office dev",
-    "dev:mobile": "pnpm --filter reborn-mobile-app-v2 dev",
-    "dev:api": "pnpm --filter reborn-api start:dev",
-    "build:web": "pnpm --filter reborn-back-office build",
-    "build:api": "pnpm --filter reborn-api build",
-    "lint:web": "pnpm --filter reborn-back-office lint",
-    "lint:api": "pnpm --filter reborn-api lint"
+    "build": "turbo run build",
+    "dev": "turbo run dev --filter=./apps/* --continue",
+    "dev:web": "turbo run dev --filter=reborn-back-office",
+    "dev:mobile": "turbo run dev --filter=reborn-mobile-app-v2",
+    "dev:api": "turbo run start:dev --filter=reborn-api",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "check-types": "turbo run check-types"
   },
-  "packageManager": "pnpm@10.28.2",
+  "devDependencies": {
+    "prettier": "3.9.6",
+    "turbo": "^2.11.2",
+    "typescript": "5.9.3"
+  },
+  "packageManager": "pnpm@11.25.0",
   "engines": {
-    "node": ">=18"
+    "node": ">=18",
+    "pnpm": ">=11.25.0"
   }
 }

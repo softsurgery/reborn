@@ -1,8 +1,8 @@
 import React from "react";
 import { View, TouchableOpacity, Pressable } from "react-native";
 import { router } from "expo-router";
-import { Text } from "@/components/ui/text";
-import { Icon } from "@/components/ui/icon";
+import { Text } from "@reborn/mobile-ui";
+import { Icon } from "@reborn/mobile-ui";
 import {
   AlertCircle,
   CheckCircle2,
@@ -19,17 +19,17 @@ import {
 } from "lucide-react-native";
 import * as Haptics from "expo-haptics";
 import { ActionSheetRef } from "react-native-actions-sheet";
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 import { identifyUser, identifyUserAvatar } from "@/lib/user.utils";
 import { useServerImages } from "@/hooks/content/useServerImages";
 import { JobRequestStatus, ResponseJobRequestDto } from "@/types";
 import { timeAgo } from "@/lib/dates.utils";
-import { useColorPalette } from "@/hooks/useColorPalette";
+import { useColorPalette } from "@reborn/mobile-components";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "@/components/shared/stables/StableAvatar";
+} from "@reborn/mobile-components";
 import { ThreeDotsActionSheet } from "@/components/shared/ThreeDotsActionSheet";
 import { useJobRequestActions } from "@/hooks/content/job/useJobRequestActions";
 import { WithdrawJobRequestActionSheet } from "./details/action-sheets/WithdrawJobRequestActionSheet";

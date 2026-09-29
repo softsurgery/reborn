@@ -1,4 +1,4 @@
-import { useColorPalette } from "@/hooks/useColorPalette";
+import { useColorPalette } from "@reborn/mobile-components";
 import React from "react";
 import {
   NativeScrollEvent,
@@ -9,12 +9,12 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { router } from "expo-router";
-import { Text } from "~/components/ui/text";
-import { Button } from "~/components/ui/button";
+import { Text } from "@reborn/mobile-ui";
+import { Button } from "@reborn/mobile-ui";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "~/api";
 import { identifyUser } from "~/lib/user.utils";
-import { cn } from "~/lib/utils";
+import { cn } from "@reborn/lib";
 import { JobDetailsSkeleton } from "./JobDetailsSkeleton";
 import { ServerErrorResponse } from "~/types";
 import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";

@@ -1,11 +1,11 @@
-import { cn } from "@/lib/utils";
-import { SidebarTrigger } from "../ui/sidebar";
+import { cn } from "@reborn/lib";
+import { SidebarTrigger } from "@reborn/ui";
 import { ModeToggle } from "../shared/ModeToggle";
 import { LanguageSwitcher } from "../shared/LanguageSwitcher";
 import { Commander } from "../shared/Commander";
 import { UserNav } from "./UserNav";
-import { BreadcrumbCommon } from "../shared/Breadcrumb";
-import { useBreadcrumb } from "@/contexts/BreadcrumbContext";
+import { BreadcrumbCommon } from "@reborn/components";
+import { useBreadcrumb } from "@reborn/contexts";
 
 interface HeaderProps {
   className?: string;

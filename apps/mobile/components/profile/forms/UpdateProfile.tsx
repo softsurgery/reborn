@@ -1,14 +1,14 @@
 import React from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Button } from "~/components/ui/button";
+import { Button } from "@reborn/mobile-ui";
 import { useUserStore } from "~/hooks/stores/useUserStore";
 import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
 import { ServerErrorResponse, UpdateUserDto } from "~/types";
-import { Text } from "~/components/ui/text";
-import { FormBuilder } from "~/components/shared/form-builder/FormBuilder";
+import { Text } from "@reborn/mobile-ui";
+import { FormBuilder } from "@reborn/mobile-form-builder";
 import { useUpdateProfileFormStructure } from "./useUpdateProfileFormStructure";
 import { useRegions } from "~/hooks/content/useRegions";
-import { mapToSelectOptions } from "~/components/shared/form-builder/utils/mapToSelectOptions";
+import { mapToSelectOptions } from "@reborn/mobile-form-builder";
 import {
   updateClientSchema,
   updateProfileSchema,
@@ -17,15 +17,15 @@ import { api } from "~/api";
 import { useUploadMutation } from "~/hooks/content/useUploadMutation";
 import { Upload } from "~/types/upload";
 import { identifyUserAvatar } from "~/lib/user.utils";
-import { StableKeyboardAwareScrollView } from "../../shared/stables/StableKeyboardAwareScrollView";
+import { StableKeyboardAwareScrollView } from "@reborn/mobile-components";
 import { router } from "expo-router";
 import { ApplicationHeader } from "../../shared/AppHeader";
-import { cn } from "~/lib/utils";
-import { StableSafeAreaView } from "../../shared/stables/StableSafeAreaView";
+import { cn } from "@reborn/lib";
+import { StableSafeAreaView } from "@reborn/mobile-components";
 import { useKeyboardVisible } from "~/hooks/useKeyboardVisible";
 import { toast } from "sonner-native";
-import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
-import { BottomButtonWrapper } from "@/components/shared/BottomButtonBlockWrapper";
+import { AppHeaderBack } from "@reborn/mobile-components";
+import { BottomButtonWrapper } from "@reborn/mobile-components";
 import { useTranslation } from "react-i18next";
 import { useServerImages } from "@/hooks/content/useServerImages";
 

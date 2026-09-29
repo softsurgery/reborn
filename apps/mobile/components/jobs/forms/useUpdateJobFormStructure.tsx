@@ -13,7 +13,7 @@ import {
   TextareaFieldProps,
   TextFieldProps,
   CheckboxFieldProps,
-} from "~/components/shared/form-builder/types";
+} from "@reborn/mobile-form-builder";
 import { JobStore } from "~/hooks/stores/useJobStore";
 import {
   JobDifficulty,

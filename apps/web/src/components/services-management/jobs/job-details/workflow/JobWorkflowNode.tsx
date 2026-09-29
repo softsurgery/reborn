@@ -15,7 +15,7 @@ import {
   ShieldCheck,
   Zap,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 import { StateNodeConfig, WorkflowNodeStatus } from "./xstate-machine";
 
 export interface JobWorkflowNodeData {

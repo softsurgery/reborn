@@ -1,10 +1,10 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { DataTableColumnHeader } from "@/components/shared/data-tables/data-table-column-header";
-import { DataTableRowActions } from "@/components/shared/data-tables/data-table-row-actions";
+import { DataTableColumnHeader } from "@reborn/datatable-builder";
+import { DataTableRowActions } from "@reborn/datatable-builder";
 import { ResponseRoleDto } from "@/types";
 import { useTranslation } from "react-i18next";
-import { DataTableConfig } from "@/components/shared/data-tables/types";
-import { cn } from "@/lib/utils";
+import { DataTableConfig } from "@reborn/datatable-builder";
+import { cn } from "@reborn/lib";
 
 export const useRoleColumns = (
   context: DataTableConfig<ResponseRoleDto>,

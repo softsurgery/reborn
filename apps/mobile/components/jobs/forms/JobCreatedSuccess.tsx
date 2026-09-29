@@ -1,7 +1,7 @@
 import { Success } from "@/components/shared/lotties/Success";
 import { View } from "react-native";
-import { Button } from "@/components/ui/button";
-import { Text } from "@/components/ui/text";
+import { Button } from "@reborn/mobile-ui";
+import { Text } from "@reborn/mobile-ui";
 import { useRouter } from "expo-router";
 import React from "react";
 import { useTranslation } from "react-i18next";

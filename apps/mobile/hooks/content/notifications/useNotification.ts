@@ -1,5 +1,5 @@
 import React from "react";
-import { useAuthPersistStore } from "@/hooks/stores/useAuthPersistStore";
+import { useAuthPersistStore } from "@reborn/hooks/stores";
 import {
   createAndroidChannel,
   requestNotificationPermissions,

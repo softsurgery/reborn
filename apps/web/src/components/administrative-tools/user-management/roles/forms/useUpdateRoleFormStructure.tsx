@@ -5,7 +5,7 @@ import {
   FormStructure,
   SelectOption,
   TextFieldProps,
-} from "@/components/shared/form-builder/types";
+} from "@reborn/form-builder";
 import { RoleStore } from "@/hooks/stores/useRoleStore";
 import { PermissionAccordions } from "../PermissionAccordions";
 import { ResponsePermissionDto } from "@/types";

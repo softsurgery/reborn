@@ -1,5 +1,5 @@
 import React from "react";
-import { Badge } from "@/components/ui/badge";
+import { Badge } from "@reborn/ui";
 import { useTranslation } from "react-i18next";
 import {
   Card,
@@ -7,9 +7,9 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "@reborn/ui";
 import { useUserStore } from "@/hooks/stores/useUserStore";
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 import { format } from "date-fns";
 import {
   Calendar,

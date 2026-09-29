@@ -1,17 +1,17 @@
 import { api } from "@/api";
-import { useBreadcrumb } from "@/contexts/BreadcrumbContext";
-import { useIntro } from "@/contexts/IntroContext";
-import { useDebounce } from "@/hooks/useDebounce";
+import { useBreadcrumb } from "@reborn/contexts";
+import { useIntro } from "@reborn/contexts";
+import { useDebounce } from "@reborn/hooks/utils";
 import { ServerErrorResponse, Upload } from "@/types";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import React from "react";
 import { getUploadColumns } from "./columns";
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 
 import { useUploadDialog } from "./modals/UploadDialog";
 import { toast } from "sonner";
-import { DataTable } from "@/components/shared/data-tables/data-table";
-import { DataTableConfig } from "@/components/shared/data-tables/types";
+import { DataTable } from "@reborn/datatable-builder";
+import { DataTableConfig } from "@reborn/datatable-builder";
 
 interface UploadsProps {
   className?: string;

@@ -1,5 +1,5 @@
-import { Text } from "@/components/ui/text";
-import { FileTypeIcon } from "@/components/shared/FileTypeIcon";
+import { Text } from "@reborn/mobile-ui";
+import { FileTypeIcon } from "@reborn/mobile-components";
 import React from "react";
 import { Pressable, View } from "react-native";
 import { MediaUploadProgress } from "../staging/MediaUploadProgress";

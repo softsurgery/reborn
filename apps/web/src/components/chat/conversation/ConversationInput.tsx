@@ -1,6 +1,6 @@
 import React from "react";
 import { Plus, Send } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 
 interface ConversationInputProps {
   className?: string;

@@ -1,7 +1,7 @@
 import React from "react";
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 import { LucideIcon, LucideProps } from "lucide-react";
-import { Text } from "../ui/text";
+import { Text } from "@/components/shared/Text";
 
 type IconProps = LucideProps & {
   icon: LucideIcon; 

@@ -1,8 +1,8 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 import { ResponseMessageDto, StaticMessageEnum } from "@/types";
 import React from "react";
 import { Pressable } from "react-native";
-import { Text } from "~/components/ui/text";
+import { Text } from "@reborn/mobile-ui";
 import { useTranslation } from "react-i18next";
 import { useCurrentUser } from "@/hooks/content/user/useCurrentUser";
 

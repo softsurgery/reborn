@@ -1,11 +1,11 @@
 import React from "react";
 import { View } from "react-native";
-import { Text } from "~/components/ui/text";
-import { Button } from "~/components/ui/button";
-import { Icon } from "~/components/ui/icon";
+import { Text } from "@reborn/mobile-ui";
+import { Button } from "@reborn/mobile-ui";
+import { Icon } from "@reborn/mobile-ui";
 import { AlertCircle, CheckCircle2, Wallet } from "lucide-react-native";
 import { router } from "expo-router";
-import { cn } from "~/lib/utils";
+import { cn } from "@reborn/lib";
 import { useTranslation } from "react-i18next";
 
 interface BudgetWarningProps {

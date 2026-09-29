@@ -1,7 +1,7 @@
 import React from "react";
-import { cn } from "@/lib/utils";
-import { Label } from "../ui/label";
-import { Button } from "../ui/button";
+import { cn } from "@reborn/lib";
+import { Label } from "@reborn/ui";
+import { Button } from "@reborn/ui";
 import { useMutation } from "@tanstack/react-query";
 import { api } from "@/api";
 import { toast } from "sonner";

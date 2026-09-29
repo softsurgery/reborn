@@ -4,10 +4,10 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-} from "@/components/ui/select";
-import { Badge } from "@/components/ui/badge";
-import { cn } from "@/lib/utils";
-import { Button } from "../ui/button";
+} from "@reborn/ui";
+import { Badge } from "@reborn/ui";
+import { cn } from "@reborn/lib";
+import { Button } from "@reborn/ui";
 import { useRouter } from "next/router";
 import { ExternalLink } from "lucide-react";
 

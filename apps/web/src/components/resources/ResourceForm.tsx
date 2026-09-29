@@ -1,5 +1,5 @@
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import { cn } from "@reborn/lib";
+import { Button } from "@reborn/ui";
 import { Download, X, Eye, Plus, EyeOff, PackageOpen } from "lucide-react";
 import { useRef } from "react";
 import { downloadFile, formatFileSize } from "@/lib/file.utils";

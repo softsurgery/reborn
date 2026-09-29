@@ -16,22 +16,22 @@ import {
   Eye,
   EyeOff,
 } from "lucide-react-native";
-import { cn } from "~/lib/utils";
-import { StableSafeAreaView } from "../shared/stables/StableSafeAreaView";
+import { cn } from "@reborn/lib";
+import { StableSafeAreaView } from "@reborn/mobile-components";
 import { ApplicationHeader } from "../shared/AppHeader";
 import { router } from "expo-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNotificationContext } from "~/contexts/NotificationContext";
-import { useColorPalette } from "~/hooks/useColorPalette";
-import { Text } from "~/components/ui/text";
+import { useColorPalette } from "@reborn/mobile-components";
+import { Text } from "@reborn/mobile-ui";
 import { TransactionList } from "./transaction/TransactionList";
 import { useBalance } from "@/hooks/content/finance/useBalance";
 import { useFinanceAuth } from "@/hooks/content/finance/useFinanceAuth";
 import { useFinanceStore } from "@/hooks/stores/useFinanceStore";
 import { useTranslation } from "react-i18next";
 import { triggerHaptic } from "~/lib/haptics";
-import { Icon } from "~/components/ui/icon";
-import { useRTL } from "@/hooks/useRTL";
+import { Icon } from "@reborn/mobile-ui";
+import { useRTL } from "@reborn/mobile-components";
 import { useScrollableElement } from "~/hooks/useScrollableElement";
 import { useDynamicListLimit } from "~/hooks/useDynamicListLimit";
 

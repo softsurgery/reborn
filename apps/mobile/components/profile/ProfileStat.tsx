@@ -1,14 +1,14 @@
 import React from "react";
-import { cn } from "~/lib/utils";
+import { cn } from "@reborn/lib";
 import { View } from "react-native";
 import { Mail, Pencil, UserPlus } from "lucide-react-native";
-import { Icon } from "../ui/icon";
-import { Text } from "../ui/text";
+import { Icon } from "@reborn/mobile-ui";
+import { Text } from "@reborn/mobile-ui";
 import { router } from "expo-router";
 import { ResponseUserDto } from "@/types";
 import { useTranslation } from "react-i18next";
-import { useColorPalette } from "@/hooks/useColorPalette";
-import { Button } from "../ui/button";
+import { useColorPalette } from "@reborn/mobile-components";
+import { Button } from "@reborn/mobile-ui";
 import { useRTL } from "~/hooks/useRTL";
 
 interface ProfileStatProps {

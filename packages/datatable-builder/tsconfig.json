@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "declaration": true,
+    "noEmit": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "paths": {
+      "@reborn/lib": ["../lib/src/index.ts"],
+      "@reborn/lib/*": ["../lib/src/*"],
+      "@reborn/ui": ["../ui/src/index.ts"],
+      "@reborn/ui/*": ["../ui/src/*"],
+      "@reborn/hooks": ["../hooks/src/index.ts"],
+      "@reborn/hooks/*": ["../hooks/src/*"],
+      "@reborn/contexts": ["../contexts/src/index.ts"],
+      "@reborn/components": ["../components/src/index.ts"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["dist", "node_modules"]
+}

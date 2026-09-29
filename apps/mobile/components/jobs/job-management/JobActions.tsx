@@ -1,8 +1,8 @@
 import React from "react";
 import { View, ScrollView } from "react-native";
-import { Text } from "@/components/ui/text";
+import { Text } from "@reborn/mobile-ui";
 import { ActionSheetRef } from "react-native-actions-sheet";
-import { ActionPressable } from "@/components/shared/ActionPressable";
+import { ActionPressable } from "@reborn/mobile-components";
 import { DuplicateJobActionSheet } from "./DuplicateJobActionSheet";
 import { ArchiveJobActionSheet } from "./ArchiveJobActionSheet";
 import { DeleteJobActionSheet } from "./DeleteJobActionSheet";
@@ -22,7 +22,7 @@ import {
   Archive,
   X,
 } from "lucide-react-native";
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 import { useRouter } from "expo-router";
 import { useDuplicateJob } from "@/hooks/content/job/useDuplicateJob";
 import { useDeleteJob } from "@/hooks/content/job/useDeleteJob";

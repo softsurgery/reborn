@@ -1,5 +1,5 @@
 import React from "react";
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 import { api } from "@/api";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -16,7 +16,7 @@ import { useEducationCreateSheet } from "./modals/EducationCreateSheet";
 import { useEducationUpdateSheet } from "./modals/EducationUpdateSheet";
 import { useEducationDeleteDialog } from "./modals/EducationDeleteDialog";
 import { EducationSection } from "./EducationSection";
-import { Spinner } from "@/components/shared/Spinner";
+import { Spinner } from "@reborn/components";
 
 interface EducationProps {
   className?: string;

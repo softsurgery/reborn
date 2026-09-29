@@ -6,7 +6,7 @@ import {
   FormStructure,
   TextareaFieldProps,
   TextFieldProps,
-} from "@/components/shared/form-builder/types";
+} from "@reborn/mobile-form-builder";
 import { UserStore } from "@/hooks/stores/useUserStore";
 import { useTranslation } from "react-i18next";
 

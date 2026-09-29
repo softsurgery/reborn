@@ -5,8 +5,8 @@ import {
   MousePointerClick,
   CheckCircle2,
 } from "lucide-react-native";
-import { useColorPalette } from "@/hooks/useColorPalette";
-import { cn } from "@/lib/utils";
+import { useColorPalette } from "@reborn/mobile-components";
+import { cn } from "@reborn/lib";
 import { useTranslation } from "react-i18next";
 
 interface JobStatisticsKPIsProps {

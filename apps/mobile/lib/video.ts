@@ -6,7 +6,7 @@
 // Queue thumbnail requests until the player is available.
 
 import { Image } from "expo-image";
-import type { AppVideoSource } from "@/components/shared/VideoPreview";
+import type { AppVideoSource } from "@reborn/mobile-components";
 import type { ImageSource } from "expo-image";
 import type { VideoPlayer } from "expo-video";
 

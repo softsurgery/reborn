@@ -1,7 +1,7 @@
 import React from "react";
 import { Layers, ArrowLeft, ThumbsUp, Share2, GitBranch } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { Button } from "@reborn/ui";
+import { cn } from "@reborn/lib";
 import { ResponseRefParamDto } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/api";
@@ -10,8 +10,8 @@ import { useRouter } from "next/router";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import { useUi } from "@/contexts/UiContext";
-import { useIntro } from "@/contexts/IntroContext";
-import { useBreadcrumb } from "@/contexts/BreadcrumbContext";
+import { useIntro } from "@reborn/contexts";
+import { useBreadcrumb } from "@reborn/contexts";
 import {
   JobPhotosGallery,
   JobDescriptionCard,

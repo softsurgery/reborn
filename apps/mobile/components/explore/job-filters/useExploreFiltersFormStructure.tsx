@@ -4,7 +4,7 @@ import {
   FieldVariant,
   MultiSelectFieldProps,
   SelectOption,
-} from "@/components/shared/form-builder/types";
+} from "@reborn/mobile-form-builder";
 import { ExploreFilterStore } from "@/hooks/stores/userExploreFilterStore";
 
 interface UseExploreFilterFormStructureProps {

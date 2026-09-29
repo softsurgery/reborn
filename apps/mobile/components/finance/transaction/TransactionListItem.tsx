@@ -1,5 +1,5 @@
-import { Text } from "@/components/ui/text";
-import { cn } from "@/lib/utils";
+import { Text } from "@reborn/mobile-ui";
+import { cn } from "@reborn/lib";
 import { FundTransaction, PointTransaction } from "@/types";
 import { router } from "expo-router";
 import {

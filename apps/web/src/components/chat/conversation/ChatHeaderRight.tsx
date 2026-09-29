@@ -1,7 +1,7 @@
 import React from "react";
 import { Info } from "lucide-react";
 import { StablePressable } from "@/components/shared/StablePressable";
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 
 interface ChatHeaderRightProps {
   className?: string;

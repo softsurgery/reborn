@@ -11,7 +11,7 @@ import {
   TextareaFieldProps,
   TextFieldProps,
   SwitchFieldProps,
-} from "@/components/shared/form-builder/types";
+} from "@reborn/form-builder";
 import { JobStore } from "@/hooks/stores/useJobStore";
 import { useUploadMutation } from "@/hooks/useUploadMutation";
 import {

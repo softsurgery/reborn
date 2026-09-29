@@ -1,7 +1,7 @@
 import { delay } from "@/lib/time.utils";
 import _axios from "axios";
 import { router } from "expo-router";
-import { useAuthPersistStore } from "~/hooks/stores/useAuthPersistStore";
+import { useAuthPersistStore } from "@reborn/hooks/stores";
 
 const BASE_URL = process.env.EXPO_PUBLIC_API_BASE_URL;
 const GLOBAL_DELAY = process.env.EXPO_PUBLIC_GLOBAL_DELAY

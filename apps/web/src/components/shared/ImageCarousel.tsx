@@ -9,7 +9,7 @@ import {
   Loader2,
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 
 export interface CarouselImageItem {
   url?: string | null;

@@ -1,8 +1,8 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 import { router } from "expo-router";
 import { View } from "react-native";
-import { FormBuilder } from "../shared/form-builder/FormBuilder";
-import { StableSafeAreaView } from "../shared/stables/StableSafeAreaView";
+import { FormBuilder } from "@reborn/mobile-form-builder";
+import { StableSafeAreaView } from "@reborn/mobile-components";
 import { ApplicationHeader } from "../shared/AppHeader";
 import { ChevronLeft } from "lucide-react-native";
 import { Stepper } from "../shared/Stepper";

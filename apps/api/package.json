@@ -8,7 +8,6 @@
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "postinstall": "yarn seed:all",
     "seed:all": "yarn seed:permissions && yarn seed:roles && yarn seed:admin && yarn seed:templates && yarn seed:skills && yarn seed:regions && yarn seed:currencies && yarn seed:job-categories && yarn seed:job-tags && yarn seed:configuration && yarn seed:public-resource && yarn seed:storage-folders",
     "seed:playground": "npx nestjs-command seed:playground-users && npx nestjs-command seed:playground-jobs",
     "seed:permissions": "npx nestjs-command seed:permissions",
@@ -27,6 +26,7 @@
     "seed:playground-users": "npx nestjs-command seed:playground-users",
     "seed:playground-jobs": "npx nestjs-command seed:playground-jobs",
     "seed:reset": "npx nestjs-command seed:reset",
+    "dev": "nest start --watch",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
@@ -120,6 +120,5 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
-  },
-  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
+  }
 }

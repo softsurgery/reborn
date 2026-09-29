@@ -6,15 +6,15 @@ import Carousel, {
   ICarouselInstance,
   Pagination,
 } from "react-native-reanimated-carousel";
-import { Text } from "~/components/ui/text";
-import { cn } from "~/lib/utils";
-import { StableSafeAreaView } from "../shared/stables/StableSafeAreaView";
+import { Text } from "@reborn/mobile-ui";
+import { cn } from "@reborn/lib";
+import { StableSafeAreaView } from "@reborn/mobile-components";
 import { SSOButtons } from "./SSOButtons";
 import { Rocket, Zap, ShieldCheck, Languages } from "lucide-react-native";
-import { useColorPalette } from "@/hooks/useColorPalette";
+import { useColorPalette } from "@reborn/mobile-components";
 import { ThemeToggle } from "../shared/ThemeToggle";
 import { LanguageSwitcher } from "../shared/LanguageSwitcher";
-import { Icon } from "../ui/icon";
+import { Icon } from "@reborn/mobile-ui";
 import { AcceptTerms } from "./AcceptTerms";
 
 const width = Dimensions.get("window").width;

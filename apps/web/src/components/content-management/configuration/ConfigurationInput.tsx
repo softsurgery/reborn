@@ -1,13 +1,13 @@
-import { Input } from "@/components/ui/input";
+import { Input } from "@reborn/ui";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "@reborn/ui";
 import { useConfigStore } from "@/hooks/stores/userConfigStore";
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 import { ParamVariant, ResponseConfigurationParamDto } from "@/types";
 import { useTranslation } from "react-i18next";
 

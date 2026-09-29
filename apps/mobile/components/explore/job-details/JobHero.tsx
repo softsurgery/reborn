@@ -9,13 +9,13 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "@/components/shared/stables/StableAvatar";
-import { Text } from "~/components/ui/text";
+} from "@reborn/mobile-components";
+import { Text } from "@reborn/mobile-ui";
 import { useServerImages } from "~/hooks/content/useServerImages";
-import { useColorPalette } from "@/hooks/useColorPalette";
+import { useColorPalette } from "@reborn/mobile-components";
 import { timeAgo } from "~/lib/dates.utils";
 import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
-import { cn } from "~/lib/utils";
+import { cn } from "@reborn/lib";
 import {
   JobPricingType,
   ResponseJobDto,

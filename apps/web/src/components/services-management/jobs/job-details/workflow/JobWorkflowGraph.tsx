@@ -25,7 +25,7 @@ import {
 import { JobWorkflowNode } from "./JobWorkflowNode";
 import { JobWorkflowInspector } from "./JobWorkflowInspector";
 import { ResponseJobDto, JobStatus } from "@/types";
-import { Button } from "@/components/ui/button";
+import { Button } from "@reborn/ui";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/api";
 
@@ -36,14 +36,14 @@ import {
   Minimize2,
   LayoutGrid,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "@reborn/ui";
 
 interface JobWorkflowGraphProps {
   job?: ResponseJobDto | null;

@@ -1,9 +1,9 @@
-import { useColorPalette } from "@/hooks/useColorPalette";
-import { SeeMoreText } from "@/components/shared/SeeMoreText";
-import { Icon } from "@/components/ui/icon";
-import { Text } from "@/components/ui/text";
+import { useColorPalette } from "@reborn/mobile-components";
+import { SeeMoreText } from "@reborn/mobile-components";
+import { Icon } from "@reborn/mobile-ui";
+import { Text } from "@reborn/mobile-ui";
 import { hslToHex, THEME } from "@/lib/theme";
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 import { ResponseUserDto } from "@/types";
 import { UserRound, LucideIcon } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
@@ -15,7 +15,7 @@ import {
   View,
 } from "react-native";
 
-import { useRTL } from "@/hooks/useRTL";
+import { useRTL } from "@reborn/mobile-components";
 
 interface AboutTabProps {
   className?: string;

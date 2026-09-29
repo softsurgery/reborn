@@ -1,14 +1,14 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { DataTableColumnHeader } from "@/components/shared/data-tables/data-table-column-header";
-import { DataTableRowActions } from "@/components/shared/data-tables/data-table-row-actions";
+import { DataTableColumnHeader } from "@reborn/datatable-builder";
+import { DataTableRowActions } from "@reborn/datatable-builder";
 import { ResponseRefTypeDto } from "@/types";
 import { useTranslation } from "react-i18next";
 import {
   DataTableCellVariant,
   DataTableConfig,
-} from "@/components/shared/data-tables/types";
-import { cn } from "@/lib/utils";
-import DataTableCell from "@/components/shared/data-tables/core/data-table-cell";
+} from "@reborn/datatable-builder";
+import { cn } from "@reborn/lib";
+import { DataTableCell } from "@reborn/datatable-builder";
 
 export const useRefTypeColumns = (
   context: DataTableConfig<ResponseRefTypeDto>,

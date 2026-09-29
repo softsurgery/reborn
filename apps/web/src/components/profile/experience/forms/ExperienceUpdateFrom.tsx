@@ -1,12 +1,12 @@
 import React from "react";
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 import { useExperienceStore } from "@/hooks/stores/useExperienceStore";
-import { FormBuilder } from "@/components/shared/form-builder/FormBuilder";
-import { Button } from "@/components/ui/button";
+import { FormBuilder } from "@reborn/form-builder";
+import { Button } from "@reborn/ui";
 import { useUpdateExperienceFormStructure } from "./useUpdateExperienceFormStructure";
 import { Save } from "lucide-react";
 import { updateExperienceSchema } from "@/types/validations/experience.validation";
-import { Spinner } from "@/components/shared/Spinner";
+import { Spinner } from "@reborn/components";
 import { UpdateExperienceDto } from "@/types";
 import { useTranslation } from "react-i18next";
 

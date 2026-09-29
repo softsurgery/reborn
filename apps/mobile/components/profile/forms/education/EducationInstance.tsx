@@ -1,15 +1,15 @@
-import { SeeMoreText } from "@/components/shared/SeeMoreText";
-import { Icon } from "@/components/ui/icon";
-import { Text } from "@/components/ui/text";
-import { cn } from "@/lib/utils";
+import { SeeMoreText } from "@reborn/mobile-components";
+import { Icon } from "@reborn/mobile-ui";
+import { Text } from "@reborn/mobile-ui";
+import { cn } from "@reborn/lib";
 import { hslToHex } from "@/lib/theme";
 import { ResponseEducationDto } from "@/types";
 import { format } from "date-fns";
 import { CalendarDays, GraduationCap } from "lucide-react-native";
 import { View } from "react-native";
 import { useTranslation } from "react-i18next";
-import { useColorPalette } from "@/hooks/useColorPalette";
-import { useRTL } from "@/hooks/useRTL";
+import { useColorPalette } from "@reborn/mobile-components";
+import { useRTL } from "@reborn/mobile-components";
 
 interface EducationInstanceProps {
   className?: string;

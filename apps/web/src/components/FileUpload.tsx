@@ -2,8 +2,8 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
+import { Button } from "@reborn/ui";
+import { Input } from "@reborn/ui";
 
 export default function FileUploader() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);

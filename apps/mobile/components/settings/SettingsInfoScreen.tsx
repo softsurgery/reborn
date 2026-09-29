@@ -1,20 +1,20 @@
-import { cn } from "~/lib/utils";
+import { cn } from "@reborn/lib";
 import { router } from "expo-router";
 import { ChevronLeft } from "lucide-react-native";
 import React from "react";
 import { View } from "react-native";
 import { ApplicationHeader } from "../shared/AppHeader";
-import { StableSafeAreaView } from "../shared/stables/StableSafeAreaView";
-import StableScrollView from "../shared/stables/StableScrollView";
-import { Badge } from "../ui/badge";
+import { StableSafeAreaView } from "@reborn/mobile-components";
+import StableScrollView from "@reborn/mobile-components";
+import { Badge } from "@reborn/mobile-ui";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "../ui/card";
-import { Text } from "../ui/text";
+} from "@reborn/mobile-ui";
+import { Text } from "@reborn/mobile-ui";
 
 interface InfoSection {
   title: string;

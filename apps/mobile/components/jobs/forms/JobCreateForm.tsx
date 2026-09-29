@@ -1,22 +1,22 @@
 import React from "react";
 import { View } from "react-native";
-import { FormBuilder } from "~/components/shared/form-builder/FormBuilder";
+import { FormBuilder } from "@reborn/mobile-form-builder";
 import { useCreateJobFormStructure } from "./useCreateJobFormStructure";
 import { useJobStore } from "~/hooks/stores/useJobStore";
 import { useCurrencies } from "~/hooks/content/useCurrencies";
-import { mapToSelectOptions } from "~/components/shared/form-builder/utils/mapToSelectOptions";
+import { mapToSelectOptions } from "@reborn/mobile-form-builder";
 import { useJobTags } from "@/hooks/content/reference-types/useJobTags";
 import { useJobCategories } from "@/hooks/content/reference-types/useJobCategories";
 import { Stepper } from "~/components/shared/Stepper";
 import { api } from "~/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CreateJobDto, ServerErrorResponse } from "~/types";
-import { cn } from "~/lib/utils";
+import { cn } from "@reborn/lib";
 import { router } from "expo-router";
-import { StableSafeAreaView } from "@/components/shared/stables/StableSafeAreaView";
+import { StableSafeAreaView } from "@reborn/mobile-components";
 import { ApplicationHeader } from "~/components/shared/AppHeader";
 import { ChevronLeft } from "lucide-react-native";
-import { Loader } from "@/components/shared/lotties/Loader";
+import { Loader } from "@reborn/mobile-components";
 import { useLiveGeolocation } from "@/hooks/useLiveGeolocation";
 import { toast } from "sonner-native";
 import {
@@ -29,7 +29,7 @@ import { Upload } from "@/types/upload";
 import { JobCreatedSuccess } from "./JobCreatedSuccess";
 import { useBalance } from "@/hooks/content/finance/useBalance";
 import { BudgetWarning } from "./BudgetWarning";
-import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
+import { AppHeaderBack } from "@reborn/mobile-components";
 import { useTranslation } from "react-i18next";
 
 interface JobCreateFormProps {

@@ -1,11 +1,11 @@
 import React from "react";
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 import { useRoleStore } from "@/hooks/stores/useRoleStore";
 import { usePermissions } from "@/hooks/content/usePermissions";
 import { useCreateRoleFormStructure } from "./useCreateRoleFormStructure";
-import { Button } from "@/components/ui/button";
+import { Button } from "@reborn/ui";
 import { Save } from "lucide-react";
-import { FormBuilder } from "@/components/shared/form-builder/FormBuilder";
+import { FormBuilder } from "@reborn/form-builder";
 
 interface RoleFormProps {
   className?: string;

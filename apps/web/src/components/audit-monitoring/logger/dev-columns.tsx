@@ -1,14 +1,14 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { ResponseLogDto } from "@/types";
-import { Badge } from "@/components/ui/badge";
+import { Badge } from "@reborn/ui";
 import { identifyUser } from "@/lib/user.utils";
-import { JsonToggler } from "@/components/shared/JsonToggler";
-import { DataTableColumnHeader } from "@/components/shared/data-tables/data-table-column-header";
-import DataTableCell from "@/components/shared/data-tables/core/data-table-cell";
+import { JsonToggler } from "@reborn/components";
+import { DataTableColumnHeader } from "@reborn/datatable-builder";
+import { DataTableCell } from "@reborn/datatable-builder";
 import {
   DataTableCellVariant,
   DataTableConfig,
-} from "@/components/shared/data-tables/types";
+} from "@reborn/datatable-builder";
 import { useTranslation } from "react-i18next";
 
 const getMethodColor = (method: string) => {

@@ -1,22 +1,22 @@
 import React from "react";
 import { ResponseJobViewDto } from "~/types";
 import { AnimatedLegendList } from "@legendapp/list/reanimated";
-import { InfiniteListFooter } from "@/components/shared/InfiniteListFooter";
+import { InfiniteListFooter } from "@reborn/mobile-components";
 import Animated from "react-native-reanimated";
-import { cn } from "~/lib/utils";
+import { cn } from "@reborn/lib";
 import { RefreshControl, View } from "react-native";
-import { Text } from "~/components/ui/text";
+import { Text } from "@reborn/mobile-ui";
 import { useInfiniteViewedJobs } from "~/hooks/content/job/useInfiniteViewedJobs";
 import { JobCard } from "../../jobs/JobCard";
-import { StableSafeAreaView } from "@/components/shared/stables/StableSafeAreaView";
+import { StableSafeAreaView } from "@reborn/mobile-components";
 import { ApplicationHeader } from "~/components/shared/AppHeader";
-import { useColorPalette } from "@/hooks/useColorPalette";
+import { useColorPalette } from "@reborn/mobile-components";
 import { Search } from "lucide-react-native";
 import { format, isToday, isYesterday, parseISO } from "date-fns";
 import { JobCardSkeleton } from "@/components/jobs/JobCardSkeleton";
 import { MarkedInput } from "~/components/shared/MarkedInput";
-import { useDebounce } from "~/hooks/useDebounce";
-import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
+import { useDebounce } from "@reborn/hooks/utils";
+import { AppHeaderBack } from "@reborn/mobile-components";
 import { useStickyElement } from "@/hooks/useStickyElement";
 
 type FlattenedItem =

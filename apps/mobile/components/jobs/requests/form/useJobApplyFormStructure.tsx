@@ -7,11 +7,11 @@ import {
   SliderFieldProps,
   TextareaFieldProps,
   CustomFieldProps,
-} from "@/components/shared/form-builder/types";
+} from "@reborn/mobile-form-builder";
 import { ResponseJobDto } from "@/types";
-import { SegmentedToggle } from "@/components/shared/SegmentedToggle";
+import { SegmentedToggle } from "@reborn/mobile-components";
 import { View } from "react-native";
-import { Text } from "@/components/ui/text";
+import { Text } from "@reborn/mobile-ui";
 
 interface UseJobApplyFormStructureProps {
   store: JobApplyStore;

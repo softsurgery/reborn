@@ -4,9 +4,9 @@ import { THEME } from "~/lib/theme";
 import { useColorScheme } from "nativewind";
 import { Image, View } from "react-native";
 import type { ImageSourcePropType } from "react-native";
-import { Text } from "../ui/text";
-import { Button } from "../ui/button";
-import { Icon } from "../ui/icon";
+import { Text } from "@reborn/mobile-ui";
+import { Button } from "@reborn/mobile-ui";
+import { Icon } from "@reborn/mobile-ui";
 import { Image as ImageIcon } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 

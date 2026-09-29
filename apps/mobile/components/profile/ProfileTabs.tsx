@@ -8,9 +8,9 @@ import {
   ResponseRefParamDto,
   ResponseUserDto,
 } from "@/types";
-import { useColorPalette } from "@/hooks/useColorPalette";
+import { useColorPalette } from "@reborn/mobile-components";
 import { hslToHex } from "@/lib/theme";
-import { useRTL } from "@/hooks/useRTL";
+import { useRTL } from "@reborn/mobile-components";
 import { AboutTab } from "./sections/AboutTab";
 import { JobsTab } from "./sections/JobsTab";
 import { CareerTab } from "./sections/CareerTab";

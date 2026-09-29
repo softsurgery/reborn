@@ -15,7 +15,7 @@ import { ChatHeaderLeft } from "./conversation/ChatHeaderLeft";
 import { ChatHeaderRight } from "./conversation/ChatHeaderRight";
 
 import { useServerImages } from "@/hooks/content/useServerImages";
-import { Text } from "~/components/ui/text";
+import { Text } from "@reborn/mobile-ui";
 
 import { useConversationFeatures } from "@/hooks/content/chat/useConversationFeatures";
 import Animated, {
@@ -25,8 +25,8 @@ import Animated, {
 } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { MessageFlatListItem, ResponseMessageDto } from "@/types";
-import { useColorPalette } from "@/hooks/useColorPalette";
-import { cn } from "@/lib/utils";
+import { useColorPalette } from "@reborn/mobile-components";
+import { cn } from "@reborn/lib";
 import { useTranslation } from "react-i18next";
 import { useGradualAnimation } from "@/hooks/useGradualAnimation";
 import { useSendChatMedia } from "@/hooks/content/chat/useSendChatMedia";
@@ -37,7 +37,7 @@ import { identifyUser, identifyUserAvatar } from "@/lib/user.utils";
 import { useUserPresence } from "@/hooks/content/chat/useUserPresence";
 import { formatLastSeen } from "@/lib/dates.utils";
 import { setConversationMessageParam } from "@/lib/chat/chat";
-import { StableSafeAreaView } from "../shared/stables/StableSafeAreaView";
+import { StableSafeAreaView } from "@reborn/mobile-components";
 import { ImageBackground } from "expo-image";
 import { ChatMediaBubble } from "./conversation/bubbles/ChatMediaBubble";
 import { ChatFileBubble } from "./conversation/bubbles/ChatFileBubble";

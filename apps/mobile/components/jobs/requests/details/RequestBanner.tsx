@@ -1,9 +1,9 @@
-import { Badge } from "@/components/ui/badge";
-import { Icon } from "@/components/ui/icon";
-import { Text } from "@/components/ui/text";
-import { useColorPalette } from "@/hooks/useColorPalette";
+import { Badge } from "@reborn/mobile-ui";
+import { Icon } from "@reborn/mobile-ui";
+import { Text } from "@reborn/mobile-ui";
+import { useColorPalette } from "@reborn/mobile-components";
 import { timeAgo } from "@/lib/dates.utils";
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 import { ResponseJobRequestDto } from "@/types";
 import { format } from "date-fns";
 import { Clock } from "lucide-react-native";

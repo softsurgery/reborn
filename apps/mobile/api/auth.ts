@@ -1,4 +1,4 @@
-import { useAuthPersistStore } from "~/hooks/stores/useAuthPersistStore";
+import { useAuthPersistStore } from "@reborn/hooks/stores";
 import axios from "./axios";
 import {
   RequestClientOAuthDto,

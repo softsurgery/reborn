@@ -9,8 +9,8 @@ import Animated, {
   runOnJS,
 } from "react-native-reanimated";
 import { X, Search, Ban, Trash2, MessageCircle, AlertTriangle } from "lucide-react-native";
-import { Text } from "@/components/ui/text";
-import { useColorPalette } from "@/hooks/useColorPalette";
+import { Text } from "@reborn/mobile-ui";
+import { useColorPalette } from "@reborn/mobile-components";
 import { useServerImages } from "@/hooks/content/useServerImages";
 import { router } from "expo-router";
 import * as Haptics from "expo-haptics";

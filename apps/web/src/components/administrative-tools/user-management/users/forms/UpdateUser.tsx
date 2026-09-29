@@ -11,21 +11,21 @@ import {
   updateUserSchema,
 } from "@/types/validations/user.validation";
 import { Gender, ServerErrorResponse, UpdateUserDto, Upload } from "@/types";
-import { cn } from "@/lib/utils";
-import { useBreadcrumb } from "@/contexts/BreadcrumbContext";
-import { useIntro } from "@/contexts/IntroContext";
+import { cn } from "@reborn/lib";
+import { useBreadcrumb } from "@reborn/contexts";
+import { useIntro } from "@reborn/contexts";
 import { useIdentifiedUser } from "@/hooks/content/User/useIdentifiedUser";
 import { useUpload } from "@/hooks/content/useUpload";
 import { useUploads } from "@/hooks/content/useUploads";
 import { useRoles } from "@/hooks/content/useRoles";
-import { FormBuilder } from "@/components/shared/form-builder/FormBuilder";
-import { mapToSelectOptions } from "@/components/shared/form-builder/utils/mapToSelectOptions";
-import { Button } from "@/components/ui/button";
-import { defineStepper } from "@/components/ui/stepper";
+import { FormBuilder } from "@reborn/form-builder";
+import { mapToSelectOptions } from "@reborn/form-builder";
+import { Button } from "@reborn/ui";
+import { defineStepper } from "@reborn/ui";
 import { useUpdateUserFormStructure } from "./useUpdateUserFormStructure";
 import { ArrowLeft, ArrowRight, Save } from "lucide-react";
 import { useRegions } from "@/hooks/content/useRegions";
-import { Spinner } from "@/components/shared/Spinner";
+import { Spinner } from "@reborn/components";
 import { useUploadMutation } from "@/hooks/useUploadMutation";
 
 const steps = [

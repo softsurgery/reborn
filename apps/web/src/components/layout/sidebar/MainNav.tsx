@@ -3,7 +3,7 @@ import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/components/ui/collapsible";
+} from "@reborn/ui";
 import {
   SidebarGroup,
   SidebarMenu,
@@ -12,7 +12,7 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
-} from "@/components/ui/sidebar";
+} from "@reborn/ui";
 import Link from "next/link";
 
 export function MainNav({

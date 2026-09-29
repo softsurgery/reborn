@@ -22,7 +22,7 @@ import { useServerImages } from "@/hooks/content/useServerImages";
 import { identifyUserAvatar } from "@/lib/user.utils";
 import { useUploadMutation } from "@/hooks/content/useUploadMutation";
 import { ThreeDotsActionSheet } from "../shared/ThreeDotsActionSheet";
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 
 interface ProfileAvatarProps {
   className?: string;

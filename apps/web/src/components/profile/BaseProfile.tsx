@@ -10,14 +10,14 @@ import {
   Phone,
   Briefcase,
 } from "lucide-react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@reborn/ui";
 import { Spinner } from "../shared/Spinner";
 import { About } from "./cards/About";
 import { Activity } from "./cards/Activity";
 import { Settings } from "./cards/Settings";
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 import { useUserStore } from "@/hooks/stores/useUserStore";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@reborn/ui";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/api";
 import { useServerImages } from "@/hooks/content/useServerImages";
@@ -25,8 +25,8 @@ import { useFollowerDialog } from "./modals/FollowersDialog";
 import { useFollowingDialog } from "./modals/FollowingDialog";
 import { useFollowSystem } from "@/hooks/useFollowSystem";
 import { identifyUser, identifyUserAvatar } from "@/lib/user.utils";
-import { Separator } from "../ui/separator";
-import { Badge } from "../ui/badge";
+import { Separator } from "@reborn/ui";
+import { Badge } from "@reborn/ui";
 import { useTranslation } from "react-i18next";
 import { ChatBubbleIcon } from "@radix-ui/react-icons";
 import { Conversations } from "./cards/Conversations";

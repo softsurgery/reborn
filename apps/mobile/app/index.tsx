@@ -5,7 +5,7 @@ import * as Font from "expo-font";
 import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
 import { ActivityIndicator, Platform } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
-import { usePreferencePersistStore } from "~/hooks/stores/usePreferencePersistStore";
+import { usePreferencePersistStore } from "@reborn/hooks/stores";
 import { resolveAppLanguage } from "~/hooks/useRTL";
 import { useTranslation } from "react-i18next";
 

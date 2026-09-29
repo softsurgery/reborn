@@ -1,14 +1,14 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/api";
-import { cn } from "@/lib/utils";
-import { useDebounce } from "@/hooks/useDebounce";
-import { useBreadcrumb } from "@/contexts/BreadcrumbContext";
-import { useIntro } from "@/contexts/IntroContext";
+import { cn } from "@reborn/lib";
+import { useDebounce } from "@reborn/hooks/utils";
+import { useBreadcrumb } from "@reborn/contexts";
+import { useIntro } from "@reborn/contexts";
 import { ResponseLogDto } from "@/types";
 import { useLoggerColumns } from "./columns";
-import { DataTable } from "@/components/shared/data-tables/data-table";
-import { DataTableConfig } from "@/components/shared/data-tables/types";
+import { DataTable } from "@reborn/datatable-builder";
+import { DataTableConfig } from "@reborn/datatable-builder";
 import { useTranslation } from "react-i18next";
 
 interface LoggerProps {

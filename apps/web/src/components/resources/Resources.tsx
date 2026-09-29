@@ -1,10 +1,10 @@
 import React from "react";
-import { useBreadcrumb } from "@/contexts/BreadcrumbContext";
-import { useIntro } from "@/contexts/IntroContext";
+import { useBreadcrumb } from "@reborn/contexts";
+import { useIntro } from "@reborn/contexts";
 import { useInfiniteUploads } from "@/hooks/content/useInfiniteUploads";
 import { ResourceCard } from "./ResourceCard";
-import { cn } from "@/lib/utils";
-import { useDebounce } from "@/hooks/useDebounce";
+import { cn } from "@reborn/lib";
+import { useDebounce } from "@reborn/hooks/utils";
 import { PackageOpen } from "lucide-react";
 import { ResourcesActionBar } from "./ResourcesActionBar";
 import { useMutation } from "@tanstack/react-query";

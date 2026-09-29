@@ -15,16 +15,16 @@ import {
   User,
   LucideIcon,
 } from "lucide-react-native";
-import { Text } from "@/components/ui/text";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { ActionPressable } from "@/components/shared/ActionPressable";
-import { Loader } from "@/components/shared/lotties/Loader";
+import { Text } from "@reborn/mobile-ui";
+import { Badge } from "@reborn/mobile-ui";
+import { Button } from "@reborn/mobile-ui";
+import { ActionPressable } from "@reborn/mobile-components";
+import { Loader } from "@reborn/mobile-components";
 import { useJob } from "@/hooks/content/job/useJob";
 import { useWorkflowJob } from "@/hooks/content/job/workflow/useWorkflowJob";
 import { useJobLifecycleTransition } from "@/hooks/content/job/workflow/useJobLifecycleTransition";
 import { JobEvents } from "@/types";
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 import { identifyUser } from "@/lib/user.utils";
 import {
   getAvailableLifecycleEvents,

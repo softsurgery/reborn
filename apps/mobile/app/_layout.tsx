@@ -4,7 +4,7 @@ import { Stack, ThemeProvider, useRootNavigationState } from "expo-router";
 import "~/global.css";
 import i18n from "../i18n";
 import { Platform, View } from "react-native";
-import { cn } from "~/lib/utils";
+import { cn } from "@reborn/lib";
 import { StatusBar } from "expo-status-bar";
 import { PortalHost } from "@rn-primitives/portal";
 import { Toaster } from "sonner-native";
@@ -14,15 +14,16 @@ import {
 } from "react-native-safe-area-context";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
-import { useColorPalette } from "@/hooks/useColorPalette";
-import { usePreferencePersistStore } from "@/hooks/stores/usePreferencePersistStore";
+import { useColorPalette } from "@reborn/mobile-components";
+import { usePreferencePersistStore } from "@reborn/hooks/stores";
 import * as SplashScreen from "expo-splash-screen";
 import { splashPrevented } from "@/lib/splash-screen";
 import { asyncStoragePersister, queryClient } from "@/lib/query-client";
 import { LoaderProvider } from "@/contexts/LoaderContext";
 import { KeyboardProvider } from "react-native-keyboard-controller";
 export { ErrorBoundary } from "@/components/shared/ErrorBoundary";
-import { resolveAppLanguage, useRTL } from "@/hooks/useRTL";
+import { useRTL } from "@reborn/mobile-components";
+import { resolveAppLanguage } from "@/hooks/useRTL";
 
 interface RootLayoutContentProps {
   palette: typeof THEME.light | typeof THEME.dark;

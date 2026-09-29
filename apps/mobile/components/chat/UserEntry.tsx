@@ -1,7 +1,7 @@
 import React from "react";
 import { View } from "react-native";
-import { Text } from "~/components/ui/text";
-import { cn } from "~/lib/utils";
+import { Text } from "@reborn/mobile-ui";
+import { cn } from "@reborn/lib";
 import {
   MessageVariant,
   ResponseConversationDto,

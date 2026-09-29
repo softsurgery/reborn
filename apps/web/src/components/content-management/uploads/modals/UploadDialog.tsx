@@ -1,8 +1,8 @@
-import { useDialog } from "@/components/shared/Dialogs";
+import { useDialog } from "@reborn/components";
 import { useState, useRef, type DragEvent, type ChangeEvent } from "react";
 import { Save, Upload, UploadCloud, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from "@reborn/ui";
+import { Input } from "@reborn/ui";
 import { FileIcon } from "../FileIcon";
 import { formatFileSize } from "@/lib/file.utils";
 

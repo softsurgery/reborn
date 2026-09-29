@@ -1,15 +1,15 @@
-import { useDialog } from "@/components/shared/Dialogs";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { useDialog } from "@reborn/components";
+import { Button } from "@reborn/ui";
+import { Input } from "@reborn/ui";
 import { ResponseUserDto } from "@/types";
 import { Search, X } from "lucide-react";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { identifyUser, identifyUserAvatar } from "@/lib/user.utils";
-import { cn } from "@/lib/utils";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { cn } from "@reborn/lib";
+import { Checkbox } from "@reborn/ui";
+import { Avatar, AvatarFallback, AvatarImage } from "@reborn/ui";
 
 interface ConversationComposeDialogProps {
   users: ResponseUserDto[];

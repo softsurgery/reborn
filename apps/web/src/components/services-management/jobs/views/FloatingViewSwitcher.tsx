@@ -1,5 +1,5 @@
 import React from "react";
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 import { Table as TableIcon, LayoutGrid } from "lucide-react";
 
 export type JobViewMode = "table" | "grid";

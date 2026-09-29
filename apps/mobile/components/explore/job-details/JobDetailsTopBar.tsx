@@ -7,9 +7,9 @@ import Animated, {
 } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ChevronLeft, Heart } from "lucide-react-native";
-import { Text } from "~/components/ui/text";
-import { cn } from "~/lib/utils";
-import { useColorPalette } from "@/hooks/useColorPalette";
+import { Text } from "@reborn/mobile-ui";
+import { cn } from "@reborn/lib";
+import { useColorPalette } from "@reborn/mobile-components";
 import { router } from "expo-router";
 
 interface JobDetailsTopBarProps {

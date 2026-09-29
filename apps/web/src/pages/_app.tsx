@@ -2,14 +2,17 @@ import React from "react";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import Application from "@/components/Application";
-import { ThemeProvider } from "@/contexts/ThemeContext";
+import { AppProvider, ThemeProvider } from "@reborn/contexts";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { appWithTranslation } from "next-i18next";
 import nextI18nextConfig from "../../next-i18next.config";
 import { SessionProvider } from "next-auth/react";
 import "@/styles/globals.css";
+import "@reborn/ui/components/video.css";
+import "@reborn/ui/components/editor/style.css";
 import { AuthTokenSync } from "@/components/auth/AuthTokenSync";
 import { UiProvider } from "@/contexts/UiContext";
+import { api } from "@/lib/api";
 
 const inter = { className: "font-inter" };
 const queryClient = new QueryClient();
@@ -32,13 +35,15 @@ const App = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => {
             enableSystem
             disableTransitionOnChange
           >
-            <UiProvider>
-              <Application
-                Component={Component}
-                pageProps={pageProps}
-                className={inter.className}
-              />
-            </UiProvider>
+            <AppProvider value={{ appType: "admin", api }}>
+              <UiProvider>
+                <Application
+                  Component={Component}
+                  pageProps={pageProps}
+                  className={inter.className}
+                />
+              </UiProvider>
+            </AppProvider>
           </ThemeProvider>
         </QueryClientProvider>
       </SessionProvider>

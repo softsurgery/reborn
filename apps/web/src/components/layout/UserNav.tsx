@@ -1,6 +1,6 @@
 import React from "react";
 import { BadgeCheck, Bell, CreditCard, LogOut, User } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@reborn/ui";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,11 +9,11 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@reborn/ui";
 import { useRouter } from "next/router";
 import { signOut } from "next-auth/react";
 import { identifyUser, identifyUserAvatar } from "@/lib/user.utils";
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 import { useCurrentUser } from "@/hooks/content/User/useCurrentUser";
 import { useServerImages } from "@/hooks/content/useServerImages";
 import { useTranslation } from "react-i18next";

@@ -1,6 +1,6 @@
-import { useDialog } from "@/components/shared/Dialogs";
-import { Spinner } from "@/components/shared/Spinner";
-import { Button } from "@/components/ui/button";
+import { useDialog } from "@reborn/components";
+import { Spinner } from "@reborn/components";
+import { Button } from "@reborn/ui";
 import { useTranslation } from "react-i18next";
 
 interface ExperienceDeleteDialogProps {

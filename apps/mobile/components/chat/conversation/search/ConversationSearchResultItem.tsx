@@ -1,6 +1,6 @@
 import React from "react";
 import { TouchableOpacity, View } from "react-native";
-import { Text } from "~/components/ui/text";
+import { Text } from "@reborn/mobile-ui";
 import { ResponseMessageDto, ResponseUserDto } from "~/types";
 import { MessageTextContent } from "../bubbles/MessageTextContent";
 import { useServerImages } from "@/hooks/content/useServerImages";

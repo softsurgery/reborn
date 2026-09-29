@@ -1,6 +1,6 @@
-import DataTableCell from "@/components/shared/data-tables/core/data-table-cell";
-import { DataTableColumnHeader } from "@/components/shared/data-tables/data-table-column-header";
-import { DataTableCellVariant } from "@/components/shared/data-tables/types";
+import { DataTableCell } from "@reborn/datatable-builder";
+import { DataTableColumnHeader } from "@reborn/datatable-builder";
+import { DataTableCellVariant } from "@reborn/datatable-builder";
 import { formatFileSize } from "@/lib/file.utils";
 import { Upload } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";

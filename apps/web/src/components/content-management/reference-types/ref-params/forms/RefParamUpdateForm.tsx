@@ -1,12 +1,12 @@
 import React from "react";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import { cn } from "@reborn/lib";
+import { Button } from "@reborn/ui";
 import { Save } from "lucide-react";
-import { FormBuilder } from "@/components/shared/form-builder/FormBuilder";
+import { FormBuilder } from "@reborn/form-builder";
 import { useReferenceTypesStore } from "@/hooks/stores/useReferenceTypesStore";
 import { useUpdateRefParamFormStructure } from "./useUpdateRefParamFormStructure";
 import { useRefTypes } from "@/hooks/content/reference-types/useRefTypes";
-import { mapToSelectOptions } from "@/components/shared/form-builder/utils/mapToSelectOptions";
+import { mapToSelectOptions } from "@reborn/form-builder";
 
 interface RefParamUpdateFormProps {
   className?: string;

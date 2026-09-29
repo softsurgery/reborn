@@ -8,7 +8,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { Image, ImageSource } from "expo-image";
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { X, ChevronLeft, ChevronRight } from "lucide-react-native";
 import {

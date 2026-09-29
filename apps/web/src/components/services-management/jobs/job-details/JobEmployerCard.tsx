@@ -1,14 +1,14 @@
 import React from "react";
 import { Building2, CheckCircle2, MapPin, ExternalLink } from "lucide-react";
 import { useRouter } from "next/router";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@reborn/ui";
 import {
   Card,
   CardHeader,
   CardTitle,
   CardContent,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+} from "@reborn/ui";
+import { Button } from "@reborn/ui";
 import { useServerImages } from "@/hooks/content/useServerImages";
 import { identifyUser, identifyUserAvatar } from "@/lib/user.utils";
 import { ResponseJobDto } from "@/types";

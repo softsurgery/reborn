@@ -1,9 +1,9 @@
 import React from "react";
 import { format } from "date-fns";
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 import { StablePressable } from "../shared/StablePressable";
 import { UserEntry } from "./UserEntry";
-import { Separator } from "../ui/separator";
+import { Separator } from "@reborn/ui";
 import { ApplicationHeader } from "../shared/AppHeader";
 import { api } from "@/api";
 import { useInfiniteQuery } from "@tanstack/react-query";

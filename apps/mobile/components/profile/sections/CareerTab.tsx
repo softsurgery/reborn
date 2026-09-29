@@ -7,15 +7,15 @@ import {
   NativeScrollEvent,
   Pressable,
 } from "react-native";
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 import { useTranslation } from "react-i18next";
-import { useColorPalette } from "@/hooks/useColorPalette";
+import { useColorPalette } from "@reborn/mobile-components";
 import { hslToHex } from "@/lib/theme";
-import { useRTL } from "@/hooks/useRTL";
+import { useRTL } from "@reborn/mobile-components";
 import { router } from "expo-router";
 import { Briefcase, GraduationCap, Pen, Plus, Tag } from "lucide-react-native";
-import { Icon } from "@/components/ui/icon";
-import { Text } from "@/components/ui/text";
+import { Icon } from "@reborn/mobile-ui";
+import { Text } from "@reborn/mobile-ui";
 import { ExperienceInstance } from "../forms/experience/ExperienceInstance";
 import { EducationInstance } from "../forms/education/EducationInstance";
 import {

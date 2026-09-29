@@ -14,13 +14,13 @@ import DraggableFlatList, {
   RenderItemParams,
 } from "react-native-draggable-flatlist";
 import { useTranslation } from "react-i18next";
-import { cn } from "~/lib/utils";
-import { Text } from "~/components/ui/text";
-import { Separator } from "~/components/ui/separator";
+import { cn } from "@reborn/lib";
+import { Text } from "@reborn/mobile-ui";
+import { Separator } from "@reborn/mobile-ui";
 import { QuickAction } from "./QuickAction";
 import { QuickActionsSkeleton } from "./QuickActionsSkeleton";
-import { useColorPalette } from "@/hooks/useColorPalette";
-import { useRTL } from "@/hooks/useRTL";
+import { useColorPalette } from "@reborn/mobile-components";
+import { useRTL } from "@reborn/mobile-components";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { api } from "@/api";
 

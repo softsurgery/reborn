@@ -1,4 +1,4 @@
-import { Text } from "@/components/ui/text";
+import { Text } from "@reborn/mobile-ui";
 import { normalizeMessageLinkUrl } from "@/lib/chat/message-links";
 import { identifyUser } from "@/lib/user.utils";
 import { ResponseMessageDto, ResponseMessageLinkDto } from "@/types";
@@ -6,7 +6,7 @@ import { format } from "date-fns";
 import { Link2 } from "lucide-react-native";
 import React from "react";
 import { Linking, Pressable, View } from "react-native";
-import { Icon } from "~/components/ui/icon";
+import { Icon } from "@reborn/mobile-ui";
 
 interface LinkListItemProps {
   message: ResponseMessageDto;

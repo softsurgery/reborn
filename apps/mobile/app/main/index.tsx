@@ -2,7 +2,7 @@ import { router } from "expo-router";
 import React from "react";
 import { ActivityIndicator, View } from "react-native";
 import OnBoarding from "~/components/auth/OnBoarding";
-import { useAuthPersistStore } from "~/hooks/stores/useAuthPersistStore";
+import { useAuthPersistStore } from "@reborn/hooks/stores";
 
 export default function Screen() {
   const { isAuthenticated, isReady: isAuthPersistStoreReady } =

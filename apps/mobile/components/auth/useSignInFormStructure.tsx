@@ -3,7 +3,7 @@ import {
   Field,
   FieldVariant,
   FormStructure,
-} from "~/components/shared/form-builder/types";
+} from "@reborn/mobile-form-builder";
 import { AuthStore } from "~/hooks/stores/useAuthStore";
 
 interface useSignInFormStructureProps {

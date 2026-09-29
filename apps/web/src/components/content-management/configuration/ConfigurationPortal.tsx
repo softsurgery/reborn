@@ -1,20 +1,20 @@
-import { Button } from "@/components/ui/button";
-import { useBreadcrumb } from "@/contexts/BreadcrumbContext";
-import { useIntro } from "@/contexts/IntroContext";
+import { Button } from "@reborn/ui";
+import { useBreadcrumb } from "@reborn/contexts";
+import { useIntro } from "@reborn/contexts";
 import { useConfigurations } from "@/hooks/content/configuration/useConfigurations";
 import { useConfigStore } from "@/hooks/stores/userConfigStore";
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 import _ from "lodash";
 import React from "react";
 import { ConfigurationInput } from "./ConfigurationInput";
-import { Label } from "@/components/ui/label";
+import { Label } from "@reborn/ui";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { api } from "@/api";
 import { Loader2, Search } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
+import { Input } from "@reborn/ui";
+import { Separator } from "@reborn/ui";
 import SidebarNav from "@/components/shared/SidebarNav";
 
 interface ConfigurationPortalProps {

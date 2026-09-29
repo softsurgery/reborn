@@ -1,9 +1,9 @@
 import React from "react";
 import Image from "next/image";
 import { api } from "@/api";
-import axios from "@/api/axios";
-import { cn } from "@/lib/utils";
-import { Skeleton } from "@/components/ui/skeleton";
+import axios from "@/lib/api-default";
+import { cn } from "@reborn/lib";
+import { Skeleton } from "@reborn/ui";
 
 export interface useServerImagesProps {
   ids: (number | undefined)[];

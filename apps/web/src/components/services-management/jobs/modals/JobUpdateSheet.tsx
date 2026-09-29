@@ -1,6 +1,6 @@
 import { Briefcase } from "lucide-react";
 import { UpdateJob } from "../forms/UpdateJob";
-import { useSheet } from "@/components/shared/Sheets";
+import { useSheet } from "@reborn/components";
 import { useTranslation } from "react-i18next";
 
 interface JobUpdateSheetProps {

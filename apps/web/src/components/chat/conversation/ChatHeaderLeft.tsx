@@ -1,6 +1,6 @@
 import React from "react";
-import { cn } from "@/lib/utils";
-import { Text } from "../../ui/text";
+import { cn } from "@reborn/lib";
+import { Text } from "@/components/shared/Text";
 import { StablePressable } from "@/components/shared/StablePressable";
 import { ArrowLeft } from "lucide-react";
 

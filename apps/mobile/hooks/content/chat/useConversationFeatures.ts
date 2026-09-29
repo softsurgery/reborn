@@ -29,7 +29,7 @@ import { messageHasLinks } from "@/lib/chat/message-links";
 import { useShallow } from "zustand/react/shallow";
 import { useChatPendingStore } from "@/hooks/stores/useChatPendingStore";
 import { useCurrentUser } from "../user/useCurrentUser";
-import { useAuthPersistStore } from "@/hooks/stores/useAuthPersistStore";
+import { useAuthPersistStore } from "@reborn/hooks/stores";
 
 interface useConversationFeaturesProps {
   id: number;

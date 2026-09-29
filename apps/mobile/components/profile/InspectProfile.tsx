@@ -1,8 +1,8 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 import { View } from "react-native";
 import { InspectBaseProfile } from "../profile/BaseProfile";
 import { ApplicationHeader } from "../shared/AppHeader";
-import { StableSafeAreaView } from "../shared/stables/StableSafeAreaView";
+import { StableSafeAreaView } from "@reborn/mobile-components";
 import { AppHeaderBack } from "../shared/AppHeaderBack";
 
 interface InspectProfileProps {

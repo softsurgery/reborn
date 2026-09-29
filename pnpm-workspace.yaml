@@ -1,3 +1,22 @@
 packages:
   - "apps/*"
   - "packages/*"
+
+nodeLinker: hoisted
+
+# Match instanct (no release-age gate). pnpm 11+ may otherwise reject fresh lockfile entries.
+minimumReleaseAge: 0
+
+overrides:
+  react-native-worklets: "0.10.1"
+  react: "19.2.3"
+  react-dom: "19.2.3"
+
+allowBuilds:
+  "@scarf/scarf": true
+  "@swc/core": true
+  bcrypt: true
+  core-js: true
+  esbuild: true
+  sharp: true
+  unrs-resolver: true

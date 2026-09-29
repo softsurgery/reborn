@@ -1,12 +1,12 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { ResponseBugDto } from "@/types/system-reports";
-import { DataTableColumnHeader } from "@/components/shared/data-tables/data-table-column-header";
-import { DataTableRowActions } from "@/components/shared/data-tables/data-table-row-actions";
+import { DataTableColumnHeader } from "@reborn/datatable-builder";
+import { DataTableRowActions } from "@reborn/datatable-builder";
 import { useTranslation } from "react-i18next";
-import DataTableCell from "@/components/shared/data-tables/core/data-table-cell";
+import { DataTableCell } from "@reborn/datatable-builder";
 import { identifyUser } from "@/lib/user.utils";
-import { DataTableCellVariant } from "@/components/shared/data-tables/types";
-import { cn } from "@/lib/utils";
+import { DataTableCellVariant } from "@reborn/datatable-builder";
+import { cn } from "@reborn/lib";
 
 export const useBugColumns = (context: any): ColumnDef<ResponseBugDto>[] => {
   const { t } = useTranslation("bug");

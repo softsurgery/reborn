@@ -1,9 +1,9 @@
 import React from "react";
 import { View } from "react-native";
-import { Text } from "~/components/ui/text";
-import { Button } from "~/components/ui/button";
+import { Text } from "@reborn/mobile-ui";
+import { Button } from "@reborn/mobile-ui";
 import { CopyPlus } from "lucide-react-native";
-import { Icon } from "~/components/ui/icon";
+import { Icon } from "@reborn/mobile-ui";
 import ActionSheet, { type ActionSheetRef } from "react-native-actions-sheet";
 import { useColorScheme } from "nativewind";
 import { THEME } from "~/lib/theme";

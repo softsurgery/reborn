@@ -2,9 +2,9 @@ import { format } from "date-fns";
 import { Play } from "lucide-react-native";
 import { Dimensions, ImageSourcePropType, View } from "react-native";
 import { Image } from "expo-image";
-import { Text } from "~/components/ui/text";
-import { Icon } from "~/components/ui/icon";
-import { cn } from "~/lib/utils";
+import { Text } from "@reborn/mobile-ui";
+import { Icon } from "@reborn/mobile-ui";
+import { cn } from "@reborn/lib";
 import {
   MessageVariant,
   PendingMediaItem,
@@ -16,8 +16,8 @@ import { useServerImages } from "~/hooks/content/useServerImages";
 import { MessageTextContent } from "./MessageTextContent";
 import { MediaImageGrid } from "./ChatMediaImageGrid";
 import { MediaUploadProgress } from "../staging/MediaUploadProgress";
-import { VideoThumbnailPreview } from "@/components/shared/VideoThumbnailPreview";
-import { VideoPreview } from "@/components/shared/VideoPreview";
+import { VideoThumbnailPreview } from "@reborn/mobile-components";
+import { VideoPreview } from "@reborn/mobile-components";
 
 interface ChatMediaBubbleProps {
   className?: string;

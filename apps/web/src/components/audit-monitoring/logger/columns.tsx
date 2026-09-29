@@ -1,10 +1,10 @@
-import DataTableCell from "@/components/shared/data-tables/core/data-table-cell";
-import { DataTableColumnHeader } from "@/components/shared/data-tables/data-table-column-header";
+import { DataTableCell } from "@reborn/datatable-builder";
+import { DataTableColumnHeader } from "@reborn/datatable-builder";
 import {
   DataTableCellVariant,
   DataTableConfig,
-} from "@/components/shared/data-tables/types";
-import { Trans } from "@/components/shared/Trans";
+} from "@reborn/datatable-builder";
+import { Trans } from "@reborn/components";
 import { ResponseLogDto } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";

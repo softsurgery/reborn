@@ -1,12 +1,12 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@reborn/mobile-ui";
 import {
   Dialog,
   DialogContent,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Text } from "@/components/ui/text";
-import { cn } from "@/lib/utils";
+} from "@reborn/mobile-ui";
+import { Text } from "@reborn/mobile-ui";
+import { cn } from "@reborn/lib";
 import React from "react";
 import { View } from "react-native";
 import { useTranslation } from "react-i18next";

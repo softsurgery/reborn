@@ -1,5 +1,5 @@
 import React from "react";
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 
 interface StablePressableProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {

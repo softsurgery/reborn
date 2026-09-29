@@ -1,11 +1,11 @@
 import React from "react";
 import ActionSheet, { type ActionSheetRef } from "react-native-actions-sheet";
 import { View } from "react-native";
-import { Text } from "~/components/ui/text";
-import { Button } from "~/components/ui/button";
-import { Icon } from "~/components/ui/icon";
+import { Text } from "@reborn/mobile-ui";
+import { Button } from "@reborn/mobile-ui";
+import { Icon } from "@reborn/mobile-ui";
 import { LucideIcon } from "lucide-react-native";
-import { useColorPalette } from "@/hooks/useColorPalette";
+import { useColorPalette } from "@reborn/mobile-components";
 import { useTranslation } from "react-i18next";
 
 interface JobLifecycleActionSheetProps {

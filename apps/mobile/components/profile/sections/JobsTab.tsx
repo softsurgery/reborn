@@ -1,4 +1,4 @@
-import { useColorPalette } from "@/hooks/useColorPalette";
+import { useColorPalette } from "@reborn/mobile-components";
 import React from "react";
 import {
   View,
@@ -7,15 +7,15 @@ import {
   NativeScrollEvent,
 } from "react-native";
 import { LegendList } from "@legendapp/list";
-import { InfiniteListFooter } from "@/components/shared/InfiniteListFooter";
+import { InfiniteListFooter } from "@reborn/mobile-components";
 import { useInfiniteJobs } from "@/hooks/content/job/useInfiniteJobs";
 import { ResponseJobDto, ResponseUserDto } from "@/types";
 import { JobCard } from "@/components/jobs/JobCard";
-import { Loader } from "@/components/shared/lotties/Loader";
-import { Text } from "@/components/ui/text";
-import { Icon } from "@/components/ui/icon";
+import { Loader } from "@reborn/mobile-components";
+import { Text } from "@reborn/mobile-ui";
+import { Icon } from "@reborn/mobile-ui";
 import { Briefcase } from "lucide-react-native";
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 
 interface JobsTabProps {
   className?: string;

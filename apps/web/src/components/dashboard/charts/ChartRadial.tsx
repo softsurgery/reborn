@@ -16,9 +16,9 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@reborn/ui"
 
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@reborn/ui"
 
 const chartData = [
   { browser: "chrome", visitors: 275, fill: "#f87171" }, // rouge

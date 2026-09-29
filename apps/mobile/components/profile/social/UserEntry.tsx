@@ -2,17 +2,17 @@ import { Pressable, View } from "react-native";
 import { useQueryClient } from "@tanstack/react-query";
 import { Star, UserCheck, UserPlus } from "lucide-react-native";
 import { router } from "expo-router";
-import { Text } from "~/components/ui/text";
+import { Text } from "@reborn/mobile-ui";
 import { UserStore } from "~/hooks/stores/useUserStore";
 import { useCurrentUser } from "~/hooks/content/user/useCurrentUser";
 import { useFollowSystem } from "~/hooks/content/useFollowSystem";
 import { identifyUser, identifyUserAvatar } from "~/lib/user.utils";
-import { cn } from "~/lib/utils";
+import { cn } from "@reborn/lib";
 import { ResponseUserDto, ServerErrorResponse } from "~/types";
 import { useServerImages } from "~/hooks/content/useServerImages";
-import { Icon } from "~/components/ui/icon";
+import { Icon } from "@reborn/mobile-ui";
 import { toast } from "sonner-native";
-import { useColorPalette } from "~/hooks/useColorPalette";
+import { useColorPalette } from "@reborn/mobile-components";
 
 interface UserEntryProps {
   className?: string;

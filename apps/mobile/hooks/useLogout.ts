@@ -1,7 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { disconnectAllSockets } from "@/lib/socket";
 import { router } from "expo-router";
-import { useAuthPersistStore } from "./stores/useAuthPersistStore";
+import { useAuthPersistStore } from "@reborn/hooks/stores";
 import { useUserStore } from "./stores/useUserStore";
 import { useAuthStore } from "./stores/useAuthStore";
 import { useExploreFilterStore } from "./stores/userExploreFilterStore";

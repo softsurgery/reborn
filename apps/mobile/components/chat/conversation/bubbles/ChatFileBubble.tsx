@@ -1,6 +1,6 @@
-import { Text } from "@/components/ui/text";
+import { Text } from "@reborn/mobile-ui";
 import { useServerUploads } from "@/hooks/content/useServerUploads";
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 import { PendingFileUpload, ResponseMessageDto } from "@/types";
 import { format } from "date-fns";
 import React from "react";

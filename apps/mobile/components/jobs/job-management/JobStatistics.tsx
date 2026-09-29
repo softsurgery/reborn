@@ -1,13 +1,13 @@
 import { ScrollView, View } from "react-native";
 import { useJobStatistics } from "@/hooks/content/job/useJobStatistics";
-import { Loader } from "@/components/shared/lotties/Loader";
-import { Text } from "@/components/ui/text";
+import { Loader } from "@reborn/mobile-components";
+import { Text } from "@reborn/mobile-ui";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion";
+} from "@reborn/mobile-ui";
 import {
   JobStatisticsKPIs,
   JobStatisticsActivityTrend,
@@ -15,10 +15,10 @@ import {
   JobStatisticsExperienceLevels,
   JobStatisticsAcquisitionChannels,
 } from "./statistics";
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 import { BarChart2, Briefcase, Globe2, Target } from "lucide-react-native";
-import { useColorPalette } from "@/hooks/useColorPalette";
-import { useRTL } from "@/hooks/useRTL";
+import { useColorPalette } from "@reborn/mobile-components";
+import { useRTL } from "@reborn/mobile-components";
 import { useTranslation } from "react-i18next";
 
 interface JobStatisticsProps {

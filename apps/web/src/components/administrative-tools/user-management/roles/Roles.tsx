@@ -1,18 +1,18 @@
 import React from "react";
 import { api } from "@/api";
-import { useDebounce } from "@/hooks/useDebounce";
+import { useDebounce } from "@reborn/hooks/utils";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRoleColumns } from "./columns";
-import { useBreadcrumb } from "@/contexts/BreadcrumbContext";
+import { useBreadcrumb } from "@reborn/contexts";
 import { useRoleUpdateSheet } from "./modals/RoleUpdateSheet";
 import { useRoleDeleteDialog } from "./modals/RoleDeleteDialog";
 import { useRoleDuplicateDialog } from "./modals/RoleDuplicateDialog";
 import { toast } from "sonner";
 import { useRoleStore } from "@/hooks/stores/useRoleStore";
 import { useRoleCreateSheet } from "./modals/RoleCreateSheet";
-import { cn } from "@/lib/utils";
-import { useIntro } from "@/contexts/IntroContext";
-import { DataTable } from "@/components/shared/data-tables/data-table";
+import { cn } from "@reborn/lib";
+import { useIntro } from "@reborn/contexts";
+import { DataTable } from "@reborn/datatable-builder";
 import { Copy } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import {
@@ -21,7 +21,7 @@ import {
   ServerErrorResponse,
   UpdateRoleDto,
 } from "@/types";
-import { DataTableConfig } from "@/components/shared/data-tables/types";
+import { DataTableConfig } from "@reborn/datatable-builder";
 
 interface RolesProps {
   className?: string;

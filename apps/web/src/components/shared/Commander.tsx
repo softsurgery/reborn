@@ -17,7 +17,7 @@ import {
   CommandList,
   CommandSeparator,
   CommandShortcut,
-} from "@/components/ui/command";
+} from "@reborn/ui";
 
 export function Commander() {
   const [open, setOpen] = React.useState(false);

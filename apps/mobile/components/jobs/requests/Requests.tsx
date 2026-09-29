@@ -1,12 +1,12 @@
 import React from "react";
 import { View } from "react-native";
-import { cn } from "@/lib/utils";
+import { cn } from "@reborn/lib";
 import { RequestsList } from "./RequestList";
-import { StableSafeAreaView } from "@/components/shared/stables/StableSafeAreaView";
-import { ApplicationHeader } from "@/components/shared/AppHeader";
+import { StableSafeAreaView } from "@reborn/mobile-components";
+import { ApplicationHeader } from "@reborn/mobile-components";
 import { createMaterialTopTabNavigator } from "expo-router/js-top-tabs";
-import { useColorPalette } from "@/hooks/useColorPalette";
-import { AppHeaderBack } from "@/components/shared/AppHeaderBack";
+import { useColorPalette } from "@reborn/mobile-components";
+import { AppHeaderBack } from "@reborn/mobile-components";
 
 type TabType = "incoming" | "outgoing";
 
