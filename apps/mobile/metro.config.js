@@ -21,4 +21,12 @@ config.resolver = {
   sourceExts: [...config.resolver.sourceExts, "svg"],
 };
 
+const metroPort = process.env.PORT || process.env.RCT_METRO_PORT;
+if (metroPort) {
+  config.server = {
+    ...config.server,
+    port: Number(metroPort),
+  };
+}
+
 module.exports = withNativeWind(config, { input: "./global.css", inlineRem: 16 });
