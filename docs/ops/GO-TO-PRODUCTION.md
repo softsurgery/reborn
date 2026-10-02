@@ -87,7 +87,7 @@ Today only a **test** tier exists. Production requires four named environments w
 
 ### 2.1 Separate secrets and env files — P0
 
-**What.** One secret set per environment. No shared JWT, OAuth, SMTP, or MinIO credentials between test and production.
+**What.** One secret set per environment. No shared JWT, OAuth, SMTP, or S3 credentials between test and production.
 
 **Why.** A leaked test secret must not unlock production. Store OAuth redirect URIs and payment webhooks are environment-specific.
 
@@ -105,7 +105,7 @@ API example uses placeholders (`JWT_SECRET=secret`, `DATABASE_SYNCHRONIZE=true`)
 - Maintain `.env.example` as a schema only (no real hosts, no default secrets).
 - Store real values in a secrets manager or per-environment GitHub Environments (`STAGING`, `PRODUCTION`), not one `secrets.ENV` file copied to disk.
 - Create production OAuth apps (Google, LinkedIn, GitHub, Apple) with production redirect URIs.
-- Create production SMTP and MinIO/S3 credentials.
+- Create production SMTP and S3 credentials.
 - Point mobile `EXPO_PUBLIC_API_BASE_URL` and `EXPO_PUBLIC_API_SOCKET_URL` at the production API over HTTPS.
 - Remove `EXPO_PUBLIC_GLOBAL_DELAY` from production builds (dev-only latency injection).
 - Set `EXPO_PUBLIC_MODE=production` for store builds, or drop the unused flag if the app never reads it.
@@ -241,7 +241,7 @@ API example uses placeholders (`JWT_SECRET=secret`, `DATABASE_SYNCHRONIZE=true`)
 **What to implement.**
 
 - Delete the ATS exception (or limit it to a documented debug host behind a `__DEV__` config plugin).
-- Serve API, sockets, MinIO public URLs, and OAuth callbacks on HTTPS with valid certificates.
+- Serve API, sockets, S3 public URLs, and OAuth callbacks on HTTPS with valid certificates.
 - Re-test image/video loads and maps against HTTPS endpoints.
 
 **Done when.** A production IPA cannot talk to `http://` API hosts. Store review does not need an ATS justification.
@@ -254,7 +254,7 @@ API example uses placeholders (`JWT_SECRET=secret`, `DATABASE_SYNCHRONIZE=true`)
 
 **What to implement.**
 
-- Fail fast on boot when required secrets are missing or match `secret` / `minioadmin` / example values.
+- Fail fast on boot when required secrets are missing or match `secret` / `s3admin` / example values.
 - Rotate any secret that has ever been committed or used in test if it might be reused.
 - Issue production JWT with a long random value; keep access TTL short and refresh rotation on.
 
@@ -299,7 +299,7 @@ Covered with §2.2. Additional implementation notes:
 **What to implement.**
 
 - Liveness: process is up.
-- Readiness: MySQL `SELECT 1`, MinIO/S3 head-bucket or list, optional SMTP connect.
+- Readiness: MySQL `SELECT 1`, S3 head-bucket or list, optional SMTP connect.
 - Return non-200 when readiness fails. Do not expose internal hostnames or credentials in the body.
 - Wire Docker `HEALTHCHECK` and the reverse proxy to the readiness route.
 
@@ -695,7 +695,7 @@ Current pattern: on push to `main`, GitHub Actions builds a Docker image, SCPs `
 
 ### 8.3 TLS and reverse proxy — P0
 
-**What.** HTTPS termination in front of API, sockets, MinIO public endpoints, and the back office.
+**What.** HTTPS termination in front of API, sockets, S3 public endpoints, and the back office.
 
 **Why.** `APP_SSL=true` exists in API env example; no nginx/Caddy/Traefik config lives in the repos. `--network host` exposes Node directly.
 
@@ -724,14 +724,14 @@ Current pattern: on push to `main`, GitHub Actions builds a Docker image, SCPs `
 
 ### 8.5 Backups and rollback — P0
 
-**What.** Daily automated MySQL + MinIO backups, a tested restore, and a documented rollback (previous image tag).
+**What.** Daily automated MySQL + S3 backups, a tested restore, and a documented rollback (previous image tag).
 
 **Why.** Marketplace data (chat, jobs, ledger) cannot be reconstructed from git. The current deploy deletes the running container with no image retain policy described.
 
 **What to implement.**
 
 - Tagged images in a registry (`reborn-api:1.0.0`) so rollback is `docker run` of the previous tag.
-- MySQL dump or managed-DB PITR. MinIO versioning or `mc mirror` off-box.
+- MySQL dump or managed-DB PITR. S3 versioning or cross-region replication.
 - Restore drill on staging at least once before launch.
 - Named on-call owner for rollback (see §12 checklist).
 
@@ -1010,7 +1010,7 @@ Complete this the day you flip stores to production. An unchecked P0 item means 
 ### Data and ops
 
 - [ ] MySQL backup ran and a restore was tested on staging
-- [ ] MinIO/S3 backup or versioning is on
+- [ ] S3 backup or versioning is on
 - [ ] Previous production image tag is retained for rollback
 - [ ] TLS certificates auto-renew; HTTP redirects to HTTPS
 - [ ] Health readiness fails if the database is down

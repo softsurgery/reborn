@@ -39,6 +39,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.1145.0",
     "@faker-js/faker": "^9.8.0",
     "@nestjs-cls/transactional": "^2.4.2",
     "@nestjs-cls/transactional-adapter-typeorm": "^1.2.4",
@@ -60,7 +61,6 @@
     "ejs": "^3.1.10",
     "google-auth-library": "^10.2.0",
     "mime-types": "^3.0.1",
-    "minio": "^8.0.6",
     "multer": "^2.0.1",
     "mysql2": "^3.14.1",
     "nestjs-cls": "^6.0.1",

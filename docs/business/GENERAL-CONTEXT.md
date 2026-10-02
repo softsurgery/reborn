@@ -197,7 +197,7 @@ The platform supports **multiple languages** across all components:
 
 ## 7. Media & Storage
 
-- File uploads are stored in **MinIO** (S3-compatible object storage).
+- File uploads are stored in **S3**.
 - The system supports multiple file types: images, videos, documents.
 - Uploads are organized into predefined storage folders (seeded at startup).
 - Files can be public or private, temporary or permanent.

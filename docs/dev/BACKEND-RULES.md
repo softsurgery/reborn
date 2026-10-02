@@ -2,7 +2,7 @@
 
 ## Stack
 
-NestJS 11, TypeScript 5, TypeORM 0.3 (MySQL), XState 5, MinIO (S3), Socket.IO, JWT auth, class-validator, SWC compiler, Yarn 1.
+NestJS 11, TypeScript 5, TypeORM 0.3 (MySQL), XState 5, S3, Socket.IO, JWT auth, class-validator, SWC compiler, Yarn 1.
 
 ## Module Anatomy
 
