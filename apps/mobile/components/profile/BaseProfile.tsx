@@ -14,7 +14,7 @@ import { Text } from "@reborn/mobile-ui";
 import { cn } from "@reborn/lib";
 import { useUserStore } from "@/hooks/stores/useUserStore";
 import { SocialStat } from "./social/SocialStat";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { useExperiences } from "@/hooks/content/user/useExperiences";
 import { useEducations } from "@/hooks/content/user/useEducations";
 import { useSkills } from "@/hooks/content/reference-types/useSkills";

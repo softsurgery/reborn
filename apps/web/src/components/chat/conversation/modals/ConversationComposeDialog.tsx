@@ -4,7 +4,7 @@ import { Input } from "@reborn/ui";
 import { ResponseUserDto } from "@/types";
 import { Search, X } from "lucide-react";
 import React from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { identifyUser, identifyUserAvatar } from "@/lib/user.utils";
 import { cn } from "@reborn/lib";

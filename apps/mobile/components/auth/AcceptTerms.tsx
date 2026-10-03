@@ -3,7 +3,7 @@ import { router } from "expo-router";
 import { View } from "react-native";
 import { Checkbox } from "@reborn/mobile-ui";
 import { Text } from "@reborn/mobile-ui";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 interface AcceptTermsProps {
   className?: string;

@@ -27,7 +27,7 @@ import { useFollowSystem } from "@/hooks/useFollowSystem";
 import { identifyUser, identifyUserAvatar } from "@/lib/user.utils";
 import { Separator } from "@reborn/ui";
 import { Badge } from "@reborn/ui";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { ChatBubbleIcon } from "@radix-ui/react-icons";
 import { Conversations } from "./cards/Conversations";
 import { Notifications } from "../audit-monitoring/notifications/Notifications";

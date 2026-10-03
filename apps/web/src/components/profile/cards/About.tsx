@@ -1,6 +1,6 @@
 import React from "react";
 import { Badge } from "@reborn/ui";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import {
   Card,
   CardContent,

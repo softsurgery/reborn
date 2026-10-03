@@ -9,7 +9,7 @@ import { useFocusEffect } from "expo-router";
 import React from "react";
 import { ActivityIndicator, View } from "react-native";
 import { LinkListItem } from "./LinkListItem";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { getMessageLinksForDisplay } from "@/lib/chat/message-links";
 
 type ConversationLinkItem = {

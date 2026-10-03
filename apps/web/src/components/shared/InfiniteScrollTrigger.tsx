@@ -1,5 +1,5 @@
 import React from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { cn } from "@reborn/lib";
 
 const getScrollParent = (node: HTMLElement | null): HTMLElement | null => {

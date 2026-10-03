@@ -3,7 +3,7 @@ import { ResponseJobDto } from "@/types";
 import { DataTableColumnHeader } from "@reborn/datatable-builder";
 import { DataTableRowActions } from "@reborn/datatable-builder";
 import { DataTableCell } from "@reborn/datatable-builder";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import {
   DataTableCellVariant,
   DataTableConfig,

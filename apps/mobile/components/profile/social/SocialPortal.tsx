@@ -8,7 +8,7 @@ import { cn } from "@reborn/lib";
 import { FollowingTab } from "./FollowingTab";
 import { FollowersTab } from "./FollowersTab";
 import { useColorPalette } from "@reborn/mobile-components";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 const Tab = createMaterialTopTabNavigator();
 

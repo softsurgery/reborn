@@ -1,7 +1,7 @@
 import { Briefcase } from "lucide-react";
 import { UpdateJob } from "../forms/UpdateJob";
 import { useSheet } from "@reborn/components";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 interface JobUpdateSheetProps {
   updateJob?: () => void;

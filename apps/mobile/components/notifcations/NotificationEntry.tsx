@@ -1,4 +1,4 @@
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { Pressable, View } from "react-native";
 import { Image } from "@reborn/mobile-ui";
 import { cn } from "@reborn/lib";

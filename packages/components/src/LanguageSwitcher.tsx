@@ -8,7 +8,7 @@ import {
   SelectValue,
 } from "@reborn/ui/components/select";
 import { useRouter } from "next/router";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 interface Language {
   label: string;
@@ -71,6 +71,7 @@ export const LanguageSwitcher = ({ className, languages }: LanguageSwitcherProps
             <>
               <SelectItem value="fr">{t("languages.fr")}</SelectItem>
               <SelectItem value="en">{t("languages.en")}</SelectItem>
+              <SelectItem value="ar">{t("languages.ar")}</SelectItem>
             </>
           )}
         </SelectContent>

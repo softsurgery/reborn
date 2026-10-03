@@ -27,7 +27,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { MessageFlatListItem, ResponseMessageDto } from "@/types";
 import { useColorPalette } from "@reborn/mobile-components";
 import { cn } from "@reborn/lib";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { useGradualAnimation } from "@/hooks/useGradualAnimation";
 import { useSendChatMedia } from "@/hooks/content/chat/useSendChatMedia";
 import { useSendChatFile } from "@/hooks/content/chat/useSendChatFile";

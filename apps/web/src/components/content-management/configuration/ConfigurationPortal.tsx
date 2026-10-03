@@ -12,7 +12,7 @@ import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { api } from "@/api";
 import { Loader2, Search } from "lucide-react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { Input } from "@reborn/ui";
 import { Separator } from "@reborn/ui";
 import SidebarNav from "@/components/shared/SidebarNav";

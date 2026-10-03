@@ -16,7 +16,7 @@ import {
 } from "@reborn/mobile-form-builder";
 import { JobStore } from "@/hooks/stores/useJobStore";
 import { JobDifficulty, JobStyle } from "@/types";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 interface JobCreateFormStructureProps {
   jobStore: JobStore;

@@ -2,7 +2,7 @@
 import { useDialog } from "@reborn/components";
 import { Spinner } from "@reborn/components";
 import { Button } from "@reborn/ui";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 interface UserApproveDialogProps {
   representation?: string;

@@ -10,7 +10,7 @@ import { router } from "expo-router";
 import { useCreateEducationFormStructure } from "./useCreateEducationFormStructure";
 import { CreateEducationDto, ServerErrorResponse } from "@/types";
 import { api } from "@/api";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { createEducationSchema } from "@/types/validations/education.validation";
 import { View } from "react-native";
 import { useKeyboardVisible } from "@reborn/mobile-components";

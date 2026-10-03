@@ -16,7 +16,7 @@ import { StableKeyboardAwareScrollView } from "@reborn/mobile-components";
 import { router } from "expo-router";
 import { SSOButtons } from "./SSOButtons";
 import { StableSafeAreaView } from "@reborn/mobile-components";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { toast } from "sonner-native";
 
 interface SignInLayoutProps {

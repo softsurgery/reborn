@@ -27,7 +27,7 @@ import { AppHeaderBack } from "@reborn/mobile-components";
 import { useStickyElement } from "@/hooks/useStickyElement";
 import { useColorPalette } from "@reborn/mobile-components";
 import { MyJobPreviewModal } from "@/components/jobs/job-management/MyJobPreviewModal";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 interface UserWorkListProps {
   className?: string;

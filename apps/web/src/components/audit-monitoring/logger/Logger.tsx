@@ -9,7 +9,7 @@ import { ResponseLogDto } from "@/types";
 import { useLoggerColumns } from "./columns";
 import { DataTable } from "@reborn/datatable-builder";
 import { DataTableConfig } from "@reborn/datatable-builder";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 interface LoggerProps {
   className?: string;

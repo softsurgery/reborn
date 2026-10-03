@@ -6,7 +6,7 @@ import { router, useNavigation } from "expo-router";
 import { Text } from "@reborn/mobile-ui";
 import { cn } from "@reborn/lib";
 import { useColorPalette } from "./hooks/useColorPalette";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 interface AppHeaderBackProps {
   className?: string;

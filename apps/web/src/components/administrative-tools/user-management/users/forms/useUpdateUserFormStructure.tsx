@@ -17,7 +17,7 @@ import { UserStore } from "@/hooks/stores/useUserStore";
 import { useUploadMutation } from "@/hooks/useUploadMutation";
 import { identifyUserAvatar } from "@/lib/user.utils";
 import { Gender } from "@/types";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 interface useUpdateUserFormStructureProps {
   userStore: UserStore;

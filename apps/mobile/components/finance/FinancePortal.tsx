@@ -28,7 +28,7 @@ import { TransactionList } from "./transaction/TransactionList";
 import { useBalance } from "@/hooks/content/finance/useBalance";
 import { useFinanceAuth } from "@/hooks/content/finance/useFinanceAuth";
 import { useFinanceStore } from "@/hooks/stores/useFinanceStore";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { triggerHaptic } from "@reborn/mobile-components";
 import { Icon } from "@reborn/mobile-ui";
 import { useRTL } from "@reborn/mobile-components";

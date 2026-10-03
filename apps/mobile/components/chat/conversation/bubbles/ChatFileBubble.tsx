@@ -11,7 +11,7 @@ import {
 } from "../../upload-details/FileListItem";
 import { ChatFileList, ChatFileListItem } from "./ChatFileList";
 import { MessageTextContent } from "./MessageTextContent";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { openUploadFile } from "@/lib/files/files";
 
 interface ChatFileBubbleProps {

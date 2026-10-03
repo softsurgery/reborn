@@ -13,7 +13,7 @@ import {
 import { UserStore } from "@/hooks/stores/useUserStore";
 import { useUploadMutation } from "@/hooks/content/useUploadMutation";
 import { Gender } from "@/types";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 interface useUpdateProfileFormStructureProps {
   store: UserStore;

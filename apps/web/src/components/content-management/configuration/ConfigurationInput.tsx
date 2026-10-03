@@ -9,7 +9,7 @@ import {
 import { useConfigStore } from "@/hooks/stores/userConfigStore";
 import { cn } from "@reborn/lib";
 import { ParamVariant, ResponseConfigurationParamDto } from "@/types";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 interface ConfigurationInputProps {
   className?: string;

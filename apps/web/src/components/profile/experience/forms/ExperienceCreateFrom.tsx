@@ -8,7 +8,7 @@ import { Save } from "lucide-react";
 import { createExperienceSchema } from "@/types/validations/experience.validation";
 import { Spinner } from "@reborn/components";
 import { CreateExperienceDto } from "@/types";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 interface ExperienceCreateFormProps {
   className?: string;

@@ -10,7 +10,7 @@ import {
 import { Button } from "@reborn/ui/components/button";
 import { ArrowDownIcon, ArrowUpIcon } from "lucide-react";
 import { CaretSortIcon, EyeNoneIcon } from "@radix-ui/react-icons";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { DataTableConfig } from "./types";
 
 interface DataTableColumnHeaderProps<TData, TValue>

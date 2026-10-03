@@ -12,7 +12,7 @@ import Animated, {
 import { Text } from "@reborn/mobile-ui";
 import { cn } from "@reborn/lib";
 import { MessageTextContent } from "./MessageTextContent";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 interface ChatBubbleProps {
   message?: string;

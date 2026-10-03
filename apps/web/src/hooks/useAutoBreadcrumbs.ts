@@ -1,6 +1,6 @@
 import React from "react";
 import { useRouter } from "next/router";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { BreadcrumbRoute } from "@reborn/contexts";
 
 const CACHE_KEY = "breadcrumb_title_cache_v1";

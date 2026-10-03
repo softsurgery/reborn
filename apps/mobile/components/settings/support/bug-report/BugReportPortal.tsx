@@ -12,7 +12,7 @@ import { StableKeyboardAwareScrollView } from "@reborn/mobile-components";
 import { router } from "expo-router";
 import { StableSafeAreaView } from "@reborn/mobile-components";
 import { ApplicationHeader } from "@reborn/mobile-components";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { createBugSchema } from "@/types/validations/system-reports.validation";
 import { useKeyboardVisible } from "@reborn/mobile-components";
 import { toast } from "sonner-native";

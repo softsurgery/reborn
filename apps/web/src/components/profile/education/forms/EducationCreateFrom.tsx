@@ -8,7 +8,7 @@ import { Save } from "lucide-react";
 import { createEducationSchema } from "@/types/validations/education.validation";
 import { Spinner } from "@reborn/components";
 import { CreateEducationDto } from "@/types";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 interface EducationCreateFormProps {
   className?: string;

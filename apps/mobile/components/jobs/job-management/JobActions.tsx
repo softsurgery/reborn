@@ -29,7 +29,7 @@ import { useDeleteJob } from "@/hooks/content/job/useDeleteJob";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/api";
 import { toast } from "sonner-native";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 type ActionItem = {
   id: string;

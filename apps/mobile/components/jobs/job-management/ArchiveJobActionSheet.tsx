@@ -6,7 +6,7 @@ import { Button } from "@reborn/mobile-ui";
 import { Icon } from "@reborn/mobile-ui";
 import { Archive } from "lucide-react-native";
 import { useColorPalette } from "@reborn/mobile-components";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 interface ArchiveJobActionSheetProps {
   onConfirm: () => void;

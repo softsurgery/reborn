@@ -7,7 +7,7 @@ import {
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { cn } from "@reborn/lib";
 import { Toggle } from "@reborn/ui/components/toggle";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { DataTableConfig } from "./types";
 
 interface DataTablePaginationProps<TData> {

@@ -12,6 +12,8 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "paths": {
+      "@reborn/i18n": ["../i18n/src/index.ts"],
+      "@reborn/i18n/*": ["../i18n/src/*"],
       "@reborn/lib": ["../lib/src/index.ts"],
       "@reborn/lib/*": ["../lib/src/*"],
       "@reborn/ui": ["../ui/src/index.ts"],

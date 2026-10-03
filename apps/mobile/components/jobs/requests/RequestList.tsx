@@ -17,7 +17,7 @@ import { useInfiniteJobRequests } from "@/hooks/content/job/useInfiniteJobReques
 import { useStickyElement } from "@/hooks/useStickyElement";
 import { useColorPalette } from "@reborn/mobile-components";
 import { InfiniteListFooter } from "@/components/shared/InfiniteListFooter";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 interface RequestsListProps {
   className?: string;

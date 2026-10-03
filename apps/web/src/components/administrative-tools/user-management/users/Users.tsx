@@ -21,7 +21,7 @@ import { useIntro } from "@reborn/contexts";
 import { ArrowDown, ArrowUp, BellPlus } from "lucide-react";
 import { useApproveUserDialog } from "./modals/UserApproveDialog";
 import { useDisapproveUserDialog } from "./modals/UserDisapproveDialog";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { useRouter } from "next/router";
 import { DataTableConfig } from "@reborn/datatable-builder";
 import { useUploads } from "@/hooks/content/useUploads";

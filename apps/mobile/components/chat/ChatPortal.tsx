@@ -4,7 +4,7 @@ import { useDebounce } from "@reborn/hooks/utils";
 import { LegendList } from "@legendapp/list";
 import { router, useFocusEffect } from "expo-router";
 import { Search, Bell } from "lucide-react-native";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { Pressable, RefreshControl, View } from "react-native";
 import { cn } from "@reborn/lib";
 import { ResponseConversationDto } from "@/types";

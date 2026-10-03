@@ -2,7 +2,7 @@ import { Select } from "@reborn/mobile-form-builder";
 import { useColorScheme } from "nativewind";
 import { setAndroidNavigationBar } from "@reborn/mobile-components";
 import { Platform, Appearance } from "react-native";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { usePreferencePersistStore } from "@reborn/hooks/stores";
 
 interface ThemeSwitcherProps {

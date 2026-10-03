@@ -7,7 +7,7 @@ import { THEME } from "@/lib/theme";
 import { cn } from "@reborn/lib";
 import { ResponseUserDto } from "@/types";
 import { UserRound, LucideIcon } from "lucide-react-native";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import {
   NativeScrollEvent,
   NativeSyntheticEvent,

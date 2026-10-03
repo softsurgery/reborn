@@ -3,7 +3,7 @@ import { createMaterialTopTabNavigator } from "expo-router/js-top-tabs";
 import { ConversationMediaDetails } from "./ConversationMediaDetails";
 import { ConversationFilesDetails } from "./ConversationFilesDetails";
 import { ConversationLinksDetails } from "./ConversationLinksDetails";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { AppHeaderBack } from "@reborn/mobile-components";
 import { StableSafeAreaView } from "@reborn/mobile-components";
 const Tab = createMaterialTopTabNavigator();

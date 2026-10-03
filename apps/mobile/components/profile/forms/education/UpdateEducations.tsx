@@ -18,7 +18,7 @@ import { useRTL } from "@reborn/mobile-components";
 import { EducationInstance } from "./EducationInstance";
 import { DeleteEducationActionSheet } from "./DeleteEducationActionSheet";
 import { ActionSheetRef } from "react-native-actions-sheet";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { AppHeaderBack } from "@reborn/mobile-components";
 import { useUserStore } from "@/hooks/stores/useUserStore";
 

@@ -9,7 +9,7 @@ import {
   DataTableCellVariant,
   DataTableConfig,
 } from "@reborn/datatable-builder";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 const getMethodColor = (method: string) => {
   switch (method) {

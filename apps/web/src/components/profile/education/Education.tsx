@@ -11,7 +11,7 @@ import {
   UpdateEducationDto,
 } from "@/types";
 import { updateEducationSchema } from "@/types/validations/education.validation";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { useEducationCreateSheet } from "./modals/EducationCreateSheet";
 import { useEducationUpdateSheet } from "./modals/EducationUpdateSheet";
 import { useEducationDeleteDialog } from "./modals/EducationDeleteDialog";

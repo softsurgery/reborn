@@ -7,7 +7,7 @@ import { Card, CardContent } from "@reborn/ui";
 import { FileText, Download, Eye, EyeOff } from "lucide-react";
 import Image from "next/image";
 import { cn } from "@reborn/lib";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 interface DocumentCardProps {
   title: string;

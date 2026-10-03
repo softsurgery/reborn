@@ -2,7 +2,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "@reborn/datatable-builder";
 import { DataTableRowActions } from "@reborn/datatable-builder";
 import { ResponseRefTypeDto } from "@/types";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import {
   DataTableCellVariant,
   DataTableConfig,

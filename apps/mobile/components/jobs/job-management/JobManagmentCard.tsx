@@ -24,7 +24,7 @@ import {
 } from "lucide-react-native";
 import { router } from "expo-router";
 import { Badge } from "@reborn/mobile-ui";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { getWorkerGuidanceKey } from "@/lib/job-lifecycle";
 import { useNextWorkflowJob } from "@/hooks/content/job/workflow/useNextWorkflowJob";
 import { useQueryClient, InfiniteData } from "@tanstack/react-query";

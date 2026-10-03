@@ -4,7 +4,7 @@ import { ApplicationHeader } from "@reborn/mobile-components";
 import { TransactionList } from "@/components/finance/transaction/TransactionList";
 import { AppHeaderBack } from "@reborn/mobile-components";
 import { cn } from "@reborn/lib";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 interface TransactionsProps {
   className?: string;

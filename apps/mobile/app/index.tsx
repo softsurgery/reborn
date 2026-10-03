@@ -6,7 +6,7 @@ import { setAndroidNavigationBar } from "@reborn/mobile-components";
 import { ActivityIndicator, Appearance, Platform } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
 import { usePreferencePersistStore } from "@reborn/hooks/stores";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import * as Localization from "expo-localization";
 
 SplashScreen.preventAutoHideAsync();

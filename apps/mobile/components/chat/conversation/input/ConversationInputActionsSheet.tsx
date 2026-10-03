@@ -4,7 +4,7 @@ import { File, Hand, Image as ImageIcon, Video } from "lucide-react-native";
 import { View } from "react-native";
 import ActionSheet, { type ActionSheetRef } from "react-native-actions-sheet";
 import { ChatActionGridItem } from "./ChatActionGridItem";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 interface ConversationInputActionsSheetProps {
   onPoke: () => void;

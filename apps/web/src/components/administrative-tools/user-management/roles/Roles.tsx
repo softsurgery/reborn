@@ -14,7 +14,7 @@ import { cn } from "@reborn/lib";
 import { useIntro } from "@reborn/contexts";
 import { DataTable } from "@reborn/datatable-builder";
 import { Copy } from "lucide-react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import {
   CreateRoleDto,
   ResponseRoleDto,

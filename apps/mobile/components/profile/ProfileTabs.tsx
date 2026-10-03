@@ -1,5 +1,5 @@
 import React from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { createMaterialTopTabNavigator } from "expo-router/js-top-tabs";
 import { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
 import {

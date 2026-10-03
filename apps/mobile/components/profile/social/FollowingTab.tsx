@@ -3,7 +3,7 @@ import { Loader } from "@reborn/mobile-components";
 import { Text } from "@reborn/mobile-ui";
 import { useFollowSystem } from "@/hooks/content/useFollowSystem";
 import { ScrollView, View } from "react-native";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 interface FollowingTabProps {
   profileId: string;

@@ -1,7 +1,7 @@
 import { SendFeedbackStore } from "@/hooks/stores/useFeedbackManager";
 import { useColorPalette } from "@reborn/mobile-components";
 import { hslToHex } from "@reborn/mobile-components";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import {
   Field,
   FieldVariant,

@@ -12,7 +12,7 @@ import { ApplicationHeader } from "@reborn/mobile-components";
 import { ArrowDownNarrowWide, Bell, Search } from "lucide-react-native";
 import { useNotificationContext } from "@/contexts/NotificationContext";
 import { router } from "expo-router";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { createMaterialTopTabNavigator } from "expo-router/js-top-tabs";
 import { useScrollableElement } from "@/hooks/useScrollableElement";
 import { useColorPalette } from "@reborn/mobile-components";

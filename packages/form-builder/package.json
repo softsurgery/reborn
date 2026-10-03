@@ -38,12 +38,12 @@
     "@tiptap/starter-kit": "^3.31.3",
     "i18next": "^23.15.1",
     "lucide-react": "^0.441.0",
-    "react-i18next": "^15.0.2"
+    "@reborn/i18n": "workspace:*"
   },
   "peerDependencies": {
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-i18next": "^15.0.2"
+    "@reborn/i18n": "workspace:*"
   },
   "devDependencies": {
     "@types/react": "^19.0.0",

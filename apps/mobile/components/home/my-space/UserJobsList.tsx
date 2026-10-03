@@ -30,7 +30,7 @@ import { useColorPalette } from "@reborn/mobile-components";
 import { JobCreateActionBanner } from "./JobCreateActionBanner";
 import { MyJobPreviewModal } from "@/components/jobs/job-management/MyJobPreviewModal";
 import { Separator } from "@reborn/mobile-ui";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { useRTL } from "@reborn/mobile-components";
 
 interface UserJobsListProps {

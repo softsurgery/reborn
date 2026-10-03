@@ -1,7 +1,7 @@
 import { View, Text } from "react-native";
 import { DailyActivityItem } from "@/types";
 import { cn } from "@reborn/lib";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 interface JobStatisticsActivityTrendProps {
   className?: string;

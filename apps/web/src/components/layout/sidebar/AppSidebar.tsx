@@ -31,7 +31,7 @@ import {
 } from "@reborn/ui";
 import { MainNav } from "./MainNav";
 import { TeamSwitcher } from "./TeamSwitcher";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import Image from "next/image";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {

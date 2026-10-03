@@ -12,7 +12,7 @@ import { cn } from "@reborn/lib";
 import { StableKeyboardAwareScrollView } from "@reborn/mobile-components";
 import { router } from "expo-router";
 import { StableSafeAreaView } from "@reborn/mobile-components";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { ApplicationHeader } from "@reborn/mobile-components";
 import { useKeyboardVisible } from "@reborn/mobile-components";
 import { ServerErrorResponse } from "@/types/utils/server.interfaces";

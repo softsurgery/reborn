@@ -1,7 +1,7 @@
 import { usePreferencePersistStore } from "@reborn/hooks";
 import { useColorScheme } from "nativewind";
 import { Platform, Appearance } from "react-native";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { setAndroidNavigationBar } from "./lib/android-navigation-bar";
 import { Select } from "./Select";
 

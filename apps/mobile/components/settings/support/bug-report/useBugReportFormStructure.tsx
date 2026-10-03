@@ -7,7 +7,7 @@ import {
   TextareaFieldProps,
   TextFieldProps,
 } from "@reborn/mobile-form-builder";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { ReportBugStore } from "@/hooks/stores/useReportBugStore";
 
 interface useBugReportFormStructureProps {

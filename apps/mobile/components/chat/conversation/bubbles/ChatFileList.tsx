@@ -3,7 +3,7 @@ import { FileTypeIcon } from "@reborn/mobile-components";
 import React from "react";
 import { Pressable, View } from "react-native";
 import { MediaUploadProgress } from "../staging/MediaUploadProgress";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { formatFileSize } from "@/lib/files/files";
 
 export type ChatFileListItem = {

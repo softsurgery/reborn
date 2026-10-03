@@ -11,7 +11,7 @@ import {
   UpdateExperienceDto,
 } from "@/types";
 import { updateExperienceSchema } from "@/types/validations/experience.validation";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { useExperienceCreateSheet } from "./modals/ExperienceCreateSheet";
 import { useExperienceUpdateSheet } from "./modals/ExperienceUpdateSheet";
 import { useExperienceDeleteDialog } from "./modals/ExperienceDeleteDialog";

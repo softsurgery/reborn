@@ -22,7 +22,7 @@ import {
   ResponseRefParamDto,
 } from "@/types";
 import React from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 interface JobUpdateFormStructureProps {
   jobStore: JobStore;

@@ -4,7 +4,7 @@ import { router } from "expo-router";
 import { Text } from "@reborn/mobile-ui";
 import { useUserStore } from "@/hooks/stores/useUserStore";
 import { cn } from "@reborn/lib";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { useRTL } from "@reborn/mobile-components";
 import { useSocialStat } from "@/hooks/content/user/useSocialStat";
 

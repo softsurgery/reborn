@@ -9,7 +9,7 @@ import { useNextWorkflowJob } from "@/hooks/content/job/workflow/useNextWorkflow
 import { useJob } from "@/hooks/content/job/useJob";
 import { useCurrentUser } from "@/hooks/content/user/useCurrentUser";
 import { useQueryClient } from "@tanstack/react-query";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { toast } from "sonner-native";
 import { ActionSheetRef } from "react-native-actions-sheet";
 import { JobEvents, ServerErrorResponse } from "@/types";

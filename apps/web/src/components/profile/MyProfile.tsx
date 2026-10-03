@@ -2,7 +2,7 @@ import React from "react";
 import { useCurrentUser } from "@/hooks/content/User/useCurrentUser";
 import { BaseProfile } from "./BaseProfile";
 import { useUserStore } from "@/hooks/stores/useUserStore";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { Spinner } from "../shared/Spinner";
 import { cn } from "@reborn/lib";
 

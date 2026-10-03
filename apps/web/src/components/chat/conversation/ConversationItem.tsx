@@ -4,7 +4,7 @@ import { ResponseConversationDto, ResponseMessageDto } from "@/types";
 import { useUserStore } from "@/hooks/stores/useUserStore";
 import { useServerImages } from "@/hooks/content/useServerImages";
 import { api } from "@/api";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { cn } from "@reborn/lib";
 import { identifyUser, identifyUserAvatar } from "@/lib/user.utils";
 import Image from "next/image";

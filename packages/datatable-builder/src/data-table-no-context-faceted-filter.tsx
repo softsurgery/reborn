@@ -1,6 +1,6 @@
 import React from "react";
 import { Box } from "lucide-react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { useDialog } from "@reborn/ui";
 import {
   Button,

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 function getDocDir(): "ltr" | "rtl" | undefined {
   if (typeof document === "undefined") return undefined;

@@ -8,7 +8,7 @@ import { api } from "@/api";
 import { identifyUser } from "@/lib/user.utils";
 import { useRouter } from "next/router";
 import { toast } from "sonner";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { useUi } from "@/contexts/UiContext";
 import { useIntro } from "@reborn/contexts";
 import { useBreadcrumb } from "@reborn/contexts";

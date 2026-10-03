@@ -9,7 +9,7 @@ import { cn } from "@reborn/lib";
 import { ServerErrorResponse, UpdateEducationDto } from "@/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { router } from "expo-router";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { useUpdateEducationFormStructure } from "./useUpdateEducationFormStructure";
 import { updateEducationSchema } from "@/types/validations/education.validation";
 import { View } from "react-native";

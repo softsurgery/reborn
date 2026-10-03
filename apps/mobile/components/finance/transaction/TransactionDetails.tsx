@@ -6,7 +6,7 @@ import { Text } from "@reborn/mobile-ui";
 import { cn } from "@reborn/lib";
 import { PointTransaction, FundTransaction } from "@/types";
 import { AppHeaderBack } from "@reborn/mobile-components";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { useRTL } from "@reborn/mobile-components";
 import { useFinanceStore } from "@/hooks/stores/useFinanceStore";
 import React from "react";

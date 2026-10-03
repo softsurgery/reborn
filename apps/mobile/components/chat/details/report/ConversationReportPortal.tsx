@@ -17,7 +17,7 @@ import { BottomButtonWrapper } from "@reborn/mobile-components";
 import { useKeyboardVisible } from "@reborn/mobile-components";
 import { ServerErrorResponse } from "@/types";
 import { useConversationReportFormStructure } from "./useConversationReportFormStructure";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { useConversationReportStore } from "@/hooks/stores/useConversationReportStore";
 import { StableSafeAreaView } from "@reborn/mobile-components";
 import { StableKeyboardAwareScrollView } from "@reborn/mobile-components";

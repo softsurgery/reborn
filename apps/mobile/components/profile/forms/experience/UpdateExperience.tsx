@@ -10,7 +10,7 @@ import { ServerErrorResponse, UpdateExperienceDto } from "@/types";
 import { updateExperienceSchema } from "@/types/validations/experience.validation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { router } from "expo-router";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { useUpdateExperienceFormStructure } from "./useUpdateExperienceFormStructure";
 import { View } from "react-native";
 import { useKeyboardVisible } from "@reborn/mobile-components";

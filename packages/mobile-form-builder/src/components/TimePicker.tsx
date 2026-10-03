@@ -5,7 +5,7 @@ import { ScrollViewContext } from "@reborn/mobile-components";
 import { cn } from "@reborn/lib";
 import { Clock, ChevronDown } from "lucide-react-native";
 import React from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { Keyboard, Platform, UIManager, View, Pressable } from "react-native";
 import Animated, {
   useAnimatedStyle,

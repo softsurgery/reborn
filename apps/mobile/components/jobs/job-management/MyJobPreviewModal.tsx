@@ -36,7 +36,7 @@ import { useDeleteJob } from "@/hooks/content/job/useDeleteJob";
 import { useQueryClient } from "@tanstack/react-query";
 import { cn } from "@reborn/lib";
 import { useRTL } from "@reborn/mobile-components";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { MessageCircle } from "lucide-react-native";
 
 interface MyJobPreviewModalProps {

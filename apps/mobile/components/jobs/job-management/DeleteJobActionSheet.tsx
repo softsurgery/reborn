@@ -8,7 +8,7 @@ import { Trash2 } from "lucide-react-native";
 import { useColorPalette } from "@reborn/mobile-components";
 import { useRTL } from "@reborn/mobile-components";
 import { cn } from "@reborn/lib";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 interface DeleteJobActionSheetProps {
   onConfirm: () => void;

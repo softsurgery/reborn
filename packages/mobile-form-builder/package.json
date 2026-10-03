@@ -15,7 +15,8 @@
   "dependencies": {
     "@reborn/lib": "workspace:*",
     "@reborn/mobile-ui": "workspace:*",
-    "@reborn/mobile-components": "workspace:*"
+    "@reborn/mobile-components": "workspace:*",
+    "@reborn/i18n": "workspace:*"
   },
   "peerDependencies": {
     "expo-haptics": "*",
@@ -23,12 +24,12 @@
     "expo-location": "*",
     "lucide-react-native": "*",
     "react": "^19.0.0",
-    "react-i18next": "*",
     "react-native": "*",
     "react-native-actions-sheet": "*",
     "react-native-maps": "*",
     "react-native-reanimated": "*",
-    "react-native-star-rating-widget": "*"
+    "react-native-star-rating-widget": "*",
+    "@reborn/i18n": "workspace:*"
   },
   "devDependencies": {
     "@types/react": "^19.0.0",

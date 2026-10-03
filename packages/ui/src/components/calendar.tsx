@@ -11,7 +11,7 @@ import {
   type DayButton,
   type DropdownProps,
 } from "react-day-picker";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 import { Button, buttonVariants } from "#components/button";
 import {

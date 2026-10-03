@@ -8,7 +8,7 @@ import { Button } from "./button";
 import { Popover, PopoverContent, PopoverTrigger } from "./popover";
 import { cn } from "#lib/utils";
 import { getDateFnsLocale } from "@reborn/lib";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 export interface InputProps extends Omit<
   React.InputHTMLAttributes<HTMLInputElement>,

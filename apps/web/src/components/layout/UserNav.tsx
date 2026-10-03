@@ -16,7 +16,7 @@ import { identifyUser, identifyUserAvatar } from "@/lib/user.utils";
 import { cn } from "@reborn/lib";
 import { useCurrentUser } from "@/hooks/content/User/useCurrentUser";
 import { useServerImages } from "@/hooks/content/useServerImages";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 interface UserNavProps {
   className?: string;

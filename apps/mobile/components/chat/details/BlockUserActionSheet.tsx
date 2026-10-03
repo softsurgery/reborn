@@ -7,7 +7,7 @@ import { Icon } from "@reborn/mobile-ui";
 import { useColorPalette } from "@reborn/mobile-components";
 import { hslToHex } from "@reborn/mobile-components";
 import { Ban } from "lucide-react-native";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 interface BlockUserActionSheetProps {
   identification: string;

@@ -17,7 +17,7 @@ import * as Haptics from "expo-haptics";
 import { ResponseConversationDto, ServerErrorResponse } from "@/types";
 import { identifyUser, identifyUserAvatar } from "@reborn/lib";
 import { useCurrentUser } from "@/hooks/content/user/useCurrentUser";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/api";
 import { toast } from "sonner-native";

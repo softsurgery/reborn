@@ -9,7 +9,7 @@ import { useIntro } from "@reborn/contexts";
 import { ResponseLogDto } from "@/types";
 import { DataTable } from "@reborn/datatable-builder";
 import { DataTableConfig } from "@reborn/datatable-builder";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 interface DevLoggerProps {
   className?: string;

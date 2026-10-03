@@ -5,7 +5,7 @@ import { router } from "expo-router";
 import { StableSafeAreaView } from "@reborn/mobile-components";
 import { cn } from "@reborn/lib";
 import { useNotificationContext } from "@/contexts/NotificationContext";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { useCurrentUser } from "@/hooks/content/user/useCurrentUser";
 import { View } from "react-native";
 import { InspectBaseProfile } from "./BaseProfile";

@@ -6,7 +6,7 @@ import { Icon } from "@reborn/mobile-ui";
 import { AlertCircle, CheckCircle2, Wallet } from "lucide-react-native";
 import { router } from "expo-router";
 import { cn } from "@reborn/lib";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 interface BudgetWarningProps {
   requiredAmount?: number;

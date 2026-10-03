@@ -6,7 +6,7 @@ import { useDebounce } from "@reborn/hooks/utils";
 import { useNotificationColumns } from "./columns";
 import { DataTable } from "@reborn/datatable-builder";
 import { DataTableConfig } from "@reborn/datatable-builder";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { ResponseNotificationDto } from "@/types/notifications";
 
 interface NotifcationsProps {

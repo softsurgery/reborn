@@ -5,7 +5,7 @@ import { Cross2Icon } from "@radix-ui/react-icons";
 import { DataTableViewOptions } from "./data-table-view-options";
 import { Plus } from "lucide-react";
 import { DataTableConfig } from "./types";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;

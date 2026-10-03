@@ -9,7 +9,7 @@ import { LegendList } from "@legendapp/list";
 import { TransactionListItem } from "./TransactionListItem";
 import { FundTransaction, PointTransaction } from "@/types";
 import { cn } from "@reborn/lib";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { useFinanceAuth } from "@/hooks/content/finance/useFinanceAuth";
 
 interface TransactionListProps {

@@ -28,7 +28,7 @@ import { Spinner } from "@reborn/components";
 import { cn } from "@reborn/lib";
 import { DataTableConfig } from "./types";
 import { useFooter } from "@reborn/contexts";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 interface DataTableProps<TData, TValue> {
   className?: string;

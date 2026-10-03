@@ -3,7 +3,7 @@ import { cn } from "@reborn/lib";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { Separator } from "@radix-ui/react-separator";
 import { ChevronDown } from "lucide-react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 interface JsonTogglerProps {
   className?: string;

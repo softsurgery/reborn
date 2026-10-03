@@ -1,7 +1,7 @@
 import React from "react";
 import { StableScrollView } from "@reborn/mobile-components";
 import { DarkModePreferenceCard } from "./DarkModePreferenceCard";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { Separator } from "@reborn/mobile-ui";
 import { ChevronLeft, View } from "lucide-react-native";

@@ -10,7 +10,7 @@ import {
 import { useServerImages } from "@/hooks/content/useServerImages";
 import { differenceInMilliseconds } from "date-fns";
 import { useUserPresence } from "@/hooks/content/chat/useUserPresence";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { useCurrentUser } from "@/hooks/content/user/useCurrentUser";
 import { identifyUser, identifyUserAvatar } from "@reborn/lib";
 import { formatSmartDate } from "@reborn/mobile-components";

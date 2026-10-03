@@ -1,5 +1,5 @@
 import React from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { toast } from "sonner-native";
 import { useBiometricAuth } from "@/hooks/useBiometricAuth";
 import { useFinanceStore } from "@/hooks/stores/useFinanceStore";

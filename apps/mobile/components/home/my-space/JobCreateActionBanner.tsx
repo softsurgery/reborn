@@ -6,7 +6,7 @@ import { cn } from "@reborn/lib";
 import { router } from "expo-router";
 import { Plus } from "lucide-react-native";
 import { TouchableOpacity, View } from "react-native";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 interface JobCreateActionBannerProps {
   className?: string;

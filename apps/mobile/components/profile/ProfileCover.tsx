@@ -10,7 +10,7 @@ import { PhotoPreview, PhotoPreviewRef } from "@reborn/mobile-components";
 import { api } from "@/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import * as ImagePicker from "expo-image-picker";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { toast } from "sonner-native";
 import {
   ResponseUserDto,

@@ -2,7 +2,7 @@ import React from "react";
 import { Button, cn, Separator } from "@reborn/ui";
 import { X, GripVertical, Plus } from "lucide-react";
 import { ImageFile } from "../types";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 interface ImageUploadManagerProps {
   className?: string;

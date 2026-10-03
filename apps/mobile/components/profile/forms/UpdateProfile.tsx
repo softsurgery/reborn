@@ -26,7 +26,7 @@ import { useKeyboardVisible } from "@reborn/mobile-components";
 import { toast } from "sonner-native";
 import { AppHeaderBack } from "@reborn/mobile-components";
 import { BottomButtonWrapper } from "@reborn/mobile-components";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { useServerImages } from "@/hooks/content/useServerImages";
 
 interface UpdateProfileProps {

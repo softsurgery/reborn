@@ -8,7 +8,7 @@ import { timeAgo } from "@/lib/date.lib";
 import { getStyleBadgeColor, getDifficultyBadgeColor } from "../job-details";
 import { Image as ImageIcon, Tag as TagIcon, Layers } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@reborn/ui";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import Link from "next/link";
 import Image from "next/image";
 

@@ -1,5 +1,5 @@
 import { usePreferencePersistStore } from "@reborn/hooks";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import * as Localization from "expo-localization";
 import type { ReactNode } from "react";
 import { Select } from "./Select";
@@ -25,7 +25,7 @@ export const LanguageSwitcher = ({
   const options = [
     { label: t("language.options.en"), value: "en" },
     { label: t("language.options.fr"), value: "fr" },
-    // { label: t("language.options.ar"), value: "ar" },
+    { label: t("language.options.ar"), value: "ar" },
   ];
 
   if (showSystemOption) {

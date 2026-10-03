@@ -3,7 +3,7 @@ import { router } from "expo-router";
 import { useQuery } from "@tanstack/react-query";
 import { Bell, Clock3, Compass, Plus } from "lucide-react-native";
 import { RefreshControl, ScrollView, View } from "react-native";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { api } from "@/api";
 import { StableSafeAreaView } from "@reborn/mobile-components";
 import { ApplicationHeader } from "@reborn/mobile-components";

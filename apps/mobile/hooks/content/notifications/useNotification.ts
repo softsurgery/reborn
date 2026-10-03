@@ -8,7 +8,7 @@ import { disconnectSocket, getSocket } from "@/lib/socket";
 import { sanitizeText } from "@/lib/string.lib";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import * as Notifications from "expo-notifications";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { Socket } from "socket.io-client";
 import { api } from "@/api";
 import {

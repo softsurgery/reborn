@@ -9,7 +9,7 @@ import { Pressable, View } from "react-native";
 import { api } from "@/api";
 import { VideoPreview } from "@reborn/mobile-components";
 import { VideoThumbnailPreview } from "@reborn/mobile-components";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { useAuthPersistStore } from "@reborn/hooks/stores";
 
 /**

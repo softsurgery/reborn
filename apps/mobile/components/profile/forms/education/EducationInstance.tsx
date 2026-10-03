@@ -7,7 +7,7 @@ import { ResponseEducationDto } from "@/types";
 import { format } from "date-fns";
 import { CalendarDays, GraduationCap } from "lucide-react-native";
 import { View } from "react-native";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { useColorPalette } from "@reborn/mobile-components";
 import { useRTL } from "@reborn/mobile-components";
 

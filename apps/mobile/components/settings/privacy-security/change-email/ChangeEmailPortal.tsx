@@ -2,7 +2,7 @@ import React from "react";
 import { View } from "react-native";
 import { router } from "expo-router";
 import { Loader2 } from "lucide-react-native";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { cn } from "@reborn/lib";
 import { ApplicationHeader } from "@reborn/mobile-components";
 import { StableSafeAreaView } from "@reborn/mobile-components";

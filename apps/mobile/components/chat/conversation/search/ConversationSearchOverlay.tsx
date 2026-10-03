@@ -13,7 +13,7 @@ import { hslToHex } from "@reborn/mobile-components";
 import { useConversationMessageSearch } from "@/hooks/content/chat/useConversationMessageSearch";
 import { ConversationSearchResultItem } from "./ConversationSearchResultItem";
 import { MarkedInput } from "@reborn/mobile-components";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { StableSafeAreaView } from "@reborn/mobile-components";
 
 interface ConversationSearchOverlayProps {

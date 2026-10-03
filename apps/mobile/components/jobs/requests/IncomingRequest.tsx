@@ -32,7 +32,7 @@ import { ThreeDotsActionSheet } from "@reborn/mobile-components";
 import { useJobRequestActions } from "@/hooks/content/job/useJobRequestActions";
 import { ApproveJobRequestActionSheet } from "./details/action-sheets/ApproveJobRequestActionSheet";
 import { DeclineJobRequestActionSheet } from "./details/action-sheets/DeclineJobRequestActionSheet";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 interface IncomingRequestEntryProps {
   className?: string;

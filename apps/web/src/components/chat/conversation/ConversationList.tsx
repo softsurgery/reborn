@@ -4,7 +4,7 @@ import { api } from "@/api";
 import { ResponseConversationDto, ResponseMessageDto } from "@/types";
 import ConversationItem from "./ConversationItem";
 import { useUserStore } from "@/hooks/stores/useUserStore";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { Spinner } from "@reborn/components";
 import { cn } from "@reborn/lib";
 import { identifyUser } from "@/lib/user.utils";

@@ -14,7 +14,7 @@ import { toast } from "sonner";
 import { useJobDeleteDialog } from "./modals/JobDeleteDialog";
 import { DataTable } from "@reborn/datatable-builder";
 import { useJobColumns } from "./columns";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { DataTableConfig } from "@reborn/datatable-builder";
 import { useRouter } from "next/router";
 import { JobGridView } from "./views/JobGridView";

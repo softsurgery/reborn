@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import { cn } from "@reborn/lib";
 import { useIntro } from "@reborn/contexts";
 import { DataTable } from "@reborn/datatable-builder";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import {
   CreateRefParamDto,
   ResponseRefParamDto,

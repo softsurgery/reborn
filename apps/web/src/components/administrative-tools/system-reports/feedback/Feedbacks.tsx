@@ -11,7 +11,7 @@ import { useFeedbackColumns } from "./columns";
 import { ResponseFeedbackDto } from "@/types";
 import { useFeedbackStore } from "@/hooks/stores/useFeedbackStore";
 import { DataTable } from "@reborn/datatable-builder";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { DataTableConfig } from "@reborn/datatable-builder";
 
 interface BugsProps {

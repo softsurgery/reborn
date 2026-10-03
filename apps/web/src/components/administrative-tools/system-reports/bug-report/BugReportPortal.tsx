@@ -12,7 +12,7 @@ import { cn } from "@reborn/lib";
 
 import { ResponseBugDto } from "@/types";
 import { DataTable } from "@reborn/datatable-builder";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { DataTableConfig } from "@reborn/datatable-builder";
 
 interface BugReportPortalProps {

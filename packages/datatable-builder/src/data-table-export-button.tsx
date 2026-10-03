@@ -1,7 +1,7 @@
 import React from "react";
 import { Table } from "@tanstack/react-table";
 import { FileSpreadsheet } from "lucide-react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { toast } from "sonner";
 import { Spinner } from "@reborn/components";
 import { useMediaQuery } from "@reborn/ui";

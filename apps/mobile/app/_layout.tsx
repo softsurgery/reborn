@@ -5,7 +5,7 @@ import React from "react";
 import { Stack, useRootNavigationState } from "expo-router";
 import { ThemeProvider } from "expo-router/react-navigation";
 import "../global.css";
-import "../i18n";
+import "@reborn/i18n/mobile";
 import { Platform, View } from "react-native";
 import { cn } from "@reborn/lib";
 import { StatusBar } from "expo-status-bar";
@@ -22,7 +22,7 @@ import { splashPrevented } from "@/lib/splash-screen";
 import { asyncStoragePersister, queryClient } from "@/lib/query-client";
 import { KeyboardProvider } from "react-native-keyboard-controller";
 import { resolveAppLanguage, useRTL } from "@/hooks/useRTL";
-import i18n from "@/i18n";
+import i18n from "@reborn/i18n/mobile";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { LoaderProvider } from "@/contexts/LoaderContext";
 

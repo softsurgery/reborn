@@ -16,7 +16,7 @@ import { Separator } from "@reborn/mobile-ui";
 import { cn } from "@reborn/lib";
 import { useColorPalette } from "@reborn/mobile-components";
 import { useRTL } from "@reborn/mobile-components";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 export interface QuickActionProps {
   item: {

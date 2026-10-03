@@ -12,7 +12,7 @@ import { DataTableConfig } from "./types";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { Row } from "@tanstack/react-table";
 import { Edit, Telescope, Trash2 } from "lucide-react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;

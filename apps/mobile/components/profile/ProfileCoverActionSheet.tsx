@@ -8,7 +8,7 @@ import { Text } from "@reborn/mobile-ui";
 import { Button } from "@reborn/mobile-ui";
 import { Icon } from "@reborn/mobile-ui";
 import { Image as ImageIcon } from "lucide-react-native";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 interface ProfileCoverActionSheetProps {
   onConfirm: () => void;

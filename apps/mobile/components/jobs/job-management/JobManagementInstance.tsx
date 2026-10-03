@@ -12,7 +12,7 @@ import { JobWorkPortal } from "./JobWorkPortal";
 import { useColorPalette } from "@reborn/mobile-components";
 import { AppHeaderBack } from "@reborn/mobile-components";
 import { RequestsList } from "@/components/jobs/requests/RequestList";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { useCurrentUser } from "@/hooks/content/user/useCurrentUser";
 import { getJobLifecycleRole } from "@/lib/job-lifecycle";
 

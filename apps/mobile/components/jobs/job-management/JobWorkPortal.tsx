@@ -1,7 +1,7 @@
 import React from "react";
 import { ScrollView, View } from "react-native";
 import { router } from "expo-router";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { ActionSheetRef } from "react-native-actions-sheet";
 import {
   CheckCircle2,

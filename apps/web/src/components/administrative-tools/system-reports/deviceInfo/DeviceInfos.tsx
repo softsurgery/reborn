@@ -8,7 +8,7 @@ import { useDeviceInfoColumns } from "./columns";
 import { useBreadcrumb } from "@reborn/contexts";
 import { useIntro } from "@reborn/contexts";
 import { ResponseDeviceInfoDto } from "@/types";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { DataTableConfig } from "@reborn/datatable-builder";
 
 interface DeviceInfosProps {

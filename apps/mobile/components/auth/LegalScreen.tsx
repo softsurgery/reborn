@@ -4,7 +4,7 @@ import { StableSafeAreaView } from "@reborn/mobile-components";
 import { Text } from "@reborn/mobile-ui";
 import { cn } from "@reborn/lib";
 import { View } from "react-native";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { StableScrollView } from "@reborn/mobile-components";
 
 export type LegalDocument = "terms" | "privacy";

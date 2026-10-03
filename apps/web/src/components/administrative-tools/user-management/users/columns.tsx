@@ -7,7 +7,7 @@ import { DataTableColumnHeader } from "@reborn/datatable-builder";
 import { DataTableRowActions } from "@reborn/datatable-builder";
 import { ResponseUserDto } from "@/types";
 import { DataTableCell } from "@reborn/datatable-builder";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { identifyUserAvatar } from "@/lib/user.utils";
 import UserAvatarCell from "./UserAvatarCell";
 import { DataTableCellVariant } from "@reborn/datatable-builder";

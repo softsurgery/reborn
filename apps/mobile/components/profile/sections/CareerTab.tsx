@@ -8,7 +8,7 @@ import {
   Pressable,
 } from "react-native";
 import { cn } from "@reborn/lib";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { useColorPalette } from "@reborn/mobile-components";
 import { hslToHex } from "@reborn/mobile-components";
 import { useRTL } from "@reborn/mobile-components";

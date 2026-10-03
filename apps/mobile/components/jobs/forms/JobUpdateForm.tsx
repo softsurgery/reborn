@@ -32,7 +32,7 @@ import { useServerImages } from "@/hooks/content/useServerImages";
 import { extractImageFiles } from "@/lib/uploads";
 import { useBalance } from "@/hooks/content/finance/useBalance";
 import { BudgetWarning } from "./BudgetWarning";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 interface JobUpdateFormProps {
   className?: string;

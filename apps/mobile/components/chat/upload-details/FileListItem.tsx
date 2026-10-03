@@ -5,7 +5,7 @@ import { Upload } from "@/types/upload";
 import { format } from "date-fns";
 import React from "react";
 import { Pressable, View } from "react-native";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import {
   formatFileSize,
   getUploadDisplayName,

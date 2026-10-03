@@ -22,7 +22,7 @@ import {
   JobStyle,
   ResponseRefParamDto,
 } from "@/types";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 interface JobCreateFormStructureProps {
   jobStore: JobStore;

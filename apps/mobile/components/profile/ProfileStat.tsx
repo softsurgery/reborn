@@ -6,7 +6,7 @@ import { Icon } from "@reborn/mobile-ui";
 import { Text } from "@reborn/mobile-ui";
 import { router } from "expo-router";
 import { ResponseUserDto } from "@/types";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { useColorPalette } from "@reborn/mobile-components";
 import { Button } from "@reborn/mobile-ui";
 import { useRTL } from "@reborn/mobile-components";

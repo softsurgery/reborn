@@ -1,5 +1,5 @@
 import { UserStore } from "@/hooks/stores/useUserStore";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import {
   Field,
   FieldVariant,

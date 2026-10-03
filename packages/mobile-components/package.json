@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@reborn/hooks": "workspace:*",
+    "@reborn/i18n": "workspace:*",
     "@reborn/lib": "workspace:*",
     "@reborn/mobile-ui": "workspace:*",
     "class-variance-authority": "^0.7.1",
@@ -33,18 +34,18 @@
     "expo-navigation-bar": "*",
     "expo-router": "*",
     "expo-video": "*",
+    "i18next": "*",
     "lottie-react-native": "*",
     "lucide-react-native": "*",
     "nativewind": "*",
-    "i18next": "*",
     "react": "^19.0.0",
-    "react-i18next": "*",
     "react-native": "*",
     "react-native-actions-sheet": "*",
     "react-native-gesture-handler": "*",
     "react-native-reanimated": "*",
     "react-native-render-html": "*",
-    "react-native-safe-area-context": "*"
+    "react-native-safe-area-context": "*",
+    "@reborn/i18n": "workspace:*"
   },
   "devDependencies": {
     "@types/react": "^19.0.0",

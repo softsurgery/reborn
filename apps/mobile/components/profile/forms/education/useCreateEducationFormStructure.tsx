@@ -8,7 +8,7 @@ import {
   TextFieldProps,
 } from "@reborn/mobile-form-builder";
 import { UserStore } from "@/hooks/stores/useUserStore";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 interface UseCreateEducationFormStructureProps {
   store: UserStore;

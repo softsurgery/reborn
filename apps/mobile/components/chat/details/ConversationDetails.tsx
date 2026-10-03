@@ -23,7 +23,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import { ConversationDetailsRow } from "./ConversationDetailsRow";
 import { useUserPresence } from "@/hooks/content/chat/useUserPresence";
 import { AppHeaderBack } from "@reborn/mobile-components";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { type ActionSheetRef } from "react-native-actions-sheet";
 import { DeleteConversationActionSheet } from "./DeleteConversationActionSheet";
 import { BlockUserActionSheet } from "./BlockUserActionSheet";

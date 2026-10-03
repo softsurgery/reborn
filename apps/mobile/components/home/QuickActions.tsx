@@ -13,7 +13,7 @@ import { View, TouchableOpacity } from "react-native";
 import DraggableFlatList, {
   RenderItemParams,
 } from "react-native-draggable-flatlist";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { cn } from "@reborn/lib";
 import { Text } from "@reborn/mobile-ui";
 import { Separator } from "@reborn/mobile-ui";

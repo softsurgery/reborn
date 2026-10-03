@@ -9,7 +9,7 @@ import {
 } from "@reborn/ui/components/dropdown-menu";
 import { Table } from "@tanstack/react-table";
 import { Eye } from "lucide-react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 interface DataTableViewOptionsProps<TData> {
   table: Table<TData>;

@@ -8,7 +8,7 @@ import { ResponseExperienceDto } from "@/types";
 import { format } from "date-fns";
 import { Briefcase, CalendarDays, Laptop, MapPin } from "lucide-react-native";
 import { View } from "react-native";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { useRTL } from "@reborn/mobile-components";
 
 interface ExperienceInstanceProps {

@@ -1,7 +1,7 @@
 import { Briefcase } from "lucide-react";
 import { useSheet } from "@reborn/components";
 import { ExperienceCreateForm } from "../forms/ExperienceCreateFrom";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { CreateExperienceDto } from "@/types";
 
 interface ExperienceCreateSheet {

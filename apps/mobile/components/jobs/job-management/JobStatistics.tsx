@@ -19,7 +19,7 @@ import { cn } from "@reborn/lib";
 import { BarChart2, Briefcase, Globe2, Target } from "lucide-react-native";
 import { useColorPalette } from "@reborn/mobile-components";
 import { useRTL } from "@reborn/mobile-components";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 interface JobStatisticsProps {
   className?: string;

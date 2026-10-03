@@ -1,5 +1,5 @@
 import { usePreferencePersistStore } from "@reborn/hooks/stores";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { Select } from "@reborn/mobile-form-builder";
 
 interface LanguageSwitcherProps {

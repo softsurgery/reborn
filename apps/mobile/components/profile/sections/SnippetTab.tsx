@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import { cn } from "@reborn/lib";
 import { RefreshControl } from "react-native";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { Text } from "@reborn/mobile-ui";
 
 interface SnippetsTabProps {

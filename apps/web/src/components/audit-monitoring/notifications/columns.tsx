@@ -8,7 +8,7 @@ import { Trans } from "@reborn/components";
 import { ResponseNotificationDto } from "@/types/notifications";
 import { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 export const useNotificationColumns = (
   context: DataTableConfig<ResponseNotificationDto>

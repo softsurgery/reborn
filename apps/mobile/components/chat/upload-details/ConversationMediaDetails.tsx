@@ -17,7 +17,7 @@ import { GestureViewer } from "react-native-gesture-image-viewer";
 import { Image } from "expo-image";
 import { useServerImages } from "@/hooks/content/useServerImages";
 import { getMessageUploadIds, MediaThumbnail } from "./MediaThumbnail";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 const NUM_COLUMNS = 3;
 

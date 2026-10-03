@@ -7,6 +7,7 @@
   "types": "./src/index.ts",
   "exports": {
     ".": "./src/index.ts",
+    "./mobile": "./src/mobile.ts",
     "./*": [
       "./src/*.ts",
       "./src/*.tsx",
@@ -22,5 +23,10 @@
   },
   "devDependencies": {
     "typescript": "^5.5.3"
+  },
+  "dependencies": {
+    "expo-localization": "~57.0.2",
+    "i18next": "^26.4.2",
+    "react-i18next": "^17.0.15"
   }
 }

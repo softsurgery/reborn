@@ -24,7 +24,7 @@ import {
 } from "@reborn/mobile-form-builder";
 import { StableKeyboardAwareScrollView } from "@reborn/mobile-components";
 import { BottomButtonWrapper } from "@reborn/mobile-components";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { useCurrentUser } from "@/hooks/content/user/useCurrentUser";
 
 interface SkillsManagementProps {

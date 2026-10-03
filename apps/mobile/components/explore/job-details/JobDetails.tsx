@@ -29,7 +29,7 @@ import { type ActionSheetRef } from "react-native-actions-sheet";
 
 import { CancelApplicationActionSheet } from "./CancelApplicationActionSheet";
 import { toast } from "sonner-native";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { getJobLifecycleRole } from "@/lib/job-lifecycle";
 
 interface JobDetailsProps {

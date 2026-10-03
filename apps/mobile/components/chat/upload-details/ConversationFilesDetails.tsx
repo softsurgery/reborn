@@ -7,7 +7,7 @@ import { LegendList } from "@legendapp/list";
 import React from "react";
 import { ActivityIndicator, View } from "react-native";
 import { FileListItem, getMessageUploadEntries } from "./FileListItem";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 type ConversationFileItem = {
   key: string;

@@ -7,7 +7,7 @@ import {
   Telescope,
   Wallet,
 } from "lucide-react-native";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { useRTL } from "@reborn/mobile-components";
 import { ColorValue, GestureResponderEvent } from "react-native";
 import { useColorPalette } from "@reborn/mobile-components";

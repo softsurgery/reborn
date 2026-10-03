@@ -1,7 +1,7 @@
 import { User } from "lucide-react";
 import { useSheet } from "@reborn/components";
 import { CreateUser } from "../forms/CreateUser";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { CreateUserDto } from "@/types";
 
 interface UserCreateSheet {

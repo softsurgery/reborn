@@ -30,7 +30,7 @@ import { JobCreatedSuccess } from "./JobCreatedSuccess";
 import { useBalance } from "@/hooks/content/finance/useBalance";
 import { BudgetWarning } from "./BudgetWarning";
 import { AppHeaderBack } from "@reborn/mobile-components";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 interface JobCreateFormProps {
   className?: string;

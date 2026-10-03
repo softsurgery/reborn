@@ -19,7 +19,7 @@ import { Text } from "@reborn/mobile-ui";
 import { cn } from "@reborn/lib";
 import { VideoThumbnailPreview } from "@reborn/mobile-components";
 import { StagedMedia } from "@/types";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 interface ConversationMediaStagingProps {
   className?: string;

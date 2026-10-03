@@ -5,7 +5,7 @@ import * as Haptics from "expo-haptics";
 import * as Location from "expo-location";
 import { ChevronDown, MapPin, Navigation, Pin } from "lucide-react-native";
 import React from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import {
   LayoutAnimation,
   ActivityIndicator,

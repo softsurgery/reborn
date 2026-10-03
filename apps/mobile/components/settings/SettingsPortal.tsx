@@ -3,7 +3,7 @@ import { Alert, View } from "react-native";
 import { useQueryClient } from "@tanstack/react-query";
 import { router } from "expo-router";
 import { LogOut, Trash2 } from "lucide-react-native";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { cn } from "@reborn/lib";
 import { useAuthPersistStore } from "@reborn/hooks/stores";
 import { useCurrentUser } from "@/hooks/content/user/useCurrentUser";

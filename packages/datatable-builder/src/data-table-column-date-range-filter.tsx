@@ -1,5 +1,5 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "@reborn/i18n";
 import { Button, DatePicker, Label } from '@reborn/ui';
 import { format } from 'date-fns';
 import { buildDateRangeFilter, parseDateRangeFilter } from './column-filter';

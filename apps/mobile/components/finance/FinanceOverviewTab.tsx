@@ -7,7 +7,7 @@ import { Text } from "@reborn/mobile-ui";
 import { useBalance } from "@/hooks/content/finance/useFinance";
 import { useColorPalette } from "@reborn/mobile-components";
 import { cn } from "@reborn/lib";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 interface FinanceOverviewTabProps {
   className?: string;

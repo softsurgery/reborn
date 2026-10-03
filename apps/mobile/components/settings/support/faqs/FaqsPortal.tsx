@@ -12,7 +12,7 @@ import { cn } from "@reborn/lib";
 import { StoreIDs } from "@/types";
 import { StableSafeAreaView } from "@reborn/mobile-components";
 import { ApplicationHeader } from "@reborn/mobile-components";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { useDataStore } from "@/hooks/content/useDataStore";
 import { Loader } from "@reborn/mobile-components";
 import { Icon } from "@reborn/mobile-ui";

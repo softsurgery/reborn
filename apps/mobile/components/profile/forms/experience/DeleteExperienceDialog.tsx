@@ -9,7 +9,7 @@ import { Text } from "@reborn/mobile-ui";
 import { cn } from "@reborn/lib";
 import React from "react";
 import { View } from "react-native";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { UserStore } from "@/hooks/stores/useUserStore";
 
 interface DeleteExperienceDialogProps {

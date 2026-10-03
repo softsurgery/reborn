@@ -16,7 +16,7 @@ import { View } from "react-native";
 import { toast } from "sonner-native";
 import { ActionSheetRef } from "react-native-actions-sheet";
 import { DeleteExperienceActionSheet } from "./DeleteExperienceActionSheet";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { useRTL } from "@reborn/mobile-components";
 import { ExperienceInstance } from "./ExperienceInstance";
 

@@ -2,7 +2,7 @@ import { useColorPalette } from "@reborn/mobile-components";
 import { LegendList } from "@legendapp/list";
 import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import React from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 import { RefreshControl, View } from "react-native";
 import { api } from "@/api";
 import { cn } from "@reborn/lib";

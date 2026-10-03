@@ -9,7 +9,7 @@ import { cn } from "@reborn/lib";
 import { Icon } from "@reborn/mobile-ui";
 import { ChevronLeft, ChevronRight } from "lucide-react-native";
 import { type VariantProps } from "class-variance-authority";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@reborn/i18n";
 
 interface StepperProps {
   classNames?: {

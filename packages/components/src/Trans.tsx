@@ -1,4 +1,4 @@
-import { Trans as NativeTrans } from "react-i18next";
+import { Trans as NativeTrans } from "@reborn/i18n";
 import { Skeleton } from "@reborn/ui/components/skeleton";
 
 interface TransProps {
