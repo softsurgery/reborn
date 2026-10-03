@@ -1,12 +1,13 @@
 {
-  "name": "my-project",
+  "name": "reborn-landing",
+  "author": "softsurgery",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint ."
+    "dev": "dotenv -e .env -- next dev",
+    "build": "dotenv -e .env -- next build",
+    "start": "dotenv -e .env -- next start",
+    "lint": "next lint"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
