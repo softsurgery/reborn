@@ -8,7 +8,7 @@
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "seed:all": "yarn seed:permissions && yarn seed:roles && yarn seed:admin && yarn seed:templates && yarn seed:skills && yarn seed:regions && yarn seed:currencies && yarn seed:job-categories && yarn seed:job-tags && yarn seed:configuration && yarn seed:public-resource && yarn seed:storage-folders",
+    "seed:all": "pnpm seed:permissions && pnpm seed:roles && pnpm seed:admin && pnpm seed:templates && pnpm seed:skills && pnpm seed:regions && pnpm seed:currencies && pnpm seed:job-categories && pnpm seed:job-tags && pnpm seed:configuration && pnpm seed:public-resource && pnpm seed:storage-folders",
     "seed:playground": "npx nestjs-command seed:playground-users && npx nestjs-command seed:playground-jobs",
     "seed:permissions": "npx nestjs-command seed:permissions",
     "seed:roles": "npx nestjs-command seed:roles",
