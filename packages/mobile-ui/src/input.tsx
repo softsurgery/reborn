@@ -1,4 +1,5 @@
 import { cn } from "@reborn/lib";
+import { useRTL } from "@reborn/mobile-components";
 import { Platform, TextInput, type TextInputProps } from "react-native";
 
 function Input({
@@ -6,6 +7,8 @@ function Input({
   ref,
   ...props
 }: TextInputProps & React.RefAttributes<TextInput>) {
+  const isRTL = useRTL();
+
   return (
     <TextInput
       ref={ref}
@@ -23,6 +26,7 @@ function Input({
         Platform.select({
           native: "placeholder:text-muted-foreground/50",
         }),
+        isRTL && "text-right flex-row-reverse",
         className,
       )}
     />

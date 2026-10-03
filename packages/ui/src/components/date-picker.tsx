@@ -9,6 +9,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "./popover";
 import { cn } from "#lib/utils";
 import { getDateFnsLocale } from "@reborn/lib";
 import { useTranslation } from "@reborn/i18n";
+import { useRTL } from "../hooks/useRTL";
 
 export interface InputProps extends Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -45,6 +46,7 @@ const DatePicker = React.forwardRef<HTMLInputElement, InputProps>(
       nullable,
       isPending,
       disabled,
+      dir,
       ...props
     },
     ref,
@@ -61,6 +63,7 @@ const DatePicker = React.forwardRef<HTMLInputElement, InputProps>(
     };
 
     const { i18n } = useTranslation();
+    const { dir: currentDir, isRTL } = useRTL(dir as "ltr" | "rtl" | undefined);
     const dateFnsLocale = getDateFnsLocale(
       propLocale ?? i18n.resolvedLanguage ?? i18n.language,
     );
@@ -138,7 +141,7 @@ const DatePicker = React.forwardRef<HTMLInputElement, InputProps>(
         }}
       >
         <PopoverTrigger asChild>
-          <div className="relative w-full" dir="ltr">
+          <div className="relative w-full" dir={currentDir}>
             <Input
               className={cn(
                 "focus-visible:ring-0 focus-visible:ring-ring focus-visible:border-primary focus-visible:ring-offset-0",
@@ -161,7 +164,12 @@ const DatePicker = React.forwardRef<HTMLInputElement, InputProps>(
               disabled={isDisabled}
               {...props}
             />
-            <div className="absolute flex right-0 top-0 h-full w-10 justify-center items-center z-50">
+            <div
+              className={cn(
+                "absolute flex top-0 h-full w-10 justify-center items-center z-50",
+                isRTL ? "left-0" : "right-0"
+              )}
+            >
               <CalendarIcon
                 className={cn(
                   "h-4 w-4 cursor-pointer text-muted-foreground",
@@ -173,7 +181,7 @@ const DatePicker = React.forwardRef<HTMLInputElement, InputProps>(
           </div>
         </PopoverTrigger>
         <PopoverContent
-          dir="ltr"
+          dir={currentDir}
           align={popoverAlign}
           onOpenAutoFocus={(event) => event.preventDefault()}
           onInteractOutside={(event) => {

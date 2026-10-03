@@ -1,4 +1,5 @@
 import { cn } from "@reborn/lib";
+import { useRTL } from "@reborn/mobile-components";
 import * as LabelPrimitive from "@rn-primitives/label";
 import { Platform } from "react-native";
 
@@ -11,6 +12,8 @@ function Label({
   disabled,
   ...props
 }: LabelPrimitive.TextProps & React.RefAttributes<LabelPrimitive.TextRef>) {
+  const isRTL = useRTL();
+
   return (
     <LabelPrimitive.Root
       className={cn(
@@ -18,7 +21,8 @@ function Label({
         Platform.select({
           web: "cursor-default leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50 group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50",
         }),
-        disabled && "opacity-50"
+        disabled && "opacity-50",
+        isRTL && "flex-row-reverse"
       )}
       onPress={onPress}
       onLongPress={onLongPress}
@@ -30,6 +34,7 @@ function Label({
         className={cn(
           "text-foreground text-sm font-medium",
           Platform.select({ web: "leading-none" }),
+          isRTL && "text-right",
           className
         )}
         {...props}

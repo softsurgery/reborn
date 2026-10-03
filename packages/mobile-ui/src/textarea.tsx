@@ -1,13 +1,16 @@
 import { cn } from "@reborn/lib";
+import { useRTL } from "@reborn/mobile-components";
 import { Platform, TextInput } from "react-native";
 
 function Textarea({
   className,
   multiline = true,
-  numberOfLines = Platform.select({ web: 2, native: 8 }), // On web, numberOfLines also determines initial height. On native, it determines the maximum height.
+  numberOfLines = Platform.select({ web: 2, native: 8 }),
   placeholderClassName,
   ...props
 }: React.ComponentProps<typeof TextInput>) {
+  const isRTL = useRTL();
+
   return (
     <TextInput
       className={cn(
@@ -17,6 +20,7 @@ function Textarea({
           native: "placeholder:text-muted-foreground/50 ",
         }),
         props.editable === false && "opacity-50",
+        isRTL && "text-right flex-row-reverse",
         className,
       )}
       placeholderClassName={cn("text-muted-foreground", placeholderClassName)}

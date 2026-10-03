@@ -18,6 +18,8 @@
     "class-variance-authority": "^0.7.1"
   },
   "peerDependencies": {
+    "@react-native-masked-view/masked-view": "*",
+    "@reborn/mobile-components": "workspace:*",
     "@rn-primitives/accordion": "*",
     "@rn-primitives/checkbox": "*",
     "@rn-primitives/dialog": "*",

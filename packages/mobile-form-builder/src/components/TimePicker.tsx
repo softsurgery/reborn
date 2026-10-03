@@ -1,7 +1,7 @@
 import { Button } from "@reborn/mobile-ui";
 import { Icon } from "@reborn/mobile-ui";
 import { Text } from "@reborn/mobile-ui";
-import { ScrollViewContext } from "@reborn/mobile-components";
+import { ScrollViewContext, useRTL } from "@reborn/mobile-components";
 import { cn } from "@reborn/lib";
 import { Clock, ChevronDown } from "lucide-react-native";
 import React from "react";
@@ -70,6 +70,7 @@ export const TimePicker = ({
   const rotation = useSharedValue(0);
   const { scrollToView } = React.useContext(ScrollViewContext);
   const contentRef = React.useRef<View>(null);
+  const isRTL = useRTL();
 
   const toggle = () => {
     if (disabled) return;
@@ -179,8 +180,8 @@ export const TimePicker = ({
         className={cn("w-full h-11 rounded-xl p-0 px-2", classNames?.trigger)}
         onPress={toggle}
       >
-        <View className="flex flex-row items-center justify-between w-full">
-          <View className="flex flex-row items-center gap-2">
+        <View className={cn("flex flex-row items-center justify-between w-full", isRTL && "flex-row-reverse")}>
+          <View className={cn("flex flex-row items-center gap-2", isRTL && "flex-row-reverse")}>
             <Icon as={Clock} size={16} color={"gray"} />
             <Text className={cn("text-base", !time && "text-foreground/50")}>
               {displayText}
@@ -204,7 +205,7 @@ export const TimePicker = ({
           )}
         >
           <View 
-            className="flex-row items-center justify-center gap-4"
+            className={cn("flex-row items-center justify-center gap-4", isRTL && "flex-row-reverse")}
             onStartShouldSetResponder={() => true}
             onMoveShouldSetResponder={() => true}
             onResponderTerminationRequest={() => false}
@@ -229,7 +230,7 @@ export const TimePicker = ({
             />
           </View>
           <Separator className="my-2" />
-          <View className="flex-row justify-between">
+          <View className={cn("flex-row justify-between", isRTL && "flex-row-reverse")}>
             <Pressable
               className="p-2 rounded-lg"
               onPress={() => {

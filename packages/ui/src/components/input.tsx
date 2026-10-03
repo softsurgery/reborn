@@ -1,9 +1,13 @@
 import * as React from "react";
 import { cn } from "#lib/utils";
+import { useRTL } from "../hooks/useRTL";
 
-function Input({ className, type, ...props }: React.ComponentProps<"input">) {
+function Input({ className, type, dir, ...props }: React.ComponentProps<"input">) {
+  const { dir: currentDir } = useRTL(dir as "ltr" | "rtl" | undefined);
+
   return (
     <input
+      dir={currentDir}
       type={type}
       data-slot="input"
       className={cn(

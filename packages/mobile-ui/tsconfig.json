@@ -21,6 +21,12 @@
       ],
       "@reborn/lib/*": [
         "../lib/src/*"
+      ],
+      "@reborn/mobile-components": [
+        "../mobile-components/src/index.ts"
+      ],
+      "@reborn/mobile-components/*": [
+        "../mobile-components/src/*"
       ]
     }
   },

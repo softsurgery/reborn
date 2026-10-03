@@ -1578,9 +1578,15 @@ importers:
 
   packages/mobile-ui:
     dependencies:
+      '@react-native-masked-view/masked-view':
+        specifier: '*'
+        version: 0.3.2(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)
       '@reborn/lib':
         specifier: workspace:*
         version: link:../lib
+      '@reborn/mobile-components':
+        specifier: workspace:*
+        version: link:../mobile-components
       '@rn-primitives/accordion':
         specifier: '*'
         version: 1.5.2(@types/react-dom@19.3.0(@types/react@19.2.18))(@types/react@19.2.18)(react-dom@19.2.3(react@19.2.3))(react-native-web@0.21.3(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)

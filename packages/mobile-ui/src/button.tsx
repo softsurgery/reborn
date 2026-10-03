@@ -1,5 +1,6 @@
 import { TextClassContext } from "./text";
 import { cn } from "@reborn/lib";
+import { useRTL } from "@reborn/mobile-components";
 import { cva, type VariantProps } from "class-variance-authority";
 import { Platform, Pressable } from "react-native";
 
@@ -104,12 +105,14 @@ type ButtonProps = React.ComponentProps<typeof Pressable> &
   VariantProps<typeof buttonVariants>;
 
 function Button({ className, variant, size, ...props }: ButtonProps) {
+  const isRTL = useRTL();
   return (
     <TextClassContext.Provider value={buttonTextVariants({ variant, size })}>
       <Pressable
         className={cn(
           props.disabled && "opacity-50",
           buttonVariants({ variant, size }),
+          isRTL && "flex-row-reverse",
           className
         )}
         role="button"

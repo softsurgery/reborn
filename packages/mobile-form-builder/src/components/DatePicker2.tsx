@@ -1,7 +1,7 @@
 import { Button } from "@reborn/mobile-ui";
 import { Icon } from "@reborn/mobile-ui";
 import { Text } from "@reborn/mobile-ui";
-import { toLongDateString } from "@reborn/mobile-components";
+import { toLongDateString, useRTL } from "@reborn/mobile-components";
 import { ScrollViewContext } from "@reborn/mobile-components";
 import { cn } from "@reborn/lib";
 import { Calendar, ChevronDown } from "lucide-react-native";
@@ -61,6 +61,7 @@ export const DatePicker = ({
   const rotation = useSharedValue(0);
   const { scrollToView } = React.useContext(ScrollViewContext);
   const contentRef = React.useRef<View>(null);
+  const isRTL = useRTL();
 
   const toggle = () => {
     if (disabled) return;
@@ -172,8 +173,8 @@ export const DatePicker = ({
         className={cn("w-full h-11 rounded-xl p-0 px-2", classNames?.trigger)}
         onPress={toggle}
       >
-        <View className="flex flex-row items-center justify-between w-full">
-          <View className="flex flex-row items-center gap-2">
+        <View className={cn("flex flex-row items-center justify-between w-full", isRTL && "flex-row-reverse")}>
+          <View className={cn("flex flex-row items-center gap-2", isRTL && "flex-row-reverse")}>
             <Icon as={Calendar} size={16} color={"gray"} />
             <Text className={cn("text-base", !date && "text-foreground/50")}>
               {displayText}
@@ -198,7 +199,7 @@ export const DatePicker = ({
           // Prevent parent ScrollView from stealing touches while interacting with the wheels
         >
           <View 
-            className="flex-row items-center justify-center gap-4"
+            className={cn("flex-row items-center justify-center gap-4", isRTL && "flex-row-reverse")}
             onStartShouldSetResponder={() => true}
             onMoveShouldSetResponder={() => true}
             onResponderTerminationRequest={() => false}
@@ -223,7 +224,7 @@ export const DatePicker = ({
             />
           </View>
           <Separator className="my-2" />
-          <View className="flex-row justify-between">
+          <View className={cn("flex-row justify-between", isRTL && "flex-row-reverse")}>
             <Pressable
               className="p-2 rounded-lg"
               onPress={() => {
