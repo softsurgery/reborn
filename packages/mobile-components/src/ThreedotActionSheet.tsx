@@ -6,7 +6,7 @@ import { Keyboard, Pressable, View } from "react-native";
 import { cn } from "@reborn/lib";
 import { Ellipsis, type LucideIcon } from "lucide-react-native";
 import { Icon } from "@reborn/mobile-ui";
-import { THEME } from "./lib/theme";
+import { useColorPalette } from "./hooks/useColorPalette";
 import { Text } from "@reborn/mobile-ui";
 import { VariantProps } from "class-variance-authority";
 import { Button } from "@reborn/mobile-ui";
@@ -29,8 +29,7 @@ export const ThreeDotsActionSheet = forwardRef<
   ActionSheetRef,
   ThreeDotsActionSheetProps
 >(({ icon, disabled, size, options, renderTrigger = true }, ref) => {
-  const { colorScheme } = useColorScheme();
-  const isDarkColorScheme = colorScheme === "dark";
+  const { palette } = useColorPalette();
   const sheetRef = React.useRef<ActionSheetRef>(null);
 
   React.useImperativeHandle(ref, () => sheetRef.current as ActionSheetRef);
@@ -64,9 +63,7 @@ export const ThreeDotsActionSheet = forwardRef<
         defaultOverlayOpacity={0.45}
         onClose={handleClose}
         containerStyle={{
-          backgroundColor: isDarkColorScheme
-            ? THEME.dark.background
-            : THEME.light.background,
+          backgroundColor: palette.background,
           borderTopLeftRadius: 24,
           borderTopRightRadius: 24,
           paddingHorizontal: 16,

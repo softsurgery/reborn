@@ -17,6 +17,7 @@ import { Icon } from "@reborn/mobile-ui";
 import { Loader2 } from "lucide-react-native";
 import { useTopUpFunds } from "@/hooks/content/finance/useTopUpFunds";
 import { useTopUpPoints } from "@/hooks/content/finance/useTopUpPoints";
+import { cn } from "@reborn/lib";
 
 interface TopUpProps {
   className?: string;
@@ -50,7 +51,7 @@ export const TopUp = ({ className }: TopUpProps) => {
   };
 
   return (
-    <StableSafeAreaView className="flex-1 bg-card">
+    <StableSafeAreaView className={cn("flex-1 bg-card", className)}>
       <ApplicationHeader
         classNames={{ wrapper: "border-b border-border pb-2" }}
         title={"Top Up Balance"}

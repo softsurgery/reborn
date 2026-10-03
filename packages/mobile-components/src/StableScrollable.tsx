@@ -17,7 +17,7 @@ import * as Haptics from "expo-haptics";
 import MaskedView from "@react-native-masked-view/masked-view";
 import { LinearGradient } from "expo-linear-gradient";
 import { cn } from "@reborn/lib";
-import { hslToHex } from "./lib/theme";
+import { hslToHex } from "./hooks/useColorPalette";
 
 interface SelectOption {
   label: string;

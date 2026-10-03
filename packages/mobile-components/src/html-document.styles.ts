@@ -1,5 +1,5 @@
 import type { MixedStyleRecord } from "react-native-render-html";
-import { hslToHex } from "./lib/theme";
+import { hslToHex } from "./hooks/useColorPalette";
 
 export const getHtmlDocumentTagsStyles = (palette: any): MixedStyleRecord => ({
   body: {
@@ -104,7 +104,9 @@ export const getHtmlDocumentTagsStyles = (palette: any): MixedStyleRecord => ({
   },
 });
 
-export const getHtmlDocumentClassesStyles = (palette: any): MixedStyleRecord => ({
+export const getHtmlDocumentClassesStyles = (
+  palette: any,
+): MixedStyleRecord => ({
   "legal-not-applied": {
     backgroundColor: hslToHex(palette.card),
     borderRadius: 10,

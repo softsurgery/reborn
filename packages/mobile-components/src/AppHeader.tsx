@@ -6,7 +6,7 @@ import { Icon } from "@reborn/mobile-ui";
 import { IconBadge } from "@reborn/mobile-ui";
 import { Text, TextVariantDefaults } from "@reborn/mobile-ui";
 import React from "react";
-import { hslToHex } from "./lib/theme";
+import { hslToHex } from "./hooks/useColorPalette";
 import { useColorPalette } from "./hooks/useColorPalette";
 
 type Shortcut =

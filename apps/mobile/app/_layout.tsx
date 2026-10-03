@@ -1,5 +1,6 @@
-import { hslToHex } from "@reborn/mobile-components";
+import { hslToHex, PaletteProvider, useColorPalette } from "@reborn/mobile-components";
 import { NAV_THEME, THEME } from "@/lib/theme";
+import { useColorScheme } from "nativewind";
 import React from "react";
 import { Stack, useRootNavigationState } from "expo-router";
 import { ThemeProvider } from "expo-router/react-navigation";
@@ -15,26 +16,24 @@ import {
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
-import { useColorPalette } from "@reborn/mobile-components";
 import { usePreferencePersistStore } from "@reborn/hooks/stores";
 import * as SplashScreen from "expo-splash-screen";
 import { splashPrevented } from "@/lib/splash-screen";
 import { asyncStoragePersister, queryClient } from "@/lib/query-client";
 import { KeyboardProvider } from "react-native-keyboard-controller";
-import { useRTL } from "@reborn/mobile-components";
-import { resolveAppLanguage } from "@/hooks/useRTL";
+import { resolveAppLanguage, useRTL } from "@/hooks/useRTL";
 import i18n from "@/i18n";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { LoaderProvider } from "@/contexts/LoaderContext";
 
 interface RootLayoutContentProps {
-  palette: typeof THEME.light | typeof THEME.dark;
   colorScheme: "light" | "dark";
 }
 
-function RootLayoutContent({ palette, colorScheme }: RootLayoutContentProps) {
+function RootLayoutContent({ colorScheme }: RootLayoutContentProps) {
   const insets = useSafeAreaInsets();
   const isRTL = useRTL();
+  const { palette } = useColorPalette();
 
   const [ready, setReady] = React.useState(false);
 
@@ -95,7 +94,7 @@ function RootLayoutContent({ palette, colorScheme }: RootLayoutContentProps) {
 }
 
 export default function RootLayout() {
-  const { colorScheme, palette } = useColorPalette();
+  const { colorScheme } = useColorScheme();
   const isPreferenceReady = usePreferencePersistStore((state) => state.isReady);
   const language = usePreferencePersistStore((state) => state.language);
 
@@ -119,25 +118,24 @@ export default function RootLayout() {
   if (!isPreferenceReady) return null;
 
   return (
-    <ThemeProvider value={NAV_THEME[colorScheme ?? "light"]}>
-      <PersistQueryClientProvider
-        client={queryClient}
-        persistOptions={{
-          persister: asyncStoragePersister,
-          maxAge: 1000 * 60 * 60 * 24,
-        }}
-      >
-        <KeyboardProvider statusBarTranslucent>
-          <SafeAreaProvider>
-            <LoaderProvider>
-              <RootLayoutContent
-                colorScheme={colorScheme ?? "light"}
-                palette={palette}
-              />
-            </LoaderProvider>
-          </SafeAreaProvider>
-        </KeyboardProvider>
-      </PersistQueryClientProvider>
-    </ThemeProvider>
+    <PaletteProvider theme={THEME}>
+      <ThemeProvider value={NAV_THEME[colorScheme ?? "light"]}>
+        <PersistQueryClientProvider
+          client={queryClient}
+          persistOptions={{
+            persister: asyncStoragePersister,
+            maxAge: 1000 * 60 * 60 * 24,
+          }}
+        >
+          <KeyboardProvider statusBarTranslucent>
+            <SafeAreaProvider>
+              <LoaderProvider>
+                <RootLayoutContent colorScheme={colorScheme ?? "light"} />
+              </LoaderProvider>
+            </SafeAreaProvider>
+          </KeyboardProvider>
+        </PersistQueryClientProvider>
+      </ThemeProvider>
+    </PaletteProvider>
   );
 }
