@@ -9,13 +9,13 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "@reborn/mobile-components";
-import { Text } from "@reborn/mobile-ui";
+} from "@softsurgery/mobile-components";
+import { Text } from "@softsurgery/mobile-ui";
 import { useServerImages } from "@/hooks/content/useServerImages";
-import { useColorPalette } from "@reborn/mobile-components";
-import { timeAgo } from "@reborn/mobile-components";
-import { identifyUser, identifyUserAvatar } from "@reborn/lib";
-import { cn } from "@reborn/lib";
+import { useColorPalette } from "@softsurgery/mobile-components";
+import { timeAgo } from "@softsurgery/mobile-components";
+import { identifyUser, identifyUserAvatar } from "@softsurgery/lib";
+import { cn } from "@softsurgery/lib";
 import {
   JobPricingType,
   ResponseJobDto,

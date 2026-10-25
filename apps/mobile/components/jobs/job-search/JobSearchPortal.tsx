@@ -1,13 +1,13 @@
 import React from "react";
 import { View } from "react-native";
-import { MarkedInput } from "@reborn/mobile-components";
+import { MarkedInput } from "@softsurgery/mobile-components";
 import { Search } from "lucide-react-native";
 import { router, useNavigation } from "expo-router";
-import { Text } from "@reborn/mobile-ui";
+import { Text } from "@softsurgery/mobile-ui";
 import { JobSearchResults } from "./JobSearchResults";
-import { useDebounce } from "@reborn/hooks/utils";
+import { useDebounce } from "@softsurgery/hooks/utils";
 import { LegendList } from "@legendapp/list";
-import { cn } from "@reborn/lib";
+import { cn } from "@softsurgery/lib";
 import { useJobStore } from "@/hooks/stores/useJobStore";
 import { ResponseJobDto } from "@/types";
 import { JobSearchResultEntry } from "./JobSearchResultEntry";

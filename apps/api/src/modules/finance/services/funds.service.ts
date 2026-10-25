@@ -4,15 +4,21 @@ import { FundTransactionRepository } from '../repositories/fund-transaction.repo
 import { FundTransactionEntity } from '../entities/fund-transaction.entity';
 import { TransactionType } from '../enums/transaction-type.enum';
 import { UserRepository } from 'src/modules/users/repositories/user.repository';
-import { IQueryObject } from 'nsa-database';
+import {
+  IQueryObject,
+} from '@softsurgery/nsa-database';
 import {
   QueryBuilder,
-  mergeWhereConditions,
-} from 'nsa-database';
-import { PageDto } from 'nsa-database';
-import { PageMetaDto } from 'nsa-database';
+} from '@softsurgery/nsa-database';
+import {
+  PageDto,
+} from '@softsurgery/nsa-database';
+import {
+  PageMetaDto,
+} from '@softsurgery/nsa-database';
 import { FindManyOptions } from 'typeorm';
 import { BalanceResponseDto } from '../dtos/balance-response.dto';
+import { mergeWhereConditions } from 'src/utils/merge-where-conditions';
 
 @Injectable()
 export class FundsService {

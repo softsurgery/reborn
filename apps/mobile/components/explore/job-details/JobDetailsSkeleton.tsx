@@ -1,8 +1,8 @@
 import React from "react";
 import { View, Dimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Skeleton } from "@reborn/mobile-ui";
-import { cn } from "@reborn/lib";
+import { Skeleton } from "@softsurgery/mobile-ui";
+import { cn } from "@softsurgery/lib";
 
 interface SkeletonBlockProps {
   className?: string;

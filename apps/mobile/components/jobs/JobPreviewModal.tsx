@@ -19,17 +19,17 @@ import {
   Signal,
   X,
 } from "lucide-react-native";
-import { Text } from "@reborn/mobile-ui";
+import { Text } from "@softsurgery/mobile-ui";
 import { JobPricingType, ResponseJobDto } from "@/types";
-import { useColorPalette } from "@reborn/mobile-components";
+import { useColorPalette } from "@softsurgery/mobile-components";
 import { useServerImages } from "@/hooks/content/useServerImages";
-import { identifyUser, identifyUserAvatar } from "@reborn/lib";
-import { timeAgo } from "@reborn/mobile-components";
+import { identifyUser, identifyUserAvatar } from "@softsurgery/lib";
+import { timeAgo } from "@softsurgery/mobile-components";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "@reborn/mobile-components";
+} from "@softsurgery/mobile-components";
 import { router } from "expo-router";
 import * as Haptics from "expo-haptics";
 import { toast } from "sonner-native";

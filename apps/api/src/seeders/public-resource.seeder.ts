@@ -1,6 +1,6 @@
 import { Command } from 'nestjs-command';
 import { Injectable } from '@nestjs/common';
-import { StorageService } from 'nsa-storage/services/storage.service';
+import { StorageService } from '@softsurgery/nsa-storage/services/storage.service';
 import { StorageFolderCatalogService } from 'src/app/services/storage-folder-catalog.service';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -59,7 +59,6 @@ export class PublicResourceSeedCommand {
             false,
             false,
             STORAGE_SYSTEMATICS.APPLICATION_LOGO,
-            publicFolder.id,
           );
           console.log(
             `✅ Uploaded ${resource.filename} with slug: ${upload.slug}`,

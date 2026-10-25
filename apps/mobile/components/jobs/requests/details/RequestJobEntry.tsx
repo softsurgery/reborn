@@ -3,11 +3,11 @@ import { Pressable, View } from "react-native";
 import { router } from "expo-router";
 import * as Haptics from "expo-haptics";
 import { Briefcase, ChevronRight } from "lucide-react-native";
-import { Text } from "@reborn/mobile-ui";
-import { Icon } from "@reborn/mobile-ui";
+import { Text } from "@softsurgery/mobile-ui";
+import { Icon } from "@softsurgery/mobile-ui";
 import { useServerImages } from "@/hooks/content/useServerImages";
 import { ResponseJobDto } from "@/types";
-import { cn } from "@reborn/lib";
+import { cn } from "@softsurgery/lib";
 
 interface RequestJobEntryProps {
   className?: string;

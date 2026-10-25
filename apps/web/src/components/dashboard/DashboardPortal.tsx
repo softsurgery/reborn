@@ -1,5 +1,5 @@
-import { cn } from "@reborn/lib";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@reborn/ui";
+import { cn } from "@softsurgery/lib";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@softsurgery/ui";
 import { ChartRadialLabel } from "./charts/ChartRadial";
 import LineChartExample from "./charts/LineChart";
 import { ChartPieSimple } from "./charts/PieChart";

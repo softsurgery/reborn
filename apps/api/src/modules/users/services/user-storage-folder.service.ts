@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { StorageFolderEntity } from 'nsa-storage/entities/storage-folder.entity';
-import { StorageFolderService } from 'nsa-storage/services/storage-folder.service';
+import { StorageFolderEntity } from 'src/modules/storage-folder/entities/storage-folder.entity';
+import { StorageFolderService } from 'src/modules/storage-folder/services/storage-folder.service';
 import { STORAGE_FOLDER_SYSTEMATICS } from 'src/app/constants/storage-folder-systematics.constants';
 
 @Injectable()

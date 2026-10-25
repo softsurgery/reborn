@@ -1,12 +1,12 @@
-import { Text } from "@reborn/mobile-ui";
+import { Text } from "@softsurgery/mobile-ui";
 import { normalizeMessageLinkUrl } from "@/lib/chat/message-links";
-import { identifyUser } from "@reborn/lib";
+import { identifyUser } from "@softsurgery/lib";
 import { ResponseMessageDto, ResponseMessageLinkDto } from "@/types";
 import { format } from "date-fns";
 import { Link2 } from "lucide-react-native";
 import React from "react";
 import { Linking, Pressable, View } from "react-native";
-import { Icon } from "@reborn/mobile-ui";
+import { Icon } from "@softsurgery/mobile-ui";
 
 interface LinkListItemProps {
   message: ResponseMessageDto;

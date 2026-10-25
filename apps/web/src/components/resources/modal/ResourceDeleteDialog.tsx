@@ -1,6 +1,6 @@
-import { useDialog } from "@reborn/components";
-import { Spinner } from "@reborn/components";
-import { Button } from "@reborn/ui";
+import { useDialog } from "@softsurgery/components";
+import { Spinner } from "@softsurgery/components";
+import { Button } from "@softsurgery/ui";
 
 interface ResourceDeleteDialogProps {
   representation?: string;

@@ -1,5 +1,5 @@
 import React from "react"
-import { Card, CardHeader, CardContent, CardTitle } from "@reborn/ui"
+import { Card, CardHeader, CardContent, CardTitle } from "@softsurgery/ui"
 
 interface ChartCardProps {
   title: string

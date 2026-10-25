@@ -1,5 +1,5 @@
-import { Label } from "@reborn/ui";
-import { cn } from "@reborn/lib";
+import { Label } from "@softsurgery/ui";
+import { cn } from "@softsurgery/lib";
 
 interface AppVersionProps {
   className?: string;

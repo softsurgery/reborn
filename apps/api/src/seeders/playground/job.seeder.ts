@@ -6,9 +6,9 @@ import { JobStyle } from 'src/modules/job-management/enums/job-style.enum';
 import { JobDifficulty } from 'src/modules/job-management/enums/job-difficulty.enum';
 import { JobStatus } from 'src/modules/job-management/enums/workflow/job-status.enum';
 import { JobPricingType } from 'src/modules/job-management/enums/job-pricing-type.enum';
-import { RefParamRepository } from 'nsa-reference-types/repositories/ref-param.repository';
+import { RefParamRepository } from '@softsurgery/nsa-reference-types/repositories/ref-param.repository';
 import { UserService } from 'src/modules/users/services/user.service';
-import { StorageService } from 'nsa-storage/services/storage.service';
+import { StorageService } from '@softsurgery/nsa-storage/services/storage.service';
 import { downloadAndStoreImagesForJob } from './job-upslash-downloader';
 
 @Injectable()

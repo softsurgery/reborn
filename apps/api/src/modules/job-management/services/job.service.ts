@@ -1,13 +1,18 @@
 import { Transactional } from '@nestjs-cls/transactional';
 import { Injectable } from '@nestjs/common';
 import { DeepPartial, FindManyOptions, In } from 'typeorm';
-import { IQueryObject } from 'nsa-database';
+import {
+  IQueryObject,
+} from '@softsurgery/nsa-database';
 import {
   QueryBuilder,
-  mergeWhereConditions,
-} from 'nsa-database';
-import { PageDto } from 'nsa-database';
-import { PageMetaDto } from 'nsa-database';
+} from '@softsurgery/nsa-database';
+import {
+  PageDto,
+} from '@softsurgery/nsa-database';
+import {
+  PageMetaDto,
+} from '@softsurgery/nsa-database';
 import { JobRepository } from '../repositories/job.repository';
 import { JobEntity } from '../entities/job.entity';
 import { JobNotFoundException } from '../errors/job/job.notfound.error';
@@ -17,13 +22,16 @@ import { CreateJobUploadDto } from '../dtos/job-upload/create-job-upload.dto';
 import { UpdateJobUploadDto } from '../dtos/job-upload/update-job-upload.dto';
 import { ResponseJobMetadataDto } from '../dtos/job/response-job-metadata.dto';
 import { JobRequestService } from './job-request.service';
-import { RefParamService } from 'nsa-reference-types/services/ref-param.service';
-import { RefParamEntity } from 'nsa-reference-types/entities/ref-param.entity';
+import { RefParamService } from '@softsurgery/nsa-reference-types/services/ref-param.service';
+import { RefParamEntity } from '@softsurgery/nsa-reference-types/entities/ref-param.entity';
 import { FollowService } from 'src/modules/users/services/follow.service';
-import { UserNotFoundException } from 'nsa-um/errors/user/user.notfound.error';
-import { AbstractCrudService } from 'nsa-database';
+import { UserNotFoundException } from '@softsurgery/nsa-um/errors/user/user.notfound.error';
+import {
+  AbstractCrudService,
+} from '@softsurgery/nsa-database';
 import { JobStorageFolderService } from './job-storage-folder.service';
 import { JobStatus } from '../enums/workflow/job-status.enum';
+import { mergeWhereConditions } from 'src/utils/merge-where-conditions';
 
 @Injectable()
 export class JobService extends AbstractCrudService<JobEntity> {
@@ -156,7 +164,7 @@ export class JobService extends AbstractCrudService<JobEntity> {
 
     if (tagIds && Array.isArray(tagIds)) {
       tags = (await Promise.all(
-        tagIds.map((tagId) => this.refParamService.findOneById(tagId)),
+        tagIds.map((tagId) => this.refParamService.findOneById(String(tagId))),
       )) as RefParamEntity[];
     }
 
@@ -197,7 +205,7 @@ export class JobService extends AbstractCrudService<JobEntity> {
 
     if (tagIds && Array.isArray(tagIds)) {
       tags = (await Promise.all(
-        tagIds.map((tagId) => this.refParamService.findOneById(tagId)),
+        tagIds.map((tagId) => this.refParamService.findOneById(String(tagId))),
       )) as RefParamEntity[];
     }
     const existingJob = await this.jobRepository.findOneById(id);

@@ -1,5 +1,5 @@
 import { Separator } from "@radix-ui/react-separator";
-import { useIntro } from "@reborn/contexts";
+import { useIntro } from "@softsurgery/contexts";
 
 interface PageHeaderProps {
   className?: string;

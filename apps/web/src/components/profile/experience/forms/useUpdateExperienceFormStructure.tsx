@@ -5,9 +5,9 @@ import {
   FormStructure,
   TextFieldProps,
   TextareaFieldProps,
-} from "@reborn/form-builder";
+} from "@softsurgery/form-builder";
 import { ExperienceStore } from "@/hooks/stores/useExperienceStore";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 
 interface useUpdateExperienceFormStructureProps {
   experienceStore: ExperienceStore;

@@ -8,13 +8,13 @@ import { useFollowSystem } from "@/hooks/content/useFollowSystem";
 import { useCurrentUser } from "@/hooks/content/user/useCurrentUser";
 import { useIdentifiedUser } from "@/hooks/content/user/useIdentifiedUser";
 import { useSocialStat } from "@/hooks/content/user/useSocialStat";
-import { identifyUser, identifyUserAvatar } from "@reborn/lib";
+import { identifyUser, identifyUserAvatar } from "@softsurgery/lib";
 import { ServerErrorResponse, UpdateUserDto } from "@/types";
-import { Text } from "@reborn/mobile-ui";
-import { cn } from "@reborn/lib";
+import { Text } from "@softsurgery/mobile-ui";
+import { cn } from "@softsurgery/lib";
 import { useUserStore } from "@/hooks/stores/useUserStore";
 import { SocialStat } from "./social/SocialStat";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 import { useExperiences } from "@/hooks/content/user/useExperiences";
 import { useEducations } from "@/hooks/content/user/useEducations";
 import { useSkills } from "@/hooks/content/reference-types/useSkills";
@@ -28,7 +28,7 @@ import { ProfileTabs } from "./ProfileTabs";
 import { useScrollableElement } from "@/hooks/useScrollableElement";
 import Animated, { FadeInUp } from "react-native-reanimated";
 import { useLoader } from "@/contexts/LoaderContext";
-import { useRTL } from "@reborn/mobile-components";
+import { useRTL } from "@softsurgery/mobile-components";
 
 interface InspectBaseProfileProps {
   className?: string;

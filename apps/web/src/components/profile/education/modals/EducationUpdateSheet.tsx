@@ -1,7 +1,7 @@
 import { GraduationCap } from "lucide-react";
-import { useSheet } from "@reborn/components";
+import { useSheet } from "@softsurgery/components";
 import { EducationUpdateForm } from "../forms/EducationUpdateFrom";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 
 interface EducationUpdateSheet {
   updateEducation?: () => void;

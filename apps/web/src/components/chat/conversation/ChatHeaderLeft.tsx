@@ -1,5 +1,5 @@
 import React from "react";
-import { cn } from "@reborn/lib";
+import { cn } from "@softsurgery/lib";
 import { Text } from "@/components/shared/Text";
 import { StablePressable } from "@/components/shared/StablePressable";
 import { ArrowLeft } from "lucide-react";

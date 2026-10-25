@@ -1,14 +1,14 @@
 import React from "react";
-import { cn } from "@reborn/lib";
+import { cn } from "@softsurgery/lib";
 import { useEducationStore } from "../../../../hooks/stores/useEducationStore";
-import { FormBuilder } from "@reborn/form-builder";
-import { Button } from "@reborn/ui";
+import { FormBuilder } from "@softsurgery/form-builder";
+import { Button } from "@softsurgery/ui";
 import { useCreateEducationFormStructure } from "./useCreateEducationFormStructure";
 import { Save } from "lucide-react";
 import { createEducationSchema } from "@/types/validations/education.validation";
-import { Spinner } from "@reborn/components";
+import { Spinner } from "@softsurgery/components";
 import { CreateEducationDto } from "@/types";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 
 interface EducationCreateFormProps {
   className?: string;

@@ -1,10 +1,10 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@reborn/ui";
-import { Card, CardContent } from "@reborn/ui";
+import { Avatar, AvatarFallback, AvatarImage } from "@softsurgery/ui";
+import { Card, CardContent } from "@softsurgery/ui";
 import {
   identifyUser,
   identifyUserAvatar,
 } from "@/lib/users-management/utils/identify-user.util";
-import { cn } from "@reborn/lib";
+import { cn } from "@softsurgery/lib";
 import { ResponseUserDto } from "@/types";
 
 interface UserCardProps {

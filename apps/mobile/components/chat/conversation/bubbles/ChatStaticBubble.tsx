@@ -1,9 +1,9 @@
-import { cn } from "@reborn/lib";
+import { cn } from "@softsurgery/lib";
 import { ResponseMessageDto, StaticMessageEnum } from "@/types";
 import React from "react";
 import { Pressable } from "react-native";
-import { Text } from "@reborn/mobile-ui";
-import { useTranslation } from "@reborn/i18n";
+import { Text } from "@softsurgery/mobile-ui";
+import { useTranslation } from "react-i18next";
 import { useCurrentUser } from "@/hooks/content/user/useCurrentUser";
 
 interface ChatStaticBubbleProps {

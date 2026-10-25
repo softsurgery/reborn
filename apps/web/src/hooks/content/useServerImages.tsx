@@ -2,8 +2,8 @@ import React from "react";
 import Image from "next/image";
 import { api } from "@/api";
 import axios from "@/lib/api-default";
-import { cn } from "@reborn/lib";
-import { Skeleton } from "@reborn/ui";
+import { cn } from "@softsurgery/lib";
+import { Skeleton } from "@softsurgery/ui";
 
 export interface useServerImagesProps {
   ids: (number | undefined)[];

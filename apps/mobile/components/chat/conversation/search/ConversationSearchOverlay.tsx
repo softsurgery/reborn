@@ -4,17 +4,17 @@ import { LegendList } from "@legendapp/list";
 import { ChevronLeft, Search } from "lucide-react-native";
 import Animated, { useAnimatedStyle } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Icon } from "@reborn/mobile-ui";
-import { Text } from "@reborn/mobile-ui";
+import { Icon } from "@softsurgery/mobile-ui";
+import { Text } from "@softsurgery/mobile-ui";
 import { ResponseMessageDto } from "@/types";
-import { useColorPalette } from "@reborn/mobile-components";
+import { useColorPalette } from "@softsurgery/mobile-components";
 import { useGradualAnimation } from "@/hooks/useGradualAnimation";
-import { hslToHex } from "@reborn/mobile-components";
+import { hslToHex } from "@softsurgery/mobile-components";
 import { useConversationMessageSearch } from "@/hooks/content/chat/useConversationMessageSearch";
 import { ConversationSearchResultItem } from "./ConversationSearchResultItem";
-import { MarkedInput } from "@reborn/mobile-components";
-import { useTranslation } from "@reborn/i18n";
-import { StableSafeAreaView } from "@reborn/mobile-components";
+import { MarkedInput } from "@softsurgery/mobile-components";
+import { useTranslation } from "react-i18next";
+import { StableSafeAreaView } from "@softsurgery/mobile-components";
 
 interface ConversationSearchOverlayProps {
   conversationId: number;

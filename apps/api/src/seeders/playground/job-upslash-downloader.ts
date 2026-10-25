@@ -1,4 +1,4 @@
-import { StorageService } from 'nsa-storage/services/storage.service';
+import { StorageService } from '@softsurgery/nsa-storage/services/storage.service';
 import { UNSPLASH_CATEGORY_IMAGES } from '../data/playground-jobs.data';
 import { Readable } from 'stream';
 

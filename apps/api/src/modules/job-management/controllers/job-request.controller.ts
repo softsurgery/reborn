@@ -1,12 +1,12 @@
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { IQueryObject } from 'nsa-database';
-import { PageDto } from 'nsa-database';
-import { ApiPaginatedResponse } from 'nsa-database';
-import { toDto, toDtoArray } from 'nsa-database';
-import { LogInterceptor } from 'nsa-logger/decorators/logger.interceptor';
-import { LogEvent } from 'nsa-logger/decorators/log-event.decorator';
+import { IQueryObject } from '@softsurgery/nsa-database';
+import { PageDto } from '@softsurgery/nsa-database';
+import { ApiPaginatedResponse } from '@softsurgery/nsa-database';
+import { toDto, toDtoArray } from '@softsurgery/nsa-database';
+import { LogInterceptor } from '@softsurgery/nsa-logger/decorators/logger.interceptor';
+import { LogEvent } from '@softsurgery/nsa-logger/decorators/log-event.decorator';
 import { EventType } from 'src/app/enums/event-type.enum';
-import { AdvancedRequest } from 'nsa-helpers/http';
+import { AdvancedRequest } from '@softsurgery/nsa-helpers/http';
 import {
   Body,
   ClassSerializerInterceptor,
@@ -24,11 +24,11 @@ import { JobRequestService } from '../services/job-request.service';
 import { ResponseJobRequestDto } from '../dtos/job-request/response-job-request.dto';
 import { CreateJobRequestDto } from '../dtos/job-request/create-job-request.dto';
 import { UpdateJobRequestDto } from '../dtos/job-request/update-job-request.dto';
-import { NotificationInterceptor } from 'nsa-notifications/decorators/notification.interceptor';
-import { Notify } from 'nsa-notifications/decorators/notify.decorator';
+import { NotificationInterceptor } from '@softsurgery/nsa-notifications/decorators/notification.interceptor';
+import { Notify } from '@softsurgery/nsa-notifications/decorators/notify.decorator';
 import { NotificationType } from 'src/app/enums/notification-type.enum';
 import { JobService } from '../services/job.service';
-import { identifyUser } from 'nsa-um/utils/identify-user';
+import { identifyUser } from '@softsurgery/nsa-um/utils/identify-user';
 import { JobRequestWorkflowService } from '../services/job-request-workflow.service';
 import { JobRequestEvents } from '../enums/workflow/job-request-events.enum';
 

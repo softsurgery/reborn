@@ -4,11 +4,11 @@ import { THEME } from "@/lib/theme";
 import { useColorScheme } from "nativewind";
 import { Image, View } from "react-native";
 import type { ImageSourcePropType } from "react-native";
-import { Text } from "@reborn/mobile-ui";
-import { Button } from "@reborn/mobile-ui";
-import { Icon } from "@reborn/mobile-ui";
+import { Text } from "@softsurgery/mobile-ui";
+import { Button } from "@softsurgery/mobile-ui";
+import { Icon } from "@softsurgery/mobile-ui";
 import { Image as ImageIcon } from "lucide-react-native";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 
 interface ProfileCoverActionSheetProps {
   onConfirm: () => void;

@@ -1,14 +1,14 @@
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@reborn/ui";
+} from "@softsurgery/ui";
 import { Edit, Settings as SettingsIcon } from "lucide-react";
-import { Button } from "@reborn/ui";
-import { Separator } from "@reborn/ui";
+import { Button } from "@softsurgery/ui";
+import { Separator } from "@softsurgery/ui";
 
 interface SettingsProps {
   className?: string;

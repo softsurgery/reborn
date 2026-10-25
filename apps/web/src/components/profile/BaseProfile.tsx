@@ -10,14 +10,14 @@ import {
   Phone,
   Briefcase,
 } from "lucide-react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@reborn/ui";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@softsurgery/ui";
 import { Spinner } from "../shared/Spinner";
 import { About } from "./cards/About";
 import { Activity } from "./cards/Activity";
 import { Settings } from "./cards/Settings";
-import { cn } from "@reborn/lib";
+import { cn } from "@softsurgery/lib";
 import { useUserStore } from "@/hooks/stores/useUserStore";
-import { Avatar, AvatarFallback, AvatarImage } from "@reborn/ui";
+import { Avatar, AvatarFallback, AvatarImage } from "@softsurgery/ui";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/api";
 import { useServerImages } from "@/hooks/content/useServerImages";
@@ -25,9 +25,9 @@ import { useFollowerDialog } from "./modals/FollowersDialog";
 import { useFollowingDialog } from "./modals/FollowingDialog";
 import { useFollowSystem } from "@/hooks/useFollowSystem";
 import { identifyUser, identifyUserAvatar } from "@/lib/user.utils";
-import { Separator } from "@reborn/ui";
-import { Badge } from "@reborn/ui";
-import { useTranslation } from "@reborn/i18n";
+import { Separator } from "@softsurgery/ui";
+import { Badge } from "@softsurgery/ui";
+import { useTranslation } from "react-i18next";
 import { ChatBubbleIcon } from "@radix-ui/react-icons";
 import { Conversations } from "./cards/Conversations";
 import { Notifications } from "../audit-monitoring/notifications/Notifications";

@@ -5,26 +5,26 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/api";
 import { useSkills } from "@/hooks/content/reference-types/useSkills";
 import { useUserSkills } from "@/hooks/content/user/useUserSkills";
-import { cn } from "@reborn/lib";
-import { StableSafeAreaView } from "@reborn/mobile-components";
-import { ApplicationHeader } from "@reborn/mobile-components";
-import { AppHeaderBack } from "@reborn/mobile-components";
-import { Text } from "@reborn/mobile-ui";
+import { cn } from "@softsurgery/lib";
+import { StableSafeAreaView } from "@softsurgery/mobile-components";
+import { ApplicationHeader } from "@softsurgery/mobile-components";
+import { AppHeaderBack } from "@softsurgery/mobile-components";
+import { Text } from "@softsurgery/mobile-ui";
 import { Loader2 } from "lucide-react-native";
-import { Icon } from "@reborn/mobile-ui";
+import { Icon } from "@softsurgery/mobile-ui";
 import * as Haptics from "expo-haptics";
-import { Button } from "@reborn/mobile-ui";
-import { useKeyboardVisible } from "@reborn/mobile-components";
+import { Button } from "@softsurgery/mobile-ui";
+import { useKeyboardVisible } from "@softsurgery/mobile-components";
 import { toast } from "sonner-native";
-import { FormBuilder } from "@reborn/mobile-form-builder";
+import { FormBuilder } from "@softsurgery/mobile-form-builder";
 import {
   FieldVariant,
   FormStructure,
   MultiSelectFieldProps,
-} from "@reborn/mobile-form-builder";
-import { StableKeyboardAwareScrollView } from "@reborn/mobile-components";
-import { BottomButtonWrapper } from "@reborn/mobile-components";
-import { useTranslation } from "@reborn/i18n";
+} from "@softsurgery/mobile-form-builder";
+import { StableKeyboardAwareScrollView } from "@softsurgery/mobile-components";
+import { BottomButtonWrapper } from "@softsurgery/mobile-components";
+import { useTranslation } from "react-i18next";
 import { useCurrentUser } from "@/hooks/content/user/useCurrentUser";
 
 interface SkillsManagementProps {

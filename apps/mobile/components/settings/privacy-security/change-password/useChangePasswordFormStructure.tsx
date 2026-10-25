@@ -1,11 +1,11 @@
 import { UserStore } from "@/hooks/stores/useUserStore";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 import {
   Field,
   FieldVariant,
   FormStructure,
   PasswordFieldProps,
-} from "@reborn/mobile-form-builder";
+} from "@softsurgery/mobile-form-builder";
 
 interface UseChangePasswordFormStructureProps {
   store: UserStore;

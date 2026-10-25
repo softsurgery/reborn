@@ -3,7 +3,7 @@ import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@reborn/ui";
+} from "@softsurgery/ui";
 import {
   SidebarGroup,
   SidebarMenu,
@@ -12,7 +12,7 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
-} from "@reborn/ui";
+} from "@softsurgery/ui";
 import Link from "next/link";
 
 export function MainNav({

@@ -12,7 +12,7 @@ import {
     DropdownMenuItem,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
-  } from "@reborn/ui";
+  } from "@softsurgery/ui";
   import {
     SidebarGroup,
     SidebarGroupLabel,
@@ -21,7 +21,7 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
     useSidebar,
-  } from "@reborn/ui";
+  } from "@softsurgery/ui";
   
   export function NavProjects({
     projects,

@@ -8,8 +8,8 @@ import {
   SelectOption,
   TextareaFieldProps,
   TextFieldProps,
-} from "@reborn/form-builder";
-import { JSONValue } from "@reborn/components";
+} from "@softsurgery/form-builder";
+import { JSONValue } from "@softsurgery/components";
 import { ReferenceTypesStore } from "@/hooks/stores/useReferenceTypesStore";
 import React from "react";
 import { RefParamExtras } from "../../../../shared/JSONExtras";

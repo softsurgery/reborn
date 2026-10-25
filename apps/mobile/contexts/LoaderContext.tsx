@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
 import { View, StyleSheet } from "react-native";
-import { Loader } from "@reborn/mobile-components";
+import { Loader } from "@softsurgery/mobile-components";
 
 interface LoaderContextType {
   setLoading: (loading: boolean) => void;

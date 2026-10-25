@@ -2,12 +2,12 @@
 
 import type React from "react";
 import { useState } from "react";
-import { Button } from "@reborn/ui";
-import { Card, CardContent } from "@reborn/ui";
+import { Button } from "@softsurgery/ui";
+import { Card, CardContent } from "@softsurgery/ui";
 import { FileText, Download, Eye, EyeOff } from "lucide-react";
 import Image from "next/image";
-import { cn } from "@reborn/lib";
-import { useTranslation } from "@reborn/i18n";
+import { cn } from "@softsurgery/lib";
+import { useTranslation } from "react-i18next";
 
 interface DocumentCardProps {
   title: string;

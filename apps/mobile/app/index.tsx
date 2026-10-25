@@ -2,11 +2,11 @@ import React from "react";
 import { router } from "expo-router";
 import { useColorScheme } from "nativewind";
 import * as Font from "expo-font";
-import { setAndroidNavigationBar } from "@reborn/mobile-components";
+import { setAndroidNavigationBar } from "@softsurgery/mobile-components";
 import { ActivityIndicator, Appearance, Platform } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
-import { usePreferencePersistStore } from "@reborn/hooks/stores";
-import { useTranslation } from "@reborn/i18n";
+import { usePreferencePersistStore } from "@softsurgery/hooks/stores";
+import { useTranslation } from "react-i18next";
 import * as Localization from "expo-localization";
 
 SplashScreen.preventAutoHideAsync();

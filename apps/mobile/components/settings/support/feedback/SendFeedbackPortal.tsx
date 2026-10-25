@@ -3,26 +3,26 @@ import { useMutation } from "@tanstack/react-query";
 import { api } from "@/api";
 import { View } from "react-native";
 import { Loader2 } from "lucide-react-native";
-import { Text } from "@reborn/mobile-ui";
+import { Text } from "@softsurgery/mobile-ui";
 import { createFeedbackSchema } from "@/types/validations/system-reports.validation";
-import { Button } from "@reborn/mobile-ui";
-import { FormBuilder } from "@reborn/mobile-form-builder";
+import { Button } from "@softsurgery/mobile-ui";
+import { FormBuilder } from "@softsurgery/mobile-form-builder";
 import { useSendFeedbackFormStructure } from "./useSendFeedbackFormStructure";
-import { cn } from "@reborn/lib";
-import { StableKeyboardAwareScrollView } from "@reborn/mobile-components";
+import { cn } from "@softsurgery/lib";
+import { StableKeyboardAwareScrollView } from "@softsurgery/mobile-components";
 import { router } from "expo-router";
-import { StableSafeAreaView } from "@reborn/mobile-components";
-import { useTranslation } from "@reborn/i18n";
-import { ApplicationHeader } from "@reborn/mobile-components";
-import { useKeyboardVisible } from "@reborn/mobile-components";
+import { StableSafeAreaView } from "@softsurgery/mobile-components";
+import { useTranslation } from "react-i18next";
+import { ApplicationHeader } from "@softsurgery/mobile-components";
+import { useKeyboardVisible } from "@softsurgery/mobile-components";
 import { ServerErrorResponse } from "@/types/utils/server.interfaces";
 import { toast } from "sonner-native";
-import { Icon } from "@reborn/mobile-ui";
+import { Icon } from "@softsurgery/mobile-ui";
 import * as Haptics from "expo-haptics";
 
-import { AppHeaderBack } from "@reborn/mobile-components";
+import { AppHeaderBack } from "@softsurgery/mobile-components";
 import { useSendFeedbackStore } from "@/hooks/stores/useFeedbackManager";
-import { BottomButtonWrapper } from "@reborn/mobile-components";
+import { BottomButtonWrapper } from "@softsurgery/mobile-components";
 interface SendFeedbackPortalProps {
   className?: string;
 }

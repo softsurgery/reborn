@@ -7,8 +7,8 @@ import {
   IsString,
   Length,
 } from 'class-validator';
-import { CreateAbstractUserDto } from 'nsa-um/dtos/abstract-user/create-abstract-user.dto';
-import { Gender } from 'nsa-um/enums/gender.enum';
+import { CreateAbstractUserDto } from '@softsurgery/nsa-um/dtos/abstract-user/create-abstract-user.dto';
+import { Gender } from '@softsurgery/nsa-um/enums/gender.enum';
 
 export class CreateUserDto extends CreateAbstractUserDto {
   @ApiProperty({ type: String })

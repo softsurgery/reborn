@@ -1,10 +1,10 @@
 import React from "react";
-import { cn } from "@reborn/lib";
+import { cn } from "@softsurgery/lib";
 import { Pressable, View } from "react-native";
-import { Text } from "@reborn/mobile-ui";
-import { useRTL } from "@reborn/mobile-components";
+import { Text } from "@softsurgery/mobile-ui";
+import { useRTL } from "@softsurgery/mobile-components";
 import { ChevronLeft, ChevronRight } from "lucide-react-native";
-import { Icon } from "@reborn/mobile-ui";
+import { Icon } from "@softsurgery/mobile-ui";
 
 export interface SettingRowProps {
   className?: string;

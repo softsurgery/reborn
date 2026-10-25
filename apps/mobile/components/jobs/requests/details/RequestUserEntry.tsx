@@ -3,12 +3,12 @@ import { Pressable, View } from "react-native";
 import { router } from "expo-router";
 import * as Haptics from "expo-haptics";
 import { ChevronRight } from "lucide-react-native";
-import { Text } from "@reborn/mobile-ui";
-import { Icon } from "@reborn/mobile-ui";
-import { identifyUser, identifyUserAvatar } from "@reborn/lib";
+import { Text } from "@softsurgery/mobile-ui";
+import { Icon } from "@softsurgery/mobile-ui";
+import { identifyUser, identifyUserAvatar } from "@softsurgery/lib";
 import { useServerImages } from "@/hooks/content/useServerImages";
 import { ResponseUserDto } from "@/types";
-import { cn } from "@reborn/lib";
+import { cn } from "@softsurgery/lib";
 
 interface RequestUserEntryProps {
   user?: ResponseUserDto;

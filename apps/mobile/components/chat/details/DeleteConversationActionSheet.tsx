@@ -1,13 +1,13 @@
 import React from "react";
 import { View } from "react-native";
 import ActionSheet, { type ActionSheetRef } from "react-native-actions-sheet";
-import { Text } from "@reborn/mobile-ui";
-import { Button } from "@reborn/mobile-ui";
-import { Icon } from "@reborn/mobile-ui";
-import { useColorPalette } from "@reborn/mobile-components";
-import { hslToHex } from "@reborn/mobile-components";
+import { Text } from "@softsurgery/mobile-ui";
+import { Button } from "@softsurgery/mobile-ui";
+import { Icon } from "@softsurgery/mobile-ui";
+import { useColorPalette } from "@softsurgery/mobile-components";
+import { hslToHex } from "@softsurgery/mobile-components";
 import { Ban } from "lucide-react-native";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 
 interface DeleteConversationActionSheetProps {
   onConfirm: () => void;

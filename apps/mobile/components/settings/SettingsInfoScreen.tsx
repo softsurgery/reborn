@@ -1,20 +1,20 @@
-import { cn } from "@reborn/lib";
+import { cn } from "@softsurgery/lib";
 import { router } from "expo-router";
 import { ChevronLeft } from "lucide-react-native";
 import React from "react";
 import { View } from "react-native";
-import { ApplicationHeader } from "@reborn/mobile-components";
-import { StableSafeAreaView } from "@reborn/mobile-components";
-import { StableScrollView } from "@reborn/mobile-components";
-import { Badge } from "@reborn/mobile-ui";
+import { ApplicationHeader } from "@softsurgery/mobile-components";
+import { StableSafeAreaView } from "@softsurgery/mobile-components";
+import { StableScrollView } from "@softsurgery/mobile-components";
+import { Badge } from "@softsurgery/mobile-ui";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@reborn/mobile-ui";
-import { Text } from "@reborn/mobile-ui";
+} from "@softsurgery/mobile-ui";
+import { Text } from "@softsurgery/mobile-ui";
 
 interface InfoSection {
   title: string;

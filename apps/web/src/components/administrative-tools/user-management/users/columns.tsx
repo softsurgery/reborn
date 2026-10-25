@@ -1,16 +1,16 @@
 import React from "react";
 import { ColumnDef } from "@tanstack/react-table";
-import { cn } from "@reborn/lib";
-import { Badge } from "@reborn/ui";
+import { cn } from "@softsurgery/lib";
+import { Badge } from "@softsurgery/ui";
 import { format } from "date-fns";
-import { DataTableColumnHeader } from "@reborn/datatable-builder";
-import { DataTableRowActions } from "@reborn/datatable-builder";
+import { DataTableColumnHeader } from "@softsurgery/datatable-builder";
+import { DataTableRowActions } from "@softsurgery/datatable-builder";
 import { ResponseUserDto } from "@/types";
-import { DataTableCell } from "@reborn/datatable-builder";
-import { useTranslation } from "@reborn/i18n";
+import { DataTableCell } from "@softsurgery/datatable-builder";
+import { useTranslation } from "react-i18next";
 import { identifyUserAvatar } from "@/lib/user.utils";
 import UserAvatarCell from "./UserAvatarCell";
-import { DataTableCellVariant } from "@reborn/datatable-builder";
+import { DataTableCellVariant } from "@softsurgery/datatable-builder";
 
 export const useUserColumns = (
   context: any,

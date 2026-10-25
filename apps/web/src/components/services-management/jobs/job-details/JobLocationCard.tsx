@@ -7,7 +7,7 @@ import {
   CardDescription,
   CardAction,
   CardContent,
-} from "@reborn/ui";
+} from "@softsurgery/ui";
 import { AbstractGoogleMap } from "@/components/shared/maps/AbstractGoogleMap";
 import { ResponseJobDto } from "@/types";
 

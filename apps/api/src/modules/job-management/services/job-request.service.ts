@@ -5,13 +5,18 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { FindManyOptions, In } from 'typeorm';
-import { IQueryObject } from 'nsa-database';
+import {
+  IQueryObject,
+} from '@softsurgery/nsa-database';
 import {
   QueryBuilder,
-  mergeWhereConditions,
-} from 'nsa-database';
-import { PageDto } from 'nsa-database';
-import { PageMetaDto } from 'nsa-database';
+} from '@softsurgery/nsa-database';
+import {
+  PageDto,
+} from '@softsurgery/nsa-database';
+import {
+  PageMetaDto,
+} from '@softsurgery/nsa-database';
 import { JobRequestRepository } from '../repositories/job-request.repository';
 import { JobRequestEntity } from '../entities/job-request.entity';
 import { JobRequestNotFoundException } from '../errors/job-request/job-request.notfound.error';
@@ -20,12 +25,15 @@ import { UpdateJobRequestDto } from '../dtos/job-request/update-job-request.dto'
 import { JobRepository } from '../repositories/job.repository';
 import { JobRequestStatus } from '../enums/job-request-status.enum';
 import { JobRequestCannotRequestOwnJobException } from '../errors/job-request/job-request.cannotrequestownjob.error';
-import { ConversationService } from 'nsa-chat/services/conversation.service';
-import { UserNotFoundException } from 'nsa-um/errors/user/user.notfound.error';
-import { AbstractCrudService } from 'nsa-database';
+import { ConversationService } from '@softsurgery/nsa-chat/services/conversation.service';
+import { UserNotFoundException } from '@softsurgery/nsa-um/errors/user/user.notfound.error';
+import {
+  AbstractCrudService,
+} from '@softsurgery/nsa-database';
 import { PointsService } from 'src/modules/finance/services/points.service';
 import { TransactionType } from 'src/modules/finance/enums/transaction-type.enum';
 import { JobNotFoundException } from '../errors/job/job.notfound.error';
+import { mergeWhereConditions } from 'src/utils/merge-where-conditions';
 
 @Injectable()
 export class JobRequestService extends AbstractCrudService<JobRequestEntity> {
@@ -73,10 +81,17 @@ export class JobRequestService extends AbstractCrudService<JobRequestEntity> {
 
   @Transactional()
   async update(
-    id: number,
+    id: string | number,
     updateJobRequestDto: UpdateJobRequestDto,
-  ): Promise<JobRequestEntity | null> {
-    return this.jobRequestRepository.update(id, updateJobRequestDto);
+  ): Promise<JobRequestEntity> {
+    const updated = await this.jobRequestRepository.update(
+      id,
+      updateJobRequestDto,
+    );
+    if (!updated) {
+      throw new JobRequestNotFoundException();
+    }
+    return updated;
   }
 
   @Transactional()

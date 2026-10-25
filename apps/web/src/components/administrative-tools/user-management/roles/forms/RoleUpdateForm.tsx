@@ -1,9 +1,9 @@
 import React, { use } from "react";
-import { cn } from "@reborn/lib";
+import { cn } from "@softsurgery/lib";
 import { useRoleStore } from "@/hooks/stores/useRoleStore";
 import { useUpdateRoleFormStructure } from "./useUpdateRoleFormStructure";
-import { FormBuilder } from "@reborn/form-builder";
-import { Button } from "@reborn/ui";
+import { FormBuilder } from "@softsurgery/form-builder";
+import { Button } from "@softsurgery/ui";
 import { Save } from "lucide-react";
 import { usePermissions } from "@/hooks/content/usePermissions";
 

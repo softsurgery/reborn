@@ -1,7 +1,7 @@
 import { BookUser } from "lucide-react";
 import { RoleCreateForm } from "../forms/RoleCreateForm";
-import { useSheet } from "@reborn/components";
-import { useTranslation } from "@reborn/i18n";
+import { useSheet } from "@softsurgery/components";
+import { useTranslation } from "react-i18next";
 
 interface RoleCreateSheet {
   createRole?: () => void;

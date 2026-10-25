@@ -2,14 +2,14 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/api";
 import { useRouter } from "next/router";
-import { cn } from "@reborn/lib";
-import { useDebounce } from "@reborn/hooks/utils";
-import { DataTable } from "@reborn/datatable-builder";
+import { cn } from "@softsurgery/lib";
+import { useDebounce } from "@softsurgery/hooks/utils";
+import { DataTable } from "@softsurgery/datatable-builder";
 import { getPermissionColumns } from "./columns";
-import { useBreadcrumb } from "@reborn/contexts";
-import { useIntro } from "@reborn/contexts";
+import { useBreadcrumb } from "@softsurgery/contexts";
+import { useIntro } from "@softsurgery/contexts";
 import { ResponsePermissionDto } from "@/types";
-import { DataTableConfig } from "@reborn/datatable-builder";
+import { DataTableConfig } from "@softsurgery/datatable-builder";
 
 interface PermissionsProps {
   className?: string;

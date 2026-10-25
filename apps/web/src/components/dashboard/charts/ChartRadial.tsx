@@ -16,9 +16,9 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@reborn/ui"
+} from "@softsurgery/ui"
 
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@reborn/ui"
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@softsurgery/ui"
 
 const chartData = [
   { browser: "chrome", visitors: 275, fill: "#f87171" }, // rouge

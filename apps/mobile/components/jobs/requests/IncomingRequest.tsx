@@ -1,8 +1,8 @@
 import React from "react";
 import { View, TouchableOpacity, Pressable } from "react-native";
 import { router } from "expo-router";
-import { Text } from "@reborn/mobile-ui";
-import { Icon } from "@reborn/mobile-ui";
+import { Text } from "@softsurgery/mobile-ui";
+import { Icon } from "@softsurgery/mobile-ui";
 import {
   CheckCircle2,
   XCircle,
@@ -17,22 +17,22 @@ import {
 } from "lucide-react-native";
 import * as Haptics from "expo-haptics";
 import { ActionSheetRef } from "react-native-actions-sheet";
-import { cn } from "@reborn/lib";
-import { identifyUser, identifyUserAvatar } from "@reborn/lib";
+import { cn } from "@softsurgery/lib";
+import { identifyUser, identifyUserAvatar } from "@softsurgery/lib";
 import { useServerImages } from "@/hooks/content/useServerImages";
-import { timeAgo } from "@reborn/mobile-components";
+import { timeAgo } from "@softsurgery/mobile-components";
 import { JobRequestStatus, ResponseJobRequestDto } from "@/types";
-import { useColorPalette } from "@reborn/mobile-components";
+import { useColorPalette } from "@softsurgery/mobile-components";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "@reborn/mobile-components";
-import { ThreeDotsActionSheet } from "@reborn/mobile-components";
+} from "@softsurgery/mobile-components";
+import { ThreeDotsActionSheet } from "@softsurgery/mobile-components";
 import { useJobRequestActions } from "@/hooks/content/job/useJobRequestActions";
 import { ApproveJobRequestActionSheet } from "./details/action-sheets/ApproveJobRequestActionSheet";
 import { DeclineJobRequestActionSheet } from "./details/action-sheets/DeclineJobRequestActionSheet";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 
 interface IncomingRequestEntryProps {
   className?: string;

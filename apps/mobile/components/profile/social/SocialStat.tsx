@@ -1,11 +1,11 @@
 import React from "react";
 import { Pressable, View } from "react-native";
 import { router } from "expo-router";
-import { Text } from "@reborn/mobile-ui";
+import { Text } from "@softsurgery/mobile-ui";
 import { useUserStore } from "@/hooks/stores/useUserStore";
-import { cn } from "@reborn/lib";
-import { useTranslation } from "@reborn/i18n";
-import { useRTL } from "@reborn/mobile-components";
+import { cn } from "@softsurgery/lib";
+import { useTranslation } from "react-i18next";
+import { useRTL } from "@softsurgery/mobile-components";
 import { useSocialStat } from "@/hooks/content/user/useSocialStat";
 
 interface SocialStatProps {

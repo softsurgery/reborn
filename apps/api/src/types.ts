@@ -2,4 +2,4 @@ export type {
   AdvancedRequest,
   AdvancedSocket,
   SocketPayload,
-} from 'nsa-helpers/http';
+} from '@softsurgery/nsa-helpers/http';

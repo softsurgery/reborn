@@ -1,12 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose, Type } from 'class-transformer';
-import { ResponseStorageDto } from 'nsa-storage/dtos/response-storage.dto';
-import { ResponseAbstractUserDto } from 'nsa-um/dtos/abstract-user/response-abstract-user.dto';
-import { Gender } from 'nsa-um/enums/gender.enum';
+import { ResponseStorageDto } from '@softsurgery/nsa-storage/dtos/response-storage.dto';
+import { ResponseAbstractUserDto } from '@softsurgery/nsa-um/dtos/abstract-user/response-abstract-user.dto';
+import { Gender } from '@softsurgery/nsa-um/enums/gender.enum';
 import { ResponseUserUploadDto } from '../user-upload/response-user-upload.dto';
 import { ResponseExperienceDto } from '../experience/response-experience.dto';
 import { ResponseEducationDto } from '../education/response-education.dto';
-import { ResponseRefParamDto } from 'nsa-reference-types/dtos/ref-param/response-ref-param.dto';
+import { ResponseRefParamDto } from '@softsurgery/nsa-reference-types/dtos/ref-param/response-ref-param.dto';
 
 export class ResponseUserDto extends ResponseAbstractUserDto {
   @ApiProperty({ type: String })

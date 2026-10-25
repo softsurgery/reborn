@@ -1,12 +1,12 @@
 import React from "react";
-import { cn } from "@reborn/lib";
+import { cn } from "@softsurgery/lib";
 import { api } from "@/api";
-import { useBreadcrumb } from "@reborn/contexts";
-import { useDebounce } from "@reborn/hooks/utils";
+import { useBreadcrumb } from "@softsurgery/contexts";
+import { useDebounce } from "@softsurgery/hooks/utils";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useUserColumns } from "./columns";
-import { DataTable } from "@reborn/datatable-builder";
+import { DataTable } from "@softsurgery/datatable-builder";
 import { useUserDeleteDialog } from "./modals/UserDeleteDialog";
 import { useActivateUserDialog } from "./modals/UserActivateDialog";
 import { useDeactivateUserDialog } from "./modals/UserDeactivateDialog";
@@ -17,13 +17,13 @@ import {
   ServerErrorResponse,
   UpdateUserDto,
 } from "@/types";
-import { useIntro } from "@reborn/contexts";
+import { useIntro } from "@softsurgery/contexts";
 import { ArrowDown, ArrowUp, BellPlus } from "lucide-react";
 import { useApproveUserDialog } from "./modals/UserApproveDialog";
 import { useDisapproveUserDialog } from "./modals/UserDisapproveDialog";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 import { useRouter } from "next/router";
-import { DataTableConfig } from "@reborn/datatable-builder";
+import { DataTableConfig } from "@softsurgery/datatable-builder";
 import { useUploads } from "@/hooks/content/useUploads";
 import { useUpload } from "@/hooks/content/useUpload";
 

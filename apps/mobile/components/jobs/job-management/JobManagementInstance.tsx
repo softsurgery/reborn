@@ -1,18 +1,18 @@
-import { ApplicationHeader } from "@reborn/mobile-components";
-import { Loader } from "@reborn/mobile-components";
-import { StableSafeAreaView } from "@reborn/mobile-components";
+import { ApplicationHeader } from "@softsurgery/mobile-components";
+import { Loader } from "@softsurgery/mobile-components";
+import { StableSafeAreaView } from "@softsurgery/mobile-components";
 import { useJob } from "@/hooks/content/job/useJob";
-import { cn } from "@reborn/lib";
+import { cn } from "@softsurgery/lib";
 import { createMaterialTopTabNavigator } from "expo-router/js-top-tabs";
 import { View } from "react-native";
 import { JobStatistics } from "./JobStatistics";
 import { JobActions } from "./JobActions";
 import { JobLifecyclePortal } from "./JobLifecyclePortal";
 import { JobWorkPortal } from "./JobWorkPortal";
-import { useColorPalette } from "@reborn/mobile-components";
-import { AppHeaderBack } from "@reborn/mobile-components";
+import { useColorPalette } from "@softsurgery/mobile-components";
+import { AppHeaderBack } from "@softsurgery/mobile-components";
 import { RequestsList } from "@/components/jobs/requests/RequestList";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 import { useCurrentUser } from "@/hooks/content/user/useCurrentUser";
 import { getJobLifecycleRole } from "@/lib/job-lifecycle";
 

@@ -2,9 +2,9 @@ import React from "react";
 import { useCurrentUser } from "@/hooks/content/User/useCurrentUser";
 import { BaseProfile } from "./BaseProfile";
 import { useUserStore } from "@/hooks/stores/useUserStore";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 import { Spinner } from "../shared/Spinner";
-import { cn } from "@reborn/lib";
+import { cn } from "@softsurgery/lib";
 
 interface MyProfileProps {
   className?: string;

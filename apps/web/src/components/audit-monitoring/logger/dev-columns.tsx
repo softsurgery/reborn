@@ -1,15 +1,15 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { ResponseLogDto } from "@/types";
-import { Badge } from "@reborn/ui";
+import { Badge } from "@softsurgery/ui";
 import { identifyUser } from "@/lib/user.utils";
-import { JsonToggler } from "@reborn/components";
-import { DataTableColumnHeader } from "@reborn/datatable-builder";
-import { DataTableCell } from "@reborn/datatable-builder";
+import { JsonToggler } from "@softsurgery/components";
+import { DataTableColumnHeader } from "@softsurgery/datatable-builder";
+import { DataTableCell } from "@softsurgery/datatable-builder";
 import {
   DataTableCellVariant,
   DataTableConfig,
-} from "@reborn/datatable-builder";
-import { useTranslation } from "@reborn/i18n";
+} from "@softsurgery/datatable-builder";
+import { useTranslation } from "react-i18next";
 
 const getMethodColor = (method: string) => {
   switch (method) {

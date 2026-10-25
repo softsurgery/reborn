@@ -1,14 +1,14 @@
 import React from "react";
 import ActionSheet, { type ActionSheetRef } from "react-native-actions-sheet";
 import { View } from "react-native";
-import { Text } from "@reborn/mobile-ui";
-import { Button } from "@reborn/mobile-ui";
-import { Icon } from "@reborn/mobile-ui";
+import { Text } from "@softsurgery/mobile-ui";
+import { Button } from "@softsurgery/mobile-ui";
+import { Icon } from "@softsurgery/mobile-ui";
 import { Trash2 } from "lucide-react-native";
-import { useColorPalette } from "@reborn/mobile-components";
-import { useRTL } from "@reborn/mobile-components";
-import { cn } from "@reborn/lib";
-import { useTranslation } from "@reborn/i18n";
+import { useColorPalette } from "@softsurgery/mobile-components";
+import { useRTL } from "@softsurgery/mobile-components";
+import { cn } from "@softsurgery/lib";
+import { useTranslation } from "react-i18next";
 
 interface DeleteJobActionSheetProps {
   onConfirm: () => void;

@@ -1,13 +1,13 @@
-import { hslToHex, PaletteProvider, useColorPalette } from "@reborn/mobile-components";
+import { hslToHex, PaletteProvider, useColorPalette } from "@softsurgery/mobile-components";
 import { NAV_THEME, THEME } from "@/lib/theme";
 import { useColorScheme } from "nativewind";
 import React from "react";
 import { Stack, useRootNavigationState } from "expo-router";
 import { ThemeProvider } from "expo-router/react-navigation";
 import "../global.css";
-import "@reborn/i18n/mobile";
+import "@/i18n";
 import { Platform, View } from "react-native";
-import { cn } from "@reborn/lib";
+import { cn } from "@softsurgery/lib";
 import { StatusBar } from "expo-status-bar";
 import { PortalHost } from "@rn-primitives/portal";
 import { Toaster } from "sonner-native";
@@ -16,13 +16,13 @@ import {
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
-import { usePreferencePersistStore } from "@reborn/hooks/stores";
+import { usePreferencePersistStore } from "@softsurgery/hooks/stores";
 import * as SplashScreen from "expo-splash-screen";
 import { splashPrevented } from "@/lib/splash-screen";
 import { asyncStoragePersister, queryClient } from "@/lib/query-client";
 import { KeyboardProvider } from "react-native-keyboard-controller";
 import { resolveAppLanguage, useRTL } from "@/hooks/useRTL";
-import i18n from "@reborn/i18n/mobile";
+import i18n from "@/i18n";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { LoaderProvider } from "@/contexts/LoaderContext";
 

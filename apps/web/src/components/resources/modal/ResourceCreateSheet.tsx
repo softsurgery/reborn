@@ -1,4 +1,4 @@
-import { useSheet } from "@reborn/components";
+import { useSheet } from "@softsurgery/components";
 import { PackagePlus } from "lucide-react";
 import { ResourceForm } from "../ResourceForm";
 

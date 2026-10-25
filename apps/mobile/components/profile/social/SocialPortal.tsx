@@ -2,13 +2,13 @@ import { View } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import { createMaterialTopTabNavigator } from "expo-router/js-top-tabs";
 import { ChevronLeft } from "lucide-react-native";
-import { ApplicationHeader } from "@reborn/mobile-components";
-import { StableSafeAreaView } from "@reborn/mobile-components";
-import { cn } from "@reborn/lib";
+import { ApplicationHeader } from "@softsurgery/mobile-components";
+import { StableSafeAreaView } from "@softsurgery/mobile-components";
+import { cn } from "@softsurgery/lib";
 import { FollowingTab } from "./FollowingTab";
 import { FollowersTab } from "./FollowersTab";
-import { useColorPalette } from "@reborn/mobile-components";
-import { useTranslation } from "@reborn/i18n";
+import { useColorPalette } from "@softsurgery/mobile-components";
+import { useTranslation } from "react-i18next";
 
 const Tab = createMaterialTopTabNavigator();
 

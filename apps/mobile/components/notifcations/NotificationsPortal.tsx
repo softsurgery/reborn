@@ -1,21 +1,21 @@
-import { useColorPalette } from "@reborn/mobile-components";
+import { useColorPalette } from "@softsurgery/mobile-components";
 import { LegendList } from "@legendapp/list";
 import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import React from "react";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 import { RefreshControl, View } from "react-native";
 import { api } from "@/api";
-import { cn } from "@reborn/lib";
+import { cn } from "@softsurgery/lib";
 import { ResponseNotificationDto } from "@/types/notifications";
-import { ApplicationHeader } from "@reborn/mobile-components";
-import { Text } from "@reborn/mobile-ui";
+import { ApplicationHeader } from "@softsurgery/mobile-components";
+import { Text } from "@softsurgery/mobile-ui";
 import { NotificationEntry } from "./NotificationEntry";
 import { NotificationEntrySkeleton } from "./NotificationEntrySkeleton";
 
-import { AppHeaderBack } from "@reborn/mobile-components";
+import { AppHeaderBack } from "@softsurgery/mobile-components";
 import { useNotificationContext } from "@/contexts/NotificationContext";
 import { InfiniteListFooter } from "@/components/shared/InfiniteListFooter";
-import { StableSafeAreaView } from "@reborn/mobile-components";
+import { StableSafeAreaView } from "@softsurgery/mobile-components";
 interface NotificationPortalProps {
   className?: string;
 }

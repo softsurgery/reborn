@@ -1,8 +1,8 @@
 import React from "react";
 import { View } from "react-native";
 import Svg, { Circle } from "react-native-svg";
-import { Text } from "@reborn/mobile-ui";
-import { useTranslation } from "@reborn/i18n";
+import { Text } from "@softsurgery/mobile-ui";
+import { useTranslation } from "react-i18next";
 
 interface MediaUploadProgressProps {
   progress: number;

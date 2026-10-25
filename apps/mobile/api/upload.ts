@@ -5,7 +5,7 @@ import {
 } from "expo-file-system/legacy";
 import { Platform } from "react-native";
 import axios from "./axios";
-import { useAuthPersistStore } from "@reborn/hooks/stores";
+import { useAuthPersistStore } from "@softsurgery/hooks/stores";
 
 const BASE_URL = process.env.EXPO_PUBLIC_API_BASE_URL;
 

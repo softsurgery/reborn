@@ -3,9 +3,9 @@ import {
   CardContent,
   CardFooter,
   CardHeader,
-} from "@reborn/ui";
-import { Skeleton } from "@reborn/ui";
-import { cn } from "@reborn/lib";
+} from "@softsurgery/ui";
+import { Skeleton } from "@softsurgery/ui";
+import { cn } from "@softsurgery/lib";
 
 interface ResourceCardSkeletonProps {
   className?: string;

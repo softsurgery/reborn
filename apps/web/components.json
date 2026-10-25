@@ -13,7 +13,7 @@
   "aliases": {
     "components": "@/components",
     "utils": "@/lib/utils",
-    "ui": "@reborn/ui",
+    "ui": "@softsurgery/ui",
     "lib": "@/lib",
     "hooks": "@/hooks"
   },

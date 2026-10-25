@@ -1,5 +1,5 @@
 import React from "react";
-import { cn } from "@reborn/lib";
+import { cn } from "@softsurgery/lib";
 import { View, TouchableOpacity } from "react-native";
 import { Image, ImageSource } from "expo-image";
 import {
@@ -14,23 +14,23 @@ import { router } from "expo-router";
 import { JobPricingType, ResponseJobDto } from "@/types";
 import { useQueryClient } from "@tanstack/react-query";
 import * as Haptics from "expo-haptics";
-import { Skeleton } from "@reborn/mobile-ui";
-import { timeAgo } from "@reborn/mobile-components";
-import { Text } from "@reborn/mobile-ui";
+import { Skeleton } from "@softsurgery/mobile-ui";
+import { timeAgo } from "@softsurgery/mobile-components";
+import { Text } from "@softsurgery/mobile-ui";
 import { useJobSaveActions } from "@/hooks/content/job/useJobSaveActions";
 import { useIsJobSaved } from "@/hooks/content/job/useIsJobSaved";
-import { Button } from "@reborn/mobile-ui";
-import { Icon } from "@reborn/mobile-ui";
-import { Badge } from "@reborn/mobile-ui";
+import { Button } from "@softsurgery/mobile-ui";
+import { Icon } from "@softsurgery/mobile-ui";
+import { Badge } from "@softsurgery/mobile-ui";
 import { useServerImages } from "@/hooks/content/useServerImages";
-import { useColorPalette } from "@reborn/mobile-components";
-import { useRTL } from "@reborn/mobile-components";
+import { useColorPalette } from "@softsurgery/mobile-components";
+import { useRTL } from "@softsurgery/mobile-components";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "@reborn/mobile-components";
-import { identifyUser, identifyUserAvatar } from "@reborn/lib";
+} from "@softsurgery/mobile-components";
+import { identifyUser, identifyUserAvatar } from "@softsurgery/lib";
 
 interface JobCardProps {
   className?: string;

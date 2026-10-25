@@ -1,5 +1,5 @@
 //@ts-nocheck
-import { useAuthPersistStore } from "@reborn/hooks/stores";
+import { useAuthPersistStore } from "@softsurgery/hooks/stores";
 import { useSession } from "next-auth/react";
 import React from "react";
 

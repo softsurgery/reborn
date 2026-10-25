@@ -1,14 +1,14 @@
 import { Transactional } from '@nestjs-cls/transactional';
 import { Injectable } from '@nestjs/common';
 import { FindManyOptions, FindOneOptions } from 'typeorm';
-import { IQueryObject } from 'nsa-database';
-import { QueryBuilder } from 'nsa-database';
-import { PageDto } from 'nsa-database';
-import { PageMetaDto } from 'nsa-database';
+import { IQueryObject } from '@softsurgery/nsa-database';
+import { QueryBuilder } from '@softsurgery/nsa-database';
+import { PageDto } from '@softsurgery/nsa-database';
+import { PageMetaDto } from '@softsurgery/nsa-database';
 import { UserUploadEntity } from '../entities/user-upload.entity';
 import { CreateUserUploadDto } from '../dtos/user-upload/create-user-upload.dto';
 import { UpdateUserUploadDto } from '../dtos/user-upload/update-user-upload.dto';
-import { StorageService } from 'nsa-storage/services/storage.service';
+import { StorageService } from '@softsurgery/nsa-storage/services/storage.service';
 import { UserUploadRepository } from '../repositories/user-upload.repository';
 import { UserUploadNotFoundException } from '../errors/user-upload/user-upload.notfound.error';
 

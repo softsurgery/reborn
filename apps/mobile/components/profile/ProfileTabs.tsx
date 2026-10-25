@@ -1,5 +1,5 @@
 import React from "react";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 import { createMaterialTopTabNavigator } from "expo-router/js-top-tabs";
 import { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
 import {
@@ -8,9 +8,9 @@ import {
   ResponseRefParamDto,
   ResponseUserDto,
 } from "@/types";
-import { useColorPalette } from "@reborn/mobile-components";
-import { hslToHex } from "@reborn/mobile-components";
-import { useRTL } from "@reborn/mobile-components";
+import { useColorPalette } from "@softsurgery/mobile-components";
+import { hslToHex } from "@softsurgery/mobile-components";
+import { useRTL } from "@softsurgery/mobile-components";
 import { AboutTab } from "./sections/AboutTab";
 import { JobsTab } from "./sections/JobsTab";
 import { CareerTab } from "./sections/CareerTab";

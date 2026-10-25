@@ -1,12 +1,12 @@
 import React from "react";
 import { View } from "react-native";
 import { ChevronUp } from "lucide-react-native";
-import { StablePressable } from "@reborn/mobile-components";
-import { Text } from "@reborn/mobile-ui";
-import { cn } from "@reborn/lib";
-import { useColorPalette } from "@reborn/mobile-components";
+import { StablePressable } from "@softsurgery/mobile-components";
+import { Text } from "@softsurgery/mobile-ui";
+import { cn } from "@softsurgery/lib";
+import { useColorPalette } from "@softsurgery/mobile-components";
 import { JobPricingType, ResponseJobDto } from "@/types";
-import { SeeMoreText } from "@reborn/mobile-components";
+import { SeeMoreText } from "@softsurgery/mobile-components";
 
 interface JobDetailsBodyProps {
   className?: string;

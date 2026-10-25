@@ -1,13 +1,13 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { ResponseJobDto } from "@/types";
-import { DataTableColumnHeader } from "@reborn/datatable-builder";
-import { DataTableRowActions } from "@reborn/datatable-builder";
-import { DataTableCell } from "@reborn/datatable-builder";
-import { useTranslation } from "@reborn/i18n";
+import { DataTableColumnHeader } from "@softsurgery/datatable-builder";
+import { DataTableRowActions } from "@softsurgery/datatable-builder";
+import { DataTableCell } from "@softsurgery/datatable-builder";
+import { useTranslation } from "react-i18next";
 import {
   DataTableCellVariant,
   DataTableConfig,
-} from "@reborn/datatable-builder";
+} from "@softsurgery/datatable-builder";
 import { identifyUser } from "@/lib/user.utils";
 import Link from "next/link";
 

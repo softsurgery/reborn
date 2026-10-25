@@ -2,7 +2,7 @@
 
 import React from "react";
 import { AbstractGoogleMap } from "./AbstractGoogleMap";
-import { cn } from "@reborn/lib";
+import { cn } from "@softsurgery/lib";
 
 export interface LocationPickerMapProps {
   latitude?: number;

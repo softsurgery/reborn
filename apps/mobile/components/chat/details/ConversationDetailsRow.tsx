@@ -1,10 +1,10 @@
 import React from "react";
-import { Icon } from "@reborn/mobile-ui";
-import { Switch } from "@reborn/mobile-ui";
-import { Text } from "@reborn/mobile-ui";
-import { useColorPalette } from "@reborn/mobile-components";
-import { hslToHex } from "@reborn/mobile-components";
-import { cn } from "@reborn/lib";
+import { Icon } from "@softsurgery/mobile-ui";
+import { Switch } from "@softsurgery/mobile-ui";
+import { Text } from "@softsurgery/mobile-ui";
+import { useColorPalette } from "@softsurgery/mobile-components";
+import { hslToHex } from "@softsurgery/mobile-components";
+import { cn } from "@softsurgery/lib";
 import { ChevronRight, LucideIcon } from "lucide-react-native";
 import { TouchableOpacity, View } from "react-native";
 

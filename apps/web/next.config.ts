@@ -9,14 +9,14 @@ const { version } = require("./package.json");
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   transpilePackages: [
-    "@reborn/ui",
-    "@reborn/components",
-    "@reborn/form-builder",
-    "@reborn/datatable-builder",
-    "@reborn/hooks",
-    "@reborn/contexts",
-    "@reborn/lib",
-    "@reborn/api-client",
+    "@softsurgery/ui",
+    "@softsurgery/components",
+    "@softsurgery/form-builder",
+    "@softsurgery/datatable-builder",
+    "@softsurgery/hooks",
+    "@softsurgery/contexts",
+    "@softsurgery/lib",
+    "@softsurgery/api-client",
   ],
   outputFileTracingRoot: monorepoRoot,
   turbopack: {

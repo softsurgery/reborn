@@ -1,6 +1,6 @@
 import React from "react";
-import { Text, TextVariantDefaults } from "@reborn/mobile-ui";
-import { cn } from "@reborn/lib";
+import { Text, TextVariantDefaults } from "@softsurgery/mobile-ui";
+import { cn } from "@softsurgery/lib";
 
 interface HTMLTextProps {
   children: string;

@@ -1,14 +1,14 @@
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 import { Pressable, View } from "react-native";
-import { Image } from "@reborn/mobile-ui";
-import { cn } from "@reborn/lib";
+import { Image } from "@softsurgery/mobile-ui";
+import { cn } from "@softsurgery/lib";
 import {
   NotificationType,
   ResponseNotificationDto,
 } from "@/types/notifications";
-import { HTMLText } from "@reborn/mobile-components";
-import { Text } from "@reborn/mobile-ui";
-import { timeAgo } from "@reborn/mobile-components";
+import { HTMLText } from "@softsurgery/mobile-components";
+import { Text } from "@softsurgery/mobile-ui";
+import { timeAgo } from "@softsurgery/mobile-components";
 import { useNotificationPicture } from "@/hooks/content/notifications/useNotificationPicture";
 import { router } from "expo-router";
 

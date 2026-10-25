@@ -1,13 +1,13 @@
-import { Text } from "@reborn/mobile-ui";
+import { Text } from "@softsurgery/mobile-ui";
 import { useConversationMessages } from "@/hooks/content/chat/useConversationMessages";
-import { useColorPalette } from "@reborn/mobile-components";
-import { hslToHex } from "@reborn/mobile-components";
+import { useColorPalette } from "@softsurgery/mobile-components";
+import { hslToHex } from "@softsurgery/mobile-components";
 import { MessageVariant } from "@/types";
 import { LegendList } from "@legendapp/list";
 import React from "react";
 import { ActivityIndicator, View } from "react-native";
 import { FileListItem, getMessageUploadEntries } from "./FileListItem";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 
 type ConversationFileItem = {
   key: string;

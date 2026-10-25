@@ -1,4 +1,4 @@
-import { AbstractWorkflowService } from 'nsa-workflows/services/workflow.service';
+import { AbstractWorkflowService } from '@softsurgery/nsa-workflows/services/workflow.service';
 import { JobService } from './job.service';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { JobStatus } from '../enums/workflow/job-status.enum';
@@ -49,6 +49,6 @@ export class JobWorkflowService extends AbstractWorkflowService<
   }
 
   getMachine(): Record<string, unknown> {
-    return this.getMachineConfig();
+    return this.machine as unknown as Record<string, unknown>;
   }
 }

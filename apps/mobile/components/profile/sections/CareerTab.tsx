@@ -7,15 +7,15 @@ import {
   NativeScrollEvent,
   Pressable,
 } from "react-native";
-import { cn } from "@reborn/lib";
-import { useTranslation } from "@reborn/i18n";
-import { useColorPalette } from "@reborn/mobile-components";
-import { hslToHex } from "@reborn/mobile-components";
-import { useRTL } from "@reborn/mobile-components";
+import { cn } from "@softsurgery/lib";
+import { useTranslation } from "react-i18next";
+import { useColorPalette } from "@softsurgery/mobile-components";
+import { hslToHex } from "@softsurgery/mobile-components";
+import { useRTL } from "@softsurgery/mobile-components";
 import { router } from "expo-router";
 import { Briefcase, GraduationCap, Pen, Plus, Tag } from "lucide-react-native";
-import { Icon } from "@reborn/mobile-ui";
-import { Text } from "@reborn/mobile-ui";
+import { Icon } from "@softsurgery/mobile-ui";
+import { Text } from "@softsurgery/mobile-ui";
 import { ExperienceInstance } from "../forms/experience/ExperienceInstance";
 import { EducationInstance } from "../forms/education/EducationInstance";
 import {

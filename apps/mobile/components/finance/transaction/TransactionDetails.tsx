@@ -1,13 +1,13 @@
 import { View, ScrollView } from "react-native";
 import { useLocalSearchParams } from "expo-router";
-import { ApplicationHeader } from "@reborn/mobile-components";
-import { StableSafeAreaView } from "@reborn/mobile-components";
-import { Text } from "@reborn/mobile-ui";
-import { cn } from "@reborn/lib";
+import { ApplicationHeader } from "@softsurgery/mobile-components";
+import { StableSafeAreaView } from "@softsurgery/mobile-components";
+import { Text } from "@softsurgery/mobile-ui";
+import { cn } from "@softsurgery/lib";
 import { PointTransaction, FundTransaction } from "@/types";
-import { AppHeaderBack } from "@reborn/mobile-components";
-import { useTranslation } from "@reborn/i18n";
-import { useRTL } from "@reborn/mobile-components";
+import { AppHeaderBack } from "@softsurgery/mobile-components";
+import { useTranslation } from "react-i18next";
+import { useRTL } from "@softsurgery/mobile-components";
 import { useFinanceStore } from "@/hooks/stores/useFinanceStore";
 import React from "react";
 

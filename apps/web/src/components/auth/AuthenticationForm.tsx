@@ -1,7 +1,7 @@
-import { cn } from "@reborn/lib";
-import { Button } from "@reborn/ui";
-import { Input } from "@reborn/ui";
-import { Label } from "@reborn/ui";
+import { cn } from "@softsurgery/lib";
+import { Button } from "@softsurgery/ui";
+import { Input } from "@softsurgery/ui";
+import { Label } from "@softsurgery/ui";
 import { GithubButton } from "./GithubButton";
 import { GoogleButton } from "./GoogleButton";
 import { signIn } from "next-auth/react";

@@ -7,11 +7,11 @@ import {
   Telescope,
   Wallet,
 } from "lucide-react-native";
-import { useTranslation } from "@reborn/i18n";
-import { useRTL } from "@reborn/mobile-components";
+import { useTranslation } from "react-i18next";
+import { useRTL } from "@softsurgery/mobile-components";
 import { ColorValue, GestureResponderEvent } from "react-native";
-import { useColorPalette } from "@reborn/mobile-components";
-import { Icon } from "@reborn/mobile-ui";
+import { useColorPalette } from "@softsurgery/mobile-components";
+import { Icon } from "@softsurgery/mobile-ui";
 import { ActionSheetRef } from "react-native-actions-sheet";
 import { ProfileQuickMenuActionSheet } from "@/components/profile/ProfileQuickMenuActionSheet";
 import { MenuTabAvatar } from "@/components/shared/MenuTabAvatar";

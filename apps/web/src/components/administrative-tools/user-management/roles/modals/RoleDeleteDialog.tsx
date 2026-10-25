@@ -1,7 +1,7 @@
-import { useDialog } from "@reborn/components";
-import { Spinner } from "@reborn/components";
-import { Button } from "@reborn/ui";
-import { useTranslation } from "@reborn/i18n";
+import { useDialog } from "@softsurgery/components";
+import { Spinner } from "@softsurgery/components";
+import { Button } from "@softsurgery/ui";
+import { useTranslation } from "react-i18next";
 
 interface RoleDeleteDialogProps {
   representation?: string;

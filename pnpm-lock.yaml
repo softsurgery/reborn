@@ -73,6 +73,48 @@ importers:
       '@nestjs/websockets':
         specifier: ^11.1.6
         version: 11.2.6(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(@nestjs/platform-socket.io@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@softsurgery/nsa-auth':
+        specifier: workspace:*
+        version: link:../../packages/nsa-auth
+      '@softsurgery/nsa-chat':
+        specifier: workspace:*
+        version: link:../../packages/nsa-chat
+      '@softsurgery/nsa-configurations':
+        specifier: workspace:*
+        version: link:../../packages/nsa-configurations
+      '@softsurgery/nsa-database':
+        specifier: workspace:*
+        version: link:../../packages/nsa-database
+      '@softsurgery/nsa-helpers':
+        specifier: workspace:*
+        version: link:../../packages/nsa-helpers
+      '@softsurgery/nsa-logger':
+        specifier: workspace:*
+        version: link:../../packages/nsa-logger
+      '@softsurgery/nsa-mail':
+        specifier: workspace:*
+        version: link:../../packages/nsa-mail
+      '@softsurgery/nsa-notifications':
+        specifier: workspace:*
+        version: link:../../packages/nsa-notifications
+      '@softsurgery/nsa-reference-types':
+        specifier: workspace:*
+        version: link:../../packages/nsa-reference-types
+      '@softsurgery/nsa-sessions':
+        specifier: workspace:*
+        version: link:../../packages/nsa-sessions
+      '@softsurgery/nsa-storage':
+        specifier: workspace:*
+        version: link:../../packages/nsa-storage
+      '@softsurgery/nsa-templates':
+        specifier: workspace:*
+        version: link:../../packages/nsa-templates
+      '@softsurgery/nsa-um':
+        specifier: workspace:*
+        version: link:../../packages/nsa-um
+      '@softsurgery/nsa-workflows':
+        specifier: workspace:*
+        version: link:../../packages/nsa-workflows
       bcrypt:
         specifier: ^6.0.0
         version: 6.0.0
@@ -109,51 +151,6 @@ importers:
       nestjs-command:
         specifier: ^3.1.5
         version: 3.1.5(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(yargs@17.7.3)
-      nsa-auth:
-        specifier: workspace:*
-        version: link:../../packages/nsa-auth
-      nsa-chat:
-        specifier: workspace:*
-        version: link:../../packages/nsa-chat
-      nsa-configurations:
-        specifier: workspace:*
-        version: link:../../packages/nsa-configurations
-      nsa-database:
-        specifier: workspace:*
-        version: link:../../packages/nsa-database
-      nsa-helpers:
-        specifier: workspace:*
-        version: link:../../packages/nsa-helpers
-      nsa-logger:
-        specifier: workspace:*
-        version: link:../../packages/nsa-logger
-      nsa-mail:
-        specifier: workspace:*
-        version: link:../../packages/nsa-mail
-      nsa-notifications:
-        specifier: workspace:*
-        version: link:../../packages/nsa-notifications
-      nsa-reference-types:
-        specifier: workspace:*
-        version: link:../../packages/nsa-reference-types
-      nsa-sessions:
-        specifier: workspace:*
-        version: link:../../packages/nsa-sessions
-      nsa-storage:
-        specifier: workspace:*
-        version: link:../../packages/nsa-storage
-      nsa-tasks:
-        specifier: workspace:*
-        version: link:../../packages/nsa-tasks
-      nsa-templates:
-        specifier: workspace:*
-        version: link:../../packages/nsa-templates
-      nsa-um:
-        specifier: workspace:*
-        version: link:../../packages/nsa-um
-      nsa-workflows:
-        specifier: workspace:*
-        version: link:../../packages/nsa-workflows
       reflect-metadata:
         specifier: ^0.2.2
         version: 0.2.2
@@ -267,6 +264,18 @@ importers:
         specifier: ^8.20.0
         version: 8.70.1(eslint@9.39.5(jiti@1.21.7)(supports-color@8.1.1))(supports-color@8.1.1)(typescript@5.9.3)
 
+  apps/api-client:
+    dependencies:
+      '@softsurgery/hooks':
+        specifier: workspace:*
+        version: link:../../packages/hooks
+      '@softsurgery/lib':
+        specifier: workspace:*
+        version: link:../../packages/lib
+      axios:
+        specifier: ^1.12.2
+        version: 1.20.0(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1)
+
   apps/landing:
     dependencies:
       '@hookform/resolvers':
@@ -355,7 +364,7 @@ importers:
         version: 1.2.8(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       '@vercel/analytics':
         specifier: 1.6.1
-        version: 1.6.1(next@16.1.6(@babel/core@8.0.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react@19.2.3)
+        version: 1.6.1(next@16.1.6(@babel/core@8.0.1)(@opentelemetry/api@1.10.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react@19.2.3)
       autoprefixer:
         specifier: ^10.4.20
         version: 10.6.1(postcss@8.5.28)
@@ -382,7 +391,7 @@ importers:
         version: 0.564.0(react@19.2.3)
       next:
         specifier: 16.1.6
-        version: 16.1.6(@babel/core@8.0.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+        version: 16.1.6(@babel/core@8.0.1)(@opentelemetry/api@1.10.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       next-themes:
         specifier: ^0.4.6
         version: 0.4.6(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -480,24 +489,6 @@ importers:
       '@react-navigation/material-top-tabs':
         specifier: ^7.6.15
         version: 7.7.2(8293c22a9052947b1c4e6aa8c50f7664)
-      '@reborn/hooks':
-        specifier: workspace:*
-        version: link:../../packages/hooks
-      '@reborn/i18n':
-        specifier: workspace:*
-        version: link:../../packages/i18n
-      '@reborn/lib':
-        specifier: workspace:*
-        version: link:../../packages/lib
-      '@reborn/mobile-components':
-        specifier: workspace:*
-        version: link:../../packages/mobile-components
-      '@reborn/mobile-form-builder':
-        specifier: workspace:*
-        version: link:../../packages/mobile-form-builder
-      '@reborn/mobile-ui':
-        specifier: workspace:*
-        version: link:../../packages/mobile-ui
       '@rn-primitives/accordion':
         specifier: ^1.2.0
         version: 1.5.2(@types/react-dom@19.3.0(@types/react@19.2.18))(@types/react@19.2.18)(react-dom@19.2.3(react@19.2.3))(react-native-web@0.21.3(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-native@0.86.3(@babel/core@7.29.7(supports-color@8.1.1))(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@6.0.3))(@react-native/metro-config@0.83.10(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)
@@ -558,6 +549,24 @@ importers:
       '@rn-primitives/types':
         specifier: ^1.1.0
         version: 1.5.2(react-native-web@0.21.3(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-native@0.86.3(@babel/core@7.29.7(supports-color@8.1.1))(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@6.0.3))(@react-native/metro-config@0.83.10(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)
+      '@softsurgery/api-client':
+        specifier: workspace:*
+        version: link:../api-client
+      '@softsurgery/hooks':
+        specifier: workspace:*
+        version: link:../../packages/hooks
+      '@softsurgery/lib':
+        specifier: workspace:*
+        version: link:../../packages/lib
+      '@softsurgery/mobile-components':
+        specifier: workspace:*
+        version: link:../../packages/mobile-components
+      '@softsurgery/mobile-form-builder':
+        specifier: workspace:*
+        version: link:../../packages/mobile-form-builder
+      '@softsurgery/mobile-ui':
+        specifier: workspace:*
+        version: link:../../packages/mobile-ui
       '@tabler/icons-react-native':
         specifier: ^3.36.1
         version: 3.48.0(react-native-svg@15.15.4(react-native@0.86.3(@babel/core@7.29.7(supports-color@8.1.1))(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@6.0.3))(@react-native/metro-config@0.83.10(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3))(react@19.2.3)
@@ -699,6 +708,9 @@ importers:
       react-dom:
         specifier: 19.2.3
         version: 19.2.3(react@19.2.3)
+      react-i18next:
+        specifier: ^15.0.0
+        version: 15.7.4(i18next@25.10.10(typescript@6.0.3))(react-dom@19.2.3(react@19.2.3))(react-native@0.86.3(@babel/core@7.29.7(supports-color@8.1.1))(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@6.0.3))(@react-native/metro-config@0.83.10(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)(typescript@6.0.3)
       react-native:
         specifier: 0.86.3
         version: 0.86.3(@babel/core@7.29.7(supports-color@8.1.1))(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@6.0.3))(@react-native/metro-config@0.83.10(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1)
@@ -919,31 +931,28 @@ importers:
       '@radix-ui/react-use-controllable-state':
         specifier: ^1.2.2
         version: 1.2.6(@types/react@19.2.18)(react@19.2.3)
-      '@reborn/api-client':
+      '@softsurgery/api-client':
         specifier: workspace:*
-        version: link:../../packages/api-client
-      '@reborn/components':
+        version: link:../api-client
+      '@softsurgery/components':
         specifier: workspace:*
         version: link:../../packages/components
-      '@reborn/contexts':
+      '@softsurgery/contexts':
         specifier: workspace:*
         version: link:../../packages/contexts
-      '@reborn/datatable-builder':
+      '@softsurgery/datatable-builder':
         specifier: workspace:*
         version: link:../../packages/datatable-builder
-      '@reborn/form-builder':
+      '@softsurgery/form-builder':
         specifier: workspace:*
         version: link:../../packages/form-builder
-      '@reborn/hooks':
+      '@softsurgery/hooks':
         specifier: workspace:*
         version: link:../../packages/hooks
-      '@reborn/i18n':
-        specifier: workspace:*
-        version: link:../../packages/i18n
-      '@reborn/lib':
+      '@softsurgery/lib':
         specifier: workspace:*
         version: link:../../packages/lib
-      '@reborn/ui':
+      '@softsurgery/ui':
         specifier: workspace:*
         version: link:../../packages/ui
       '@stepperize/react':
@@ -1005,13 +1014,13 @@ importers:
         version: 12.43.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       next:
         specifier: ^16.2.4
-        version: 16.3.6(@babel/core@8.0.1)(@types/node@20.19.43)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+        version: 16.3.6(@babel/core@8.0.1)(@opentelemetry/api@1.10.0)(@types/node@20.19.43)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       next-auth:
         specifier: ^4.24.14
-        version: 4.24.15(next@16.3.6(@babel/core@8.0.1)(@types/node@20.19.43)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+        version: 4.24.15(next@16.3.6(@babel/core@8.0.1)(@opentelemetry/api@1.10.0)(@types/node@20.19.43)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       next-i18next:
         specifier: ^15.4.2
-        version: 15.4.3(@types/react@19.2.18)(i18next@24.2.3(typescript@5.9.3))(next@16.3.6(@babel/core@8.0.1)(@types/node@20.19.43)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-i18next@17.0.15(i18next@24.2.3(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)(typescript@5.9.3))(react@19.2.3)
+        version: 15.4.3(@types/react@19.2.18)(i18next@24.2.3(typescript@5.9.3))(next@16.3.6(@babel/core@8.0.1)(@opentelemetry/api@1.10.0)(@types/node@20.19.43)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-i18next@15.7.4(i18next@24.2.3(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)(typescript@5.9.3))(react@19.2.3)
       next-themes:
         specifier: ^0.4.6
         version: 0.4.6(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -1030,6 +1039,9 @@ importers:
       react-dropzone:
         specifier: ^14.3.8
         version: 14.4.1(react@19.2.3)
+      react-i18next:
+        specifier: ^15.0.0
+        version: 15.7.4(i18next@24.2.3(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)(typescript@5.9.3)
       recharts:
         specifier: ^3.3.0
         version: 3.10.1(@types/react@19.2.18)(react-dom@19.2.3(react@19.2.3))(react-is@19.3.0)(react@19.2.3)(redux@5.0.1)
@@ -1104,22 +1116,6 @@ importers:
         specifier: ^5
         version: 5.9.3
 
-  packages/api-client:
-    dependencies:
-      '@reborn/hooks':
-        specifier: workspace:*
-        version: link:../hooks
-      '@reborn/lib':
-        specifier: workspace:*
-        version: link:../lib
-      axios:
-        specifier: ^1.12.2
-        version: 1.20.0(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1)
-    devDependencies:
-      typescript:
-        specifier: ^5.5.3
-        version: 5.9.3
-
   packages/components:
     dependencies:
       '@dnd-kit/core':
@@ -1140,22 +1136,19 @@ importers:
       '@radix-ui/react-use-controllable-state':
         specifier: ^1.2.2
         version: 1.2.6(@types/react@19.2.18)(react@19.2.3)
-      '@reborn/contexts':
+      '@softsurgery/contexts':
         specifier: workspace:*
         version: link:../contexts
-      '@reborn/form-builder':
+      '@softsurgery/form-builder':
         specifier: workspace:*
         version: link:../form-builder
-      '@reborn/hooks':
+      '@softsurgery/hooks':
         specifier: workspace:*
         version: link:../hooks
-      '@reborn/i18n':
-        specifier: workspace:*
-        version: link:../i18n
-      '@reborn/lib':
+      '@softsurgery/lib':
         specifier: workspace:*
         version: link:../lib
-      '@reborn/ui':
+      '@softsurgery/ui':
         specifier: workspace:*
         version: link:../ui
       '@tiptap/core':
@@ -1205,73 +1198,53 @@ importers:
         version: 12.43.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       next:
         specifier: '>=15.0.0'
-        version: 16.3.6(@babel/core@8.0.1)(@types/node@24.19.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+        version: 16.3.6(@babel/core@8.0.1)(@opentelemetry/api@1.10.0)(@types/node@24.19.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      react:
+        specifier: 19.2.3
+        version: 19.2.3
+      react-dom:
+        specifier: 19.2.3
+        version: 19.2.3(react@19.2.3)
+      react-i18next:
+        specifier: ^15.0.2
+        version: 15.7.4(i18next@26.4.2(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)(typescript@5.9.3)
       sonner:
         specifier: ^2.0.7
         version: 2.0.8(@types/react@19.2.18)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-    devDependencies:
-      '@types/react':
-        specifier: ^19.0.0
-        version: 19.2.18
-      '@types/react-dom':
-        specifier: ^19.0.0
-        version: 19.3.0(@types/react@19.2.18)
-      react:
-        specifier: 19.2.3
-        version: 19.2.3
-      react-dom:
-        specifier: 19.2.3
-        version: 19.2.3(react@19.2.3)
-      typescript:
-        specifier: ^5.5.3
-        version: 5.9.3
 
   packages/contexts:
     dependencies:
-      '@reborn/api-client':
+      '@softsurgery/api-client':
         specifier: workspace:*
-        version: link:../api-client
+        version: link:../../apps/api-client
       next-themes:
         specifier: ^0.4.6
         version: 0.4.6(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-    devDependencies:
-      '@types/react':
-        specifier: ^19.0.0
-        version: 19.2.18
-      '@types/react-dom':
-        specifier: ^19.0.0
-        version: 19.3.0(@types/react@19.2.18)
       react:
         specifier: 19.2.3
         version: 19.2.3
       react-dom:
         specifier: 19.2.3
         version: 19.2.3(react@19.2.3)
-      typescript:
-        specifier: ^5.5.3
-        version: 5.9.3
 
   packages/datatable-builder:
     dependencies:
       '@radix-ui/react-icons':
         specifier: ^1.3.2
         version: 1.3.2(react@19.2.3)
-      '@reborn/components':
+      '@softsurgery/components':
         specifier: workspace:*
         version: link:../components
-      '@reborn/contexts':
+      '@softsurgery/contexts':
         specifier: workspace:*
         version: link:../contexts
-      '@reborn/hooks':
+      '@softsurgery/hooks':
         specifier: workspace:*
         version: link:../hooks
-      '@reborn/i18n':
-        specifier: workspace:*
-        version: link:../i18n
-      '@reborn/lib':
+      '@softsurgery/lib':
         specifier: workspace:*
         version: link:../lib
-      '@reborn/ui':
+      '@softsurgery/ui':
         specifier: workspace:*
         version: link:../ui
       '@tanstack/react-table':
@@ -1280,25 +1253,18 @@ importers:
       lucide-react:
         specifier: ^0.563.0
         version: 0.563.0(react@19.2.3)
-      xlsx:
-        specifier: ^0.18.5
-        version: 0.18.5
-    devDependencies:
-      '@types/react':
-        specifier: ^19.0.0
-        version: 19.2.18
-      '@types/react-dom':
-        specifier: ^19.0.0
-        version: 19.3.0(@types/react@19.2.18)
       react:
         specifier: 19.2.3
         version: 19.2.3
       react-dom:
         specifier: 19.2.3
         version: 19.2.3(react@19.2.3)
-      typescript:
-        specifier: ^5.5.3
-        version: 5.9.3
+      react-i18next:
+        specifier: ^15.0.2
+        version: 15.7.4(i18next@26.4.2(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)(typescript@5.9.3)
+      xlsx:
+        specifier: ^0.18.5
+        version: 0.18.5
 
   packages/eslint-config:
     devDependencies:
@@ -1341,13 +1307,10 @@ importers:
       '@radix-ui/react-checkbox':
         specifier: ^1.3.3
         version: 1.3.11(@types/react-dom@19.3.0(@types/react@19.2.18))(@types/react@19.2.18)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      '@reborn/i18n':
-        specifier: workspace:*
-        version: link:../i18n
-      '@reborn/lib':
+      '@softsurgery/lib':
         specifier: workspace:*
         version: link:../lib
-      '@reborn/ui':
+      '@softsurgery/ui':
         specifier: workspace:*
         version: link:../ui
       '@tiptap/core':
@@ -1392,22 +1355,15 @@ importers:
       lucide-react:
         specifier: ^0.441.0
         version: 0.441.0(react@19.2.3)
-    devDependencies:
-      '@types/react':
-        specifier: ^19.0.0
-        version: 19.2.18
-      '@types/react-dom':
-        specifier: ^19.0.0
-        version: 19.3.0(@types/react@19.2.18)
       react:
         specifier: 19.2.3
         version: 19.2.3
       react-dom:
         specifier: 19.2.3
         version: 19.2.3(react@19.2.3)
-      typescript:
-        specifier: ^5.5.3
-        version: 5.9.3
+      react-i18next:
+        specifier: ^15.0.2
+        version: 15.7.4(i18next@23.16.8)(react-dom@19.2.3(react@19.2.3))(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)(typescript@5.9.3)
 
   packages/hooks:
     dependencies:
@@ -1423,12 +1379,18 @@ importers:
       '@react-native-async-storage/async-storage':
         specifier: '*'
         version: 2.2.0(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))
-      '@reborn/i18n':
-        specifier: workspace:*
-        version: link:../i18n
-      '@reborn/lib':
+      '@softsurgery/lib':
         specifier: workspace:*
         version: link:../lib
+      react:
+        specifier: 19.2.3
+        version: 19.2.3
+      react-dom:
+        specifier: 19.2.3
+        version: 19.2.3(react@19.2.3)
+      react-i18next:
+        specifier: ^15.0.2
+        version: 15.7.4(i18next@26.4.2(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)(typescript@5.9.3)
       sonner:
         specifier: ^2.0.7
         version: 2.0.8(@types/react@19.2.18)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -1439,37 +1401,8 @@ importers:
       '@tanstack/react-query':
         specifier: ^5.56.2
         version: 5.104.0(react@19.2.3)
-      '@types/react':
-        specifier: ^19.0.0
-        version: 19.2.18
-      '@types/react-dom':
-        specifier: ^19.0.0
-        version: 19.3.0(@types/react@19.2.18)
-      react:
-        specifier: 19.2.3
-        version: 19.2.3
-      react-dom:
-        specifier: 19.2.3
-        version: 19.2.3(react@19.2.3)
-      typescript:
-        specifier: ^5.5.3
-        version: 5.9.3
 
-  packages/i18n:
-    dependencies:
-      expo-localization:
-        specifier: ~57.0.2
-        version: 57.0.2(expo@57.0.25)(react@19.2.3)
-      i18next:
-        specifier: ^26.4.2
-        version: 26.4.2(typescript@5.9.3)
-      react-i18next:
-        specifier: ^17.0.15
-        version: 17.0.15(i18next@26.4.2(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)(typescript@5.9.3)
-    devDependencies:
-      typescript:
-        specifier: ^5.5.3
-        version: 5.9.3
+  packages/i18n: {}
 
   packages/lib:
     dependencies:
@@ -1479,13 +1412,12 @@ importers:
       date-fns:
         specifier: ^4.1.0
         version: 4.4.0
+      socket.io-client:
+        specifier: ^4.8.1
+        version: 4.8.4(supports-color@8.1.1)
       tailwind-merge:
         specifier: ^3.3.1
         version: 3.7.0
-    devDependencies:
-      typescript:
-        specifier: ^5.5.3
-        version: 5.9.3
 
   packages/mobile-components:
     dependencies:
@@ -1495,16 +1427,19 @@ importers:
       '@react-native-ohos/react-native-keyboard-aware-scroll-view':
         specifier: '*'
         version: 0.10.0(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))
-      '@reborn/hooks':
+      '@react-navigation/material-top-tabs':
+        specifier: '*'
+        version: 7.7.2(b5a5a51b91f631e6233a1319b05def72)
+      '@react-navigation/native':
+        specifier: '*'
+        version: 7.4.1(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)
+      '@softsurgery/hooks':
         specifier: workspace:*
         version: link:../hooks
-      '@reborn/i18n':
-        specifier: workspace:*
-        version: link:../i18n
-      '@reborn/lib':
+      '@softsurgery/lib':
         specifier: workspace:*
         version: link:../lib
-      '@reborn/mobile-ui':
+      '@softsurgery/mobile-ui':
         specifier: workspace:*
         version: link:../mobile-ui
       class-variance-authority:
@@ -1549,6 +1484,12 @@ importers:
       nativewind:
         specifier: '*'
         version: 4.2.7(451008255517758ef5126dd4522ef2ca)
+      react:
+        specifier: 19.2.3
+        version: 19.2.3
+      react-i18next:
+        specifier: '*'
+        version: 17.0.15(i18next@25.10.10(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)(typescript@5.9.3)
       react-native:
         specifier: '*'
         version: 0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1)
@@ -1558,6 +1499,9 @@ importers:
       react-native-gesture-handler:
         specifier: '*'
         version: 2.32.0(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)
+      react-native-maps:
+        specifier: '*'
+        version: 1.27.2(react-native-web@0.21.3(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)
       react-native-reanimated:
         specifier: '*'
         version: 4.5.1(react-native-worklets@0.10.1(@babel/core@8.0.1)(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)(supports-color@8.1.1))(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)
@@ -1567,29 +1511,19 @@ importers:
       react-native-safe-area-context:
         specifier: '*'
         version: 5.7.0(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)
-    devDependencies:
-      '@types/react':
-        specifier: ^19.0.0
-        version: 19.2.18
-      react:
-        specifier: 19.2.3
-        version: 19.2.3
-      typescript:
-        specifier: ^5.5.3
-        version: 5.9.3
 
   packages/mobile-form-builder:
     dependencies:
-      '@reborn/i18n':
-        specifier: workspace:*
-        version: link:../i18n
-      '@reborn/lib':
+      '@miblanchard/react-native-slider':
+        specifier: '*'
+        version: 2.6.0(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)
+      '@softsurgery/lib':
         specifier: workspace:*
         version: link:../lib
-      '@reborn/mobile-components':
+      '@softsurgery/mobile-components':
         specifier: workspace:*
         version: link:../mobile-components
-      '@reborn/mobile-ui':
+      '@softsurgery/mobile-ui':
         specifier: workspace:*
         version: link:../mobile-ui
       expo-haptics:
@@ -1604,6 +1538,12 @@ importers:
       lucide-react-native:
         specifier: '*'
         version: 0.562.0(react-native-svg@15.15.4(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3))(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)
+      react:
+        specifier: 19.2.3
+        version: 19.2.3
+      react-i18next:
+        specifier: '*'
+        version: 17.0.15(i18next@26.4.2(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)(typescript@5.9.3)
       react-native:
         specifier: '*'
         version: 0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1)
@@ -1619,28 +1559,9 @@ importers:
       react-native-star-rating-widget:
         specifier: '*'
         version: 1.11.0(react-native-svg@15.15.4(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3))(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)
-    devDependencies:
-      '@types/react':
-        specifier: ^19.0.0
-        version: 19.2.18
-      react:
-        specifier: 19.2.3
-        version: 19.2.3
-      typescript:
-        specifier: ^5.5.3
-        version: 5.9.3
 
   packages/mobile-ui:
     dependencies:
-      '@react-native-masked-view/masked-view':
-        specifier: '*'
-        version: 0.3.2(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)
-      '@reborn/lib':
-        specifier: workspace:*
-        version: link:../lib
-      '@reborn/mobile-components':
-        specifier: workspace:*
-        version: link:../mobile-components
       '@rn-primitives/accordion':
         specifier: '*'
         version: 1.5.2(@types/react-dom@19.3.0(@types/react@19.2.18))(@types/react@19.2.18)(react-dom@19.2.3(react@19.2.3))(react-native-web@0.21.3(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)
@@ -1668,6 +1589,9 @@ importers:
       '@rn-primitives/tabs':
         specifier: '*'
         version: 1.5.2(@types/react-dom@19.3.0(@types/react@19.2.18))(@types/react@19.2.18)(react-dom@19.2.3(react@19.2.3))(react-native-web@0.21.3(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)
+      '@softsurgery/lib':
+        specifier: workspace:*
+        version: link:../lib
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -1680,22 +1604,15 @@ importers:
       nativewind:
         specifier: '*'
         version: 4.2.7(451008255517758ef5126dd4522ef2ca)
+      react:
+        specifier: 19.2.3
+        version: 19.2.3
       react-native:
         specifier: '*'
         version: 0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1)
       react-native-reanimated:
         specifier: '*'
         version: 4.5.1(react-native-worklets@0.10.1(@babel/core@8.0.1)(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)(supports-color@8.1.1))(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)
-    devDependencies:
-      '@types/react':
-        specifier: ^19.0.0
-        version: 19.2.18
-      react:
-        specifier: 19.2.3
-        version: 19.2.3
-      typescript:
-        specifier: ^5.5.3
-        version: 5.9.3
 
   packages/nsa-auth:
     dependencies:
@@ -1707,7 +1624,7 @@ importers:
         version: 2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@nestjs-cls/transactional-adapter-typeorm':
         specifier: ^1.2.4
-        version: 1.4.1(@nestjs-cls/transactional@2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))
+        version: 1.4.1(@nestjs-cls/transactional@2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(typeorm@0.3.31(mysql2@3.24.4(@types/node@22.20.5))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@22.20.5)(typescript@5.9.3)))
       '@nestjs/common':
         specifier: ^11.0.1
         version: 11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1)
@@ -1718,14 +1635,41 @@ importers:
         specifier: ^11.0.1
         version: 11.2.6(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/platform-express@11.2.6)(@nestjs/websockets@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@nestjs/jwt':
-        specifier: ^11.0.0
+        specifier: ^11.0.1
         version: 11.0.2(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))
+      '@nestjs/schedule':
+        specifier: ^6.0.1
+        version: 6.1.3(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)
       '@nestjs/swagger':
         specifier: ^11.2.1
         version: 11.4.7(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)
       '@nestjs/typeorm':
         specifier: ^11.0.0
-        version: 11.0.3(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))
+        version: 11.0.3(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)(typeorm@0.3.31(mysql2@3.24.4(@types/node@22.20.5))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@22.20.5)(typescript@5.9.3)))
+      '@softsurgery/nsa-configurations':
+        specifier: workspace:*
+        version: link:../nsa-configurations
+      '@softsurgery/nsa-database':
+        specifier: workspace:*
+        version: link:../nsa-database
+      '@softsurgery/nsa-helpers':
+        specifier: workspace:*
+        version: link:../nsa-helpers
+      '@softsurgery/nsa-logger':
+        specifier: workspace:*
+        version: link:../nsa-logger
+      '@softsurgery/nsa-mail':
+        specifier: workspace:*
+        version: link:../nsa-mail
+      '@softsurgery/nsa-notifications':
+        specifier: workspace:*
+        version: link:../nsa-notifications
+      '@softsurgery/nsa-storage':
+        specifier: workspace:*
+        version: link:../nsa-storage
+      '@softsurgery/nsa-um':
+        specifier: workspace:*
+        version: link:../nsa-um
       bcrypt:
         specifier: ^6.0.0
         version: 6.0.0
@@ -1739,38 +1683,14 @@ importers:
         specifier: ^5.0.0
         version: 5.2.1(supports-color@8.1.1)
       google-auth-library:
-        specifier: ^10.2.0
+        specifier: ^10.4.2
         version: 10.9.1(supports-color@8.1.1)
-      nsa-configurations:
-        specifier: workspace:*
-        version: link:../nsa-configurations
-      nsa-database:
-        specifier: workspace:*
-        version: link:../nsa-database
-      nsa-helpers:
-        specifier: workspace:*
-        version: link:../nsa-helpers
-      nsa-logger:
-        specifier: workspace:*
-        version: link:../nsa-logger
-      nsa-mail:
-        specifier: workspace:*
-        version: link:../nsa-mail
-      nsa-notifications:
-        specifier: workspace:*
-        version: link:../nsa-notifications
-      nsa-storage:
-        specifier: workspace:*
-        version: link:../nsa-storage
-      nsa-um:
-        specifier: workspace:*
-        version: link:../nsa-um
       socket.io:
         specifier: ^4.8.1
         version: 4.8.4(supports-color@8.1.1)
       typeorm:
         specifier: ^0.3.20
-        version: 0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3))
+        version: 0.3.31(mysql2@3.24.4(@types/node@22.20.5))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@22.20.5)(typescript@5.9.3))
     devDependencies:
       '@types/bcrypt':
         specifier: ^6.0.0
@@ -1779,11 +1699,8 @@ importers:
         specifier: ^5.0.0
         version: 5.0.6
       '@types/node':
-        specifier: ^24.0.14
-        version: 24.19.0
-      typescript:
-        specifier: 5.9.3
-        version: 5.9.3
+        specifier: ^22.10.7
+        version: 22.20.5
 
   packages/nsa-chat:
     dependencies:
@@ -1792,62 +1709,56 @@ importers:
         version: 2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@nestjs-cls/transactional-adapter-typeorm':
         specifier: ^1.2.4
-        version: 1.4.1(@nestjs-cls/transactional@2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))
+        version: 1.4.1(@nestjs-cls/transactional@2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(typeorm@0.3.31(mysql2@3.24.4(@types/node@22.20.5))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@22.20.5)(typescript@5.9.3)))
       '@nestjs/common':
         specifier: ^11.0.1
         version: 11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1)
-      '@nestjs/core':
-        specifier: ^11.0.1
-        version: 11.2.6(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/platform-express@11.2.6)(@nestjs/websockets@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)
-      '@nestjs/platform-socket.io':
-        specifier: ^11.1.6
-        version: 11.2.6(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/websockets@11.2.6)(rxjs@7.8.2)(supports-color@8.1.1)
+      '@nestjs/mapped-types':
+        specifier: ^2.1.0
+        version: 2.1.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)
       '@nestjs/swagger':
         specifier: ^11.2.1
         version: 11.4.7(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)
       '@nestjs/typeorm':
         specifier: ^11.0.0
-        version: 11.0.3(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))
+        version: 11.0.3(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)(typeorm@0.3.31(mysql2@3.24.4(@types/node@22.20.5))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@22.20.5)(typescript@5.9.3)))
       '@nestjs/websockets':
-        specifier: ^11.1.6
+        specifier: ^11.1.7
         version: 11.2.6(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(@nestjs/platform-socket.io@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@softsurgery/nsa-auth':
+        specifier: workspace:*
+        version: link:../nsa-auth
+      '@softsurgery/nsa-database':
+        specifier: workspace:*
+        version: link:../nsa-database
+      '@softsurgery/nsa-helpers':
+        specifier: workspace:*
+        version: link:../nsa-helpers
+      '@softsurgery/nsa-logger':
+        specifier: workspace:*
+        version: link:../nsa-logger
+      '@softsurgery/nsa-storage':
+        specifier: workspace:*
+        version: link:../nsa-storage
+      '@softsurgery/nsa-um':
+        specifier: workspace:*
+        version: link:../nsa-um
       class-transformer:
         specifier: ^0.5.1
         version: 0.5.1
       class-validator:
         specifier: ^0.14.2
         version: 0.14.4
-      nsa-auth:
-        specifier: workspace:*
-        version: link:../nsa-auth
-      nsa-database:
-        specifier: workspace:*
-        version: link:../nsa-database
-      nsa-helpers:
-        specifier: workspace:*
-        version: link:../nsa-helpers
-      nsa-logger:
-        specifier: workspace:*
-        version: link:../nsa-logger
-      nsa-storage:
-        specifier: workspace:*
-        version: link:../nsa-storage
-      nsa-um:
-        specifier: workspace:*
-        version: link:../nsa-um
       socket.io:
         specifier: ^4.8.1
         version: 4.8.4(supports-color@8.1.1)
       typeorm:
         specifier: ^0.3.20
-        version: 0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3))
+        version: 0.3.31(mysql2@3.24.4(@types/node@22.20.5))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@22.20.5)(typescript@5.9.3))
     devDependencies:
       '@types/node':
-        specifier: ^24.0.14
-        version: 24.19.0
-      typescript:
-        specifier: 5.9.3
-        version: 5.9.3
+        specifier: ^22.10.7
+        version: 22.20.5
 
   packages/nsa-configurations:
     dependencies:
@@ -1856,7 +1767,7 @@ importers:
         version: 2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@nestjs-cls/transactional-adapter-typeorm':
         specifier: ^1.2.4
-        version: 1.4.1(@nestjs-cls/transactional@2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))
+        version: 1.4.1(@nestjs-cls/transactional@2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(typeorm@0.3.31(mysql2@3.24.4(@types/node@22.20.5))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@22.20.5)(typescript@5.9.3)))
       '@nestjs/common':
         specifier: ^11.0.1
         version: 11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1)
@@ -1865,32 +1776,75 @@ importers:
         version: 11.4.7(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)
       '@nestjs/typeorm':
         specifier: ^11.0.0
-        version: 11.0.3(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))
+        version: 11.0.3(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)(typeorm@0.3.31(mysql2@3.24.4(@types/node@22.20.5))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@22.20.5)(typescript@5.9.3)))
+      '@softsurgery/nsa-auth':
+        specifier: workspace:*
+        version: link:../nsa-auth
+      '@softsurgery/nsa-database':
+        specifier: workspace:*
+        version: link:../nsa-database
+      '@softsurgery/nsa-logger':
+        specifier: workspace:*
+        version: link:../nsa-logger
+      '@softsurgery/nsa-um':
+        specifier: workspace:*
+        version: link:../nsa-um
       class-transformer:
         specifier: ^0.5.1
         version: 0.5.1
-      nsa-auth:
-        specifier: workspace:*
-        version: link:../nsa-auth
-      nsa-database:
-        specifier: workspace:*
-        version: link:../nsa-database
-      nsa-logger:
-        specifier: workspace:*
-        version: link:../nsa-logger
-      nsa-um:
-        specifier: workspace:*
-        version: link:../nsa-um
       typeorm:
         specifier: ^0.3.20
-        version: 0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3))
+        version: 0.3.31(mysql2@3.24.4(@types/node@22.20.5))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@22.20.5)(typescript@5.9.3))
     devDependencies:
       '@types/node':
-        specifier: ^24.0.14
-        version: 24.19.0
-      typescript:
-        specifier: 5.9.3
-        version: 5.9.3
+        specifier: ^22.10.7
+        version: 22.20.5
+
+  packages/nsa-content:
+    dependencies:
+      '@nestjs-cls/transactional':
+        specifier: ^2.4.2
+        version: 2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs-cls/transactional-adapter-typeorm':
+        specifier: ^1.2.4
+        version: 1.4.1(@nestjs-cls/transactional@2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(typeorm@0.3.31(mysql2@3.24.4(@types/node@22.20.5))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@22.20.5)(typescript@5.9.3)))
+      '@nestjs/common':
+        specifier: ^11.0.1
+        version: 11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1)
+      '@nestjs/swagger':
+        specifier: ^11.2.1
+        version: 11.4.7(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)
+      '@nestjs/typeorm':
+        specifier: ^11.0.0
+        version: 11.0.3(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)(typeorm@0.3.31(mysql2@3.24.4(@types/node@22.20.5))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@22.20.5)(typescript@5.9.3)))
+      '@softsurgery/nsa-auth':
+        specifier: workspace:*
+        version: link:../nsa-auth
+      '@softsurgery/nsa-configurations':
+        specifier: workspace:*
+        version: link:../nsa-configurations
+      '@softsurgery/nsa-database':
+        specifier: workspace:*
+        version: link:../nsa-database
+      '@softsurgery/nsa-helpers':
+        specifier: workspace:*
+        version: link:../nsa-helpers
+      '@softsurgery/nsa-logger':
+        specifier: workspace:*
+        version: link:../nsa-logger
+      class-transformer:
+        specifier: ^0.5.1
+        version: 0.5.1
+      class-validator:
+        specifier: ^0.14.2
+        version: 0.14.4
+      typeorm:
+        specifier: ^0.3.20
+        version: 0.3.31(mysql2@3.24.4(@types/node@22.20.5))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@22.20.5)(typescript@5.9.3))
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.7
+        version: 22.20.5
 
   packages/nsa-database:
     dependencies:
@@ -1899,13 +1853,10 @@ importers:
         version: 2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@nestjs-cls/transactional-adapter-typeorm':
         specifier: ^1.2.4
-        version: 1.4.1(@nestjs-cls/transactional@2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))
+        version: 1.4.1(@nestjs-cls/transactional@2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(typeorm@0.3.31(mysql2@3.24.4(@types/node@22.20.5))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@22.20.5)(typescript@5.9.3)))
       '@nestjs/common':
         specifier: ^11.0.1
         version: 11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1)
-      '@nestjs/config':
-        specifier: ^4.0.2
-        version: 4.0.4(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(rxjs@7.8.2)
       '@nestjs/core':
         specifier: ^11.0.1
         version: 11.2.6(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/platform-express@11.2.6)(@nestjs/websockets@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)
@@ -1914,7 +1865,7 @@ importers:
         version: 11.4.7(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)
       '@nestjs/typeorm':
         specifier: ^11.0.0
-        version: 11.0.3(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))
+        version: 11.0.3(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)(typeorm@0.3.31(mysql2@3.24.4(@types/node@22.20.5))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@22.20.5)(typescript@5.9.3)))
       class-transformer:
         specifier: ^0.5.1
         version: 0.5.1
@@ -1935,29 +1886,23 @@ importers:
         version: 7.8.2
       typeorm:
         specifier: ^0.3.20
-        version: 0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3))
+        version: 0.3.31(mysql2@3.24.4(@types/node@22.20.5))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@22.20.5)(typescript@5.9.3))
     devDependencies:
       '@types/node':
-        specifier: ^24.0.14
-        version: 24.19.0
-      typescript:
-        specifier: 5.9.3
-        version: 5.9.3
+        specifier: ^22.10.7
+        version: 22.20.5
 
   packages/nsa-helpers:
     dependencies:
+      '@softsurgery/nsa-notifications':
+        specifier: workspace:*
+        version: link:../nsa-notifications
       bcrypt:
         specifier: ^6.0.0
         version: 6.0.0
-      class-validator:
-        specifier: ^0.14.2
-        version: 0.14.4
       express:
         specifier: ^5.0.0
         version: 5.2.1(supports-color@8.1.1)
-      nsa-notifications:
-        specifier: workspace:*
-        version: link:../nsa-notifications
       socket.io:
         specifier: ^4.8.1
         version: 4.8.4(supports-color@8.1.1)
@@ -1969,11 +1914,8 @@ importers:
         specifier: ^5.0.0
         version: 5.0.6
       '@types/node':
-        specifier: ^24.0.14
-        version: 24.19.0
-      typescript:
-        specifier: 5.9.3
-        version: 5.9.3
+        specifier: ^22.10.7
+        version: 22.20.5
 
   packages/nsa-logger:
     dependencies:
@@ -1982,7 +1924,7 @@ importers:
         version: 2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@nestjs-cls/transactional-adapter-typeorm':
         specifier: ^1.2.4
-        version: 1.4.1(@nestjs-cls/transactional@2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))
+        version: 1.4.1(@nestjs-cls/transactional@2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(typeorm@0.3.31(mysql2@3.24.4(@types/node@22.20.5))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@22.20.5)(typescript@5.9.3)))
       '@nestjs/common':
         specifier: ^11.0.1
         version: 11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1)
@@ -1994,35 +1936,32 @@ importers:
         version: 11.4.7(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)
       '@nestjs/typeorm':
         specifier: ^11.0.0
-        version: 11.0.3(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))
+        version: 11.0.3(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)(typeorm@0.3.31(mysql2@3.24.4(@types/node@22.20.5))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@22.20.5)(typescript@5.9.3)))
+      '@softsurgery/nsa-auth':
+        specifier: workspace:*
+        version: link:../nsa-auth
+      '@softsurgery/nsa-database':
+        specifier: workspace:*
+        version: link:../nsa-database
+      '@softsurgery/nsa-helpers':
+        specifier: workspace:*
+        version: link:../nsa-helpers
+      '@softsurgery/nsa-um':
+        specifier: workspace:*
+        version: link:../nsa-um
       class-transformer:
         specifier: ^0.5.1
         version: 0.5.1
-      nsa-auth:
-        specifier: workspace:*
-        version: link:../nsa-auth
-      nsa-database:
-        specifier: workspace:*
-        version: link:../nsa-database
-      nsa-helpers:
-        specifier: workspace:*
-        version: link:../nsa-helpers
-      nsa-um:
-        specifier: workspace:*
-        version: link:../nsa-um
       rxjs:
         specifier: ^7.8.1
         version: 7.8.2
       typeorm:
         specifier: ^0.3.20
-        version: 0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3))
+        version: 0.3.31(mysql2@3.24.4(@types/node@22.20.5))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@22.20.5)(typescript@5.9.3))
     devDependencies:
       '@types/node':
-        specifier: ^24.0.14
-        version: 24.19.0
-      typescript:
-        specifier: 5.9.3
-        version: 5.9.3
+        specifier: ^22.10.7
+        version: 22.20.5
 
   packages/nsa-mail:
     dependencies:
@@ -2032,22 +1971,25 @@ importers:
       '@nestjs/common':
         specifier: ^11.0.1
         version: 11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1)
+      '@nestjs/config':
+        specifier: ^4.0.2
+        version: 4.0.4(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(rxjs@7.8.2)
+      '@softsurgery/nsa-templates':
+        specifier: workspace:*
+        version: link:../nsa-templates
       ejs:
-        specifier: ^3.1.10
-        version: 3.1.10
+        specifier: ^5.0.2
+        version: 5.0.2
       juice:
         specifier: ^11.1.1
         version: 11.1.1
-      nsa-templates:
-        specifier: workspace:*
-        version: link:../nsa-templates
     devDependencies:
+      '@types/ejs':
+        specifier: ^3.1.5
+        version: 3.1.5
       '@types/node':
-        specifier: ^24.0.14
-        version: 24.19.0
-      typescript:
-        specifier: 5.9.3
-        version: 5.9.3
+        specifier: ^22.10.7
+        version: 22.20.5
 
   packages/nsa-notifications:
     dependencies:
@@ -2056,43 +1998,40 @@ importers:
         version: 2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@nestjs-cls/transactional-adapter-typeorm':
         specifier: ^1.2.4
-        version: 1.4.1(@nestjs-cls/transactional@2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))
+        version: 1.4.1(@nestjs-cls/transactional@2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(typeorm@0.3.31(mysql2@3.24.4(@types/node@22.20.5))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@22.20.5)(typescript@5.9.3)))
       '@nestjs/common':
         specifier: ^11.0.1
         version: 11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1)
       '@nestjs/core':
         specifier: ^11.0.1
         version: 11.2.6(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/platform-express@11.2.6)(@nestjs/websockets@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)
-      '@nestjs/platform-socket.io':
-        specifier: ^11.1.6
-        version: 11.2.6(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/websockets@11.2.6)(rxjs@7.8.2)(supports-color@8.1.1)
       '@nestjs/swagger':
         specifier: ^11.2.1
         version: 11.4.7(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)
       '@nestjs/typeorm':
         specifier: ^11.0.0
-        version: 11.0.3(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))
+        version: 11.0.3(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)(typeorm@0.3.31(mysql2@3.24.4(@types/node@22.20.5))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@22.20.5)(typescript@5.9.3)))
       '@nestjs/websockets':
-        specifier: ^11.1.6
+        specifier: ^11.1.7
         version: 11.2.6(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(@nestjs/platform-socket.io@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@softsurgery/nsa-auth':
+        specifier: workspace:*
+        version: link:../nsa-auth
+      '@softsurgery/nsa-database':
+        specifier: workspace:*
+        version: link:../nsa-database
+      '@softsurgery/nsa-helpers':
+        specifier: workspace:*
+        version: link:../nsa-helpers
+      '@softsurgery/nsa-logger':
+        specifier: workspace:*
+        version: link:../nsa-logger
+      '@softsurgery/nsa-um':
+        specifier: workspace:*
+        version: link:../nsa-um
       class-transformer:
         specifier: ^0.5.1
         version: 0.5.1
-      nsa-auth:
-        specifier: workspace:*
-        version: link:../nsa-auth
-      nsa-database:
-        specifier: workspace:*
-        version: link:../nsa-database
-      nsa-helpers:
-        specifier: workspace:*
-        version: link:../nsa-helpers
-      nsa-logger:
-        specifier: workspace:*
-        version: link:../nsa-logger
-      nsa-um:
-        specifier: workspace:*
-        version: link:../nsa-um
       rxjs:
         specifier: ^7.8.1
         version: 7.8.2
@@ -2101,14 +2040,11 @@ importers:
         version: 4.8.4(supports-color@8.1.1)
       typeorm:
         specifier: ^0.3.20
-        version: 0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3))
+        version: 0.3.31(mysql2@3.24.4(@types/node@22.20.5))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@22.20.5)(typescript@5.9.3))
     devDependencies:
       '@types/node':
-        specifier: ^24.0.14
-        version: 24.19.0
-      typescript:
-        specifier: 5.9.3
-        version: 5.9.3
+        specifier: ^22.10.7
+        version: 22.20.5
 
   packages/nsa-reference-types:
     dependencies:
@@ -2117,44 +2053,60 @@ importers:
         version: 2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@nestjs-cls/transactional-adapter-typeorm':
         specifier: ^1.2.4
-        version: 1.4.1(@nestjs-cls/transactional@2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))
+        version: 1.4.1(@nestjs-cls/transactional@2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(typeorm@0.3.31(mysql2@3.24.4(@types/node@22.20.5))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@22.20.5)(typescript@5.9.3)))
       '@nestjs/common':
         specifier: ^11.0.1
         version: 11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1)
+      '@nestjs/mapped-types':
+        specifier: ^2.1.0
+        version: 2.1.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)
       '@nestjs/swagger':
         specifier: ^11.2.1
         version: 11.4.7(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)
       '@nestjs/typeorm':
         specifier: ^11.0.0
-        version: 11.0.3(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))
+        version: 11.0.3(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)(typeorm@0.3.31(mysql2@3.24.4(@types/node@22.20.5))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@22.20.5)(typescript@5.9.3)))
+      '@softsurgery/nsa-auth':
+        specifier: workspace:*
+        version: link:../nsa-auth
+      '@softsurgery/nsa-database':
+        specifier: workspace:*
+        version: link:../nsa-database
+      '@softsurgery/nsa-helpers':
+        specifier: workspace:*
+        version: link:../nsa-helpers
+      '@softsurgery/nsa-logger':
+        specifier: workspace:*
+        version: link:../nsa-logger
       class-transformer:
         specifier: ^0.5.1
         version: 0.5.1
       class-validator:
         specifier: ^0.14.2
         version: 0.14.4
-      nsa-auth:
-        specifier: workspace:*
-        version: link:../nsa-auth
-      nsa-database:
-        specifier: workspace:*
-        version: link:../nsa-database
-      nsa-helpers:
-        specifier: workspace:*
-        version: link:../nsa-helpers
-      nsa-logger:
-        specifier: workspace:*
-        version: link:../nsa-logger
       typeorm:
         specifier: ^0.3.20
-        version: 0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3))
+        version: 0.3.31(mysql2@3.24.4(@types/node@22.20.5))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@22.20.5)(typescript@5.9.3))
     devDependencies:
       '@types/node':
-        specifier: ^24.0.14
-        version: 24.19.0
-      typescript:
-        specifier: 5.9.3
-        version: 5.9.3
+        specifier: ^22.10.7
+        version: 22.20.5
+
+  packages/nsa-sentry:
+    dependencies:
+      '@nestjs/common':
+        specifier: ^11.0.1
+        version: 11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1)
+      '@nestjs/core':
+        specifier: ^11.0.1
+        version: 11.2.6(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/platform-express@11.2.6)(@nestjs/websockets@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@sentry/nestjs':
+        specifier: ^11.0.0
+        version: 11.9.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(webpack@5.106.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(lightningcss@1.33.0)(postcss@8.5.28)(uglify-js@3.19.3))
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.7
+        version: 22.20.5
 
   packages/nsa-sessions:
     dependencies:
@@ -2163,7 +2115,7 @@ importers:
         version: 2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@nestjs-cls/transactional-adapter-typeorm':
         specifier: ^1.2.4
-        version: 1.4.1(@nestjs-cls/transactional@2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))
+        version: 1.4.1(@nestjs-cls/transactional@2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(typeorm@0.3.31(mysql2@3.24.4(@types/node@22.20.5))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@22.20.5)(typescript@5.9.3)))
       '@nestjs/common':
         specifier: ^11.0.1
         version: 11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1)
@@ -2178,91 +2130,82 @@ importers:
         version: 11.4.7(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)
       '@nestjs/typeorm':
         specifier: ^11.0.0
-        version: 11.0.3(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))
+        version: 11.0.3(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)(typeorm@0.3.31(mysql2@3.24.4(@types/node@22.20.5))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@22.20.5)(typescript@5.9.3)))
+      '@softsurgery/nsa-database':
+        specifier: workspace:*
+        version: link:../nsa-database
+      '@softsurgery/nsa-helpers':
+        specifier: workspace:*
+        version: link:../nsa-helpers
+      '@softsurgery/nsa-logger':
+        specifier: workspace:*
+        version: link:../nsa-logger
+      '@softsurgery/nsa-um':
+        specifier: workspace:*
+        version: link:../nsa-um
       class-transformer:
         specifier: ^0.5.1
         version: 0.5.1
       class-validator:
         specifier: ^0.14.2
         version: 0.14.4
-      nsa-database:
-        specifier: workspace:*
-        version: link:../nsa-database
-      nsa-helpers:
-        specifier: workspace:*
-        version: link:../nsa-helpers
-      nsa-logger:
-        specifier: workspace:*
-        version: link:../nsa-logger
-      nsa-um:
-        specifier: workspace:*
-        version: link:../nsa-um
       typeorm:
         specifier: ^0.3.20
-        version: 0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3))
+        version: 0.3.31(mysql2@3.24.4(@types/node@22.20.5))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@22.20.5)(typescript@5.9.3))
     devDependencies:
       '@types/node':
-        specifier: ^24.0.14
-        version: 24.19.0
-      typescript:
-        specifier: 5.9.3
-        version: 5.9.3
+        specifier: ^22.10.7
+        version: 22.20.5
 
   packages/nsa-storage:
     dependencies:
       '@aws-sdk/client-s3':
-        specifier: ^3.1145.0
-        version: 3.1145.0
+        specifier: ^3.1146.0
+        version: 3.1156.0
       '@nestjs-cls/transactional':
         specifier: ^2.4.2
         version: 2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@nestjs-cls/transactional-adapter-typeorm':
         specifier: ^1.2.4
-        version: 1.4.1(@nestjs-cls/transactional@2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))
+        version: 1.4.1(@nestjs-cls/transactional@2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(typeorm@0.3.31(mysql2@3.24.4(@types/node@22.20.5))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@22.20.5)(typescript@5.9.3)))
       '@nestjs/common':
         specifier: ^11.0.1
         version: 11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1)
       '@nestjs/config':
         specifier: ^4.0.2
         version: 4.0.4(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(rxjs@7.8.2)
-      '@nestjs/core':
+      '@nestjs/platform-express':
         specifier: ^11.0.1
-        version: 11.2.6(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/platform-express@11.2.6)(@nestjs/websockets@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+        version: 11.2.6(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(supports-color@8.1.1)
       '@nestjs/schedule':
-        specifier: ^6.0.0
+        specifier: ^6.0.1
         version: 6.1.3(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)
       '@nestjs/swagger':
         specifier: ^11.2.1
         version: 11.4.7(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)
       '@nestjs/typeorm':
         specifier: ^11.0.0
-        version: 11.0.3(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))
+        version: 11.0.3(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)(typeorm@0.3.31(mysql2@3.24.4(@types/node@22.20.5))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@22.20.5)(typescript@5.9.3)))
+      '@softsurgery/nsa-auth':
+        specifier: workspace:*
+        version: link:../nsa-auth
+      '@softsurgery/nsa-database':
+        specifier: workspace:*
+        version: link:../nsa-database
       class-transformer:
         specifier: ^0.5.1
         version: 0.5.1
-      class-validator:
-        specifier: ^0.14.2
-        version: 0.14.4
       express:
         specifier: ^5.0.0
         version: 5.2.1(supports-color@8.1.1)
       mime-types:
-        specifier: ^3.0.1
-        version: 3.0.2
-      multer:
-        specifier: ^2.0.1
-        version: 2.4.0
-      nsa-auth:
-        specifier: workspace:*
-        version: link:../nsa-auth
-      nsa-database:
-        specifier: workspace:*
-        version: link:../nsa-database
+        specifier: ^2.1.35
+        version: 2.1.35
       typeorm:
         specifier: ^0.3.20
-        version: 0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3))
+        version: 0.3.31(mysql2@3.24.4(@types/node@22.20.5))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@22.20.5)(typescript@5.9.3))
       uuid:
-        specifier: ^11.0.0
+        specifier: ^11.1.1
         version: 11.1.1
     devDependencies:
       '@types/express':
@@ -2272,66 +2215,11 @@ importers:
         specifier: ^3.0.1
         version: 3.0.1
       '@types/multer':
-        specifier: ^2.1.0
+        specifier: ^2.0.0
         version: 2.2.0
       '@types/node':
-        specifier: ^24.0.14
-        version: 24.19.0
-      '@types/uuid':
-        specifier: ^10.0.0
-        version: 10.0.0
-      typescript:
-        specifier: 5.9.3
-        version: 5.9.3
-
-  packages/nsa-tasks:
-    dependencies:
-      '@nestjs-cls/transactional':
-        specifier: ^2.4.2
-        version: 2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2)
-      '@nestjs-cls/transactional-adapter-typeorm':
-        specifier: ^1.2.4
-        version: 1.4.1(@nestjs-cls/transactional@2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))
-      '@nestjs/common':
-        specifier: ^11.0.1
-        version: 11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1)
-      '@nestjs/swagger':
-        specifier: ^11.2.1
-        version: 11.4.7(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)
-      '@nestjs/typeorm':
-        specifier: ^11.0.0
-        version: 11.0.3(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))
-      class-transformer:
-        specifier: ^0.5.1
-        version: 0.5.1
-      class-validator:
-        specifier: ^0.14.2
-        version: 0.14.4
-      nsa-auth:
-        specifier: workspace:*
-        version: link:../nsa-auth
-      nsa-database:
-        specifier: workspace:*
-        version: link:../nsa-database
-      nsa-helpers:
-        specifier: workspace:*
-        version: link:../nsa-helpers
-      nsa-logger:
-        specifier: workspace:*
-        version: link:../nsa-logger
-      nsa-um:
-        specifier: workspace:*
-        version: link:../nsa-um
-      typeorm:
-        specifier: ^0.3.20
-        version: 0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3))
-    devDependencies:
-      '@types/node':
-        specifier: ^24.0.14
-        version: 24.19.0
-      typescript:
-        specifier: 5.9.3
-        version: 5.9.3
+        specifier: ^22.10.7
+        version: 22.20.5
 
   packages/nsa-templates:
     dependencies:
@@ -2340,29 +2228,32 @@ importers:
         version: 2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@nestjs-cls/transactional-adapter-typeorm':
         specifier: ^1.2.4
-        version: 1.4.1(@nestjs-cls/transactional@2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))
+        version: 1.4.1(@nestjs-cls/transactional@2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(typeorm@0.3.31(mysql2@3.24.4(@types/node@22.20.5))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@22.20.5)(typescript@5.9.3)))
       '@nestjs/common':
         specifier: ^11.0.1
         version: 11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1)
+      '@nestjs/swagger':
+        specifier: ^11.2.1
+        version: 11.4.7(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)
       '@nestjs/typeorm':
         specifier: ^11.0.0
-        version: 11.0.3(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))
+        version: 11.0.3(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)(typeorm@0.3.31(mysql2@3.24.4(@types/node@22.20.5))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@22.20.5)(typescript@5.9.3)))
+      '@softsurgery/nsa-database':
+        specifier: workspace:*
+        version: link:../nsa-database
       class-transformer:
         specifier: ^0.5.1
         version: 0.5.1
-      nsa-database:
-        specifier: workspace:*
-        version: link:../nsa-database
+      class-validator:
+        specifier: ^0.14.2
+        version: 0.14.4
       typeorm:
         specifier: ^0.3.20
-        version: 0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3))
+        version: 0.3.31(mysql2@3.24.4(@types/node@22.20.5))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@22.20.5)(typescript@5.9.3))
     devDependencies:
       '@types/node':
-        specifier: ^24.0.14
-        version: 24.19.0
-      typescript:
-        specifier: 5.9.3
-        version: 5.9.3
+        specifier: ^22.10.7
+        version: 22.20.5
 
   packages/nsa-um:
     dependencies:
@@ -2371,7 +2262,7 @@ importers:
         version: 2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@nestjs-cls/transactional-adapter-typeorm':
         specifier: ^1.2.4
-        version: 1.4.1(@nestjs-cls/transactional@2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))
+        version: 1.4.1(@nestjs-cls/transactional@2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(typeorm@0.3.31(mysql2@3.24.4(@types/node@22.20.5))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@22.20.5)(typescript@5.9.3)))
       '@nestjs/common':
         specifier: ^11.0.1
         version: 11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1)
@@ -2383,41 +2274,38 @@ importers:
         version: 11.4.7(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)
       '@nestjs/typeorm':
         specifier: ^11.0.0
-        version: 11.0.3(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))
+        version: 11.0.3(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)(typeorm@0.3.31(mysql2@3.24.4(@types/node@22.20.5))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@22.20.5)(typescript@5.9.3)))
+      '@softsurgery/nsa-auth':
+        specifier: workspace:*
+        version: link:../nsa-auth
+      '@softsurgery/nsa-database':
+        specifier: workspace:*
+        version: link:../nsa-database
+      '@softsurgery/nsa-helpers':
+        specifier: workspace:*
+        version: link:../nsa-helpers
+      '@softsurgery/nsa-logger':
+        specifier: workspace:*
+        version: link:../nsa-logger
+      '@softsurgery/nsa-notifications':
+        specifier: workspace:*
+        version: link:../nsa-notifications
+      '@softsurgery/nsa-sessions':
+        specifier: workspace:*
+        version: link:../nsa-sessions
       class-transformer:
         specifier: ^0.5.1
         version: 0.5.1
       class-validator:
         specifier: ^0.14.2
         version: 0.14.4
-      nsa-auth:
-        specifier: workspace:*
-        version: link:../nsa-auth
-      nsa-database:
-        specifier: workspace:*
-        version: link:../nsa-database
-      nsa-helpers:
-        specifier: workspace:*
-        version: link:../nsa-helpers
-      nsa-logger:
-        specifier: workspace:*
-        version: link:../nsa-logger
-      nsa-notifications:
-        specifier: workspace:*
-        version: link:../nsa-notifications
-      nsa-sessions:
-        specifier: workspace:*
-        version: link:../nsa-sessions
       typeorm:
         specifier: ^0.3.20
-        version: 0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3))
+        version: 0.3.31(mysql2@3.24.4(@types/node@22.20.5))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@22.20.5)(typescript@5.9.3))
     devDependencies:
       '@types/node':
-        specifier: ^24.0.14
-        version: 24.19.0
-      typescript:
-        specifier: 5.9.3
-        version: 5.9.3
+        specifier: ^22.10.7
+        version: 22.20.5
 
   packages/nsa-workflows:
     dependencies:
@@ -2431,15 +2319,63 @@ importers:
         specifier: ^0.5.1
         version: 0.5.1
       xstate:
-        specifier: ^5.31.0
+        specifier: ^5.32.0
         version: 5.33.2
     devDependencies:
       '@types/node':
-        specifier: ^24.0.14
-        version: 24.19.0
-      typescript:
-        specifier: 5.9.3
-        version: 5.9.3
+        specifier: ^22.10.7
+        version: 22.20.5
+
+  packages/template:
+    dependencies:
+      '@softsurgery/components':
+        specifier: workspace:*
+        version: link:../components
+      '@softsurgery/contexts':
+        specifier: workspace:*
+        version: link:../contexts
+      '@softsurgery/datatable-builder':
+        specifier: workspace:*
+        version: link:../datatable-builder
+      '@softsurgery/form-builder':
+        specifier: workspace:*
+        version: link:../form-builder
+      '@softsurgery/hooks':
+        specifier: workspace:*
+        version: link:../hooks
+      '@softsurgery/lib':
+        specifier: workspace:*
+        version: link:../lib
+      '@softsurgery/ui':
+        specifier: workspace:*
+        version: link:../ui
+      '@tanstack/react-query':
+        specifier: ^5.90.5
+        version: 5.104.0(react@19.2.3)
+      '@tanstack/react-table':
+        specifier: ^8.21.3
+        version: 8.21.3(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      lucide-react:
+        specifier: ^0.441.0
+        version: 0.441.0(react@19.2.3)
+      next:
+        specifier: '>=15.0.0'
+        version: 16.3.6(@babel/core@8.0.1)(@opentelemetry/api@1.10.0)(@types/node@24.19.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      react:
+        specifier: 19.2.3
+        version: 19.2.3
+      react-dom:
+        specifier: 19.2.3
+        version: 19.2.3(react@19.2.3)
+      react-i18next:
+        specifier: ^15.0.2
+        version: 15.7.4(i18next@26.4.2(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)(typescript@5.9.3)
+      sonner:
+        specifier: ^2.0.7
+        version: 2.0.8(@types/react@19.2.18)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      zustand:
+        specifier: ^5.0.8
+        version: 5.0.15(@types/react@19.2.18)(immer@11.1.18)(react@19.2.3)(use-sync-external-store@1.7.0(react@19.2.3))
 
   packages/typescript-config: {}
 
@@ -2447,18 +2383,15 @@ importers:
     dependencies:
       '@base-ui/react':
         specifier: ^1.0.0
-        version: 1.8.0(@date-fns/tz@1.5.0)(@types/react@19.2.18)(date-fns@4.4.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      '@reborn/i18n':
-        specifier: workspace:*
-        version: link:../i18n
-      '@reborn/lib':
+        version: 1.8.0(@date-fns/tz@1.5.0)(@types/react@19.2.18)(date-fns@4.1.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      '@softsurgery/lib':
         specifier: workspace:*
         version: link:../lib
       '@stepperize/react':
         specifier: ^5.1.9
         version: 5.1.9(react@19.2.3)(typescript@5.9.3)
       '@tanstack/react-table':
-        specifier: ^8.20.5
+        specifier: ^8.21.3
         version: 8.21.3(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       '@tiptap/core':
         specifier: ^3.31.3
@@ -2518,8 +2451,8 @@ importers:
         specifier: ^1.1.1
         version: 1.1.1(@types/react-dom@19.3.0(@types/react@19.2.18))(@types/react@19.2.18)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       date-fns:
-        specifier: ^4.4.0
-        version: 4.4.0
+        specifier: ^4.1.0
+        version: 4.1.0
       i18next:
         specifier: ^23.15.1
         version: 23.16.8
@@ -2535,37 +2468,30 @@ importers:
       radix-ui:
         specifier: ^1.6.7
         version: 1.6.7(@types/react-dom@19.3.0(@types/react@19.2.18))(@types/react@19.2.18)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      react:
+        specifier: 19.2.3
+        version: 19.2.3
       react-colorful:
         specifier: ^5.6.1
         version: 5.8.1(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       react-day-picker:
         specifier: ^10.0.1
         version: 10.0.1(@types/react@19.2.18)(react@19.2.3)
+      react-dom:
+        specifier: 19.2.3
+        version: 19.2.3(react@19.2.3)
+      react-i18next:
+        specifier: ^15.0.2
+        version: 15.7.4(i18next@23.16.8)(react-dom@19.2.3(react@19.2.3))(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)(typescript@5.9.3)
       sonner:
-        specifier: ^1.7.4
-        version: 1.7.4(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+        specifier: ^2.0.7
+        version: 2.0.8(@types/react@19.2.18)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       tailwind-merge:
-        specifier: ^3.6.0
+        specifier: ^3.3.1
         version: 3.7.0
       vaul:
         specifier: ^1.1.2
         version: 1.1.2(@types/react-dom@19.3.0(@types/react@19.2.18))(@types/react@19.2.18)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-    devDependencies:
-      '@types/react':
-        specifier: ^19.0.0
-        version: 19.2.18
-      '@types/react-dom':
-        specifier: ^19.0.0
-        version: 19.3.0(@types/react@19.2.18)
-      react:
-        specifier: 19.2.3
-        version: 19.2.3
-      react-dom:
-        specifier: 19.2.3
-        version: 19.2.3(react@19.2.3)
-      typescript:
-        specifier: ^5.5.3
-        version: 5.9.3
 
 packages:
 
@@ -2608,64 +2534,128 @@ packages:
     resolution: {integrity: sha512-x12Q17KYlJAd3nKf8LV5LV0vt8sh8/6YfQLGPtrGnQf/tW4jqxPGq5GPpuVitpQYM3eUR4XB7CbxZf751NMbLw==}
     engines: {node: '>=20.0.0'}
 
+  '@aws-sdk/checksums@3.1001.5':
+    resolution: {integrity: sha512-6erto9nK2OZO/woEgmFIaPh5gChgdNd7nL6jgAf8TAXz3/QHC8Pan2TFe9GYp3IxOIKCCGWPylSjtOHKfNzQlw==}
+    engines: {node: '>=20.0.0'}
+
   '@aws-sdk/client-s3@3.1145.0':
     resolution: {integrity: sha512-MPKAQdx8qCZW1/ChDPILNehtAn/BMP4GNTnaH/xhGCWg3v50ADVq1K2WzxIrFfeANdWUyjwiY0CXDBhclsNWgQ==}
+    engines: {node: '>=20.0.0'}
+
+  '@aws-sdk/client-s3@3.1156.0':
+    resolution: {integrity: sha512-Z2PqQqKMDVX56tNZ6ggmjoI5o/8+4+8ArmjLwE5ktYsEzs1BrvklBT1ZzI+s0Vcf3wfPguoEMD7EkMswmEta/A==}
     engines: {node: '>=20.0.0'}
 
   '@aws-sdk/core@3.978.1':
     resolution: {integrity: sha512-LbY9aGsEiznDWmUc30Nwv3aIX/+dbwTx8KfS0yOC3NPYMO+O91e6jkT1azf34FwjOndq8/Q+RcVVZz5xnerwdg==}
     engines: {node: '>=20.0.0'}
 
+  '@aws-sdk/core@3.978.5':
+    resolution: {integrity: sha512-ruI0AWqcrfL20XDS6SwZIJFPOBZ6N0ADa9nLzWlBhxk1aoUjbUX3JkTR9vEmk7o35XpAHi68ahZ4T6RE2U9XyA==}
+    engines: {node: '>=20.0.0'}
+
   '@aws-sdk/credential-provider-env@3.972.72':
     resolution: {integrity: sha512-xTKO/FWJPozTIXbozVnVGoNBhaGba8TBcx+KyUjRVeOlXE+dUc7GTR1cLvu0uTdIdmemzaFbqqCshXeZA1fZew==}
+    engines: {node: '>=20.0.0'}
+
+  '@aws-sdk/credential-provider-env@3.972.76':
+    resolution: {integrity: sha512-YxmL1Ar7bV9ZkJvtv+lj+MF6le76NnZnbmgySyZuxpZaCv0/1lZ3KxKy6RIj1h9ui2hWnVjZxbmTMeO0y/NrQA==}
     engines: {node: '>=20.0.0'}
 
   '@aws-sdk/credential-provider-http@3.972.74':
     resolution: {integrity: sha512-u91E/hT8f4d1xy0Jl7VG4nVKJ3lxbrZkoBTeSVoJdWBiSEUMwMS/9+e0H/aJVQV//Lt5wuzP+E69v4aRSsNTmw==}
     engines: {node: '>=20.0.0'}
 
+  '@aws-sdk/credential-provider-http@3.972.78':
+    resolution: {integrity: sha512-3VHknDRngoebsaqyT1iR75b5cBT2zfEtODK6yYmYltljkK1HEAQLs2FEd1IpWqAeOYdMGaG9wikngWLTufY7RA==}
+    engines: {node: '>=20.0.0'}
+
   '@aws-sdk/credential-provider-ini@3.973.17':
     resolution: {integrity: sha512-ged4KXdBkvIC81bLvNHHuQKdKak/VXhQTR1NWYTTqW0474nlmsxy9O/vlgTIohDDWH3xpBdtVMZRyjb+DnocDA==}
+    engines: {node: '>=20.0.0'}
+
+  '@aws-sdk/credential-provider-ini@3.973.21':
+    resolution: {integrity: sha512-aLx9hbCX6mGAyv4ZZd8UagJ4RASHVJw6BFDSIyuKmLkqNL6H47EjBPK6qaJ4B5TDV6mc+vMa0SJFYyo4mkvVQg==}
     engines: {node: '>=20.0.0'}
 
   '@aws-sdk/credential-provider-login@3.972.79':
     resolution: {integrity: sha512-L+Z85anONJd8MaiuraO4wRxATCdEejBZ3K3eymzWI5JPXa9sOS9CkIm72PBKqXKX+Z9p9NGMX5AIMXm0LEflgw==}
     engines: {node: '>=20.0.0'}
 
+  '@aws-sdk/credential-provider-login@3.972.83':
+    resolution: {integrity: sha512-9bJU6FjRacF4FK/QHf8Dyxhur7B1grRj8C1Yh4IkpoFW2exQflPdCv0VrbemLW9ZctLNle+AE7TETs9KNvuLYg==}
+    engines: {node: '>=20.0.0'}
+
   '@aws-sdk/credential-provider-node@3.972.84':
     resolution: {integrity: sha512-oHt854odINVwzwsh+c5x69j0ajm4DbqqqVJ+O1ECsCIZeMDAbzFpXItaqP7UZstJj/ATdTk/KFSH0LaNAgV+kA==}
+    engines: {node: '>=20.0.0'}
+
+  '@aws-sdk/credential-provider-node@3.972.88':
+    resolution: {integrity: sha512-AG0KID5qhQPzrFkh5b0Cws1Amytvzo0L0Xj6hMgJXEwD6ZXAqninDhSNAWJiN5zU4YVVZnuidnqwPwYJ04IamA==}
     engines: {node: '>=20.0.0'}
 
   '@aws-sdk/credential-provider-process@3.972.72':
     resolution: {integrity: sha512-rLIp2xbMjX/k9/od7APpqq1ZgXXnV0pOL1Th3ZsL8Wu0TRtBsDTVS8iPqcfRFcHakFxPvR04OSTv2ka2qOb/2A==}
     engines: {node: '>=20.0.0'}
 
+  '@aws-sdk/credential-provider-process@3.972.76':
+    resolution: {integrity: sha512-pdhKFTXv1zPYhh92MTlp0jVbLWvUEV9v+rziuEkoskGGQ2iJskxHTO38nA8UAbT/N4IM3n8OZJ9rIY5IBO15/A==}
+    engines: {node: '>=20.0.0'}
+
   '@aws-sdk/credential-provider-sso@3.973.16':
     resolution: {integrity: sha512-IGihaJfFZYacJJr/odqILCoK7W/mvrZ7cuK7ECn3sAu4vLC6u0V8bS7mCGbdugJ8Aum2tnvqmx0F2MRFp2rn9g==}
+    engines: {node: '>=20.0.0'}
+
+  '@aws-sdk/credential-provider-sso@3.973.20':
+    resolution: {integrity: sha512-DlxrAB3MnjNLx/da7b89W+3DyJQYso/q7Ns15MsST2IV2nkAYQOYTUCaffNSjgrpMP99Dm2mV2jxzcbyF94ZfA==}
     engines: {node: '>=20.0.0'}
 
   '@aws-sdk/credential-provider-web-identity@3.972.78':
     resolution: {integrity: sha512-/y9WvNtlcPBGLR0qc1a+9J/xtYZfVczvLUOuXaVWylzttH7ewsxwHtjmiJSolNrVSDorIxHGHMU61CbonRkmwA==}
     engines: {node: '>=20.0.0'}
 
+  '@aws-sdk/credential-provider-web-identity@3.972.82':
+    resolution: {integrity: sha512-LUo46IqPTJ4xKBsrLuoaxiv/D2GTBCcFDMD1y3jKIqPR/p7Rw14RJFZ0iRWftqZtyLPQX9JMGnSi3mBu4y/pNA==}
+    engines: {node: '>=20.0.0'}
+
   '@aws-sdk/middleware-sdk-s3@3.972.77':
     resolution: {integrity: sha512-E7W2UOeUoc+lg3uIfR/dM7ZwusHwhBQrKMnlkRv4EXRR+C0YtV1pg25xC7GdZIhXH+NAMgZPCbE7o5to2cjFiw==}
+    engines: {node: '>=20.0.0'}
+
+  '@aws-sdk/middleware-sdk-s3@3.972.81':
+    resolution: {integrity: sha512-jfanv1pV0sJFZw6/DPiNjvK7B478god0zOum5yIWo+/+1Gy+CSXWpGBWx+3nBJyDvjcu/2kUMr4ADUp9BHH34Q==}
     engines: {node: '>=20.0.0'}
 
   '@aws-sdk/nested-clients@3.997.46':
     resolution: {integrity: sha512-oRxtBcka/JGHGs9l9p9IVajGoTP8vTPmoAzdHGy4Qcy9P5vPnDf6nhIeM/COQNY9k/OahImTRaLkHftoXvfcmQ==}
     engines: {node: '>=20.0.0'}
 
+  '@aws-sdk/nested-clients@3.997.50':
+    resolution: {integrity: sha512-nKb8qu4QsnpZTq/6JIXc72mzuzfh7BK4sUQkpQznPec2z4W7Ob2xYkcM4i5e1yGTBnbJVeFv/0sf3jcz85hclA==}
+    engines: {node: '>=20.0.0'}
+
   '@aws-sdk/signature-v4-multi-region@3.996.47':
     resolution: {integrity: sha512-Zk08macMvQTHzQJCLJVkOlviVoqwYMrpXv4lmLN7b7sAbiMoOK7Go0NYdR5UeF+MW8LIbRmwrNy9u/5VvX1U5g==}
+    engines: {node: '>=20.0.0'}
+
+  '@aws-sdk/signature-v4-multi-region@3.996.49':
+    resolution: {integrity: sha512-nvuAZNRrRRVCiARRKsYlQ0VnXiEQiq7vXPH+UA+LSo+kN3Djl9eo/V2r0udkw85PnsNshmv2Em1clld5M3j67w==}
     engines: {node: '>=20.0.0'}
 
   '@aws-sdk/token-providers@3.1138.0':
     resolution: {integrity: sha512-GpyAr0DD63YOEmYFM6Df+gJuIgC92MMTiBK4FTKfxii5MJ9ge20epR7LyroulscYlG89J+ZB2ivFDPjvfQhzdw==}
     engines: {node: '>=20.0.0'}
 
+  '@aws-sdk/token-providers@3.1155.0':
+    resolution: {integrity: sha512-iIcQnYLhWuq9qOLQbIWFrxF3PF0svVeZvHnUS4DUnO4zUFmFHIyGyjqrntXG+e/5PUgfavV0pYfDIKHxTzN2LA==}
+    engines: {node: '>=20.0.0'}
+
   '@aws-sdk/types@3.974.6':
     resolution: {integrity: sha512-v/clNZzZnDxGyvpHMOGpJKVXFAExJzUNAAjaWGdcx8QAcXLGwTaOkw33p5SHAi0YAioK32xB3hWwOekRVfmfKg==}
+    engines: {node: '>=20.0.0'}
+
+  '@aws-sdk/types@3.975.0':
+    resolution: {integrity: sha512-WQlhs6juByzWOzj5fwxOx0mPJaEqMcG/sDpl3Id61B3XhKE63xY+0QWcnG+sWR/sCfprmreyUo1lM7IKZmHMzw==}
     engines: {node: '>=20.0.0'}
 
   '@aws-sdk/xml-builder@3.972.41':
@@ -4930,6 +4920,135 @@ packages:
   '@one-ini/wasm@0.2.1':
     resolution: {integrity: sha512-TUqERXGNTifZ9y2g3wPxQrw3HpHv/02DsW3D90T9x0hhonrL1ZqpSmNrU2XkoIq0fP1N6gZfVQzy2Fw1ZvGBNg==}
 
+  '@opentelemetry/api@1.10.0':
+    resolution: {integrity: sha512-lMkyes8iHrG+mk6WH7X70MdCLI2RS0FwNBY1PyQ8UemaijE2m5mv5A0Niy3HtbYTFrgkUEQjFMXmSAk2hQDuPQ==}
+    engines: {node: '>=8.0.0'}
+
+  '@oxc-parser/binding-android-arm-eabi@0.152.0':
+    resolution: {integrity: sha512-393VtirINkae4XHBTkq/yQxhOwEr4V+r0et37P2fp+sYZSdYgZTRDPo5Um8vBh0QjMZ+RmaMy4PP0qwr4cTMwA==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [arm]
+    os: [android]
+
+  '@oxc-parser/binding-android-arm64@0.152.0':
+    resolution: {integrity: sha512-iYFcExATJNZ0rZj0o02THbD1Nc9jAW0nVgIQPee6ejbSASpbZXlIMw8jxtpzaG14JQTWwGSZ6U5dEtRJXE6V3Q==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [arm64]
+    os: [android]
+
+  '@oxc-parser/binding-darwin-arm64@0.152.0':
+    resolution: {integrity: sha512-fnU+DfUzi5/rFy0LzmipYRz06PAUUkOS8kCJQ3Eg6oqlunC1XZXoffFqxmdL51RmcbYtUG3P8DVG1U5fckoa2A==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@oxc-parser/binding-darwin-x64@0.152.0':
+    resolution: {integrity: sha512-Y3U2okryWTs7hDld6UhjJwLNf8/do+x4g4C+1U5SiGwrTLwbO83WJYJA8+l9iFSilWBgnfpd/+U76tfeNxUHzA==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [x64]
+    os: [darwin]
+
+  '@oxc-parser/binding-freebsd-x64@0.152.0':
+    resolution: {integrity: sha512-XkhkRrrPffEw+ZLv/d/5pEni0buxinm/E/N6fLbJCunD1DBbeCTtVP23ESV+4CWCWdSz397asks1ViGslpmWiQ==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [x64]
+    os: [freebsd]
+
+  '@oxc-parser/binding-linux-arm-gnueabihf@0.152.0':
+    resolution: {integrity: sha512-MLzsRRbdfmdzo6JEhbC1yKU9ItfvM8tEf18HM32jCiNYZEz6J3bRBRl3cTkKR0vBdrk9ZVlcARXtwHccs+epDA==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [arm]
+    os: [linux]
+
+  '@oxc-parser/binding-linux-arm-musleabihf@0.152.0':
+    resolution: {integrity: sha512-HHerTEJz7Iy10Ji6BGsk4gqG6PU0UzFuBu91jIEOX89FnrI5ECWSEr7BLpkYQhp7U0QFtMnBhNfQKI0hYZK78w==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [arm]
+    os: [linux]
+
+  '@oxc-parser/binding-linux-arm64-gnu@0.152.0':
+    resolution: {integrity: sha512-9Bb8GyzZ2uSLzRDZ27usaKokr07mxiBe2dDF5b6bd2janmaJTT1gL51UfP7AU30yFiXrJvcRyFKREAgKwZYs0w==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [arm64]
+    os: [linux]
+    libc: [glibc]
+
+  '@oxc-parser/binding-linux-arm64-musl@0.152.0':
+    resolution: {integrity: sha512-om7iDMUroI74A/lfRRWY9/Ev3VWrVsrUZ4tyvyh8raBey/sdcfyAD7tYWc+iykAiotnmftyKTpUKFr1QnaBrAQ==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [arm64]
+    os: [linux]
+    libc: [musl]
+
+  '@oxc-parser/binding-linux-ppc64-gnu@0.152.0':
+    resolution: {integrity: sha512-Lf1OL2lMTqwDMFC6jnRb30B+WYHKV0XT+bPHcFM6xHtNVwxpobiTzUIvKH6a0LWpvfwyru8Yu6zCGHqqFHH+gg==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [ppc64]
+    os: [linux]
+    libc: [glibc]
+
+  '@oxc-parser/binding-linux-riscv64-gnu@0.152.0':
+    resolution: {integrity: sha512-BYWSMQK+YJ9ZILStPcmmiSVq8KEG9Qdq/c4BHPC3rUEq/fEDCVjUIwdj5ZzjgZ9P9is9PKu0tcAXzq1ZXg4urQ==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [riscv64]
+    os: [linux]
+    libc: [glibc]
+
+  '@oxc-parser/binding-linux-riscv64-musl@0.152.0':
+    resolution: {integrity: sha512-d2LqHNNNqdH185sRK5dPKWZu201JrNu9/CRFuVEuT+ht7n/QaVblEMWT9MALQPrDWYvhG10P+NSKJFquDWZ09w==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [riscv64]
+    os: [linux]
+    libc: [musl]
+
+  '@oxc-parser/binding-linux-s390x-gnu@0.152.0':
+    resolution: {integrity: sha512-8gBeHt5rA/8+pKhHl+zLggfa3L/V/L2at96p7ty6pBE7id6lFO19nFUc15u2PcjC4OYeYK465MKy1fhhbpFIGw==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [s390x]
+    os: [linux]
+    libc: [glibc]
+
+  '@oxc-parser/binding-linux-x64-gnu@0.152.0':
+    resolution: {integrity: sha512-ltgrSF6L+yPTVsIdaAyqKq3zTqzj/1VlNbxWZuxAe8flR3sWdyNsKvdXukoO8/ucJbLickhmieRBge+o/e8Ugw==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [x64]
+    os: [linux]
+    libc: [glibc]
+
+  '@oxc-parser/binding-linux-x64-musl@0.152.0':
+    resolution: {integrity: sha512-LcMp6BvrBnewSfdkLHoSqidhoAq4syKOTBV5TYHWd+2VnGkfD/nPRRVIzTBt/Lkbt7pfOFDGtkiTntFS0p6sQQ==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [x64]
+    os: [linux]
+    libc: [musl]
+
+  '@oxc-parser/binding-openharmony-arm64@0.152.0':
+    resolution: {integrity: sha512-jbhoMCslVxzRCRNQ8TSHxjYdSKRvk8O6ciLVDkahJvmyHDzBqba/bMQHM6ULKj/rgHNNbSzlIiakdx8SEfkJzA==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [arm64]
+    os: [openharmony]
+
+  '@oxc-parser/binding-win32-arm64-msvc@0.152.0':
+    resolution: {integrity: sha512-JZYVlhv36mr/nertnRB7vchJECOBb1Lz6lltalILsB+o9M/is+H6BEDRLQKdqA4JKs6NjJszo46+iM5sfwj6jQ==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [arm64]
+    os: [win32]
+
+  '@oxc-parser/binding-win32-ia32-msvc@0.152.0':
+    resolution: {integrity: sha512-1X9oganvVsunRH0lH10UU05N+H9atpX6WsOybByUjwnfcd3h/0tYwvuv16XuHglrIUOnxV2TodbLVEwwafd64g==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [ia32]
+    os: [win32]
+
+  '@oxc-parser/binding-win32-x64-msvc@0.152.0':
+    resolution: {integrity: sha512-sw0M80/dn9rcpu+Rqqph/C+MjvDDce6MlXmFjsNQtPEymha0eJy3ml6+foSUTqFfpDIDyHZZ4eoJ43IoMe8bJw==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [x64]
+    os: [win32]
+
+  '@oxc-project/types@0.152.0':
+    resolution: {integrity: sha512-oM/5rLBm2tPkg0iBgkH/FOeR3PCDpY19GTgAZjMFM8h9WI9VW7cLgzp6nwtarYKmovavIQZ+Fe/RKX/8C8O/Rw==}
+
   '@panva/hkdf@1.2.1':
     resolution: {integrity: sha512-6oclG6Y3PiDFcoyk8srjLfVKyMfVCKJ27JwNPViuXziFpmdz+MZnZN/aKY0JGXgYuO/VghU0jcOAZgWXZ1Dmrw==}
 
@@ -6841,6 +6960,51 @@ packages:
     peerDependencies:
       selderee: ~0.12.0
 
+  '@sentry/bundler-plugins@11.9.0':
+    resolution: {integrity: sha512-wpz/gcM/6rld/wb4Mhf8kbDN9ngG5myKQSZC+45gzqR1w+GcdfVnYkp3sHL9AV4mrwL8skhTItdUghMwMTknKg==}
+    engines: {node: '>=20.19.0 <22.0.0 || >=22.12.0 <23.0.0 || >=23.2.0'}
+    peerDependencies:
+      rollup: '>=3.2.0'
+      webpack: '>=5.1.0'
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+      webpack:
+        optional: true
+
+  '@sentry/conventions@0.27.0':
+    resolution: {integrity: sha512-Mrqd/o7n/z7qWSYfQQA7x4fFTA0IqOG6JNsbBpnC97khPwZk7n6DPtOO7YgaYplSl8R8QLRbBz9Xv2lVhToSAg==}
+    engines: {node: '>=14'}
+
+  '@sentry/core@11.9.0':
+    resolution: {integrity: sha512-t0dZyHILt2XVC4Fe9UmAty6YRfOuQv95cvWeNl+HlW4LphjF5/jkALV3cJCUMdhpblYELgIJC4U/S/GoYuI2bA==}
+    engines: {node: '>=20.19.0 <22.0.0 || >=22.12.0 <23.0.0 || >=23.2.0'}
+
+  '@sentry/nestjs@11.9.0':
+    resolution: {integrity: sha512-/vta4C2w+iKqSsBY78LINeIGYLOIffrUR0xMGsPRXm0/iQw5ACRrLMRRRV8gj8tSUp+gDD5/pEESZttmVE+caA==}
+    engines: {node: '>=20.19.0 <22.0.0 || >=22.12.0 <23.0.0 || >=23.2.0'}
+    peerDependencies:
+      '@nestjs/common': ^8.0.0 || ^9.0.0 || ^10.0.0 || ^11.0.0 || ^12.0.0
+      '@nestjs/core': ^8.0.0 || ^9.0.0 || ^10.0.0 || ^11.0.0 || ^12.0.0
+
+  '@sentry/node@11.9.0':
+    resolution: {integrity: sha512-cz219PzVaAPTlQ4bRBTRBCOvxbZkXK0KkqyqWPV6OmSn6vWn935CTfOs+MKUc1A+locvB8i9OfBIbO6v03BBuQ==}
+    engines: {node: '>=20.19.0 <22.0.0 || >=22.12.0 <23.0.0 || >=23.2.0'}
+
+  '@sentry/opentelemetry@11.9.0':
+    resolution: {integrity: sha512-FMCkAbEfBpFterrkR7k4P8LEabUAEHjZMbu+ycDjbnI1U4pT22tpwcFJOt06orFkacoWNsYT9+EdfmkvaCKtSA==}
+    engines: {node: '>=20.19.0 <22.0.0 || >=22.12.0 <23.0.0 || >=23.2.0'}
+    peerDependencies:
+      '@opentelemetry/api': ^1.9.0
+
+  '@sentry/server-runtime-injection@11.9.0':
+    resolution: {integrity: sha512-Q2G5xaeoiYwGheCZyeqZ/v//SZYjRLlITlanTsZM/fox1qk7cmbDX7+o4q+JkApVV9VuXQZVxppaVCsBglfDKA==}
+    engines: {node: '>=20.19.0 <22.0.0 || >=22.12.0 <23.0.0 || >=23.2.0'}
+
+  '@sentry/server-utils@11.9.0':
+    resolution: {integrity: sha512-xHETix5jAjs/4tY+b9RCejEU7O49pNBiGgCWX0KFRMSpWbw9moqQ8i8N62bS7L+/BJnBcZ5SZ1nweXh7w787Qg==}
+    engines: {node: '>=20.19.0 <22.0.0 || >=22.12.0 <23.0.0 || >=23.2.0'}
+
   '@sideway/address@4.1.5':
     resolution: {integrity: sha512-IqO/DUQHUkPeixNQ8n0JA6102hT9CmaljNTPmQ1u8MEhBo/R4Q8eKLN/vGZxuebwOroDB4cbpjheD4+/sKFK4Q==}
 
@@ -6869,6 +7033,10 @@ packages:
 
   '@smithy/core@3.35.1':
     resolution: {integrity: sha512-i4YPS4B6ts7bjn7UwLnGjiZdprOvHvgGobFZsYK3GIY3E5hIqtj0rReU69BcTpGp+fvtraSNXeG1l+jtJvF55w==}
+    engines: {node: '>=18.0.0'}
+
+  '@smithy/core@3.36.2':
+    resolution: {integrity: sha512-oRw0rB9QSUiCZfEs23G5F4Af+b2rQt1lItIICWu5IejFNd+uPM8SWqiKLMpQ6bX1Q7slsLbjuoE2niErFtkVPQ==}
     engines: {node: '>=18.0.0'}
 
   '@smithy/credential-provider-imds@4.5.2':
@@ -9510,6 +9678,10 @@ packages:
     resolution: {integrity: sha512-k8DaKGP6r1G30Lx8V4+pCsLzKr8vLmV2paqEj1Y55GdAgJuIqpRp5FfajGF8KtwMxCz9qJc6wUIJnm053d/WCw==}
     engines: {node: '>=12'}
 
+  dotenv@17.4.2:
+    resolution: {integrity: sha512-nI4U3TottKAcAD9LLud4Cb7b2QztQMUEfHbvhTH09bqXTxnSie8WnjPALV/WMCrJZ6UV/qHJ6L03OqO3LcdYZw==}
+    engines: {node: '>=12'}
+
   dunder-proto@1.0.1:
     resolution: {integrity: sha512-KIN/nDJBQRcXw0MLVhZE9iQHmG68qAVIBg9CqmUYjmQIhgij9U5MFvrqkUL5FbtyyzZuOeOt0zdeRe4UY7ct+A==}
     engines: {node: '>= 0.4'}
@@ -10802,6 +10974,9 @@ packages:
 
   html-escaper@2.0.2:
     resolution: {integrity: sha512-H2iMtd0I4Mt5eYiapRdIDjp+XzelXQ0tFE4JS7YFwFevXXMmOp9myNrUvCg0D6ws8iqkRPBfKHgbwig1SmlLfg==}
+
+  html-parse-stringify@3.1.0:
+    resolution: {integrity: sha512-E0oAXcELOtsXe+BmpJ2EZyedbldPpriV5vICzEuo6xjC/D1lDukOI7KrpfQGF2Qc4wWEy0nk3bFORS2K5ZAhFQ==}
 
   html-parse-stringify@4.0.1:
     resolution: {integrity: sha512-0zHsZJrK7S3K2aucXWL6ycoYJ/iNtIcFHC/nYQgFklPtrv5LpJctIiSCroWZWeuoXvuyFdzp6KzjJQ+OT5MfFw==}
@@ -12762,6 +12937,10 @@ packages:
     resolution: {integrity: sha512-19YVAg7T+WTrxggPukVq7DjTv6+PJ867TmhCvBsYwmbFCsZd344rq2Ld1p0wo8f8Qrrhgp82c6FJRqdXWtSEhg==}
     engines: {node: '>= 0.4'}
 
+  oxc-parser@0.152.0:
+    resolution: {integrity: sha512-ZztsZgaCWmPeKYMdoTT5e0oV/oxD1NeLWNR3kAtr/G707cUPYaaozRlVDHLCGnszHJRszN9mJwmPNpqgwloC0A==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+
   p-cancelable@2.1.1:
     resolution: {integrity: sha512-BZOr3nRQHOntUjTrH8+Lh54smKHoHyur8We1V8DSMVrl5A2malOOwuJRnKRDjSnkoeBh4at6BwEnb5I7Jl31wg==}
     engines: {node: '>=8'}
@@ -13471,6 +13650,22 @@ packages:
       '@types/react':
         optional: true
 
+  react-i18next@15.7.4:
+    resolution: {integrity: sha512-nyU8iKNrI5uDJch0z9+Y5XEr34b0wkyYj3Rp+tfbahxtlswxSCjcUL9H0nqXo9IR3/t5Y5PKIA3fx3MfUyR9Xw==}
+    peerDependencies:
+      i18next: '>= 23.4.0'
+      react: 19.2.3
+      react-dom: '*'
+      react-native: '*'
+      typescript: ^5
+    peerDependenciesMeta:
+      react-dom:
+        optional: true
+      react-native:
+        optional: true
+      typescript:
+        optional: true
+
   react-i18next@17.0.15:
     resolution: {integrity: sha512-7uYpx/oBkesLto7cOzOmfITlUBaXHCAcFahmgETMfWr8nbbWRRnVGvz8wsH/xpbNcyoH+NpCcnOQEqWPMO6/hw==}
     peerDependencies:
@@ -14065,6 +14260,11 @@ packages:
   send@1.2.1:
     resolution: {integrity: sha512-1gnZf7DFcoIcajTjTwjwuDjzuz4PPcY2StKPlsGAQ1+YH20IRVrBaXSWmdjowTJ6u8Rc01PoYOGHXfP1mYcZNQ==}
     engines: {node: '>= 18'}
+
+  sentry@0.45.0:
+    resolution: {integrity: sha512-kgmEbLlC22lL7uneeUm9Sjz65rp5cvwYOMTxXbZCmBum4sbVre/lLT3zTV3kwXHJ9/BM8ZS0/GhZe9Cl1t6WyA==}
+    engines: {node: '>=20.0'}
+    hasBin: true
 
   serialize-error@2.1.0:
     resolution: {integrity: sha512-ghgmKt5o4Tly5yEG/UJp8qTd0AN7Xalw4XBtDEKP655B699qMEtra1WlXeE6WIvdEG481JvRxULKsInq/iNysw==}
@@ -15446,6 +15646,14 @@ snapshots:
       '@smithy/types': 4.19.0
       tslib: 2.8.1
 
+  '@aws-sdk/checksums@3.1001.5':
+    dependencies:
+      '@aws-sdk/core': 3.978.5
+      '@aws-sdk/types': 3.975.0
+      '@smithy/core': 3.36.2
+      '@smithy/types': 4.19.0
+      tslib: 2.8.1
+
   '@aws-sdk/client-s3@3.1145.0':
     dependencies:
       '@aws-sdk/checksums': 3.1001.1
@@ -15455,6 +15663,20 @@ snapshots:
       '@aws-sdk/signature-v4-multi-region': 3.996.47
       '@aws-sdk/types': 3.974.6
       '@smithy/core': 3.35.1
+      '@smithy/fetch-http-handler': 5.8.0
+      '@smithy/node-http-handler': 4.12.1
+      '@smithy/types': 4.19.0
+      tslib: 2.8.1
+
+  '@aws-sdk/client-s3@3.1156.0':
+    dependencies:
+      '@aws-sdk/checksums': 3.1001.5
+      '@aws-sdk/core': 3.978.5
+      '@aws-sdk/credential-provider-node': 3.972.88
+      '@aws-sdk/middleware-sdk-s3': 3.972.81
+      '@aws-sdk/signature-v4-multi-region': 3.996.49
+      '@aws-sdk/types': 3.975.0
+      '@smithy/core': 3.36.2
       '@smithy/fetch-http-handler': 5.8.0
       '@smithy/node-http-handler': 4.12.1
       '@smithy/types': 4.19.0
@@ -15471,6 +15693,17 @@ snapshots:
       bowser: 2.14.1
       tslib: 2.8.1
 
+  '@aws-sdk/core@3.978.5':
+    dependencies:
+      '@aws-sdk/types': 3.975.0
+      '@aws-sdk/xml-builder': 3.972.41
+      '@aws/lambda-invoke-store': 0.3.0
+      '@smithy/core': 3.36.2
+      '@smithy/signature-v4': 5.7.4
+      '@smithy/types': 4.19.0
+      bowser: 2.14.1
+      tslib: 2.8.1
+
   '@aws-sdk/credential-provider-env@3.972.72':
     dependencies:
       '@aws-sdk/core': 3.978.1
@@ -15479,11 +15712,29 @@ snapshots:
       '@smithy/types': 4.19.0
       tslib: 2.8.1
 
+  '@aws-sdk/credential-provider-env@3.972.76':
+    dependencies:
+      '@aws-sdk/core': 3.978.5
+      '@aws-sdk/types': 3.975.0
+      '@smithy/core': 3.36.2
+      '@smithy/types': 4.19.0
+      tslib: 2.8.1
+
   '@aws-sdk/credential-provider-http@3.972.74':
     dependencies:
       '@aws-sdk/core': 3.978.1
       '@aws-sdk/types': 3.974.6
       '@smithy/core': 3.35.1
+      '@smithy/fetch-http-handler': 5.8.0
+      '@smithy/node-http-handler': 4.12.1
+      '@smithy/types': 4.19.0
+      tslib: 2.8.1
+
+  '@aws-sdk/credential-provider-http@3.972.78':
+    dependencies:
+      '@aws-sdk/core': 3.978.5
+      '@aws-sdk/types': 3.975.0
+      '@smithy/core': 3.36.2
       '@smithy/fetch-http-handler': 5.8.0
       '@smithy/node-http-handler': 4.12.1
       '@smithy/types': 4.19.0
@@ -15505,12 +15756,37 @@ snapshots:
       '@smithy/types': 4.19.0
       tslib: 2.8.1
 
+  '@aws-sdk/credential-provider-ini@3.973.21':
+    dependencies:
+      '@aws-sdk/core': 3.978.5
+      '@aws-sdk/credential-provider-env': 3.972.76
+      '@aws-sdk/credential-provider-http': 3.972.78
+      '@aws-sdk/credential-provider-login': 3.972.83
+      '@aws-sdk/credential-provider-process': 3.972.76
+      '@aws-sdk/credential-provider-sso': 3.973.20
+      '@aws-sdk/credential-provider-web-identity': 3.972.82
+      '@aws-sdk/nested-clients': 3.997.50
+      '@aws-sdk/types': 3.975.0
+      '@smithy/core': 3.36.2
+      '@smithy/credential-provider-imds': 4.5.2
+      '@smithy/types': 4.19.0
+      tslib: 2.8.1
+
   '@aws-sdk/credential-provider-login@3.972.79':
     dependencies:
       '@aws-sdk/core': 3.978.1
       '@aws-sdk/nested-clients': 3.997.46
       '@aws-sdk/types': 3.974.6
       '@smithy/core': 3.35.1
+      '@smithy/types': 4.19.0
+      tslib: 2.8.1
+
+  '@aws-sdk/credential-provider-login@3.972.83':
+    dependencies:
+      '@aws-sdk/core': 3.978.5
+      '@aws-sdk/nested-clients': 3.997.50
+      '@aws-sdk/types': 3.975.0
+      '@smithy/core': 3.36.2
       '@smithy/types': 4.19.0
       tslib: 2.8.1
 
@@ -15528,11 +15804,33 @@ snapshots:
       '@smithy/types': 4.19.0
       tslib: 2.8.1
 
+  '@aws-sdk/credential-provider-node@3.972.88':
+    dependencies:
+      '@aws-sdk/credential-provider-env': 3.972.76
+      '@aws-sdk/credential-provider-http': 3.972.78
+      '@aws-sdk/credential-provider-ini': 3.973.21
+      '@aws-sdk/credential-provider-process': 3.972.76
+      '@aws-sdk/credential-provider-sso': 3.973.20
+      '@aws-sdk/credential-provider-web-identity': 3.972.82
+      '@aws-sdk/types': 3.975.0
+      '@smithy/core': 3.36.2
+      '@smithy/credential-provider-imds': 4.5.2
+      '@smithy/types': 4.19.0
+      tslib: 2.8.1
+
   '@aws-sdk/credential-provider-process@3.972.72':
     dependencies:
       '@aws-sdk/core': 3.978.1
       '@aws-sdk/types': 3.974.6
       '@smithy/core': 3.35.1
+      '@smithy/types': 4.19.0
+      tslib: 2.8.1
+
+  '@aws-sdk/credential-provider-process@3.972.76':
+    dependencies:
+      '@aws-sdk/core': 3.978.5
+      '@aws-sdk/types': 3.975.0
+      '@smithy/core': 3.36.2
       '@smithy/types': 4.19.0
       tslib: 2.8.1
 
@@ -15546,6 +15844,16 @@ snapshots:
       '@smithy/types': 4.19.0
       tslib: 2.8.1
 
+  '@aws-sdk/credential-provider-sso@3.973.20':
+    dependencies:
+      '@aws-sdk/core': 3.978.5
+      '@aws-sdk/nested-clients': 3.997.50
+      '@aws-sdk/token-providers': 3.1155.0
+      '@aws-sdk/types': 3.975.0
+      '@smithy/core': 3.36.2
+      '@smithy/types': 4.19.0
+      tslib: 2.8.1
+
   '@aws-sdk/credential-provider-web-identity@3.972.78':
     dependencies:
       '@aws-sdk/core': 3.978.1
@@ -15555,12 +15863,30 @@ snapshots:
       '@smithy/types': 4.19.0
       tslib: 2.8.1
 
+  '@aws-sdk/credential-provider-web-identity@3.972.82':
+    dependencies:
+      '@aws-sdk/core': 3.978.5
+      '@aws-sdk/nested-clients': 3.997.50
+      '@aws-sdk/types': 3.975.0
+      '@smithy/core': 3.36.2
+      '@smithy/types': 4.19.0
+      tslib: 2.8.1
+
   '@aws-sdk/middleware-sdk-s3@3.972.77':
     dependencies:
       '@aws-sdk/core': 3.978.1
       '@aws-sdk/signature-v4-multi-region': 3.996.47
       '@aws-sdk/types': 3.974.6
       '@smithy/core': 3.35.1
+      '@smithy/types': 4.19.0
+      tslib: 2.8.1
+
+  '@aws-sdk/middleware-sdk-s3@3.972.81':
+    dependencies:
+      '@aws-sdk/core': 3.978.5
+      '@aws-sdk/signature-v4-multi-region': 3.996.49
+      '@aws-sdk/types': 3.975.0
+      '@smithy/core': 3.36.2
       '@smithy/types': 4.19.0
       tslib: 2.8.1
 
@@ -15575,9 +15901,27 @@ snapshots:
       '@smithy/types': 4.19.0
       tslib: 2.8.1
 
+  '@aws-sdk/nested-clients@3.997.50':
+    dependencies:
+      '@aws-sdk/core': 3.978.5
+      '@aws-sdk/signature-v4-multi-region': 3.996.49
+      '@aws-sdk/types': 3.975.0
+      '@smithy/core': 3.36.2
+      '@smithy/fetch-http-handler': 5.8.0
+      '@smithy/node-http-handler': 4.12.1
+      '@smithy/types': 4.19.0
+      tslib: 2.8.1
+
   '@aws-sdk/signature-v4-multi-region@3.996.47':
     dependencies:
       '@aws-sdk/types': 3.974.6
+      '@smithy/signature-v4': 5.7.4
+      '@smithy/types': 4.19.0
+      tslib: 2.8.1
+
+  '@aws-sdk/signature-v4-multi-region@3.996.49':
+    dependencies:
+      '@aws-sdk/types': 3.975.0
       '@smithy/signature-v4': 5.7.4
       '@smithy/types': 4.19.0
       tslib: 2.8.1
@@ -15591,7 +15935,21 @@ snapshots:
       '@smithy/types': 4.19.0
       tslib: 2.8.1
 
+  '@aws-sdk/token-providers@3.1155.0':
+    dependencies:
+      '@aws-sdk/core': 3.978.5
+      '@aws-sdk/nested-clients': 3.997.50
+      '@aws-sdk/types': 3.975.0
+      '@smithy/core': 3.36.2
+      '@smithy/types': 4.19.0
+      tslib: 2.8.1
+
   '@aws-sdk/types@3.974.6':
+    dependencies:
+      '@smithy/types': 4.19.0
+      tslib: 2.8.1
+
+  '@aws-sdk/types@3.975.0':
     dependencies:
       '@smithy/types': 4.19.0
       tslib: 2.8.1
@@ -16729,7 +17087,7 @@ snapshots:
       '@babel/helper-string-parser': 8.0.6
       '@babel/helper-validator-identifier': 8.0.6
 
-  '@base-ui/react@1.8.0(@date-fns/tz@1.5.0)(@types/react@19.2.18)(date-fns@4.4.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
+  '@base-ui/react@1.8.0(@date-fns/tz@1.5.0)(@types/react@19.2.18)(date-fns@4.1.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
     dependencies:
       '@babel/runtime': 7.29.7
       '@base-ui/utils': 0.4.0(@types/react@19.2.18)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -16741,7 +17099,7 @@ snapshots:
     optionalDependencies:
       '@date-fns/tz': 1.5.0
       '@types/react': 19.2.18
-      date-fns: 4.4.0
+      date-fns: 4.1.0
 
   '@base-ui/utils@0.4.0(@types/react@19.2.18)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
     dependencies:
@@ -18083,7 +18441,7 @@ snapshots:
   '@jest/console@29.7.0':
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 24.19.0
+      '@types/node': 22.20.5
       chalk: 4.1.2
       jest-message-util: 29.7.0
       jest-util: 29.7.0
@@ -18096,14 +18454,14 @@ snapshots:
       '@jest/test-result': 29.7.0
       '@jest/transform': 29.7.0(supports-color@8.1.1)
       '@jest/types': 29.6.3
-      '@types/node': 24.19.0
+      '@types/node': 22.20.5
       ansi-escapes: 4.3.2
       chalk: 4.1.2
       ci-info: 3.9.0
       exit: 0.1.2
       graceful-fs: 4.2.11
       jest-changed-files: 29.7.0
-      jest-config: 29.7.0(@types/node@24.19.0)(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3))
+      jest-config: 29.7.0(@types/node@22.20.5)(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3))
       jest-haste-map: 29.7.0
       jest-message-util: 29.7.0
       jest-regex-util: 29.6.3
@@ -18128,7 +18486,7 @@ snapshots:
     dependencies:
       '@jest/fake-timers': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 24.19.0
+      '@types/node': 22.20.5
       jest-mock: 29.7.0
 
   '@jest/expect-utils@29.7.0':
@@ -18146,7 +18504,7 @@ snapshots:
     dependencies:
       '@jest/types': 29.6.3
       '@sinonjs/fake-timers': 10.3.0
-      '@types/node': 24.19.0
+      '@types/node': 22.20.5
       jest-message-util: 29.7.0
       jest-mock: 29.7.0
       jest-util: 29.7.0
@@ -18168,7 +18526,7 @@ snapshots:
       '@jest/transform': 29.7.0(supports-color@8.1.1)
       '@jest/types': 29.6.3
       '@jridgewell/trace-mapping': 0.3.31
-      '@types/node': 24.19.0
+      '@types/node': 22.20.5
       chalk: 4.1.2
       collect-v8-coverage: 1.0.3
       exit: 0.1.2
@@ -18238,7 +18596,7 @@ snapshots:
       '@jest/schemas': 29.6.3
       '@types/istanbul-lib-coverage': 2.0.6
       '@types/istanbul-reports': 3.0.4
-      '@types/node': 24.19.0
+      '@types/node': 22.20.5
       '@types/yargs': 17.0.35
       chalk: 4.1.2
 
@@ -18309,6 +18667,11 @@ snapshots:
     dependencies:
       react: 19.2.3
       react-native: 0.86.3(@babel/core@7.29.7(supports-color@8.1.1))(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@6.0.3))(@react-native/metro-config@0.83.10(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1)
+
+  '@miblanchard/react-native-slider@2.6.0(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)':
+    dependencies:
+      react: 19.2.3
+      react-native: 0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1)
 
   '@microsoft/tsdoc@0.16.0': {}
 
@@ -18412,6 +18775,12 @@ snapshots:
       react-native: 0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1)
     transitivePeerDependencies:
       - '@types/react'
+
+  '@nestjs-cls/transactional-adapter-typeorm@1.4.1(@nestjs-cls/transactional@2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(typeorm@0.3.31(mysql2@3.24.4(@types/node@22.20.5))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@22.20.5)(typescript@5.9.3)))':
+    dependencies:
+      '@nestjs-cls/transactional': 2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      nestjs-cls: 6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      typeorm: 0.3.31(mysql2@3.24.4(@types/node@22.20.5))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@22.20.5)(typescript@5.9.3))
 
   '@nestjs-cls/transactional-adapter-typeorm@1.4.1(@nestjs-cls/transactional@2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))':
     dependencies:
@@ -18641,6 +19010,14 @@ snapshots:
     optionalDependencies:
       '@nestjs/platform-express': 11.2.6(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(supports-color@8.1.1)
 
+  '@nestjs/typeorm@11.0.3(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)(typeorm@0.3.31(mysql2@3.24.4(@types/node@22.20.5))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@22.20.5)(typescript@5.9.3)))':
+    dependencies:
+      '@nestjs/common': 11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1)
+      '@nestjs/core': 11.2.6(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/platform-express@11.2.6)(@nestjs/websockets@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      reflect-metadata: 0.2.2
+      rxjs: 7.8.2
+      typeorm: 0.3.31(mysql2@3.24.4(@types/node@22.20.5))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@22.20.5)(typescript@5.9.3))
+
   '@nestjs/typeorm@11.0.3(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))':
     dependencies:
       '@nestjs/common': 11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1)
@@ -18744,6 +19121,67 @@ snapshots:
 
   '@one-ini/wasm@0.2.1':
     optional: true
+
+  '@opentelemetry/api@1.10.0': {}
+
+  '@oxc-parser/binding-android-arm-eabi@0.152.0':
+    optional: true
+
+  '@oxc-parser/binding-android-arm64@0.152.0':
+    optional: true
+
+  '@oxc-parser/binding-darwin-arm64@0.152.0':
+    optional: true
+
+  '@oxc-parser/binding-darwin-x64@0.152.0':
+    optional: true
+
+  '@oxc-parser/binding-freebsd-x64@0.152.0':
+    optional: true
+
+  '@oxc-parser/binding-linux-arm-gnueabihf@0.152.0':
+    optional: true
+
+  '@oxc-parser/binding-linux-arm-musleabihf@0.152.0':
+    optional: true
+
+  '@oxc-parser/binding-linux-arm64-gnu@0.152.0':
+    optional: true
+
+  '@oxc-parser/binding-linux-arm64-musl@0.152.0':
+    optional: true
+
+  '@oxc-parser/binding-linux-ppc64-gnu@0.152.0':
+    optional: true
+
+  '@oxc-parser/binding-linux-riscv64-gnu@0.152.0':
+    optional: true
+
+  '@oxc-parser/binding-linux-riscv64-musl@0.152.0':
+    optional: true
+
+  '@oxc-parser/binding-linux-s390x-gnu@0.152.0':
+    optional: true
+
+  '@oxc-parser/binding-linux-x64-gnu@0.152.0':
+    optional: true
+
+  '@oxc-parser/binding-linux-x64-musl@0.152.0':
+    optional: true
+
+  '@oxc-parser/binding-openharmony-arm64@0.152.0':
+    optional: true
+
+  '@oxc-parser/binding-win32-arm64-msvc@0.152.0':
+    optional: true
+
+  '@oxc-parser/binding-win32-ia32-msvc@0.152.0':
+    optional: true
+
+  '@oxc-parser/binding-win32-x64-msvc@0.152.0':
+    optional: true
+
+  '@oxc-project/types@0.152.0': {}
 
   '@panva/hkdf@1.2.1': {}
 
@@ -20855,6 +21293,18 @@ snapshots:
       use-latest-callback: 0.2.6(react@19.2.3)
       use-sync-external-store: 1.7.0(react@19.2.3)
 
+  '@react-navigation/elements@2.9.43(110e10fb2a0f9082c331e2a8a67300d4)':
+    dependencies:
+      '@react-navigation/native': 7.4.1(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)
+      color: 4.2.3
+      react: 19.2.3
+      react-native: 0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1)
+      react-native-safe-area-context: 5.7.0(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)
+      use-latest-callback: 0.2.6(react@19.2.3)
+      use-sync-external-store: 1.7.0(react@19.2.3)
+    optionalDependencies:
+      '@react-native-masked-view/masked-view': 0.3.2(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)
+
   '@react-navigation/elements@2.9.43(f603ce5bf617bedd09930b62157bd370)':
     dependencies:
       '@react-navigation/native': 7.4.1(react-native@0.86.3(@babel/core@7.29.7(supports-color@8.1.1))(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@6.0.3))(@react-native/metro-config@0.83.10(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)
@@ -20880,6 +21330,19 @@ snapshots:
     transitivePeerDependencies:
       - '@react-native-masked-view/masked-view'
 
+  '@react-navigation/material-top-tabs@7.7.2(b5a5a51b91f631e6233a1319b05def72)':
+    dependencies:
+      '@react-navigation/elements': 2.9.43(110e10fb2a0f9082c331e2a8a67300d4)
+      '@react-navigation/native': 7.4.1(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)
+      color: 4.2.3
+      react: 19.2.3
+      react-native: 0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1)
+      react-native-pager-view: 8.0.2(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)
+      react-native-safe-area-context: 5.7.0(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)
+      react-native-tab-view: 4.3.2(react-native-pager-view@8.0.2(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3))(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)
+    transitivePeerDependencies:
+      - '@react-native-masked-view/masked-view'
+
   '@react-navigation/native@7.4.1(react-native@0.86.3(@babel/core@7.29.7(supports-color@8.1.1))(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@6.0.3))(@react-native/metro-config@0.83.10(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)':
     dependencies:
       '@react-navigation/core': 7.22.1(react@19.2.3)
@@ -20888,6 +21351,17 @@ snapshots:
       nanoid: 3.3.19
       react: 19.2.3
       react-native: 0.86.3(@babel/core@7.29.7(supports-color@8.1.1))(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@6.0.3))(@react-native/metro-config@0.83.10(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1)
+      standard-navigation: 0.0.8(react@19.2.3)
+      use-latest-callback: 0.2.6(react@19.2.3)
+
+  '@react-navigation/native@7.4.1(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)':
+    dependencies:
+      '@react-navigation/core': 7.22.1(react@19.2.3)
+      escape-string-regexp: 4.0.0
+      fast-deep-equal: 3.1.3
+      nanoid: 3.3.19
+      react: 19.2.3
+      react-native: 0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1)
       standard-navigation: 0.0.8(react@19.2.3)
       use-latest-callback: 0.2.6(react@19.2.3)
 
@@ -21384,6 +21858,66 @@ snapshots:
       selderee: 0.12.0
     optional: true
 
+  '@sentry/bundler-plugins@11.9.0(webpack@5.106.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(lightningcss@1.33.0)(postcss@8.5.28)(uglify-js@3.19.3))':
+    dependencies:
+      '@sentry/core': 11.9.0
+      dotenv: 17.4.2
+      glob: 13.0.6
+      magic-string: 0.30.21
+      oxc-parser: 0.152.0
+      sentry: 0.45.0
+      supports-color: 8.1.1
+    optionalDependencies:
+      webpack: 5.106.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(lightningcss@1.33.0)(postcss@8.5.28)(uglify-js@3.19.3)
+
+  '@sentry/conventions@0.27.0': {}
+
+  '@sentry/core@11.9.0':
+    dependencies:
+      '@sentry/conventions': 0.27.0
+
+  '@sentry/nestjs@11.9.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(webpack@5.106.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(lightningcss@1.33.0)(postcss@8.5.28)(uglify-js@3.19.3))':
+    dependencies:
+      '@nestjs/common': 11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1)
+      '@nestjs/core': 11.2.6(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/platform-express@11.2.6)(@nestjs/websockets@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@sentry/conventions': 0.27.0
+      '@sentry/core': 11.9.0
+      '@sentry/node': 11.9.0(webpack@5.106.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(lightningcss@1.33.0)(postcss@8.5.28)(uglify-js@3.19.3))
+      '@sentry/server-utils': 11.9.0
+    transitivePeerDependencies:
+      - rollup
+      - webpack
+
+  '@sentry/node@11.9.0(webpack@5.106.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(lightningcss@1.33.0)(postcss@8.5.28)(uglify-js@3.19.3))':
+    dependencies:
+      '@opentelemetry/api': 1.10.0
+      '@sentry/bundler-plugins': 11.9.0(webpack@5.106.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(lightningcss@1.33.0)(postcss@8.5.28)(uglify-js@3.19.3))
+      '@sentry/conventions': 0.27.0
+      '@sentry/core': 11.9.0
+      '@sentry/opentelemetry': 11.9.0(@opentelemetry/api@1.10.0)
+      '@sentry/server-runtime-injection': 11.9.0
+      '@sentry/server-utils': 11.9.0
+    transitivePeerDependencies:
+      - rollup
+      - webpack
+
+  '@sentry/opentelemetry@11.9.0(@opentelemetry/api@1.10.0)':
+    dependencies:
+      '@opentelemetry/api': 1.10.0
+      '@sentry/conventions': 0.27.0
+      '@sentry/core': 11.9.0
+
+  '@sentry/server-runtime-injection@11.9.0':
+    dependencies:
+      '@sentry/core': 11.9.0
+      '@sentry/server-utils': 11.9.0
+
+  '@sentry/server-utils@11.9.0':
+    dependencies:
+      '@opentelemetry/api': 1.10.0
+      '@sentry/conventions': 0.27.0
+      '@sentry/core': 11.9.0
+
   '@sideway/address@4.1.5':
     dependencies:
       '@hapi/hoek': 9.3.0
@@ -21407,6 +21941,11 @@ snapshots:
       '@sinonjs/commons': 3.0.1
 
   '@smithy/core@3.35.1':
+    dependencies:
+      '@smithy/types': 4.19.0
+      tslib: 2.8.1
+
+  '@smithy/core@3.36.2':
     dependencies:
       '@smithy/types': 4.19.0
       tslib: 2.8.1
@@ -22024,24 +22563,24 @@ snapshots:
   '@types/body-parser@1.19.6':
     dependencies:
       '@types/connect': 3.4.38
-      '@types/node': 24.19.0
+      '@types/node': 22.20.5
 
   '@types/cacheable-request@6.0.3':
     dependencies:
       '@types/http-cache-semantics': 4.2.0
       '@types/keyv': 3.1.4
-      '@types/node': 24.19.0
+      '@types/node': 22.20.5
       '@types/responselike': 1.0.3
 
   '@types/connect@3.4.38':
     dependencies:
-      '@types/node': 24.19.0
+      '@types/node': 22.20.5
 
   '@types/cookiejar@2.1.5': {}
 
   '@types/cors@2.8.19':
     dependencies:
-      '@types/node': 24.19.0
+      '@types/node': 22.20.5
 
   '@types/crypto-js@4.2.2': {}
 
@@ -22086,8 +22625,7 @@ snapshots:
 
   '@types/dagre@0.7.54': {}
 
-  '@types/ejs@3.1.5':
-    optional: true
+  '@types/ejs@3.1.5': {}
 
   '@types/eslint-scope@3.7.7':
     dependencies:
@@ -22105,7 +22643,7 @@ snapshots:
 
   '@types/express-serve-static-core@5.1.3':
     dependencies:
-      '@types/node': 24.19.0
+      '@types/node': 22.20.5
       '@types/qs': 6.15.1
       '@types/range-parser': 1.2.7
       '@types/send': 1.2.1
@@ -22122,7 +22660,7 @@ snapshots:
 
   '@types/graceful-fs@4.1.9':
     dependencies:
-      '@types/node': 24.19.0
+      '@types/node': 22.20.5
 
   '@types/hammerjs@2.0.46': {}
 
@@ -22163,11 +22701,11 @@ snapshots:
   '@types/jsonwebtoken@9.0.10':
     dependencies:
       '@types/ms': 2.1.0
-      '@types/node': 24.19.0
+      '@types/node': 22.20.5
 
   '@types/keyv@3.1.4':
     dependencies:
-      '@types/node': 24.19.0
+      '@types/node': 22.20.5
 
   '@types/lodash@4.17.25': {}
 
@@ -22271,18 +22809,18 @@ snapshots:
 
   '@types/responselike@1.0.3':
     dependencies:
-      '@types/node': 24.19.0
+      '@types/node': 22.20.5
 
   '@types/semver@7.8.0': {}
 
   '@types/send@1.2.1':
     dependencies:
-      '@types/node': 24.19.0
+      '@types/node': 22.20.5
 
   '@types/serve-static@2.2.0':
     dependencies:
       '@types/http-errors': 2.0.5
-      '@types/node': 24.19.0
+      '@types/node': 22.20.5
 
   '@types/stack-utils@2.0.3': {}
 
@@ -22290,7 +22828,7 @@ snapshots:
     dependencies:
       '@types/cookiejar': 2.1.5
       '@types/methods': 1.1.4
-      '@types/node': 24.19.0
+      '@types/node': 22.20.5
       form-data: 4.0.6
 
   '@types/supertest@6.0.3':
@@ -22310,7 +22848,7 @@ snapshots:
 
   '@types/ws@8.18.1':
     dependencies:
-      '@types/node': 24.19.0
+      '@types/node': 22.20.5
 
   '@types/yargs-parser@21.0.3': {}
 
@@ -22651,9 +23189,9 @@ snapshots:
   '@unrs/resolver-binding-win32-x64-msvc@1.12.2':
     optional: true
 
-  '@vercel/analytics@1.6.1(next@16.1.6(@babel/core@8.0.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react@19.2.3)':
+  '@vercel/analytics@1.6.1(next@16.1.6(@babel/core@8.0.1)(@opentelemetry/api@1.10.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react@19.2.3)':
     optionalDependencies:
-      next: 16.1.6(@babel/core@8.0.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      next: 16.1.6(@babel/core@8.0.1)(@opentelemetry/api@1.10.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       react: 19.2.3
 
   '@videojs/core@10.0.0-rc.2(react@19.2.3)':
@@ -23759,7 +24297,7 @@ snapshots:
 
   chrome-launcher@0.15.2(supports-color@8.1.1):
     dependencies:
-      '@types/node': 24.19.0
+      '@types/node': 22.20.5
       escape-string-regexp: 4.0.0
       is-wsl: 2.2.0
       lighthouse-logger: 1.4.2(supports-color@8.1.1)
@@ -23770,7 +24308,7 @@ snapshots:
 
   chromium-edge-launcher@0.3.0(supports-color@8.1.1):
     dependencies:
-      '@types/node': 24.19.0
+      '@types/node': 22.20.5
       escape-string-regexp: 4.0.0
       is-wsl: 2.2.0
       lighthouse-logger: 1.4.2(supports-color@8.1.1)
@@ -24513,6 +25051,8 @@ snapshots:
 
   dotenv@17.4.1: {}
 
+  dotenv@17.4.2: {}
+
   dunder-proto@1.0.1:
     dependencies:
       call-bind-apply-helpers: 1.0.2
@@ -24539,8 +25079,7 @@ snapshots:
     dependencies:
       jake: 10.9.4
 
-  ejs@5.0.2:
-    optional: true
+  ejs@5.0.2: {}
 
   electron-to-chromium@1.5.439: {}
 
@@ -24597,7 +25136,7 @@ snapshots:
   engine.io@6.6.11(supports-color@8.1.1):
     dependencies:
       '@types/cors': 2.8.19
-      '@types/node': 24.19.0
+      '@types/node': 22.20.5
       '@types/ws': 8.18.1
       accepts: 1.3.8
       cookie: 0.7.2
@@ -26532,6 +27071,10 @@ snapshots:
 
   html-escaper@2.0.2: {}
 
+  html-parse-stringify@3.1.0:
+    dependencies:
+      void-elements: 3.1.0
+
   html-parse-stringify@4.0.1: {}
 
   html-to-text@10.0.1:
@@ -26993,7 +27536,7 @@ snapshots:
       '@jest/expect': 29.7.0(supports-color@8.1.1)
       '@jest/test-result': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 24.19.0
+      '@types/node': 22.20.5
       chalk: 4.1.2
       co: 4.6.0
       dedent: 1.7.2
@@ -27031,6 +27574,37 @@ snapshots:
       - babel-plugin-macros
       - supports-color
       - ts-node
+
+  jest-config@29.7.0(@types/node@22.20.5)(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)):
+    dependencies:
+      '@babel/core': 7.29.7(supports-color@8.1.1)
+      '@jest/test-sequencer': 29.7.0
+      '@jest/types': 29.6.3
+      babel-jest: 29.7.0(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1)
+      chalk: 4.1.2
+      ci-info: 3.9.0
+      deepmerge: 4.3.1
+      glob: 7.2.3
+      graceful-fs: 4.2.11
+      jest-circus: 29.7.0(supports-color@8.1.1)
+      jest-environment-node: 29.7.0
+      jest-get-type: 29.6.3
+      jest-regex-util: 29.6.3
+      jest-resolve: 29.7.0
+      jest-runner: 29.7.0(supports-color@8.1.1)
+      jest-util: 29.7.0
+      jest-validate: 29.7.0
+      micromatch: 4.0.8
+      parse-json: 5.2.0
+      pretty-format: 29.7.0
+      slash: 3.0.0
+      strip-json-comments: 3.1.1
+    optionalDependencies:
+      '@types/node': 22.20.5
+      ts-node: 10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)
+    transitivePeerDependencies:
+      - babel-plugin-macros
+      - supports-color
 
   jest-config@29.7.0(@types/node@24.19.0)(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)):
     dependencies:
@@ -27087,7 +27661,7 @@ snapshots:
       '@jest/environment': 29.7.0
       '@jest/fake-timers': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 24.19.0
+      '@types/node': 22.20.5
       jest-mock: 29.7.0
       jest-util: 29.7.0
 
@@ -27097,7 +27671,7 @@ snapshots:
     dependencies:
       '@jest/types': 29.6.3
       '@types/graceful-fs': 4.1.9
-      '@types/node': 24.19.0
+      '@types/node': 22.20.5
       anymatch: 3.1.3
       fb-watchman: 2.0.2
       graceful-fs: 4.2.11
@@ -27136,7 +27710,7 @@ snapshots:
   jest-mock@29.7.0:
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 24.19.0
+      '@types/node': 22.20.5
       jest-util: 29.7.0
 
   jest-pnp-resolver@1.2.3(jest-resolve@29.7.0):
@@ -27171,7 +27745,7 @@ snapshots:
       '@jest/test-result': 29.7.0
       '@jest/transform': 29.7.0(supports-color@8.1.1)
       '@jest/types': 29.6.3
-      '@types/node': 24.19.0
+      '@types/node': 22.20.5
       chalk: 4.1.2
       emittery: 0.13.1
       graceful-fs: 4.2.11
@@ -27199,7 +27773,7 @@ snapshots:
       '@jest/test-result': 29.7.0
       '@jest/transform': 29.7.0(supports-color@8.1.1)
       '@jest/types': 29.6.3
-      '@types/node': 24.19.0
+      '@types/node': 22.20.5
       chalk: 4.1.2
       cjs-module-lexer: 1.4.3
       collect-v8-coverage: 1.0.3
@@ -27245,7 +27819,7 @@ snapshots:
   jest-util@29.7.0:
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 24.19.0
+      '@types/node': 22.20.5
       chalk: 4.1.2
       ci-info: 3.9.0
       graceful-fs: 4.2.11
@@ -27264,7 +27838,7 @@ snapshots:
     dependencies:
       '@jest/test-result': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 24.19.0
+      '@types/node': 22.20.5
       ansi-escapes: 4.3.2
       chalk: 4.1.2
       emittery: 0.13.1
@@ -27273,13 +27847,13 @@ snapshots:
 
   jest-worker@27.5.1:
     dependencies:
-      '@types/node': 24.19.0
+      '@types/node': 22.20.5
       merge-stream: 2.0.0
       supports-color: 8.1.1
 
   jest-worker@29.7.0:
     dependencies:
-      '@types/node': 24.19.0
+      '@types/node': 22.20.5
       jest-util: 29.7.0
       merge-stream: 2.0.0
       supports-color: 8.1.1
@@ -28948,6 +29522,18 @@ snapshots:
 
   mute-stream@2.0.0: {}
 
+  mysql2@3.24.4(@types/node@22.20.5):
+    dependencies:
+      '@types/node': 22.20.5
+      aws-ssl-profiles: 1.1.2
+      generate-function: 2.3.1
+      iconv-lite: 0.7.3
+      long: 5.3.2
+      lru.min: 1.1.5
+      named-placeholders: 1.1.6
+      sql-escaper: 1.5.2
+    optional: true
+
   mysql2@3.24.4(@types/node@24.19.0):
     dependencies:
       '@types/node': 24.19.0
@@ -29028,13 +29614,13 @@ snapshots:
       lodash.flattendeep: 4.4.0
       yargs: 17.7.3
 
-  next-auth@4.24.15(next@16.3.6(@babel/core@8.0.1)(@types/node@20.19.43)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3):
+  next-auth@4.24.15(next@16.3.6(@babel/core@8.0.1)(@opentelemetry/api@1.10.0)(@types/node@20.19.43)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3):
     dependencies:
       '@babel/runtime': 7.29.7
       '@panva/hkdf': 1.2.1
       cookie: 0.7.2
       jose: 4.15.9
-      next: 16.3.6(@babel/core@8.0.1)(@types/node@20.19.43)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      next: 16.3.6(@babel/core@8.0.1)(@opentelemetry/api@1.10.0)(@types/node@20.19.43)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       oauth: 0.9.15
       openid-client: 5.7.1
       preact: 10.29.8(preact-render-to-string@5.2.6)
@@ -29043,7 +29629,7 @@ snapshots:
       react-dom: 19.2.3(react@19.2.3)
       uuid: 11.1.1
 
-  next-i18next@15.4.3(@types/react@19.2.18)(i18next@24.2.3(typescript@5.9.3))(next@16.3.6(@babel/core@8.0.1)(@types/node@20.19.43)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-i18next@17.0.15(i18next@24.2.3(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)(typescript@5.9.3))(react@19.2.3):
+  next-i18next@15.4.3(@types/react@19.2.18)(i18next@24.2.3(typescript@5.9.3))(next@16.3.6(@babel/core@8.0.1)(@opentelemetry/api@1.10.0)(@types/node@20.19.43)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-i18next@15.7.4(i18next@24.2.3(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)(typescript@5.9.3))(react@19.2.3):
     dependencies:
       '@babel/runtime': 7.29.7
       '@types/hoist-non-react-statics': 3.3.7(@types/react@19.2.18)
@@ -29051,9 +29637,9 @@ snapshots:
       hoist-non-react-statics: 3.3.2
       i18next: 24.2.3(typescript@5.9.3)
       i18next-fs-backend: 2.6.8
-      next: 16.3.6(@babel/core@8.0.1)(@types/node@20.19.43)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      next: 16.3.6(@babel/core@8.0.1)(@opentelemetry/api@1.10.0)(@types/node@20.19.43)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       react: 19.2.3
-      react-i18next: 17.0.15(i18next@24.2.3(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)(typescript@5.9.3)
+      react-i18next: 15.7.4(i18next@24.2.3(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)(typescript@5.9.3)
     transitivePeerDependencies:
       - '@types/react'
 
@@ -29062,7 +29648,7 @@ snapshots:
       react: 19.2.3
       react-dom: 19.2.3(react@19.2.3)
 
-  next@16.1.6(@babel/core@8.0.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3):
+  next@16.1.6(@babel/core@8.0.1)(@opentelemetry/api@1.10.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3):
     dependencies:
       '@next/env': 16.1.6
       '@swc/helpers': 0.5.15
@@ -29081,13 +29667,14 @@ snapshots:
       '@next/swc-linux-x64-musl': 16.1.6
       '@next/swc-win32-arm64-msvc': 16.1.6
       '@next/swc-win32-x64-msvc': 16.1.6
+      '@opentelemetry/api': 1.10.0
       babel-plugin-react-compiler: 1.0.0
       sharp: 0.34.5
     transitivePeerDependencies:
       - '@babel/core'
       - babel-plugin-macros
 
-  next@16.3.6(@babel/core@8.0.1)(@types/node@20.19.43)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3):
+  next@16.3.6(@babel/core@8.0.1)(@opentelemetry/api@1.10.0)(@types/node@20.19.43)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3):
     dependencies:
       '@next/env': 16.3.6
       '@swc/helpers': 0.5.23
@@ -29106,6 +29693,7 @@ snapshots:
       '@next/swc-linux-x64-musl': 16.3.6
       '@next/swc-win32-arm64-msvc': 16.3.6
       '@next/swc-win32-x64-msvc': 16.3.6
+      '@opentelemetry/api': 1.10.0
       babel-plugin-react-compiler: 1.0.0
       sharp: 0.35.5(@types/node@20.19.43)
     transitivePeerDependencies:
@@ -29113,7 +29701,7 @@ snapshots:
       - '@types/node'
       - babel-plugin-macros
 
-  next@16.3.6(@babel/core@8.0.1)(@types/node@24.19.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3):
+  next@16.3.6(@babel/core@8.0.1)(@opentelemetry/api@1.10.0)(@types/node@24.19.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3):
     dependencies:
       '@next/env': 16.3.6
       '@swc/helpers': 0.5.23
@@ -29132,6 +29720,7 @@ snapshots:
       '@next/swc-linux-x64-musl': 16.3.6
       '@next/swc-win32-arm64-msvc': 16.3.6
       '@next/swc-win32-x64-msvc': 16.3.6
+      '@opentelemetry/api': 1.10.0
       babel-plugin-react-compiler: 1.0.0
       sharp: 0.35.5(@types/node@24.19.0)
     transitivePeerDependencies:
@@ -29379,6 +29968,30 @@ snapshots:
       get-intrinsic: 1.3.0
       object-keys: 1.1.1
       safe-push-apply: 1.0.0
+
+  oxc-parser@0.152.0:
+    dependencies:
+      '@oxc-project/types': 0.152.0
+    optionalDependencies:
+      '@oxc-parser/binding-android-arm-eabi': 0.152.0
+      '@oxc-parser/binding-android-arm64': 0.152.0
+      '@oxc-parser/binding-darwin-arm64': 0.152.0
+      '@oxc-parser/binding-darwin-x64': 0.152.0
+      '@oxc-parser/binding-freebsd-x64': 0.152.0
+      '@oxc-parser/binding-linux-arm-gnueabihf': 0.152.0
+      '@oxc-parser/binding-linux-arm-musleabihf': 0.152.0
+      '@oxc-parser/binding-linux-arm64-gnu': 0.152.0
+      '@oxc-parser/binding-linux-arm64-musl': 0.152.0
+      '@oxc-parser/binding-linux-ppc64-gnu': 0.152.0
+      '@oxc-parser/binding-linux-riscv64-gnu': 0.152.0
+      '@oxc-parser/binding-linux-riscv64-musl': 0.152.0
+      '@oxc-parser/binding-linux-s390x-gnu': 0.152.0
+      '@oxc-parser/binding-linux-x64-gnu': 0.152.0
+      '@oxc-parser/binding-linux-x64-musl': 0.152.0
+      '@oxc-parser/binding-openharmony-arm64': 0.152.0
+      '@oxc-parser/binding-win32-arm64-msvc': 0.152.0
+      '@oxc-parser/binding-win32-ia32-msvc': 0.152.0
+      '@oxc-parser/binding-win32-x64-msvc': 0.152.0
 
   p-cancelable@2.1.1: {}
 
@@ -30106,7 +30719,7 @@ snapshots:
   react-day-picker@10.0.1(@types/react@19.2.18)(react@19.2.3):
     dependencies:
       '@date-fns/tz': 1.5.0
-      date-fns: 4.4.0
+      date-fns: 4.1.0
       react: 19.2.3
     optionalDependencies:
       '@types/react': 19.2.18
@@ -30155,11 +30768,55 @@ snapshots:
     optionalDependencies:
       '@types/react': 19.2.14
 
-  react-i18next@17.0.15(i18next@24.2.3(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)(typescript@5.9.3):
+  react-i18next@15.7.4(i18next@23.16.8)(react-dom@19.2.3(react@19.2.3))(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)(typescript@5.9.3):
+    dependencies:
+      '@babel/runtime': 7.29.7
+      html-parse-stringify: 3.1.0
+      i18next: 23.16.8
+      react: 19.2.3
+    optionalDependencies:
+      react-dom: 19.2.3(react@19.2.3)
+      react-native: 0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1)
+      typescript: 5.9.3
+
+  react-i18next@15.7.4(i18next@24.2.3(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)(typescript@5.9.3):
+    dependencies:
+      '@babel/runtime': 7.29.7
+      html-parse-stringify: 3.1.0
+      i18next: 24.2.3(typescript@5.9.3)
+      react: 19.2.3
+    optionalDependencies:
+      react-dom: 19.2.3(react@19.2.3)
+      react-native: 0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1)
+      typescript: 5.9.3
+
+  react-i18next@15.7.4(i18next@25.10.10(typescript@6.0.3))(react-dom@19.2.3(react@19.2.3))(react-native@0.86.3(@babel/core@7.29.7(supports-color@8.1.1))(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@6.0.3))(@react-native/metro-config@0.83.10(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)(typescript@6.0.3):
+    dependencies:
+      '@babel/runtime': 7.29.7
+      html-parse-stringify: 3.1.0
+      i18next: 25.10.10(typescript@6.0.3)
+      react: 19.2.3
+    optionalDependencies:
+      react-dom: 19.2.3(react@19.2.3)
+      react-native: 0.86.3(@babel/core@7.29.7(supports-color@8.1.1))(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@6.0.3))(@react-native/metro-config@0.83.10(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1)
+      typescript: 6.0.3
+
+  react-i18next@15.7.4(i18next@26.4.2(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)(typescript@5.9.3):
+    dependencies:
+      '@babel/runtime': 7.29.7
+      html-parse-stringify: 3.1.0
+      i18next: 26.4.2(typescript@5.9.3)
+      react: 19.2.3
+    optionalDependencies:
+      react-dom: 19.2.3(react@19.2.3)
+      react-native: 0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1)
+      typescript: 5.9.3
+
+  react-i18next@17.0.15(i18next@25.10.10(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)(typescript@5.9.3):
     dependencies:
       '@babel/runtime': 7.29.7
       html-parse-stringify: 4.0.1
-      i18next: 24.2.3(typescript@5.9.3)
+      i18next: 25.10.10(typescript@5.9.3)
       react: 19.2.3
       use-sync-external-store: 1.7.0(react@19.2.3)
     optionalDependencies:
@@ -30392,6 +31049,11 @@ snapshots:
       react: 19.2.3
       react-native: 0.86.3(@babel/core@7.29.7(supports-color@8.1.1))(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@6.0.3))(@react-native/metro-config@0.83.10(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1)
 
+  react-native-pager-view@8.0.2(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3):
+    dependencies:
+      react: 19.2.3
+      react-native: 0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1)
+
   react-native-reanimated-carousel@4.0.3(cae33377b8cc8c7179e5f2b4c76f51e6):
     dependencies:
       react: 19.2.3
@@ -30516,6 +31178,13 @@ snapshots:
       react: 19.2.3
       react-native: 0.86.3(@babel/core@7.29.7(supports-color@8.1.1))(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@6.0.3))(@react-native/metro-config@0.83.10(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1)
       react-native-pager-view: 8.0.2(react-native@0.86.3(@babel/core@7.29.7(supports-color@8.1.1))(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@6.0.3))(@react-native/metro-config@0.83.10(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)
+      use-latest-callback: 0.2.6(react@19.2.3)
+
+  react-native-tab-view@4.3.2(react-native-pager-view@8.0.2(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3))(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3):
+    dependencies:
+      react: 19.2.3
+      react-native: 0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1)
+      react-native-pager-view: 8.0.2(react-native@0.86.3(@babel/core@8.0.1)(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@5.9.3))(@react-native/metro-config@0.86.3(@babel/core@8.0.1)(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)
       use-latest-callback: 0.2.6(react@19.2.3)
 
   react-native-vector-icons@10.3.0:
@@ -31059,6 +31728,8 @@ snapshots:
       statuses: 2.0.2
     transitivePeerDependencies:
       - supports-color
+
+  sentry@0.45.0: {}
 
   serialize-error@2.1.0: {}
 
@@ -31880,6 +32551,27 @@ snapshots:
     optionalDependencies:
       '@swc/core': 1.16.2(@swc/helpers@0.5.23)
 
+  ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@22.20.5)(typescript@5.9.3):
+    dependencies:
+      '@cspotcode/source-map-support': 0.8.1
+      '@tsconfig/node10': 1.0.13
+      '@tsconfig/node12': 1.0.11
+      '@tsconfig/node14': 1.0.3
+      '@tsconfig/node16': 1.0.4
+      '@types/node': 22.20.5
+      acorn: 8.18.0
+      acorn-walk: 8.3.5
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.4
+      make-error: 1.3.6
+      typescript: 5.9.3
+      v8-compile-cache-lib: 3.0.1
+      yn: 3.1.1
+    optionalDependencies:
+      '@swc/core': 1.16.2(@swc/helpers@0.5.23)
+    optional: true
+
   ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3):
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
@@ -31991,6 +32683,30 @@ snapshots:
       is-typed-array: 1.1.15
       possible-typed-array-names: 1.1.0
       reflect.getprototypeof: 1.0.10
+
+  typeorm@0.3.31(mysql2@3.24.4(@types/node@22.20.5))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@22.20.5)(typescript@5.9.3)):
+    dependencies:
+      '@sqltools/formatter': 1.2.5
+      ansis: 4.4.0
+      app-root-path: 3.1.0
+      buffer: 6.0.3
+      dayjs: 1.11.23
+      debug: 4.4.3(supports-color@8.1.1)
+      dedent: 1.7.2
+      dotenv: 16.6.1
+      glob: 10.5.0
+      reflect-metadata: 0.2.2
+      sha.js: 2.4.12
+      sql-highlight: 6.1.0
+      tslib: 2.8.1
+      uuid: 11.1.1
+      yargs: 17.7.3
+    optionalDependencies:
+      mysql2: 3.24.4(@types/node@22.20.5)
+      ts-node: 10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@22.20.5)(typescript@5.9.3)
+    transitivePeerDependencies:
+      - babel-plugin-macros
+      - supports-color
 
   typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)):
     dependencies:
@@ -32252,8 +32968,7 @@ snapshots:
 
   vlq@1.0.1: {}
 
-  void-elements@3.1.0:
-    optional: true
+  void-elements@3.1.0: {}
 
   w3c-keyname@2.2.8: {}
 

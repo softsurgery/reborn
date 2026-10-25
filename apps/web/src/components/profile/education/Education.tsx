@@ -1,5 +1,5 @@
 import React from "react";
-import { cn } from "@reborn/lib";
+import { cn } from "@softsurgery/lib";
 import { api } from "@/api";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -11,12 +11,12 @@ import {
   UpdateEducationDto,
 } from "@/types";
 import { updateEducationSchema } from "@/types/validations/education.validation";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 import { useEducationCreateSheet } from "./modals/EducationCreateSheet";
 import { useEducationUpdateSheet } from "./modals/EducationUpdateSheet";
 import { useEducationDeleteDialog } from "./modals/EducationDeleteDialog";
 import { EducationSection } from "./EducationSection";
-import { Spinner } from "@reborn/components";
+import { Spinner } from "@softsurgery/components";
 
 interface EducationProps {
   className?: string;

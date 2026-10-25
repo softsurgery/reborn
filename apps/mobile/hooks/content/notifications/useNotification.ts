@@ -1,5 +1,5 @@
 import React from "react";
-import { useAuthPersistStore } from "@reborn/hooks/stores";
+import { useAuthPersistStore } from "@softsurgery/hooks/stores";
 import {
   createAndroidChannel,
   requestNotificationPermissions,
@@ -8,7 +8,7 @@ import { disconnectSocket, getSocket } from "@/lib/socket";
 import { sanitizeText } from "@/lib/string.lib";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import * as Notifications from "expo-notifications";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 import { Socket } from "socket.io-client";
 import { api } from "@/api";
 import {

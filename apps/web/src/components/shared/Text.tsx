@@ -1,6 +1,6 @@
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "@reborn/lib";
+import { cn } from "@softsurgery/lib";
 
 const textVariants = cva("text-foreground text-base font-poppins", {
   variants: {

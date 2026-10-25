@@ -1,9 +1,9 @@
-import { Badge } from "@reborn/mobile-ui";
-import { Icon } from "@reborn/mobile-ui";
-import { Text } from "@reborn/mobile-ui";
-import { useColorPalette } from "@reborn/mobile-components";
-import { timeAgo } from "@reborn/mobile-components";
-import { cn } from "@reborn/lib";
+import { Badge } from "@softsurgery/mobile-ui";
+import { Icon } from "@softsurgery/mobile-ui";
+import { Text } from "@softsurgery/mobile-ui";
+import { useColorPalette } from "@softsurgery/mobile-components";
+import { timeAgo } from "@softsurgery/mobile-components";
+import { cn } from "@softsurgery/lib";
 import { ResponseJobRequestDto } from "@/types";
 import { format } from "date-fns";
 import { Clock } from "lucide-react-native";

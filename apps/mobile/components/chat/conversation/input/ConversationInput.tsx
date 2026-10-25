@@ -2,19 +2,19 @@ import { Hand, Plus, SendHorizonalIcon } from "lucide-react-native";
 import React from "react";
 import { View, ViewStyle, TouchableOpacity, Platform } from "react-native";
 import { type ActionSheetRef } from "react-native-actions-sheet";
-import { Icon } from "@reborn/mobile-ui";
-import { Textarea } from "@reborn/mobile-ui";
-import { cn } from "@reborn/lib";
+import { Icon } from "@softsurgery/mobile-ui";
+import { Textarea } from "@softsurgery/mobile-ui";
+import { cn } from "@softsurgery/lib";
 import { ConversationInputActionsSheet } from "./ConversationInputActionsSheet";
-import { Text } from "@reborn/mobile-ui";
-import { useKeyboardVisible } from "@reborn/mobile-components";
+import { Text } from "@softsurgery/mobile-ui";
+import { useKeyboardVisible } from "@softsurgery/mobile-components";
 import Animated, {
   FadeIn,
   FadeOut,
   ZoomIn,
   ZoomOut,
 } from "react-native-reanimated";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 
 interface ConversationInputProps {
   className?: string;

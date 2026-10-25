@@ -1,7 +1,7 @@
 import React from "react";
 import { View } from "react-native";
-import { Skeleton } from "@reborn/mobile-ui";
-import { cn } from "@reborn/lib";
+import { Skeleton } from "@softsurgery/mobile-ui";
+import { cn } from "@softsurgery/lib";
 
 interface IncomingRequestEntrySkeletonProps {
   className?: string;

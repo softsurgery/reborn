@@ -1,7 +1,7 @@
 import { Command } from 'nestjs-command';
 import { Injectable } from '@nestjs/common';
-import { StorageFolderService } from 'nsa-storage/services/storage-folder.service';
-import { StorageService } from 'nsa-storage/services/storage.service';
+import { StorageFolderService } from 'src/modules/storage-folder/services/storage-folder.service';
+import { StorageService } from '@softsurgery/nsa-storage/services/storage.service';
 import { StorageFolderCatalogService } from 'src/app/services/storage-folder-catalog.service';
 import { JobStorageFolderService } from 'src/modules/job-management/services/job-storage-folder.service';
 import { UserStorageFolderService } from 'src/modules/users/services/user-storage-folder.service';

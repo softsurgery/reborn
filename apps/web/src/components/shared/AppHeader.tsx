@@ -1,5 +1,5 @@
 import React from "react";
-import { cn } from "@reborn/lib";
+import { cn } from "@softsurgery/lib";
 import { LucideIcon, LucideProps } from "lucide-react";
 import { Text } from "@/components/shared/Text";
 

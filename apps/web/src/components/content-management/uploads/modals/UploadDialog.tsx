@@ -1,8 +1,8 @@
-import { useDialog } from "@reborn/components";
+import { useDialog } from "@softsurgery/components";
 import { useState, useRef, type DragEvent, type ChangeEvent } from "react";
 import { Save, Upload, UploadCloud, X } from "lucide-react";
-import { Button } from "@reborn/ui";
-import { Input } from "@reborn/ui";
+import { Button } from "@softsurgery/ui";
+import { Input } from "@softsurgery/ui";
 import { FileIcon } from "../FileIcon";
 import { formatFileSize } from "@/lib/file.utils";
 

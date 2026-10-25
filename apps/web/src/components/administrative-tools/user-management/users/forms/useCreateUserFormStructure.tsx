@@ -11,12 +11,12 @@ import {
   SwitchFieldProps,
   TextareaFieldProps,
   TextFieldProps,
-} from "@reborn/form-builder";
+} from "@softsurgery/form-builder";
 import { UserStore } from "@/hooks/stores/useUserStore";
 import { useUploadMutation } from "@/hooks/useUploadMutation";
 import { identifyUserAvatar } from "@/lib/user.utils";
 import { Gender } from "@/types";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 
 interface useCreateUserFormStructureProps {
   userStore: UserStore;

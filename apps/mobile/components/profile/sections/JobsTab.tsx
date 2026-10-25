@@ -1,4 +1,4 @@
-import { useColorPalette } from "@reborn/mobile-components";
+import { useColorPalette } from "@softsurgery/mobile-components";
 import React from "react";
 import {
   View,
@@ -11,11 +11,11 @@ import { InfiniteListFooter } from "@/components/shared/InfiniteListFooter";
 import { useInfiniteJobs } from "@/hooks/content/job/useInfiniteJobs";
 import { ResponseJobDto, ResponseUserDto } from "@/types";
 import { JobCard } from "@/components/jobs/JobCard";
-import { Loader } from "@reborn/mobile-components";
-import { Text } from "@reborn/mobile-ui";
-import { Icon } from "@reborn/mobile-ui";
+import { Loader } from "@softsurgery/mobile-components";
+import { Text } from "@softsurgery/mobile-ui";
+import { Icon } from "@softsurgery/mobile-ui";
 import { Briefcase } from "lucide-react-native";
-import { cn } from "@reborn/lib";
+import { cn } from "@softsurgery/lib";
 
 interface JobsTabProps {
   className?: string;

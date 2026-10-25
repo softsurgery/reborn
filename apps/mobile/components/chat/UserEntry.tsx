@@ -1,7 +1,7 @@
 import React from "react";
 import { View } from "react-native";
-import { Text } from "@reborn/mobile-ui";
-import { cn } from "@reborn/lib";
+import { Text } from "@softsurgery/mobile-ui";
+import { cn } from "@softsurgery/lib";
 import {
   MessageVariant,
   ResponseConversationDto,
@@ -10,10 +10,10 @@ import {
 import { useServerImages } from "@/hooks/content/useServerImages";
 import { differenceInMilliseconds } from "date-fns";
 import { useUserPresence } from "@/hooks/content/chat/useUserPresence";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 import { useCurrentUser } from "@/hooks/content/user/useCurrentUser";
-import { identifyUser, identifyUserAvatar } from "@reborn/lib";
-import { formatSmartDate } from "@reborn/mobile-components";
+import { identifyUser, identifyUserAvatar } from "@softsurgery/lib";
+import { formatSmartDate } from "@softsurgery/mobile-components";
 
 interface UserCardProps {
   className?: string;

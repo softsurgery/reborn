@@ -1,14 +1,14 @@
 import React from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Button } from "@reborn/mobile-ui";
+import { Button } from "@softsurgery/mobile-ui";
 import { useUserStore } from "@/hooks/stores/useUserStore";
 import { useCurrentUser } from "@/hooks/content/user/useCurrentUser";
 import { ServerErrorResponse, UpdateUserDto } from "@/types";
-import { Text } from "@reborn/mobile-ui";
-import { FormBuilder } from "@reborn/mobile-form-builder";
+import { Text } from "@softsurgery/mobile-ui";
+import { FormBuilder } from "@softsurgery/mobile-form-builder";
 import { useUpdateProfileFormStructure } from "./useUpdateProfileFormStructure";
 import { useRegions } from "@/hooks/content/useRegions";
-import { mapToSelectOptions } from "@reborn/mobile-form-builder";
+import { mapToSelectOptions } from "@softsurgery/mobile-form-builder";
 import {
   updateClientSchema,
   updateProfileSchema,
@@ -16,17 +16,17 @@ import {
 import { api } from "@/api";
 import { useUploadMutation } from "@/hooks/content/useUploadMutation";
 import { Upload } from "@/types/upload";
-import { identifyUserAvatar } from "@reborn/lib";
-import { StableKeyboardAwareScrollView } from "@reborn/mobile-components";
+import { identifyUserAvatar } from "@softsurgery/lib";
+import { StableKeyboardAwareScrollView } from "@softsurgery/mobile-components";
 import { router } from "expo-router";
-import { ApplicationHeader } from "@reborn/mobile-components";
-import { cn } from "@reborn/lib";
-import { StableSafeAreaView } from "@reborn/mobile-components";
-import { useKeyboardVisible } from "@reborn/mobile-components";
+import { ApplicationHeader } from "@softsurgery/mobile-components";
+import { cn } from "@softsurgery/lib";
+import { StableSafeAreaView } from "@softsurgery/mobile-components";
+import { useKeyboardVisible } from "@softsurgery/mobile-components";
 import { toast } from "sonner-native";
-import { AppHeaderBack } from "@reborn/mobile-components";
-import { BottomButtonWrapper } from "@reborn/mobile-components";
-import { useTranslation } from "@reborn/i18n";
+import { AppHeaderBack } from "@softsurgery/mobile-components";
+import { BottomButtonWrapper } from "@softsurgery/mobile-components";
+import { useTranslation } from "react-i18next";
 import { useServerImages } from "@/hooks/content/useServerImages";
 
 interface UpdateProfileProps {

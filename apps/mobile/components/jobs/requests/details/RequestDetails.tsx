@@ -1,4 +1,4 @@
-import { useColorPalette } from "@reborn/mobile-components";
+import { useColorPalette } from "@softsurgery/mobile-components";
 import React from "react";
 import {
   ActivityIndicator,
@@ -15,15 +15,15 @@ import {
   Clock,
   LucideIcon,
 } from "lucide-react-native";
-import { ApplicationHeader } from "@reborn/mobile-components";
-import { StableSafeAreaView } from "@reborn/mobile-components";
-import { Text } from "@reborn/mobile-ui";
-import { Button } from "@reborn/mobile-ui";
-import { Icon } from "@reborn/mobile-ui";
+import { ApplicationHeader } from "@softsurgery/mobile-components";
+import { StableSafeAreaView } from "@softsurgery/mobile-components";
+import { Text } from "@softsurgery/mobile-ui";
+import { Button } from "@softsurgery/mobile-ui";
+import { Icon } from "@softsurgery/mobile-ui";
 import { useCurrentUser } from "@/hooks/content/user/useCurrentUser";
 import { JobRequestStatus } from "@/types";
-import { cn } from "@reborn/lib";
-import { AppHeaderBack } from "@reborn/mobile-components";
+import { cn } from "@softsurgery/lib";
+import { AppHeaderBack } from "@softsurgery/mobile-components";
 import { RequestBanner } from "./RequestBanner";
 import { RequestUserEntry } from "./RequestUserEntry";
 import { RequestJobEntry } from "./RequestJobEntry";

@@ -1,16 +1,16 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { DataTableColumnHeader } from "@reborn/datatable-builder";
-import { DataTableRowActions } from "@reborn/datatable-builder";
+import { DataTableColumnHeader } from "@softsurgery/datatable-builder";
+import { DataTableRowActions } from "@softsurgery/datatable-builder";
 import { ResponseRefParamDto } from "@/types";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 import {
   DataTableCellVariant,
   DataTableConfig,
-} from "@reborn/datatable-builder";
-import { Badge } from "@reborn/ui";
-import { JsonToggler } from "@reborn/components";
-import { cn } from "@reborn/lib";
-import { DataTableCell } from "@reborn/datatable-builder";
+} from "@softsurgery/datatable-builder";
+import { Badge } from "@softsurgery/ui";
+import { JsonToggler } from "@softsurgery/components";
+import { cn } from "@softsurgery/lib";
+import { DataTableCell } from "@softsurgery/datatable-builder";
 
 export const useRefParamColumns = (
   context: DataTableConfig<ResponseRefParamDto>,

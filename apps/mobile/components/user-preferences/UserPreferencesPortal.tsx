@@ -1,14 +1,14 @@
 import React from "react";
-import { StableScrollView } from "@reborn/mobile-components";
+import { StableScrollView } from "@softsurgery/mobile-components";
 import { DarkModePreferenceCard } from "./DarkModePreferenceCard";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 import { LanguageSwitcher } from "./LanguageSwitcher";
-import { Separator } from "@reborn/mobile-ui";
+import { Separator } from "@softsurgery/mobile-ui";
 import { ChevronLeft, View } from "lucide-react-native";
-import { ApplicationHeader } from "@reborn/mobile-components";
+import { ApplicationHeader } from "@softsurgery/mobile-components";
 import { router } from "expo-router";
-import { StableSafeAreaView } from "@reborn/mobile-components";
-import { cn } from "@reborn/lib";
+import { StableSafeAreaView } from "@softsurgery/mobile-components";
+import { cn } from "@softsurgery/lib";
 
 interface UserPreferencesPortalProps {
   className?: string;

@@ -1,9 +1,9 @@
 import { useColorScheme } from "nativewind";
 import { Image, Platform, View } from "react-native";
-import { cn } from "@reborn/lib";
-import { DividedText } from "@reborn/mobile-components";
-import { Button } from "@reborn/mobile-ui";
-import { Text } from "@reborn/mobile-ui";
+import { cn } from "@softsurgery/lib";
+import { DividedText } from "@softsurgery/mobile-components";
+import { Button } from "@softsurgery/mobile-ui";
+import { Text } from "@softsurgery/mobile-ui";
 import { useSSO } from "@/hooks/useSSO";
 import { router } from "expo-router";
 

@@ -1,16 +1,16 @@
 import React from "react";
 import { Bell, FlaskConical, Settings, User } from "lucide-react-native";
-import { ApplicationHeader } from "@reborn/mobile-components";
+import { ApplicationHeader } from "@softsurgery/mobile-components";
 import { router } from "expo-router";
-import { StableSafeAreaView } from "@reborn/mobile-components";
-import { cn } from "@reborn/lib";
+import { StableSafeAreaView } from "@softsurgery/mobile-components";
+import { cn } from "@softsurgery/lib";
 import { useNotificationContext } from "@/contexts/NotificationContext";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 import { useCurrentUser } from "@/hooks/content/user/useCurrentUser";
 import { View } from "react-native";
 import { InspectBaseProfile } from "./BaseProfile";
-import { useColorPalette } from "@reborn/mobile-components";
-import { hslToHex } from "@reborn/mobile-components";
+import { useColorPalette } from "@softsurgery/mobile-components";
+import { hslToHex } from "@softsurgery/mobile-components";
 
 interface ProfilePortalProps {
   className?: string;

@@ -1,6 +1,6 @@
-import { usePreferencePersistStore } from "@reborn/hooks/stores";
-import { useTranslation } from "@reborn/i18n";
-import { Select } from "@reborn/mobile-form-builder";
+import { usePreferencePersistStore } from "@softsurgery/hooks/stores";
+import { useTranslation } from "react-i18next";
+import { Select } from "@softsurgery/mobile-form-builder";
 
 interface LanguageSwitcherProps {
   classNames?: {

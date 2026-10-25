@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { useServerImages } from "@/hooks/content/useServerImages";
-import { cn } from "@reborn/lib";
+import { cn } from "@softsurgery/lib";
 
 interface UseServerImageProps {
   id?: number | undefined;

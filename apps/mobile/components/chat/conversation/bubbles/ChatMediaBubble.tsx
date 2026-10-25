@@ -2,22 +2,22 @@ import { format } from "date-fns";
 import { Play } from "lucide-react-native";
 import { Dimensions, ImageSourcePropType, View } from "react-native";
 import { Image } from "expo-image";
-import { Text } from "@reborn/mobile-ui";
-import { Icon } from "@reborn/mobile-ui";
-import { cn } from "@reborn/lib";
+import { Text } from "@softsurgery/mobile-ui";
+import { Icon } from "@softsurgery/mobile-ui";
+import { cn } from "@softsurgery/lib";
 import {
   MessageVariant,
   PendingMediaItem,
   ResponseMessageDto,
   PendingMediaUpload,
 } from "@/types";
-import { PhotoPreview } from "@reborn/mobile-components";
+import { PhotoPreview } from "@softsurgery/mobile-components";
 import { useServerImages } from "@/hooks/content/useServerImages";
 import { MessageTextContent } from "./MessageTextContent";
 import { MediaImageGrid } from "./ChatMediaImageGrid";
 import { MediaUploadProgress } from "../staging/MediaUploadProgress";
-import { VideoThumbnailPreview } from "@reborn/mobile-components";
-import { VideoPreview } from "@reborn/mobile-components";
+import { VideoThumbnailPreview } from "@softsurgery/mobile-components";
+import { VideoPreview } from "@softsurgery/mobile-components";
 
 interface ChatMediaBubbleProps {
   className?: string;

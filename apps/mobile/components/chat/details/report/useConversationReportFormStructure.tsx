@@ -6,8 +6,8 @@ import {
   FormStructure,
   SelectFieldProps,
   TextareaFieldProps,
-} from "@reborn/mobile-form-builder";
-import { useTranslation } from "@reborn/i18n";
+} from "@softsurgery/mobile-form-builder";
+import { useTranslation } from "react-i18next";
 
 interface UseConversationReportFormStructureProps {
   store: ConversationReportStore;

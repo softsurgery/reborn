@@ -10,7 +10,7 @@ import {
 import { useContainer } from 'class-validator';
 import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { MigrationService } from 'nsa-database';
+import { MigrationService } from '@softsurgery/nsa-database';
 import { branding } from './utils/branding';
 
 async function bootstrap() {

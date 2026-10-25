@@ -2,9 +2,9 @@ import { View } from "react-native";
 import {
   StablePressable,
   StablePressableProps,
-} from "@reborn/mobile-components";
-import { Text } from "@reborn/mobile-ui";
-import { timeAgo } from "@reborn/mobile-components";
+} from "@softsurgery/mobile-components";
+import { Text } from "@softsurgery/mobile-ui";
+import { timeAgo } from "@softsurgery/mobile-components";
 import { ResponseJobDto } from "@/types";
 
 interface JobSearchResultEntryProps extends StablePressableProps {

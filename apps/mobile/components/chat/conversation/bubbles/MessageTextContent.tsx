@@ -1,7 +1,7 @@
 import React from "react";
 import { Linking } from "react-native";
-import { Text } from "@reborn/mobile-ui";
-import { cn } from "@reborn/lib";
+import { Text } from "@softsurgery/mobile-ui";
+import { cn } from "@softsurgery/lib";
 import { ResponseMessageLinkDto } from "@/types";
 import {
   ExtractedMessageLink,

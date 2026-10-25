@@ -1,6 +1,6 @@
-import { Input } from "@reborn/ui";
-import { Button } from "@reborn/ui";
-import { cn } from "@reborn/lib";
+import { Input } from "@softsurgery/ui";
+import { Button } from "@softsurgery/ui";
+import { cn } from "@softsurgery/lib";
 
 interface ResourcesActionBarProps {
   className?: string;

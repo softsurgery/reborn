@@ -1,18 +1,18 @@
 import React from "react";
 import { ColorValue } from "react-native";
 import { User } from "lucide-react-native";
-import { useColorPalette } from "@reborn/mobile-components";
+import { useColorPalette } from "@softsurgery/mobile-components";
 import { useCurrentUser } from "@/hooks/content/user/useCurrentUser";
 import { useServerImages } from "@/hooks/content/useServerImages";
-import { identifyUserAvatar } from "@reborn/lib";
+import { identifyUserAvatar } from "@softsurgery/lib";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "@reborn/mobile-components";
-import { Text } from "@reborn/mobile-ui";
-import { Icon } from "@reborn/mobile-ui";
-import { cn } from "@reborn/lib";
+} from "@softsurgery/mobile-components";
+import { Text } from "@softsurgery/mobile-ui";
+import { Icon } from "@softsurgery/mobile-ui";
+import { cn } from "@softsurgery/lib";
 
 export interface MenuTabAvatarProps {
   className?: string;

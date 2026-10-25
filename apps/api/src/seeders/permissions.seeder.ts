@@ -4,7 +4,7 @@ import {
   permissionActionsSeed,
   permissionEntitiesSeed,
 } from './data/permissions.data';
-import { PermissionService } from 'nsa-um/services/permission.service';
+import { PermissionService } from '@softsurgery/nsa-um/services/permission.service';
 
 @Injectable()
 export class PermissionsSeedCommand {

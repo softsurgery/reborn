@@ -1,10 +1,10 @@
 import { View } from "react-native";
-import { StableSafeAreaView } from "@reborn/mobile-components";
-import { ApplicationHeader } from "@reborn/mobile-components";
+import { StableSafeAreaView } from "@softsurgery/mobile-components";
+import { ApplicationHeader } from "@softsurgery/mobile-components";
 import { TransactionList } from "@/components/finance/transaction/TransactionList";
-import { AppHeaderBack } from "@reborn/mobile-components";
-import { cn } from "@reborn/lib";
-import { useTranslation } from "@reborn/i18n";
+import { AppHeaderBack } from "@softsurgery/mobile-components";
+import { cn } from "@softsurgery/lib";
+import { useTranslation } from "react-i18next";
 
 interface TransactionsProps {
   className?: string;

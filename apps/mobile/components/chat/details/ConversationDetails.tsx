@@ -12,7 +12,7 @@ import { router } from "expo-router";
 import { toast } from "sonner-native";
 import { api } from "@/api";
 import { ResponseMessageDto, ServerErrorResponse } from "@/types";
-import { ApplicationHeader } from "@reborn/mobile-components";
+import { ApplicationHeader } from "@softsurgery/mobile-components";
 import { useServerImages } from "@/hooks/content/useServerImages";
 import {
   CONVERSATION_LIST_JOIN,
@@ -22,15 +22,15 @@ import {
 import { ScrollView } from "react-native-gesture-handler";
 import { ConversationDetailsRow } from "./ConversationDetailsRow";
 import { useUserPresence } from "@/hooks/content/chat/useUserPresence";
-import { AppHeaderBack } from "@reborn/mobile-components";
-import { useTranslation } from "@reborn/i18n";
+import { AppHeaderBack } from "@softsurgery/mobile-components";
+import { useTranslation } from "react-i18next";
 import { type ActionSheetRef } from "react-native-actions-sheet";
 import { DeleteConversationActionSheet } from "./DeleteConversationActionSheet";
 import { BlockUserActionSheet } from "./BlockUserActionSheet";
 import { useChatContext } from "@/contexts/ChatContext";
 import { useCurrentUser } from "@/hooks/content/user/useCurrentUser";
-import { identifyUser, identifyUserAvatar } from "@reborn/lib";
-import { StableSafeAreaView } from "@reborn/mobile-components";
+import { identifyUser, identifyUserAvatar } from "@softsurgery/lib";
+import { StableSafeAreaView } from "@softsurgery/mobile-components";
 import { ConversationSearchOverlay } from "../conversation/search/ConversationSearchOverlay";
 
 interface ConversationDetailsProps {

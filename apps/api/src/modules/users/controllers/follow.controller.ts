@@ -10,12 +10,12 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { FollowService } from '../services/follow.service';
-import { AdvancedRequest } from 'nsa-helpers/http';
-import { EventType } from 'nsa-logger/enums/event-type.registry';
-import { LogEvent } from 'nsa-logger/decorators/log-event.decorator';
-import { Notify } from 'nsa-notifications/decorators/notify.decorator';
-import { NotificationType } from 'nsa-notifications/enums/notification-type.registry';
-import { NotificationInterceptor } from 'nsa-notifications/decorators/notification.interceptor';
+import { AdvancedRequest } from '@softsurgery/nsa-helpers/http';
+import { EventType } from '@softsurgery/nsa-logger/enums/event-type.registry';
+import { LogEvent } from '@softsurgery/nsa-logger/decorators/log-event.decorator';
+import { Notify } from '@softsurgery/nsa-notifications/decorators/notify.decorator';
+import { NotificationType } from '@softsurgery/nsa-notifications/enums/notification-type.registry';
+import { NotificationInterceptor } from '@softsurgery/nsa-notifications/decorators/notification.interceptor';
 
 @ApiTags('follow')
 @ApiBearerAuth('access_token')

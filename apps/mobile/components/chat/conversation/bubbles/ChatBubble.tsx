@@ -9,10 +9,10 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated";
 
-import { Text } from "@reborn/mobile-ui";
-import { cn } from "@reborn/lib";
+import { Text } from "@softsurgery/mobile-ui";
+import { cn } from "@softsurgery/lib";
 import { MessageTextContent } from "./MessageTextContent";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 
 interface ChatBubbleProps {
   message?: string;

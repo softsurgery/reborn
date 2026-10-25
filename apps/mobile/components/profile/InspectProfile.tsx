@@ -1,9 +1,9 @@
-import { cn } from "@reborn/lib";
+import { cn } from "@softsurgery/lib";
 import { View } from "react-native";
 import { InspectBaseProfile } from "../profile/BaseProfile";
-import { ApplicationHeader } from "@reborn/mobile-components";
-import { StableSafeAreaView } from "@reborn/mobile-components";
-import { AppHeaderBack } from "@reborn/mobile-components";
+import { ApplicationHeader } from "@softsurgery/mobile-components";
+import { StableSafeAreaView } from "@softsurgery/mobile-components";
+import { AppHeaderBack } from "@softsurgery/mobile-components";
 
 interface InspectProfileProps {
   className?: string;

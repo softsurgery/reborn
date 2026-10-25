@@ -12,17 +12,17 @@ import {
   Sparkles,
   X,
 } from "lucide-react-native";
-import { Text } from "@reborn/mobile-ui";
-import { Icon } from "@reborn/mobile-ui";
+import { Text } from "@softsurgery/mobile-ui";
+import { Icon } from "@softsurgery/mobile-ui";
 import { useCurrentUser } from "@/hooks/content/user/useCurrentUser";
 import { useServerImages } from "@/hooks/content/useServerImages";
-import { identifyUser, identifyUserAvatar } from "@reborn/lib";
-import { useColorPalette } from "@reborn/mobile-components";
+import { identifyUser, identifyUserAvatar } from "@softsurgery/lib";
+import { useColorPalette } from "@softsurgery/mobile-components";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "@reborn/mobile-components";
+} from "@softsurgery/mobile-components";
 
 interface ProfileQuickMenuActionSheetProps {
   onClose?: () => void;

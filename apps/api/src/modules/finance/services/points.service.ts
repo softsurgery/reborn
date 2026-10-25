@@ -2,16 +2,22 @@ import { Injectable, BadRequestException } from '@nestjs/common';
 import { Transactional } from '@nestjs-cls/transactional';
 import { PointTransactionRepository } from '../repositories/point-transaction.repository';
 import { UserRepository } from 'src/modules/users/repositories/user.repository';
-import { IQueryObject } from 'nsa-database';
+import {
+  IQueryObject,
+} from '@softsurgery/nsa-database';
 import {
   QueryBuilder,
-  mergeWhereConditions,
-} from 'nsa-database';
-import { PageDto } from 'nsa-database';
-import { PageMetaDto } from 'nsa-database';
+} from '@softsurgery/nsa-database';
+import {
+  PageDto,
+} from '@softsurgery/nsa-database';
+import {
+  PageMetaDto,
+} from '@softsurgery/nsa-database';
 import { FindManyOptions } from 'typeorm';
 import { PointTransactionEntity } from '../entities/point-transaction.entity';
 import { TransactionType } from '../enums/transaction-type.enum';
+import { mergeWhereConditions } from 'src/utils/merge-where-conditions';
 
 @Injectable()
 export class PointsService {

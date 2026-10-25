@@ -1,8 +1,8 @@
 import React from "react";
 import { View } from "react-native";
-import { Skeleton } from "@reborn/mobile-ui";
-import { cn } from "@reborn/lib";
-import { useRTL } from "@reborn/mobile-components";
+import { Skeleton } from "@softsurgery/mobile-ui";
+import { cn } from "@softsurgery/lib";
+import { useRTL } from "@softsurgery/mobile-components";
 
 interface BaseProfileSkeletonProps {
   className?: string;

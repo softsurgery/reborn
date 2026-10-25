@@ -1,7 +1,7 @@
 import React from "react";
 import { useServerImages } from "@/hooks/content/useServerImages";
-import { DataTableCell } from "@reborn/datatable-builder";
-import { DataTableCellVariant } from "@reborn/datatable-builder";
+import { DataTableCell } from "@softsurgery/datatable-builder";
+import { DataTableCellVariant } from "@softsurgery/datatable-builder";
 
 const UserAvatarCell = React.memo(
   ({ pictureId, fallback }: { pictureId?: number; fallback?: string }) => {

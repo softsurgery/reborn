@@ -1,5 +1,5 @@
-import { Text } from "@reborn/mobile-ui";
-import { cn } from "@reborn/lib";
+import { Text } from "@softsurgery/mobile-ui";
+import { cn } from "@softsurgery/lib";
 import { FundTransaction, PointTransaction } from "@/types";
 import { router } from "expo-router";
 import {
@@ -9,8 +9,8 @@ import {
   MoreHorizontal,
 } from "lucide-react-native";
 import { Pressable, View } from "react-native";
-import { useTranslation } from "@reborn/i18n";
-import { useRTL } from "@reborn/mobile-components";
+import { useTranslation } from "react-i18next";
+import { useRTL } from "@softsurgery/mobile-components";
 
 import { useFinanceStore } from "@/hooks/stores/useFinanceStore";
 import { useFinanceAuth } from "@/hooks/content/finance/useFinanceAuth";

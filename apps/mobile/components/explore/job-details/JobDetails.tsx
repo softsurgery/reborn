@@ -1,4 +1,4 @@
-import { useColorPalette } from "@reborn/mobile-components";
+import { useColorPalette } from "@softsurgery/mobile-components";
 import React from "react";
 import {
   NativeScrollEvent,
@@ -9,12 +9,12 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { router } from "expo-router";
-import { Text } from "@reborn/mobile-ui";
-import { Button } from "@reborn/mobile-ui";
+import { Text } from "@softsurgery/mobile-ui";
+import { Button } from "@softsurgery/mobile-ui";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/api";
-import { identifyUser } from "@reborn/lib";
-import { cn } from "@reborn/lib";
+import { identifyUser } from "@softsurgery/lib";
+import { cn } from "@softsurgery/lib";
 import { JobDetailsSkeleton } from "./JobDetailsSkeleton";
 import { ServerErrorResponse } from "@/types";
 import { useCurrentUser } from "@/hooks/content/user/useCurrentUser";
@@ -29,7 +29,7 @@ import { type ActionSheetRef } from "react-native-actions-sheet";
 
 import { CancelApplicationActionSheet } from "./CancelApplicationActionSheet";
 import { toast } from "sonner-native";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 import { getJobLifecycleRole } from "@/lib/job-lifecycle";
 
 interface JobDetailsProps {

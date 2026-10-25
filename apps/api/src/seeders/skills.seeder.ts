@@ -1,7 +1,7 @@
 import { Command } from 'nestjs-command';
 import { Injectable } from '@nestjs/common';
-import { RefTypeRepository } from 'nsa-reference-types/repositories/ref-type.repository';
-import { RefParamRepository } from 'nsa-reference-types/repositories/ref-param.repository';
+import { RefTypeRepository } from '@softsurgery/nsa-reference-types/repositories/ref-type.repository';
+import { RefParamRepository } from '@softsurgery/nsa-reference-types/repositories/ref-param.repository';
 import { skills } from './data/skills.data';
 
 @Injectable()

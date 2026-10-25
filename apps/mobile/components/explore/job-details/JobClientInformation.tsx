@@ -3,11 +3,11 @@ import { router } from "expo-router";
 import { ChevronRight, MapPin, Star } from "lucide-react-native";
 import React, { JSX } from "react";
 import { View } from "react-native";
-import { StablePressable } from "@reborn/mobile-components";
-import { Text } from "@reborn/mobile-ui";
-import { identifyUser, identifyUserAvatar } from "@reborn/lib";
-import { cn } from "@reborn/lib";
-import { useColorPalette } from "@reborn/mobile-components";
+import { StablePressable } from "@softsurgery/mobile-components";
+import { Text } from "@softsurgery/mobile-ui";
+import { identifyUser, identifyUserAvatar } from "@softsurgery/lib";
+import { cn } from "@softsurgery/lib";
+import { useColorPalette } from "@softsurgery/mobile-components";
 import { useServerImages } from "@/hooks/content/useServerImages";
 import { ResponseJobDto, ResponseJobMetadataDto } from "@/types";
 

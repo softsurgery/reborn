@@ -1,6 +1,6 @@
 import React from "react";
-import { Skeleton } from "@reborn/ui";
-import { cn } from "@reborn/lib";
+import { Skeleton } from "@softsurgery/ui";
+import { cn } from "@softsurgery/lib";
 
 interface JobDetailsSkeletonProps {
   className?: string;

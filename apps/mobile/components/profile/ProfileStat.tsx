@@ -1,15 +1,15 @@
 import React from "react";
-import { cn } from "@reborn/lib";
+import { cn } from "@softsurgery/lib";
 import { View } from "react-native";
 import { Mail, Pencil, UserPlus } from "lucide-react-native";
-import { Icon } from "@reborn/mobile-ui";
-import { Text } from "@reborn/mobile-ui";
+import { Icon } from "@softsurgery/mobile-ui";
+import { Text } from "@softsurgery/mobile-ui";
 import { router } from "expo-router";
 import { ResponseUserDto } from "@/types";
-import { useTranslation } from "@reborn/i18n";
-import { useColorPalette } from "@reborn/mobile-components";
-import { Button } from "@reborn/mobile-ui";
-import { useRTL } from "@reborn/mobile-components";
+import { useTranslation } from "react-i18next";
+import { useColorPalette } from "@softsurgery/mobile-components";
+import { Button } from "@softsurgery/mobile-ui";
+import { useRTL } from "@softsurgery/mobile-components";
 
 interface ProfileStatProps {
   className?: string;

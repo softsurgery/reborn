@@ -1,15 +1,15 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/api";
-import { cn } from "@reborn/lib";
-import { useDebounce } from "@reborn/hooks/utils";
-import { useBreadcrumb } from "@reborn/contexts";
-import { useIntro } from "@reborn/contexts";
+import { cn } from "@softsurgery/lib";
+import { useDebounce } from "@softsurgery/hooks/utils";
+import { useBreadcrumb } from "@softsurgery/contexts";
+import { useIntro } from "@softsurgery/contexts";
 import { ResponseLogDto } from "@/types";
 import { useLoggerColumns } from "./columns";
-import { DataTable } from "@reborn/datatable-builder";
-import { DataTableConfig } from "@reborn/datatable-builder";
-import { useTranslation } from "@reborn/i18n";
+import { DataTable } from "@softsurgery/datatable-builder";
+import { DataTableConfig } from "@softsurgery/datatable-builder";
+import { useTranslation } from "react-i18next";
 
 interface LoggerProps {
   className?: string;

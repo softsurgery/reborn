@@ -1,5 +1,5 @@
-import { useFooter } from "@reborn/contexts";
-import { cn } from "@reborn/lib";
+import { useFooter } from "@softsurgery/contexts";
+import { cn } from "@softsurgery/lib";
 
 interface FooterProps {
   className?: string;

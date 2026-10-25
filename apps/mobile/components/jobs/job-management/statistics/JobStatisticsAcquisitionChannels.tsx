@@ -1,6 +1,6 @@
 import { View, Text } from "react-native";
 import { TrafficSourceItem } from "@/types";
-import { cn } from "@reborn/lib";
+import { cn } from "@softsurgery/lib";
 
 interface JobStatisticsAcquisitionChannelsProps {
   className?: string;

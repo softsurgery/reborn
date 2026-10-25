@@ -5,9 +5,9 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@reborn/ui";
-import { Label } from "@reborn/ui";
-import { Toggle } from "@reborn/ui";
+} from "@softsurgery/ui";
+import { Label } from "@softsurgery/ui";
+import { Toggle } from "@softsurgery/ui";
 import { useRoleStore } from "@/hooks/stores/useRoleStore";
 
 interface PermissionAccordionsProps {

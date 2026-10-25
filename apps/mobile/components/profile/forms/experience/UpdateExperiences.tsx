@@ -1,13 +1,13 @@
 import React from "react";
 import { api } from "@/api";
-import { ApplicationHeader } from "@reborn/mobile-components";
-import { Tappable } from "@reborn/mobile-components";
-import { StablePressable } from "@reborn/mobile-components";
-import { StableSafeAreaView } from "@reborn/mobile-components";
-import { StableScrollView } from "@reborn/mobile-components";
-import { Icon } from "@reborn/mobile-ui";
-import { Text } from "@reborn/mobile-ui";
-import { cn } from "@reborn/lib";
+import { ApplicationHeader } from "@softsurgery/mobile-components";
+import { Tappable } from "@softsurgery/mobile-components";
+import { StablePressable } from "@softsurgery/mobile-components";
+import { StableSafeAreaView } from "@softsurgery/mobile-components";
+import { StableScrollView } from "@softsurgery/mobile-components";
+import { Icon } from "@softsurgery/mobile-ui";
+import { Text } from "@softsurgery/mobile-ui";
+import { cn } from "@softsurgery/lib";
 import { ResponseExperienceDto, ServerErrorResponse } from "@/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { router } from "expo-router";
@@ -16,11 +16,11 @@ import { View } from "react-native";
 import { toast } from "sonner-native";
 import { ActionSheetRef } from "react-native-actions-sheet";
 import { DeleteExperienceActionSheet } from "./DeleteExperienceActionSheet";
-import { useTranslation } from "@reborn/i18n";
-import { useRTL } from "@reborn/mobile-components";
+import { useTranslation } from "react-i18next";
+import { useRTL } from "@softsurgery/mobile-components";
 import { ExperienceInstance } from "./ExperienceInstance";
 
-import { AppHeaderBack } from "@reborn/mobile-components";
+import { AppHeaderBack } from "@softsurgery/mobile-components";
 import { useUserStore } from "@/hooks/stores/useUserStore";
 
 interface UpdateExperiencesProps {

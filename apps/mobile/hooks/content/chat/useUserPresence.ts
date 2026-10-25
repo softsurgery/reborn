@@ -1,6 +1,6 @@
 import React from "react";
 import { getSocket } from "@/lib/socket";
-import { useAuthPersistStore } from "@reborn/hooks/stores";
+import { useAuthPersistStore } from "@softsurgery/hooks/stores";
 
 interface UserStatus {
   userId: string;

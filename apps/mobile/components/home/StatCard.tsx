@@ -1,6 +1,6 @@
 import { View } from "react-native";
-import { Text } from "@reborn/mobile-ui";
-import { cn } from "@reborn/lib";
+import { Text } from "@softsurgery/mobile-ui";
+import { cn } from "@softsurgery/lib";
 
 interface StatCardProps {
   className?: string;

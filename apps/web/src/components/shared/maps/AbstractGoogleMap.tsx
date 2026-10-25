@@ -2,9 +2,9 @@
 
 import React from "react";
 import { Search, AlertCircle, Loader2, Navigation, Trash2 } from "lucide-react";
-import { Input } from "@reborn/ui";
-import { Button } from "@reborn/ui";
-import { cn } from "@reborn/lib";
+import { Input } from "@softsurgery/ui";
+import { Button } from "@softsurgery/ui";
+import { cn } from "@softsurgery/lib";
 
 declare global {
   interface Window {

@@ -1,6 +1,6 @@
 import React from "react";
 import { View, ScrollView } from "react-native";
-import { Text } from "@reborn/mobile-ui";
+import { Text } from "@softsurgery/mobile-ui";
 import { ActionSheetRef } from "react-native-actions-sheet";
 import { ActionPressable } from "@/components/shared/ActionPressable";
 import { DuplicateJobActionSheet } from "./DuplicateJobActionSheet";
@@ -22,14 +22,14 @@ import {
   Archive,
   X,
 } from "lucide-react-native";
-import { cn } from "@reborn/lib";
+import { cn } from "@softsurgery/lib";
 import { useRouter } from "expo-router";
 import { useDuplicateJob } from "@/hooks/content/job/useDuplicateJob";
 import { useDeleteJob } from "@/hooks/content/job/useDeleteJob";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/api";
 import { toast } from "sonner-native";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 
 type ActionItem = {
   id: string;

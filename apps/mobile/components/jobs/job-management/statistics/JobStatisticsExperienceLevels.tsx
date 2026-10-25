@@ -1,6 +1,6 @@
 import { View, Text } from "react-native";
 import { ExperienceDistributionItem } from "@/types";
-import { cn } from "@reborn/lib";
+import { cn } from "@softsurgery/lib";
 
 interface JobStatisticsExperienceLevelsProps {
   className?: string;

@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 import React from "react";
-import { cn } from "@reborn/lib";
+import { cn } from "@softsurgery/lib";
 
 interface ChatBubbleProps {
   message?: string;

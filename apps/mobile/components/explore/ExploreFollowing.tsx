@@ -9,11 +9,11 @@ import {
   View,
 } from "react-native";
 import { JobCardSkeleton } from "../jobs/JobCardSkeleton";
-import { cn } from "@reborn/lib";
+import { cn } from "@softsurgery/lib";
 import { InfiniteListFooter } from "@/components/shared/InfiniteListFooter";
 import { useInfiniteJobs } from "@/hooks/content/job/useInfiniteJobs";
-import { NotFound } from "@reborn/mobile-components";
-import { useColorPalette } from "@reborn/mobile-components";
+import { NotFound } from "@softsurgery/mobile-components";
+import { useColorPalette } from "@softsurgery/mobile-components";
 
 interface ExploreFollowingProps {
   className?: string;

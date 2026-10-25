@@ -1,12 +1,12 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/api";
-import { cn } from "@reborn/lib";
-import { useDebounce } from "@reborn/hooks/utils";
+import { cn } from "@softsurgery/lib";
+import { useDebounce } from "@softsurgery/hooks/utils";
 import { useNotificationColumns } from "./columns";
-import { DataTable } from "@reborn/datatable-builder";
-import { DataTableConfig } from "@reborn/datatable-builder";
-import { useTranslation } from "@reborn/i18n";
+import { DataTable } from "@softsurgery/datatable-builder";
+import { DataTableConfig } from "@softsurgery/datatable-builder";
+import { useTranslation } from "react-i18next";
 import { ResponseNotificationDto } from "@/types/notifications";
 
 interface NotifcationsProps {

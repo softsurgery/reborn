@@ -7,7 +7,7 @@ import {
 } from "@/lib/chat/chat";
 import { messageHasLinks } from "@/lib/chat/message-links";
 import { MessageVariant, ResponseMessageDto } from "@/types";
-import { useAuthPersistStore } from "@reborn/hooks/stores";
+import { useAuthPersistStore } from "@softsurgery/hooks/stores";
 import { useCurrentUser } from "../user/useCurrentUser";
 import { useChatPendingStore } from "@/hooks/stores/useChatPendingStore";
 

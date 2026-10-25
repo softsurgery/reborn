@@ -1,14 +1,14 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { ChevronDown, ChevronRight, Folder, FolderOpen } from "lucide-react";
-import { cn } from "@reborn/lib";
+import { cn } from "@softsurgery/lib";
 import { StorageFolder } from "@/types";
 import { api } from "@/api";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@reborn/ui";
+} from "@softsurgery/ui";
 
 interface FolderTreeProps {
   selectedFolderId?: number;

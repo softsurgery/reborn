@@ -1,15 +1,15 @@
 import React from "react";
 import { View, ActivityIndicator, Pressable } from "react-native";
 import { router } from "expo-router";
-import { Separator } from "@reborn/mobile-ui";
-import { Text } from "@reborn/mobile-ui";
+import { Separator } from "@softsurgery/mobile-ui";
+import { Text } from "@softsurgery/mobile-ui";
 import { usePointTransactions } from "@/hooks/content/finance/usePointTransactions";
 import { useFundTransactions } from "@/hooks/content/finance/useFundTransactions";
 import { LegendList } from "@legendapp/list";
 import { TransactionListItem } from "./TransactionListItem";
 import { FundTransaction, PointTransaction } from "@/types";
-import { cn } from "@reborn/lib";
-import { useTranslation } from "@reborn/i18n";
+import { cn } from "@softsurgery/lib";
+import { useTranslation } from "react-i18next";
 import { useFinanceAuth } from "@/hooks/content/finance/useFinanceAuth";
 
 interface TransactionListProps {

@@ -1,18 +1,18 @@
 import React from "react";
 import { api } from "@/api";
-import { useDebounce } from "@reborn/hooks/utils";
+import { useDebounce } from "@softsurgery/hooks/utils";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useBreadcrumb } from "@reborn/contexts";
+import { useBreadcrumb } from "@softsurgery/contexts";
 import { useFeedbackDeleteDialog } from "./modals/FeedbackDeleteDialog";
 import { toast } from "sonner";
-import { useIntro } from "@reborn/contexts";
-import { cn } from "@reborn/lib";
+import { useIntro } from "@softsurgery/contexts";
+import { cn } from "@softsurgery/lib";
 import { useFeedbackColumns } from "./columns";
 import { ResponseFeedbackDto } from "@/types";
 import { useFeedbackStore } from "@/hooks/stores/useFeedbackStore";
-import { DataTable } from "@reborn/datatable-builder";
-import { useTranslation } from "@reborn/i18n";
-import { DataTableConfig } from "@reborn/datatable-builder";
+import { DataTable } from "@softsurgery/datatable-builder";
+import { useTranslation } from "react-i18next";
+import { DataTableConfig } from "@softsurgery/datatable-builder";
 
 interface BugsProps {
   className?: string;

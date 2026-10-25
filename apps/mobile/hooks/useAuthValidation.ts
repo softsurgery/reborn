@@ -1,7 +1,7 @@
 import { useIdentifiedUserEmail } from "./content/user/useIdentifiedUserEmail";
 import { useIdentifiedUserUsername } from "./content/user/useIdentifiedUserUsername";
 import { useAuthStore } from "./stores/useAuthStore";
-import { useDebounce } from "@reborn/hooks/utils";
+import { useDebounce } from "@softsurgery/hooks/utils";
 import React from "react";
 
 interface useAuthValidationProps {}

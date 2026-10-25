@@ -16,22 +16,22 @@ import {
   Eye,
   EyeOff,
 } from "lucide-react-native";
-import { cn } from "@reborn/lib";
-import { StableSafeAreaView } from "@reborn/mobile-components";
-import { ApplicationHeader } from "@reborn/mobile-components";
+import { cn } from "@softsurgery/lib";
+import { StableSafeAreaView } from "@softsurgery/mobile-components";
+import { ApplicationHeader } from "@softsurgery/mobile-components";
 import { router } from "expo-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNotificationContext } from "@/contexts/NotificationContext";
-import { useColorPalette } from "@reborn/mobile-components";
-import { Text } from "@reborn/mobile-ui";
+import { useColorPalette } from "@softsurgery/mobile-components";
+import { Text } from "@softsurgery/mobile-ui";
 import { TransactionList } from "./transaction/TransactionList";
 import { useBalance } from "@/hooks/content/finance/useBalance";
 import { useFinanceAuth } from "@/hooks/content/finance/useFinanceAuth";
 import { useFinanceStore } from "@/hooks/stores/useFinanceStore";
-import { useTranslation } from "@reborn/i18n";
-import { triggerHaptic } from "@reborn/mobile-components";
-import { Icon } from "@reborn/mobile-ui";
-import { useRTL } from "@reborn/mobile-components";
+import { useTranslation } from "react-i18next";
+import { triggerHaptic } from "@softsurgery/mobile-components";
+import { Icon } from "@softsurgery/mobile-ui";
+import { useRTL } from "@softsurgery/mobile-components";
 import { useScrollableElement } from "@/hooks/useScrollableElement";
 import { useDynamicListLimit } from "@/hooks/useDynamicListLimit";
 

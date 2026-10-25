@@ -1,16 +1,16 @@
-import { Icon } from "@reborn/mobile-ui";
-import { Image } from "@reborn/mobile-ui";
-import { Text } from "@reborn/mobile-ui";
+import { Icon } from "@softsurgery/mobile-ui";
+import { Image } from "@softsurgery/mobile-ui";
+import { Text } from "@softsurgery/mobile-ui";
 import { MessageVariant, ResponseMessageDto } from "@/types";
 import { ImageSource } from "expo-image";
 import { Play } from "lucide-react-native";
 import React from "react";
 import { Pressable, View } from "react-native";
 import { api } from "@/api";
-import { VideoPreview } from "@reborn/mobile-components";
-import { VideoThumbnailPreview } from "@reborn/mobile-components";
-import { useTranslation } from "@reborn/i18n";
-import { useAuthPersistStore } from "@reborn/hooks/stores";
+import { VideoPreview } from "@softsurgery/mobile-components";
+import { VideoThumbnailPreview } from "@softsurgery/mobile-components";
+import { useTranslation } from "react-i18next";
+import { useAuthPersistStore } from "@softsurgery/hooks/stores";
 
 /**
  * Extracts all server upload IDs from a message's attachments sorted by order.

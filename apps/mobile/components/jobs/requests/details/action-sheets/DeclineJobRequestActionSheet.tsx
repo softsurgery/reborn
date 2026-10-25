@@ -1,13 +1,13 @@
 import React from "react";
 import ActionSheet, { type ActionSheetRef } from "react-native-actions-sheet";
 import { ActivityIndicator, View } from "react-native";
-import { Text } from "@reborn/mobile-ui";
-import { Button } from "@reborn/mobile-ui";
-import { Icon } from "@reborn/mobile-ui";
+import { Text } from "@softsurgery/mobile-ui";
+import { Button } from "@softsurgery/mobile-ui";
+import { Icon } from "@softsurgery/mobile-ui";
 import { CopyX } from "lucide-react-native";
-import { useColorPalette } from "@reborn/mobile-components";
+import { useColorPalette } from "@softsurgery/mobile-components";
 import { ResponseJobRequestDto } from "@/types";
-import { identifyUser } from "@reborn/lib";
+import { identifyUser } from "@softsurgery/lib";
 
 interface DeclineJobRequestActionSheetProps {
   request: ResponseJobRequestDto;

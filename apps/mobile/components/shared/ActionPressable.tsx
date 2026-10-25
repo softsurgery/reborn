@@ -1,8 +1,8 @@
-import { useColorPalette, useRTL } from "@reborn/mobile-components";
-import { cn } from "@reborn/lib";
+import { useColorPalette, useRTL } from "@softsurgery/mobile-components";
+import { cn } from "@softsurgery/lib";
 import { ChevronLeft, ChevronRight, LucideIcon } from "lucide-react-native";
 import { ActivityIndicator, Pressable, View } from "react-native";
-import { Text } from "@reborn/mobile-ui";
+import { Text } from "@softsurgery/mobile-ui";
 
 interface ActionPressableProps {
   classNames?: {

@@ -6,8 +6,8 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { LogInterceptor } from 'nsa-logger/decorators/logger.interceptor';
-import { toDto } from 'nsa-database';
+import { LogInterceptor } from '@softsurgery/nsa-logger/decorators/logger.interceptor';
+import { toDto } from '@softsurgery/nsa-database';
 import { JobStatisticsService } from '../services/job-statistics.service';
 import { ResponseJobStatisticsDto } from '../dtos/job-statistics/response-job-statistics.dto';
 

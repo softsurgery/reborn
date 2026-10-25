@@ -1,9 +1,9 @@
-import { Text } from "@reborn/mobile-ui";
-import { FileTypeIcon } from "@reborn/mobile-components";
+import { Text } from "@softsurgery/mobile-ui";
+import { FileTypeIcon } from "@softsurgery/mobile-components";
 import React from "react";
 import { Pressable, View } from "react-native";
 import { MediaUploadProgress } from "../staging/MediaUploadProgress";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 import { formatFileSize } from "@/lib/files/files";
 
 export type ChatFileListItem = {

@@ -1,6 +1,6 @@
 import { Dimensions, View } from "react-native";
-import { cn } from "@reborn/lib";
-import { Skeleton } from "@reborn/mobile-ui";
+import { cn } from "@softsurgery/lib";
+import { Skeleton } from "@softsurgery/mobile-ui";
 
 interface ConversationMessagesSkeletonProps {
   className?: string;

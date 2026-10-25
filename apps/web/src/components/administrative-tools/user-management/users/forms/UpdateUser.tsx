@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
@@ -11,21 +11,21 @@ import {
   updateUserSchema,
 } from "@/types/validations/user.validation";
 import { Gender, ServerErrorResponse, UpdateUserDto, Upload } from "@/types";
-import { cn } from "@reborn/lib";
-import { useBreadcrumb } from "@reborn/contexts";
-import { useIntro } from "@reborn/contexts";
+import { cn } from "@softsurgery/lib";
+import { useBreadcrumb } from "@softsurgery/contexts";
+import { useIntro } from "@softsurgery/contexts";
 import { useIdentifiedUser } from "@/hooks/content/User/useIdentifiedUser";
 import { useUpload } from "@/hooks/content/useUpload";
 import { useUploads } from "@/hooks/content/useUploads";
 import { useRoles } from "@/hooks/content/useRoles";
-import { FormBuilder } from "@reborn/form-builder";
-import { mapToSelectOptions } from "@reborn/form-builder";
-import { Button } from "@reborn/ui";
-import { defineStepper } from "@reborn/ui";
+import { FormBuilder } from "@softsurgery/form-builder";
+import { mapToSelectOptions } from "@softsurgery/form-builder";
+import { Button } from "@softsurgery/ui";
+import { defineStepper } from "@softsurgery/ui";
 import { useUpdateUserFormStructure } from "./useUpdateUserFormStructure";
 import { ArrowLeft, ArrowRight, Save } from "lucide-react";
 import { useRegions } from "@/hooks/content/useRegions";
-import { Spinner } from "@reborn/components";
+import { Spinner } from "@softsurgery/components";
 import { useUploadMutation } from "@/hooks/useUploadMutation";
 
 const steps = [

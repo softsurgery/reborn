@@ -12,7 +12,7 @@ import {
   CardHeader,
   CardTitle,
   CardContent,
-} from "@reborn/ui";
+} from "@softsurgery/ui";
 import { ResponseJobDto } from "@/types";
 
 interface JobOverviewCardProps {

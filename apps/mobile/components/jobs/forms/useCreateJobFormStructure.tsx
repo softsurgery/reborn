@@ -13,10 +13,10 @@ import {
   TextareaFieldProps,
   TextFieldProps,
   CheckboxFieldProps,
-} from "@reborn/mobile-form-builder";
+} from "@softsurgery/mobile-form-builder";
 import { JobStore } from "@/hooks/stores/useJobStore";
 import { JobDifficulty, JobStyle } from "@/types";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 
 interface JobCreateFormStructureProps {
   jobStore: JobStore;

@@ -15,7 +15,7 @@ import { ChatHeaderLeft } from "./conversation/ChatHeaderLeft";
 import { ChatHeaderRight } from "./conversation/ChatHeaderRight";
 
 import { useServerImages } from "@/hooks/content/useServerImages";
-import { Text } from "@reborn/mobile-ui";
+import { Text } from "@softsurgery/mobile-ui";
 
 import { useConversationFeatures } from "@/hooks/content/chat/useConversationFeatures";
 import Animated, {
@@ -25,19 +25,19 @@ import Animated, {
 } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { MessageFlatListItem, ResponseMessageDto } from "@/types";
-import { useColorPalette } from "@reborn/mobile-components";
-import { cn } from "@reborn/lib";
-import { useTranslation } from "@reborn/i18n";
+import { useColorPalette } from "@softsurgery/mobile-components";
+import { cn } from "@softsurgery/lib";
+import { useTranslation } from "react-i18next";
 import { useGradualAnimation } from "@/hooks/useGradualAnimation";
 import { useSendChatMedia } from "@/hooks/content/chat/useSendChatMedia";
 import { useSendChatFile } from "@/hooks/content/chat/useSendChatFile";
 import { useCurrentUser } from "@/hooks/content/user/useCurrentUser";
 import { useLastSeenMessageId } from "@/hooks/content/chat/useLastSeenMessageId";
-import { identifyUser, identifyUserAvatar } from "@reborn/lib";
+import { identifyUser, identifyUserAvatar } from "@softsurgery/lib";
 import { useUserPresence } from "@/hooks/content/chat/useUserPresence";
-import { formatLastSeen } from "@reborn/mobile-components";
+import { formatLastSeen } from "@softsurgery/mobile-components";
 import { setConversationMessageParam } from "@/lib/chat/chat";
-import { StableSafeAreaView } from "@reborn/mobile-components";
+import { StableSafeAreaView } from "@softsurgery/mobile-components";
 import { ImageBackground } from "expo-image";
 import { ChatMediaBubble } from "./conversation/bubbles/ChatMediaBubble";
 import { ChatFileBubble } from "./conversation/bubbles/ChatFileBubble";

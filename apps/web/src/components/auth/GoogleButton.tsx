@@ -1,5 +1,5 @@
-import { Button } from "@reborn/ui";
-import { cn } from "@reborn/lib";
+import { Button } from "@softsurgery/ui";
+import { cn } from "@softsurgery/lib";
 
 interface GoogleButtonProps {
   className?: string;

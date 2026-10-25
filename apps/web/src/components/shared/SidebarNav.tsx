@@ -4,10 +4,10 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-} from "@reborn/ui";
-import { Badge } from "@reborn/ui";
-import { cn } from "@reborn/lib";
-import { Button } from "@reborn/ui";
+} from "@softsurgery/ui";
+import { Badge } from "@softsurgery/ui";
+import { cn } from "@softsurgery/lib";
+import { Button } from "@softsurgery/ui";
 import { useRouter } from "next/router";
 import { ExternalLink } from "lucide-react";
 

@@ -13,7 +13,7 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
-import { useColorPalette } from "@reborn/mobile-components";
+import { useColorPalette } from "@softsurgery/mobile-components";
 import { LucideIcon } from "lucide-react-native";
 
 export interface TabButtonProps extends Omit<

@@ -3,12 +3,12 @@ import {
   ResponseFeedbackDto,
 } from "@/types";
 import { splitCamelOrPascal } from "@/lib/string.lib";
-import { DataTableColumnHeader } from "@reborn/datatable-builder";
-import { DataTableRowActions } from "@reborn/datatable-builder";
-import { useTranslation } from "@reborn/i18n";
-import { DataTableCell } from "@reborn/datatable-builder";
+import { DataTableColumnHeader } from "@softsurgery/datatable-builder";
+import { DataTableRowActions } from "@softsurgery/datatable-builder";
+import { useTranslation } from "react-i18next";
+import { DataTableCell } from "@softsurgery/datatable-builder";
 import { identifyUser } from "@/lib/user.utils";
-import { DataTableCellVariant, DataTableConfig } from "@reborn/datatable-builder";
+import { DataTableCellVariant, DataTableConfig } from "@softsurgery/datatable-builder";
 
 export const useFeedbackColumns = (
   context: DataTableConfig<ResponseFeedbackDto>

@@ -14,12 +14,12 @@ import { Image } from "expo-image";
 import { useVideoPlayer, VideoView } from "expo-video";
 import { ImagePlus, Play, SendHorizonalIcon, X } from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Icon } from "@reborn/mobile-ui";
-import { Text } from "@reborn/mobile-ui";
-import { cn } from "@reborn/lib";
-import { VideoThumbnailPreview } from "@reborn/mobile-components";
+import { Icon } from "@softsurgery/mobile-ui";
+import { Text } from "@softsurgery/mobile-ui";
+import { cn } from "@softsurgery/lib";
+import { VideoThumbnailPreview } from "@softsurgery/mobile-components";
 import { StagedMedia } from "@/types";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 
 interface ConversationMediaStagingProps {
   className?: string;

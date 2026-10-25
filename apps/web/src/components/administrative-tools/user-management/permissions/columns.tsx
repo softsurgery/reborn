@@ -1,7 +1,7 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { DataTableColumnHeader } from "@reborn/datatable-builder";
+import { DataTableColumnHeader } from "@softsurgery/datatable-builder";
 import { ResponsePermissionDto } from "@/types";
-import { DataTableConfig } from "@reborn/datatable-builder";
+import { DataTableConfig } from "@softsurgery/datatable-builder";
 
 export const getPermissionColumns = (
   context: DataTableConfig<ResponsePermissionDto>

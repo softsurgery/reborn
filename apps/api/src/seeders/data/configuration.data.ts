@@ -1,4 +1,4 @@
-import { ParamVariant } from 'nsa-configurations/enums/param-variant.enum';
+import { ParamVariant } from '@softsurgery/nsa-configurations/enums/param-variant.enum';
 
 export const coreConfiguration = [
   {

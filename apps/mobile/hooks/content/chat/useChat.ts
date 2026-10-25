@@ -26,8 +26,8 @@ import {
 } from "@/lib/chat/chat";
 import { useSegments, useGlobalSearchParams } from "expo-router";
 import { useCurrentUser } from "../user/useCurrentUser";
-import { useAuthPersistStore } from "@reborn/hooks/stores";
-import { identifyUser } from "@reborn/lib";
+import { useAuthPersistStore } from "@softsurgery/hooks/stores";
+import { identifyUser } from "@softsurgery/lib";
 
 export const CONVERSATIONS_UNREAD_COUNT_QUERY_KEY = [
   "conversations-unread-count",

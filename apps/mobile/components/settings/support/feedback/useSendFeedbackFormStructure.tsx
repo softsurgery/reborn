@@ -1,7 +1,7 @@
 import { SendFeedbackStore } from "@/hooks/stores/useFeedbackManager";
-import { useColorPalette } from "@reborn/mobile-components";
-import { hslToHex } from "@reborn/mobile-components";
-import { useTranslation } from "@reborn/i18n";
+import { useColorPalette } from "@softsurgery/mobile-components";
+import { hslToHex } from "@softsurgery/mobile-components";
+import { useTranslation } from "react-i18next";
 import {
   Field,
   FieldVariant,
@@ -9,7 +9,7 @@ import {
   RatingFieldProps,
   SelectFieldProps,
   TextareaFieldProps,
-} from "@reborn/mobile-form-builder";
+} from "@softsurgery/mobile-form-builder";
 import { FeedbackCategory } from "@/types";
 
 interface useSendFeedbackFormStructureProps {

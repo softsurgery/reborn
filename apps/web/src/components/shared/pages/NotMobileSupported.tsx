@@ -1,4 +1,4 @@
-import { cn } from "@reborn/lib";
+import { cn } from "@softsurgery/lib";
 import { PhoneOff } from "lucide-react";
 
 interface NotMobileSupportedProps {

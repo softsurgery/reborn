@@ -9,15 +9,15 @@ import Animated, {
   runOnJS,
 } from "react-native-reanimated";
 import { X, Search, Ban, Trash2, MessageCircle, AlertTriangle } from "lucide-react-native";
-import { Text } from "@reborn/mobile-ui";
-import { useColorPalette } from "@reborn/mobile-components";
+import { Text } from "@softsurgery/mobile-ui";
+import { useColorPalette } from "@softsurgery/mobile-components";
 import { useServerImages } from "@/hooks/content/useServerImages";
 import { router } from "expo-router";
 import * as Haptics from "expo-haptics";
 import { ResponseConversationDto, ServerErrorResponse } from "@/types";
-import { identifyUser, identifyUserAvatar } from "@reborn/lib";
+import { identifyUser, identifyUserAvatar } from "@softsurgery/lib";
 import { useCurrentUser } from "@/hooks/content/user/useCurrentUser";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/api";
 import { toast } from "sonner-native";

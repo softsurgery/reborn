@@ -1,27 +1,27 @@
 import React from "react";
 import { api } from "@/api";
-import { useDebounce } from "@reborn/hooks/utils";
+import { useDebounce } from "@softsurgery/hooks/utils";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRoleColumns } from "./columns";
-import { useBreadcrumb } from "@reborn/contexts";
+import { useBreadcrumb } from "@softsurgery/contexts";
 import { useRoleUpdateSheet } from "./modals/RoleUpdateSheet";
 import { useRoleDeleteDialog } from "./modals/RoleDeleteDialog";
 import { useRoleDuplicateDialog } from "./modals/RoleDuplicateDialog";
 import { toast } from "sonner";
 import { useRoleStore } from "@/hooks/stores/useRoleStore";
 import { useRoleCreateSheet } from "./modals/RoleCreateSheet";
-import { cn } from "@reborn/lib";
-import { useIntro } from "@reborn/contexts";
-import { DataTable } from "@reborn/datatable-builder";
+import { cn } from "@softsurgery/lib";
+import { useIntro } from "@softsurgery/contexts";
+import { DataTable } from "@softsurgery/datatable-builder";
 import { Copy } from "lucide-react";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 import {
   CreateRoleDto,
   ResponseRoleDto,
   ServerErrorResponse,
   UpdateRoleDto,
 } from "@/types";
-import { DataTableConfig } from "@reborn/datatable-builder";
+import { DataTableConfig } from "@softsurgery/datatable-builder";
 
 interface RolesProps {
   className?: string;

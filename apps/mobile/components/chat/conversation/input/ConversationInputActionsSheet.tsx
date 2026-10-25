@@ -1,10 +1,10 @@
 import React from "react";
-import { useColorPalette } from "@reborn/mobile-components";
+import { useColorPalette } from "@softsurgery/mobile-components";
 import { File, Hand, Image as ImageIcon, Video } from "lucide-react-native";
 import { View } from "react-native";
 import ActionSheet, { type ActionSheetRef } from "react-native-actions-sheet";
 import { ChatActionGridItem } from "./ChatActionGridItem";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 
 interface ConversationInputActionsSheetProps {
   onPoke: () => void;

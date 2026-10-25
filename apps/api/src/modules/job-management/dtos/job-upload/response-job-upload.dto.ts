@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ResponseDtoHelper } from 'nsa-database';
+import { ResponseDtoHelper } from '@softsurgery/nsa-database';
 import { Expose, Type } from 'class-transformer';
 import { ResponseJobDto } from '../job/response-job.dto';
-import { ResponseStorageDto } from 'nsa-storage/dtos/response-storage.dto';
+import { ResponseStorageDto } from '@softsurgery/nsa-storage/dtos/response-storage.dto';
 
 export class ResponseJobUploadDto extends ResponseDtoHelper {
   @ApiProperty({ type: Number })

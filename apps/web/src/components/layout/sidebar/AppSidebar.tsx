@@ -28,10 +28,10 @@ import {
   SidebarHeader,
   SidebarRail,
   useSidebar,
-} from "@reborn/ui";
+} from "@softsurgery/ui";
 import { MainNav } from "./MainNav";
 import { TeamSwitcher } from "./TeamSwitcher";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 import Image from "next/image";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {

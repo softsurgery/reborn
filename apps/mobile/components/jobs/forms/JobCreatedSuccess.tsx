@@ -1,10 +1,10 @@
-import { Success } from "@reborn/mobile-components";
+import { Success } from "@softsurgery/mobile-components";
 import { View } from "react-native";
-import { Button } from "@reborn/mobile-ui";
-import { Text } from "@reborn/mobile-ui";
+import { Button } from "@softsurgery/mobile-ui";
+import { Text } from "@softsurgery/mobile-ui";
 import { useRouter } from "expo-router";
 import React from "react";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 
 interface JobCreatedSuccessProps {
   jobId: string;

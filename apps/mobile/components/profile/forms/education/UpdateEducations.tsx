@@ -1,25 +1,25 @@
 import React from "react";
 import { api } from "@/api";
-import { ApplicationHeader } from "@reborn/mobile-components";
-import { Tappable } from "@reborn/mobile-components";
-import { StablePressable } from "@reborn/mobile-components";
-import { StableSafeAreaView } from "@reborn/mobile-components";
-import { StableScrollView } from "@reborn/mobile-components";
-import { Icon } from "@reborn/mobile-ui";
-import { Text } from "@reborn/mobile-ui";
-import { cn } from "@reborn/lib";
+import { ApplicationHeader } from "@softsurgery/mobile-components";
+import { Tappable } from "@softsurgery/mobile-components";
+import { StablePressable } from "@softsurgery/mobile-components";
+import { StableSafeAreaView } from "@softsurgery/mobile-components";
+import { StableScrollView } from "@softsurgery/mobile-components";
+import { Icon } from "@softsurgery/mobile-ui";
+import { Text } from "@softsurgery/mobile-ui";
+import { cn } from "@softsurgery/lib";
 import { ResponseEducationDto, ServerErrorResponse } from "@/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { router } from "expo-router";
 import { GraduationCap } from "lucide-react-native";
 import { View } from "react-native";
 import { toast } from "sonner-native";
-import { useRTL } from "@reborn/mobile-components";
+import { useRTL } from "@softsurgery/mobile-components";
 import { EducationInstance } from "./EducationInstance";
 import { DeleteEducationActionSheet } from "./DeleteEducationActionSheet";
 import { ActionSheetRef } from "react-native-actions-sheet";
-import { useTranslation } from "@reborn/i18n";
-import { AppHeaderBack } from "@reborn/mobile-components";
+import { useTranslation } from "react-i18next";
+import { AppHeaderBack } from "@softsurgery/mobile-components";
 import { useUserStore } from "@/hooks/stores/useUserStore";
 
 interface UpdateEducationsProps {

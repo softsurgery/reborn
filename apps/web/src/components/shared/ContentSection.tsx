@@ -1,5 +1,5 @@
-import { cn } from "@reborn/lib";
-import { Separator } from "@reborn/ui";
+import { cn } from "@softsurgery/lib";
+import { Separator } from "@softsurgery/ui";
 
 interface ContentSectionProps {
   className?: string;

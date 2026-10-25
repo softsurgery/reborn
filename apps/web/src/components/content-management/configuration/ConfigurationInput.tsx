@@ -1,15 +1,15 @@
-import { Input } from "@reborn/ui";
+import { Input } from "@softsurgery/ui";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@reborn/ui";
+} from "@softsurgery/ui";
 import { useConfigStore } from "@/hooks/stores/userConfigStore";
-import { cn } from "@reborn/lib";
+import { cn } from "@softsurgery/lib";
 import { ParamVariant, ResponseConfigurationParamDto } from "@/types";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 
 interface ConfigurationInputProps {
   className?: string;

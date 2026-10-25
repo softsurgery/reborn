@@ -1,11 +1,11 @@
-import { Text } from "@reborn/mobile-ui";
+import { Text } from "@softsurgery/mobile-ui";
 
 import { ResponseMessageDto, ResponseMessageUploadFileDto } from "@/types";
 import { Upload } from "@/types/upload";
 import { format } from "date-fns";
 import React from "react";
 import { Pressable, View } from "react-native";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 import {
   formatFileSize,
   getUploadDisplayName,
@@ -13,7 +13,7 @@ import {
   openUploadFile,
 } from "@/lib/files/files";
 import { useServerUploads } from "@/hooks/content/useServerUploads";
-import { FileTypeIcon } from "@reborn/mobile-components";
+import { FileTypeIcon } from "@softsurgery/mobile-components";
 
 interface FileListItemProps {
   message: ResponseMessageDto;

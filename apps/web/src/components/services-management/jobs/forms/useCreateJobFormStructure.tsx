@@ -12,7 +12,7 @@ import {
   TextareaFieldProps,
   TextFieldProps,
   SwitchFieldProps,
-} from "@reborn/form-builder";
+} from "@softsurgery/form-builder";
 import { JobStore } from "@/hooks/stores/useJobStore";
 import { useUploadMutation } from "@/hooks/useUploadMutation";
 import {
@@ -22,7 +22,7 @@ import {
   JobStyle,
   ResponseRefParamDto,
 } from "@/types";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 
 interface JobCreateFormStructureProps {
   jobStore: JobStore;

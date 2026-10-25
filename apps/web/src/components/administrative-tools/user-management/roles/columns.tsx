@@ -1,10 +1,10 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { DataTableColumnHeader } from "@reborn/datatable-builder";
-import { DataTableRowActions } from "@reborn/datatable-builder";
+import { DataTableColumnHeader } from "@softsurgery/datatable-builder";
+import { DataTableRowActions } from "@softsurgery/datatable-builder";
 import { ResponseRoleDto } from "@/types";
-import { useTranslation } from "@reborn/i18n";
-import { DataTableConfig } from "@reborn/datatable-builder";
-import { cn } from "@reborn/lib";
+import { useTranslation } from "react-i18next";
+import { DataTableConfig } from "@softsurgery/datatable-builder";
+import { cn } from "@softsurgery/lib";
 
 export const useRoleColumns = (
   context: DataTableConfig<ResponseRoleDto>,

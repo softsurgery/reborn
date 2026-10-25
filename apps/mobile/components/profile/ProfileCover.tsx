@@ -4,13 +4,13 @@ import * as Haptics from "expo-haptics";
 import { Keyboard, View } from "react-native";
 import { FadeIn } from "react-native-reanimated";
 import { AnimatedPressable } from "../shared/AnimatedPressable";
-import { cn } from "@reborn/lib";
+import { cn } from "@softsurgery/lib";
 import { Eye, Camera } from "lucide-react-native";
-import { PhotoPreview, PhotoPreviewRef } from "@reborn/mobile-components";
+import { PhotoPreview, PhotoPreviewRef } from "@softsurgery/mobile-components";
 import { api } from "@/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import * as ImagePicker from "expo-image-picker";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 import { toast } from "sonner-native";
 import {
   ResponseUserDto,
@@ -23,7 +23,7 @@ import { useServerImages } from "@/hooks/content/useServerImages";
 import { Image, ImageSource } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { useUploadMutation } from "@/hooks/content/useUploadMutation";
-import { ThreeDotsActionSheet } from "@reborn/mobile-components";
+import { ThreeDotsActionSheet } from "@softsurgery/mobile-components";
 import { useLuminance } from "@/hooks/useLuminance";
 
 interface ProfileCoverProps {

@@ -1,9 +1,9 @@
 import { UserEntry } from "@/components/profile/social/UserEntry";
-import { Loader } from "@reborn/mobile-components";
-import { Text } from "@reborn/mobile-ui";
+import { Loader } from "@softsurgery/mobile-components";
+import { Text } from "@softsurgery/mobile-ui";
 import { useFollowSystem } from "@/hooks/content/useFollowSystem";
 import { ScrollView, View } from "react-native";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 
 interface FollowingTabProps {
   profileId: string;

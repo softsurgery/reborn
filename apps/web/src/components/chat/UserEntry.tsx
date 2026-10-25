@@ -1,4 +1,4 @@
-import { cn } from "@reborn/lib";
+import { cn } from "@softsurgery/lib";
 import { MessageCircleMoreIcon } from "lucide-react";
 import { ResponseUserDto } from "@/types";
 import { useServerImages } from "@/hooks/content/useServerImages";

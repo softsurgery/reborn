@@ -1,14 +1,14 @@
-import { DataTableCell } from "@reborn/datatable-builder";
-import { DataTableColumnHeader } from "@reborn/datatable-builder";
+import { DataTableCell } from "@softsurgery/datatable-builder";
+import { DataTableColumnHeader } from "@softsurgery/datatable-builder";
 import {
   DataTableCellVariant,
   DataTableConfig,
-} from "@reborn/datatable-builder";
-import { Trans } from "@reborn/components";
+} from "@softsurgery/datatable-builder";
+import { Trans } from "@softsurgery/components";
 import { ResponseLogDto } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 
 export const useLoggerColumns = (
   context: DataTableConfig<ResponseLogDto>

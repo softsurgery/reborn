@@ -6,7 +6,7 @@ import {
   CardTitle,
   CardDescription,
   CardContent,
-} from "@reborn/ui";
+} from "@softsurgery/ui";
 import { ResponseJobDto } from "@/types";
 
 interface JobDescriptionCardProps {

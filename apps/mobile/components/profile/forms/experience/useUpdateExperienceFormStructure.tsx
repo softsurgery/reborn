@@ -7,10 +7,10 @@ import {
   SelectFieldProps,
   TextareaFieldProps,
   TextFieldProps,
-} from "@reborn/mobile-form-builder";
+} from "@softsurgery/mobile-form-builder";
 import { UserStore } from "@/hooks/stores/useUserStore";
 import { LocationTypes, WorkTypes } from "@/types";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 
 interface UseUpdateExperienceFormStructureProps {
   store: UserStore;

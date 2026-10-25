@@ -1,19 +1,27 @@
 import { Transactional } from '@nestjs-cls/transactional';
 import { Injectable } from '@nestjs/common';
 import { FindManyOptions } from 'typeorm';
-import { IQueryObject } from 'nsa-database';
+import {
+  IQueryObject,
+} from '@softsurgery/nsa-database';
 import {
   QueryBuilder,
-  mergeWhereConditions,
-} from 'nsa-database';
-import { PageDto } from 'nsa-database';
-import { PageMetaDto } from 'nsa-database';
+} from '@softsurgery/nsa-database';
+import {
+  PageDto,
+} from '@softsurgery/nsa-database';
+import {
+  PageMetaDto,
+} from '@softsurgery/nsa-database';
 import { JobSaveEntity } from '../entities/job-save.entity';
 import { JobSaveRepository } from '../repositories/job-save.repository';
 import { JobSaveNotFoundException } from '../errors/job-save/job-save.notfound.error';
 import { CreateJobSaveDto } from '../dtos/job-save/create-job-save.dto';
-import { UserNotFoundException } from 'nsa-um/errors/user/user.notfound.error';
-import { AbstractCrudService } from 'nsa-database';
+import { UserNotFoundException } from '@softsurgery/nsa-um/errors/user/user.notfound.error';
+import { mergeWhereConditions } from 'src/utils/merge-where-conditions';
+import {
+  AbstractCrudService,
+} from '@softsurgery/nsa-database';
 
 @Injectable()
 export class JobSaveService extends AbstractCrudService<JobSaveEntity> {
@@ -30,11 +38,7 @@ export class JobSaveService extends AbstractCrudService<JobSaveEntity> {
     }
 
     const searchFields = this.jobSaveRepository.getSearchFields();
-    const queryBuilder = new QueryBuilder(
-      this.jobSaveRepository.getMetadata(),
-      {},
-      searchFields.length ? searchFields : undefined,
-    );
+    const queryBuilder = new QueryBuilder(this.jobSaveRepository.getMetadata());
 
     const queryOptions = queryBuilder.build(query);
 

@@ -1,11 +1,11 @@
-import { Icon } from "@reborn/mobile-ui";
-import { Text } from "@reborn/mobile-ui";
-import { PhotoPreview } from "@reborn/mobile-components";
+import { Icon } from "@softsurgery/mobile-ui";
+import { Text } from "@softsurgery/mobile-ui";
+import { PhotoPreview } from "@softsurgery/mobile-components";
 import {
   toVideoSource,
   VideoPreview,
-} from "@reborn/mobile-components";
-import { VideoThumbnailPreview } from "@reborn/mobile-components";
+} from "@softsurgery/mobile-components";
+import { VideoThumbnailPreview } from "@softsurgery/mobile-components";
 import { Image, ImageSource } from "expo-image";
 import { Play } from "lucide-react-native";
 import React from "react";

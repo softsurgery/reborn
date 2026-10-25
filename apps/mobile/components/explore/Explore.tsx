@@ -3,20 +3,20 @@ import Animated, {
   useAnimatedStyle,
   withTiming,
 } from "react-native-reanimated";
-import { useDebounce } from "@reborn/hooks/utils";
+import { useDebounce } from "@softsurgery/hooks/utils";
 import { ExploreCommon } from "./ExploreCommon";
 import { ExploreFollowing } from "./ExploreFollowing";
-import { cn } from "@reborn/lib";
-import { StableSafeAreaView } from "@reborn/mobile-components";
-import { ApplicationHeader } from "@reborn/mobile-components";
+import { cn } from "@softsurgery/lib";
+import { StableSafeAreaView } from "@softsurgery/mobile-components";
+import { ApplicationHeader } from "@softsurgery/mobile-components";
 import { ArrowDownNarrowWide, Bell, Search } from "lucide-react-native";
 import { useNotificationContext } from "@/contexts/NotificationContext";
 import { router } from "expo-router";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 import { createMaterialTopTabNavigator } from "expo-router/js-top-tabs";
 import { useScrollableElement } from "@/hooks/useScrollableElement";
-import { useColorPalette } from "@reborn/mobile-components";
-import { hslToHex } from "@reborn/mobile-components";
+import { useColorPalette } from "@softsurgery/mobile-components";
+import { hslToHex } from "@softsurgery/mobile-components";
 import { ResponseJobDto } from "@/types";
 import { JobPreviewModal } from "../jobs/JobPreviewModal";
 

@@ -1,4 +1,4 @@
-import { cn } from "@reborn/lib";
+import { cn } from "@softsurgery/lib";
 import {
   EmailFieldProps,
   Field,
@@ -6,7 +6,7 @@ import {
   FormStructure,
   PasswordFieldProps,
   TextFieldProps,
-} from "@reborn/mobile-form-builder";
+} from "@softsurgery/mobile-form-builder";
 import { AuthStore } from "@/hooks/stores/useAuthStore";
 
 interface useSignUpFormStructureProps {

@@ -1,10 +1,10 @@
-import { cn } from "@reborn/lib";
-import { StableSafeAreaView } from "@reborn/mobile-components";
-import { ApplicationHeader } from "@reborn/mobile-components";
-import { useTranslation } from "@reborn/i18n";
-import { StableKeyboardAwareScrollView } from "@reborn/mobile-components";
+import { cn } from "@softsurgery/lib";
+import { StableSafeAreaView } from "@softsurgery/mobile-components";
+import { ApplicationHeader } from "@softsurgery/mobile-components";
+import { useTranslation } from "react-i18next";
+import { StableKeyboardAwareScrollView } from "@softsurgery/mobile-components";
 
-import { AppHeaderBack } from "@reborn/mobile-components";
+import { AppHeaderBack } from "@softsurgery/mobile-components";
 interface VerifyEmailPortalProps {
   className?: string;
 }

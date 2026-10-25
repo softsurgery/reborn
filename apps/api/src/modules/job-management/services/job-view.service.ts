@@ -1,17 +1,25 @@
 import { Transactional } from '@nestjs-cls/transactional';
 import { Injectable } from '@nestjs/common';
 import { FindManyOptions } from 'typeorm';
-import { IQueryObject } from 'nsa-database';
+import {
+  IQueryObject,
+} from '@softsurgery/nsa-database';
 import {
   QueryBuilder,
-  mergeWhereConditions,
-} from 'nsa-database';
-import { PageDto } from 'nsa-database';
-import { PageMetaDto } from 'nsa-database';
-import { UserNotFoundException } from 'nsa-um/errors/user/user.notfound.error';
+} from '@softsurgery/nsa-database';
+import {
+  PageDto,
+} from '@softsurgery/nsa-database';
+import {
+  PageMetaDto,
+} from '@softsurgery/nsa-database';
+import { UserNotFoundException } from '@softsurgery/nsa-um/errors/user/user.notfound.error';
 import { JobViewRepository } from '../repositories/job-view.repository';
 import { JobViewEntity } from '../entities/job-view.entity';
-import { AbstractCrudService } from 'nsa-database';
+import { mergeWhereConditions } from 'src/utils/merge-where-conditions';
+import {
+  AbstractCrudService,
+} from '@softsurgery/nsa-database';
 
 @Injectable()
 export class JobViewService extends AbstractCrudService<JobViewEntity> {
@@ -28,11 +36,7 @@ export class JobViewService extends AbstractCrudService<JobViewEntity> {
     }
 
     const searchFields = this.jobViewRepository.getSearchFields();
-    const queryBuilder = new QueryBuilder(
-      this.jobViewRepository.getMetadata(),
-      {},
-      searchFields.length ? searchFields : undefined,
-    );
+    const queryBuilder = new QueryBuilder(this.jobViewRepository.getMetadata());
 
     const queryOptions = queryBuilder.build(query);
 

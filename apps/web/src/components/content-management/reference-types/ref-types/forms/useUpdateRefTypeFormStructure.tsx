@@ -6,7 +6,7 @@ import {
   SelectOption,
   TextareaFieldProps,
   TextFieldProps,
-} from "@reborn/form-builder";
+} from "@softsurgery/form-builder";
 import { ReferenceTypesStore } from "@/hooks/stores/useReferenceTypesStore";
 
 interface RefTypeUpdateFormStructureProps {

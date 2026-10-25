@@ -6,20 +6,20 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@reborn/mobile-ui";
-import { Text } from "@reborn/mobile-ui";
-import { cn } from "@reborn/lib";
+} from "@softsurgery/mobile-ui";
+import { Text } from "@softsurgery/mobile-ui";
+import { cn } from "@softsurgery/lib";
 import { StoreIDs } from "@/types";
-import { StableSafeAreaView } from "@reborn/mobile-components";
-import { ApplicationHeader } from "@reborn/mobile-components";
-import { useTranslation } from "@reborn/i18n";
+import { StableSafeAreaView } from "@softsurgery/mobile-components";
+import { ApplicationHeader } from "@softsurgery/mobile-components";
+import { useTranslation } from "react-i18next";
 import { useDataStore } from "@/hooks/content/useDataStore";
-import { Loader } from "@reborn/mobile-components";
-import { Icon } from "@reborn/mobile-ui";
+import { Loader } from "@softsurgery/mobile-components";
+import { Icon } from "@softsurgery/mobile-ui";
 
-import { AppHeaderBack } from "@reborn/mobile-components";
-import { useRTL } from "@reborn/mobile-components";
-import { StableScrollView } from "@reborn/mobile-components";
+import { AppHeaderBack } from "@softsurgery/mobile-components";
+import { useRTL } from "@softsurgery/mobile-components";
+import { StableScrollView } from "@softsurgery/mobile-components";
 interface Faq {
   question: string;
   answer: string;

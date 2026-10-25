@@ -1,13 +1,13 @@
-import { cn } from "@reborn/lib";
+import { cn } from "@softsurgery/lib";
 import { router } from "expo-router";
 import { View } from "react-native";
-import { FormBuilder } from "@reborn/mobile-form-builder";
+import { FormBuilder } from "@softsurgery/mobile-form-builder";
 import {
   ApplicationHeader,
   StableSafeAreaView,
-} from "@reborn/mobile-components";
+} from "@softsurgery/mobile-components";
 import { ChevronLeft } from "lucide-react-native";
-import { Stepper } from "@reborn/mobile-components";
+import { Stepper } from "@softsurgery/mobile-components";
 import React from "react";
 import { ServerErrorResponse, Upload } from "@/types";
 import { toast } from "sonner-native";

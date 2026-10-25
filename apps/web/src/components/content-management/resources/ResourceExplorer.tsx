@@ -11,13 +11,13 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { api } from "@/api";
-import { useBreadcrumb } from "@reborn/contexts";
-import { useIntro } from "@reborn/contexts";
-import { cn } from "@reborn/lib";
+import { useBreadcrumb } from "@softsurgery/contexts";
+import { useIntro } from "@softsurgery/contexts";
+import { cn } from "@softsurgery/lib";
 import { formatFileSize } from "@/lib/file.utils";
 import { ServerErrorResponse, StorageFolder, Upload } from "@/types";
-import { Button } from "@reborn/ui";
-import { Input } from "@reborn/ui";
+import { Button } from "@softsurgery/ui";
+import { Input } from "@softsurgery/ui";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -25,7 +25,7 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@reborn/ui";
+} from "@softsurgery/ui";
 import { FileIcon } from "@/components/content-management/uploads/FileIcon";
 import { FolderTree } from "./FolderTree";
 import { useUploadDialog } from "@/components/content-management/uploads/modals/UploadDialog";

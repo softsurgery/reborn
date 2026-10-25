@@ -1,6 +1,6 @@
 import { Table2 } from "lucide-react";
-import { useSheet } from "@reborn/components";
-import { useTranslation } from "@reborn/i18n";
+import { useSheet } from "@softsurgery/components";
+import { useTranslation } from "react-i18next";
 import { RefParamCreateForm } from "../forms/RefParamCreateForm";
 
 interface RefParamCreateSheet {

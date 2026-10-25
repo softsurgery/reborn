@@ -1,11 +1,11 @@
 import React from "react";
 import { ResponseJobDto } from "@/types";
-import { DataTableConfig } from "@reborn/datatable-builder";
+import { DataTableConfig } from "@softsurgery/datatable-builder";
 import { JobCard } from "./JobCard";
 import { PackageOpen } from "lucide-react";
-import { useTranslation } from "@reborn/i18n";
-import { Spinner } from "@reborn/components";
-import { cn } from "@reborn/lib";
+import { useTranslation } from "react-i18next";
+import { Spinner } from "@softsurgery/components";
+import { cn } from "@softsurgery/lib";
 import { InfiniteScrollTrigger } from "@/components/shared/InfiniteScrollTrigger";
 
 interface JobGridViewProps {

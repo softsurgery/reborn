@@ -1,12 +1,12 @@
-import { Icon } from "@reborn/mobile-ui";
-import { Text } from "@reborn/mobile-ui";
-import { useColorPalette } from "@reborn/mobile-components";
-import { useRTL } from "@reborn/mobile-components";
-import { cn } from "@reborn/lib";
+import { Icon } from "@softsurgery/mobile-ui";
+import { Text } from "@softsurgery/mobile-ui";
+import { useColorPalette } from "@softsurgery/mobile-components";
+import { useRTL } from "@softsurgery/mobile-components";
+import { cn } from "@softsurgery/lib";
 import { router } from "expo-router";
 import { Plus } from "lucide-react-native";
 import { TouchableOpacity, View } from "react-native";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 
 interface JobCreateActionBannerProps {
   className?: string;

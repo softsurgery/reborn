@@ -1,7 +1,7 @@
 import React from "react";
-import { cn } from "@reborn/lib";
-import { Label } from "@reborn/ui";
-import { Button } from "@reborn/ui";
+import { cn } from "@softsurgery/lib";
+import { Label } from "@softsurgery/ui";
+import { Button } from "@softsurgery/ui";
 import { useMutation } from "@tanstack/react-query";
 import { api } from "@/api";
 import { toast } from "sonner";

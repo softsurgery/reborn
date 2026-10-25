@@ -1,4 +1,4 @@
-import { EntityHelper } from 'nsa-database';
+import { EntityHelper } from '@softsurgery/nsa-database';
 import {
   Column,
   Entity,
@@ -7,7 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { JobEntity } from './job.entity';
-import { StorageEntity } from 'nsa-storage/entities/storage.entity';
+import { StorageEntity } from '@softsurgery/nsa-storage/entities/storage.entity';
 
 @Entity('job_uploads')
 export class JobUploadEntity extends EntityHelper {

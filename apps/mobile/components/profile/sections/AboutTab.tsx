@@ -1,13 +1,13 @@
-import { useColorPalette } from "@reborn/mobile-components";
-import { SeeMoreText } from "@reborn/mobile-components";
-import { Icon } from "@reborn/mobile-ui";
-import { Text } from "@reborn/mobile-ui";
-import { hslToHex } from "@reborn/mobile-components";
+import { useColorPalette } from "@softsurgery/mobile-components";
+import { SeeMoreText } from "@softsurgery/mobile-components";
+import { Icon } from "@softsurgery/mobile-ui";
+import { Text } from "@softsurgery/mobile-ui";
+import { hslToHex } from "@softsurgery/mobile-components";
 import { THEME } from "@/lib/theme";
-import { cn } from "@reborn/lib";
+import { cn } from "@softsurgery/lib";
 import { ResponseUserDto } from "@/types";
 import { UserRound, LucideIcon } from "lucide-react-native";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 import {
   NativeScrollEvent,
   NativeSyntheticEvent,
@@ -16,7 +16,7 @@ import {
   View,
 } from "react-native";
 
-import { useRTL } from "@reborn/mobile-components";
+import { useRTL } from "@softsurgery/mobile-components";
 
 interface AboutTabProps {
   className?: string;

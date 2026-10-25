@@ -1,4 +1,4 @@
-export * from "@reborn/api-client";
+export * from "@softsurgery/api-client";
 
 export * from "./auth";
 

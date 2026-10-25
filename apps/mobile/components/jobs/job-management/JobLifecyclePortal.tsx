@@ -1,20 +1,20 @@
 import React from "react";
 import { ScrollView, View } from "react-native";
-import { Text } from "@reborn/mobile-ui";
-import { Badge } from "@reborn/mobile-ui";
+import { Text } from "@softsurgery/mobile-ui";
+import { Badge } from "@softsurgery/mobile-ui";
 import { ActionPressable } from "@/components/shared/ActionPressable";
-import { Loader } from "@reborn/mobile-components";
+import { Loader } from "@softsurgery/mobile-components";
 import { useWorkflowJob } from "@/hooks/content/job/workflow/useWorkflowJob";
 import { useNextWorkflowJob } from "@/hooks/content/job/workflow/useNextWorkflowJob";
 import { useJob } from "@/hooks/content/job/useJob";
 import { useCurrentUser } from "@/hooks/content/user/useCurrentUser";
 import { useQueryClient } from "@tanstack/react-query";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 import { toast } from "sonner-native";
 import { ActionSheetRef } from "react-native-actions-sheet";
 import { JobEvents, ServerErrorResponse } from "@/types";
-import { cn } from "@reborn/lib";
-import { identifyUser } from "@reborn/lib";
+import { cn } from "@softsurgery/lib";
+import { identifyUser } from "@softsurgery/lib";
 import {
   getAvailableLifecycleEvents,
   getJobLifecycleRole,

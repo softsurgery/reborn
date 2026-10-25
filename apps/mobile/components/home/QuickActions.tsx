@@ -13,14 +13,14 @@ import { View, TouchableOpacity } from "react-native";
 import DraggableFlatList, {
   RenderItemParams,
 } from "react-native-draggable-flatlist";
-import { useTranslation } from "@reborn/i18n";
-import { cn } from "@reborn/lib";
-import { Text } from "@reborn/mobile-ui";
-import { Separator } from "@reborn/mobile-ui";
+import { useTranslation } from "react-i18next";
+import { cn } from "@softsurgery/lib";
+import { Text } from "@softsurgery/mobile-ui";
+import { Separator } from "@softsurgery/mobile-ui";
 import { QuickAction } from "./QuickAction";
 import { QuickActionsSkeleton } from "./QuickActionsSkeleton";
-import { useColorPalette } from "@reborn/mobile-components";
-import { useRTL } from "@reborn/mobile-components";
+import { useColorPalette } from "@softsurgery/mobile-components";
+import { useRTL } from "@softsurgery/mobile-components";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { api } from "@/api";
 

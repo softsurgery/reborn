@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { CreateJobDto, ResponseJobDto, UpdateJobDto } from "@/types";
 import { setDeepValue } from "@/lib/object.util";
-import { ImageFile } from "@reborn/form-builder";
+import { ImageFile } from "@softsurgery/form-builder";
 
 interface JobStoreData {
   response?: ResponseJobDto;

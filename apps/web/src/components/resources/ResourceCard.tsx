@@ -3,12 +3,12 @@ import {
   CardContent,
   CardFooter,
   CardHeader,
-} from "@reborn/ui";
+} from "@softsurgery/ui";
 import { Download, Eye, X } from "lucide-react";
-import { Badge } from "@reborn/ui";
+import { Badge } from "@softsurgery/ui";
 import { format } from "date-fns";
-import { Button } from "@reborn/ui";
-import { cn } from "@reborn/lib";
+import { Button } from "@softsurgery/ui";
+import { cn } from "@softsurgery/lib";
 import { formatFileSize, getMediaTypeLabel } from "@/lib/file.utils";
 import { FileIcon } from "./FileIcon";
 import { ResourceCardSkeleton } from "./ResourceCardSkeleton";

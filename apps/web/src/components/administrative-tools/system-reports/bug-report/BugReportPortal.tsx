@@ -1,19 +1,19 @@
 import React from "react";
 import { api } from "@/api";
-import { useDebounce } from "@reborn/hooks/utils";
+import { useDebounce } from "@softsurgery/hooks/utils";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useBugColumns } from "./columns";
-import { useBreadcrumb } from "@reborn/contexts";
+import { useBreadcrumb } from "@softsurgery/contexts";
 import { useBugStore } from "../../../../hooks/stores/useBugStore";
 import { useBugDeleteDialog } from "./modals/BugDeleteDialog";
 import { toast } from "sonner";
-import { useIntro } from "@reborn/contexts";
-import { cn } from "@reborn/lib";
+import { useIntro } from "@softsurgery/contexts";
+import { cn } from "@softsurgery/lib";
 
 import { ResponseBugDto } from "@/types";
-import { DataTable } from "@reborn/datatable-builder";
-import { useTranslation } from "@reborn/i18n";
-import { DataTableConfig } from "@reborn/datatable-builder";
+import { DataTable } from "@softsurgery/datatable-builder";
+import { useTranslation } from "react-i18next";
+import { DataTableConfig } from "@softsurgery/datatable-builder";
 
 interface BugReportPortalProps {
   className?: string;

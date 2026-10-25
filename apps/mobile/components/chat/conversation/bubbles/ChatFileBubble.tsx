@@ -1,6 +1,6 @@
-import { Text } from "@reborn/mobile-ui";
+import { Text } from "@softsurgery/mobile-ui";
 import { useServerUploads } from "@/hooks/content/useServerUploads";
-import { cn } from "@reborn/lib";
+import { cn } from "@softsurgery/lib";
 import { PendingFileUpload, ResponseMessageDto } from "@/types";
 import { format } from "date-fns";
 import React from "react";
@@ -11,7 +11,7 @@ import {
 } from "../../upload-details/FileListItem";
 import { ChatFileList, ChatFileListItem } from "./ChatFileList";
 import { MessageTextContent } from "./MessageTextContent";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 import { openUploadFile } from "@/lib/files/files";
 
 interface ChatFileBubbleProps {

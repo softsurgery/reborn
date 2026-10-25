@@ -8,10 +8,10 @@ import { useSharedValue } from "react-native-reanimated";
 import { Image, ImageSource } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { UseQueryResult } from "@tanstack/react-query";
-import { cn } from "@reborn/lib";
-import { Loader } from "@reborn/mobile-components";
+import { cn } from "@softsurgery/lib";
+import { Loader } from "@softsurgery/mobile-components";
 import { PhotoPreview } from "../PhotoPreview";
-import { useColorPalette } from "@reborn/mobile-components";
+import { useColorPalette } from "@softsurgery/mobile-components";
 
 interface ImageCarouselProps {
   uploads?: string[];

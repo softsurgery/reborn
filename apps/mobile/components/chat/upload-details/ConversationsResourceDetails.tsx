@@ -1,11 +1,11 @@
-import { ApplicationHeader } from "@reborn/mobile-components";
+import { ApplicationHeader } from "@softsurgery/mobile-components";
 import { createMaterialTopTabNavigator } from "expo-router/js-top-tabs";
 import { ConversationMediaDetails } from "./ConversationMediaDetails";
 import { ConversationFilesDetails } from "./ConversationFilesDetails";
 import { ConversationLinksDetails } from "./ConversationLinksDetails";
-import { useTranslation } from "@reborn/i18n";
-import { AppHeaderBack } from "@reborn/mobile-components";
-import { StableSafeAreaView } from "@reborn/mobile-components";
+import { useTranslation } from "react-i18next";
+import { AppHeaderBack } from "@softsurgery/mobile-components";
+import { StableSafeAreaView } from "@softsurgery/mobile-components";
 const Tab = createMaterialTopTabNavigator();
 
 interface ConversationResourceDetailsProps {

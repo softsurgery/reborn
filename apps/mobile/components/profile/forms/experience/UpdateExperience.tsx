@@ -1,24 +1,24 @@
 import { api } from "@/api";
-import { ApplicationHeader } from "@reborn/mobile-components";
-import { FormBuilder } from "@reborn/mobile-form-builder";
-import { StableKeyboardAwareScrollView } from "@reborn/mobile-components";
-import { StableSafeAreaView } from "@reborn/mobile-components";
-import { Button } from "@reborn/mobile-ui";
-import { Text } from "@reborn/mobile-ui";
-import { cn } from "@reborn/lib";
+import { ApplicationHeader } from "@softsurgery/mobile-components";
+import { FormBuilder } from "@softsurgery/mobile-form-builder";
+import { StableKeyboardAwareScrollView } from "@softsurgery/mobile-components";
+import { StableSafeAreaView } from "@softsurgery/mobile-components";
+import { Button } from "@softsurgery/mobile-ui";
+import { Text } from "@softsurgery/mobile-ui";
+import { cn } from "@softsurgery/lib";
 import { ServerErrorResponse, UpdateExperienceDto } from "@/types";
 import { updateExperienceSchema } from "@/types/validations/experience.validation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { router } from "expo-router";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 import { useUpdateExperienceFormStructure } from "./useUpdateExperienceFormStructure";
 import { View } from "react-native";
-import { useKeyboardVisible } from "@reborn/mobile-components";
+import { useKeyboardVisible } from "@softsurgery/mobile-components";
 import { toast } from "sonner-native";
 import React from "react";
 
-import { AppHeaderBack } from "@reborn/mobile-components";
-import { BottomButtonWrapper } from "@reborn/mobile-components";
+import { AppHeaderBack } from "@softsurgery/mobile-components";
+import { BottomButtonWrapper } from "@softsurgery/mobile-components";
 import { useUserStore } from "@/hooks/stores/useUserStore";
 interface UpdateExperienceProps {
   className?: string;

@@ -7,10 +7,10 @@ import {
   SelectOption,
   TextareaFieldProps,
   TextFieldProps,
-} from "@reborn/form-builder";
+} from "@softsurgery/form-builder";
 import { ReferenceTypesStore } from "@/hooks/stores/useReferenceTypesStore";
 import { RefParamExtras } from "../../../../shared/JSONExtras";
-import { JSONValue } from "@reborn/components";
+import { JSONValue } from "@softsurgery/components";
 
 interface RefParamUpdateFormStructureProps {
   referenceTypesStore?: ReferenceTypesStore;

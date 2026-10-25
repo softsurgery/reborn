@@ -17,28 +17,28 @@ import {
   ExternalLink,
   ChevronRight,
 } from "lucide-react-native";
-import { ApplicationHeader } from "@reborn/mobile-components";
-import { BottomButtonWrapper } from "@reborn/mobile-components";
-import { StableSafeAreaView } from "@reborn/mobile-components";
-import { StablePressable } from "@reborn/mobile-components";
-import { Text } from "@reborn/mobile-ui";
-import { Button } from "@reborn/mobile-ui";
-import { Badge } from "@reborn/mobile-ui";
-import { Icon } from "@reborn/mobile-ui";
-import { Skeleton } from "@reborn/mobile-ui";
+import { ApplicationHeader } from "@softsurgery/mobile-components";
+import { BottomButtonWrapper } from "@softsurgery/mobile-components";
+import { StableSafeAreaView } from "@softsurgery/mobile-components";
+import { StablePressable } from "@softsurgery/mobile-components";
+import { Text } from "@softsurgery/mobile-ui";
+import { Button } from "@softsurgery/mobile-ui";
+import { Badge } from "@softsurgery/mobile-ui";
+import { Icon } from "@softsurgery/mobile-ui";
+import { Skeleton } from "@softsurgery/mobile-ui";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@reborn/mobile-ui";
+} from "@softsurgery/mobile-ui";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "@reborn/mobile-components";
-import { identifyUser, identifyUserAvatar } from "@reborn/lib";
+} from "@softsurgery/mobile-components";
+import { identifyUser, identifyUserAvatar } from "@softsurgery/lib";
 import { useServerImage } from "@/hooks/content/useServerImage";
 import { useJobRequestActions } from "@/hooks/content/job/useJobRequestActions";
 import { useCurrentUser } from "@/hooks/content/user/useCurrentUser";
@@ -48,8 +48,8 @@ import {
   ResponseJobDto,
   ResponseJobRequestDto,
 } from "@/types";
-import { cn } from "@reborn/lib";
-import { timeAgo } from "@reborn/mobile-components";
+import { cn } from "@softsurgery/lib";
+import { timeAgo } from "@softsurgery/mobile-components";
 
 interface RequestDetailsProps {
   id: string;

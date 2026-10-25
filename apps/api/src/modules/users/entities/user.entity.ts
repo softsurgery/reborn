@@ -1,9 +1,9 @@
 import { JobRequestEntity } from 'src/modules/job-management/entities/job-request.entity';
 import { JobViewEntity } from 'src/modules/job-management/entities/job-view.entity';
 import { JobEntity } from 'src/modules/job-management/entities/job.entity';
-import { AbstractUserEntity } from 'nsa-um/entities/abstract-user.entity';
+import { AbstractUserEntity } from '@softsurgery/nsa-um/entities/abstract-user.entity';
 import { FollowEntity } from 'src/modules/users/entities/follow.entity';
-import { Gender } from 'nsa-um/enums/gender.enum';
+import { Gender } from '@softsurgery/nsa-um/enums/gender.enum';
 import {
   ChildEntity,
   Column,
@@ -14,10 +14,10 @@ import {
   OneToMany,
 } from 'typeorm';
 import { UserUploadEntity } from './user-upload.entity';
-import { RefParamEntity } from 'nsa-reference-types/entities/ref-param.entity';
+import { RefParamEntity } from '@softsurgery/nsa-reference-types/entities/ref-param.entity';
 import { ExperienceEntity } from './experience.entity';
 import { EducationEntity } from './education.entity';
-import { StorageEntity } from 'nsa-storage/entities/storage.entity';
+import { StorageEntity } from '@softsurgery/nsa-storage/entities/storage.entity';
 
 @ChildEntity()
 export class UserEntity extends AbstractUserEntity {

@@ -4,9 +4,9 @@ import { api } from "@/api";
 import { ResponseConversationDto, ResponseMessageDto } from "@/types";
 import ConversationItem from "./ConversationItem";
 import { useUserStore } from "@/hooks/stores/useUserStore";
-import { useTranslation } from "@reborn/i18n";
-import { Spinner } from "@reborn/components";
-import { cn } from "@reborn/lib";
+import { useTranslation } from "react-i18next";
+import { Spinner } from "@softsurgery/components";
+import { cn } from "@softsurgery/lib";
 import { identifyUser } from "@/lib/user.utils";
 import { formatMessageTime } from "@/lib/date.lib";
 import {
@@ -16,8 +16,8 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@reborn/ui";
-import { Button } from "@reborn/ui";
+} from "@softsurgery/ui";
+import { Button } from "@softsurgery/ui";
 import { useConversationComposeDialog } from "./modals/ConversationComposeDialog";
 import { useUsers } from "@/hooks/content/User/useUsers";
 import { toast } from "sonner";

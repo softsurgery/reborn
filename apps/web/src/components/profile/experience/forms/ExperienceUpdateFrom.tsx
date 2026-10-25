@@ -1,14 +1,14 @@
 import React from "react";
-import { cn } from "@reborn/lib";
+import { cn } from "@softsurgery/lib";
 import { useExperienceStore } from "@/hooks/stores/useExperienceStore";
-import { FormBuilder } from "@reborn/form-builder";
-import { Button } from "@reborn/ui";
+import { FormBuilder } from "@softsurgery/form-builder";
+import { Button } from "@softsurgery/ui";
 import { useUpdateExperienceFormStructure } from "./useUpdateExperienceFormStructure";
 import { Save } from "lucide-react";
 import { updateExperienceSchema } from "@/types/validations/experience.validation";
-import { Spinner } from "@reborn/components";
+import { Spinner } from "@softsurgery/components";
 import { UpdateExperienceDto } from "@/types";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 
 interface ExperienceUpdateFormProps {
   className?: string;

@@ -19,11 +19,6 @@
     "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
     "@babel/runtime": "^7.28.3",
     "@expo/vector-icons": "^15.0.2",
-    "@reborn/hooks": "workspace:*",
-    "@reborn/lib": "workspace:*",
-    "@reborn/mobile-components": "workspace:*",
-    "@reborn/mobile-form-builder": "workspace:*",
-    "@reborn/mobile-ui": "workspace:*",
     "@legendapp/list": "^1.1.4",
     "@lottiefiles/dotlottie-react": "^0.19.13",
     "@miblanchard/react-native-slider": "^2.6.0",
@@ -135,7 +130,13 @@
     "tailwindcss-animate": "^1.0.7",
     "zod": "^4.1.12",
     "zustand": "^5.0.8",
-    "@reborn/i18n": "workspace:*"
+    "@softsurgery/hooks": "workspace:*",
+    "@softsurgery/lib": "workspace:*",
+    "@softsurgery/mobile-components": "workspace:*",
+    "@softsurgery/mobile-form-builder": "workspace:*",
+    "@softsurgery/mobile-ui": "workspace:*",
+    "react-i18next": "^15.0.0",
+    "@softsurgery/api-client": "workspace:*"
   },
   "expo": {
     "autolinking": {

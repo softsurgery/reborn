@@ -1,17 +1,17 @@
 import React from "react";
 import { View } from "react-native";
 import { router } from "expo-router";
-import { useTranslation } from "@reborn/i18n";
-import { cn } from "@reborn/lib";
-import { ApplicationHeader } from "@reborn/mobile-components";
-import { StableSafeAreaView } from "@reborn/mobile-components";
+import { useTranslation } from "react-i18next";
+import { cn } from "@softsurgery/lib";
+import { ApplicationHeader } from "@softsurgery/mobile-components";
+import { StableSafeAreaView } from "@softsurgery/mobile-components";
 import { SettingRow, SettingRowProps } from "../SettingsRow";
-import { Text } from "@reborn/mobile-ui";
-import { Separator } from "@reborn/mobile-ui";
-import { Badge } from "@reborn/mobile-ui";
+import { Text } from "@softsurgery/mobile-ui";
+import { Separator } from "@softsurgery/mobile-ui";
+import { Badge } from "@softsurgery/mobile-ui";
 
-import { AppHeaderBack } from "@reborn/mobile-components";
-import { StableScrollView } from "@reborn/mobile-components";
+import { AppHeaderBack } from "@softsurgery/mobile-components";
+import { StableScrollView } from "@softsurgery/mobile-components";
 
 interface PrivacySecurityPortalProps {
   className?: string;

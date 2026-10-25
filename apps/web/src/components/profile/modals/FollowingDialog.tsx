@@ -1,7 +1,7 @@
-import { useDialog } from "@reborn/components";
+import { useDialog } from "@softsurgery/components";
 import { UserStore } from "@/hooks/stores/useUserStore";
 import { UserEntry } from "../UserEntry";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 
 interface FollowingDialogProps {
   userStore: UserStore;

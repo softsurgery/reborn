@@ -1,23 +1,23 @@
 import React, { useState } from "react";
 import { View } from "react-native";
 import { useRouter } from "expo-router";
-import { Button } from "@reborn/mobile-ui";
-import { Input } from "@reborn/mobile-ui";
-import { Text } from "@reborn/mobile-ui";
-import { Tabs, TabsList, TabsTrigger } from "@reborn/mobile-ui";
-import { useTranslation } from "@reborn/i18n";
-import { ApplicationHeader } from "@reborn/mobile-components";
-import { StableSafeAreaView } from "@reborn/mobile-components";
-import { StableKeyboardAwareScrollView } from "@reborn/mobile-components";
-import { BottomButtonWrapper } from "@reborn/mobile-components";
-import { AppHeaderBack } from "@reborn/mobile-components";
-import { useKeyboardVisible } from "@reborn/mobile-components";
+import { Button } from "@softsurgery/mobile-ui";
+import { Input } from "@softsurgery/mobile-ui";
+import { Text } from "@softsurgery/mobile-ui";
+import { Tabs, TabsList, TabsTrigger } from "@softsurgery/mobile-ui";
+import { useTranslation } from "react-i18next";
+import { ApplicationHeader } from "@softsurgery/mobile-components";
+import { StableSafeAreaView } from "@softsurgery/mobile-components";
+import { StableKeyboardAwareScrollView } from "@softsurgery/mobile-components";
+import { BottomButtonWrapper } from "@softsurgery/mobile-components";
+import { AppHeaderBack } from "@softsurgery/mobile-components";
+import { useKeyboardVisible } from "@softsurgery/mobile-components";
 import * as Haptics from "expo-haptics";
-import { Icon } from "@reborn/mobile-ui";
+import { Icon } from "@softsurgery/mobile-ui";
 import { Loader2 } from "lucide-react-native";
 import { useTopUpFunds } from "@/hooks/content/finance/useTopUpFunds";
 import { useTopUpPoints } from "@/hooks/content/finance/useTopUpPoints";
-import { cn } from "@reborn/lib";
+import { cn } from "@softsurgery/lib";
 
 interface TopUpProps {
   className?: string;

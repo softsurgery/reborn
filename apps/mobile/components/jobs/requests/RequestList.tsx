@@ -3,21 +3,21 @@ import { RefreshControl, View } from "react-native";
 import { AnimatedLegendList } from "@legendapp/list/reanimated";
 import Animated from "react-native-reanimated";
 import { Inbox, Send, Search } from "lucide-react-native";
-import { cn } from "@reborn/lib";
+import { cn } from "@softsurgery/lib";
 import { ResponseJobRequestDto, JobRequestStatus } from "@/types";
 import { IncomingRequestEntry } from "./IncomingRequest";
 import { IncomingRequestSkeleton } from "./IncomingRequestSkeleton";
 import { OutgoingRequestEntry } from "./OutgoingRequest";
 import { OutgoingRequestSkeleton } from "./OutgoingRequestSkeleton";
-import { Text } from "@reborn/mobile-ui";
-import { Icon } from "@reborn/mobile-ui";
-import { MarkedInput } from "@reborn/mobile-components";
-import { useDebounce } from "@reborn/hooks/utils";
+import { Text } from "@softsurgery/mobile-ui";
+import { Icon } from "@softsurgery/mobile-ui";
+import { MarkedInput } from "@softsurgery/mobile-components";
+import { useDebounce } from "@softsurgery/hooks/utils";
 import { useInfiniteJobRequests } from "@/hooks/content/job/useInfiniteJobRequests";
 import { useStickyElement } from "@/hooks/useStickyElement";
-import { useColorPalette } from "@reborn/mobile-components";
+import { useColorPalette } from "@softsurgery/mobile-components";
 import { InfiniteListFooter } from "@/components/shared/InfiniteListFooter";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 
 interface RequestsListProps {
   className?: string;

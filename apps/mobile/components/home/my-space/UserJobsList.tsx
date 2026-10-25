@@ -14,24 +14,24 @@ import {
 } from "react-native";
 import { Search, Briefcase } from "lucide-react-native";
 import { ResponseJobDto, JobStatus } from "@/types";
-import { cn } from "@reborn/lib";
-import { ApplicationHeader } from "@reborn/mobile-components";
-import { StableSafeAreaView } from "@reborn/mobile-components";
-import { MarkedInput } from "@reborn/mobile-components";
+import { cn } from "@softsurgery/lib";
+import { ApplicationHeader } from "@softsurgery/mobile-components";
+import { StableSafeAreaView } from "@softsurgery/mobile-components";
+import { MarkedInput } from "@softsurgery/mobile-components";
 import { useInfiniteJobs } from "@/hooks/content/job/useInfiniteJobs";
 import { useCurrentUser } from "@/hooks/content/user/useCurrentUser";
-import { Loader } from "@reborn/mobile-components";
+import { Loader } from "@softsurgery/mobile-components";
 import { JobManagementCard } from "@/components/jobs/job-management/JobManagmentCard";
-import { Icon } from "@reborn/mobile-ui";
-import { Text } from "@reborn/mobile-ui";
-import { AppHeaderBack } from "@reborn/mobile-components";
+import { Icon } from "@softsurgery/mobile-ui";
+import { Text } from "@softsurgery/mobile-ui";
+import { AppHeaderBack } from "@softsurgery/mobile-components";
 import { useStickyElement } from "@/hooks/useStickyElement";
-import { useColorPalette } from "@reborn/mobile-components";
+import { useColorPalette } from "@softsurgery/mobile-components";
 import { JobCreateActionBanner } from "./JobCreateActionBanner";
 import { MyJobPreviewModal } from "@/components/jobs/job-management/MyJobPreviewModal";
-import { Separator } from "@reborn/mobile-ui";
-import { useTranslation } from "@reborn/i18n";
-import { useRTL } from "@reborn/mobile-components";
+import { Separator } from "@softsurgery/mobile-ui";
+import { useTranslation } from "react-i18next";
+import { useRTL } from "@softsurgery/mobile-components";
 
 interface UserJobsListProps {
   className?: string;

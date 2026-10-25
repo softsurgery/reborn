@@ -1,6 +1,6 @@
 import React from "react";
 import { BadgeCheck, Bell, CreditCard, LogOut, User } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@reborn/ui";
+import { Avatar, AvatarFallback, AvatarImage } from "@softsurgery/ui";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,14 +9,14 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@reborn/ui";
+} from "@softsurgery/ui";
 import { useRouter } from "next/router";
 import { signOut } from "next-auth/react";
 import { identifyUser, identifyUserAvatar } from "@/lib/user.utils";
-import { cn } from "@reborn/lib";
+import { cn } from "@softsurgery/lib";
 import { useCurrentUser } from "@/hooks/content/User/useCurrentUser";
 import { useServerImages } from "@/hooks/content/useServerImages";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 
 interface UserNavProps {
   className?: string;

@@ -5,9 +5,9 @@ import {
   FormStructure,
   TextFieldProps,
   TextareaFieldProps,
-} from "@reborn/form-builder";
+} from "@softsurgery/form-builder";
 import { EducationStore } from "../../../../hooks/stores/useEducationStore";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 
 interface useCreateEducationFormStructureProps {
   educationStore: EducationStore;

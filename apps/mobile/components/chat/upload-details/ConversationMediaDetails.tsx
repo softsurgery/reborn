@@ -1,7 +1,7 @@
-import { Text } from "@reborn/mobile-ui";
+import { Text } from "@softsurgery/mobile-ui";
 import { useConversationMessages } from "@/hooks/content/chat/useConversationMessages";
-import { useColorPalette } from "@reborn/mobile-components";
-import { hslToHex } from "@reborn/mobile-components";
+import { useColorPalette } from "@softsurgery/mobile-components";
+import { hslToHex } from "@softsurgery/mobile-components";
 import { MessageVariant, ResponseMessageDto } from "@/types";
 import { LegendList } from "@legendapp/list";
 import React from "react";
@@ -17,7 +17,7 @@ import { GestureViewer } from "react-native-gesture-image-viewer";
 import { Image } from "expo-image";
 import { useServerImages } from "@/hooks/content/useServerImages";
 import { getMessageUploadIds, MediaThumbnail } from "./MediaThumbnail";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 
 const NUM_COLUMNS = 3;
 

@@ -3,7 +3,7 @@ import { CommandModule } from 'nestjs-command';
 import { PermissionsSeedCommand } from './permissions.seeder';
 import { RolesSeedCommand } from './roles.seeder';
 import { AdminSeedCommand } from './admin.seeder';
-import { TemplateModule } from 'nsa-templates/template.module';
+import { TemplateModule } from '@softsurgery/nsa-templates/template.module';
 import { TemplatesSeedCommand } from './templates.seeder';
 import { RegionsSeedCommand } from './region.seeder';
 import { CurrenciesSeedCommand } from './currencies.seeder';
@@ -12,17 +12,17 @@ import { JobCategoriesSeedCommand } from './job-categories.seeder';
 import { JobManagementModule } from 'src/modules/job-management/job-management.module';
 import { PlaygroundJobsSeedCommand } from './playground/job.seeder';
 import { JobTagsSeedCommand } from './job-tags.seeder';
-import { ReferenceTypesModule } from 'nsa-reference-types/reference-types.module';
+import { ReferenceTypesModule } from '@softsurgery/nsa-reference-types/reference-types.module';
 import { SkillsSeedCommand } from './skills.seeder';
 import { UserManagementModule } from 'src/modules/users/user-management.module';
-import { DatabaseModule } from 'nsa-database';
+import { DatabaseModule } from '@softsurgery/nsa-database';
 import { ResetProjectSeedCommand } from './reset.seeder';
 import { PublicResourceSeedCommand } from './public-resource.seeder';
 import { StorageFolderSeedCommand } from './storage-folder.seeder';
-import { StorageModule } from 'nsa-storage/storage.module';
+import { StorageModule } from '@softsurgery/nsa-storage/storage.module';
 import { AppStorageFolderModule } from 'src/app/app-storage-folder.module';
 import { ConfigurationSeedCommand } from './configuration.seeder';
-import { ConfigurationsModule } from 'nsa-configurations/configurations.module';
+import { ConfigurationsModule } from '@softsurgery/nsa-configurations/configurations.module';
 
 @Module({
   providers: [

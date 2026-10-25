@@ -1,15 +1,15 @@
 import React from "react";
-import { Badge } from "@reborn/ui";
-import { useTranslation } from "@reborn/i18n";
+import { Badge } from "@softsurgery/ui";
+import { useTranslation } from "react-i18next";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@reborn/ui";
+} from "@softsurgery/ui";
 import { useUserStore } from "@/hooks/stores/useUserStore";
-import { cn } from "@reborn/lib";
+import { cn } from "@softsurgery/lib";
 import { format } from "date-fns";
 import {
   Calendar,

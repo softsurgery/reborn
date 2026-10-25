@@ -1,15 +1,15 @@
-import { Button } from "@reborn/mobile-ui";
+import { Button } from "@softsurgery/mobile-ui";
 import {
   Dialog,
   DialogContent,
   DialogTitle,
   DialogTrigger,
-} from "@reborn/mobile-ui";
-import { Text } from "@reborn/mobile-ui";
-import { cn } from "@reborn/lib";
+} from "@softsurgery/mobile-ui";
+import { Text } from "@softsurgery/mobile-ui";
+import { cn } from "@softsurgery/lib";
 import React from "react";
 import { View } from "react-native";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 import { UserStore } from "@/hooks/stores/useUserStore";
 
 interface DeleteExperienceDialogProps {

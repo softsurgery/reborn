@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner-native";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 import { JobEvents, ServerErrorResponse } from "@/types";
 import { useNextWorkflowJob } from "./useNextWorkflowJob";
 import { useWorkflowJob } from "./useWorkflowJob";

@@ -22,21 +22,21 @@ import {
   X,
   Telescope,
 } from "lucide-react-native";
-import { Text } from "@reborn/mobile-ui";
-import { Badge } from "@reborn/mobile-ui";
+import { Text } from "@softsurgery/mobile-ui";
+import { Badge } from "@softsurgery/mobile-ui";
 import { JobEvents, JobPricingType, JobStatus, ResponseJobDto } from "@/types";
-import { useColorPalette } from "@reborn/mobile-components";
+import { useColorPalette } from "@softsurgery/mobile-components";
 import { useServerImages } from "@/hooks/content/useServerImages";
-import { timeAgo } from "@reborn/mobile-components";
+import { timeAgo } from "@softsurgery/mobile-components";
 import { router } from "expo-router";
 import * as Haptics from "expo-haptics";
 import { toast } from "sonner-native";
 import { useNextWorkflowJob } from "@/hooks/content/job/workflow/useNextWorkflowJob";
 import { useDeleteJob } from "@/hooks/content/job/useDeleteJob";
 import { useQueryClient } from "@tanstack/react-query";
-import { cn } from "@reborn/lib";
-import { useRTL } from "@reborn/mobile-components";
-import { useTranslation } from "@reborn/i18n";
+import { cn } from "@softsurgery/lib";
+import { useRTL } from "@softsurgery/mobile-components";
+import { useTranslation } from "react-i18next";
 import { MessageCircle } from "lucide-react-native";
 
 interface MyJobPreviewModalProps {

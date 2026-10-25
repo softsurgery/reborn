@@ -1,14 +1,14 @@
 import React from "react";
 import { View } from "react-native";
-import { Text } from "@reborn/mobile-ui";
-import { cn } from "@reborn/lib";
-import { StableKeyboardAwareScrollView } from "@reborn/mobile-components";
-import { StableSafeAreaView } from "@reborn/mobile-components";
-import { useTranslation } from "@reborn/i18n";
-import { ApplicationHeader } from "@reborn/mobile-components";
-import { LanguageSwitcher } from "@reborn/mobile-components";
+import { Text } from "@softsurgery/mobile-ui";
+import { cn } from "@softsurgery/lib";
+import { StableKeyboardAwareScrollView } from "@softsurgery/mobile-components";
+import { StableSafeAreaView } from "@softsurgery/mobile-components";
+import { useTranslation } from "react-i18next";
+import { ApplicationHeader } from "@softsurgery/mobile-components";
+import { LanguageSwitcher } from "@softsurgery/mobile-components";
 
-import { AppHeaderBack } from "@reborn/mobile-components";
+import { AppHeaderBack } from "@softsurgery/mobile-components";
 interface LanguageSettingsPortalProps {
   className?: string;
 }

@@ -1,25 +1,31 @@
-import { Global, Module } from '@nestjs/common';
+import { Global, Module, OnModuleInit } from '@nestjs/common';
 import {
   USER_REPOSITORY,
   USER_SERVICE,
-} from 'nsa-um/tokens/user-access';
-import { PermissionService } from 'nsa-um/services/permission.service';
-import { RolePermissionService } from 'nsa-um/services/role-permission.service';
-import { RoleService } from 'nsa-um/services/role.service';
-import { RoleRepository } from 'nsa-um/repositories/role.repository';
-import { PermissionRepository } from 'nsa-um/repositories/permission.repository';
-import { RolePermissionRepository } from 'nsa-um/repositories/role-permission.repository';
+} from '@softsurgery/nsa-um/tokens/user-access';
+import {
+  bindUserDto,
+  bindUserEntity,
+  bindUserService,
+  bindUserRepository,
+} from '@softsurgery/nsa-um/registries/user-binding.registry';
+import { PermissionService } from '@softsurgery/nsa-um/services/permission.service';
+import { RolePermissionService } from '@softsurgery/nsa-um/services/role-permission.service';
+import { RoleService } from '@softsurgery/nsa-um/services/role.service';
+import { RoleRepository } from '@softsurgery/nsa-um/repositories/role.repository';
+import { PermissionRepository } from '@softsurgery/nsa-um/repositories/permission.repository';
+import { RolePermissionRepository } from '@softsurgery/nsa-um/repositories/role-permission.repository';
 import { FollowRepository } from 'src/modules/users/repositories/follow.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AbstractUserEntity } from 'nsa-um/entities/abstract-user.entity';
-import { RoleEntity } from 'nsa-um/entities/role.entity';
-import { PermissionEntity } from 'nsa-um/entities/permission.entity';
-import { RolePermissionEntity } from 'nsa-um/entities/role-permission.entity';
+import { AbstractUserEntity } from '@softsurgery/nsa-um/entities/abstract-user.entity';
+import { RoleEntity } from '@softsurgery/nsa-um/entities/role.entity';
+import { PermissionEntity } from '@softsurgery/nsa-um/entities/permission.entity';
+import { RolePermissionEntity } from '@softsurgery/nsa-um/entities/role-permission.entity';
 import { UserUploadEntity } from './entities/user-upload.entity';
 import { UserEntity } from './entities/user.entity';
 import { FollowEntity } from 'src/modules/users/entities/follow.entity';
-import { ReferenceTypesModule } from 'nsa-reference-types/reference-types.module';
-import { StorageModule } from 'nsa-storage/storage.module';
+import { ReferenceTypesModule } from '@softsurgery/nsa-reference-types/reference-types.module';
+import { StorageModule } from '@softsurgery/nsa-storage/storage.module';
 import { UserService } from './services/user.service';
 import { UserUploadService } from './services/user-upload.service';
 import { FollowService } from './services/follow.service';
@@ -32,11 +38,13 @@ import { EducationRepository } from './repositories/education.repository';
 import { ExperienceEntity } from './entities/experience.entity';
 import { EducationEntity } from './entities/education.entity';
 import { UserStorageFolderService } from './services/user-storage-folder.service';
-import { ConfigurationsModule } from 'nsa-configurations/configurations.module';
+import { ConfigurationsModule } from '@softsurgery/nsa-configurations/configurations.module';
 import { UserBlockService } from './services/user-block.service';
 import { UserBlockRepository } from './repositories/user-block.repository';
 import { UserBlockEntity } from './entities/user-block.entity';
 import { UserConfigurationService } from './services/user-configuration.service';
+import { ResponseUserDto } from './dtos/user/response-user.dto';
+import { StorageFolderModule } from 'src/modules/storage-folder/storage-folder.module';
 
 @Global()
 @Module({
@@ -104,6 +112,7 @@ import { UserConfigurationService } from './services/user-configuration.service'
     USER_REPOSITORY,
   ],
   imports: [
+    StorageFolderModule,
     TypeOrmModule.forFeature([
       AbstractUserEntity,
       UserEntity,
@@ -121,4 +130,11 @@ import { UserConfigurationService } from './services/user-configuration.service'
     ConfigurationsModule,
   ],
 })
-export class UserManagementModule {}
+export class UserManagementModule implements OnModuleInit {
+  onModuleInit() {
+    bindUserDto(ResponseUserDto);
+    bindUserEntity(UserEntity);
+    bindUserService(UserService);
+    bindUserRepository(UserRepository);
+  }
+}

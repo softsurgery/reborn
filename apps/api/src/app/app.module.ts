@@ -4,21 +4,21 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import config from 'src/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { TypeOrmConfigService } from 'nsa-database';
+import { TypeOrmConfigService } from '@softsurgery/nsa-database';
 import { ClsModule } from 'nestjs-cls';
-import { DatabaseModule } from 'nsa-database';
+import { DatabaseModule } from '@softsurgery/nsa-database';
 import { ClsPluginTransactional } from '@nestjs-cls/transactional';
 import { TransactionalAdapterTypeOrm } from '@nestjs-cls/transactional-adapter-typeorm';
 import { DataSource } from 'typeorm';
 import { JwtModule } from '@nestjs/jwt';
 import { ScheduleModule } from '@nestjs/schedule';
 import { MailerModule } from '@nestjs-modules/mailer';
-import { resolveMX } from 'nsa-mail/utils/mx-resolve.util';
-import { MailModule } from 'nsa-mail/mail.module';
+import { resolveMX } from '@softsurgery/nsa-mail/utils/mx-resolve.util';
+import { MailModule } from '@softsurgery/nsa-mail/mail.module';
 import { SeedersModule } from 'src/seeders/seeders.module';
 import { RouterModule } from 'src/routers/router.module';
-import { ChatModule } from 'nsa-chat/chat.module';
-import { StorageModule } from 'nsa-storage/storage.module';
+import { ChatModule } from '@softsurgery/nsa-chat/chat.module';
+import { StorageModule } from '@softsurgery/nsa-storage/storage.module';
 
 @Module({
   imports: [

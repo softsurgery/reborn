@@ -3,7 +3,7 @@ import * as Sharing from "expo-sharing";
 import { Alert, Linking, Platform } from "react-native";
 import { ResponseMessageUploadFileDto } from "@/types";
 import { Upload } from "@/types/upload";
-import { useAuthPersistStore } from "@reborn/hooks/stores";
+import { useAuthPersistStore } from "@softsurgery/hooks/stores";
 
 const BASE_URL = process.env.EXPO_PUBLIC_API_BASE_URL;
 

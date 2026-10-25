@@ -1,6 +1,6 @@
-import { DataTableCell } from "@reborn/datatable-builder";
-import { DataTableColumnHeader } from "@reborn/datatable-builder";
-import { DataTableCellVariant } from "@reborn/datatable-builder";
+import { DataTableCell } from "@softsurgery/datatable-builder";
+import { DataTableColumnHeader } from "@softsurgery/datatable-builder";
+import { DataTableCellVariant } from "@softsurgery/datatable-builder";
 import { formatFileSize } from "@/lib/file.utils";
 import { Upload } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";

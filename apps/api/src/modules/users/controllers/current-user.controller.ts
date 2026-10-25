@@ -9,11 +9,11 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { toDto } from 'nsa-database';
-import { LogInterceptor } from 'nsa-logger/decorators/logger.interceptor';
-import { LogEvent } from 'nsa-logger/decorators/log-event.decorator';
+import { toDto } from '@softsurgery/nsa-database';
+import { LogInterceptor } from '@softsurgery/nsa-logger/decorators/logger.interceptor';
+import { LogEvent } from '@softsurgery/nsa-logger/decorators/log-event.decorator';
 import { EventType } from 'src/app/enums/event-type.enum';
-import { AdvancedRequest } from 'nsa-helpers/http';
+import { AdvancedRequest } from '@softsurgery/nsa-helpers/http';
 import { UserService } from '../services/user.service';
 import { UserConfigurationService } from '../services/user-configuration.service';
 import { ResponseUserDto } from '../dtos/user/response-user.dto';

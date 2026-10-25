@@ -1,7 +1,7 @@
 import React from "react";
 import { View } from "react-native";
-import { cn } from "@reborn/lib";
-import { Text } from "@reborn/mobile-ui";
+import { cn } from "@softsurgery/lib";
+import { Text } from "@softsurgery/mobile-ui";
 
 export interface InfiniteListFooterProps {
   isPending: boolean;

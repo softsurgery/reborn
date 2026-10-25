@@ -1,13 +1,13 @@
 // follow.service.ts
 import { Injectable } from '@nestjs/common';
-import { FollowCannotFollowYourselfException } from 'nsa-um/errors/follow/follow.cannotfollowyourself.error';
-import { UserNotFoundException } from 'nsa-um/errors/user/user.notfound.error';
-import { FollowNotFoundException } from 'nsa-um/errors/follow/follow.notfound.error';
+import { FollowCannotFollowYourselfException } from '@softsurgery/nsa-um/errors/follow/follow.cannotfollowyourself.error';
+import { UserNotFoundException } from '@softsurgery/nsa-um/errors/user/user.notfound.error';
+import { FollowNotFoundException } from '@softsurgery/nsa-um/errors/follow/follow.notfound.error';
 import { FollowRepository } from '../repositories/follow.repository';
-import { ResponseFollowDto } from 'nsa-um/dtos/follow/response-follow.dto';
-import { ResponseFollowCountsDto } from 'nsa-um/dtos/follow/response-follow-counts.dto';
-import { FollowAlreadyExistsException } from 'nsa-um/errors/follow/follow.alreadyexists.error';
-import { ResponseIsFollowingDto } from 'nsa-um/dtos/follow/response-is-following.dto';
+import { ResponseFollowDto } from '@softsurgery/nsa-um/dtos/follow/response-follow.dto';
+import { ResponseFollowCountsDto } from '@softsurgery/nsa-um/dtos/follow/response-follow-counts.dto';
+import { FollowAlreadyExistsException } from '@softsurgery/nsa-um/errors/follow/follow.alreadyexists.error';
+import { ResponseIsFollowingDto } from '@softsurgery/nsa-um/dtos/follow/response-is-following.dto';
 import { UserRepository } from '../repositories/user.repository';
 
 @Injectable()

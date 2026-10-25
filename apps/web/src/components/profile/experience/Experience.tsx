@@ -1,5 +1,5 @@
 import React from "react";
-import { cn } from "@reborn/lib";
+import { cn } from "@softsurgery/lib";
 import { api } from "@/api";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -11,12 +11,12 @@ import {
   UpdateExperienceDto,
 } from "@/types";
 import { updateExperienceSchema } from "@/types/validations/experience.validation";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 import { useExperienceCreateSheet } from "./modals/ExperienceCreateSheet";
 import { useExperienceUpdateSheet } from "./modals/ExperienceUpdateSheet";
 import { useExperienceDeleteDialog } from "./modals/ExperienceDeleteDialog";
 import { ExperienceSection } from "./ExperienceSection";
-import { Spinner } from "@reborn/components";
+import { Spinner } from "@softsurgery/components";
 
 interface ExperienceProps {
   className?: string;

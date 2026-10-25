@@ -1,8 +1,8 @@
 import React from "react";
 import { I18nManager } from "react-native";
 import * as Localization from "expo-localization";
-import i18n from "@reborn/i18n/mobile";
-import { usePreferencePersistStore } from "@reborn/hooks/stores";
+import i18n from "@/i18n";
+import { usePreferencePersistStore } from "@softsurgery/hooks/stores";
 
 /**
  * This app applies RTL in JS (flex-row-reverse, text-right, etc.).

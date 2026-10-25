@@ -1,17 +1,17 @@
 import React from "react";
 import { Layers, ArrowLeft, ThumbsUp, Share2, GitBranch } from "lucide-react";
-import { Button } from "@reborn/ui";
-import { cn } from "@reborn/lib";
+import { Button } from "@softsurgery/ui";
+import { cn } from "@softsurgery/lib";
 import { ResponseRefParamDto } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/api";
 import { identifyUser } from "@/lib/user.utils";
 import { useRouter } from "next/router";
 import { toast } from "sonner";
-import { useTranslation } from "@reborn/i18n";
+import { useTranslation } from "react-i18next";
 import { useUi } from "@/contexts/UiContext";
-import { useIntro } from "@reborn/contexts";
-import { useBreadcrumb } from "@reborn/contexts";
+import { useIntro } from "@softsurgery/contexts";
+import { useBreadcrumb } from "@softsurgery/contexts";
 import {
   JobPhotosGallery,
   JobDescriptionCard,

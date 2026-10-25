@@ -7,11 +7,11 @@ import {
   SliderFieldProps,
   TextareaFieldProps,
   CustomFieldProps,
-} from "@reborn/mobile-form-builder";
+} from "@softsurgery/mobile-form-builder";
 import { ResponseJobDto } from "@/types";
-import { SegmentedToggle } from "@reborn/mobile-components";
+import { SegmentedToggle } from "@softsurgery/mobile-components";
 import { View } from "react-native";
-import { Text } from "@reborn/mobile-ui";
+import { Text } from "@softsurgery/mobile-ui";
 
 interface UseJobRequestUpdateFormStructureProps {
   store: JobRequestUpdateStore;
