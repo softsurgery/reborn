@@ -10,6 +10,9 @@ build/
 .expo/
 .turbo/
 *.tsbuildinfo
+.nsa-out/
+.nsa-build.lock
+.nsa-build.stamp
 
 # Env
 .env

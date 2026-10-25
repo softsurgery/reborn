@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { DatabaseAbstractRepository } from 'src/shared/database/repositories/database.repository';
+import { DatabaseAbstractRepository } from 'nsa-database';
 import { JobEntity } from '../entities/job.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';

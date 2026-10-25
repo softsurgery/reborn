@@ -4,13 +4,13 @@ import { FundTransactionRepository } from '../repositories/fund-transaction.repo
 import { FundTransactionEntity } from '../entities/fund-transaction.entity';
 import { TransactionType } from '../enums/transaction-type.enum';
 import { UserRepository } from 'src/modules/users/repositories/user.repository';
-import { IQueryObject } from 'src/shared/database/interfaces/database-query-options.interface';
+import { IQueryObject } from 'nsa-database';
 import {
   QueryBuilder,
   mergeWhereConditions,
-} from 'src/shared/database/utils/database-query-builder';
-import { PageDto } from 'src/shared/database/dtos/database.page.dto';
-import { PageMetaDto } from 'src/shared/database/dtos/database.page-meta.dto';
+} from 'nsa-database';
+import { PageDto } from 'nsa-database';
+import { PageMetaDto } from 'nsa-database';
 import { FindManyOptions } from 'typeorm';
 import { BalanceResponseDto } from '../dtos/balance-response.dto';
 

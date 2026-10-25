@@ -1,5 +1,1 @@
-export enum TaskVariant {
-  GENERAL = 'GENERAL',
-  DOCUMENT_VERIFICATION = 'DOCUMENT_VERIFICATION',
-  BUG_REPORT = 'BUG_REPORT',
-}
+export { TaskVariant } from 'nsa-tasks/enums/task-variant.enum';

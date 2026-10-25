@@ -10,12 +10,12 @@ import {
 } from '@nestjs/common';
 import { PointsService } from 'src/modules/finance/services/points.service';
 import { FundsService } from 'src/modules/finance/services/funds.service';
-import { UserNotFoundException } from 'src/shared/abstract-user-management/errors/user/user.notfound.error';
-import { IQueryObject } from 'src/shared/database/interfaces/database-query-options.interface';
-import { AdvancedRequest } from 'src/types';
+import { UserNotFoundException } from 'nsa-um/errors/user/user.notfound.error';
+import { IQueryObject } from 'nsa-database';
+import { AdvancedRequest } from 'nsa-helpers/http';
 import { BalanceResponseDto } from 'src/modules/finance/dtos/balance-response.dto';
 import { ApiBearerAuth } from '@nestjs/swagger';
-import { LogInterceptor } from 'src/shared/logger/decorators/logger.interceptor';
+import { LogInterceptor } from 'nsa-logger/decorators/logger.interceptor';
 import { TransactionRequestDto } from '../dtos/transaction-request.dto';
 import { TransactionType } from '../enums/transaction-type.enum';
 

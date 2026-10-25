@@ -9,8 +9,8 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { LogInterceptor } from 'src/shared/logger/decorators/logger.interceptor';
-import { toDto } from 'src/shared/database/utils/dtos';
+import { LogInterceptor } from 'nsa-logger/decorators/logger.interceptor';
+import { toDto } from 'nsa-database';
 import { JobWorkflowService } from '../services/job-workflow.service';
 import { ResponseJobWorkflowDto } from '../dtos/job/response-job-workflow.dto';
 import { UpdateJobStatusDto } from '../dtos/job/update-job-status.dto';

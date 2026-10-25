@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { JobUploadRepository } from '../repositories/job-upload.repository';
 import { JobUploadEntity } from '../entities/job-upload.entity';
-import { StorageService } from 'src/shared/storage/services/storage.service';
-import { AbstractCrudService } from 'src/shared/database/services/abstract-crud.service';
+import { StorageService } from 'nsa-storage/services/storage.service';
+import { AbstractCrudService } from 'nsa-database';
 
 @Injectable()
 export class JobUploadService extends AbstractCrudService<JobUploadEntity> {

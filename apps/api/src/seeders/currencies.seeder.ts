@@ -1,8 +1,8 @@
 import { Command } from 'nestjs-command';
 import { Injectable } from '@nestjs/common';
 import { currenciesSeed } from './data/currencies.data';
-import { RefTypeRepository } from 'src/shared/reference-types/repositories/ref-type.repository';
-import { RefParamRepository } from 'src/shared/reference-types/repositories/ref-param.repository';
+import { RefTypeRepository } from 'nsa-reference-types/repositories/ref-type.repository';
+import { RefParamRepository } from 'nsa-reference-types/repositories/ref-param.repository';
 
 @Injectable()
 export class CurrenciesSeedCommand {

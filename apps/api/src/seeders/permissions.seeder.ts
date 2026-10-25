@@ -4,7 +4,7 @@ import {
   permissionActionsSeed,
   permissionEntitiesSeed,
 } from './data/permissions.data';
-import { PermissionService } from 'src/shared/abstract-user-management/services/permission.service';
+import { PermissionService } from 'nsa-um/services/permission.service';
 
 @Injectable()
 export class PermissionsSeedCommand {

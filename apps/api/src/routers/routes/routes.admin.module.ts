@@ -3,10 +3,10 @@ import { DeviceInfoController } from 'src/modules/system-reports/controllers/dev
 import { SystemReportsModule } from 'src/modules/system-reports/system-reports.module';
 import { UserController } from 'src/modules/users/controllers/user.controller';
 import { UserManagementModule } from 'src/modules/users/user-management.module';
-import { PermissionController } from 'src/shared/abstract-user-management/controllers/permission.controller';
-import { RoleController } from 'src/shared/abstract-user-management/controllers/role.controller';
-import { LoggerController } from 'src/shared/logger/controller/logger.controller';
-import { LoggerModule } from 'src/shared/logger/logger.module';
+import { PermissionController } from 'nsa-um/controllers/permission.controller';
+import { RoleController } from 'nsa-um/controllers/role.controller';
+import { LoggerController } from 'nsa-logger/controller/logger.controller';
+import { LoggerModule } from 'nsa-logger/logger.module';
 
 @Module({
   controllers: [

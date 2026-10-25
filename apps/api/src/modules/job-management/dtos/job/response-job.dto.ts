@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose, Type } from 'class-transformer';
-import { ResponseDtoHelper } from 'src/shared/database/dtos/database.response.dto';
+import { ResponseDtoHelper } from 'nsa-database';
 import { ResponseJobTagDto } from '../job-tag/response-job-tag.dto';
 import { ResponseJobUploadDto } from '../job-upload/response-job-upload.dto';
 import { JobStyle } from '../../enums/job-style.enum';
@@ -8,7 +8,7 @@ import { JobDifficulty } from '../../enums/job-difficulty.enum';
 import { ResponseJobRequestDto } from '../job-request/response-job-request.dto';
 import { ResponseJobViewDto } from '../job-view/response-job-view.dto';
 import { ResponseJobSaveDto } from '../job-save/response-job-save.dto';
-import { ResponseRefParamDto } from 'src/shared/reference-types/dtos/ref-param/response-ref-param.dto';
+import { ResponseRefParamDto } from 'nsa-reference-types/dtos/ref-param/response-ref-param.dto';
 import { ResponseUserDto } from 'src/modules/users/dtos/user/response-user.dto';
 import { JobPricingType } from '../../enums/job-pricing-type.enum';
 

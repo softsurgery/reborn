@@ -1,4 +1,4 @@
-import { AbstractWorkflowService } from 'src/shared/workflows/services/workflow.service';
+import { AbstractWorkflowService } from 'nsa-workflows/services/workflow.service';
 import { JobService } from './job.service';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { JobStatus } from '../enums/workflow/job-status.enum';

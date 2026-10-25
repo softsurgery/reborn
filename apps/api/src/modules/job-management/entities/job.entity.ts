@@ -1,4 +1,4 @@
-import { EntityHelper } from 'src/shared/database/interfaces/database.entity.interface';
+import { EntityHelper } from 'nsa-database';
 import {
   Column,
   Entity,
@@ -15,7 +15,7 @@ import { JobRequestEntity } from './job-request.entity';
 import { JobDifficulty } from '../enums/job-difficulty.enum';
 import { JobViewEntity } from './job-view.entity';
 import { JobSaveEntity } from './job-save.entity';
-import { RefParamEntity } from 'src/shared/reference-types/entities/ref-param.entity';
+import { RefParamEntity } from 'nsa-reference-types/entities/ref-param.entity';
 import { UserEntity } from 'src/modules/users/entities/user.entity';
 import { JobPricingType } from '../enums/job-pricing-type.enum';
 import { JobStatus } from '../enums/workflow/job-status.enum';

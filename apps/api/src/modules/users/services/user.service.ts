@@ -2,19 +2,19 @@ import { Transactional } from '@nestjs-cls/transactional';
 import { Injectable } from '@nestjs/common';
 import { UserUploadService } from './user-upload.service';
 import { UserEntity } from '../entities/user.entity';
-import { UserNotFoundException } from 'src/shared/abstract-user-management/errors/user/user.notfound.error';
+import { UserNotFoundException } from 'nsa-um/errors/user/user.notfound.error';
 import { UserUploadEntity } from '../entities/user-upload.entity';
-import { AbstractUserService } from 'src/shared/abstract-user-management/services/abstract-user.service';
-import { hashPassword } from 'src/shared/helpers/hash.utils';
-import { StorageService } from 'src/shared/storage/services/storage.service';
+import { AbstractUserService } from 'nsa-um/services/abstract-user.service';
+import { hashPassword } from 'nsa-helpers/hash.utils';
+import { StorageService } from 'nsa-storage/services/storage.service';
 import { UserRepository } from '../repositories/user.repository';
 import { UpdateUserDto } from '../dtos/user/update-user.dto';
 import { CreateUserUploadDto } from '../dtos/user-upload/create-user-upload.dto';
 import { UpdateUserUploadDto } from '../dtos/user-upload/update-user-upload.dto';
 import { DeepPartial, In } from 'typeorm';
 import { UserStorageFolderService } from './user-storage-folder.service';
-import { RefParamEntity } from 'src/shared/reference-types/entities/ref-param.entity';
-import { RefParamRepository } from 'src/shared/reference-types/repositories/ref-param.repository';
+import { RefParamEntity } from 'nsa-reference-types/entities/ref-param.entity';
+import { RefParamRepository } from 'nsa-reference-types/repositories/ref-param.repository';
 
 @Injectable()
 export class UserService extends AbstractUserService {
@@ -170,5 +170,17 @@ export class UserService extends AbstractUserService {
     }
 
     return this.userRepository.update(id, { coverId });
+  }
+
+  async updatePassword(
+    id: string,
+    password: string,
+  ): Promise<UserEntity | null> {
+    const user = await this.userRepository.findOneById(id);
+    if (!user) throw new UserNotFoundException();
+
+    return this.userRepository.update(id, {
+      password: await hashPassword(password),
+    });
   }
 }

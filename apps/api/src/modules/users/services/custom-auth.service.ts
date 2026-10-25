@@ -1,14 +1,14 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { UserService } from './user.service';
 import { RequestClientSpecializedSignUpDto } from '../dtos/custom-auth/request-client-specialized-signup.dto';
-import { BasicRoles } from 'src/shared/abstract-user-management/enums/basic-roles.enum';
-import { MailService } from 'src/shared/mail/services/mail.service';
-import { ClientAuthService } from 'src/shared/auth/services/client-auth.service';
+import { BasicRoles } from 'nsa-um/enums/basic-roles.enum';
+import { MailService } from 'nsa-mail/services/mail.service';
+import { ClientAuthService } from 'nsa-auth/services/client-auth.service';
 import { UserRepository } from '../repositories/user.repository';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
-import { ConfigurationNamespaceService } from 'src/shared/configurations/services/configuration-namespace.service';
-import { StorageService } from 'src/shared/storage/services/storage.service';
+import { ConfigurationNamespaceService } from 'nsa-configurations/services/configuration-namespace.service';
+import { StorageService } from 'nsa-storage/services/storage.service';
 import { UserEntity } from '../entities/user.entity';
 
 @Injectable()

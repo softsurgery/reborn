@@ -4,21 +4,21 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import config from 'src/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { TypeOrmConfigService } from 'src/shared/database/services/database-config.service';
+import { TypeOrmConfigService } from 'nsa-database';
 import { ClsModule } from 'nestjs-cls';
-import { DatabaseModule } from 'src/shared/database/database.module';
+import { DatabaseModule } from 'nsa-database';
 import { ClsPluginTransactional } from '@nestjs-cls/transactional';
 import { TransactionalAdapterTypeOrm } from '@nestjs-cls/transactional-adapter-typeorm';
 import { DataSource } from 'typeorm';
 import { JwtModule } from '@nestjs/jwt';
 import { ScheduleModule } from '@nestjs/schedule';
 import { MailerModule } from '@nestjs-modules/mailer';
-import { resolveMX } from 'src/shared/mail/utils/mx-resolve.util';
-import { MailModule } from 'src/shared/mail/mail.module';
+import { resolveMX } from 'nsa-mail/utils/mx-resolve.util';
+import { MailModule } from 'nsa-mail/mail.module';
 import { SeedersModule } from 'src/seeders/seeders.module';
 import { RouterModule } from 'src/routers/router.module';
-import { ChatModule } from 'src/shared/chat/chat.module';
-import { StorageModule } from 'src/shared/storage/storage.module';
+import { ChatModule } from 'nsa-chat/chat.module';
+import { StorageModule } from 'nsa-storage/storage.module';
 
 @Module({
   imports: [

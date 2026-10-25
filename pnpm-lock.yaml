@@ -52,6 +52,9 @@ importers:
       '@nestjs/jwt':
         specifier: ^11.0.0
         version: 11.0.2(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))
+      '@nestjs/mapped-types':
+        specifier: ^2.1.0
+        version: 2.1.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)
       '@nestjs/platform-express':
         specifier: ^11.0.1
         version: 11.2.6(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(supports-color@8.1.1)
@@ -88,6 +91,9 @@ importers:
       google-auth-library:
         specifier: ^10.2.0
         version: 10.9.1(supports-color@8.1.1)
+      juice:
+        specifier: ^11.1.1
+        version: 11.1.1
       mime-types:
         specifier: ^3.0.1
         version: 3.0.2
@@ -103,6 +109,51 @@ importers:
       nestjs-command:
         specifier: ^3.1.5
         version: 3.1.5(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(yargs@17.7.3)
+      nsa-auth:
+        specifier: workspace:*
+        version: link:../../packages/nsa-auth
+      nsa-chat:
+        specifier: workspace:*
+        version: link:../../packages/nsa-chat
+      nsa-configurations:
+        specifier: workspace:*
+        version: link:../../packages/nsa-configurations
+      nsa-database:
+        specifier: workspace:*
+        version: link:../../packages/nsa-database
+      nsa-helpers:
+        specifier: workspace:*
+        version: link:../../packages/nsa-helpers
+      nsa-logger:
+        specifier: workspace:*
+        version: link:../../packages/nsa-logger
+      nsa-mail:
+        specifier: workspace:*
+        version: link:../../packages/nsa-mail
+      nsa-notifications:
+        specifier: workspace:*
+        version: link:../../packages/nsa-notifications
+      nsa-reference-types:
+        specifier: workspace:*
+        version: link:../../packages/nsa-reference-types
+      nsa-sessions:
+        specifier: workspace:*
+        version: link:../../packages/nsa-sessions
+      nsa-storage:
+        specifier: workspace:*
+        version: link:../../packages/nsa-storage
+      nsa-tasks:
+        specifier: workspace:*
+        version: link:../../packages/nsa-tasks
+      nsa-templates:
+        specifier: workspace:*
+        version: link:../../packages/nsa-templates
+      nsa-um:
+        specifier: workspace:*
+        version: link:../../packages/nsa-um
+      nsa-workflows:
+        specifier: workspace:*
+        version: link:../../packages/nsa-workflows
       reflect-metadata:
         specifier: ^0.2.2
         version: 0.2.2
@@ -115,6 +166,9 @@ importers:
       typeorm:
         specifier: ^0.3.20
         version: 0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3))
+      uuid:
+        specifier: ^11.0.0
+        version: 11.1.1
       xstate:
         specifier: ^5.31.0
         version: 5.33.2
@@ -1641,6 +1695,750 @@ importers:
         version: 19.2.3
       typescript:
         specifier: ^5.5.3
+        version: 5.9.3
+
+  packages/nsa-auth:
+    dependencies:
+      '@faker-js/faker':
+        specifier: ^9.8.0
+        version: 9.9.0
+      '@nestjs-cls/transactional':
+        specifier: ^2.4.2
+        version: 2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs-cls/transactional-adapter-typeorm':
+        specifier: ^1.2.4
+        version: 1.4.1(@nestjs-cls/transactional@2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))
+      '@nestjs/common':
+        specifier: ^11.0.1
+        version: 11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1)
+      '@nestjs/config':
+        specifier: ^4.0.2
+        version: 4.0.4(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(rxjs@7.8.2)
+      '@nestjs/core':
+        specifier: ^11.0.1
+        version: 11.2.6(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/platform-express@11.2.6)(@nestjs/websockets@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs/jwt':
+        specifier: ^11.0.0
+        version: 11.0.2(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))
+      '@nestjs/swagger':
+        specifier: ^11.2.1
+        version: 11.4.7(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)
+      '@nestjs/typeorm':
+        specifier: ^11.0.0
+        version: 11.0.3(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))
+      bcrypt:
+        specifier: ^6.0.0
+        version: 6.0.0
+      class-transformer:
+        specifier: ^0.5.1
+        version: 0.5.1
+      class-validator:
+        specifier: ^0.14.2
+        version: 0.14.4
+      express:
+        specifier: ^5.0.0
+        version: 5.2.1(supports-color@8.1.1)
+      google-auth-library:
+        specifier: ^10.2.0
+        version: 10.9.1(supports-color@8.1.1)
+      nsa-configurations:
+        specifier: workspace:*
+        version: link:../nsa-configurations
+      nsa-database:
+        specifier: workspace:*
+        version: link:../nsa-database
+      nsa-helpers:
+        specifier: workspace:*
+        version: link:../nsa-helpers
+      nsa-logger:
+        specifier: workspace:*
+        version: link:../nsa-logger
+      nsa-mail:
+        specifier: workspace:*
+        version: link:../nsa-mail
+      nsa-notifications:
+        specifier: workspace:*
+        version: link:../nsa-notifications
+      nsa-storage:
+        specifier: workspace:*
+        version: link:../nsa-storage
+      nsa-um:
+        specifier: workspace:*
+        version: link:../nsa-um
+      socket.io:
+        specifier: ^4.8.1
+        version: 4.8.4(supports-color@8.1.1)
+      typeorm:
+        specifier: ^0.3.20
+        version: 0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3))
+    devDependencies:
+      '@types/bcrypt':
+        specifier: ^6.0.0
+        version: 6.0.0
+      '@types/express':
+        specifier: ^5.0.0
+        version: 5.0.6
+      '@types/node':
+        specifier: ^24.0.14
+        version: 24.19.0
+      typescript:
+        specifier: 5.9.3
+        version: 5.9.3
+
+  packages/nsa-chat:
+    dependencies:
+      '@nestjs-cls/transactional':
+        specifier: ^2.4.2
+        version: 2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs-cls/transactional-adapter-typeorm':
+        specifier: ^1.2.4
+        version: 1.4.1(@nestjs-cls/transactional@2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))
+      '@nestjs/common':
+        specifier: ^11.0.1
+        version: 11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1)
+      '@nestjs/core':
+        specifier: ^11.0.1
+        version: 11.2.6(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/platform-express@11.2.6)(@nestjs/websockets@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs/platform-socket.io':
+        specifier: ^11.1.6
+        version: 11.2.6(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/websockets@11.2.6)(rxjs@7.8.2)(supports-color@8.1.1)
+      '@nestjs/swagger':
+        specifier: ^11.2.1
+        version: 11.4.7(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)
+      '@nestjs/typeorm':
+        specifier: ^11.0.0
+        version: 11.0.3(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))
+      '@nestjs/websockets':
+        specifier: ^11.1.6
+        version: 11.2.6(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(@nestjs/platform-socket.io@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      class-transformer:
+        specifier: ^0.5.1
+        version: 0.5.1
+      class-validator:
+        specifier: ^0.14.2
+        version: 0.14.4
+      nsa-auth:
+        specifier: workspace:*
+        version: link:../nsa-auth
+      nsa-database:
+        specifier: workspace:*
+        version: link:../nsa-database
+      nsa-helpers:
+        specifier: workspace:*
+        version: link:../nsa-helpers
+      nsa-logger:
+        specifier: workspace:*
+        version: link:../nsa-logger
+      nsa-storage:
+        specifier: workspace:*
+        version: link:../nsa-storage
+      nsa-um:
+        specifier: workspace:*
+        version: link:../nsa-um
+      socket.io:
+        specifier: ^4.8.1
+        version: 4.8.4(supports-color@8.1.1)
+      typeorm:
+        specifier: ^0.3.20
+        version: 0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3))
+    devDependencies:
+      '@types/node':
+        specifier: ^24.0.14
+        version: 24.19.0
+      typescript:
+        specifier: 5.9.3
+        version: 5.9.3
+
+  packages/nsa-configurations:
+    dependencies:
+      '@nestjs-cls/transactional':
+        specifier: ^2.4.2
+        version: 2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs-cls/transactional-adapter-typeorm':
+        specifier: ^1.2.4
+        version: 1.4.1(@nestjs-cls/transactional@2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))
+      '@nestjs/common':
+        specifier: ^11.0.1
+        version: 11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1)
+      '@nestjs/swagger':
+        specifier: ^11.2.1
+        version: 11.4.7(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)
+      '@nestjs/typeorm':
+        specifier: ^11.0.0
+        version: 11.0.3(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))
+      class-transformer:
+        specifier: ^0.5.1
+        version: 0.5.1
+      nsa-auth:
+        specifier: workspace:*
+        version: link:../nsa-auth
+      nsa-database:
+        specifier: workspace:*
+        version: link:../nsa-database
+      nsa-logger:
+        specifier: workspace:*
+        version: link:../nsa-logger
+      nsa-um:
+        specifier: workspace:*
+        version: link:../nsa-um
+      typeorm:
+        specifier: ^0.3.20
+        version: 0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3))
+    devDependencies:
+      '@types/node':
+        specifier: ^24.0.14
+        version: 24.19.0
+      typescript:
+        specifier: 5.9.3
+        version: 5.9.3
+
+  packages/nsa-database:
+    dependencies:
+      '@nestjs-cls/transactional':
+        specifier: ^2.4.2
+        version: 2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs-cls/transactional-adapter-typeorm':
+        specifier: ^1.2.4
+        version: 1.4.1(@nestjs-cls/transactional@2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))
+      '@nestjs/common':
+        specifier: ^11.0.1
+        version: 11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1)
+      '@nestjs/config':
+        specifier: ^4.0.2
+        version: 4.0.4(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(rxjs@7.8.2)
+      '@nestjs/core':
+        specifier: ^11.0.1
+        version: 11.2.6(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/platform-express@11.2.6)(@nestjs/websockets@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs/swagger':
+        specifier: ^11.2.1
+        version: 11.4.7(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)
+      '@nestjs/typeorm':
+        specifier: ^11.0.0
+        version: 11.0.3(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))
+      class-transformer:
+        specifier: ^0.5.1
+        version: 0.5.1
+      class-validator:
+        specifier: ^0.14.2
+        version: 0.14.4
+      nestjs-cls:
+        specifier: ^6.0.1
+        version: 6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      nestjs-command:
+        specifier: ^3.1.5
+        version: 3.1.5(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(yargs@17.7.3)
+      reflect-metadata:
+        specifier: ^0.2.2
+        version: 0.2.2
+      rxjs:
+        specifier: ^7.8.1
+        version: 7.8.2
+      typeorm:
+        specifier: ^0.3.20
+        version: 0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3))
+    devDependencies:
+      '@types/node':
+        specifier: ^24.0.14
+        version: 24.19.0
+      typescript:
+        specifier: 5.9.3
+        version: 5.9.3
+
+  packages/nsa-helpers:
+    dependencies:
+      bcrypt:
+        specifier: ^6.0.0
+        version: 6.0.0
+      class-validator:
+        specifier: ^0.14.2
+        version: 0.14.4
+      express:
+        specifier: ^5.0.0
+        version: 5.2.1(supports-color@8.1.1)
+      nsa-notifications:
+        specifier: workspace:*
+        version: link:../nsa-notifications
+      socket.io:
+        specifier: ^4.8.1
+        version: 4.8.4(supports-color@8.1.1)
+    devDependencies:
+      '@types/bcrypt':
+        specifier: ^6.0.0
+        version: 6.0.0
+      '@types/express':
+        specifier: ^5.0.0
+        version: 5.0.6
+      '@types/node':
+        specifier: ^24.0.14
+        version: 24.19.0
+      typescript:
+        specifier: 5.9.3
+        version: 5.9.3
+
+  packages/nsa-logger:
+    dependencies:
+      '@nestjs-cls/transactional':
+        specifier: ^2.4.2
+        version: 2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs-cls/transactional-adapter-typeorm':
+        specifier: ^1.2.4
+        version: 1.4.1(@nestjs-cls/transactional@2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))
+      '@nestjs/common':
+        specifier: ^11.0.1
+        version: 11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1)
+      '@nestjs/core':
+        specifier: ^11.0.1
+        version: 11.2.6(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/platform-express@11.2.6)(@nestjs/websockets@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs/swagger':
+        specifier: ^11.2.1
+        version: 11.4.7(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)
+      '@nestjs/typeorm':
+        specifier: ^11.0.0
+        version: 11.0.3(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))
+      class-transformer:
+        specifier: ^0.5.1
+        version: 0.5.1
+      nsa-auth:
+        specifier: workspace:*
+        version: link:../nsa-auth
+      nsa-database:
+        specifier: workspace:*
+        version: link:../nsa-database
+      nsa-helpers:
+        specifier: workspace:*
+        version: link:../nsa-helpers
+      nsa-um:
+        specifier: workspace:*
+        version: link:../nsa-um
+      rxjs:
+        specifier: ^7.8.1
+        version: 7.8.2
+      typeorm:
+        specifier: ^0.3.20
+        version: 0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3))
+    devDependencies:
+      '@types/node':
+        specifier: ^24.0.14
+        version: 24.19.0
+      typescript:
+        specifier: 5.9.3
+        version: 5.9.3
+
+  packages/nsa-mail:
+    dependencies:
+      '@nestjs-modules/mailer':
+        specifier: ^2.0.2
+        version: 2.3.7(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(chokidar@3.6.0)(nodemailer@9.1.1)(svgo@4.1.0)(terser@5.51.2)(typescript@5.9.3)
+      '@nestjs/common':
+        specifier: ^11.0.1
+        version: 11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1)
+      ejs:
+        specifier: ^3.1.10
+        version: 3.1.10
+      juice:
+        specifier: ^11.1.1
+        version: 11.1.1
+      nsa-templates:
+        specifier: workspace:*
+        version: link:../nsa-templates
+    devDependencies:
+      '@types/node':
+        specifier: ^24.0.14
+        version: 24.19.0
+      typescript:
+        specifier: 5.9.3
+        version: 5.9.3
+
+  packages/nsa-notifications:
+    dependencies:
+      '@nestjs-cls/transactional':
+        specifier: ^2.4.2
+        version: 2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs-cls/transactional-adapter-typeorm':
+        specifier: ^1.2.4
+        version: 1.4.1(@nestjs-cls/transactional@2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))
+      '@nestjs/common':
+        specifier: ^11.0.1
+        version: 11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1)
+      '@nestjs/core':
+        specifier: ^11.0.1
+        version: 11.2.6(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/platform-express@11.2.6)(@nestjs/websockets@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs/platform-socket.io':
+        specifier: ^11.1.6
+        version: 11.2.6(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/websockets@11.2.6)(rxjs@7.8.2)(supports-color@8.1.1)
+      '@nestjs/swagger':
+        specifier: ^11.2.1
+        version: 11.4.7(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)
+      '@nestjs/typeorm':
+        specifier: ^11.0.0
+        version: 11.0.3(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))
+      '@nestjs/websockets':
+        specifier: ^11.1.6
+        version: 11.2.6(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(@nestjs/platform-socket.io@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      class-transformer:
+        specifier: ^0.5.1
+        version: 0.5.1
+      nsa-auth:
+        specifier: workspace:*
+        version: link:../nsa-auth
+      nsa-database:
+        specifier: workspace:*
+        version: link:../nsa-database
+      nsa-helpers:
+        specifier: workspace:*
+        version: link:../nsa-helpers
+      nsa-logger:
+        specifier: workspace:*
+        version: link:../nsa-logger
+      nsa-um:
+        specifier: workspace:*
+        version: link:../nsa-um
+      rxjs:
+        specifier: ^7.8.1
+        version: 7.8.2
+      socket.io:
+        specifier: ^4.8.1
+        version: 4.8.4(supports-color@8.1.1)
+      typeorm:
+        specifier: ^0.3.20
+        version: 0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3))
+    devDependencies:
+      '@types/node':
+        specifier: ^24.0.14
+        version: 24.19.0
+      typescript:
+        specifier: 5.9.3
+        version: 5.9.3
+
+  packages/nsa-reference-types:
+    dependencies:
+      '@nestjs-cls/transactional':
+        specifier: ^2.4.2
+        version: 2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs-cls/transactional-adapter-typeorm':
+        specifier: ^1.2.4
+        version: 1.4.1(@nestjs-cls/transactional@2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))
+      '@nestjs/common':
+        specifier: ^11.0.1
+        version: 11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1)
+      '@nestjs/swagger':
+        specifier: ^11.2.1
+        version: 11.4.7(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)
+      '@nestjs/typeorm':
+        specifier: ^11.0.0
+        version: 11.0.3(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))
+      class-transformer:
+        specifier: ^0.5.1
+        version: 0.5.1
+      class-validator:
+        specifier: ^0.14.2
+        version: 0.14.4
+      nsa-auth:
+        specifier: workspace:*
+        version: link:../nsa-auth
+      nsa-database:
+        specifier: workspace:*
+        version: link:../nsa-database
+      nsa-helpers:
+        specifier: workspace:*
+        version: link:../nsa-helpers
+      nsa-logger:
+        specifier: workspace:*
+        version: link:../nsa-logger
+      typeorm:
+        specifier: ^0.3.20
+        version: 0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3))
+    devDependencies:
+      '@types/node':
+        specifier: ^24.0.14
+        version: 24.19.0
+      typescript:
+        specifier: 5.9.3
+        version: 5.9.3
+
+  packages/nsa-sessions:
+    dependencies:
+      '@nestjs-cls/transactional':
+        specifier: ^2.4.2
+        version: 2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs-cls/transactional-adapter-typeorm':
+        specifier: ^1.2.4
+        version: 1.4.1(@nestjs-cls/transactional@2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))
+      '@nestjs/common':
+        specifier: ^11.0.1
+        version: 11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1)
+      '@nestjs/core':
+        specifier: ^11.0.1
+        version: 11.2.6(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/platform-express@11.2.6)(@nestjs/websockets@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs/mapped-types':
+        specifier: ^2.1.0
+        version: 2.1.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)
+      '@nestjs/swagger':
+        specifier: ^11.2.1
+        version: 11.4.7(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)
+      '@nestjs/typeorm':
+        specifier: ^11.0.0
+        version: 11.0.3(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))
+      class-transformer:
+        specifier: ^0.5.1
+        version: 0.5.1
+      class-validator:
+        specifier: ^0.14.2
+        version: 0.14.4
+      nsa-database:
+        specifier: workspace:*
+        version: link:../nsa-database
+      nsa-helpers:
+        specifier: workspace:*
+        version: link:../nsa-helpers
+      nsa-logger:
+        specifier: workspace:*
+        version: link:../nsa-logger
+      nsa-um:
+        specifier: workspace:*
+        version: link:../nsa-um
+      typeorm:
+        specifier: ^0.3.20
+        version: 0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3))
+    devDependencies:
+      '@types/node':
+        specifier: ^24.0.14
+        version: 24.19.0
+      typescript:
+        specifier: 5.9.3
+        version: 5.9.3
+
+  packages/nsa-storage:
+    dependencies:
+      '@aws-sdk/client-s3':
+        specifier: ^3.1145.0
+        version: 3.1145.0
+      '@nestjs-cls/transactional':
+        specifier: ^2.4.2
+        version: 2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs-cls/transactional-adapter-typeorm':
+        specifier: ^1.2.4
+        version: 1.4.1(@nestjs-cls/transactional@2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))
+      '@nestjs/common':
+        specifier: ^11.0.1
+        version: 11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1)
+      '@nestjs/config':
+        specifier: ^4.0.2
+        version: 4.0.4(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(rxjs@7.8.2)
+      '@nestjs/core':
+        specifier: ^11.0.1
+        version: 11.2.6(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/platform-express@11.2.6)(@nestjs/websockets@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs/schedule':
+        specifier: ^6.0.0
+        version: 6.1.3(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)
+      '@nestjs/swagger':
+        specifier: ^11.2.1
+        version: 11.4.7(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)
+      '@nestjs/typeorm':
+        specifier: ^11.0.0
+        version: 11.0.3(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))
+      class-transformer:
+        specifier: ^0.5.1
+        version: 0.5.1
+      class-validator:
+        specifier: ^0.14.2
+        version: 0.14.4
+      express:
+        specifier: ^5.0.0
+        version: 5.2.1(supports-color@8.1.1)
+      mime-types:
+        specifier: ^3.0.1
+        version: 3.0.2
+      multer:
+        specifier: ^2.0.1
+        version: 2.4.0
+      nsa-auth:
+        specifier: workspace:*
+        version: link:../nsa-auth
+      nsa-database:
+        specifier: workspace:*
+        version: link:../nsa-database
+      typeorm:
+        specifier: ^0.3.20
+        version: 0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3))
+      uuid:
+        specifier: ^11.0.0
+        version: 11.1.1
+    devDependencies:
+      '@types/express':
+        specifier: ^5.0.0
+        version: 5.0.6
+      '@types/mime-types':
+        specifier: ^3.0.1
+        version: 3.0.1
+      '@types/multer':
+        specifier: ^2.1.0
+        version: 2.2.0
+      '@types/node':
+        specifier: ^24.0.14
+        version: 24.19.0
+      '@types/uuid':
+        specifier: ^10.0.0
+        version: 10.0.0
+      typescript:
+        specifier: 5.9.3
+        version: 5.9.3
+
+  packages/nsa-tasks:
+    dependencies:
+      '@nestjs-cls/transactional':
+        specifier: ^2.4.2
+        version: 2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs-cls/transactional-adapter-typeorm':
+        specifier: ^1.2.4
+        version: 1.4.1(@nestjs-cls/transactional@2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))
+      '@nestjs/common':
+        specifier: ^11.0.1
+        version: 11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1)
+      '@nestjs/swagger':
+        specifier: ^11.2.1
+        version: 11.4.7(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)
+      '@nestjs/typeorm':
+        specifier: ^11.0.0
+        version: 11.0.3(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))
+      class-transformer:
+        specifier: ^0.5.1
+        version: 0.5.1
+      class-validator:
+        specifier: ^0.14.2
+        version: 0.14.4
+      nsa-auth:
+        specifier: workspace:*
+        version: link:../nsa-auth
+      nsa-database:
+        specifier: workspace:*
+        version: link:../nsa-database
+      nsa-helpers:
+        specifier: workspace:*
+        version: link:../nsa-helpers
+      nsa-logger:
+        specifier: workspace:*
+        version: link:../nsa-logger
+      nsa-um:
+        specifier: workspace:*
+        version: link:../nsa-um
+      typeorm:
+        specifier: ^0.3.20
+        version: 0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3))
+    devDependencies:
+      '@types/node':
+        specifier: ^24.0.14
+        version: 24.19.0
+      typescript:
+        specifier: 5.9.3
+        version: 5.9.3
+
+  packages/nsa-templates:
+    dependencies:
+      '@nestjs-cls/transactional':
+        specifier: ^2.4.2
+        version: 2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs-cls/transactional-adapter-typeorm':
+        specifier: ^1.2.4
+        version: 1.4.1(@nestjs-cls/transactional@2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))
+      '@nestjs/common':
+        specifier: ^11.0.1
+        version: 11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1)
+      '@nestjs/typeorm':
+        specifier: ^11.0.0
+        version: 11.0.3(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))
+      class-transformer:
+        specifier: ^0.5.1
+        version: 0.5.1
+      nsa-database:
+        specifier: workspace:*
+        version: link:../nsa-database
+      typeorm:
+        specifier: ^0.3.20
+        version: 0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3))
+    devDependencies:
+      '@types/node':
+        specifier: ^24.0.14
+        version: 24.19.0
+      typescript:
+        specifier: 5.9.3
+        version: 5.9.3
+
+  packages/nsa-um:
+    dependencies:
+      '@nestjs-cls/transactional':
+        specifier: ^2.4.2
+        version: 2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs-cls/transactional-adapter-typeorm':
+        specifier: ^1.2.4
+        version: 1.4.1(@nestjs-cls/transactional@2.7.0(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))(nestjs-cls@6.3.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))
+      '@nestjs/common':
+        specifier: ^11.0.1
+        version: 11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1)
+      '@nestjs/mapped-types':
+        specifier: ^2.1.0
+        version: 2.1.1(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)
+      '@nestjs/swagger':
+        specifier: ^11.2.1
+        version: 11.4.7(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)
+      '@nestjs/typeorm':
+        specifier: ^11.0.0
+        version: 11.0.3(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)(typeorm@0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3)))
+      class-transformer:
+        specifier: ^0.5.1
+        version: 0.5.1
+      class-validator:
+        specifier: ^0.14.2
+        version: 0.14.4
+      nsa-auth:
+        specifier: workspace:*
+        version: link:../nsa-auth
+      nsa-database:
+        specifier: workspace:*
+        version: link:../nsa-database
+      nsa-helpers:
+        specifier: workspace:*
+        version: link:../nsa-helpers
+      nsa-logger:
+        specifier: workspace:*
+        version: link:../nsa-logger
+      nsa-notifications:
+        specifier: workspace:*
+        version: link:../nsa-notifications
+      nsa-sessions:
+        specifier: workspace:*
+        version: link:../nsa-sessions
+      typeorm:
+        specifier: ^0.3.20
+        version: 0.3.31(mysql2@3.24.4(@types/node@24.19.0))(supports-color@8.1.1)(ts-node@10.9.2(@swc/core@1.16.2(@swc/helpers@0.5.23))(@types/node@24.19.0)(typescript@5.9.3))
+    devDependencies:
+      '@types/node':
+        specifier: ^24.0.14
+        version: 24.19.0
+      typescript:
+        specifier: 5.9.3
+        version: 5.9.3
+
+  packages/nsa-workflows:
+    dependencies:
+      '@nestjs/common':
+        specifier: ^11.0.1
+        version: 11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1)
+      '@nestjs/swagger':
+        specifier: ^11.2.1
+        version: 11.4.7(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)
+      class-transformer:
+        specifier: ^0.5.1
+        version: 0.5.1
+      xstate:
+        specifier: ^5.31.0
+        version: 5.33.2
+    devDependencies:
+      '@types/node':
+        specifier: ^24.0.14
+        version: 24.19.0
+      typescript:
+        specifier: 5.9.3
         version: 5.9.3
 
   packages/typescript-config: {}
@@ -17629,6 +18427,35 @@ snapshots:
       reflect-metadata: 0.2.2
       rxjs: 7.8.2
 
+  '@nestjs-modules/mailer@2.3.7(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(chokidar@3.6.0)(nodemailer@9.1.1)(svgo@4.1.0)(terser@5.51.2)(typescript@5.9.3)':
+    dependencies:
+      '@css-inline/css-inline': 0.20.0
+      '@nestjs/common': 11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1)
+      '@nestjs/core': 11.2.6(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/platform-express@11.2.6)(@nestjs/websockets@11.2.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      glob: 13.0.6
+      nodemailer: 9.1.1
+      tslib: 2.8.1
+    optionalDependencies:
+      '@types/ejs': 3.1.5
+      '@types/mjml': 4.7.4
+      '@types/pug': 2.0.10
+      ejs: 5.0.2
+      handlebars: 4.7.9
+      liquidjs: 10.29.0
+      mjml: 5.4.1(svgo@4.1.0)(terser@5.51.2)(typescript@5.9.3)
+      nunjucks: 3.2.4(chokidar@3.6.0)
+      preview-email: 3.4.1
+      pug: 3.0.4
+    transitivePeerDependencies:
+      - chokidar
+      - purgecss
+      - relateurl
+      - srcset
+      - svgo
+      - terser
+      - typescript
+      - uncss
+
   '@nestjs-modules/mailer@2.3.7(@nestjs/common@11.2.6(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.6)(chokidar@4.0.3)(nodemailer@9.1.1)(svgo@4.1.0)(terser@5.51.2)(typescript@5.9.3)':
     dependencies:
       '@css-inline/css-inline': 0.20.0
@@ -22884,7 +23711,6 @@ snapshots:
       domelementtype: 2.3.0
       domhandler: 5.0.3
       domutils: 3.2.2
-    optional: true
 
   cheerio@1.0.0:
     dependencies:
@@ -22899,7 +23725,6 @@ snapshots:
       parse5-parser-stream: 7.1.2
       undici: 6.29.0
       whatwg-mimetype: 4.0.0
-    optional: true
 
   cheerio@1.2.0:
     dependencies:
@@ -23750,7 +24575,6 @@ snapshots:
     dependencies:
       iconv-lite: 0.6.3
       whatwg-encoding: 3.1.1
-    optional: true
 
   end-of-stream@1.4.5:
     dependencies:
@@ -23797,11 +24621,9 @@ snapshots:
 
   entities@4.5.0: {}
 
-  entities@6.0.1:
-    optional: true
+  entities@6.0.1: {}
 
-  entities@7.0.1:
-    optional: true
+  entities@7.0.1: {}
 
   env-paths@2.2.1: {}
 
@@ -23937,8 +24759,7 @@ snapshots:
 
   escalade@3.2.0: {}
 
-  escape-goat@3.0.0:
-    optional: true
+  escape-goat@3.0.0: {}
 
   escape-html@1.0.3: {}
 
@@ -25763,7 +26584,6 @@ snapshots:
       domhandler: 5.0.3
       domutils: 3.2.2
       entities: 4.5.0
-    optional: true
 
   http-cache-semantics@4.2.0: {}
 
@@ -25848,7 +26668,6 @@ snapshots:
   iconv-lite@0.6.3:
     dependencies:
       safer-buffer: 2.1.2
-    optional: true
 
   iconv-lite@0.7.3:
     dependencies:
@@ -26595,7 +27414,6 @@ snapshots:
       mensch: 0.3.4
       slick: 1.12.2
       web-resource-inliner: 8.0.0
-    optional: true
 
   jwa@2.0.1:
     dependencies:
@@ -27022,8 +27840,7 @@ snapshots:
 
   memoize-one@6.0.0: {}
 
-  mensch@0.3.4:
-    optional: true
+  mensch@0.3.4: {}
 
   merge-descriptors@2.0.0: {}
 
@@ -28396,6 +29213,15 @@ snapshots:
 
   nullthrows@1.1.1: {}
 
+  nunjucks@3.2.4(chokidar@3.6.0):
+    dependencies:
+      a-sync-waterfall: 1.0.1
+      asap: 2.0.6
+      commander: 5.1.0
+    optionalDependencies:
+      chokidar: 3.6.0
+    optional: true
+
   nunjucks@3.2.4(chokidar@4.0.3):
     dependencies:
       a-sync-waterfall: 1.0.1
@@ -28610,17 +29436,14 @@ snapshots:
     dependencies:
       domhandler: 5.0.3
       parse5: 7.3.0
-    optional: true
 
   parse5-parser-stream@7.1.2:
     dependencies:
       parse5: 7.3.0
-    optional: true
 
   parse5@7.3.0:
     dependencies:
       entities: 6.0.1
-    optional: true
 
   parseley@0.13.1:
     dependencies:
@@ -30459,8 +31282,7 @@ snapshots:
       astral-regex: 1.0.0
       is-fullwidth-code-point: 2.0.0
 
-  slick@1.12.2:
-    optional: true
+  slick@1.12.2: {}
 
   slugify@1.6.9: {}
 
@@ -31243,8 +32065,7 @@ snapshots:
 
   undici-types@7.24.6: {}
 
-  undici@6.29.0:
-    optional: true
+  undici@6.29.0: {}
 
   undici@7.30.0:
     optional: true
@@ -31367,8 +32188,7 @@ snapshots:
       '@types/istanbul-lib-coverage': 2.0.6
       convert-source-map: 2.0.0
 
-  valid-data-url@3.0.1:
-    optional: true
+  valid-data-url@3.0.1: {}
 
   validate-npm-package-name@5.0.1: {}
 
@@ -31458,7 +32278,6 @@ snapshots:
       htmlparser2: 9.1.0
       mime: 2.6.0
       valid-data-url: 3.0.1
-    optional: true
 
   web-streams-polyfill@3.3.3: {}
 
@@ -31511,12 +32330,10 @@ snapshots:
   whatwg-encoding@3.1.1:
     dependencies:
       iconv-lite: 0.6.3
-    optional: true
 
   whatwg-fetch@3.6.20: {}
 
-  whatwg-mimetype@4.0.0:
-    optional: true
+  whatwg-mimetype@4.0.0: {}
 
   whatwg-url-minimum@0.1.2: {}
 

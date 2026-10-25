@@ -12,20 +12,20 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { IQueryObject } from 'src/shared/database/interfaces/database-query-options.interface';
-import { PageDto } from 'src/shared/database/dtos/database.page.dto';
-import { ApiPaginatedResponse } from 'src/shared/database/decorators/api-paginated-resposne.decorator';
-import { toDto, toDtoArray } from 'src/shared/database/utils/dtos';
-import { LogInterceptor } from 'src/shared/logger/decorators/logger.interceptor';
-import { LogEvent } from 'src/shared/logger/decorators/log-event.decorator';
+import { IQueryObject } from 'nsa-database';
+import { PageDto } from 'nsa-database';
+import { ApiPaginatedResponse } from 'nsa-database';
+import { toDto, toDtoArray } from 'nsa-database';
+import { LogInterceptor } from 'nsa-logger/decorators/logger.interceptor';
+import { LogEvent } from 'nsa-logger/decorators/log-event.decorator';
 import { EventType } from 'src/app/enums/event-type.enum';
-import { AdvancedRequest } from 'src/types';
+import { AdvancedRequest } from 'nsa-helpers/http';
 import { UserService } from '../services/user.service';
 import { ResponseUserDto } from '../dtos/user/response-user.dto';
 import { UpdateUserDto } from '../dtos/user/update-user.dto';
 import { CreateUserDto } from '../dtos/user/create-user.dto';
 import { UpdateUserCoverDto } from '../dtos/user/update-user-cover.dto';
-import { Public } from 'src/shared/auth/utils/public-strategy';
+import { Public } from 'nsa-auth/utils/public-strategy';
 
 @ApiTags('user')
 @ApiBearerAuth('access_token')

@@ -1,13 +1,13 @@
 import { Transactional } from '@nestjs-cls/transactional';
 import { Injectable } from '@nestjs/common';
 import { DeepPartial, FindManyOptions, In } from 'typeorm';
-import { IQueryObject } from 'src/shared/database/interfaces/database-query-options.interface';
+import { IQueryObject } from 'nsa-database';
 import {
   QueryBuilder,
   mergeWhereConditions,
-} from 'src/shared/database/utils/database-query-builder';
-import { PageDto } from 'src/shared/database/dtos/database.page.dto';
-import { PageMetaDto } from 'src/shared/database/dtos/database.page-meta.dto';
+} from 'nsa-database';
+import { PageDto } from 'nsa-database';
+import { PageMetaDto } from 'nsa-database';
 import { JobRepository } from '../repositories/job.repository';
 import { JobEntity } from '../entities/job.entity';
 import { JobNotFoundException } from '../errors/job/job.notfound.error';
@@ -17,11 +17,11 @@ import { CreateJobUploadDto } from '../dtos/job-upload/create-job-upload.dto';
 import { UpdateJobUploadDto } from '../dtos/job-upload/update-job-upload.dto';
 import { ResponseJobMetadataDto } from '../dtos/job/response-job-metadata.dto';
 import { JobRequestService } from './job-request.service';
-import { RefParamService } from 'src/shared/reference-types/services/ref-param.service';
-import { RefParamEntity } from 'src/shared/reference-types/entities/ref-param.entity';
-import { FollowService } from 'src/shared/abstract-user-management/services/follow.service';
-import { UserNotFoundException } from 'src/shared/abstract-user-management/errors/user/user.notfound.error';
-import { AbstractCrudService } from 'src/shared/database/services/abstract-crud.service';
+import { RefParamService } from 'nsa-reference-types/services/ref-param.service';
+import { RefParamEntity } from 'nsa-reference-types/entities/ref-param.entity';
+import { FollowService } from 'src/modules/users/services/follow.service';
+import { UserNotFoundException } from 'nsa-um/errors/user/user.notfound.error';
+import { AbstractCrudService } from 'nsa-database';
 import { JobStorageFolderService } from './job-storage-folder.service';
 import { JobStatus } from '../enums/workflow/job-status.enum';
 

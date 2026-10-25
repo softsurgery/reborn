@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { StorageModule } from 'src/shared/storage/storage.module';
+import { StorageModule } from 'nsa-storage/storage.module';
 import { StorageFolderCatalogService } from './services/storage-folder-catalog.service';
 
 @Module({

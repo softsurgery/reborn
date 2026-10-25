@@ -5,13 +5,13 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { FindManyOptions, In } from 'typeorm';
-import { IQueryObject } from 'src/shared/database/interfaces/database-query-options.interface';
+import { IQueryObject } from 'nsa-database';
 import {
   QueryBuilder,
   mergeWhereConditions,
-} from 'src/shared/database/utils/database-query-builder';
-import { PageDto } from 'src/shared/database/dtos/database.page.dto';
-import { PageMetaDto } from 'src/shared/database/dtos/database.page-meta.dto';
+} from 'nsa-database';
+import { PageDto } from 'nsa-database';
+import { PageMetaDto } from 'nsa-database';
 import { JobRequestRepository } from '../repositories/job-request.repository';
 import { JobRequestEntity } from '../entities/job-request.entity';
 import { JobRequestNotFoundException } from '../errors/job-request/job-request.notfound.error';
@@ -20,9 +20,9 @@ import { UpdateJobRequestDto } from '../dtos/job-request/update-job-request.dto'
 import { JobRepository } from '../repositories/job.repository';
 import { JobRequestStatus } from '../enums/job-request-status.enum';
 import { JobRequestCannotRequestOwnJobException } from '../errors/job-request/job-request.cannotrequestownjob.error';
-import { ConversationService } from 'src/shared/chat/services/conversation.service';
-import { UserNotFoundException } from 'src/shared/abstract-user-management/errors/user/user.notfound.error';
-import { AbstractCrudService } from 'src/shared/database/services/abstract-crud.service';
+import { ConversationService } from 'nsa-chat/services/conversation.service';
+import { UserNotFoundException } from 'nsa-um/errors/user/user.notfound.error';
+import { AbstractCrudService } from 'nsa-database';
 import { PointsService } from 'src/modules/finance/services/points.service';
 import { TransactionType } from 'src/modules/finance/enums/transaction-type.enum';
 import { JobNotFoundException } from '../errors/job/job.notfound.error';

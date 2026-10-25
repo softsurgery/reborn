@@ -1,3 +1,4 @@
+import './bind-app-values';
 import { NestApplication, NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import { join } from 'path';
@@ -9,7 +10,7 @@ import {
 import { useContainer } from 'class-validator';
 import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { MigrationService } from './shared/database/services/database-migration.service';
+import { MigrationService } from 'nsa-database';
 import { branding } from './utils/branding';
 
 async function bootstrap() {

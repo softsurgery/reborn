@@ -1,19 +1,19 @@
 import { Transactional } from '@nestjs-cls/transactional';
 import { Injectable } from '@nestjs/common';
 import { FindManyOptions } from 'typeorm';
-import { IQueryObject } from 'src/shared/database/interfaces/database-query-options.interface';
+import { IQueryObject } from 'nsa-database';
 import {
   QueryBuilder,
   mergeWhereConditions,
-} from 'src/shared/database/utils/database-query-builder';
-import { PageDto } from 'src/shared/database/dtos/database.page.dto';
-import { PageMetaDto } from 'src/shared/database/dtos/database.page-meta.dto';
+} from 'nsa-database';
+import { PageDto } from 'nsa-database';
+import { PageMetaDto } from 'nsa-database';
 import { JobSaveEntity } from '../entities/job-save.entity';
 import { JobSaveRepository } from '../repositories/job-save.repository';
 import { JobSaveNotFoundException } from '../errors/job-save/job-save.notfound.error';
 import { CreateJobSaveDto } from '../dtos/job-save/create-job-save.dto';
-import { UserNotFoundException } from 'src/shared/abstract-user-management/errors/user/user.notfound.error';
-import { AbstractCrudService } from 'src/shared/database/services/abstract-crud.service';
+import { UserNotFoundException } from 'nsa-um/errors/user/user.notfound.error';
+import { AbstractCrudService } from 'nsa-database';
 
 @Injectable()
 export class JobSaveService extends AbstractCrudService<JobSaveEntity> {

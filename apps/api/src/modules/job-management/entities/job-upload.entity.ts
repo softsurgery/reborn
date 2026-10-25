@@ -1,4 +1,4 @@
-import { EntityHelper } from 'src/shared/database/interfaces/database.entity.interface';
+import { EntityHelper } from 'nsa-database';
 import {
   Column,
   Entity,
@@ -7,7 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { JobEntity } from './job.entity';
-import { StorageEntity } from 'src/shared/storage/entities/storage.entity';
+import { StorageEntity } from 'nsa-storage/entities/storage.entity';
 
 @Entity('job_uploads')
 export class JobUploadEntity extends EntityHelper {

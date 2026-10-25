@@ -11,16 +11,16 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { LogInterceptor } from 'src/shared/logger/decorators/logger.interceptor';
+import { LogInterceptor } from 'nsa-logger/decorators/logger.interceptor';
 import { BugService } from '../services/bug.service';
-import { IQueryObject } from 'src/shared/database/interfaces/database-query-options.interface';
+import { IQueryObject } from 'nsa-database';
 import { ResponseBugDto } from '../dtos/bug/response-bug.dto';
-import { PageDto } from 'src/shared/database/dtos/database.page.dto';
-import { toDto, toDtoArray } from 'src/shared/database/utils/dtos';
-import { LogEvent } from 'src/shared/logger/decorators/log-event.decorator';
+import { PageDto } from 'nsa-database';
+import { toDto, toDtoArray } from 'nsa-database';
+import { LogEvent } from 'nsa-logger/decorators/log-event.decorator';
 import { EventType } from 'src/app/enums/event-type.enum';
 import { CreateBugDto } from '../dtos/bug/create-bug.dto';
-import { AdvancedRequest } from 'src/types';
+import { AdvancedRequest } from 'nsa-helpers/http';
 
 @ApiTags('bug')
 @ApiBearerAuth('access_token')

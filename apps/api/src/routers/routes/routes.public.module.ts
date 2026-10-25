@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { LoggerModule } from 'src/shared/logger/logger.module';
+import { LoggerModule } from 'nsa-logger/logger.module';
 
 @Module({
   controllers: [],

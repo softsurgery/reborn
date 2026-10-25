@@ -1,4 +1,4 @@
-import { AbstractWorkflowService } from 'src/shared/workflows/services/workflow.service';
+import { AbstractWorkflowService } from 'nsa-workflows/services/workflow.service';
 import { JobRequestService } from './job-request.service';
 import { JobWorkflowService } from './job-workflow.service';
 import { BadRequestException, Injectable } from '@nestjs/common';
