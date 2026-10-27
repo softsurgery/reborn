@@ -9,6 +9,7 @@ Monorepo for the Reborn platform. Shared libraries live in the separate [softsur
 | `apps/mobile` | `reborn-mobile-app` | Expo React Native |
 | `apps/api` | `reborn-api` | NestJS |
 | `apps/api-client` | `@softsurgery/api-client` | Typed HTTP client |
+| `apps/i18n` | `@softsurgery/i18n` | Shared locales / i18n |
 
 ```text
 /
@@ -17,6 +18,7 @@ Monorepo for the Reborn platform. Shared libraries live in the separate [softsur
 │   ├── landing/
 │   ├── mobile/
 │   ├── api-client/
+│   ├── i18n/
 │   └── api/
 ├── packages/         # git submodule → softsurgery/softsurgery-abstractions
 ├── scripts/

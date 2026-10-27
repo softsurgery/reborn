@@ -6,6 +6,7 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-}
+  transpilePackages: ["@softsurgery/i18n"],
+};
 
-export default nextConfig
+export default nextConfig;
